@@ -1,4 +1,1 @@
-ReactDOM.render(
-	React.createElement(Main, {toWhat: 'World'}, null),
-	document.getElementById('app')
-);
+ReactDOM.render(React.createElement(Main, null, null), document.getElementById('app'));
