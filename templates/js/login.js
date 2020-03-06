@@ -1,32 +1,18 @@
 class Login extends React.Component {
 	render() {
-		return React.createElement(
-			'div',
-			{className: 'container'},
-			React.createElement(
-				'div',
-				{className: 'row'},
-				React.createElement(
-					'div',
-					{className: 'col-sm'}),
-				React.createElement(
-					'div',
-					{className: 'col-sm'},
-					React.createElement(
-						'button',
-						null,
-						React.createElement(
-							'a',
-							{href: this.props.loginURL},
-							'Login'
-						)
-					)
-				),
-				React.createElement(
-					'div',
-					{className: 'col-sm'})
-			)
+		return (
+			<div className="container">
+				<div className="row">
+					{/* Three columns as a quick way to make the login button look centred. */}
+					<div className="col-sm" />
+					<div className="col-sm">
+						<button>
+							<a href={this.props.loginURL}>Login</a>
+						</button>
+					</div>
+					<div className="col-sm" />
+				</div>
+			</div>
 		);
 	}
 }
-
