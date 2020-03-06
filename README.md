@@ -2,4 +2,6 @@
 
 # dipact
 
+A work-in-progress web client to https://github.com/zond/diplicity.
+
 Try latest version at https://dipact.appspot.com.
