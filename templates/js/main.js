@@ -27,35 +27,9 @@ class Main extends React.Component {
 	}
 	render() {
 		if (this.state.user) {
-			return React.createElement('div', null, 'Welcome ' + this.state.user.GivenName);
+			return React.createElement(MainMenu, { state: this.state }, null);
 		} else {
-			return React.createElement(
-				'div',
-				{className: 'container'},
-				React.createElement(
-					'div',
-					{className: 'row'},
-					React.createElement(
-						'div',
-						{className: 'col-sm'}),
-					React.createElement(
-						'div',
-						{className: 'col-sm'},
-						React.createElement(
-							'button',
-							null,
-							React.createElement(
-								'a',
-								{href: this.state.loginURL},
-								'Login'
-							)
-						)
-					),
-					React.createElement(
-						'div',
-						{className: 'col-sm'})
-				)
-			);
+			return React.createElement(Login, { loginURL: this.state.loginURL }, null);
 		}
 	}
 }
