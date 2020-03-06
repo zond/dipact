@@ -43,6 +43,23 @@ func (e NotFoundError) Error() string {
 	return string(e)
 }
 
+type renderContext struct {
+}
+
+func (rc renderContext) ReactJSURL() string {
+	if appengine.IsDevAppServer() {
+		return "https://unpkg.com/react@16/umd/react.development.js"
+	}
+	return "https://unpkg.com/react@16/umd/react.production.min.js"
+}
+
+func (rc renderContext) ReactDOMJSURL() string {
+	if appengine.IsDevAppServer() {
+		return "https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+	}
+	return "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+}
+
 func renderTemplate(ctx context.Context, w http.ResponseWriter, r *http.Request, relPath string, withRetry bool) error {
 	if templ, found := templates[relPath]; found {
 		if appengine.IsDevAppServer() {
@@ -51,7 +68,7 @@ func renderTemplate(ctx context.Context, w http.ResponseWriter, r *http.Request,
 				return err
 			}
 		}
-		if err := templ.Execute(w, nil); err != nil {
+		if err := templ.Execute(w, renderContext{}); err != nil {
 			return err
 		}
 	} else if appengine.IsDevAppServer() && withRetry {
