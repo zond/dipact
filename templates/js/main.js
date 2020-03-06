@@ -26,10 +26,10 @@ class Main extends React.Component {
 		window.location.href = this.loginURL.toString();
 	}
 	render() {
-		if (this.state.user) {
-			return React.createElement(MainMenu, { state: this.state }, null);
+		if (this.token) {
+			return React.createElement(MainMenu, { state: this.state });
 		} else {
-			return React.createElement(Login, { loginURL: this.state.loginURL }, null);
+			return React.createElement(Login, { loginURL: this.state.loginURL });
 		}
 	}
 }
