@@ -1,1 +1,3 @@
-ReactDOM.render(React.createElement(Main), document.getElementById('app'));
+import Main from "./main.js";
+
+ReactDOM.render(<Main />,  document.getElementById('app'));

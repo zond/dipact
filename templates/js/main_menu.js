@@ -1,26 +1,45 @@
-class MainMenu extends React.Component {
+export default class MainMenu extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			drawerOpen: false
+		};
+		this.toggleDrawer = this.toggleDrawer.bind(this);
+	}
+	toggleDrawer() {
+		this.setState({drawerOpen: !this.state.drawerOpen});
+	}
 	render() {
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				{htmlFor: 'drawer-control', className: 'drawer-toggle'},
-			),
-			React.createElement(
-				'input',
-				{type: 'checkbox', id: 'drawer-control', className: 'drawer'},
-			),
-			React.createElement(
-				'div',
-				{className: 'container'},
-				React.createElement('div', {className: 'row'}, React.createElement('button', {className: 'col-sm-12 left'}, 'My started games')),
-				React.createElement('div', {className: 'row'}, React.createElement('button', {className: 'col-sm-12 left'}, 'My staging games')),
-				React.createElement('div', {className: 'row'}, React.createElement('button', {className: 'col-sm-12 left'}, 'My finished games')),
-				React.createElement('div', {className: 'row'}, React.createElement('button', {className: 'col-sm-12 left'}, 'Open games')),
-				React.createElement('div', {className: 'row'}, React.createElement('button', {className: 'col-sm-12 left'}, 'Started games')),
-				React.createElement('div', {className: 'row'}, React.createElement('button', {className: 'col-sm-12 left'}, 'Finished games')),
-			)
+		return (
+			<div>
+			<MaterialUI.IconButton onClick={this.toggleDrawer}>
+			<i className="material-icons">&#xE5D2;</i>
+			</MaterialUI.IconButton>
+			<MaterialUI.Drawer open={this.state.drawerOpen}>
+			<div onClick={this.toggleDrawer}>
+			<MaterialUI.List component="nav">
+			<MaterialUI.ListItem button>
+			<MaterialUI.ListItemText primary="My started games" />
+			</MaterialUI.ListItem>
+			<MaterialUI.ListItem button>
+			<MaterialUI.ListItemText primary="My staging games" />
+			</MaterialUI.ListItem>
+			<MaterialUI.ListItem button>
+			<MaterialUI.ListItemText primary="My finished games" />
+			</MaterialUI.ListItem>
+			<MaterialUI.ListItem button>
+			<MaterialUI.ListItemText primary="Open games" />
+			</MaterialUI.ListItem>
+			<MaterialUI.ListItem button>
+			<MaterialUI.ListItemText primary="Started games" />
+			</MaterialUI.ListItem>
+			<MaterialUI.ListItem button>
+			<MaterialUI.ListItemText primary="Finished games" />
+			</MaterialUI.ListItem>
+			</MaterialUI.List>
+			</div>
+			</MaterialUI.Drawer>
+			</div>
 		);
 	}
 }

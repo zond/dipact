@@ -1,32 +1,18 @@
-class Login extends React.Component {
+
+export default class Login extends React.Component {
 	render() {
-		return React.createElement(
-			'div',
-			{className: 'container'},
-			React.createElement(
-				'div',
-				{className: 'row'},
-				React.createElement(
-					'div',
-					{className: 'col-sm'}),
-				React.createElement(
-					'div',
-					{className: 'col-sm'},
-					React.createElement(
-						'button',
-						null,
-						React.createElement(
-							'a',
-							{href: this.props.loginURL},
-							'Login'
-						)
-					)
-				),
-				React.createElement(
-					'div',
-					{className: 'col-sm'})
-			)
-		);
+		if (this.props.loginURL) {
+			return (
+				<MaterialUI.Container maxWidth="sm">
+				<MaterialUI.Button variant="contained" startIcon={<i className="material-icons">&#xE898;</i>}><a href={this.props.loginURL}>Login</a></MaterialUI.Button>
+				</MaterialUI.Container>
+			);
+		} else {
+			return (
+				<MaterialUI.Container maxWidth="sm">
+				<MaterialUI.CircularProgress />
+				</MaterialUI.Container>
+			);
+		}
 	}
 }
-

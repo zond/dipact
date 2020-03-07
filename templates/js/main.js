@@ -1,4 +1,7 @@
-class Main extends React.Component {
+import Login from "./login.js";
+import MainMenu from "./main_menu.js";
+
+export default class Main extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -27,9 +30,13 @@ class Main extends React.Component {
 	}
 	render() {
 		if (this.token) {
-			return React.createElement(MainMenu, { state: this.state });
+			return (
+				<MainMenu state={this.state} />
+			);
 		} else {
-			return React.createElement(Login, { loginURL: this.state.loginURL });
+			return (
+				<Login loginURL={this.state.loginURL} />
+			);
 		}
 	}
 }
