@@ -30,7 +30,7 @@ func (s *server) init() {
 	babel.Init(1)
 }
 
-func (s *server) parseTemplate(ctx context.Context, path string) error {
+func (s *server) parseTemplate(ctx context.Context, path string, devMode bool) error {
 	if path == "templates/index.html" {
 		templ, err := template.ParseFiles(path)
 		if err != nil {
@@ -38,7 +38,7 @@ func (s *server) parseTemplate(ctx context.Context, path string) error {
 		}
 		buf := &bytes.Buffer{}
 		env := map[string]string{}
-		if appengine.IsDevAppServer() {
+		if devMode {
 			env["ReactJSURL"] = "https://unpkg.com/react@16/umd/react.development.js"
 			env["ReactDOMJSURL"] = "https://unpkg.com/react-dom@16/umd/react-dom.development.js"
 			env["MaterialUIJSURL"] = "https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"
@@ -82,13 +82,13 @@ func (s *server) parseTemplate(ctx context.Context, path string) error {
 	return nil
 }
 
-func (s *server) parseTemplates(ctx context.Context) error {
+func (s *server) parseTemplates(ctx context.Context, devMode bool) error {
 	paths, err := doublestar.Glob("templates/**/*.{html,js,css}")
 	if err != nil {
 		return err
 	}
 	for _, path := range paths {
-		if err := s.parseTemplate(ctx, path); err != nil {
+		if err := s.parseTemplate(ctx, path, devMode); err != nil {
 			return err
 		}
 	}
@@ -97,8 +97,9 @@ func (s *server) parseTemplates(ctx context.Context) error {
 
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
+	devMode := r.URL.Query().Get("dev-mode") == "yes" || appengine.IsDevAppServer()
 	s.parseTemplatesOnce.Do(func() {
-		s.parseTemplatesOnceError = s.parseTemplates(ctx)
+		s.parseTemplatesOnceError = s.parseTemplates(ctx, devMode)
 	})
 	if s.parseTemplatesOnceError != nil {
 		http.Error(w, s.parseTemplatesOnceError.Error(), http.StatusInternalServerError)
@@ -109,8 +110,8 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		relPath = filepath.Join("templates", r.URL.Path[1:])
 	}
-	if appengine.IsDevAppServer() {
-		if err := s.parseTemplate(ctx, relPath); err != nil {
+	if devMode {
+		if err := s.parseTemplate(ctx, relPath, devMode); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
