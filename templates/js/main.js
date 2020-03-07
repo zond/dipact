@@ -1,5 +1,6 @@
 import Login from "./login.js";
 import MainMenu from "./main_menu.js";
+import Notifications from "./notifications.js";
 
 export default class Main extends React.Component {
 	constructor(props) {
