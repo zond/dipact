@@ -1,5 +1,6 @@
 import Login from "./login.js";
 import MainMenu from "./main_menu.js";
+import Notifications from "./notifications.js";
 
 export default class Main extends React.Component {
 	constructor(props) {
@@ -31,7 +32,9 @@ export default class Main extends React.Component {
 	render() {
 		if (this.token) {
 			return (
-				<MainMenu state={this.state} />
+				<MaterialUI.div>
+					<Notifications state={this.state} />
+				</MaterialUI.div>
 			);
 		} else {
 			return (
