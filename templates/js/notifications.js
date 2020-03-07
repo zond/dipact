@@ -4,7 +4,7 @@ export default class Notifications extends React.Component {
 	}
 	render() {
 		return (
-			<MaterialUI.div>
+			<div>
 				<MaterialUI.List>
 					<MaterialUI.ListItem div>
 						<MaterialUI.ListItemText primary="NEWS: Diplicity has a new React-based UI." />
@@ -16,7 +16,7 @@ export default class Notifications extends React.Component {
 						<MaterialUI.ListItemText primary="INFO: No idea how this will be populated yet." />
 					</MaterialUI.ListItem>
 				</MaterialUI.List>
-			</MaterialUI.div>
+			</div>
 		);
 	}
 }
