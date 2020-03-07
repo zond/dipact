@@ -33,6 +33,7 @@ export default class Main extends React.Component {
 		if (this.token) {
 			return (
 				<div>
+					<MainMenu state={this.state} />
 					<Notifications state={this.state} />
 				</div>
 			);
