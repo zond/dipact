@@ -31,7 +31,10 @@ export default class Main extends React.Component {
 	render() {
 		if (this.token) {
 			return (
-				<MainMenu state={this.state} />
+				<div>
+					<MainMenu state={this.state} />
+					<Notifications state={this.state} />
+				</div>
 			);
 		} else {
 			return (

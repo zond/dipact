@@ -19,6 +19,9 @@ export default class MainMenu extends React.Component {
 					<div onClick={this.toggleDrawer}>
 						<MaterialUI.List component="nav">
 							<MaterialUI.ListItem button>
+								<MaterialUI.ListItemText primary="Notifications" />
+							</MaterialUI.ListItem>
+							<MaterialUI.ListItem button>
 								<MaterialUI.ListItemText primary="My started games" />
 							</MaterialUI.ListItem>
 							<MaterialUI.ListItem button>
