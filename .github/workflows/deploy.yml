@@ -22,5 +22,7 @@ jobs:
       run: gcloud components install app-engine-go
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Pregenerate assets
+      run: go generate
     - name: Deploy service
       run: gcloud --project dipact app deploy    
