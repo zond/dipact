@@ -187,10 +187,16 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	if r.Header.Get("If-None-Match") == fmt.Sprint(res.modTime.UnixNano()) {
+		w.WriteHeader(http.StatusNotModified)
+		return
+	}
 	if _, err := io.Copy(w, bytes.NewBuffer(res.b)); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("ETag", fmt.Sprint(res.modTime.UnixNano()))
+	w.Header().Set("Cache-Control", "max-age: 600")
 	w.Header().Set("Content-Type", mime.TypeByExtension(filepath.Ext(relPath)))
 }
 
