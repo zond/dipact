@@ -31,5 +31,3 @@ java/classes
 app/autotest
 app/localhost
 
-# This should never be submitted with content, it's generated on demand on dev machines, or on deploy by GitHub actions.
-assets_vfsdata.go
