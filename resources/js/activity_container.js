@@ -8,7 +8,7 @@ export default class ActivityContainer extends React.Component {
 	}
 	renderActivity() {
 		let props = this.state.activity_props ? Object.assign({}, this.state.activity_props) : {};
-		props.main_state = this.state;
+		props.parent_state = this.state;
 		return React.createElement(this.state.activity, props);
 	}
 	render() {

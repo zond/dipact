@@ -32,22 +32,22 @@ export default class MainMenu extends ActivityContainer {
          						<MaterialUI.ListItem button onClick={_ => { this.setActivity(Notifications) }}>
          							<MaterialUI.ListItemText primary="Notifications" />
          						</MaterialUI.ListItem>
-         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {games: [1,2,3]}) }}>
+         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {key: 0, url: this.props.parent_state.urls.my_started_games_url.toString()}) }}>
          							<MaterialUI.ListItemText primary="My started games" />
          						</MaterialUI.ListItem>
-         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {games: [1,2,3,4]}) }}>
+         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {key: 1, url: this.props.parent_state.urls.my_staging_games_url.toString()}) }}>
          							<MaterialUI.ListItemText primary="My staging games" />
          						</MaterialUI.ListItem>
-         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {games: [1,2,3,4,5]}) }}>
+         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {key: 2, url: this.props.parent_state.urls.my_finished_games_url.toString()}) }}>
          							<MaterialUI.ListItemText primary="My finished games" />
          						</MaterialUI.ListItem>
-         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {games: [1,2,3,4,5,6]}) }}>
+         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {key: 3, url: this.props.parent_state.urls.open_games_url.toString()}) }}>
          							<MaterialUI.ListItemText primary="Open games" />
          						</MaterialUI.ListItem>
-         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {games: [1,2,3,4,5,6,7]}) }}>
+         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {key: 4, url: this.props.parent_state.urls.started_games_url.toString()}) }}>
          							<MaterialUI.ListItemText primary="Started games" />
          						</MaterialUI.ListItem>
-         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {games: [1,2,3,4,5,6,7,8]}) }}>
+         						<MaterialUI.ListItem button onClick={_ => { this.setActivity(GameList, {key: 5, url: this.props.parent_state.urls.finished_games_url.toString()}) }}>
          							<MaterialUI.ListItemText primary="Finished games" />
          						</MaterialUI.ListItem>
          					</MaterialUI.List>
