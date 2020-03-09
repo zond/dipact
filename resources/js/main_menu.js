@@ -7,17 +7,26 @@ export default class MainMenu extends ActivityContainer {
     super(props);
     this.state = {
       drawerOpen: false,
+      menuOpen: false,
       activity: Notifications
     };
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
     this.renderGameList = this.renderGameList.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+    this.openMenu = this.openMenu.bind(this);
   }
   openDrawer() {
     this.setState({ drawerOpen: true });
   }
   closeDrawer() {
     this.setState({ drawerOpen: false });
+  }
+  openMenu(ev) {
+    this.setState({ anchorEl: ev.currentTarget, menuOpen: true });
+  }
+  closeMenu() {
+    this.setState({ menuOpen: false });
   }
   renderGameList(ev) {
     this.setActivity(GameList, {
@@ -28,9 +37,35 @@ export default class MainMenu extends ActivityContainer {
   render() {
     return (
       <div>
-        <MaterialUI.IconButton onClick={this.openDrawer}>
-          <i className="material-icons">&#xE5D2;</i>
-        </MaterialUI.IconButton>
+        <MaterialUI.AppBar position="static">
+          <MaterialUI.Toolbar>
+            <MaterialUI.IconButton edge="start" onClick={this.openDrawer}>
+              <i className="material-icons">&#xE5D2;</i>
+            </MaterialUI.IconButton>
+            <MaterialUI.Typography
+              style={{ flexGrow: 1 }}
+            ></MaterialUI.Typography>
+            <MaterialUI.IconButton edge="end" onClick={this.openMenu}>
+              <i className="material-icons">&#xE853;</i>
+            </MaterialUI.IconButton>
+            <MaterialUI.Menu
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              onClose={this.closeMenu}
+              open={this.state.menuOpen}
+            >
+              <div>
+                <MaterialUI.MenuItem onClick={this.closeMenu}>
+                  Profile
+                </MaterialUI.MenuItem>
+                <MaterialUI.MenuItem onClick={this.closeMenu}>
+                  My account
+                </MaterialUI.MenuItem>
+              </div>
+            </MaterialUI.Menu>
+          </MaterialUI.Toolbar>
+        </MaterialUI.AppBar>
         {this.renderActivity()}
         <MaterialUI.Drawer open={this.state.drawerOpen}>
           <MaterialUI.ClickAwayListener onClickAway={this.closeDrawer}>

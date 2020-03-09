@@ -1,1 +1,3 @@
-
+.game-summary > * {
+	min-width: 0;
+}

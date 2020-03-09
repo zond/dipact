@@ -17,11 +17,11 @@ export default class GameList extends React.Component {
   render() {
     if (this.state.games) {
       return (
-        <ul>
+        <div>
           {this.state.games.map((game, idx) => {
             return <GameListElement key={idx} game={game} />;
           })}
-        </ul>
+        </div>
       );
     } else {
       return (
