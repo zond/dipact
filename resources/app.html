@@ -2,14 +2,14 @@
 	<head>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-		<link rel="stylesheet" href="css/main.css">
-		<script src="{{ .ReactJSURL }}" crossorigin></script>
-		<script src="{{ .ReactDOMJSURL }}" crossorigin></script>
-		<script src="{{ .MaterialUIJSURL }}" crossorigin></script>
+		<link rel="stylesheet" href="%{ cb "css/main.css" }%">
+		<script src="%{ .ReactJSURL }%" crossorigin></script>
+		<script src="%{ .ReactDOMJSURL }%" crossorigin></script>
+		<script src="%{ .MaterialUIJSURL }%" crossorigin></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
 		<div id="app"></div>
 	<body>
-	<script type="module" src="js/app.js"></script>
+	<script type="module" src="%{ cb "js/app.js" }%"></script>
 </html>

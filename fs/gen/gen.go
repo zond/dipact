@@ -9,12 +9,8 @@ import (
 
 func main() {
 	fileSystem := &fs.FileSystem{
-		Root: "resources",
-		TransformByExt: map[string]fs.Transform{
-			".html": fs.HTMLTransform(fs.ProdCDN),
-			".js":   fs.JSTransform(),
-			".css":  func(b []byte) ([]byte, error) { return b, nil },
-		},
+		Root:           "resources",
+		TransformByExt: fs.DefaultTransformMap(fs.ProdCDN),
 	}
 	err := vfsgen.Generate(fileSystem, vfsgen.Options{})
 	if err != nil {

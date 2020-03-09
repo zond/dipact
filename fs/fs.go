@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"sync"
 	"text/template"
@@ -21,13 +22,39 @@ var (
 		"ReactDOMJSURL":   "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
 		"MaterialUIJSURL": "https://unpkg.com/@material-ui/core@latest/umd/material-ui.production.min.js",
 	}
+	Delims      = []string{"%{", "}%"}
+	cbRemoveReg = regexp.MustCompile("-cb[0-9]+cb-")
 )
+
+func DefaultTransformMap(env interface{}) map[string]Transform {
+	t := time.Now()
+	return map[string]Transform{
+		".html": HTMLTransform(t, env),
+		".js":   JSTransform(t),
+		".css":  func(b []byte) ([]byte, error) { return b, nil },
+		".ico":  func(b []byte) ([]byte, error) { return b, nil },
+	}
+}
 
 type Transform func([]byte) ([]byte, error)
 
-func HTMLTransform(env interface{}) Transform {
+func RemovePathCB(s string) (string, bool) {
+	found := cbRemoveReg.MatchString(s)
+	return cbRemoveReg.ReplaceAllString(s, ""), found
+}
+
+func newTemplate(cbTimestamp time.Time) *template.Template {
+	return template.New("").Delims(Delims[0], Delims[1]).Funcs(template.FuncMap{
+		"cb": func(s string) string {
+			return fmt.Sprintf("%v-cb%vcb-", s, cbTimestamp.UnixNano())
+		},
+	})
+
+}
+
+func HTMLTransform(ts time.Time, env interface{}) Transform {
 	return func(in []byte) ([]byte, error) {
-		templ, err := template.New("").Parse(string(in))
+		templ, err := newTemplate(ts).Parse(string(in))
 		if err != nil {
 			return nil, err
 		}
@@ -39,9 +66,17 @@ func HTMLTransform(env interface{}) Transform {
 	}
 }
 
-func JSTransform() Transform {
+func JSTransform(ts time.Time) Transform {
 	return func(in []byte) ([]byte, error) {
-		res, err := babel.Transform(bytes.NewBuffer(in), map[string]interface{}{
+		templ, err := newTemplate(ts).Parse(string(in))
+		if err != nil {
+			return nil, err
+		}
+		buf := &bytes.Buffer{}
+		if err := templ.Execute(buf, nil); err != nil {
+			return nil, err
+		}
+		res, err := babel.Transform(buf, map[string]interface{}{
 			"plugins": []string{
 				"transform-react-jsx",
 				"transform-es2015-block-scoping",
@@ -73,14 +108,28 @@ func (fi *fileInfo) Size() int64 {
 	if err := fi.file.load(); err != nil {
 		return 0
 	}
-	return fi.file.Reader.Size()
+	return fi.file.reader.Size()
 }
 
 type file struct {
-	*bytes.Reader
+	reader     *bytes.Reader
 	readerLock sync.RWMutex
 	fileSystem *FileSystem
 	relPath    string
+}
+
+func (f *file) Read(b []byte) (int, error) {
+	if err := f.load(); err != nil {
+		return 0, err
+	}
+	return f.reader.Read(b)
+}
+
+func (f *file) Seek(offset int64, whence int) (int64, error) {
+	if err := f.load(); err != nil {
+		return 0, err
+	}
+	return f.reader.Seek(offset, whence)
 }
 
 func (f *file) Close() error { return nil }
@@ -88,10 +137,12 @@ func (f *file) Close() error { return nil }
 func (f *file) load() error {
 	path, err := f.fileSystem.cleanPath(f.relPath)
 	if err != nil {
+		f.fileSystem.log("Unable to create clean path for %#v: %v", f.relPath, err)
 		return err
 	}
 	stat, err := os.Stat(path)
 	if err != nil {
+		f.fileSystem.log("Unable to stat %#v: %v", f.relPath, err)
 		return err
 	}
 	if stat.IsDir() {
@@ -99,7 +150,7 @@ func (f *file) load() error {
 	}
 
 	f.readerLock.RLock()
-	if f.Reader != nil {
+	if f.reader != nil {
 		f.readerLock.RUnlock()
 		return nil
 	}
@@ -107,22 +158,23 @@ func (f *file) load() error {
 
 	transform, found := f.fileSystem.TransformByExt[filepath.Ext(stat.Name())]
 	if !found {
+		f.fileSystem.log("Unable to find transform for %#v: %v", f.relPath, err)
 		return fmt.Errorf("Unknown file type %#v", f.relPath)
 	}
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
+		f.fileSystem.log("Unable to read %#v: %v", f.relPath, err)
 		return err
 	}
 	b, err = transform(b)
 	if err != nil {
+		f.fileSystem.log("Unable to transform %#v: %v", f.relPath, err)
 		return err
 	}
 	f.readerLock.Lock()
-	f.Reader = bytes.NewReader(b)
+	f.reader = bytes.NewReader(b)
 	f.readerLock.Unlock()
-	if f.fileSystem.LogFunc != nil {
-		f.fileSystem.LogFunc("Loaded %#v", f.relPath)
-	}
+	f.fileSystem.log("Loaded %#v", f.relPath)
 	return nil
 }
 
@@ -195,6 +247,12 @@ func (fs *FileSystem) cleanPath(relPath string) (string, error) {
 	return "", fmt.Errorf("Path %#v is not inside root %#v", relPath, fs.Root)
 }
 
+func (fs *FileSystem) log(pattern string, args ...interface{}) {
+	if fs.LogFunc != nil {
+		fs.LogFunc(pattern, args...)
+	}
+}
+
 func (fs *FileSystem) Open(relPath string) (http.File, error) {
 	path, err := fs.cleanPath(relPath)
 	if err != nil {
@@ -209,8 +267,9 @@ func (fs *FileSystem) Open(relPath string) (http.File, error) {
 			return nil, fmt.Errorf("Unknown file type %#v", relPath)
 		}
 	}
-	return &file{
+	f := &file{
 		fileSystem: fs,
 		relPath:    relPath,
-	}, nil
+	}
+	return f, nil
 }

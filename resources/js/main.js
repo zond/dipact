@@ -1,7 +1,7 @@
-import Login from './login.js';
-import MainMenu from './main_menu.js';
-import Notifications from './notifications.js';
-import ActivityContainer from './activity_container.js';
+import Login from '%{ cb "./login.js" }%';
+import MainMenu from '%{ cb "./main_menu.js" }%';
+import Notifications from '%{ cb "./notifications.js" }%';
+import ActivityContainer from '%{ cb "./activity_container.js" }%';
 
 export default class Main extends ActivityContainer {
 	constructor(props) {

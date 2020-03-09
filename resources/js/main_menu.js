@@ -1,6 +1,6 @@
-import ActivityContainer from './activity_container.js';
-import Notifications from './notifications.js';
-import GameList from './game_list.js';
+import ActivityContainer from '%{ cb "./activity_container.js" }%';
+import Notifications from '%{ cb "./notifications.js" }%';
+import GameList from '%{ cb "./game_list.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {

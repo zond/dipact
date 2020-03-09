@@ -2,6 +2,9 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
+	"io"
 	"log"
 	"net/http"
 
@@ -10,36 +13,87 @@ import (
 )
 
 type server struct {
+	fileSystem http.FileSystem
 	fileServer http.Handler
 }
 
-func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/" {
-		r.URL.Path = "/app.html"
+type bufferingResponseWriter struct {
+	backend    http.ResponseWriter
+	buffer     *bytes.Buffer
+	statusCode *int
+}
+
+func (w *bufferingResponseWriter) Header() http.Header         { return w.backend.Header() }
+func (w *bufferingResponseWriter) Write(b []byte) (int, error) { return w.buffer.Write(b) }
+func (w *bufferingResponseWriter) WriteHeader(statusCode int)  { w.statusCode = &statusCode }
+
+func (w *bufferingResponseWriter) flush() error {
+	if w.statusCode != nil {
+		w.backend.WriteHeader(*w.statusCode)
 	}
-	s.fileServer.ServeHTTP(w, r)
+	_, err := io.Copy(w.backend, w.buffer)
+	return err
+}
+
+func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	hadCB := false
+	r.URL.Path, hadCB = fs.RemovePathCB(r.URL.Path)
+	if r.URL.Path != "/" {
+		bw := &bufferingResponseWriter{
+			backend: w,
+			buffer:  &bytes.Buffer{},
+		}
+		s.fileServer.ServeHTTP(bw, r)
+		if hadCB && !appengine.IsDevAppServer() {
+			bw.Header().Set("Cache-Control", fmt.Sprintf("max-age: %v", 60*60*24*365))
+		}
+		if err := bw.flush(); err != nil {
+			log.Printf("Unable to flush buffered response writer: %v", err)
+			return
+		}
+		return
+	}
+	resp, err := s.fileSystem.Open("/app.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	stat, err := resp.Stat()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if r.Header.Get("If-None-Match") == fmt.Sprint(stat.ModTime().UnixNano()) {
+		w.WriteHeader(http.StatusNotModified)
+		return
+	}
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Last-Modified", stat.ModTime().UTC().Format(http.TimeFormat))
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	if _, err := io.Copy(w, resp); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	return
 }
 
 func main() {
 	fileSystem := assets
 	if appengine.IsDevAppServer() {
-		env := map[string]string{
-			"ReactJSURL":      "https://unpkg.com/react@16/umd/react.development.js",
-			"ReactDOMJSURL":   "https://unpkg.com/react-dom@16/umd/react-dom.development.js",
-			"MaterialUIJSURL": "https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js",
-		}
 		fileSystem = &fs.FileSystem{
 			Root: "resources",
-			TransformByExt: map[string]fs.Transform{
-				".html": fs.HTMLTransform(env),
-				".js":   fs.JSTransform(),
-				".css":  func(b []byte) ([]byte, error) { return b, nil },
-			},
+			TransformByExt: fs.DefaultTransformMap(map[string]string{
+				"ReactJSURL":      "https://unpkg.com/react@16/umd/react.development.js",
+				"ReactDOMJSURL":   "https://unpkg.com/react-dom@16/umd/react-dom.development.js",
+				"MaterialUIJSURL": "https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js",
+			}),
 			LogFunc: log.Printf,
 		}
 	}
 	http.Handle("/", &server{
 		fileServer: http.FileServer(fileSystem),
+		fileSystem: fileSystem,
 	})
 	appengine.Main()
 }
