@@ -20,7 +20,6 @@ export default class MainMenu extends ActivityContainer {
 		this.setState({drawerOpen: false});
 	}
 	renderGameList(ev) {
-		console.log(this.props.parent_state.urls, ev.currentTarget.getAttribute("urlkey"));
 		this.setActivity(GameList,
 			{
 				key: ev.currentTarget.getAttribute("gamelistkey"),

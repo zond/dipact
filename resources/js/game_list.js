@@ -1,3 +1,5 @@
+import GameListElement from '%{ cb "./game_list_element.js" }%';
+
 export default class GameList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -14,7 +16,7 @@ export default class GameList extends React.Component {
 		if (this.state.games) {
 			return (
 				<ul>
-				{this.state.games.map((game, idx) => { return <li key={idx}>{game.Name}</li> })}
+				{this.state.games.map((game, idx) => { return <GameListElement key={idx} game={game} /> })}
 				</ul>
 			);
 		} else {
