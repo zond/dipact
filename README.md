@@ -10,7 +10,7 @@ Try latest version at https://dipact.appspot.com.
 
 1) Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
 2) Run `dev_appserver.py app.yaml`.
-3) Go to http://localhost:8080/
+3) Go to http://localhost:8080/.
 
 ## Deploy
 
