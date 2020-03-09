@@ -10,7 +10,7 @@ Try the latest version at https://dipact.appspot.com.
 
 It uses [React](https://reactjs.org/) and [Material-UI](https://material-ui.com/) to render pages. It also uses [Babel](https://babeljs.io/) to precompile all `.js` files. This means that all `.js` files are written in Babel, not plain JavaScript.
 
-It also means that all `.js` files are transpiled from Babel to plain JavaScript. This happens via [github.com/zond/dipact/fs](https://godoc.org/github.com/zond/dipact/fs#FileSystem). When running locally, this happens on the fly and causes page renders to be relatively slow, but the deploy script pregenerates a new (http.FileSystem)[https://golang.org/pkg/net/http/#FileSystem] using [github.com/jvatic/goja-babel](https://github.com/jvatic/goja-babel) to make production serving fast.
+It also means that all `.js` files are transpiled from Babel to plain JavaScript. This happens via [github.com/zond/dipact/fs](https://godoc.org/github.com/zond/dipact/fs#FileSystem). When running locally, this happens on the fly and causes page renders to be relatively slow, but the deploy script pregenerates a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using [github.com/jvatic/goja-babel](https://github.com/jvatic/goja-babel) to make production serving fast.
 
 ## Run locally
 
