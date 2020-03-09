@@ -4,9 +4,11 @@ export default class Login extends React.Component {
 		if (this.props.parent_state.urls.login_url) {
 			return (
 				<MaterialUI.Container style={{textAlign: 'center'}} maxWidth="sm">
-					<MaterialUI.Button variant="contained" startIcon={<i className="material-icons">&#xE898;</i>}>
-						<a href={this.props.parent_state.urls.login_url}>Login</a>
-					</MaterialUI.Button>
+					<a href={this.props.parent_state.urls.login_url}>
+				        <MaterialUI.Button variant="contained" startIcon={<i className="material-icons">&#xE898;</i>}>
+				             Login
+    					</MaterialUI.Button>
+				    </a>
 				</MaterialUI.Container>
 			);
 		} else {

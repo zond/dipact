@@ -11,11 +11,18 @@ export default class GameList extends React.Component {
 			});
 	}
 	render() {
-		return (
-			<ul>
-			{this.state.games ? this.state.games.map((game, idx) => { return <li key={idx}>{game.Name}</li> }) : ""}
-			</ul>
-		);
-
+		if (this.state.games) {
+			return (
+				<ul>
+				{this.state.games.map((game, idx) => { return <li key={idx}>{game.Name}</li> })}
+				</ul>
+			);
+		} else {
+			return (
+				<MaterialUI.Container style={{textAlign: 'center'}} maxWidth="sm">
+					<MaterialUI.CircularProgress />
+				</MaterialUI.Container>
+			);
+		}
 	}
 }
