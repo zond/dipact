@@ -14,4 +14,4 @@ Try latest version at https://dipact.appspot.com.
 
 ## Deploy
 
-Each commit causes the latest version to be pushed to https://dipact.appspot.com/.
+https://github.com/zond/dipact/blob/master/.github/workflows/deploy.yml causes the latest version to be pushed to https://dipact.appspot.com/ on each new push.
