@@ -15,12 +15,14 @@ export default class Main extends ActivityContainer {
 	componentDidMount() {
 		this.url = new URL(window.location.href);
 		this.token = this.url.searchParams.get("token");
+		if (!this.token) {
+			this.token = localStorage.getItem('token');
+		}
 		this.server_url = new URL("https://diplicity-engine.appspot.com/");
 		if (this.token) {
 			this.server_url.searchParams.set("token", this.token);
 			this.url.searchParams.delete("token");
 			history.pushState("", "", this.url.toString());
-			this.setActivity(MainMenu, { variants: this.state.variants });
 		}
 		let variantURL = new URL(this.server_url);
 		variantURL.pathname = "/Variants";
@@ -37,8 +39,22 @@ export default class Main extends ActivityContainer {
 		fetch(this.server_url.toString(), {
 			headers: { Accept: "application/json" }
 		})
-			.then(resp => resp.json())
-			.then(js => {
+			.then(resp => {
+				if (resp.status == 200) {
+					return new Promise((resolve, reject) => {
+						resp.json().then(js => {
+							resolve([js, resp.status]);
+						});
+					});
+				} else {
+					return Promise.resolve([{}, resp.status]);
+				}
+			})
+			.then(([js, status]) => {
+				if (status == 401) {
+					this.setActivity(Login);
+					return;
+				}
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
 					state.user = js.Properties.User;
@@ -52,6 +68,13 @@ export default class Main extends ActivityContainer {
 							this.url.toString()
 						);
 						state.urls.login_url = login_url;
+					}
+					if (state.user) {
+						state.activity = MainMenu;
+						state.activity_props = { variants: state.variants };
+						localStorage.setItem('token', this.token);
+					} else if (state.urls.login_url) {
+						state.activity = Login;
 					}
 					let linkSetter = (rel, key) => {
 						let link = js.Links.find(l => {

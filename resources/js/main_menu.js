@@ -15,6 +15,11 @@ export default class MainMenu extends ActivityContainer {
 		this.renderGameList = this.renderGameList.bind(this);
 		this.closeMenu = this.closeMenu.bind(this);
 		this.openMenu = this.openMenu.bind(this);
+		this.logout = this.logout.bind(this);
+	}
+	logout() {
+		localStorage.removeItem('token');
+		location.replace('/');
 	}
 	openDrawer() {
 		this.setState({ drawerOpen: true });
@@ -71,11 +76,11 @@ export default class MainMenu extends ActivityContainer {
 							open={this.state.menuOpen}
 						>
 							<div>
-								<MaterialUI.MenuItem onClick={this.closeMenu}>
-									Profile
+								<MaterialUI.MenuItem onClick={this.logout}>
+									Logout
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem onClick={this.closeMenu}>
-									My account
+									Settings
 								</MaterialUI.MenuItem>
 							</div>
 						</MaterialUI.Menu>
