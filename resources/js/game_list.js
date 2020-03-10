@@ -19,7 +19,7 @@ export default class GameList extends React.Component {
       return (
         <div>
           {this.state.games.map((game, idx) => {
-            return <GameListElement key={idx} game={game} />;
+            return <GameListElement key={idx} game={game} variants={this.props.variants} />;
           })}
         </div>
       );
