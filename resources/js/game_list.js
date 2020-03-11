@@ -1,3 +1,5 @@
+import * as helpers from '%{ cb "./helpers.js" }%';
+
 import GameListElement from '%{ cb "./game_list_element.js" }%';
 
 export default class GameList extends React.Component {
@@ -6,9 +8,7 @@ export default class GameList extends React.Component {
     this.state = {};
   }
   componentDidMount() {
-    fetch(this.props.url.toString(), {
-      headers: { Accept: "application/json" }
-    })
+    fetch(helpers.createRequest(this.props.url.toString()))
       .then(resp => resp.json())
       .then(js => {
         this.setState({ games: js.Properties });
