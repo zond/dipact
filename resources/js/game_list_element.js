@@ -15,7 +15,7 @@ export default class GameListElement extends React.Component {
 			!this.props.game.Properties.Finished
 		) {
 			let k = 0;
-			if (!this.member.NewestPhaseState.OnProbation) {
+			if (this.member.NewestPhaseState.OnProbation) {
 				icons.push(
 					<i
 						key={k++}
@@ -25,8 +25,7 @@ export default class GameListElement extends React.Component {
 						&#xe88b;
 					</i>
 				);
-			}
-			if (!this.member.NewestPhaseState.ReadyToResolve) {
+			} else if (this.member.NewestPhaseState.ReadyToResolve) {
 				icons.push(
 					<i
 						key={k++}
