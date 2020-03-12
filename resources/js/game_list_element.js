@@ -121,9 +121,23 @@ export default class GameListElement extends React.Component {
 					</MaterialUI.Grid>
 				</MaterialUI.ExpansionPanelSummary>
 				<MaterialUI.ExpansionPanelDetails>
-					<MaterialUI.Typography>
-						{JSON.stringify(this.props.game)}
-					</MaterialUI.Typography>
+					<MaterialUI.Grid container>
+						<MaterialUI.Grid item xs={6}>
+							<MaterialUI.Typography>
+								Created at
+							</MaterialUI.Typography>
+						</MaterialUI.Grid>
+						<MaterialUI.Grid item xs={6}>
+							<MaterialUI.Typography>
+								{this.props.game.Properties.CreatedAt}
+							</MaterialUI.Typography>
+						</MaterialUI.Grid>
+						<MaterialUI.Grid item xs={12}>
+							<MaterialUI.Typography>
+								{JSON.stringify(this.props.game)}
+							</MaterialUI.Typography>
+						</MaterialUI.Grid>
+					</MaterialUI.Grid>
 				</MaterialUI.ExpansionPanelDetails>
 			</MaterialUI.ExpansionPanel>
 		);
