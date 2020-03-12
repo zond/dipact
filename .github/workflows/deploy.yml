@@ -21,7 +21,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Pregenerate assets
       run: go generate
-    - name: Display branch name
-      run: echo ${GITHUB_REF##*/}
-    - name: Deploy service
+    - name: Extract branch name
+      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
+    - name: Deploy default service
       run: gcloud --project dipact app deploy    
