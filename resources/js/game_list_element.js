@@ -11,7 +11,11 @@ export default class GameListElement extends React.Component {
 		ary.push(
 			<i
 				key={ary.length}
-				style={{ padding: "1px", color: color, fontSize: "16px" }}
+				style={{
+					padding: "4px 1px 0px 1px",
+					color: color,
+					fontSize: "14px"
+				}}
 				className="material-icons"
 			>
 				{codepoint}
