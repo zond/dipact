@@ -26,6 +26,7 @@ This happens via [github.com/zond/dipact/fs](https://godoc.org/github.com/zond/d
 When running locally, this happens on the fly and causes page renders to be relatively slow, but the
 [deploy script](https://github.com/zond/dipact/blob/master/.github/workflows/deploy.yml) pregenerates
 a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
+[github.com/shurcooL/vfsgen](https://github.com/shurcooL/vfsgen) and
 [github.com/jvatic/goja-babel](https://github.com/jvatic/goja-babel) to make production serving fast.
 
 ### Running locally
