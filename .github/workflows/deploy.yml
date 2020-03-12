@@ -3,14 +3,11 @@ name: Deploy
 
 on:
   push:
-    branches: [ master ]
+    branches: [ '**' ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Set up GoogleCloudPlatform
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -22,7 +19,20 @@ jobs:
       run: gcloud components install app-engine-go
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Cache Go modules
+      uses: actions/cache@v1
+      with:
+       path: ~/go/pkg/mod
+       key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+       restore-keys: |
+         ${{ runner.os }}-go-
     - name: Pregenerate assets
       run: go generate
-    - name: Deploy service
+    - name: Extract branch name
+      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
+    - name: Deploy default service
+      if: env.BRANCH_NAME == 'master'
       run: gcloud --project dipact app deploy    
+    - name: Deploy alternate service
+      if: env.BRANCH_NAME != 'master'
+      run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy'
