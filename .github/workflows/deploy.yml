@@ -19,6 +19,13 @@ jobs:
       run: gcloud components install app-engine-go
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Cache Go modules
+      uses: actions/cache@v1
+      with:
+       path: ~/go/pkg/mod
+       key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+       restore-keys: |
+         ${{ runner.os }}-go-
     - name: Pregenerate assets
       run: go generate
     - name: Extract branch name
