@@ -38,3 +38,6 @@ a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 
 The [deploy script](https://github.com/zond/dipact/blob/master/.github/workflows/deploy.yml) causes
 the latest version to be pushed to https://dipact.appspot.com/ on each new push.
+
+Pushing branches with sensible names to https://github.com/zond/dipact causes them to be pushed to
+https://[branch-name]-dot-dipact.appspot.com/ on each new push.
