@@ -79,6 +79,18 @@ export default class GameListElement extends React.Component {
 		return { Properties: { Nations: [] } };
 	}
 	render() {
+		var expandedGameCells = ["Created at", this.props.game.Properties.CreatedAt,
+								 "Nation allocation", this.props.game.Properties.NationAllocation == 1 ? "Preferences" : "Random"
+								];
+		var expandedGameItems = [];
+		expandedGameCells.forEach(cell => expandedGameItems.push(
+			<MaterialUI.Grid item xs={6}>
+				<MaterialUI.Typography>
+					{cell}
+				</MaterialUI.Typography>
+			</MaterialUI.Grid>
+		));
+
 		return (
 			<MaterialUI.ExpansionPanel>
 				<MaterialUI.ExpansionPanelSummary
@@ -122,16 +134,8 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.ExpansionPanelSummary>
 				<MaterialUI.ExpansionPanelDetails>
 					<MaterialUI.Grid container>
-						<MaterialUI.Grid item xs={6}>
-							<MaterialUI.Typography>
-								Created at
-							</MaterialUI.Typography>
-						</MaterialUI.Grid>
-						<MaterialUI.Grid item xs={6}>
-							<MaterialUI.Typography>
-								{this.props.game.Properties.CreatedAt}
-							</MaterialUI.Typography>
-						</MaterialUI.Grid>
+						{expandedGameItems}
+
 						<MaterialUI.Grid item xs={12}>
 							<MaterialUI.Typography>
 								{JSON.stringify(this.props.game)}
