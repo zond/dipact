@@ -84,9 +84,9 @@ func main() {
 		fileSystem = &fs.FileSystem{
 			Root: "resources",
 			TransformByExt: fs.DefaultTransformMap(map[string]string{
-				"ReactJSURL":      "https://unpkg.com/react@16/umd/react.development.js",
-				"ReactDOMJSURL":   "https://unpkg.com/react-dom@16/umd/react-dom.development.js",
-				"MaterialUIJSURL": "https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js",
+				"ReactJSURL":      "/static/react.development.js",
+				"ReactDOMJSURL":   "/static/react-dom.development.js",
+				"MaterialUIJSURL": "/static/material-ui.development.js",
 			}),
 			LogFunc: log.Printf,
 		}

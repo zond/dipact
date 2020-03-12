@@ -4,6 +4,8 @@ automatic_scaling:
   max_concurrent_requests: 100
 
 handlers:
+- url: /static
+  static_dir: static
 - url: /.*
   script: auto
   secure: always

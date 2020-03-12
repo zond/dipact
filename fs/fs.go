@@ -18,9 +18,9 @@ import (
 
 var (
 	ProdCDN = map[string]string{
-		"ReactJSURL":      "https://unpkg.com/react@16/umd/react.production.min.js",
-		"ReactDOMJSURL":   "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js",
-		"MaterialUIJSURL": "https://unpkg.com/@material-ui/core@latest/umd/material-ui.production.min.js",
+		"ReactJSURL":      "/static/react.production.min.js",
+		"ReactDOMJSURL":   "/static/react-dom.production.min.js",
+		"MaterialUIJSURL": "/static/material-ui.production.min.js",
 	}
 	Delims      = []string{"%{", "}%"}
 	cbRemoveReg = regexp.MustCompile("-cb[0-9]+cb-")

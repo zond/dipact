@@ -1,6 +1,6 @@
 import Globals from '%{ cb "./globals.js" }%';
 
-export function createRequest(item) {
+export function createRequest(item, opts={}) {
 	let req_url = new URL(Globals.server_request.url);
 	try {
 		let item_url = new URL(item);
@@ -12,6 +12,9 @@ export function createRequest(item) {
 		mode: Globals.server_request.mode,
 		headers: Globals.server_request.headers,
 	});
+	if (opts.unauthed) {
+		req.headers.delete('Authorization');
+	}
 	return req;
 }
 
