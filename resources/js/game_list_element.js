@@ -82,12 +82,25 @@ export default class GameListElement extends React.Component {
 		var expandedGameCells = ["Created at", this.props.game.Properties.CreatedAt,
 								 "Nation allocation", this.props.game.Properties.NationAllocation == 1 ? "Preferences" : "Random"
 								];
+		if (this.props.game.Properties.MinRating) {
+			expandedGameCells.push('Minimum rating', this.props.game.Properties.MinRating);
+		}
+		if (this.props.game.Properties.MaxRating) {
+			expandedGameCells.push('Maximum rating', this.props.game.Properties.MaxRating);
+		}
 		if (this.props.game.Properties.MinReliability) {
 			expandedGameCells.push('Minimum reliability', this.props.game.Properties.MinReliability);
 		}
-		if (this.props.game.Properties.MaxReliability) {
-			expandedGameCells.push('Maximum reliability', this.props.game.Properties.MaxReliability);
+		if (this.props.game.Properties.MinQuickness) {
+			expandedGameCells.push('Minimum quickness', this.props.game.Properties.MinQuickness);
 		}
+		if (this.props.game.Properties.MaxHated) {
+			expandedGameCells.push('Maximum hated', this.props.game.Properties.MaxHated);
+		}
+		if (this.props.game.Properties.MaxHater) {
+			expandedGameCells.push('Maximum hater', this.props.game.Properties.MaxHater);
+		}
+
 		var expandedGameItems = [];
 		expandedGameCells.forEach(cell => expandedGameItems.push(
 			<MaterialUI.Grid item xs={6}>
