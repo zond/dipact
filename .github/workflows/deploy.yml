@@ -28,5 +28,4 @@ jobs:
       run: gcloud --project dipact app deploy    
     - name: Deploy alternate service
       if: env.BRANCH_NAME != 'master'
-      run: ( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy
-
+      run: "( echo -e 'service: ${BRANCH_NAME}\n$(cat app.yaml)' > app.yaml ) && gcloud --project dipact app deploy"
