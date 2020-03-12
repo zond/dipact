@@ -100,6 +100,28 @@ export default class GameListElement extends React.Component {
 		if (this.props.game.Properties.MaxHater) {
 			expandedGameCells.push('Maximum hater', this.props.game.Properties.MaxHater);
 		}
+		if (
+			this.props.game.Properties.DisableConferenceChat ||
+			this.props.game.Properties.DisableGroupChat ||
+			this.props.game.Properties.DisablePrivateChat
+		) {
+			if (
+				this.props.game.Properties.DisableConferenceChat &&
+				this.props.game.Properties.DisableGroupChat &&
+				this.props.game.Properties.DisablePrivateChat
+			) {
+				// Add two columns because this is required for formatting nicely.
+				expandedGameCells.push("All chat disabled", "(Gunboat)");
+			} else {
+				// Sort channel types by whether they're enabled or disabled.
+				var allChannels = {false: [], true: []};
+				allChannels[this.props.game.Properties.DisableConferenceChat].push("Conference");
+				allChannels[this.props.game.Properties.DisableGroupChat].push("Group");
+				allChannels[this.props.game.Properties.DisablePrivateChat].push("Private");
+				expandedGameCells.push("Disabled channels", allChannels[false].join(","));
+				expandedGameCells.push("Enabled channels", allChannels[true].join(","));
+			}
+		}
 
 		var expandedGameItems = [];
 		expandedGameCells.forEach(cell => expandedGameItems.push(
