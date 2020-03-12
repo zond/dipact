@@ -2,11 +2,20 @@
 
 # dipact
 
-A work-in-progress web client to https://github.com/zond/diplicity.
+## About
 
-Try the latest version at https://dipact.appspot.com.
+A work-in-progress web client for [diplicity](https://github.com/zond/diplicity).
+
+Try the latest version is deployed at https://dipact.appspot.com.
 
 ## Develop
+
+### Community
+
+We discuss the development via mail at [diplicity-dev](https://groups.google.com/forum/#!forum/diplicity-dev)
+and via chat at the #development channel on our [Discord server](https://discord.gg/QETtwGR)
+
+### Technology
 
 It uses [React](https://reactjs.org/) and [Material-UI](https://material-ui.com/) to render pages.
 It also uses [Babel](https://babeljs.io/) to precompile all `.js` files.
@@ -19,13 +28,13 @@ When running locally, this happens on the fly and causes page renders to be rela
 a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 [github.com/jvatic/goja-babel](https://github.com/jvatic/goja-babel) to make production serving fast.
 
-## Run locally
+### Running locally
 
-1) Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
-2) Run `dev_appserver.py app.yaml`.
-3) Go to http://localhost:8080/.
+1. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
+2. Run `dev_appserver.py app.yaml`.
+3. Go to http://localhost:8080/.
 
-## Deploy
+### Deploying
 
 The [deploy script](https://github.com/zond/dipact/blob/master/.github/workflows/deploy.yml) causes
 the latest version to be pushed to https://dipact.appspot.com/ on each new push.
