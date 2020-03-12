@@ -3,17 +3,11 @@ name: Deploy
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    branches: [ '**' ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Set up GoogleCloudPlatform
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
