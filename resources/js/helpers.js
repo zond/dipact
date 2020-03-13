@@ -1,6 +1,10 @@
 import Globals from '%{ cb "./globals.js" }%';
 
-export function createRequest(item, opts={}) {
+export function timeStrToDate(s) {
+	return new Date(Date.parse(s)).toLocaleDateString();
+}
+
+export function createRequest(item, opts = {}) {
 	let req_url = new URL(Globals.server_request.url);
 	try {
 		let item_url = new URL(item);
@@ -10,10 +14,10 @@ export function createRequest(item, opts={}) {
 	}
 	let req = new Request(req_url.toString(), {
 		mode: Globals.server_request.mode,
-		headers: Globals.server_request.headers,
+		headers: Globals.server_request.headers
 	});
 	if (opts.unauthed) {
-		req.headers.delete('Authorization');
+		req.headers.delete("Authorization");
 	}
 	return req;
 }

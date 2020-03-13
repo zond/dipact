@@ -79,26 +79,49 @@ export default class GameListElement extends React.Component {
 		return { Properties: { Nations: [] } };
 	}
 	render() {
-		var expandedGameCells = ["Created at", this.props.game.Properties.CreatedAt,
-								 "Nation allocation", this.props.game.Properties.NationAllocation == 1 ? "Preferences" : "Random"
-								];
+		let expandedGameCells = [
+			"Created at",
+			helpers.timeStrToDate(this.props.game.Properties.CreatedAt),
+			"Nation allocation",
+			this.props.game.Properties.NationAllocation == 1
+				? "Preferences"
+				: "Random"
+		];
 		if (this.props.game.Properties.MinRating) {
-			expandedGameCells.push('Minimum rating', this.props.game.Properties.MinRating);
+			expandedGameCells.push(
+				"Minimum rating",
+				this.props.game.Properties.MinRating
+			);
 		}
 		if (this.props.game.Properties.MaxRating) {
-			expandedGameCells.push('Maximum rating', this.props.game.Properties.MaxRating);
+			expandedGameCells.push(
+				"Maximum rating",
+				this.props.game.Properties.MaxRating
+			);
 		}
 		if (this.props.game.Properties.MinReliability) {
-			expandedGameCells.push('Minimum reliability', this.props.game.Properties.MinReliability);
+			expandedGameCells.push(
+				"Minimum reliability",
+				this.props.game.Properties.MinReliability
+			);
 		}
 		if (this.props.game.Properties.MinQuickness) {
-			expandedGameCells.push('Minimum quickness', this.props.game.Properties.MinQuickness);
+			expandedGameCells.push(
+				"Minimum quickness",
+				this.props.game.Properties.MinQuickness
+			);
 		}
 		if (this.props.game.Properties.MaxHated) {
-			expandedGameCells.push('Maximum hated', this.props.game.Properties.MaxHated);
+			expandedGameCells.push(
+				"Maximum hated",
+				this.props.game.Properties.MaxHated
+			);
 		}
 		if (this.props.game.Properties.MaxHater) {
-			expandedGameCells.push('Maximum hater', this.props.game.Properties.MaxHater);
+			expandedGameCells.push(
+				"Maximum hater",
+				this.props.game.Properties.MaxHater
+			);
 		}
 		if (
 			this.props.game.Properties.DisableConferenceChat ||
@@ -114,23 +137,49 @@ export default class GameListElement extends React.Component {
 				expandedGameCells.push("All chat disabled", "(Gunboat)");
 			} else {
 				// Sort channel types by whether they're enabled or disabled.
-				var allChannels = {false: [], true: []};
-				allChannels[this.props.game.Properties.DisableConferenceChat].push("Conference");
-				allChannels[this.props.game.Properties.DisableGroupChat].push("Group");
-				allChannels[this.props.game.Properties.DisablePrivateChat].push("Private");
-				expandedGameCells.push("Disabled channels", allChannels[false].join(","));
-				expandedGameCells.push("Enabled channels", allChannels[true].join(","));
+				let allChannels = { false: [], true: [] };
+				allChannels[
+					this.props.game.Properties.DisableConferenceChat
+				].push("Conference");
+				allChannels[this.props.game.Properties.DisableGroupChat].push(
+					"Group"
+				);
+				allChannels[this.props.game.Properties.DisablePrivateChat].push(
+					"Private"
+				);
+				expandedGameCells.push(
+					"Disabled channels",
+					allChannels[false].join(",")
+				);
+				expandedGameCells.push(
+					"Enabled channels",
+					allChannels[true].join(",")
+				);
 			}
 		}
-
-		var expandedGameItems = [];
-		expandedGameCells.forEach(cell => expandedGameItems.push(
-			<MaterialUI.Grid item xs={6}>
-				<MaterialUI.Typography>
-					{cell}
-				</MaterialUI.Typography>
-			</MaterialUI.Grid>
-		));
+		let expandedGameItems = [];
+		let itemKey = 0;
+		expandedGameCells.forEach(cell =>
+			expandedGameItems.push(
+				<MaterialUI.Grid item key={itemKey++} xs={6}>
+					<MaterialUI.Typography>{cell}</MaterialUI.Typography>
+				</MaterialUI.Grid>
+			)
+		);
+		this.props.game.Properties.Members.forEach(member => {
+			expandedGameItems.push(
+				<MaterialUI.Grid item key={itemKey++} xs={2}>
+					<img src={member.User.Picture} className="profile-pic" />
+				</MaterialUI.Grid>
+			);
+			expandedGameItems.push(
+				<MaterialUI.Grid item key={itemKey++} xs={10}>
+					<MaterialUI.Typography>
+						{member.User.GivenName} {member.User.FamilyName}
+					</MaterialUI.Typography>
+				</MaterialUI.Grid>
+			);
+		});
 
 		return (
 			<MaterialUI.ExpansionPanel>
@@ -176,12 +225,6 @@ export default class GameListElement extends React.Component {
 				<MaterialUI.ExpansionPanelDetails>
 					<MaterialUI.Grid container>
 						{expandedGameItems}
-
-						<MaterialUI.Grid item xs={12}>
-							<MaterialUI.Typography>
-								{JSON.stringify(this.props.game)}
-							</MaterialUI.Typography>
-						</MaterialUI.Grid>
 					</MaterialUI.Grid>
 				</MaterialUI.ExpansionPanelDetails>
 			</MaterialUI.ExpansionPanel>
