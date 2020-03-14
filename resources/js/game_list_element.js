@@ -81,12 +81,27 @@ export default class GameListElement extends React.Component {
 	render() {
 		let expandedGameCells = [
 			"Created at",
-			helpers.timeStrToDate(this.props.game.Properties.CreatedAt),
+			helpers.timeStrToDate(this.props.game.Properties.CreatedAt)
+		];
+		if (this.props.game.Properties.Started) {
+			expandedGameCells.push(
+				"Started at",
+				helpers.timeStrToDate(this.props.game.Properties.StartedAt)
+			);
+		}
+		if (this.props.game.Properties.Finished) {
+			expandedGameCells.push(
+				"Finished at",
+				helpers.timeStrToDate(this.props.game.Properties.FinishedAt)
+			);
+		}
+		expandedGameCells.push(
 			"Nation allocation",
 			this.props.game.Properties.NationAllocation == 1
 				? "Preferences"
 				: "Random"
-		];
+		);
+
 		if (this.props.game.Properties.MinRating) {
 			expandedGameCells.push(
 				"Minimum rating",
@@ -168,18 +183,39 @@ export default class GameListElement extends React.Component {
 		);
 		this.props.game.Properties.Members.forEach(member => {
 			expandedGameItems.push(
-				<MaterialUI.Grid item key={itemKey++} xs={2}>
+				<MaterialUI.Grid item key={itemKey++} xs={1}>
 					<img src={member.User.Picture} className="profile-pic" />
 				</MaterialUI.Grid>
 			);
 			expandedGameItems.push(
-				<MaterialUI.Grid item key={itemKey++} xs={10}>
+				<MaterialUI.Grid item key={itemKey++} xs={11}>
 					<MaterialUI.Typography>
 						{member.User.GivenName} {member.User.FamilyName}
 					</MaterialUI.Typography>
 				</MaterialUI.Grid>
 			);
 		});
+		let buttons = [
+			<MaterialUI.Button key={itemKey++}>View</MaterialUI.Button>
+		];
+		this.props.game.Links.forEach(link => {
+			if (link.Rel == "join") {
+				buttons.push(
+					<MaterialUI.Button key={itemKey++}>Join</MaterialUI.Button>
+				);
+			} else if (link.Rel == "leave") {
+				buttons.push(
+					<MaterialUI.Button key={itemKey++}>Leave</MaterialUI.Button>
+				);
+			}
+		});
+		expandedGameItems.push(
+			<MaterialUI.Grid item key={itemKey++} xs={12}>
+				<MaterialUI.ButtonGroup style={{ marginTop: "0.2em" }}>
+					{buttons}
+				</MaterialUI.ButtonGroup>
+			</MaterialUI.Grid>
+		);
 
 		return (
 			<MaterialUI.ExpansionPanel>
@@ -222,10 +258,14 @@ export default class GameListElement extends React.Component {
 						</MaterialUI.Grid>
 					</MaterialUI.Grid>
 				</MaterialUI.ExpansionPanelSummary>
-				<MaterialUI.ExpansionPanelDetails>
-					<MaterialUI.Grid container>
-						{expandedGameItems}
-					</MaterialUI.Grid>
+				<MaterialUI.ExpansionPanelDetails
+					style={{ paddingRight: "0.3em", paddingLeft: "0.3em" }}
+				>
+					<MaterialUI.Paper elevation={3}>
+						<MaterialUI.Grid container style={{ margin: "0.3em" }}>
+							{expandedGameItems}
+						</MaterialUI.Grid>
+					</MaterialUI.Paper>
 				</MaterialUI.ExpansionPanelDetails>
 			</MaterialUI.ExpansionPanel>
 		);
