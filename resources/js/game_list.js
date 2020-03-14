@@ -16,10 +16,10 @@ export default class GameList extends React.Component {
 	}
 	render() {
 		if (this.state.games) {
-			return this.state.games.map((game, idx) => {
+			return this.state.games.map(game => {
 				return (
 					<GameListElement
-						key={idx}
+						key={game.Properties.ID}
 						game={game}
 						user={this.props.user}
 						variants={this.props.variants}

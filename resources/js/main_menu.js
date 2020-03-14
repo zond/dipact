@@ -35,7 +35,7 @@ export default class MainMenu extends ActivityContainer {
 	}
 	renderGameList(ev) {
 		this.setActivity(GameList, {
-			key: ev.currentTarget.getAttribute("gamelistkey"),
+			key: ev.currentTarget.getAttribute("urlkey"),
 			url: this.props.parent_state.urls[
 				ev.currentTarget.getAttribute("urlkey")
 			],
@@ -76,11 +76,14 @@ export default class MainMenu extends ActivityContainer {
 							onClose={this.closeMenu}
 							open={this.state.menuOpen}
 						>
-							<MaterialUI.MenuItem key={0} onClick={this.logout}>
+							<MaterialUI.MenuItem
+								key="logout"
+								onClick={this.logout}
+							>
 								Logout
 							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem
-								key={1}
+								key="close-menu"
 								onClick={this.closeMenu}
 							>
 								Settings
@@ -105,7 +108,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									gamelistkey="1"
 									urlkey="my_started_games_url"
 									onClick={this.renderGameList}
 								>
@@ -113,7 +115,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									gamelistkeyey="2"
 									urlkey="my_staging_games_url"
 									onClick={this.renderGameList}
 								>
@@ -121,7 +122,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									gamelistkey="3"
 									urlkey="my_finished_games_url"
 									onClick={this.renderGameList}
 								>
@@ -129,7 +129,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									gamelistkey="4"
 									urlkey="open_games_url"
 									onClick={this.renderGameList}
 								>
@@ -137,7 +136,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									gamelistkey="5"
 									urlkey="started_games_url"
 									onClick={this.renderGameList}
 								>
@@ -145,7 +143,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									gamelistkey="6"
 									urlkey="finished_games_url"
 									onClick={this.renderGameList}
 								>

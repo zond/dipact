@@ -10,7 +10,7 @@ export default class GameListElement extends React.Component {
 	addIcon(ary, codepoint, color) {
 		ary.push(
 			<i
-				key={ary.length}
+				key={codepoint}
 				style={{
 					padding: "4px 1px 0px 1px",
 					color: color,
