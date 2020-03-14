@@ -1,11 +1,18 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
+import Game from '%{ cb "./game.js" }%';
+
 export default class GameListElement extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = { viewOpen: false };
 		this.member = props.game.Properties.Members.find(e => {
 			return e.User.Email == this.props.user.Email;
 		});
+		this.viewGame = this.viewGame.bind(this);
+	}
+	viewGame() {
+		this.setState({ viewOpen: true });
 	}
 	addIcon(ary, codepoint, color) {
 		ary.push(
@@ -196,7 +203,9 @@ export default class GameListElement extends React.Component {
 			);
 		});
 		let buttons = [
-			<MaterialUI.Button key={itemKey++}>View</MaterialUI.Button>
+			<MaterialUI.Button onClick={this.viewGame} key={itemKey++}>
+				View
+			</MaterialUI.Button>
 		];
 		this.props.game.Links.forEach(link => {
 			if (link.Rel == "join") {
@@ -217,8 +226,8 @@ export default class GameListElement extends React.Component {
 			</MaterialUI.Grid>
 		);
 
-		return (
-			<MaterialUI.ExpansionPanel>
+		return [
+			<MaterialUI.ExpansionPanel key="game-details">
 				<MaterialUI.ExpansionPanelSummary
 					className="game-summary"
 					expandIcon={<i className="material-icons">&#xE5Cf;</i>}
@@ -322,7 +331,19 @@ export default class GameListElement extends React.Component {
 						</MaterialUI.Grid>
 					</MaterialUI.Paper>
 				</MaterialUI.ExpansionPanelDetails>
-			</MaterialUI.ExpansionPanel>
-		);
+			</MaterialUI.ExpansionPanel>,
+			<MaterialUI.Dialog
+				key="game-view"
+				fullScreen
+				open={this.state.viewOpen}
+				TransitionComponent={helpers.Transition}
+			>
+				{this.state.viewOpen ? (
+					<Game user={this.props.user} game={this.props.game} />
+				) : (
+					""
+				)}
+			</MaterialUI.Dialog>
+		];
 	}
 }

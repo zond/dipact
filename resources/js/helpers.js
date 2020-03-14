@@ -4,6 +4,10 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export const Transition = React.forwardRef(function Transition(props, ref) {
+	return <MaterialUI.Slide direction="up" ref={ref} {...props} />;
+});
+
 export function createRequest(item, opts = {}) {
 	let req_url = new URL(Globals.server_request.url);
 	try {

@@ -14,6 +14,7 @@ export default class Main extends ActivityContainer {
 			urls: {},
 			variants: []
 		};
+		Globals.main = this;
 	}
 	processToken() {
 		let found_token = Globals.self_url.searchParams.get("token");
