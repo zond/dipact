@@ -16,20 +16,16 @@ export default class GameList extends React.Component {
 	}
 	render() {
 		if (this.state.games) {
-			return (
-				<div>
-					{this.state.games.map((game, idx) => {
-						return (
-							<GameListElement
-								key={idx}
-								game={game}
-								user={this.props.user}
-								variants={this.props.variants}
-							/>
-						);
-					})}
-				</div>
-			);
+			return this.state.games.map((game, idx) => {
+				return (
+					<GameListElement
+						key={idx}
+						game={game}
+						user={this.props.user}
+						variants={this.props.variants}
+					/>
+				);
+			});
 		} else {
 			return (
 				<MaterialUI.Container

@@ -224,24 +224,79 @@ export default class GameListElement extends React.Component {
 					expandIcon={<i className="material-icons">&#xE5Cf;</i>}
 				>
 					<MaterialUI.Grid container>
-						<MaterialUI.Grid item xs={11}>
-							<MaterialUI.Typography
-								textroverflow="ellipsis"
-								noWrap={true}
-							>
-								{this.props.game.Name}
-							</MaterialUI.Typography>
-						</MaterialUI.Grid>
-						<MaterialUI.Grid item xs={1}>
-							<MaterialUI.Typography>
-								{this.props.game.Properties.NMembers}/
-								{
-									this.getVariant(
-										this.props.game.Properties.Variant
-									).Properties.Nations.length
-								}{" "}
-							</MaterialUI.Typography>
-						</MaterialUI.Grid>
+						{(_ => {
+							if (this.props.game.Properties.Started) {
+								return [
+									<MaterialUI.Grid
+										key={itemKey++}
+										item
+										xs={12}
+									>
+										<MaterialUI.Typography
+											textroverflow="ellipsis"
+											noWrap={true}
+										>
+											{this.props.game.Name}
+										</MaterialUI.Typography>
+									</MaterialUI.Grid>,
+									<MaterialUI.Grid
+										key={itemKey++}
+										item
+										xs={12}
+									>
+										<MaterialUI.Typography>
+											{
+												this.props.game.Properties
+													.NewestPhaseMeta[0].Season
+											}{" "}
+											{
+												this.props.game.Properties
+													.NewestPhaseMeta[0].Year
+											}
+											,{" "}
+											{
+												this.props.game.Properties
+													.NewestPhaseMeta[0].Type
+											}
+										</MaterialUI.Typography>
+									</MaterialUI.Grid>
+								];
+							} else {
+								return [
+									<MaterialUI.Grid
+										key={itemKey++}
+										item
+										xs={11}
+									>
+										<MaterialUI.Typography
+											textroverflow="ellipsis"
+											noWrap={true}
+										>
+											{this.props.game.Name}
+										</MaterialUI.Typography>
+									</MaterialUI.Grid>,
+									<MaterialUI.Grid
+										key={itemKey++}
+										item
+										xs={1}
+									>
+										<MaterialUI.Typography>
+											{
+												this.props.game.Properties
+													.NMembers
+											}
+											/
+											{
+												this.getVariant(
+													this.props.game.Properties
+														.Variant
+												).Properties.Nations.length
+											}{" "}
+										</MaterialUI.Typography>
+									</MaterialUI.Grid>
+								];
+							}
+						})()}
 						<MaterialUI.Grid item xs={12}>
 							<MaterialUI.Typography
 								textroverflow="ellipsis"
