@@ -10,23 +10,21 @@ export default class GameListElement extends React.Component {
 			return e.User.Email == this.props.user.Email;
 		});
 		this.viewGame = this.viewGame.bind(this);
+		this.closeGame = this.closeGame.bind(this);
+	}
+	closeGame() {
+		this.setState({ viewOpen: false });
 	}
 	viewGame() {
 		this.setState({ viewOpen: true });
 	}
 	addIcon(ary, codepoint, color) {
 		ary.push(
-			<i
-				key={codepoint}
-				style={{
-					padding: "4px 1px 0px 1px",
-					color: color,
-					fontSize: "14px"
-				}}
-				className="material-icons"
-			>
-				{codepoint}
-			</i>
+			helpers.createIcon(codepoint, {
+				padding: "4px 1px 0px 1px",
+				color: color,
+				fontSize: "14px"
+			})
 		);
 	}
 	getIcons() {
@@ -339,7 +337,11 @@ export default class GameListElement extends React.Component {
 				TransitionComponent={helpers.Transition}
 			>
 				{this.state.viewOpen ? (
-					<Game user={this.props.user} game={this.props.game} />
+					<Game
+						user={this.props.user}
+						game={this.props.game}
+						close={this.closeGame}
+					/>
 				) : (
 					""
 				)}
