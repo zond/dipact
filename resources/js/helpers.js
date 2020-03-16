@@ -25,7 +25,7 @@ export function createRequest(item, opts = {}) {
 		req_url.pathname = item;
 	}
 	let req = new Request(req_url.toString(), {
-		mode: Globals.server_request.mode,
+		mode: opts.mode || Globals.server_request.mode,
 		headers: Globals.server_request.headers
 	});
 	if (opts.unauthed) {
