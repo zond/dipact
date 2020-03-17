@@ -87,6 +87,7 @@ func main() {
 				"ReactJSURL":      "/static/react.development.js",
 				"ReactDOMJSURL":   "/static/react-dom.development.js",
 				"MaterialUIJSURL": "/static/material-ui.development.js",
+				"JQueryJSURL":     "/static/jquery-3.4.1.js",
 			}),
 			LogFunc: log.Printf,
 		}

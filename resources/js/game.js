@@ -7,16 +7,42 @@ export default class Game extends React.Component {
 			return e.User.Email == this.props.user.Email;
 		});
 	}
+	renderPhase(phase) {
+		console.log(phase);
+	}
 	componentDidMount() {
-		fetch(
-			helpers.createRequest(
-				"/Variant/" + this.props.game.Properties.Variant + "/Map.svg"
-			)
-		)
-			.then(resp => resp.text())
-			.then(content => {
-				document.getElementById("map").innerHTML = content;
-			});
+		Promise.all([
+			fetch(
+				helpers.createRequest(
+					"/Variant/" +
+						this.props.game.Properties.Variant +
+						"/Map.svg"
+				)
+			).then(resp => resp.text()),
+			fetch(
+				helpers.createRequest(
+					"/Variant/" + this.props.game.Properties.Variant
+				)
+			).then(resp => resp.json())
+		]).then(values => {
+			let mapSVG = values[0];
+			let variant = values[1];
+			document.getElementById("map").innerHTML = mapSVG;
+			this.map = dippyMap($("#map"));
+			window.dippyMap = map;
+			if (this.props.game.Properties.Started) {
+			} else {
+				fetch(
+					helpers.createRequest(
+						"/Variant/" +
+							this.props.game.Properties.Variant +
+							"/Start"
+					)
+				)
+					.then(resp => resp.json())
+					.then(this.renderPhase);
+			}
+		});
 	}
 	render() {
 		return [
