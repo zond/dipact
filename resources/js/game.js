@@ -38,11 +38,7 @@ export default class Game extends React.Component {
 					</MaterialUI.IconButton>
 				</MaterialUI.Toolbar>
 			</MaterialUI.AppBar>,
-			<div
-				key="div"
-				style={{ width: "400px", height: "400px" }}
-				id="map"
-			></div>
+			<div key="div" style={{ display: "flex" }} id="map"></div>
 		];
 	}
 }
