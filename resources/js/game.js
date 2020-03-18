@@ -46,9 +46,9 @@ export default class Game extends React.Component {
 		if (phase.Properties.Dislodgeds instanceof Array) {
 			phase.Properties.Dislodgeds.forEach(disData => {
 				this.map.addUnit(
-					"unit" + disData.Unit.Type,
+					"unit" + disData.Dislodged.Type,
 					disData.Province,
-					this.natCol(disData.Unit.Nation)
+					this.natCol(disData.Dislodged.Nation)
 				);
 			});
 		} else {
