@@ -22,6 +22,7 @@ var (
 		"ReactDOMJSURL":   "/static/react-dom.production.min.js",
 		"MaterialUIJSURL": "/static/material-ui.production.min.js",
 		"JQueryJSURL":     "/static/jquery-3.4.1.min.js",
+		"PanZoomJSURL":    "/static/panzoom.min.js",
 	}
 	Delims      = []string{"%{", "}%"}
 	cbRemoveReg = regexp.MustCompile("-cb[0-9]+cb-")

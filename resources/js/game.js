@@ -163,6 +163,10 @@ export default class Game extends React.Component {
 			let mapSVG = values[0];
 			document.getElementById("map").innerHTML = mapSVG;
 			this.map = dippyMap($("#map"));
+			panzoom(document.getElementById("map"), {
+				bounds: true,
+				boundsPadding: 0.5
+			});
 
 			let variantData = values[1];
 			this.variant = variantData[0];
@@ -208,7 +212,9 @@ export default class Game extends React.Component {
 					</MaterialUI.IconButton>
 				</MaterialUI.Toolbar>
 			</MaterialUI.AppBar>,
-			<div key="map-div" style={{ display: "flex" }} id="map"></div>,
+			<div key="map-div-container">
+				<div style={{ display: "flex" }} id="map"></div>
+			</div>,
 			<div key="units-div" style={{ display: "none" }} id="units"></div>
 		];
 	}
