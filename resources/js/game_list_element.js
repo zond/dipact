@@ -7,7 +7,7 @@ export default class GameListElement extends React.Component {
 		super(props);
 		this.state = { viewOpen: false };
 		this.member = props.game.Properties.Members.find(e => {
-			return e.User.Email == this.props.user.Email;
+			return e.User.Email == Globals.user.Email;
 		});
 		this.viewGame = this.viewGame.bind(this);
 		this.closeGame = this.closeGame.bind(this);
@@ -337,11 +337,7 @@ export default class GameListElement extends React.Component {
 				TransitionComponent={helpers.Transition}
 			>
 				{this.state.viewOpen ? (
-					<Game
-						user={this.props.user}
-						game={this.props.game}
-						close={this.closeGame}
-					/>
+					<Game game={this.props.game} close={this.closeGame} />
 				) : (
 					""
 				)}

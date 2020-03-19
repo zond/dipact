@@ -1,6 +1,5 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
-import Globals from '%{ cb "./globals.js" }%';
 import Login from '%{ cb "./login.js" }%';
 import MainMenu from '%{ cb "./main_menu.js" }%';
 import Notifications from '%{ cb "./notifications.js" }%';
@@ -66,9 +65,9 @@ export default class Main extends ActivityContainer {
 					location.replace("/");
 					return;
 				}
+				Globals.user = js.Properties.User;
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
-					state.user = js.Properties.User;
 					let login_link = js.Links.find(l => {
 						return l.Rel == "login";
 					});
@@ -80,7 +79,7 @@ export default class Main extends ActivityContainer {
 						);
 						state.urls.login_url = login_url;
 					}
-					if (state.user) {
+					if (Globals.user) {
 						state.activity = MainMenu;
 						state.activity_props = { variants: state.variants };
 						localStorage.setItem("token", Globals.token);

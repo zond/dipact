@@ -23,7 +23,6 @@ export default class GameList extends React.Component {
 					<GameListElement
 						key={game.Properties.ID}
 						game={game}
-						user={this.props.user}
 						variants={this.props.variants}
 					/>
 				);

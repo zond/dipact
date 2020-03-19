@@ -9,7 +9,7 @@ export default class Game extends React.Component {
 			phases: []
 		};
 		this.member = props.game.Properties.Members.find(e => {
-			return e.User.Email == this.props.user.Email;
+			return e.User.Email == Globals.user.Email;
 		});
 		this.map = null;
 		this.variant = null;

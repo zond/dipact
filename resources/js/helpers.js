@@ -1,5 +1,3 @@
-import Globals from '%{ cb "./globals.js" }%';
-
 export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }

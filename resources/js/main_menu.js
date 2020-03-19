@@ -39,7 +39,6 @@ export default class MainMenu extends ActivityContainer {
 			url: this.props.parent_state.urls[
 				ev.currentTarget.getAttribute("urlkey")
 			],
-			user: this.props.parent_state.user,
 			variants: this.props.variants
 		});
 	}

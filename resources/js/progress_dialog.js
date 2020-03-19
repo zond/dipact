@@ -1,4 +1,3 @@
-import Globals from '%{ cb "./globals.js" }%';
 
 export default class ProgressDialog extends React.Component {
 	constructor(props) {
