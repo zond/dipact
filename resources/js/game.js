@@ -195,7 +195,7 @@ export default class Game extends React.Component {
 			let mapSVG = values[0];
 			document.getElementById("map").innerHTML = mapSVG;
 			this.map = dippyMap($("#map"));
-			panzoom(document.getElementById("map"), {
+			panzoom(document.getElementById("map-wrapper"), {
 				bounds: true,
 				boundsPadding: 0.5
 			});
@@ -213,7 +213,8 @@ export default class Game extends React.Component {
 				this.setState(
 					{
 						phases: phases,
-						activePhase: phases[phases.length - 1]
+						activePhase: phases[phases.length - 1],
+						gameDesc: this.gameDesc()
 					},
 					this.renderPhase
 				);
@@ -233,7 +234,8 @@ export default class Game extends React.Component {
 						this.setState(
 							{
 								phases: phases,
-								activePhase: phases[0]
+								activePhase: phases[0],
+								gameDesc: this.gameDesc()
 							},
 							this.renderPhase
 						);
@@ -243,6 +245,13 @@ export default class Game extends React.Component {
 	}
 	changeTab(ev, newValue) {
 		this.setState({ activeTab: newValue });
+	}
+	gameDesc() {
+		return (
+			this.props.game.Properties.Desc +
+			" - " +
+			this.props.game.Properties.Variant
+		);
 	}
 	phaseName(phase) {
 		return (
@@ -302,12 +311,20 @@ export default class Game extends React.Component {
 				</MaterialUI.Toolbar>
 			</MaterialUI.AppBar>,
 			<div
-				key="map-div-container"
+				key="map-container"
 				style={{
 					display: this.state.activeTab == "map" ? "block" : "none"
 				}}
 			>
-				<div style={{ display: "flex" }} id="map"></div>
+				<div id="map-wrapper">
+					<div
+						style={{ display: "flex", flexWrap: "wrap" }}
+						id="map"
+					></div>
+					<div style={{ flexBasis: "100%" }}>
+						{this.state.gameDesc}
+					</div>
+				</div>
 			</div>,
 			<MaterialUI.BottomNavigation
 				style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
