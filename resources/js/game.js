@@ -248,7 +248,7 @@ export default class Game extends React.Component {
 	}
 	gameDesc() {
 		return (
-			this.props.game.Properties.Desc +
+			helpers.gameDesc(this.props.game) +
 			" - " +
 			this.props.game.Properties.Variant
 		);

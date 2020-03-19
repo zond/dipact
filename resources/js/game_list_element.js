@@ -243,7 +243,7 @@ export default class GameListElement extends React.Component {
 											textroverflow="ellipsis"
 											noWrap={true}
 										>
-											{this.props.game.Name}
+											{helpers.gameDesc(this.props.game)}
 										</MaterialUI.Typography>
 									</MaterialUI.Grid>,
 									<MaterialUI.Grid
@@ -279,7 +279,7 @@ export default class GameListElement extends React.Component {
 											textroverflow="ellipsis"
 											noWrap={true}
 										>
-											{this.props.game.Name}
+											{helpers.gameDesc(this.props.game)}
 										</MaterialUI.Typography>
 									</MaterialUI.Grid>,
 									<MaterialUI.Grid

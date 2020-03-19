@@ -2,6 +2,17 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function gameDesc(game) {
+	let member = game.Properties.Members.find(member => {
+		return member.User.Email == Globals.user.Email;
+	});
+	if (member && member.GameAlias) {
+		return member.GameAlias;
+	} else {
+		return game.Properties.Desc;
+	}
+}
+
 export const Transition = React.forwardRef(function Transition(props, ref) {
 	return <MaterialUI.Slide direction="up" ref={ref} {...props} />;
 });
