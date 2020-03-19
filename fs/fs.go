@@ -158,25 +158,45 @@ func (f *file) load() error {
 	}
 	f.readerLock.RUnlock()
 
-	transform, found := f.fileSystem.TransformByExt[filepath.Ext(stat.Name())]
-	if !found {
-		f.fileSystem.log("Unable to find transform for %#v: %v", f.relPath, err)
-		return fmt.Errorf("Unknown file type %#v", f.relPath)
-	}
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		f.fileSystem.log("Unable to read %#v: %v", f.relPath, err)
-		return err
-	}
-	b, err = transform(b)
-	if err != nil {
-		f.fileSystem.log("Unable to transform %#v: %v", f.relPath, err)
-		return err
+	var b []byte
+	method := ""
+
+	cacheFilePath := filepath.Join(os.TempDir(), "dipact_tmp_fs", f.relPath)
+	cacheFileStat, err := os.Stat(cacheFilePath)
+	if err == nil && cacheFileStat.ModTime().After(stat.ModTime()) {
+		if b, err = ioutil.ReadFile(cacheFilePath); err != nil {
+			f.fileSystem.log("Unable to read cache file %#v: %v", cacheFilePath, err)
+			return err
+		}
+		method = "cache"
+	} else {
+		transform, found := f.fileSystem.TransformByExt[filepath.Ext(stat.Name())]
+		if !found {
+			f.fileSystem.log("Unable to find transform for %#v: %v", f.relPath, err)
+			return fmt.Errorf("Unknown file type %#v", f.relPath)
+		}
+		if b, err = ioutil.ReadFile(path); err != nil {
+			f.fileSystem.log("Unable to read %#v: %v", f.relPath, err)
+			return err
+		}
+		if b, err = transform(b); err != nil {
+			f.fileSystem.log("Unable to transform %#v: %v", f.relPath, err)
+			return err
+		}
+		if err := os.MkdirAll(filepath.Dir(cacheFilePath), os.ModePerm); err != nil {
+			f.fileSystem.log("Unable to ensure existence of cache dir %#v: %v", filepath.Dir(cacheFilePath), err)
+			return err
+		}
+		if err := ioutil.WriteFile(cacheFilePath, b, os.ModePerm); err != nil {
+			f.fileSystem.log("Unable to write to cache file %#v: %v", cacheFilePath, err)
+			return err
+		}
+		method = "transform"
 	}
 	f.readerLock.Lock()
 	f.reader = bytes.NewReader(b)
 	f.readerLock.Unlock()
-	f.fileSystem.log("Loaded %#v", f.relPath)
+	f.fileSystem.log("Loaded %#v via %#v", f.relPath, method)
 	return nil
 }
 
