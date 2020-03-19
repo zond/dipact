@@ -8,7 +8,9 @@ const globals = {
 	}),
 	self_url: null,
 	token: null,
-	main: null
+	main: null,
+	progress_count: 0,
+	progress_dialog: null
 };
 
 export default globals;

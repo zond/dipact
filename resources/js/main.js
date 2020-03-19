@@ -46,6 +46,7 @@ export default class Main extends ActivityContainer {
 					this.setActivity(MainMenu, { variants: js.Properties });
 				}
 			});
+		helpers.incProgress();
 		fetch(Globals.server_request)
 			.then(resp => {
 				if (resp.status == 200) {
@@ -59,6 +60,7 @@ export default class Main extends ActivityContainer {
 				}
 			})
 			.then(([js, status]) => {
+				helpers.decProgress();
 				if (status == 401) {
 					localStorage.removeItem("token");
 					location.replace("/");

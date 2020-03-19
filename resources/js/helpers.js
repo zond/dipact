@@ -16,6 +16,20 @@ export function createIcon(codepoint, style = {}) {
 	);
 }
 
+function hideShowProgress() {
+	Globals.progress_dialog.setState({ open: Globals.progress_count > 0 });
+}
+
+export function incProgress() {
+	Globals.progress_count++;
+	hideShowProgress();
+}
+
+export function decProgress() {
+	Globals.progress_count--;
+	hideShowProgress();
+}
+
 export function createRequest(item, opts = {}) {
 	let req_url = new URL(Globals.server_request.url);
 	try {

@@ -8,9 +8,11 @@ export default class GameList extends React.Component {
 		this.state = {};
 	}
 	componentDidMount() {
+		helpers.incProgress();
 		fetch(helpers.createRequest(this.props.url.toString()))
 			.then(resp => resp.json())
 			.then(js => {
+				helpers.decProgress();
 				this.setState({ games: js.Properties });
 			});
 	}
@@ -27,14 +29,7 @@ export default class GameList extends React.Component {
 				);
 			});
 		} else {
-			return (
-				<MaterialUI.Container
-					style={{ textAlign: "center" }}
-					maxWidth="sm"
-				>
-					<MaterialUI.CircularProgress />
-				</MaterialUI.Container>
-			);
+			return "";
 		}
 	}
 }

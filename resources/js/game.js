@@ -3,30 +3,47 @@ import * as helpers from '%{ cb "./helpers.js" }%';
 export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			activeTab: "map",
+			activePhase: null,
+			phases: []
+		};
 		this.member = props.game.Properties.Members.find(e => {
 			return e.User.Email == this.props.user.Email;
 		});
-		this.renderPhase = this.renderPhase.bind(this);
 		this.map = null;
 		this.variant = null;
-		this.phases = [];
+		this.renderedPhaseOrdinal = null;
+		this.renderPhase = this.renderPhase.bind(this);
+		this.changeTab = this.changeTab.bind(this);
+		this.changePhase = this.changePhase.bind(this);
 	}
 	// This function is wonky, because for historical
 	// reasons the diplicity server provides phases in
 	// different formats for 'start phase for variant'
 	// and 'a phase of an actual game'.
-	renderPhase(phase) {
+	renderPhase() {
+		// Skip this if we don't have an active phase,
+		// or if this is the phase we rendered last.
+		if (
+			this.state.activePhase == null ||
+			this.renderedPhaseOrdinal ==
+				this.state.activePhase.Properties.PhaseOrdinal
+		) {
+			return;
+		}
 		let orderPromise = null;
-		let orderLink = phase.Links.find(l => {
+		let orderLink = this.state.activePhase.Links.find(l => {
 			return l.Rel == "orders";
 		});
 		if (orderLink) {
+			helpers.incProgress();
 			orderPromise = fetch(
 				helpers.createRequest(orderLink.URL)
 			).then(resp => resp.json());
 		}
-		if (phase.Properties.Units instanceof Array) {
-			phase.Properties.Units.forEach(unitData => {
+		if (this.state.activePhase.Properties.Units instanceof Array) {
+			this.state.activePhase.Properties.Units.forEach(unitData => {
 				this.map.addUnit(
 					"unit" + unitData.Unit.Type,
 					unitData.Province,
@@ -34,8 +51,8 @@ export default class Game extends React.Component {
 				);
 			});
 		} else {
-			for (let prov in phase.Properties.Units) {
-				let unit = phase.Properties.Units[prov];
+			for (let prov in this.state.activePhase.Properties.Units) {
+				let unit = this.state.activePhase.Properties.Units[prov];
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
@@ -43,8 +60,8 @@ export default class Game extends React.Component {
 				);
 			}
 		}
-		if (phase.Properties.Dislodgeds instanceof Array) {
-			phase.Properties.Dislodgeds.forEach(disData => {
+		if (this.state.activePhase.Properties.Dislodgeds instanceof Array) {
+			this.state.activePhase.Properties.Dislodgeds.forEach(disData => {
 				this.map.addUnit(
 					"unit" + disData.Dislodged.Type,
 					disData.Province,
@@ -52,8 +69,8 @@ export default class Game extends React.Component {
 				);
 			});
 		} else {
-			for (let prov in phase.Properties.Dislodgeds) {
-				let unit = phase.Properties.Units[prov];
+			for (let prov in this.state.activePhase.Properties.Dislodgeds) {
+				let unit = this.state.activePhase.Properties.Units[prov];
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
@@ -63,10 +80,10 @@ export default class Game extends React.Component {
 			}
 		}
 		let SCs = {};
-		if (phase.Properties.SupplyCenters) {
-			SCs = phase.Properties.SupplyCenters;
+		if (this.state.activePhase.Properties.SupplyCenters) {
+			SCs = this.state.activePhase.Properties.SupplyCenters;
 		} else {
-			phase.Properties.SCs.forEach(scData => {
+			this.state.activePhase.Properties.SCs.forEach(scData => {
 				SCs[scData.Province] = scData.Owner;
 			});
 		}
@@ -79,9 +96,9 @@ export default class Game extends React.Component {
 			}
 		}
 		this.map.showProvinces();
-		if (phase.Properties.Orders) {
-			for (let nat in phase.Properties.Orders) {
-				let orders = phase.Properties.Orders[nat];
+		if (this.state.activePhase.Properties.Orders) {
+			for (let nat in this.state.activePhase.Properties.Orders) {
+				let orders = this.state.activePhase.Properties.Orders[nat];
 				for (let prov in orders) {
 					let order = orders[prov];
 					this.map.addOrder([prov] + order, this.natCol(nat));
@@ -89,26 +106,40 @@ export default class Game extends React.Component {
 			}
 		}
 		if (orderPromise) {
+			let renderingPhase = this.state.activePhase;
 			orderPromise.then(js => {
+				helpers.decProgress();
+				// Skip this if we aren't rendering the same phase anymore.
+				if (
+					renderingPhase.Properties.PhaseOrdinal !=
+					this.state.activePhase.Properties.PhaseOrdinal
+				) {
+					return;
+				}
+				this.map.removeOrders();
 				js.Properties.forEach(orderData => {
 					this.map.addOrder(
 						orderData.Properties.Parts,
 						this.natCol(orderData.Properties.Nation)
 					);
 				});
+				if (renderingPhase.Properties.Resolutions) {
+					renderingPhase.Properties.Resolutions.forEach(res => {
+						if (res.Resolution != "OK") {
+							this.map.addCross(res.Province, "#ff0000");
+						}
+					});
+				}
 			});
 		}
-		for (let prov in phase.Properties.Resolutions) {
-			let res = phase.Properties.Resolutions[prov];
-			if (res != "OK") {
-				this.map.addCross(prov, "#ff0000");
-			}
-		}
+		// Assume we are done now, even if we possibly haven't rendered the orders yet.
+		this.renderedPhaseOrdinal = this.state.activePhase.Properties.PhaseOrdinal;
 	}
 	natCol(nat) {
 		return this.map.contrasts[this.variant.Properties.Nations.indexOf(nat)];
 	}
 	componentDidMount() {
+		helpers.incProgress();
 		let promises = [
 			fetch(
 				helpers.createRequest(
@@ -160,6 +191,7 @@ export default class Game extends React.Component {
 			);
 		}
 		Promise.all(promises).then(values => {
+			helpers.decProgress();
 			let mapSVG = values[0];
 			document.getElementById("map").innerHTML = mapSVG;
 			this.map = dippyMap($("#map"));
@@ -177,9 +209,16 @@ export default class Game extends React.Component {
 				document.getElementById("units").appendChild(container);
 			});
 			if (this.props.game.Properties.Started) {
-				this.phases = values[2].Properties;
-				this.renderPhase(this.phases[this.phases.length - 1]);
+				let phases = values[2].Properties;
+				this.setState(
+					{
+						phases: phases,
+						activePhase: phases[phases.length - 1]
+					},
+					this.renderPhase
+				);
 			} else {
+				helpers.incProgress();
 				fetch(
 					helpers.createRequest(
 						"/Variant/" +
@@ -188,33 +227,113 @@ export default class Game extends React.Component {
 					)
 				)
 					.then(resp => resp.json())
-					.then(this.renderPhase);
+					.then(js => {
+						helpers.decProgress();
+						let phases = [js];
+						this.setState(
+							{
+								phases: phases,
+								activePhase: phases[0]
+							},
+							this.renderPhase
+						);
+					});
 			}
 		});
 	}
+	changeTab(ev, newValue) {
+		if (newValue == "close") {
+			this.props.close();
+		}
+		this.setState({ activeTab: newValue });
+	}
+	phaseName(phase) {
+		return (
+			phase.Properties.Season +
+			" " +
+			phase.Properties.Year +
+			", " +
+			phase.Properties.Type
+		);
+	}
+	changePhase(ev) {
+		this.setState(
+			{
+				activePhase: this.state.phases.find(phase => {
+					return phase.Properties.PhaseOrdinal == ev.target.value;
+				})
+			},
+			this.renderPhase
+		);
+	}
 	render() {
 		return [
-			<MaterialUI.AppBar key="top-nav" position="static">
-				<MaterialUI.Toolbar
-					style={{ display: "flex", justifyContent: "space-between" }}
-				>
-					<MaterialUI.IconButton onClick={this.props.close}>
-						{helpers.createIcon("\ue5cd")}
-					</MaterialUI.IconButton>
-					<MaterialUI.IconButton>
-						{helpers.createIcon("\ue0b7")}
-					</MaterialUI.IconButton>
-					<MaterialUI.IconButton>
-						{helpers.createIcon("\ue8b8")}
-					</MaterialUI.IconButton>
-					<MaterialUI.IconButton>
-						{helpers.createIcon("\ue86c")}
-					</MaterialUI.IconButton>
+			<MaterialUI.AppBar key="app-bar" position="static">
+				<MaterialUI.Toolbar>
+					{this.state.activePhase != null ? (
+						<MaterialUI.Select
+							value={
+								this.state.activePhase.Properties.PhaseOrdinal
+							}
+							onChange={this.changePhase}
+							label={this.phaseName(this.state.activePhase)}
+						>
+							{this.state.phases.map(phase => {
+								return (
+									<MaterialUI.MenuItem
+										key={phase.Properties.PhaseOrdinal}
+										value={phase.Properties.PhaseOrdinal}
+									>
+										{this.phaseName(phase)}
+									</MaterialUI.MenuItem>
+								);
+							})}
+						</MaterialUI.Select>
+					) : (
+						""
+					)}
 				</MaterialUI.Toolbar>
 			</MaterialUI.AppBar>,
-			<div key="map-div-container">
+			<div
+				key="map-div-container"
+				style={{
+					display: this.state.activeTab == "map" ? "block" : "none"
+				}}
+			>
 				<div style={{ display: "flex" }} id="map"></div>
 			</div>,
+			<MaterialUI.BottomNavigation
+				style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+				key="bottom-navigation"
+				value={this.state.activeTab}
+				onChange={this.changeTab}
+			>
+				<MaterialUI.BottomNavigationAction
+					label="Close"
+					value="close"
+					icon={helpers.createIcon("\ue5cd")}
+				/>
+				<MaterialUI.BottomNavigationAction
+					label="Map"
+					value="map"
+					icon={helpers.createIcon("\ue55b")}
+				/>
+				<MaterialUI.BottomNavigationAction
+					label="Chat"
+					value="chat"
+					icon={helpers.createIcon("\ue0b7")}
+				/>
+				<MaterialUI.BottomNavigationAction
+					label="Settings"
+					value="settings"
+					icon={helpers.createIcon("\ue8b8")}
+				/>
+				<MaterialUI.BottomNavigationAction
+					label="Done"
+					value="done"
+					icon={helpers.createIcon("\ue86c")}
+				/>
+			</MaterialUI.BottomNavigation>,
 			<div key="units-div" style={{ display: "none" }} id="units"></div>
 		];
 	}
