@@ -242,9 +242,6 @@ export default class Game extends React.Component {
 		});
 	}
 	changeTab(ev, newValue) {
-		if (newValue == "close") {
-			this.props.close();
-		}
 		this.setState({ activeTab: newValue });
 	}
 	phaseName(phase) {
@@ -270,8 +267,15 @@ export default class Game extends React.Component {
 		return [
 			<MaterialUI.AppBar key="app-bar" position="static">
 				<MaterialUI.Toolbar>
+					<MaterialUI.IconButton
+						onClick={this.props.close}
+						edge="start"
+					>
+						{helpers.createIcon("\ue5cd")}
+					</MaterialUI.IconButton>
 					{this.state.activePhase != null ? (
 						<MaterialUI.Select
+							style={{ width: "100%" }}
 							value={
 								this.state.activePhase.Properties.PhaseOrdinal
 							}
@@ -290,8 +294,11 @@ export default class Game extends React.Component {
 							})}
 						</MaterialUI.Select>
 					) : (
-						""
+						<MaterialUI.Box width="100%"></MaterialUI.Box>
 					)}
+					<MaterialUI.IconButton edge="end">
+						{helpers.createIcon("\ue5d2")}
+					</MaterialUI.IconButton>
 				</MaterialUI.Toolbar>
 			</MaterialUI.AppBar>,
 			<div
@@ -309,11 +316,6 @@ export default class Game extends React.Component {
 				onChange={this.changeTab}
 			>
 				<MaterialUI.BottomNavigationAction
-					label="Close"
-					value="close"
-					icon={helpers.createIcon("\ue5cd")}
-				/>
-				<MaterialUI.BottomNavigationAction
 					label="Map"
 					value="map"
 					icon={helpers.createIcon("\ue55b")}
@@ -324,14 +326,9 @@ export default class Game extends React.Component {
 					icon={helpers.createIcon("\ue0b7")}
 				/>
 				<MaterialUI.BottomNavigationAction
-					label="Settings"
-					value="settings"
-					icon={helpers.createIcon("\ue8b8")}
-				/>
-				<MaterialUI.BottomNavigationAction
-					label="Done"
-					value="done"
-					icon={helpers.createIcon("\ue86c")}
+					label="Orders"
+					value="orders"
+					icon={helpers.createIcon("\ue616")}
 				/>
 			</MaterialUI.BottomNavigation>,
 			<div key="units-div" style={{ display: "none" }} id="units"></div>

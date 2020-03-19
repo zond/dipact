@@ -11,3 +11,7 @@
 .game-details-container > * {
 	margin: 0.2em;
 }
+
+.game-appbar > div {
+	width: 100%;
+}
