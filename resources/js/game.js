@@ -297,7 +297,7 @@ export default class Game extends React.Component {
 						<MaterialUI.Box width="100%"></MaterialUI.Box>
 					)}
 					<MaterialUI.IconButton edge="end">
-						{helpers.createIcon("\ue5d2")}
+						{helpers.createIcon("\ue5d4")}
 					</MaterialUI.IconButton>
 				</MaterialUI.Toolbar>
 			</MaterialUI.AppBar>,
