@@ -192,7 +192,10 @@ export default class Game extends React.Component {
 				case "OrderType":
 					Globals.order_dialog.setState({
 						open: true,
-						options: Object.keys(options)
+						options: Object.keys(options),
+						onClick: ord => {
+							console.log(ord, "selected");
+						}
 					});
 					break;
 				case "SrcProvince":
