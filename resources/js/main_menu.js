@@ -45,7 +45,7 @@ export default class MainMenu extends ActivityContainer {
 	render() {
 		return (
 			<div>
-				<MaterialUI.AppBar position="static">
+				<MaterialUI.AppBar position="fixed">
 					<MaterialUI.Toolbar>
 						<MaterialUI.IconButton
 							edge="start"
@@ -90,7 +90,7 @@ export default class MainMenu extends ActivityContainer {
 						</MaterialUI.Menu>
 					</MaterialUI.Toolbar>
 				</MaterialUI.AppBar>
-				{this.renderActivity()}
+				<div style={{ marginTop: "60px" }}>{this.renderActivity()}</div>
 				<MaterialUI.Drawer open={this.state.drawerOpen}>
 					<MaterialUI.ClickAwayListener
 						onClickAway={this.closeDrawer}

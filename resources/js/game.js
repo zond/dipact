@@ -42,6 +42,16 @@ export default class Game extends React.Component {
 				helpers.createRequest(orderLink.URL)
 			).then(resp => resp.json());
 		}
+		let optionsPromise = null;
+		let optionsLink = this.state.activePhase.Links.find(l => {
+			return l.Rel == "options";
+		});
+		if (optionsLink) {
+			helpers.incProgress();
+			optionsPromise = fetch(
+				helpers.createRequest(optionsLink.URL)
+			).then(resp => resp.json());
+		}
 		if (this.state.activePhase.Properties.Units instanceof Array) {
 			this.state.activePhase.Properties.Units.forEach(unitData => {
 				this.map.addUnit(
@@ -128,6 +138,18 @@ export default class Game extends React.Component {
 						if (res.Resolution != "OK") {
 							this.map.addCross(res.Province, "#ff0000");
 						}
+					});
+				}
+				if (optionsPromise) {
+					optionsPromise.then(js => {
+						helpers.decProgress();
+						if (
+							renderingPhase.Properties.PhaseOrdinal !=
+							this.state.activePhase.Properties.PhaseOrdinal
+						) {
+							return;
+						}
+						console.log("options", js);
 					});
 				}
 			});
