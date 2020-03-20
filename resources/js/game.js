@@ -321,7 +321,7 @@ export default class Game extends React.Component {
 						style={{ display: "flex", flexWrap: "wrap" }}
 						id="map"
 					></div>
-					<div style={{ flexBasis: "100%" }}>
+					<div style={{ flexBasis: "100%", fontSize: "x-large" }}>
 						{this.state.gameDesc}
 					</div>
 				</div>
