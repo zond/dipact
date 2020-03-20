@@ -14,6 +14,7 @@ window.Globals = {
 	token: null,
 	main: null,
 	progress_count: 0,
+	order_dialog: null,
 	progress_dialog: null
 };
 

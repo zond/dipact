@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
+import OrderDialog from '%{ cb "./order_dialog.js" }%';
+
 export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
@@ -188,15 +190,16 @@ export default class Game extends React.Component {
 					}
 					break;
 				case "OrderType":
-					console.log(
-						"here we ask what order the user wants among",
-						Object.keys(options)
-					);
+					Globals.order_dialog.setState({
+						open: true,
+						options: Object.keys(options)
+					});
 					break;
 				case "SrcProvince":
-					console.log(
-						"here we just add the next-value to the content and move on to",
-						options[Object.keys(options)[0]].Next
+					let src_province = Object.keys(options)[0];
+					addOptionHandlers(
+						options[src_province].Next,
+						parts.concat(src_province)
 					);
 					break;
 			}
@@ -415,7 +418,8 @@ export default class Game extends React.Component {
 					icon={helpers.createIcon("\ue616")}
 				/>
 			</MaterialUI.BottomNavigation>,
-			<div key="units-div" style={{ display: "none" }} id="units"></div>
+			<div key="units-div" style={{ display: "none" }} id="units"></div>,
+			<OrderDialog key="order-dialog" />
 		];
 	}
 }
