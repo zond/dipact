@@ -764,11 +764,6 @@
 								// events propagation. Fixes https://github.com/anvaka/panzoom/issues/12
 								return;
 							}
-
-							e.stopPropagation();
-							if (!beforeTouch.is_passive) e.preventDefault();
-							if (!e.defaultPrevented)
-								beforeTouch.is_passive = true;
 						}
 
 						function beforeDoubleClick(e) {

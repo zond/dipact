@@ -17,6 +17,8 @@ export default class Game extends React.Component {
 		this.renderPhase = this.renderPhase.bind(this);
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
+		this.addOptionHandlers = this.addOptionHandlers.bind(this);
+		this.setOrder = this.setOrder.bind(this);
 	}
 	// This function is wonky, because for historical
 	// reasons the diplicity server provides phases in
@@ -150,12 +152,55 @@ export default class Game extends React.Component {
 							return;
 						}
 						console.log("options", js);
+						this.addOptionHandlers(js.Properties, []);
 					});
 				}
 			});
 		}
 		// Assume we are done now, even if we possibly haven't rendered the orders yet.
 		this.renderedPhaseOrdinal = this.state.activePhase.Properties.PhaseOrdinal;
+	}
+	setOrder(parts) {
+		console.log("set order", parts);
+	}
+	addOptionHandlers(options, parts) {
+		if (Object.keys(options) == 0) {
+			this.setOrder(parts);
+		} else {
+			let type = null;
+			for (let option in options) {
+				if (type == null) {
+					type = options[option].Type;
+				} else if (type != options[option].Type) {
+					console.log("Options are", options);
+					throw "Can't use multiple types in the same level of options.";
+				}
+			}
+			switch (type) {
+				case "Province":
+					for (let prov in options) {
+						this.map.addClickListener(prov, prov => {
+							this.addOptionHandlers(
+								options[prov].Next,
+								parts.concat(prov)
+							);
+						});
+					}
+					break;
+				case "OrderType":
+					console.log(
+						"here we ask what order the user wants among",
+						Object.keys(options)
+					);
+					break;
+				case "SrcProvince":
+					console.log(
+						"here we just add the next-value to the content and move on to",
+						options[Object.keys(options)[0]].Next
+					);
+					break;
+			}
+		}
 	}
 	natCol(nat) {
 		return this.map.contrasts[this.variant.Properties.Nations.indexOf(nat)];
