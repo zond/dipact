@@ -15,3 +15,7 @@
 .game-appbar > div {
 	width: 100%;
 }
+
+body {
+	overscroll-behavior-y: contain;
+}
