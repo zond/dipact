@@ -182,6 +182,7 @@ export default class Game extends React.Component {
 				case "Province":
 					for (let prov in options) {
 						this.map.addClickListener(prov, prov => {
+							this.map.clearClickListeners();
 							this.addOptionHandlers(
 								options[prov].Next,
 								parts.concat(prov)
@@ -194,13 +195,16 @@ export default class Game extends React.Component {
 						open: true,
 						options: Object.keys(options),
 						onClick: ord => {
-							console.log(ord, "selected");
+							this.addOptionHandlers(
+								options[ord].Next,
+								parts.concat(ord)
+							);
 						}
 					});
 					break;
 				case "SrcProvince":
 					let src_province = Object.keys(options)[0];
-					addOptionHandlers(
+					this.addOptionHandlers(
 						options[src_province].Next,
 						parts.concat(src_province)
 					);
