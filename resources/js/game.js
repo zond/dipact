@@ -16,11 +16,13 @@ export default class Game extends React.Component {
 		this.map = null;
 		this.variant = null;
 		this.renderedPhaseOrdinal = null;
+		this.options = null;
 		this.renderPhase = this.renderPhase.bind(this);
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.setOrder = this.setOrder.bind(this);
+		this.acceptOrders = this.acceptOrders.bind(this);
 	}
 	// This function is wonky, because for historical
 	// reasons the diplicity server provides phases in
@@ -153,8 +155,8 @@ export default class Game extends React.Component {
 						) {
 							return;
 						}
-						console.log("options", js);
-						this.addOptionHandlers(js.Properties, []);
+						this.options = js.Properties;
+						this.acceptOrders();
 					});
 				}
 			});
@@ -162,8 +164,27 @@ export default class Game extends React.Component {
 		// Assume we are done now, even if we possibly haven't rendered the orders yet.
 		this.renderedPhaseOrdinal = this.state.activePhase.Properties.PhaseOrdinal;
 	}
+	acceptOrders() {
+		this.addOptionHandlers(this.options, []);
+	}
 	setOrder(parts) {
-		console.log("set order", parts);
+		let set_order_link = this.state.activePhase.Links.find(l => {
+			return l.Rel == "create-order";
+		});
+		if (set_order_link) {
+			fetch(
+				helpers.createRequest(set_order_link.URL, {
+					method: set_order_link.Method,
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({ Parts: parts.slice(1) })
+				})
+			).then(resp => {
+				console.log("saved order, now we need to add it to the map!");
+			});
+		}
+		this.acceptOrders();
 	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options) == 0) {
@@ -206,7 +227,7 @@ export default class Game extends React.Component {
 					let src_province = Object.keys(options)[0];
 					this.addOptionHandlers(
 						options[src_province].Next,
-						parts.concat(src_province)
+						[src_province].concat(parts)
 					);
 					break;
 			}

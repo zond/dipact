@@ -47,9 +47,17 @@ export function createRequest(item, opts = {}) {
 	} catch (e) {
 		req_url.pathname = item;
 	}
+	let headers = Globals.server_request.headers;
+	if (opts.headers) {
+		for (let key in opts.headers) {
+			headers.set(key, opts.headers[key]);
+		}
+	}
 	let req = new Request(req_url.toString(), {
+		method: opts.method || Globals.server_request.method,
 		mode: opts.mode || Globals.server_request.mode,
-		headers: Globals.server_request.headers
+		headers: headers,
+		body: opts.body
 	});
 	if (opts.unauthed) {
 		req.headers.delete("Authorization");
