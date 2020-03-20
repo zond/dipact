@@ -16,7 +16,3 @@
 	width: 100%;
 }
 
-body {
-	overscroll-behavior-y: contain;
-	overflow-x: hidden;
-}
