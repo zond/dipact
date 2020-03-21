@@ -75,7 +75,7 @@ export default class GameListElement extends React.Component {
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}
 	getVariant(name) {
-		let v = this.props.variants.find(v => {
+		let v = Globals.variants.find(v => {
 			return v.Name == name;
 		});
 		if (v) {

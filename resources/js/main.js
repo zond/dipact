@@ -10,10 +10,8 @@ export default class Main extends ActivityContainer {
 		super(props);
 		this.state = {
 			activity: Login,
-			urls: {},
-			variants: []
+			urls: {}
 		};
-		Globals.main = this;
 	}
 	processToken() {
 		let found_token = Globals.self_url.searchParams.get("token");
@@ -37,17 +35,12 @@ export default class Main extends ActivityContainer {
 	componentDidMount() {
 		Globals.self_url = new URL(window.location.href);
 		this.processToken();
-		fetch(helpers.createRequest("/Variants", { unauthed: true }))
-			.then(resp => resp.json())
-			.then(js => {
-				this.setState({ variants: js.Properties });
-				if (this.state.activity == MainMenu) {
-					this.setActivity(MainMenu, { variants: js.Properties });
-				}
-			});
 		helpers.incProgress();
-		fetch(Globals.server_request)
-			.then(resp => {
+		Promise.all([
+			fetch(
+				helpers.createRequest("/Variants", { unauthed: true })
+			).then(resp => resp.json()),
+			fetch(Globals.server_request).then(resp => {
 				if (resp.status == 200) {
 					return new Promise((resolve, reject) => {
 						resp.json().then(js => {
@@ -58,50 +51,52 @@ export default class Main extends ActivityContainer {
 					return Promise.resolve([{}, resp.status]);
 				}
 			})
-			.then(([js, status]) => {
-				helpers.decProgress();
-				if (status == 401) {
-					localStorage.removeItem("token");
-					location.replace("/");
-					return;
-				}
-				Globals.user = js.Properties.User;
-				this.setState((state, props) => {
-					state = Object.assign({}, state);
-					let login_link = js.Links.find(l => {
-						return l.Rel == "login";
-					});
-					if (login_link) {
-						let login_url = new URL(login_link.URL);
-						login_url.searchParams.set(
-							"redirect-to",
-							Globals.self_url.toString()
-						);
-						state.urls.login_url = login_url;
-					}
-					if (Globals.user) {
-						state.activity = MainMenu;
-						state.activity_props = { variants: state.variants };
-						localStorage.setItem("token", Globals.token);
-					} else if (state.urls.login_url) {
-						state.activity = Login;
-					}
-					let linkSetter = (rel, key) => {
-						let link = js.Links.find(l => {
-							return l.Rel == rel;
-						});
-						if (link) {
-							state.urls[key] = new URL(link.URL);
-						}
-					};
-					linkSetter("my-started-games", "my_started_games_url");
-					linkSetter("my-staging-games", "my_staging_games_url");
-					linkSetter("my-finished-games", "my_finished_games_url");
-					linkSetter("open-games", "open_games_url");
-					linkSetter("started-games", "started_games_url");
-					linkSetter("finished-games", "finished_games_url");
-					return state;
+		]).then(values => {
+			helpers.decProgress();
+			Globals.variants = values[0].Properties;
+			let rootJS = values[1][0];
+			let rootStatus = values[1][1];
+			if (rootStatus == 401) {
+				localStorage.removeItem("token");
+				location.replace("/");
+				return;
+			}
+			Globals.user = rootJS.Properties.User;
+			this.setState((state, props) => {
+				state = Object.assign({}, state);
+				let login_link = rootJS.Links.find(l => {
+					return l.Rel == "login";
 				});
+				if (login_link) {
+					let login_url = new URL(login_link.URL);
+					login_url.searchParams.set(
+						"redirect-to",
+						Globals.self_url.toString()
+					);
+					state.urls.login_url = login_url;
+				}
+				if (Globals.user) {
+					state.activity = MainMenu;
+					localStorage.setItem("token", Globals.token);
+				} else if (state.urls.login_url) {
+					state.activity = Login;
+				}
+				let linkSetter = (rel, key) => {
+					let link = rootJS.Links.find(l => {
+						return l.Rel == rel;
+					});
+					if (link) {
+						state.urls[key] = new URL(link.URL);
+					}
+				};
+				linkSetter("my-started-games", "my_started_games_url");
+				linkSetter("my-staging-games", "my_staging_games_url");
+				linkSetter("my-finished-games", "my_finished_games_url");
+				linkSetter("open-games", "open_games_url");
+				linkSetter("started-games", "started_games_url");
+				linkSetter("finished-games", "finished_games_url");
+				return state;
 			});
+		});
 	}
 }

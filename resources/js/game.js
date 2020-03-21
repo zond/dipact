@@ -13,8 +13,10 @@ export default class Game extends React.Component {
 		this.member = props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});
+		this.variant = Globals.variants.find(v => {
+			return v.Properties.Name == this.props.game.Properties.Variant;
+		});
 		this.map = null;
-		this.variant = null;
 		this.renderedPhaseOrdinal = null;
 		this.options = null;
 		this.renderPhase = this.renderPhase.bind(this);
@@ -35,8 +37,9 @@ export default class Game extends React.Component {
 		// or if this is the phase we rendered last.
 		if (
 			this.state.activePhase == null ||
-			this.renderedPhaseOrdinal ==
-				this.state.activePhase.Properties.PhaseOrdinal
+			(this.state.activePhase.Properties.PhaseOrdinal &&
+				this.renderedPhaseOrdinal ==
+					this.state.activePhase.Properties.PhaseOrdinal)
 		) {
 			return;
 		}
@@ -193,10 +196,14 @@ export default class Game extends React.Component {
 					body: JSON.stringify({ Parts: parts.slice(1) })
 				})
 			).then(resp => {
-				this.renderOrders(this.fetchOrders(), this.state.activePhase);
+				this.renderOrders(
+					this.fetchOrders(),
+					this.state.activePhase
+				).then(_ => {
+					this.acceptOrders();
+				});
 			});
 		}
-		this.acceptOrders();
 	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options) == 0) {
@@ -207,7 +214,6 @@ export default class Game extends React.Component {
 				if (type == null) {
 					type = options[option].Type;
 				} else if (type != options[option].Type) {
-					console.log("Options are", options);
 					throw "Can't use multiple types in the same level of options.";
 				}
 			}
@@ -258,36 +264,26 @@ export default class Game extends React.Component {
 						"/Map.svg"
 				)
 			).then(resp => resp.text()),
-			fetch(
-				helpers.createRequest(
-					"/Variant/" + this.props.game.Properties.Variant
-				)
-			)
-				.then(resp => resp.json())
-				.then(js => {
-					let promises = [Promise.resolve(js)];
-					js.Properties.UnitTypes.forEach(unitType => {
-						promises.push(
-							fetch(
-								helpers.createRequest(
-									"/Variant/" +
-										this.props.game.Properties.Variant +
-										"/Units/" +
-										unitType +
-										".svg"
-								)
-							)
-								.then(resp => resp.text())
-								.then(svg => {
-									return {
-										name: unitType,
-										svg: svg
-									};
-								})
-						);
-					});
-					return Promise.all(promises);
+			Promise.all(
+				this.variant.Properties.UnitTypes.map(unitType => {
+					return fetch(
+						helpers.createRequest(
+							"/Variant/" +
+								this.props.game.Properties.Variant +
+								"/Units/" +
+								unitType +
+								".svg"
+						)
+					)
+						.then(resp => resp.text())
+						.then(svg => {
+							return {
+								name: unitType,
+								svg: svg
+							};
+						});
 				})
+			)
 		];
 		if (this.props.game.Properties.Started) {
 			promises.push(
@@ -310,9 +306,8 @@ export default class Game extends React.Component {
 				boundsPadding: 0.5
 			});
 
-			let variantData = values[1];
-			this.variant = variantData[0];
-			variantData.slice(1).forEach(unitData => {
+			let variantUnits = values[1];
+			variantUnits.forEach(unitData => {
 				let container = document.createElement("div");
 				container.setAttribute("id", "unit" + unitData.name);
 				container.innerHTML = unitData.svg;
@@ -373,13 +368,19 @@ export default class Game extends React.Component {
 		);
 	}
 	changePhase(ev) {
+		this.map.clearClickListeners();
 		this.setState(
 			{
 				activePhase: this.state.phases.find(phase => {
 					return phase.Properties.PhaseOrdinal == ev.target.value;
 				})
 			},
-			this.renderPhase
+			_ => {
+				this.renderPhase();
+				if (!this.state.activePhase.Properties.Resolved) {
+					this.acceptOrders();
+				}
+			}
 		);
 	}
 	render() {
@@ -388,13 +389,16 @@ export default class Game extends React.Component {
 				<MaterialUI.Toolbar>
 					<MaterialUI.IconButton
 						onClick={this.props.close}
+						key="close"
 						edge="start"
 					>
 						{helpers.createIcon("\ue5cd")}
 					</MaterialUI.IconButton>
-					{this.state.activePhase != null ? (
+					{this.props.game.Properties.Started &&
+					this.state.activePhase ? (
 						<MaterialUI.Select
 							style={{ width: "100%" }}
+							key="phase-select"
 							value={
 								this.state.activePhase.Properties.PhaseOrdinal
 							}
@@ -413,9 +417,12 @@ export default class Game extends React.Component {
 							})}
 						</MaterialUI.Select>
 					) : (
-						<MaterialUI.Box width="100%"></MaterialUI.Box>
+						<MaterialUI.Box
+							key="spacer"
+							width="100%"
+						></MaterialUI.Box>
 					)}
-					<MaterialUI.IconButton edge="end">
+					<MaterialUI.IconButton edge="end" key="more-icon">
 						{helpers.createIcon("\ue5d4")}
 					</MaterialUI.IconButton>
 				</MaterialUI.Toolbar>
@@ -426,12 +433,16 @@ export default class Game extends React.Component {
 					display: this.state.activeTab == "map" ? "block" : "none"
 				}}
 			>
-				<div id="map-wrapper">
+				<div id="map-wrapper" key="map-wrapper">
 					<div
 						style={{ display: "flex", flexWrap: "wrap" }}
+						key="map"
 						id="map"
 					></div>
-					<div style={{ flexBasis: "100%", fontSize: "x-large" }}>
+					<div
+						key="game-desc"
+						style={{ flexBasis: "100%", fontSize: "x-large" }}
+					>
 						{this.state.gameDesc}
 					</div>
 				</div>
@@ -443,23 +454,26 @@ export default class Game extends React.Component {
 				onChange={this.changeTab}
 			>
 				<MaterialUI.BottomNavigationAction
+					key="map"
 					label="Map"
 					value="map"
 					icon={helpers.createIcon("\ue55b")}
 				/>
 				<MaterialUI.BottomNavigationAction
 					label="Chat"
+					key="chat"
 					value="chat"
 					icon={helpers.createIcon("\ue0b7")}
 				/>
 				<MaterialUI.BottomNavigationAction
 					label="Orders"
+					key="orders"
 					value="orders"
 					icon={helpers.createIcon("\ue616")}
 				/>
 			</MaterialUI.BottomNavigation>,
 			<div key="units-div" style={{ display: "none" }} id="units"></div>,
-			<OrderDialog key="order-dialog" />
+			<OrderDialog key="order-dialog" key="order-dialog" />
 		];
 	}
 }

@@ -12,10 +12,10 @@ window.Globals = {
 	user: null,
 	self_url: null,
 	token: null,
-	main: null,
 	progress_count: 0,
 	order_dialog: null,
-	progress_dialog: null
+	progress_dialog: null,
+	variants: []
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
