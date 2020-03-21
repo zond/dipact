@@ -2,6 +2,10 @@
 	min-width: 0;
 }
 
+.game-tabs > div > div {
+	justify-content: space-between;
+}
+
 .profile-pic {
 	width: 1.5em;
 	height: 1.5em;
@@ -15,4 +19,3 @@
 .game-appbar > div {
 	width: 100%;
 }
-

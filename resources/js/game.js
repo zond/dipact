@@ -430,6 +430,26 @@ export default class Game extends React.Component {
 						{helpers.createIcon("\ue5d4")}
 					</MaterialUI.IconButton>
 				</MaterialUI.Toolbar>
+				<MaterialUI.Tabs
+					key="tabs"
+					value={this.state.activeTab}
+					onChange={this.changeTab}
+					dislay="flex"
+					className="game-tabs"
+				>
+					<MaterialUI.Tab
+						value="map"
+						icon={helpers.createIcon("\ue55b")}
+					/>
+					<MaterialUI.Tab
+						value="chat"
+						icon={helpers.createIcon("\ue0b7")}
+					/>
+					<MaterialUI.Tab
+						value="orders"
+						icon={helpers.createIcon("\ue616")}
+					/>
+				</MaterialUI.Tabs>
 			</MaterialUI.AppBar>,
 			<div
 				key="map-container"
@@ -451,31 +471,6 @@ export default class Game extends React.Component {
 					</div>
 				</div>
 			</div>,
-			<MaterialUI.BottomNavigation
-				style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-				key="bottom-navigation"
-				value={this.state.activeTab}
-				onChange={this.changeTab}
-			>
-				<MaterialUI.BottomNavigationAction
-					key="map"
-					label="Map"
-					value="map"
-					icon={helpers.createIcon("\ue55b")}
-				/>
-				<MaterialUI.BottomNavigationAction
-					label="Chat"
-					key="chat"
-					value="chat"
-					icon={helpers.createIcon("\ue0b7")}
-				/>
-				<MaterialUI.BottomNavigationAction
-					label="Orders"
-					key="orders"
-					value="orders"
-					icon={helpers.createIcon("\ue616")}
-				/>
-			</MaterialUI.BottomNavigation>,
 			<div key="units-div" style={{ display: "none" }} id="units"></div>,
 			<OrderDialog key="order-dialog" key="order-dialog" />
 		];
