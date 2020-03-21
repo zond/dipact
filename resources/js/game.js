@@ -23,6 +23,8 @@ export default class Game extends React.Component {
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.setOrder = this.setOrder.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
+		this.renderOrders = this.renderOrders.bind(this);
+		this.fetchOrders = this.fetchOrders.bind(this);
 	}
 	// This function is wonky, because for historical
 	// reasons the diplicity server provides phases in
@@ -38,16 +40,7 @@ export default class Game extends React.Component {
 		) {
 			return;
 		}
-		let orderPromise = null;
-		let orderLink = this.state.activePhase.Links.find(l => {
-			return l.Rel == "orders";
-		});
-		if (orderLink) {
-			helpers.incProgress();
-			orderPromise = fetch(
-				helpers.createRequest(orderLink.URL)
-			).then(resp => resp.json());
-		}
+		let orderPromise = this.fetchOrders();
 		let optionsPromise = null;
 		let optionsLink = this.state.activePhase.Links.find(l => {
 			return l.Rel == "options";
@@ -123,32 +116,11 @@ export default class Game extends React.Component {
 		}
 		if (orderPromise) {
 			let renderingPhase = this.state.activePhase;
-			orderPromise.then(js => {
-				helpers.decProgress();
-				// Skip this if we aren't rendering the same phase anymore.
-				if (
-					renderingPhase.Properties.PhaseOrdinal !=
-					this.state.activePhase.Properties.PhaseOrdinal
-				) {
-					return;
-				}
-				this.map.removeOrders();
-				js.Properties.forEach(orderData => {
-					this.map.addOrder(
-						orderData.Properties.Parts,
-						this.natCol(orderData.Properties.Nation)
-					);
-				});
-				if (renderingPhase.Properties.Resolutions) {
-					renderingPhase.Properties.Resolutions.forEach(res => {
-						if (res.Resolution != "OK") {
-							this.map.addCross(res.Province, "#ff0000");
-						}
-					});
-				}
+			this.renderOrders(orderPromise, this.state.activePhase).then(_ => {
 				if (optionsPromise) {
 					optionsPromise.then(js => {
 						helpers.decProgress();
+						// Skip this if we aren't rendering the same phase anymore.
 						if (
 							renderingPhase.Properties.PhaseOrdinal !=
 							this.state.activePhase.Properties.PhaseOrdinal
@@ -163,6 +135,46 @@ export default class Game extends React.Component {
 		}
 		// Assume we are done now, even if we possibly haven't rendered the orders yet.
 		this.renderedPhaseOrdinal = this.state.activePhase.Properties.PhaseOrdinal;
+	}
+	fetchOrders() {
+		let orderLink = this.state.activePhase.Links.find(l => {
+			return l.Rel == "orders";
+		});
+		if (orderLink) {
+			helpers.incProgress();
+			return fetch(helpers.createRequest(orderLink.URL)).then(resp =>
+				resp.json()
+			);
+		} else {
+			return null;
+		}
+	}
+	renderOrders(orderPromise, regardingPhase) {
+		return orderPromise.then(js => {
+			helpers.decProgress();
+			// Skip this if we aren't rendering the same phase anymore.
+			if (
+				regardingPhase.Properties.PhaseOrdinal !=
+				this.state.activePhase.Properties.PhaseOrdinal
+			) {
+				return Promise.resolve({});
+			}
+			this.map.removeOrders();
+			js.Properties.forEach(orderData => {
+				this.map.addOrder(
+					orderData.Properties.Parts,
+					this.natCol(orderData.Properties.Nation)
+				);
+			});
+			if (regardingPhase.Properties.Resolutions) {
+				regardingPhase.Properties.Resolutions.forEach(res => {
+					if (res.Resolution != "OK") {
+						this.map.addCross(res.Province, "#ff0000");
+					}
+				});
+			}
+			return Promise.resolve({});
+		});
 	}
 	acceptOrders() {
 		this.addOptionHandlers(this.options, []);
@@ -181,7 +193,7 @@ export default class Game extends React.Component {
 					body: JSON.stringify({ Parts: parts.slice(1) })
 				})
 			).then(resp => {
-				console.log("saved order, now we need to add it to the map!");
+				this.renderOrders(this.fetchOrders(), this.state.activePhase);
 			});
 		}
 		this.acceptOrders();
