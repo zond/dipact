@@ -765,10 +765,10 @@
 								return;
 							}
 
-							//e.stopPropagation();
-							//if (!beforeTouch.is_passive) e.preventDefault();
-							//if (!e.defaultPrevented)
-							//	beforeTouch.is_passive = true;
+							e.stopPropagation();
+							if (!beforeTouch.is_passive) e.preventDefault();
+							if (!e.defaultPrevented)
+								beforeTouch.is_passive = true;
 						}
 
 						function beforeDoubleClick(e) {
