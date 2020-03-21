@@ -220,13 +220,17 @@ export default class Game extends React.Component {
 			switch (type) {
 				case "Province":
 					for (let prov in options) {
-						this.map.addClickListener(prov, prov => {
-							this.map.clearClickListeners();
-							this.addOptionHandlers(
-								options[prov].Next,
-								parts.concat(prov)
-							);
-						});
+						this.map.addClickListener(
+							prov,
+							prov => {
+								this.map.clearClickListeners();
+								this.addOptionHandlers(
+									options[prov].Next,
+									parts.concat(prov)
+								);
+							},
+							{ touch: true }
+						);
 					}
 					break;
 				case "OrderType":
