@@ -10,6 +10,7 @@ export default class DipMap extends React.Component {
 		this.updateMap = this.updateMap.bind(this);
 		this.natCol = this.natCol.bind(this);
 		this.map = null;
+		this.lastRenderedGameID = null;
 	}
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -26,6 +27,12 @@ export default class DipMap extends React.Component {
 		);
 	}
 	componentDidUpdate() {
+		if (this.lastRenderedGameID == this.props.game.Properties.ID) {
+			this.updateMap();
+			return;
+		}
+		this.lastRenderedGameID = this.props.game.Properties.ID;
+
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});

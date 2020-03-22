@@ -11,7 +11,6 @@ export default class Game extends React.Component {
 			activePhase: null,
 			phases: []
 		};
-		this.map = null;
 		this.renderedPhaseOrdinal = null;
 		this.options = null;
 		this.changeTab = this.changeTab.bind(this);
@@ -89,20 +88,11 @@ export default class Game extends React.Component {
 		);
 	}
 	changePhase(ev) {
-		this.map.clearClickListeners();
-		this.setState(
-			{
-				activePhase: this.state.phases.find(phase => {
-					return phase.Properties.PhaseOrdinal == ev.target.value;
-				})
-			},
-			_ => {
-				this.renderPhase();
-				if (!this.state.activePhase.Properties.Resolved) {
-					this.acceptOrders();
-				}
-			}
-		);
+		this.setState({
+			activePhase: this.state.phases.find(phase => {
+				return phase.Properties.PhaseOrdinal == ev.target.value;
+			})
+		});
 	}
 	render() {
 		return (
