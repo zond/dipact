@@ -51,12 +51,12 @@ export function decProgress() {
 }
 
 export function createRequest(item, opts = {}) {
-	let req_url = new URL(Globals.serverRequest.url);
+	let reqURL = new URL(Globals.serverRequest.url);
 	try {
-		let item_url = new URL(item);
-		req_url.pathname = item_url.pathname;
+		let itemURL = new URL(item);
+		reqURL.pathname = itemURL.pathname;
 	} catch (e) {
-		req_url.pathname = item;
+		reqURL.pathname = item;
 	}
 	let headers = Globals.serverRequest.headers;
 	if (opts.headers) {
@@ -64,7 +64,7 @@ export function createRequest(item, opts = {}) {
 			headers.set(key, opts.headers[key]);
 		}
 	}
-	let req = new Request(req_url.toString(), {
+	let req = new Request(reqURL.toString(), {
 		method: opts.method || Globals.serverRequest.method,
 		mode: opts.mode || Globals.serverRequest.mode,
 		headers: headers,

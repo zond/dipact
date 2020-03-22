@@ -14,21 +14,21 @@ export default class Main extends ActivityContainer {
 		};
 	}
 	processToken() {
-		let found_token = Globals.selfURL.searchParams.get("token");
-		if (found_token) {
+		let foundToken = Globals.selfURL.searchParams.get("token");
+		if (foundToken) {
 			Globals.selfURL.searchParams.delete("token");
 			history.pushState("", "", Globals.selfURL.toString());
 		}
 
-		if (!found_token) {
-			found_token = localStorage.getItem("token");
+		if (!foundToken) {
+			foundToken = localStorage.getItem("token");
 		}
 
-		if (found_token) {
-			Globals.token = found_token;
+		if (foundToken) {
+			Globals.token = foundToken;
 			Globals.serverRequest.headers.append(
 				"Authorization",
-				"bearer " + found_token
+				"bearer " + foundToken
 			);
 		}
 	}
@@ -65,16 +65,16 @@ export default class Main extends ActivityContainer {
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
 
-				let login_link = rootJS.Links.find(l => {
+				let loginLink = rootJS.Links.find(l => {
 					return l.Rel == "login";
 				});
-				if (login_link) {
-					let login_url = new URL(login_link.URL);
-					login_url.searchParams.set(
+				if (loginLink) {
+					let loginURL = new URL(loginLink.URL);
+					loginURL.searchParams.set(
 						"redirect-to",
 						Globals.selfURL.toString()
 					);
-					state.urls.login_url = login_url;
+					state.urls.login_url = loginURL;
 				}
 
 				let linkSetter = (rel, key) => {

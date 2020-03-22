@@ -285,10 +285,10 @@ export default class DipMap extends React.Component {
 					});
 					break;
 				case "SrcProvince":
-					let src_province = Object.keys(options)[0];
+					let srcProvince = Object.keys(options)[0];
 					this.addOptionHandlers(
-						options[src_province].Next,
-						[src_province].concat(parts)
+						options[srcProvince].Next,
+						[srcProvince].concat(parts)
 					);
 					break;
 			}
