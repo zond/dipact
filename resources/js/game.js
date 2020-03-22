@@ -434,7 +434,7 @@ export default class Game extends React.Component {
 					key="tabs"
 					value={this.state.activeTab}
 					onChange={this.changeTab}
-					dislay="flex"
+					display="flex"
 					className="game-tabs"
 				>
 					<MaterialUI.Tab
