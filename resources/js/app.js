@@ -2,7 +2,7 @@ import Main from '%{ cb "./main.js" }%';
 import ProgressDialog from '%{ cb "./progress_dialog.js" }%';
 
 window.Globals = {
-	server_request: new Request("https://diplicity-engine.appspot.com/", {
+	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
 		headers: {
 			"X-Diplicity-API-Level": "8",
 			Accept: "application/json"
@@ -10,12 +10,13 @@ window.Globals = {
 		mode: "cors"
 	}),
 	user: null,
-	self_url: null,
+	selfURL: null,
 	token: null,
-	progress_count: 0,
-	order_dialog: null,
-	progress_dialog: null,
-	variants: []
+	progressCount: 0,
+	orderDialog: null,
+	progressDialog: null,
+	variants: [],
+	memoizeCache: {}
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));

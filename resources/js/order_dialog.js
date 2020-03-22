@@ -8,7 +8,7 @@ export default class OrderDialog extends React.Component {
 				console.log("Uninitialized OrderDialog used?!");
 			}
 		};
-		Globals.order_dialog = this;
+		Globals.orderDialog = this;
 		this.onClick = this.onClick.bind(this);
 	}
 	onClick(ev) {

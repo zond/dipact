@@ -2,6 +2,17 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function memoize(key, promise) {
+	if (Globals.memoizeCache[key]) {
+		return Promise.resolve(Globals.memoizeCache[key]);
+	} else {
+		return promise.then(result => {
+			Globals.memoizeCache[key] = result;
+			return Promise.resolve(result);
+		});
+	}
+}
+
 export function gameDesc(game) {
 	let member = game.Properties.Members.find(member => {
 		return member.User.Email == Globals.user.Email;
@@ -26,36 +37,36 @@ export function createIcon(codepoint, style = {}) {
 }
 
 function hideShowProgress() {
-	Globals.progress_dialog.setState({ open: Globals.progress_count > 0 });
+	Globals.progressDialog.setState({ open: Globals.progressCount > 0 });
 }
 
 export function incProgress() {
-	Globals.progress_count++;
+	Globals.progressCount++;
 	hideShowProgress();
 }
 
 export function decProgress() {
-	Globals.progress_count--;
+	Globals.progressCount--;
 	hideShowProgress();
 }
 
 export function createRequest(item, opts = {}) {
-	let req_url = new URL(Globals.server_request.url);
+	let req_url = new URL(Globals.serverRequest.url);
 	try {
 		let item_url = new URL(item);
 		req_url.pathname = item_url.pathname;
 	} catch (e) {
 		req_url.pathname = item;
 	}
-	let headers = Globals.server_request.headers;
+	let headers = Globals.serverRequest.headers;
 	if (opts.headers) {
 		for (let key in opts.headers) {
 			headers.set(key, opts.headers[key]);
 		}
 	}
 	let req = new Request(req_url.toString(), {
-		method: opts.method || Globals.server_request.method,
-		mode: opts.mode || Globals.server_request.mode,
+		method: opts.method || Globals.serverRequest.method,
+		mode: opts.mode || Globals.serverRequest.mode,
 		headers: headers,
 		body: opts.body
 	});

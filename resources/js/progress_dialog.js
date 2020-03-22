@@ -3,7 +3,7 @@ export default class ProgressDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { open: false };
-		Globals.progress_dialog = this;
+		Globals.progressDialog = this;
 	}
 	render() {
 		return (

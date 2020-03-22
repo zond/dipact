@@ -36,9 +36,7 @@ export default class MainMenu extends ActivityContainer {
 	renderGameList(ev) {
 		this.setActivity(GameList, {
 			key: ev.currentTarget.getAttribute("urlkey"),
-			url: this.props.parent_state.urls[
-				ev.currentTarget.getAttribute("urlkey")
-			],
+			url: this.props.urls[ev.currentTarget.getAttribute("urlkey")],
 			variants: this.props.variants
 		});
 	}

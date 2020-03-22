@@ -14,10 +14,10 @@ export default class Main extends ActivityContainer {
 		};
 	}
 	processToken() {
-		let found_token = Globals.self_url.searchParams.get("token");
+		let found_token = Globals.selfURL.searchParams.get("token");
 		if (found_token) {
-			Globals.self_url.searchParams.delete("token");
-			history.pushState("", "", Globals.self_url.toString());
+			Globals.selfURL.searchParams.delete("token");
+			history.pushState("", "", Globals.selfURL.toString());
 		}
 
 		if (!found_token) {
@@ -26,21 +26,21 @@ export default class Main extends ActivityContainer {
 
 		if (found_token) {
 			Globals.token = found_token;
-			Globals.server_request.headers.append(
+			Globals.serverRequest.headers.append(
 				"Authorization",
 				"bearer " + found_token
 			);
 		}
 	}
 	componentDidMount() {
-		Globals.self_url = new URL(window.location.href);
+		Globals.selfURL = new URL(window.location.href);
 		this.processToken();
 		helpers.incProgress();
 		Promise.all([
 			fetch(
 				helpers.createRequest("/Variants", { unauthed: true })
 			).then(resp => resp.json()),
-			fetch(Globals.server_request).then(resp => {
+			fetch(Globals.serverRequest).then(resp => {
 				if (resp.status == 200) {
 					return new Promise((resolve, reject) => {
 						resp.json().then(js => {
@@ -64,6 +64,7 @@ export default class Main extends ActivityContainer {
 			Globals.user = rootJS.Properties.User;
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
+
 				let login_link = rootJS.Links.find(l => {
 					return l.Rel == "login";
 				});
@@ -71,16 +72,11 @@ export default class Main extends ActivityContainer {
 					let login_url = new URL(login_link.URL);
 					login_url.searchParams.set(
 						"redirect-to",
-						Globals.self_url.toString()
+						Globals.selfURL.toString()
 					);
 					state.urls.login_url = login_url;
 				}
-				if (Globals.user) {
-					state.activity = MainMenu;
-					localStorage.setItem("token", Globals.token);
-				} else if (state.urls.login_url) {
-					state.activity = Login;
-				}
+
 				let linkSetter = (rel, key) => {
 					let link = rootJS.Links.find(l => {
 						return l.Rel == rel;
@@ -95,6 +91,16 @@ export default class Main extends ActivityContainer {
 				linkSetter("open-games", "open_games_url");
 				linkSetter("started-games", "started_games_url");
 				linkSetter("finished-games", "finished_games_url");
+
+				if (Globals.user) {
+					localStorage.setItem("token", Globals.token);
+					state.activity = MainMenu;
+					state.activityProps = { urls: state.urls };
+				} else if (state.urls.login_url) {
+					state.activity = Login;
+					state.activityProps = { loginURL: state.urls.login_url };
+				}
+
 				return state;
 			});
 		});

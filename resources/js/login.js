@@ -1,12 +1,12 @@
 export default class Login extends React.Component {
 	render() {
-		if (this.props.parent_state.urls.login_url) {
+		if (this.props.loginURL) {
 			return (
 				<MaterialUI.Container
 					style={{ textAlign: "center" }}
 					maxWidth="sm"
 				>
-					<a href={this.props.parent_state.urls.login_url}>
+					<a href={this.props.loginURL}>
 						<MaterialUI.Button
 							variant="contained"
 							startIcon={
