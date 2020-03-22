@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
+import OrderDialog from '%{ cb "./order_dialog.js" }%';
+
 export default class DipMap extends React.Component {
 	constructor(props) {
 		super(props);
@@ -325,6 +327,7 @@ export default class DipMap extends React.Component {
 					style={{ display: "none" }}
 					id="units"
 				></div>
+				<OrderDialog key="order-dialog" key="order-dialog" />
 			</React.Fragment>
 		);
 	}

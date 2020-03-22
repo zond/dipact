@@ -1,7 +1,7 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
-import OrderDialog from '%{ cb "./order_dialog.js" }%';
 import DipMap from '%{ cb "./dip_map.js" }%';
+import ChatMenu from '%{ cb "./chat_menu.js" }%';
 
 export default class Game extends React.Component {
 	constructor(props) {
@@ -177,7 +177,16 @@ export default class Game extends React.Component {
 						createOrder={this.createOrder}
 					/>
 				</div>
-				<OrderDialog key="order-dialog" key="order-dialog" />
+				<div
+					key="chat-container"
+					style={{
+						marginTop: "105px",
+						display:
+							this.state.activeTab == "chat" ? "block" : "none"
+					}}
+				>
+					<ChatMenu game={this.props.game} />
+				</div>
 			</React.Fragment>
 		);
 	}
