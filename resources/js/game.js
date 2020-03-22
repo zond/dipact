@@ -389,7 +389,7 @@ export default class Game extends React.Component {
 	}
 	render() {
 		return [
-			<MaterialUI.AppBar key="app-bar" position="static">
+			<MaterialUI.AppBar key="app-bar" position="fixed">
 				<MaterialUI.Toolbar>
 					<MaterialUI.IconButton
 						onClick={this.props.close}
@@ -454,6 +454,7 @@ export default class Game extends React.Component {
 			<div
 				key="map-container"
 				style={{
+					marginTop: "105px",
 					display: this.state.activeTab == "map" ? "block" : "none"
 				}}
 			>
