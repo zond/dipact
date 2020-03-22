@@ -224,124 +224,148 @@ export default class GameListElement extends React.Component {
 			</MaterialUI.Grid>
 		);
 
-		return [
-			<MaterialUI.ExpansionPanel key="game-details">
-				<MaterialUI.ExpansionPanelSummary
-					className="game-summary"
-					expandIcon={<i className="material-icons">&#xE5Cf;</i>}
-				>
-					<MaterialUI.Grid container>
-						{(_ => {
-							if (this.props.game.Properties.Started) {
-								return [
-									<MaterialUI.Grid
-										key={itemKey++}
-										item
-										xs={12}
-									>
-										<MaterialUI.Typography
-											textroverflow="ellipsis"
-											noWrap={true}
+		return (
+			<React.Fragment>
+				<MaterialUI.ExpansionPanel key="game-details">
+					<MaterialUI.ExpansionPanelSummary
+						className="game-summary"
+						expandIcon={<i className="material-icons">&#xE5Cf;</i>}
+					>
+						<MaterialUI.Grid container>
+							{(_ => {
+								if (this.props.game.Properties.Started) {
+									return [
+										<MaterialUI.Grid
+											key={itemKey++}
+											item
+											xs={11}
 										>
-											{helpers.gameDesc(this.props.game)}
-										</MaterialUI.Typography>
-									</MaterialUI.Grid>,
-									<MaterialUI.Grid
-										key={itemKey++}
-										item
-										xs={12}
-									>
-										<MaterialUI.Typography>
-											{
-												this.props.game.Properties
-													.NewestPhaseMeta[0].Season
-											}{" "}
-											{
-												this.props.game.Properties
-													.NewestPhaseMeta[0].Year
-											}
-											,{" "}
-											{
-												this.props.game.Properties
-													.NewestPhaseMeta[0].Type
-											}
-										</MaterialUI.Typography>
-									</MaterialUI.Grid>
-								];
-							} else {
-								return [
-									<MaterialUI.Grid
-										key={itemKey++}
-										item
-										xs={11}
-									>
-										<MaterialUI.Typography
-											textroverflow="ellipsis"
-											noWrap={true}
+											<MaterialUI.Typography
+												textroverflow="ellipsis"
+												noWrap={true}
+											>
+												{helpers.gameDesc(
+													this.props.game
+												)}
+											</MaterialUI.Typography>
+										</MaterialUI.Grid>,
+										<MaterialUI.Grid
+											key={itemKey++}
+											item
+											xs={1}
 										>
-											{helpers.gameDesc(this.props.game)}
-										</MaterialUI.Typography>
-									</MaterialUI.Grid>,
-									<MaterialUI.Grid
-										key={itemKey++}
-										item
-										xs={1}
-									>
-										<MaterialUI.Typography>
-											{
+											{helpers.minutesToDuration(
 												this.props.game.Properties
-													.NMembers
-											}
-											/
-											{
-												this.getVariant(
+													.NewestPhaseMeta[0]
+													.NextDeadlineIn /
+													1000000000 /
+													60,
+												true
+											)}
+										</MaterialUI.Grid>,
+										<MaterialUI.Grid
+											key={itemKey++}
+											item
+											xs={12}
+										>
+											<MaterialUI.Typography>
+												{
 													this.props.game.Properties
-														.Variant
-												).Properties.Nations.length
-											}{" "}
-										</MaterialUI.Typography>
-									</MaterialUI.Grid>
-								];
-							}
-						})()}
-						<MaterialUI.Grid item xs={12}>
-							<MaterialUI.Typography
-								textroverflow="ellipsis"
-								noWrap={true}
-								display="inline"
+														.NewestPhaseMeta[0]
+														.Season
+												}{" "}
+												{
+													this.props.game.Properties
+														.NewestPhaseMeta[0].Year
+												}
+												,{" "}
+												{
+													this.props.game.Properties
+														.NewestPhaseMeta[0].Type
+												}
+											</MaterialUI.Typography>
+										</MaterialUI.Grid>
+									];
+								} else {
+									return [
+										<MaterialUI.Grid
+											key={itemKey++}
+											item
+											xs={11}
+										>
+											<MaterialUI.Typography
+												textroverflow="ellipsis"
+												noWrap={true}
+											>
+												{helpers.gameDesc(
+													this.props.game
+												)}
+											</MaterialUI.Typography>
+										</MaterialUI.Grid>,
+										<MaterialUI.Grid
+											key={itemKey++}
+											item
+											xs={1}
+										>
+											<MaterialUI.Typography>
+												{
+													this.props.game.Properties
+														.NMembers
+												}
+												/
+												{
+													this.getVariant(
+														this.props.game
+															.Properties.Variant
+													).Properties.Nations.length
+												}{" "}
+											</MaterialUI.Typography>
+										</MaterialUI.Grid>
+									];
+								}
+							})()}
+							<MaterialUI.Grid item xs={12}>
+								<MaterialUI.Typography
+									textroverflow="ellipsis"
+									noWrap={true}
+									display="inline"
+								>
+									{this.props.game.Properties.Variant}{" "}
+									{helpers.minutesToDuration(
+										this.props.game.Properties
+											.PhaseLengthMinutes
+									)}
+								</MaterialUI.Typography>
+								{this.getIcons()}
+							</MaterialUI.Grid>
+						</MaterialUI.Grid>
+					</MaterialUI.ExpansionPanelSummary>
+					<MaterialUI.ExpansionPanelDetails
+						style={{ paddingRight: "0.3em", paddingLeft: "0.3em" }}
+					>
+						<MaterialUI.Paper elevation={3}>
+							<MaterialUI.Grid
+								container
+								style={{ margin: "0.3em" }}
 							>
-								{this.props.game.Properties.Variant}{" "}
-								{helpers.minutesToDuration(
-									this.props.game.Properties
-										.PhaseLengthMinutes
-								)}
-							</MaterialUI.Typography>
-							{this.getIcons()}
-						</MaterialUI.Grid>
-					</MaterialUI.Grid>
-				</MaterialUI.ExpansionPanelSummary>
-				<MaterialUI.ExpansionPanelDetails
-					style={{ paddingRight: "0.3em", paddingLeft: "0.3em" }}
+								{expandedGameItems}
+							</MaterialUI.Grid>
+						</MaterialUI.Paper>
+					</MaterialUI.ExpansionPanelDetails>
+				</MaterialUI.ExpansionPanel>
+				<MaterialUI.Dialog
+					key="game-view"
+					fullScreen
+					open={this.state.viewOpen}
+					TransitionComponent={helpers.Transition}
 				>
-					<MaterialUI.Paper elevation={3}>
-						<MaterialUI.Grid container style={{ margin: "0.3em" }}>
-							{expandedGameItems}
-						</MaterialUI.Grid>
-					</MaterialUI.Paper>
-				</MaterialUI.ExpansionPanelDetails>
-			</MaterialUI.ExpansionPanel>,
-			<MaterialUI.Dialog
-				key="game-view"
-				fullScreen
-				open={this.state.viewOpen}
-				TransitionComponent={helpers.Transition}
-			>
-				{this.state.viewOpen ? (
-					<Game game={this.props.game} close={this.closeGame} />
-				) : (
-					""
-				)}
-			</MaterialUI.Dialog>
-		];
+					{this.state.viewOpen ? (
+						<Game game={this.props.game} close={this.closeGame} />
+					) : (
+						""
+					)}
+				</MaterialUI.Dialog>
+			</React.Fragment>
+		);
 	}
 }
