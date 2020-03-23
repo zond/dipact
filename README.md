@@ -6,7 +6,7 @@
 
 A work-in-progress web client for [diplicity](https://github.com/zond/diplicity).
 
-Try the latest version is deployed at https://dipact.appspot.com.
+The latest version is deployed at https://dipact.appspot.com.
 
 ## Develop
 
