@@ -2,6 +2,16 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function channelName(channel, variant) {
+	if (
+		channel.Properties.Members.length == variant.Properties.Nations.length
+	) {
+		return "Everyone";
+	} else {
+		return channel.Properties.Members.join(", ");
+	}
+}
+
 export function safeFetch(req) {
 	return fetch(req).then(resp => {
 		if (resp.status == 401) {
