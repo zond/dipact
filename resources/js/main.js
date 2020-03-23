@@ -37,30 +37,15 @@ export default class Main extends ActivityContainer {
 		this.processToken();
 		helpers.incProgress();
 		Promise.all([
-			fetch(
+			helpers.safeFetch(
 				helpers.createRequest("/Variants", { unauthed: true })
 			).then(resp => resp.json()),
-			fetch(Globals.serverRequest).then(resp => {
-				if (resp.status == 200) {
-					return new Promise((resolve, reject) => {
-						resp.json().then(js => {
-							resolve([js, resp.status]);
-						});
-					});
-				} else {
-					return Promise.resolve([{}, resp.status]);
-				}
-			})
+			helpers.safeFetch(Globals.serverRequest).then(resp => resp.json())
 		]).then(values => {
 			helpers.decProgress();
-			Globals.variants = values[0].Properties;
-			let rootJS = values[1][0];
-			let rootStatus = values[1][1];
-			if (rootStatus == 401) {
-				localStorage.removeItem("token");
-				location.replace("/");
-				return;
-			}
+			let variantsJS = values[0];
+			Globals.variants = variantsJS.Properties;
+			let rootJS = values[1];
 			Globals.user = rootJS.Properties.User;
 			this.setState((state, props) => {
 				state = Object.assign({}, state);

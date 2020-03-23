@@ -48,7 +48,7 @@ export default class DipMap extends React.Component {
 		let promises = [
 			helpers.memoize(
 				variantMapSVG,
-				fetch(helpers.createRequest(variantMapSVG)).then(resp =>
+				helpers.safeFetch(helpers.createRequest(variantMapSVG)).then(resp =>
 					resp.text()
 				)
 			),
@@ -62,7 +62,7 @@ export default class DipMap extends React.Component {
 						".svg";
 					return helpers.memoize(
 						variantUnitSVG,
-						fetch(helpers.createRequest(variantUnitSVG))
+						helpers.safeFetch(helpers.createRequest(variantUnitSVG))
 							.then(resp => resp.text())
 							.then(svg => {
 								return {
@@ -112,7 +112,7 @@ export default class DipMap extends React.Component {
 			});
 			if (optionsLink) {
 				helpers.incProgress();
-				optionsPromise = fetch(
+				optionsPromise = helpers.safeFetch(
 					helpers.createRequest(optionsLink.URL)
 				).then(resp => resp.json());
 			}
@@ -213,7 +213,7 @@ export default class DipMap extends React.Component {
 			return null;
 		}
 		helpers.incProgress();
-		return fetch(helpers.createRequest(orderLink.URL)).then(resp =>
+		return helpers.safeFetch(helpers.createRequest(orderLink.URL)).then(resp =>
 			resp.json()
 		);
 	}

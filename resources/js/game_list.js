@@ -9,7 +9,7 @@ export default class GameList extends React.Component {
 	}
 	componentDidMount() {
 		helpers.incProgress();
-		fetch(helpers.createRequest(this.props.url.toString()))
+		helpers.safeFetch(helpers.createRequest(this.props.url.toString()))
 			.then(resp => resp.json())
 			.then(js => {
 				helpers.decProgress();

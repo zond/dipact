@@ -22,7 +22,7 @@ export default class Game extends React.Component {
 			return l.Rel == "create-order";
 		});
 		if (setOrderLink) {
-			return fetch(
+			return helpers.safeFetch(
 				helpers.createRequest(setOrderLink.URL, {
 					method: setOrderLink.Method,
 					headers: {
@@ -38,7 +38,7 @@ export default class Game extends React.Component {
 	componentDidMount() {
 		let promise = null;
 		if (this.props.game.Properties.Started) {
-			promise = fetch(
+			promise = helpers.safeFetch(
 				helpers.createRequest(
 					this.props.game.Links.find(l => {
 						return l.Rel == "phases";
@@ -54,7 +54,7 @@ export default class Game extends React.Component {
 				"/Variant/" + this.props.game.Properties.Variant + "/Start";
 			promise = helpers.memoize(
 				variantStartPhase,
-				fetch(helpers.createRequest(variantStartPhase))
+				helpers.safeFetch(helpers.createRequest(variantStartPhase))
 					.then(resp => resp.json())
 					.then(js => {
 						return Promise.resolve([js]);

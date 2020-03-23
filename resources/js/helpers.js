@@ -2,6 +2,18 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function safeFetch(req) {
+	return fetch(req).then(resp => {
+		if (resp.status == 401) {
+				localStorage.removeItem("token");
+				location.replace("/");
+			return Promise.resolve({});
+		} else {
+			return Promise.resolve(resp);
+		}
+	});
+}
+
 export function memoize(key, promise) {
 	if (Globals.memoizeCache[key]) {
 		return Promise.resolve(Globals.memoizeCache[key]);

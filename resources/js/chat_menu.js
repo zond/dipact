@@ -14,7 +14,7 @@ export default class ChatMenu extends React.Component {
 	}
 	componentDidMount() {
 		helpers.incProgress();
-		fetch(
+		helpers.safeFetch(
 			helpers.createRequest(
 				this.props.game.Links.find(l => {
 					return l.Rel == "channels";
