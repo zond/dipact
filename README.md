@@ -6,7 +6,7 @@
 
 A work-in-progress web client for [diplicity](https://github.com/zond/diplicity).
 
-Try the latest version is deployed at https://dipact.appspot.com.
+The latest version is deployed at https://dipact.appspot.com.
 
 ## Develop
 
@@ -19,7 +19,7 @@ and via chat at the #development channel on our [Discord server](https://discord
 
 This is evolving, and not fully followed, but some guidelines:
 
-* Use [Pretty](https://prettier.io/) is used to format the code. I use [vim-prettier](https://github.com/prettier/vim-prettier) which changes some settings, I think. Let's discuss how to solve that if someone wants to use Pretty with different settings - I'm totally open to changing this.
+* Use [Pretty](https://prettier.io/) to format the code. I use [vim-prettier](https://github.com/prettier/vim-prettier) which changes some settings, I think. Let's discuss how to solve that if someone wants to use Pretty with different settings - I'm totally open to changing this.
 * Use CamelCase (or camelCase), not snake_case. I know JavaScript often uses snake_case, but it seems React uses CamelCase, so let's go with that.
 * Use inline styles for small local changes, if possible. Save global CSS for themes or global changes.
 
@@ -39,9 +39,10 @@ a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 
 ### Running locally
 
-1. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
-2. Run `dev_appserver.py app.yaml`.
-3. Go to http://localhost:8080/.
+1. Install [Go](https://golang.org/doc/install).
+2. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
+3. Run `dev_appserver.py app.yaml`.
+4. Go to http://localhost:8080/.
 
 ### Deploying
 
