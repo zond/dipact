@@ -91,7 +91,7 @@ export default class DipMap extends React.Component {
 				let container = document.createElement("div");
 				container.setAttribute("id", "unit" + unitData.name);
 				container.innerHTML = unitData.svg;
-				document.getElementById("units").appendChild(container);
+				document.getElementById("units-div").appendChild(container);
 			});
 			this.updateMap();
 		});
@@ -117,6 +117,7 @@ export default class DipMap extends React.Component {
 				).then(resp => resp.json());
 			}
 		}
+		this.map.removeUnits();
 		if (this.props.phase.Properties.Units instanceof Array) {
 			this.props.phase.Properties.Units.forEach(unitData => {
 				this.map.addUnit(
@@ -325,7 +326,7 @@ export default class DipMap extends React.Component {
 				<div
 					key="units-div"
 					style={{ display: "none" }}
-					id="units"
+					id="units-div"
 				></div>
 				<OrderDialog key="order-dialog" key="order-dialog" />
 			</React.Fragment>
