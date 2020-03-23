@@ -48,9 +48,9 @@ export default class DipMap extends React.Component {
 		let promises = [
 			helpers.memoize(
 				variantMapSVG,
-				helpers.safeFetch(helpers.createRequest(variantMapSVG)).then(resp =>
-					resp.text()
-				)
+				helpers
+					.safeFetch(helpers.createRequest(variantMapSVG))
+					.then(resp => resp.text())
 			),
 			Promise.all(
 				this.variant.Properties.UnitTypes.map(unitType => {
@@ -62,7 +62,8 @@ export default class DipMap extends React.Component {
 						".svg";
 					return helpers.memoize(
 						variantUnitSVG,
-						helpers.safeFetch(helpers.createRequest(variantUnitSVG))
+						helpers
+							.safeFetch(helpers.createRequest(variantUnitSVG))
 							.then(resp => resp.text())
 							.then(svg => {
 								return {
@@ -112,9 +113,12 @@ export default class DipMap extends React.Component {
 			});
 			if (optionsLink) {
 				helpers.incProgress();
-				optionsPromise = helpers.safeFetch(
-					helpers.createRequest(optionsLink.URL)
-				).then(resp => resp.json());
+				optionsPromise = helpers.memoize(
+					optionsLink.URL,
+					helpers
+						.safeFetch(helpers.createRequest(optionsLink.URL))
+						.then(resp => resp.json())
+				);
 			}
 		}
 		this.map.removeUnits();
@@ -214,9 +218,14 @@ export default class DipMap extends React.Component {
 			return null;
 		}
 		helpers.incProgress();
-		return helpers.safeFetch(helpers.createRequest(orderLink.URL)).then(resp =>
-			resp.json()
-		);
+		let fetchPromise = helpers
+			.safeFetch(helpers.createRequest(orderLink.URL))
+			.then(resp => resp.json());
+		if (this.props.phase.Properties.Resolved) {
+			return helpers.memoize(orderLink.URL, fetchPromise);
+		} else {
+			return fetchPromise;
+		}
 	}
 	renderOrders(orderPromise, regardingPhase) {
 		return orderPromise.then(js => {

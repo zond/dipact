@@ -38,13 +38,14 @@ export default class Game extends React.Component {
 	componentDidMount() {
 		let promise = null;
 		if (this.props.game.Properties.Started) {
-			promise = helpers.safeFetch(
-				helpers.createRequest(
-					this.props.game.Links.find(l => {
-						return l.Rel == "phases";
-					}).URL
+			promise = helpers
+				.safeFetch(
+					helpers.createRequest(
+						this.props.game.Links.find(l => {
+							return l.Rel == "phases";
+						}).URL
+					)
 				)
-			)
 				.then(resp => resp.json())
 				.then(js => {
 					return Promise.resolve(js.Properties);
@@ -54,7 +55,8 @@ export default class Game extends React.Component {
 				"/Variant/" + this.props.game.Properties.Variant + "/Start";
 			promise = helpers.memoize(
 				variantStartPhase,
-				helpers.safeFetch(helpers.createRequest(variantStartPhase))
+				helpers
+					.safeFetch(helpers.createRequest(variantStartPhase))
 					.then(resp => resp.json())
 					.then(js => {
 						return Promise.resolve([js]);

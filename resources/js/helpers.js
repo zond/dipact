@@ -5,8 +5,8 @@ export function timeStrToDate(s) {
 export function safeFetch(req) {
 	return fetch(req).then(resp => {
 		if (resp.status == 401) {
-				localStorage.removeItem("token");
-				location.replace("/");
+			localStorage.removeItem("token");
+			location.replace("/");
 			return Promise.resolve({});
 		} else {
 			return Promise.resolve(resp);
