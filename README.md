@@ -39,9 +39,10 @@ a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 
 ### Running locally
 
-1. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
-2. Run `dev_appserver.py app.yaml`.
-3. Go to http://localhost:8080/.
+1. Install [Go](https://golang.org/doc/install).
+2. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
+3. Run `dev_appserver.py app.yaml`.
+4. Go to http://localhost:8080/.
 
 ### Deploying
 
