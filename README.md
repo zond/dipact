@@ -19,6 +19,7 @@ and via chat at the #development channel on our [Discord server](https://discord
 
 This is evolving, and not fully followed, but some guidelines:
 
+* Use [Pretty](https://prettier.io/) is used to format the code. I use [vim-prettier](https://github.com/prettier/vim-prettier) which changes some settings, I think. Let's discuss how to solve that if someone wants to use Pretty with different settings - I'm totally open to changing this.
 * Use CamelCase (or camelCase), not snake_case. I know JavaScript often uses snake_case, but it seems React uses CamelCase, so let's go with that.
 * Use inline styles for small local changes, if possible. Save global CSS for themes or global changes.
 
