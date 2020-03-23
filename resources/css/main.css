@@ -1,4 +1,4 @@
-.game-summary > * {
+.min-width-summary > * {
 	min-width: 0;
 }
 
@@ -9,10 +9,6 @@
 .profile-pic {
 	width: 1.5em;
 	height: 1.5em;
-	margin: 0.2em;
-}
-
-.game-details-container > * {
 	margin: 0.2em;
 }
 

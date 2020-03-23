@@ -1,3 +1,5 @@
+import * as helpers from '%{ cb "./helpers.js" }%';
+
 import ActivityContainer from '%{ cb "./activity_container.js" }%';
 import Notifications from '%{ cb "./notifications.js" }%';
 import GameList from '%{ cb "./game_list.js" }%';
@@ -49,7 +51,7 @@ export default class MainMenu extends ActivityContainer {
 							edge="start"
 							onClick={this.openDrawer}
 						>
-							<i className="material-icons">&#xE5D2;</i>
+							{helpers.createIcon("\ue5d2")}
 						</MaterialUI.IconButton>
 						<MaterialUI.Typography
 							style={{ flexGrow: 1 }}
@@ -58,7 +60,7 @@ export default class MainMenu extends ActivityContainer {
 							edge="end"
 							onClick={this.openMenu}
 						>
-							<i className="material-icons">&#xE853;</i>
+							{helpers.createIcon("\ue853")}
 						</MaterialUI.IconButton>
 						<MaterialUI.Menu
 							anchorEl={this.state.anchorEl}

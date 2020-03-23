@@ -228,8 +228,8 @@ export default class GameListElement extends React.Component {
 			<React.Fragment>
 				<MaterialUI.ExpansionPanel key="game-details">
 					<MaterialUI.ExpansionPanelSummary
-						className="game-summary"
-						expandIcon={<i className="material-icons">&#xE5Cf;</i>}
+						className="min-width-summary"
+						expandIcon={helpers.createIcon("\ue5cf")}
 					>
 						<MaterialUI.Grid container>
 							{(_ => {

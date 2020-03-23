@@ -33,7 +33,6 @@ export default class DipMap extends React.Component {
 			this.updateMap();
 			return;
 		}
-		this.lastRenderedGameID = this.props.game.Properties.ID;
 
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
@@ -94,6 +93,7 @@ export default class DipMap extends React.Component {
 				container.innerHTML = unitData.svg;
 				document.getElementById("units-div").appendChild(container);
 			});
+			this.lastRenderedGameID = this.props.game.Properties.ID;
 			this.updateMap();
 		});
 	}
