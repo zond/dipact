@@ -16,20 +16,19 @@ export default class ChatMenu extends React.Component {
 		this.closeChannel = this.closeChannel.bind(this);
 	}
 	componentDidMount() {
-		helpers.incProgress();
-		helpers
-			.safeFetch(
-				helpers.createRequest(
-					this.props.game.Links.find(l => {
-						return l.Rel == "channels";
-					}).URL
-				)
-			)
-			.then(resp => resp.json())
-			.then(js => {
-				helpers.decProgress();
-				this.setState({ channels: js.Properties });
-			});
+		let channelLink = this.props.game.Links.find(l => {
+			return l.Rel == "channels";
+		});
+		if (channelLink) {
+			helpers.incProgress();
+			helpers
+				.safeFetch(helpers.createRequest(channelLink.URL))
+				.then(resp => resp.json())
+				.then(js => {
+					helpers.decProgress();
+					this.setState({ channels: js.Properties });
+				});
+		}
 	}
 	openChannel(channel) {
 		this.setState({ activeChannel: channel, channelOpen: true });
@@ -48,8 +47,10 @@ export default class ChatMenu extends React.Component {
 				>
 					<div
 						style={{
-							width: "100%",
-							height: "100%",
+							top: 0,
+							left: 0,
+							bottom: 0,
+							right: 0,
 							background: "#ffffff",
 							position: "absolute",
 							zIndex: 1200
