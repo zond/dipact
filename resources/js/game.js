@@ -53,15 +53,14 @@ export default class Game extends React.Component {
 		} else {
 			let variantStartPhase =
 				"/Variant/" + this.props.game.Properties.Variant + "/Start";
-			promise = helpers.memoize(
-				variantStartPhase,
-				helpers
+			promise = helpers.memoize(variantStartPhase, _ => {
+				return helpers
 					.safeFetch(helpers.createRequest(variantStartPhase))
 					.then(resp => resp.json())
 					.then(js => {
 						return Promise.resolve([js]);
-					})
-			);
+					});
+			});
 		}
 		promise.then(phases => {
 			this.setState({

@@ -45,12 +45,11 @@ export default class DipMap extends React.Component {
 		let variantMapSVG =
 			"/Variant/" + this.props.game.Properties.Variant + "/Map.svg";
 		let promises = [
-			helpers.memoize(
-				variantMapSVG,
-				helpers
+			helpers.memoize(variantMapSVG, _ => {
+				return helpers
 					.safeFetch(helpers.createRequest(variantMapSVG))
-					.then(resp => resp.text())
-			),
+					.then(resp => resp.text());
+			}),
 			Promise.all(
 				this.variant.Properties.UnitTypes.map(unitType => {
 					let variantUnitSVG =
@@ -59,9 +58,8 @@ export default class DipMap extends React.Component {
 						"/Units/" +
 						unitType +
 						".svg";
-					return helpers.memoize(
-						variantUnitSVG,
-						helpers
+					return helpers.memoize(variantUnitSVG, _ => {
+						return helpers
 							.safeFetch(helpers.createRequest(variantUnitSVG))
 							.then(resp => resp.text())
 							.then(svg => {
@@ -69,8 +67,8 @@ export default class DipMap extends React.Component {
 									name: unitType,
 									svg: svg
 								};
-							})
-					);
+							});
+					});
 				})
 			)
 		];
@@ -113,12 +111,11 @@ export default class DipMap extends React.Component {
 			});
 			if (optionsLink) {
 				helpers.incProgress();
-				optionsPromise = helpers.memoize(
-					optionsLink.URL,
-					helpers
+				optionsPromise = helpers.memoize(optionsLink.URL, _ => {
+					return helpers
 						.safeFetch(helpers.createRequest(optionsLink.URL))
-						.then(resp => resp.json())
-				);
+						.then(resp => resp.json());
+				});
 			}
 		}
 		this.map.removeUnits();
@@ -218,13 +215,15 @@ export default class DipMap extends React.Component {
 			return null;
 		}
 		helpers.incProgress();
-		let fetchPromise = helpers
-			.safeFetch(helpers.createRequest(orderLink.URL))
-			.then(resp => resp.json());
+		let fetchPromiseFunc = _ => {
+			return helpers
+				.safeFetch(helpers.createRequest(orderLink.URL))
+				.then(resp => resp.json());
+		};
 		if (this.props.phase.Properties.Resolved) {
-			return helpers.memoize(orderLink.URL, fetchPromise);
+			return helpers.memoize(orderLink.URL, fetchPromiseFunc);
 		} else {
-			return fetchPromise;
+			return fetchPromiseFunc();
 		}
 	}
 	renderOrders(orderPromise, regardingPhase) {

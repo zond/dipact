@@ -24,11 +24,11 @@ export function safeFetch(req) {
 	});
 }
 
-export function memoize(key, promise) {
+export function memoize(key, promiseFunc) {
 	if (Globals.memoizeCache[key]) {
 		return Promise.resolve(Globals.memoizeCache[key]);
 	} else {
-		return promise.then(result => {
+		return promiseFunc().then(result => {
 			Globals.memoizeCache[key] = result;
 			return Promise.resolve(result);
 		});
