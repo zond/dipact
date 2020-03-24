@@ -182,7 +182,7 @@ export default class Game extends React.Component {
 					key="chat-container"
 					style={{
 						marginTop: "105px",
-						height: "100%",
+						height: "calc(100% - 105px)",
 						display:
 							this.state.activeTab == "chat" ? "block" : "none"
 					}}

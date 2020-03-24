@@ -23,11 +23,8 @@ export default class ChatChannel extends React.Component {
 				.then(js => {
 					helpers.decProgress();
 					this.setState({ messages: js.Properties }, _ => {
-						document.getElementById(
-							"messages"
-						).scrollTop = document.getElementById(
-							"messages"
-						).scrollHeight;
+						let msgEl = document.getElementById("messages");
+						msgEl.scrollTop = msgEl.scrollHeight;
 					});
 				});
 		}
@@ -55,7 +52,7 @@ export default class ChatChannel extends React.Component {
 						id="messages"
 						style={{
 							overflowY: "scroll",
-							height: "100%",
+							height: "calc(100% - 40px)",
 							width: "100%"
 						}}
 					>
@@ -105,6 +102,12 @@ export default class ChatChannel extends React.Component {
 								</MaterialUI.ExpansionPanel>
 							);
 						})}
+						<MaterialUI.TextField
+							multiline
+							rows="3"
+							style={{ width: "100%" }}
+							label="Message"
+						/>
 					</div>
 				</React.Fragment>
 			);
