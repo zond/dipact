@@ -8,7 +8,8 @@ export default class ChatMenu extends React.Component {
 		this.state = {
 			channels: [],
 			activeChannel: null,
-			channelOpen: false
+			channelOpen: false,
+			createMessageLink: null
 		};
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
@@ -110,7 +111,12 @@ export default class ChatMenu extends React.Component {
 				.then(resp => resp.json())
 				.then(js => {
 					helpers.decProgress();
-					this.setState({ channels: js.Properties });
+					this.setState({
+						channels: js.Properties,
+						createMessageLink: js.Links.find(l => {
+							return l.Rel == "message";
+						})
+					});
 				});
 		}
 	}
@@ -146,6 +152,7 @@ export default class ChatMenu extends React.Component {
 							channelName={this.channelName(
 								this.state.activeChannel
 							)}
+							createMessageLink={this.state.createMessageLink}
 							flags={this.flags}
 							channel={this.state.activeChannel}
 							close={this.closeChannel}

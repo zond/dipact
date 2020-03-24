@@ -11,6 +11,32 @@ export default class ChatChannel extends React.Component {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.messagMeta = this.messageMeta.bind(this);
+		this.sendMessage = this.sendMessage.bind(this);
+		this.loadMessages = this.loadMessages.bind(this);
+	}
+	sendMessage() {
+		if (this.props.createMessageLink) {
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest(this.props.createMessageLink.URL, {
+						method: this.props.createMessageLink.Method,
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							Body: document.getElementById("input_field").value,
+							ChannelMembers: this.props.channel.Properties
+								.Members
+						})
+					})
+				)
+				.then(_ => {
+					helpers.decProgress();
+					document.getElementById("input_field").value = "";
+					this.loadMessages();
+				});
+		}
 	}
 	messageMeta(message) {
 		let d = new Date(Date.parse(message.Properties.CreatedAt));
@@ -94,7 +120,7 @@ export default class ChatChannel extends React.Component {
 			</MaterialUI.TableContainer>
 		);
 	}
-	componentDidMount() {
+	loadMessages() {
 		let messagesLink = this.props.channel.Links.find(l => {
 			return l.Rel == "messages";
 		});
@@ -105,6 +131,7 @@ export default class ChatChannel extends React.Component {
 				.then(resp => resp.json())
 				.then(js => {
 					helpers.decProgress();
+					js.Properties.reverse();
 					this.setState({ messages: js.Properties }, _ => {
 						let msgEl = document.getElementById("messages");
 						msgEl.scrollTop = msgEl.scrollHeight;
@@ -112,6 +139,9 @@ export default class ChatChannel extends React.Component {
 					});
 				});
 		}
+	}
+	componentDidMount() {
+		this.loadMessages();
 	}
 	render() {
 		if (this.props.channel) {
@@ -194,7 +224,7 @@ export default class ChatChannel extends React.Component {
 								style={{ flexGrow: 100 }}
 								label="Message"
 							/>
-							<MaterialUI.IconButton>
+							<MaterialUI.IconButton onClick={this.sendMessage}>
 								{helpers.createIcon("\ue163")}
 							</MaterialUI.IconButton>
 						</div>
