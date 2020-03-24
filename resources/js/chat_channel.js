@@ -10,6 +10,51 @@ export default class ChatChannel extends React.Component {
 		this.variant = Globals.variants.find(v => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
+		this.messagMeta = this.messageMeta.bind(this);
+	}
+	messageMeta(message) {
+		let d = new Date(Date.parse(message.Properties.CreatedAt));
+		let phase = this.props.phases.find(phase => {
+			return (
+				!phase.Properties.Resolved ||
+				new Date(Date.parse(phase.Properties.ResolvedAt)).getTime() >
+					d.getTime()
+			);
+		});
+		return (
+			<MaterialUI.TableContainer component={MaterialUI.Paper}>
+				<MaterialUI.Table>
+					<MaterialUI.TableBody>
+						<MaterialUI.TableRow>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									Created at
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									{helpers.timeStrToDateTime(
+										message.Properties.CreatedAt
+									)}
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+						</MaterialUI.TableRow>
+						<MaterialUI.TableRow>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									During
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									{helpers.phaseName(phase)}
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+						</MaterialUI.TableRow>
+					</MaterialUI.TableBody>
+				</MaterialUI.Table>
+			</MaterialUI.TableContainer>
+		);
 	}
 	componentDidMount() {
 		let messagesLink = this.props.channel.Links.find(l => {
@@ -44,7 +89,9 @@ export default class ChatChannel extends React.Component {
 								justifyContent: "space-between"
 							}}
 						>
-							<div>{this.props.channelName}</div>
+							<span style={{ display: "flex" }}>
+								{this.props.channelName}
+							</span>
 							{helpers.createIcon("\ue5cf")}
 						</MaterialUI.Button>
 					</MaterialUI.ButtonGroup>
@@ -77,7 +124,7 @@ export default class ChatChannel extends React.Component {
 													this.props.flags[
 														message.Properties
 															.Sender
-													].el
+													]
 												}
 											</MaterialUI.Grid>
 											<MaterialUI.Grid
@@ -95,9 +142,7 @@ export default class ChatChannel extends React.Component {
 											paddingLeft: "0.3em"
 										}}
 									>
-										<MaterialUI.Paper elevation={3}>
-											...
-										</MaterialUI.Paper>
+										{this.messageMeta(message)}
 									</MaterialUI.ExpansionPanelDetails>
 								</MaterialUI.ExpansionPanel>
 							);

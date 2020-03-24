@@ -2,29 +2,16 @@
 	min-width: 0;
 }
 
+.avatar {
+	width: 24px !important;
+	height: 24px !important;
+	margin: 2px;
+}
+
 .game-tabs > div > div {
 	justify-content: space-between;
 }
 
-.profile-pic {
-	width: 1.5em;
-	height: 1.5em;
-	margin: 0.2em;
-}
-
 .game-appbar > div {
 	width: 100%;
-}
-
-.chat-member-icon {
-	display: inline-block;
-	width: 24px;
-	height: 24px;
-	vertical-align: middle;
-	font-weight: bold;
-	overflow: hidden;
-	text-align: center;
-	text-shadow: 1px 1px #ffffff;
-	border-radius: 50%;
-	border: 1px solid black;
 }

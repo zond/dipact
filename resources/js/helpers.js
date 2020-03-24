@@ -2,6 +2,21 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function phaseName(phase) {
+	return (
+		phase.Properties.Season +
+		" " +
+		phase.Properties.Year +
+		", " +
+		phase.Properties.Type
+	);
+}
+
+export function timeStrToDateTime(s) {
+	let d = new Date(Date.parse(s));
+	return d.toLocaleTimeString() + " " + d.toLocaleDateString();
+}
+
 export function safeFetch(req) {
 	return fetch(req).then(resp => {
 		if (resp.status == 401) {

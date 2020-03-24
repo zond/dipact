@@ -79,15 +79,6 @@ export default class Game extends React.Component {
 			this.props.game.Properties.Variant
 		);
 	}
-	phaseName(phase) {
-		return (
-			phase.Properties.Season +
-			" " +
-			phase.Properties.Year +
-			", " +
-			phase.Properties.Type
-		);
-	}
 	changePhase(ev) {
 		this.setState({
 			activePhase: this.state.phases.find(phase => {
@@ -117,7 +108,9 @@ export default class Game extends React.Component {
 										.PhaseOrdinal
 								}
 								onChange={this.changePhase}
-								label={this.phaseName(this.state.activePhase)}
+								label={helpers.phaseName(
+									this.state.activePhase
+								)}
 							>
 								{this.state.phases.map(phase => {
 									return (
@@ -127,7 +120,7 @@ export default class Game extends React.Component {
 												phase.Properties.PhaseOrdinal
 											}
 										>
-											{this.phaseName(phase)}
+											{helpers.phaseName(phase)}
 										</MaterialUI.MenuItem>
 									);
 								})}
@@ -187,7 +180,10 @@ export default class Game extends React.Component {
 							this.state.activeTab == "chat" ? "block" : "none"
 					}}
 				>
-					<ChatMenu game={this.props.game} />
+					<ChatMenu
+						phases={this.state.phases}
+						game={this.props.game}
+					/>
 				</div>
 			</React.Fragment>
 		);

@@ -8,8 +8,7 @@ export default class ChatMenu extends React.Component {
 		this.state = {
 			channels: [],
 			activeChannel: null,
-			channelOpen: false,
-			flags: {}
+			channelOpen: false
 		};
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
@@ -41,14 +40,40 @@ export default class ChatMenu extends React.Component {
 				minUniqueAbbreviationLength
 			);
 		});
-		this.openChannel = this.openChannel.bind(this);
-		this.closeChannel = this.closeChannel.bind(this);
-		this.channelName = this.channelName.bind(this);
-		this.natCol = this.natCol.bind(this);
+		this.flags = {};
+		this.variant.Properties.Nations.forEach(nation => {
+			let flagLink = this.variant.Links.find(l => {
+				return l.Rel == "flag-" + nation;
+			});
+			if (flagLink) {
+				this.flags[nation] = (
+					<MaterialUI.Avatar
+						className="avatar"
+						key={nation}
+						alt={nation}
+						src={flagLink.URL}
+					/>
+				);
+			} else {
+				this.flags[nation] = (
+					<MaterialUI.Avatar
+						className="avatar"
+						key={nation}
+						alt={nation}
+					>
+						{this.nationAbbreviations[nation]}
+					</MaterialUI.Avatar>
+				);
+			}
+		});
 		this.contrasts = (_ => {
 			let m = dippyMap($("body"));
 			return m.contrasts;
 		})();
+		this.openChannel = this.openChannel.bind(this);
+		this.closeChannel = this.closeChannel.bind(this);
+		this.channelName = this.channelName.bind(this);
+		this.natCol = this.natCol.bind(this);
 	}
 	natCol(nat) {
 		return this.contrasts[this.variant.Properties.Nations.indexOf(nat)];
@@ -62,26 +87,16 @@ export default class ChatMenu extends React.Component {
 			this.variant.Properties.Nations.length
 		) {
 			return (
-				<MaterialUI.Tooltip key="Everyone" title="Everyone">
-					<span
-						style={{
-							paddingTop: "5px",
-							paddingLeft: "3px",
-							paddingRight: "3px",
-							paddingBottom: "0px"
-						}}
-						className="chat-member-icon"
-					>
-						<object
-							data="/static/un_logo.svg"
-							type="image/svg+xml"
-						/>
-					</span>
-				</MaterialUI.Tooltip>
+				<MaterialUI.Avatar
+					className="avatar"
+					key="Everyone"
+					alt="Everyone"
+					src="/static/un_logo.svg"
+				/>
 			);
 		}
 		return channel.Properties.Members.map(member => {
-			return this.state.flags[member].el;
+			return this.flags[member];
 		});
 	}
 	componentDidMount() {
@@ -90,78 +105,13 @@ export default class ChatMenu extends React.Component {
 		});
 		if (channelLink) {
 			helpers.incProgress();
-			let promises = [
-				helpers
-					.safeFetch(helpers.createRequest(channelLink.URL))
-					.then(resp => resp.json()),
-				Promise.all(
-					this.variant.Properties.Nations.map(nation => {
-						let flagLink = this.variant.Links.find(l => {
-							return l.Rel == "flag-" + nation;
-						});
-						if (flagLink) {
-							return helpers.memoize(flagLink.URL, _ => {
-								return helpers
-									.safeFetch(
-										helpers.createRequest(flagLink.URL)
-									)
-									.then(resp => resp.text())
-									.then(svg => {
-										let el = (
-											<MaterialUI.Tooltip
-												key={nation}
-												title={nation}
-											>
-												<span
-													className="chat-member-icon"
-													dangerouslySetInnerHTML={{
-														__html: svg
-													}}
-												/>
-											</MaterialUI.Tooltip>
-										);
-										return {
-											el: el,
-											nation: nation
-										};
-									});
-							});
-						} else {
-							return Promise.resolve({
-								el: (
-									<MaterialUI.Tooltip
-										key={nation}
-										title={nation}
-									>
-										<span
-											className="chat-member-icon"
-											style={{
-												padding: "2px",
-												backgroundColor: this.natCol(
-													nation
-												)
-											}}
-										>
-											{this.nationAbbreviations[nation]}
-										</span>
-									</MaterialUI.Tooltip>
-								),
-								nation: nation
-							});
-						}
-					})
-				)
-			];
-			Promise.all(promises).then(values => {
-				helpers.decProgress();
-				let channels = values[0];
-				let flagData = values[1];
-				let flags = {};
-				flagData.forEach(d => {
-					flags[d.nation] = d;
+			helpers
+				.safeFetch(helpers.createRequest(channelLink.URL))
+				.then(resp => resp.json())
+				.then(js => {
+					helpers.decProgress();
+					this.setState({ channels: js.Properties });
 				});
-				this.setState({ channels: channels.Properties, flags: flags });
-			});
 		}
 	}
 	openChannel(channel) {
@@ -192,10 +142,11 @@ export default class ChatMenu extends React.Component {
 					>
 						<ChatChannel
 							game={this.props.game}
+							phases={this.props.phases}
 							channelName={this.channelName(
 								this.state.activeChannel
 							)}
-							flags={this.state.flags}
+							flags={this.flags}
 							channel={this.state.activeChannel}
 							close={this.closeChannel}
 						/>

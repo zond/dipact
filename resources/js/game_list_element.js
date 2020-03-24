@@ -188,12 +188,16 @@ export default class GameListElement extends React.Component {
 		);
 		this.props.game.Properties.Members.forEach(member => {
 			expandedGameItems.push(
-				<MaterialUI.Grid item key={itemKey++} xs={1}>
-					<img src={member.User.Picture} className="profile-pic" />
+				<MaterialUI.Grid item key={itemKey++} xs={2}>
+					<MaterialUI.Avatar
+						className="avatar"
+						alt={member.User.Name}
+						src={member.User.Picture}
+					/>
 				</MaterialUI.Grid>
 			);
 			expandedGameItems.push(
-				<MaterialUI.Grid item key={itemKey++} xs={11}>
+				<MaterialUI.Grid item key={itemKey++} xs={10}>
 					<MaterialUI.Typography>
 						{member.User.GivenName} {member.User.FamilyName}
 					</MaterialUI.Typography>
