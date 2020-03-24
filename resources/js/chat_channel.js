@@ -108,6 +108,7 @@ export default class ChatChannel extends React.Component {
 					this.setState({ messages: js.Properties }, _ => {
 						let msgEl = document.getElementById("messages");
 						msgEl.scrollTop = msgEl.scrollHeight;
+						document.getElementById("input_field").focus();
 					});
 				});
 		}
@@ -185,12 +186,18 @@ export default class ChatChannel extends React.Component {
 								</MaterialUI.ExpansionPanel>
 							);
 						})}
-						<MaterialUI.TextField
-							multiline
-							rows="3"
-							style={{ width: "100%" }}
-							label="Message"
-						/>
+						<div style={{ display: "flex" }}>
+							<MaterialUI.TextField
+								id="input_field"
+								multiline
+								rows="3"
+								style={{ flexGrow: 100 }}
+								label="Message"
+							/>
+							<MaterialUI.IconButton>
+								{helpers.createIcon("\ue163")}
+							</MaterialUI.IconButton>
+						</div>
 					</div>
 				</React.Fragment>
 			);
