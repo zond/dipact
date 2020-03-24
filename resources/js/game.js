@@ -167,6 +167,7 @@ export default class Game extends React.Component {
 					key="map-container"
 					style={{
 						marginTop: "105px",
+                                                height: "calc(100% - 105px)",
 						display:
 							this.state.activeTab == "map" ? "block" : "none"
 					}}
