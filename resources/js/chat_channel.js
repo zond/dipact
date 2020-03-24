@@ -28,7 +28,45 @@ export default class ChatChannel extends React.Component {
 						<MaterialUI.TableRow>
 							<MaterialUI.TableCell>
 								<MaterialUI.Typography>
-									Created at
+									From
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									{message.Properties.Sender}
+									{" ("}
+									{
+										this.props.game.Properties.Members.find(
+											member => {
+												return (
+													member.Nation ==
+													message.Properties.Sender
+												);
+											}
+										).User.Name
+									}
+									)
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+						</MaterialUI.TableRow>
+						<MaterialUI.TableRow>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									To
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									{message.Properties.ChannelMembers.join(
+										", "
+									)}
+								</MaterialUI.Typography>
+							</MaterialUI.TableCell>
+						</MaterialUI.TableRow>
+						<MaterialUI.TableRow>
+							<MaterialUI.TableCell>
+								<MaterialUI.Typography>
+									Sent at
 								</MaterialUI.Typography>
 							</MaterialUI.TableCell>
 							<MaterialUI.TableCell>
