@@ -353,18 +353,25 @@ export default class GameListElement extends React.Component {
 						</MaterialUI.Paper>
 					</MaterialUI.ExpansionPanelDetails>
 				</MaterialUI.ExpansionPanel>
-				<MaterialUI.Dialog
-					key="game-view"
-					fullScreen
-					open={this.state.viewOpen}
-					TransitionComponent={helpers.Transition}
+				<MaterialUI.Zoom
+					in={this.state.viewOpen}
+					mountOnEnter
+					unmountOnExit
 				>
-					{this.state.viewOpen ? (
+					<div
+						style={{
+							position: "fixed",
+							zIndex: 1300,
+							right: 0,
+							bottom: 0,
+							top: 0,
+							left: 0,
+							background: "#ffffff"
+						}}
+					>
 						<Game game={this.props.game} close={this.closeGame} />
-					) : (
-						""
-					)}
-				</MaterialUI.Dialog>
+					</div>
+				</MaterialUI.Zoom>
 			</React.Fragment>
 		);
 	}

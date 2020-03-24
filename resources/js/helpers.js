@@ -46,10 +46,6 @@ export function gameDesc(game) {
 	}
 }
 
-export const Transition = React.forwardRef(function Transition(props, ref) {
-	return <MaterialUI.Slide direction="up" ref={ref} {...props} />;
-});
-
 export function createIcon(codepoint, style = {}) {
 	return (
 		<i key={codepoint} style={style} className="material-icons">
