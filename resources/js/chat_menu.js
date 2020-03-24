@@ -68,7 +68,7 @@ export default class ChatMenu extends React.Component {
 							paddingTop: "5px",
 							paddingLeft: "3px",
 							paddingRight: "3px",
-							paddingBottom: "1px"
+							paddingBottom: "0px"
 						}}
 						className="chat-member-icon"
 					>

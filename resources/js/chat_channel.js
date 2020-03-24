@@ -22,7 +22,13 @@ export default class ChatChannel extends React.Component {
 				.then(resp => resp.json())
 				.then(js => {
 					helpers.decProgress();
-					this.setState({ messages: js.Properties });
+					this.setState({ messages: js.Properties }, _ => {
+						document.getElementById(
+							"messages"
+						).scrollTop = document.getElementById(
+							"messages"
+						).scrollHeight;
+					});
 				});
 		}
 	}
@@ -45,49 +51,61 @@ export default class ChatChannel extends React.Component {
 							{helpers.createIcon("\ue5cf")}
 						</MaterialUI.Button>
 					</MaterialUI.ButtonGroup>
-					{this.state.messages.map(message => {
-						return (
-							<MaterialUI.ExpansionPanel
-								key={message.Properties.ID}
-							>
-								<MaterialUI.ExpansionPanelSummary
-									className="min-width-summary"
-									expandIcon={helpers.createIcon("\ue88e")}
+					<div
+						id="messages"
+						style={{
+							overflowY: "scroll",
+							height: "100%",
+							width: "100%"
+						}}
+					>
+						{this.state.messages.map(message => {
+							return (
+								<MaterialUI.ExpansionPanel
+									key={message.Properties.ID}
 								>
-									<MaterialUI.Grid container>
-										<MaterialUI.Grid
-											key="sender"
-											item
-											xs={2}
-										>
-											{
-												this.props.flags[
-													message.Properties.Sender
-												].el
-											}
+									<MaterialUI.ExpansionPanelSummary
+										className="min-width-summary"
+										expandIcon={helpers.createIcon(
+											"\ue88e"
+										)}
+									>
+										<MaterialUI.Grid container>
+											<MaterialUI.Grid
+												key="sender"
+												item
+												xs={2}
+											>
+												{
+													this.props.flags[
+														message.Properties
+															.Sender
+													].el
+												}
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key="body"
+												item
+												xs={10}
+											>
+												{message.Properties.Body}
+											</MaterialUI.Grid>
 										</MaterialUI.Grid>
-										<MaterialUI.Grid
-											key="body"
-											item
-											xs={10}
-										>
-											{message.Properties.Body}
-										</MaterialUI.Grid>
-									</MaterialUI.Grid>
-								</MaterialUI.ExpansionPanelSummary>
-								<MaterialUI.ExpansionPanelDetails
-									style={{
-										paddingRight: "0.3em",
-										paddingLeft: "0.3em"
-									}}
-								>
-									<MaterialUI.Paper elevation={3}>
-										...
-									</MaterialUI.Paper>
-								</MaterialUI.ExpansionPanelDetails>
-							</MaterialUI.ExpansionPanel>
-						);
-					})}
+									</MaterialUI.ExpansionPanelSummary>
+									<MaterialUI.ExpansionPanelDetails
+										style={{
+											paddingRight: "0.3em",
+											paddingLeft: "0.3em"
+										}}
+									>
+										<MaterialUI.Paper elevation={3}>
+											...
+										</MaterialUI.Paper>
+									</MaterialUI.ExpansionPanelDetails>
+								</MaterialUI.ExpansionPanel>
+							);
+						})}
+					</div>
 				</React.Fragment>
 			);
 		} else {
