@@ -15,3 +15,16 @@
 .game-appbar > div {
 	width: 100%;
 }
+
+.chat-member-icon {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+	font-weight: bold;
+	overflow: hidden;
+	text-align: center;
+	text-shadow: 1px 1px #ffffff;
+	border-radius: 50%;
+	border: 1px solid black;
+}

@@ -234,94 +234,116 @@ export default class GameListElement extends React.Component {
 						<MaterialUI.Grid container>
 							{(_ => {
 								if (this.props.game.Properties.Started) {
-									return [
-										<MaterialUI.Grid
-											key={itemKey++}
-											item
-											xs={11}
-										>
-											<MaterialUI.Typography
-												textroverflow="ellipsis"
-												noWrap={true}
+									return (
+										<React.Fragment>
+											<MaterialUI.Grid
+												key={itemKey++}
+												item
+												xs={11}
 											>
-												{helpers.gameDesc(
-													this.props.game
-												)}
-											</MaterialUI.Typography>
-										</MaterialUI.Grid>,
-										<MaterialUI.Grid
-											key={itemKey++}
-											item
-											xs={1}
-										>
-											{helpers.minutesToDuration(
-												this.props.game.Properties
-													.NewestPhaseMeta[0]
-													.NextDeadlineIn /
-													1000000000 /
-													60,
-												true
-											)}
-										</MaterialUI.Grid>,
-										<MaterialUI.Grid
-											key={itemKey++}
-											item
-											xs={12}
-										>
-											<MaterialUI.Typography>
-												{
-													this.props.game.Properties
-														.NewestPhaseMeta[0]
-														.Season
-												}{" "}
-												{
-													this.props.game.Properties
-														.NewestPhaseMeta[0].Year
-												}
-												,{" "}
-												{
-													this.props.game.Properties
-														.NewestPhaseMeta[0].Type
-												}
-											</MaterialUI.Typography>
-										</MaterialUI.Grid>
-									];
-								} else {
-									return [
-										<MaterialUI.Grid
-											key={itemKey++}
-											item
-											xs={11}
-										>
-											<MaterialUI.Typography
-												textroverflow="ellipsis"
-												noWrap={true}
-											>
-												{helpers.gameDesc(
-													this.props.game
-												)}
-											</MaterialUI.Typography>
-										</MaterialUI.Grid>,
-										<MaterialUI.Grid
-											key={itemKey++}
-											item
-											xs={1}
-										>
-											<MaterialUI.Typography>
-												{
-													this.props.game.Properties
-														.NMembers
-												}
-												/
-												{
-													this.getVariant(
+												<MaterialUI.Typography
+													textroverflow="ellipsis"
+													noWrap={true}
+												>
+													{helpers.gameDesc(
 														this.props.game
-															.Properties.Variant
-													).Properties.Nations.length
-												}{" "}
-											</MaterialUI.Typography>
-										</MaterialUI.Grid>
-									];
+													)}
+												</MaterialUI.Typography>
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key={itemKey++}
+												item
+												xs={1}
+											>
+												{this.props.game.Properties
+													.Finished
+													? helpers.minutesToDuration(
+															-this.props.game
+																.Properties
+																.FinishedAgo /
+																1000000000 /
+																60,
+															true
+													  )
+													: helpers.minutesToDuration(
+															this.props.game
+																.Properties
+																.NewestPhaseMeta[0]
+																.NextDeadlineIn /
+																1000000000 /
+																60,
+															true
+													  )}
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key={itemKey++}
+												item
+												xs={12}
+											>
+												<MaterialUI.Typography>
+													{
+														this.props.game
+															.Properties
+															.NewestPhaseMeta[0]
+															.Season
+													}{" "}
+													{
+														this.props.game
+															.Properties
+															.NewestPhaseMeta[0]
+															.Year
+													}
+													,{" "}
+													{
+														this.props.game
+															.Properties
+															.NewestPhaseMeta[0]
+															.Type
+													}
+												</MaterialUI.Typography>
+											</MaterialUI.Grid>
+										</React.Fragment>
+									);
+								} else {
+									return (
+										<React.Fragment>
+											<MaterialUI.Grid
+												key={itemKey++}
+												item
+												xs={11}
+											>
+												<MaterialUI.Typography
+													textroverflow="ellipsis"
+													noWrap={true}
+												>
+													{helpers.gameDesc(
+														this.props.game
+													)}
+												</MaterialUI.Typography>
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key={itemKey++}
+												item
+												xs={1}
+											>
+												<MaterialUI.Typography>
+													{
+														this.props.game
+															.Properties.NMembers
+													}
+													/
+													{
+														this.getVariant(
+															this.props.game
+																.Properties
+																.Variant
+														).Properties.Nations
+															.length
+													}{" "}
+												</MaterialUI.Typography>
+											</MaterialUI.Grid>
+										</React.Fragment>
+									);
 								}
 							})()}
 							<MaterialUI.Grid item xs={12}>
