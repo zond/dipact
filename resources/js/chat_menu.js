@@ -39,51 +39,49 @@ export default class ChatMenu extends React.Component {
 	}
 	render() {
 		return (
-			<React.Fragment>
-				<div
-					style={{
-						display: this.state.channelOpen ? "none" : "block"
-					}}
-				>
-					<MaterialUI.ButtonGroup
-						orientation="vertical"
-						style={{ width: "100%" }}
-					>
-						{this.state.channels.map(channel => {
-							return (
-								<MaterialUI.Button
-									onClick={_ => {
-										this.openChannel(channel);
-									}}
-									key={helpers.channelName(
-										channel,
-										this.variant
-									)}
-								>
-									<MaterialUI.Typography>
-										{helpers.channelName(
-											channel,
-											this.variant
-										)}
-									</MaterialUI.Typography>
-								</MaterialUI.Button>
-							);
-						})}
-					</MaterialUI.ButtonGroup>
-				</div>
+			<div style={{ position: "relative", height: "100%" }}>
 				<MaterialUI.Slide
-					in={this.state.channelOpen}
 					direction="up"
+					in={this.state.channelOpen}
 					mountOnEnter
 					unmountOnExit
 				>
-					<ChatChannel
-						game={this.props.game}
-						channel={this.state.activeChannel}
-						close={this.closeChannel}
-					/>
+					<div
+						style={{
+							width: "100%",
+							height: "100%",
+							background: "#ffffff",
+							position: "absolute",
+							zIndex: 1200
+						}}
+					>
+						<ChatChannel
+							game={this.props.game}
+							channel={this.state.activeChannel}
+							close={this.closeChannel}
+						/>
+					</div>
 				</MaterialUI.Slide>
-			</React.Fragment>
+				<MaterialUI.ButtonGroup
+					orientation="vertical"
+					style={{ width: "100%" }}
+				>
+					{this.state.channels.map(channel => {
+						return (
+							<MaterialUI.Button
+								onClick={_ => {
+									this.openChannel(channel);
+								}}
+								key={helpers.channelName(channel, this.variant)}
+							>
+								<MaterialUI.Typography>
+									{helpers.channelName(channel, this.variant)}
+								</MaterialUI.Typography>
+							</MaterialUI.Button>
+						);
+					})}
+				</MaterialUI.ButtonGroup>
+			</div>
 		);
 	}
 }
