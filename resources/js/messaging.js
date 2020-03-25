@@ -55,14 +55,14 @@ class Messaging {
 					.safeFetch(Globals.serverRequest)
 					.then(resp => resp.json())
 					.then(rootJS => {
+						let configLink = rootJS.Links.find(l => {
+							return l.Rel == "user-config";
+						});
+						if (!configLink) {
+							return;
+						}
 						helpers
-							.safeFetch(
-								helpers.createRequest(
-									rootJS.Links.find(l => {
-										return l.Rel == "user-config";
-									}).URL
-								)
-							)
+							.safeFetch(helpers.createRequest(configLink.URL))
 							.then(resp => resp.json())
 							.then(js => {
 								let dipactToken = js.Properties.FCMTokens.find(

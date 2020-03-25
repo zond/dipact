@@ -21,7 +21,7 @@ export default class MainMenu extends ActivityContainer {
 	}
 	logout() {
 		localStorage.removeItem("token");
-		location.replace("/");
+		location.reload();
 	}
 	openDrawer() {
 		this.setState({ drawerOpen: true });
