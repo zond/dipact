@@ -22,6 +22,7 @@ export default class GameListElement extends React.Component {
 		this.reloadGame = this.reloadGame.bind(this);
 	}
 	joinGameWithPreferences(link, preferences) {
+		helpers.incProgress();
 		helpers
 			.safeFetch(
 				helpers.createRequest(link.URL, {
@@ -34,7 +35,10 @@ export default class GameListElement extends React.Component {
 					})
 				})
 			)
-			.then(this.reloadGame);
+			.then(_ => {
+				helpers.decProgress();
+				this.reloadGame();
+			});
 	}
 	reloadGame() {
 		helpers
@@ -51,6 +55,7 @@ export default class GameListElement extends React.Component {
 			});
 	}
 	leaveGame(link) {
+		helpers.incProgress();
 		helpers
 			.safeFetch(
 				helpers.createRequest(link.URL, {
@@ -58,7 +63,10 @@ export default class GameListElement extends React.Component {
 				})
 			)
 			.then(resp => resp.json())
-			.then(this.reloadGame);
+			.then(_ => {
+				helpers.decProgress();
+				this.reloadGame();
+			});
 	}
 	joinGame(link) {
 		if (this.state.game.Properties.NationAllocation == 1) {
@@ -70,7 +78,7 @@ export default class GameListElement extends React.Component {
 				}
 			});
 		} else {
-			this.joinGameWithPreferences(link, null);
+			this.joinGameWithPreferences(link, []);
 		}
 	}
 	closeGame() {
