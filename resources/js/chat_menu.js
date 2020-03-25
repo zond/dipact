@@ -79,6 +79,7 @@ export default class ChatMenu extends React.Component {
 		) {
 			return (
 				<MaterialUI.Avatar
+                                        style={{ border: "none" }}
 					className="avatar"
 					key="Everyone"
 					alt="Everyone"
