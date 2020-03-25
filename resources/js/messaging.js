@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
+const messageClickActionTemplate = "https://dipact.appspot.com";
+
 class Messaging {
 	constructor() {
 		let firebaseConfig = {
@@ -14,9 +16,11 @@ class Messaging {
 		firebase.initializeApp(firebaseConfig);
 
 		this.messaging = firebase.messaging();
+		this.subscribers = {};
 
 		this.refreshToken = this.refreshToken.bind(this);
 		this.onMessage = this.onMessage.bind(this);
+		this.subscribe = this.subscribe.bind(this);
 
 		this.messaging
 			.requestPermission()
@@ -38,6 +42,9 @@ class Messaging {
 			.catch(err => {
 				console.log("Unable to get permission to notify:", err);
 			});
+	}
+	subscribe(type, handler) {
+		this.subscribers[type] = handler;
 	}
 	refreshToken() {
 		this.messaging
@@ -80,6 +87,13 @@ class Messaging {
 									dipactToken.Note =
 										"Re-enabled via dipact refreshToken on " +
 										new Date();
+									updateServer = true;
+								} else if (
+									dipactToken.MessageConfig
+										.ClickActionTemplate !=
+									messageClickActionTemplate
+								) {
+									dipactToken.MessageConfig.ClickActionTemplate = messageClickActionTemplate;
 									updateServer = true;
 								}
 								if (updateServer) {
@@ -130,6 +144,20 @@ class Messaging {
 			)
 		);
 		console.log("Message received:", payload);
+		if (
+			!this.subscribers[payload.data.type] ||
+			!this.subscribers[payload.data.type](payload)
+		) {
+			let notification = new Notification(payload.notification.title, {
+				body: payload.notification.body,
+				icon: helpers.createRequest("/favicon.ico").url
+			});
+			notification.onclick = ev => {
+				ev.preventDefault();
+				notification.close();
+				window.open(payload.notification.click_action);
+			};
+		}
 	}
 }
 
