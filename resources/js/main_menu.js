@@ -18,6 +18,14 @@ export default class MainMenu extends ActivityContainer {
 		this.closeMenu = this.closeMenu.bind(this);
 		this.openMenu = this.openMenu.bind(this);
 		this.logout = this.logout.bind(this);
+		helpers.urlMatch([
+			[
+				/^\/Game\/([^\/]+)/,
+				match => {
+					console.log("got", match);
+				}
+			]
+		]);
 	}
 	logout() {
 		localStorage.removeItem("token");
