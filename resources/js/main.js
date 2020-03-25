@@ -1,10 +1,10 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import Login from '%{ cb "./login.js" }%';
-import MainMenu from '%{ cb "./main_menu.js" }%';
-import Messaging from '%{ cb "./messaging.js" }%';
-import Notifications from '%{ cb "./notifications.js" }%';
-import ActivityContainer from '%{ cb "./activity_container.js" }%';
+import Login from '%{ cb "/js/login.js" }%';
+import MainMenu from '%{ cb "/js/main_menu.js" }%';
+import Messaging from '%{ cb "/js/messaging.js" }%';
+import Notifications from '%{ cb "/js/notifications.js" }%';
+import ActivityContainer from '%{ cb "/js/activity_container.js" }%';
 
 export default class Main extends ActivityContainer {
 	constructor(props) {

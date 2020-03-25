@@ -1,6 +1,6 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import ChatChannel from '%{ cb "./chat_channel.js" }%';
+import ChatChannel from '%{ cb "/js/chat_channel.js" }%';
 
 export default class ChatMenu extends React.Component {
 	constructor(props) {

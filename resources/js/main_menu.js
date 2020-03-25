@@ -1,8 +1,8 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import ActivityContainer from '%{ cb "./activity_container.js" }%';
-import Notifications from '%{ cb "./notifications.js" }%';
-import GameList from '%{ cb "./game_list.js" }%';
+import ActivityContainer from '%{ cb "/js/activity_container.js" }%';
+import Notifications from '%{ cb "/js/notifications.js" }%';
+import GameList from '%{ cb "/js/game_list.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {

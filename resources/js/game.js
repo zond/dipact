@@ -1,7 +1,7 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import DipMap from '%{ cb "./dip_map.js" }%';
-import ChatMenu from '%{ cb "./chat_menu.js" }%';
+import DipMap from '%{ cb "/js/dip_map.js" }%';
+import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 
 export default class Game extends React.Component {
 	constructor(props) {

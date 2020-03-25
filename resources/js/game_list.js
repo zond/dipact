@@ -1,6 +1,6 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import GameListElement from '%{ cb "./game_list_element.js" }%';
+import GameListElement from '%{ cb "/js/game_list_element.js" }%';
 
 export default class GameList extends React.Component {
 	constructor(props) {

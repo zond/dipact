@@ -1,7 +1,7 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import Game from '%{ cb "./game.js" }%';
-import NationPreferencesDialog from '%{ cb "./nation_preferences_dialog.js" }%';
+import Game from '%{ cb "/js/game.js" }%';
+import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 
 export default class GameListElement extends React.Component {
 	constructor(props) {

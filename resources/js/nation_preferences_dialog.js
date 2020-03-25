@@ -1,4 +1,4 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 export default class NationPreferencesDialog extends React.Component {
 	constructor(props) {

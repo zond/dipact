@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"path/filepath"
 
 	"github.com/zond/dipact/fs"
 	"google.golang.org/appengine"
@@ -38,7 +39,7 @@ func (w *bufferingResponseWriter) flush() error {
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	hadCB := false
 	r.URL.Path, hadCB = fs.RemovePathCB(r.URL.Path)
-	if r.URL.Path != "/" {
+	if filepath.Ext(filepath.Base(r.URL.Path)) != "" {
 		bw := &bufferingResponseWriter{
 			backend: w,
 			buffer:  &bytes.Buffer{},

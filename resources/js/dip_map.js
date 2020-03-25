@@ -1,6 +1,6 @@
-import * as helpers from '%{ cb "./helpers.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import OrderDialog from '%{ cb "./order_dialog.js" }%';
+import OrderDialog from '%{ cb "/js/order_dialog.js" }%';
 
 export default class DipMap extends React.Component {
 	constructor(props) {

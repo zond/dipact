@@ -1,5 +1,5 @@
-import Main from '%{ cb "./main.js" }%';
-import ProgressDialog from '%{ cb "./progress_dialog.js" }%';
+import Main from '%{ cb "/js/main.js" }%';
+import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
 
 window.Globals = {
 	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
