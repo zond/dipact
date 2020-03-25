@@ -13,6 +13,7 @@ export default class DipMap extends React.Component {
 		this.natCol = this.natCol.bind(this);
 		this.map = null;
 		this.lastRenderedGameID = null;
+		this.orderDialog = null;
 	}
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -291,7 +292,7 @@ export default class DipMap extends React.Component {
 					}
 					break;
 				case "OrderType":
-					Globals.orderDialog.setState({
+					this.orderDialog.setState({
 						open: true,
 						options: Object.keys(options),
 						onClick: ord => {
@@ -336,7 +337,11 @@ export default class DipMap extends React.Component {
 					style={{ display: "none" }}
 					id="units-div"
 				></div>
-				<OrderDialog key="order-dialog" key="order-dialog" />
+				<OrderDialog
+					parent={this}
+					key="order-dialog"
+					key="order-dialog"
+				/>
 			</React.Fragment>
 		);
 	}

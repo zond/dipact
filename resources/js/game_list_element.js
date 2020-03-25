@@ -1,16 +1,77 @@
 import * as helpers from '%{ cb "./helpers.js" }%';
 
 import Game from '%{ cb "./game.js" }%';
+import NationPreferencesDialog from '%{ cb "./nation_preferences_dialog.js" }%';
 
 export default class GameListElement extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { viewOpen: false };
+		this.state = { game: this.props.game, viewOpen: false };
 		this.member = props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});
+		this.variant = Globals.variants.find(v => {
+			return v.Properties.Name == this.props.game.Properties.Variant;
+		});
+		this.nationPreferencesDialog = null;
 		this.viewGame = this.viewGame.bind(this);
 		this.closeGame = this.closeGame.bind(this);
+		this.joinGame = this.joinGame.bind(this);
+		this.leaveGame = this.leaveGame.bind(this);
+		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
+		this.reloadGame = this.reloadGame.bind(this);
+	}
+	joinGameWithPreferences(link, preferences) {
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						NationPreferences: preferences.join(",")
+					})
+				})
+			)
+			.then(this.reloadGame);
+	}
+	reloadGame() {
+		helpers
+			.safeFetch(
+				helpers.createRequest(
+					this.state.game.Links.find(l => {
+						return l.Rel == "self";
+					}).URL
+				)
+			)
+			.then(resp => resp.json())
+			.then(js => {
+				this.setState({ game: js });
+			});
+	}
+	leaveGame(link) {
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method
+				})
+			)
+			.then(resp => resp.json())
+			.then(this.reloadGame);
+	}
+	joinGame(link) {
+		if (this.state.game.Properties.NationAllocation == 1) {
+			this.nationPreferencesDialog.setState({
+				open: true,
+				nations: this.variant.Properties.Nations,
+				onSelected: preferences => {
+					this.joinGameWithPreferences(link, preferences);
+				}
+			});
+		} else {
+			this.joinGameWithPreferences(link, null);
+		}
 	}
 	closeGame() {
 		this.setState({ viewOpen: false });
@@ -31,8 +92,8 @@ export default class GameListElement extends React.Component {
 		let icons = [];
 		if (
 			this.member != null &&
-			this.props.game.Properties.Started &&
-			!this.props.game.Properties.Finished
+			this.state.game.Properties.Started &&
+			!this.state.game.Properties.Finished
 		) {
 			if (this.member.NewestPhaseState.OnProbation) {
 				this.addIcon(icons, "\ue88b", "red");
@@ -41,117 +102,108 @@ export default class GameListElement extends React.Component {
 			}
 		}
 		if (
-			this.props.game.Properties.MinQuickness ||
-			this.props.game.Properties.MinReliability
+			this.state.game.Properties.MinQuickness ||
+			this.state.game.Properties.MinReliability
 		) {
 			this.addIcon(icons, "\ue425", "black");
 		}
 		if (
-			this.props.game.Properties.MinRating ||
-			this.props.game.Properties.MaxRating
+			this.state.game.Properties.MinRating ||
+			this.state.game.Properties.MaxRating
 		) {
 			this.addIcon(icons, "\ue83a", "black");
 		}
 		if (
-			this.props.game.Properties.MaxHater ||
-			this.props.game.Properties.MaxHated
+			this.state.game.Properties.MaxHater ||
+			this.state.game.Properties.MaxHated
 		) {
 			this.addIcon(icons, "\ue612", "black");
 		}
 		if (
-			this.props.game.Properties.DisableConferenceChat ||
-			this.props.game.Properties.DisableGroupChat ||
-			this.props.game.Properties.DisablePrivateChat
+			this.state.game.Properties.DisableConferenceChat ||
+			this.state.game.Properties.DisableGroupChat ||
+			this.state.game.Properties.DisablePrivateChat
 		) {
 			this.addIcon(icons, "\ue61e", "black");
 		}
-		if (this.props.game.Properties.Private) {
+		if (this.state.game.Properties.Private) {
 			this.addIcon(icons, "\ue628", "black");
 		}
-		if (this.props.game.Properties.NationAllocation == 1) {
+		if (this.state.game.Properties.NationAllocation == 1) {
 			this.addIcon(icons, "\ue065", "black");
 		}
 
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}
-	getVariant(name) {
-		let v = Globals.variants.find(v => {
-			return v.Name == name;
-		});
-		if (v) {
-			return v;
-		}
-		return { Properties: { Nations: [] } };
-	}
 	render() {
 		let expandedGameCells = [
 			"Created at",
-			helpers.timeStrToDate(this.props.game.Properties.CreatedAt)
+			helpers.timeStrToDate(this.state.game.Properties.CreatedAt)
 		];
-		if (this.props.game.Properties.Started) {
+		if (this.state.game.Properties.Started) {
 			expandedGameCells.push(
 				"Started at",
-				helpers.timeStrToDate(this.props.game.Properties.StartedAt)
+				helpers.timeStrToDate(this.state.game.Properties.StartedAt)
 			);
 		}
-		if (this.props.game.Properties.Finished) {
+		if (this.state.game.Properties.Finished) {
 			expandedGameCells.push(
 				"Finished at",
-				helpers.timeStrToDate(this.props.game.Properties.FinishedAt)
+				helpers.timeStrToDate(this.state.game.Properties.FinishedAt)
 			);
 		}
 		expandedGameCells.push(
 			"Nation allocation",
-			this.props.game.Properties.NationAllocation == 1
+			this.state.game.Properties.NationAllocation == 1
 				? "Preferences"
 				: "Random"
 		);
 
-		if (this.props.game.Properties.MinRating) {
+		if (this.state.game.Properties.MinRating) {
 			expandedGameCells.push(
 				"Minimum rating",
-				this.props.game.Properties.MinRating
+				this.state.game.Properties.MinRating
 			);
 		}
-		if (this.props.game.Properties.MaxRating) {
+		if (this.state.game.Properties.MaxRating) {
 			expandedGameCells.push(
 				"Maximum rating",
-				this.props.game.Properties.MaxRating
+				this.state.game.Properties.MaxRating
 			);
 		}
-		if (this.props.game.Properties.MinReliability) {
+		if (this.state.game.Properties.MinReliability) {
 			expandedGameCells.push(
 				"Minimum reliability",
-				this.props.game.Properties.MinReliability
+				this.state.game.Properties.MinReliability
 			);
 		}
-		if (this.props.game.Properties.MinQuickness) {
+		if (this.state.game.Properties.MinQuickness) {
 			expandedGameCells.push(
 				"Minimum quickness",
-				this.props.game.Properties.MinQuickness
+				this.state.game.Properties.MinQuickness
 			);
 		}
-		if (this.props.game.Properties.MaxHated) {
+		if (this.state.game.Properties.MaxHated) {
 			expandedGameCells.push(
 				"Maximum hated",
-				this.props.game.Properties.MaxHated
+				this.state.game.Properties.MaxHated
 			);
 		}
-		if (this.props.game.Properties.MaxHater) {
+		if (this.state.game.Properties.MaxHater) {
 			expandedGameCells.push(
 				"Maximum hater",
-				this.props.game.Properties.MaxHater
+				this.state.game.Properties.MaxHater
 			);
 		}
 		if (
-			this.props.game.Properties.DisableConferenceChat ||
-			this.props.game.Properties.DisableGroupChat ||
-			this.props.game.Properties.DisablePrivateChat
+			this.state.game.Properties.DisableConferenceChat ||
+			this.state.game.Properties.DisableGroupChat ||
+			this.state.game.Properties.DisablePrivateChat
 		) {
 			if (
-				this.props.game.Properties.DisableConferenceChat &&
-				this.props.game.Properties.DisableGroupChat &&
-				this.props.game.Properties.DisablePrivateChat
+				this.state.game.Properties.DisableConferenceChat &&
+				this.state.game.Properties.DisableGroupChat &&
+				this.state.game.Properties.DisablePrivateChat
 			) {
 				// Add two columns because this is required for formatting nicely.
 				expandedGameCells.push("All chat disabled", "(Gunboat)");
@@ -159,12 +211,12 @@ export default class GameListElement extends React.Component {
 				// Sort channel types by whether they're enabled or disabled.
 				let allChannels = { false: [], true: [] };
 				allChannels[
-					this.props.game.Properties.DisableConferenceChat
+					this.state.game.Properties.DisableConferenceChat
 				].push("Conference");
-				allChannels[this.props.game.Properties.DisableGroupChat].push(
+				allChannels[this.state.game.Properties.DisableGroupChat].push(
 					"Group"
 				);
-				allChannels[this.props.game.Properties.DisablePrivateChat].push(
+				allChannels[this.state.game.Properties.DisablePrivateChat].push(
 					"Private"
 				);
 				expandedGameCells.push(
@@ -186,7 +238,7 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.Grid>
 			)
 		);
-		this.props.game.Properties.Members.forEach(member => {
+		this.state.game.Properties.Members.forEach(member => {
 			expandedGameItems.push(
 				<MaterialUI.Grid item key={itemKey++} xs={2}>
 					<MaterialUI.Avatar
@@ -209,14 +261,28 @@ export default class GameListElement extends React.Component {
 				View
 			</MaterialUI.Button>
 		];
-		this.props.game.Links.forEach(link => {
+		this.state.game.Links.forEach(link => {
 			if (link.Rel == "join") {
 				buttons.push(
-					<MaterialUI.Button key={itemKey++}>Join</MaterialUI.Button>
+					<MaterialUI.Button
+						key={itemKey++}
+						onClick={_ => {
+							this.joinGame(link);
+						}}
+					>
+						Join
+					</MaterialUI.Button>
 				);
 			} else if (link.Rel == "leave") {
 				buttons.push(
-					<MaterialUI.Button key={itemKey++}>Leave</MaterialUI.Button>
+					<MaterialUI.Button
+						key={itemKey++}
+						onClick={_ => {
+							this.leaveGame(link);
+						}}
+					>
+						Leave
+					</MaterialUI.Button>
 				);
 			}
 		});
@@ -237,7 +303,7 @@ export default class GameListElement extends React.Component {
 					>
 						<MaterialUI.Grid container>
 							{(_ => {
-								if (this.props.game.Properties.Started) {
+								if (this.state.game.Properties.Started) {
 									return (
 										<React.Fragment>
 											<MaterialUI.Grid
@@ -250,7 +316,7 @@ export default class GameListElement extends React.Component {
 													noWrap={true}
 												>
 													{helpers.gameDesc(
-														this.props.game
+														this.state.game
 													)}
 												</MaterialUI.Typography>
 											</MaterialUI.Grid>
@@ -259,10 +325,10 @@ export default class GameListElement extends React.Component {
 												item
 												xs={1}
 											>
-												{this.props.game.Properties
+												{this.state.game.Properties
 													.Finished
 													? helpers.minutesToDuration(
-															-this.props.game
+															-this.state.game
 																.Properties
 																.FinishedAgo /
 																1000000000 /
@@ -270,7 +336,7 @@ export default class GameListElement extends React.Component {
 															true
 													  )
 													: helpers.minutesToDuration(
-															this.props.game
+															this.state.game
 																.Properties
 																.NewestPhaseMeta[0]
 																.NextDeadlineIn /
@@ -286,20 +352,20 @@ export default class GameListElement extends React.Component {
 											>
 												<MaterialUI.Typography>
 													{
-														this.props.game
+														this.state.game
 															.Properties
 															.NewestPhaseMeta[0]
 															.Season
 													}{" "}
 													{
-														this.props.game
+														this.state.game
 															.Properties
 															.NewestPhaseMeta[0]
 															.Year
 													}
 													,{" "}
 													{
-														this.props.game
+														this.state.game
 															.Properties
 															.NewestPhaseMeta[0]
 															.Type
@@ -321,7 +387,7 @@ export default class GameListElement extends React.Component {
 													noWrap={true}
 												>
 													{helpers.gameDesc(
-														this.props.game
+														this.state.game
 													)}
 												</MaterialUI.Typography>
 											</MaterialUI.Grid>
@@ -332,17 +398,13 @@ export default class GameListElement extends React.Component {
 											>
 												<MaterialUI.Typography>
 													{
-														this.props.game
+														this.state.game
 															.Properties.NMembers
 													}
 													/
 													{
-														this.getVariant(
-															this.props.game
-																.Properties
-																.Variant
-														).Properties.Nations
-															.length
+														this.variant.Properties
+															.Nations.length
 													}{" "}
 												</MaterialUI.Typography>
 											</MaterialUI.Grid>
@@ -356,9 +418,9 @@ export default class GameListElement extends React.Component {
 									noWrap={true}
 									display="inline"
 								>
-									{this.props.game.Properties.Variant}{" "}
+									{this.state.game.Properties.Variant}{" "}
 									{helpers.minutesToDuration(
-										this.props.game.Properties
+										this.state.game.Properties
 											.PhaseLengthMinutes
 									)}
 								</MaterialUI.Typography>
@@ -395,9 +457,10 @@ export default class GameListElement extends React.Component {
 							background: "#ffffff"
 						}}
 					>
-						<Game game={this.props.game} close={this.closeGame} />
+						<Game game={this.state.game} close={this.closeGame} />
 					</div>
 				</MaterialUI.Zoom>
+				<NationPreferencesDialog parent={this} onSelected={null} />
 			</React.Fragment>
 		);
 	}

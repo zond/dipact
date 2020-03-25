@@ -13,7 +13,6 @@ window.Globals = {
 	selfURL: null,
 	token: null,
 	progressCount: 0,
-	orderDialog: null,
 	progressDialog: null,
 	variants: [],
 	memoizeCache: {}

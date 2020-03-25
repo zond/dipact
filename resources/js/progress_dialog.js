@@ -1,4 +1,3 @@
-
 export default class ProgressDialog extends React.Component {
 	constructor(props) {
 		super(props);
