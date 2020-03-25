@@ -19,27 +19,17 @@ export default class ChatMenu extends React.Component {
 		});
 		this.nationAbbreviations = {};
 		this.variant.Properties.Nations.forEach(nation => {
-			let minUniqueAbbreviationLength = 1;
-			this.variant.Properties.Nations.forEach(otherNation => {
-				if (nation == otherNation) {
-					return;
-				}
-				for (
-					let idx = 0;
-					idx < otherNation.length &&
-					idx < nation.length &&
-					otherNation[idx] == nation[idx];
-					idx++
-				) {
-					if (minUniqueAbbreviationLength < idx + 1) {
-						minUniqueAbbreviationLength = idx + 1;
+			for (let idx = 0; idx < nation.length; idx++) {
+				let matchingNations = this.variant.Properties.Nations.filter(
+					otherNation => {
+						return otherNation.indexOf(nation.slice(0, idx)) == 0;
 					}
+				).length;
+				if (matchingNations == 1) {
+					this.nationAbbreviations[nation] = nation.slice(0, idx);
+					break;
 				}
-			});
-			this.nationAbbreviations[nation] = nation.slice(
-				0,
-				minUniqueAbbreviationLength
-			);
+			}
 		});
 		this.flags = {};
 		this.variant.Properties.Nations.forEach(nation => {

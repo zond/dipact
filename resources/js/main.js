@@ -2,6 +2,7 @@ import * as helpers from '%{ cb "./helpers.js" }%';
 
 import Login from '%{ cb "./login.js" }%';
 import MainMenu from '%{ cb "./main_menu.js" }%';
+import Messaging from '%{ cb "./messaging.js" }%';
 import Notifications from '%{ cb "./notifications.js" }%';
 import ActivityContainer from '%{ cb "./activity_container.js" }%';
 
@@ -37,9 +38,11 @@ export default class Main extends ActivityContainer {
 		this.processToken();
 		helpers.incProgress();
 		Promise.all([
-			helpers.safeFetch(
-				helpers.createRequest("/Variants", { unauthed: true })
-			).then(resp => resp.json()),
+			helpers
+				.safeFetch(
+					helpers.createRequest("/Variants", { unauthed: true })
+				)
+				.then(resp => resp.json()),
 			helpers.safeFetch(Globals.serverRequest).then(resp => resp.json())
 		]).then(values => {
 			helpers.decProgress();
