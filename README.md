@@ -43,6 +43,7 @@ a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 2. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs).
 3. Run `dev_appserver.py app.yaml`.
 4. Go to http://localhost:8080/.
+5. Run your local environment. Notice that the server is another project which is zond/godip. You can now make all changes to the client.
 
 ### Deploying
 
