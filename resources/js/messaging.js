@@ -1,6 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-const messageClickActionTemplate = "https://dipact.appspot.com";
+const messageClickActionTemplate =
+	"https://dipact.appspot.com/Game/{{game.ID.Encode}}/Channel/{{#each channel.Members}}{{this}}{{#unless @last}},{{/unless}}{{/each}}/Messages";
 
 class Messaging {
 	constructor() {
@@ -69,29 +70,38 @@ class Messaging {
 									t => {
 										return (
 											t.App ==
-											"dipact@" + helpers.selfURL.host
+											"dipact@" + Globals.selfURL.host
 										);
 									}
 								);
 								let updateServer = false;
 								if (!dipactToken) {
-									js.Properties.FCMTokens.push({
+									dipactToken = {
 										Value: token,
 										Disabled: false,
 										Note:
 											"Created via dipact refreshToken on " +
 											new Date(),
-										App: "dipact"
-									});
+										App: "dipact@" + Globals.selfURL.host,
+										MessageConfig: {
+											ClickActionTemplate: messageClickActionTemplate
+										}
+									};
+									js.Properties.FCMTokens.push(dipactToken);
 									updateServer = true;
-								} else if (dipactToken.Disabled) {
-									dipactToken.Disabled = false;
+								}
+								if (dipactToken.Value != token) {
 									dipactToken.Value = token;
+									updateServer = true;
+								}
+								if (dipactToken.Disabled) {
+									dipactToken.Disabled = false;
 									dipactToken.Note =
 										"Re-enabled via dipact refreshToken on " +
 										new Date();
 									updateServer = true;
-								} else if (
+								}
+								if (
 									dipactToken.MessageConfig
 										.ClickActionTemplate !=
 									messageClickActionTemplate
