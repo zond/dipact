@@ -4,6 +4,9 @@ automatic_scaling:
     max_concurrent_requests: 100
 
 handlers:
+    - url: /(firebase-messaging-sw.js)
+      static_files: static/\1
+      upload: static/.*
     - url: /static
       static_dir: static
     - url: /.*
