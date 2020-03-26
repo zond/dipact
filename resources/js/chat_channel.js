@@ -36,7 +36,7 @@ export default class ChatChannel extends React.Component {
 				) {
 					return false;
 				}
-				console.log("got new message");
+				this.loadMessages();
 				return true;
 			});
 		});
