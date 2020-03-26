@@ -67,7 +67,10 @@ class Messaging {
 							.then(js => {
 								let dipactToken = js.Properties.FCMTokens.find(
 									t => {
-										return t.App == "dipact";
+										return (
+											t.App ==
+											"dipact@" + helpers.selfURL.host
+										);
 									}
 								);
 								let updateServer = false;
