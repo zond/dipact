@@ -24,7 +24,25 @@ export default class ChatChannel extends React.Component {
 					this.props.channel.Properties.Members.join(",") +
 					"/Messages"
 			);
+			Globals.messaging.subscribe("message", payload => {
+				if (
+					payload.data.message.GameID != this.props.game.Properties.ID
+				) {
+					return false;
+				}
+				if (
+					payload.data.message.ChannelMembers.join(",") !=
+					this.props.channel.Properties.Members.join(",")
+				) {
+					return false;
+				}
+				console.log("got new message");
+				return true;
+			});
 		});
+	}
+	componentWillUnmount() {
+		Globals.messaging.unsubscribe("message");
 	}
 	close() {
 		history.pushState("", "", "/Game/" + this.props.game.Properties.ID);

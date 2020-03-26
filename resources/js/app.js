@@ -1,5 +1,6 @@
 import Main from '%{ cb "/js/main.js" }%';
 import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
+import Messaging from '%{ cb "/js/messaging.js" }%';
 
 window.Globals = {
 	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
@@ -15,11 +16,13 @@ window.Globals = {
 	progressCount: 0,
 	progressDialog: null,
 	variants: [],
-	memoizeCache: {}
+	memoizeCache: {},
+	messaging: Messaging
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Main />, document.getElementById("app"));
+
 window.addEventListener("popstate", ev => {
 	window.location.reload();
 });

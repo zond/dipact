@@ -47,6 +47,9 @@ class Messaging {
 	subscribe(type, handler) {
 		this.subscribers[type] = handler;
 	}
+	unsubscribe(type) {
+		delete this.subscribers[type];
+	}
 	refreshToken() {
 		this.messaging
 			.getToken()

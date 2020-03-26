@@ -2,7 +2,6 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import Login from '%{ cb "/js/login.js" }%';
 import MainMenu from '%{ cb "/js/main_menu.js" }%';
-import Messaging from '%{ cb "/js/messaging.js" }%';
 import Notifications from '%{ cb "/js/notifications.js" }%';
 import ActivityContainer from '%{ cb "/js/activity_container.js" }%';
 
