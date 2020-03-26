@@ -17,8 +17,46 @@ export default class Game extends React.Component {
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.createOrder = this.createOrder.bind(this);
-		this.close = this.close.bind(this);
-		this.props.gamePromise.then(game => {
+		this.loadGame = this.loadGame.bind(this);
+	}
+	componentWillUnmount() {
+		history.pushState("", "", "/");
+		Globals.messaging.unsubscribe("phase");
+		console.log("Game unsubscribing from `phase` notifications.");
+	}
+	componentDidMount() {
+		this.loadGame().then(_ => {
+			helpers.urlMatch(
+				[
+					[
+						/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+						match => {
+							this.setState({ activeTab: "chat" });
+						}
+					]
+				],
+				_ => {
+					history.pushState(
+						"",
+						"",
+						"/Game/" + this.state.game.Properties.ID
+					);
+				}
+			);
+			Globals.messaging.subscribe("phase", payload => {
+				if (
+					payload.data.message.GameID != this.state.game.Properties.ID
+				) {
+					return false;
+				}
+				this.loadGame();
+				return true;
+			});
+			console.log("Game subscribing to `phase` notifications.");
+		});
+	}
+	loadGame() {
+		return this.props.gamePromise.then(game => {
 			let promise = null;
 			if (game.Properties.Started) {
 				promise = helpers
@@ -45,38 +83,15 @@ export default class Game extends React.Component {
 						});
 				});
 			}
-			promise.then(phases => {
-				this.setState((state, props) => {
-					state = Object.assign({}, state);
-
-					helpers.urlMatch(
-						[
-							[
-								/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
-								match => {
-									state.activeTab = "chat";
-								}
-							]
-						],
-						_ => {
-							history.pushState(
-								"",
-								"",
-								"/Game/" + game.Properties.ID
-							);
-						}
-					);
-					state.game = game;
-					state.phases = phases;
-					state.activePhase = phases[phases.length - 1];
-					return state;
+			return promise.then(phases => {
+				this.setState({
+					game: game,
+					phases: phases,
+					activePhase: phases[phases.length - 1]
 				});
+				return Promise.resolve({});
 			});
 		});
-	}
-	close() {
-		history.pushState("", "", "/");
-		this.props.close();
 	}
 	createOrder(parts) {
 		let setOrderLink = this.state.activePhase.Links.find(l => {
@@ -120,7 +135,7 @@ export default class Game extends React.Component {
 					<MaterialUI.AppBar key="app-bar" position="fixed">
 						<MaterialUI.Toolbar>
 							<MaterialUI.IconButton
-								onClick={this.close}
+								onClick={this.props.close}
 								key="close"
 								edge="start"
 							>

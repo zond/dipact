@@ -13,8 +13,12 @@ export default class ChatChannel extends React.Component {
 		this.messagMeta = this.messageMeta.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.loadMessages = this.loadMessages.bind(this);
-		this.close = this.close.bind(this);
-		this.loadMessages().then(_ => {
+		this.updateHistoryAndSubscription = this.updateHistoryAndSubscription.bind(
+			this
+		);
+	}
+	updateHistoryAndSubscription(isActive = this.props.isActive) {
+		if (isActive) {
 			history.pushState(
 				"",
 				"",
@@ -39,14 +43,23 @@ export default class ChatChannel extends React.Component {
 				this.loadMessages();
 				return true;
 			});
-		});
+			console.log("ChatChannel subscribing to `message` notifications.");
+		} else {
+			history.pushState("", "", "/Game/" + this.props.game.Properties.ID);
+			Globals.messaging.unsubscribe("message");
+			console.log(
+				"ChatChannel unsubscribing from `message` notifications."
+			);
+		}
+	}
+	componentDidMount() {
+		this.loadMessages().then(this.updateHistoryAndSubscription);
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		this.updateHistoryAndSubscription();
 	}
 	componentWillUnmount() {
-		Globals.messaging.unsubscribe("message");
-	}
-	close() {
-		history.pushState("", "", "/Game/" + this.props.game.Properties.ID);
-		this.props.close();
+		this.updateHistoryAndSubscription(false);
 	}
 	sendMessage() {
 		if (this.props.createMessageLink) {
@@ -189,7 +202,7 @@ export default class ChatChannel extends React.Component {
 						style={{ width: "100%" }}
 					>
 						<MaterialUI.Button
-							onClick={this.close}
+							onClick={this.props.close}
 							style={{
 								display: "flex",
 								justifyContent: "space-between"
