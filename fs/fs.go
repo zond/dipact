@@ -263,7 +263,7 @@ type FileSystem struct {
 }
 
 func (fs *FileSystem) cleanPath(relPath string) (string, error) {
-	if cleaned := filepath.Clean(filepath.Join(fs.Root, relPath)); cleaned == fs.Root || strings.HasPrefix(cleaned, fs.Root+"/") {
+	if cleaned := filepath.Clean(filepath.Join(fs.Root, relPath)); cleaned == fs.Root || strings.HasPrefix(cleaned, fs.Root+os.PathSeparator) {
 		return cleaned, nil
 	}
 	return "", fmt.Errorf("Path %#v is not inside root %#v", relPath, fs.Root)
