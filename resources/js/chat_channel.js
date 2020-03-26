@@ -13,6 +13,22 @@ export default class ChatChannel extends React.Component {
 		this.messagMeta = this.messageMeta.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.loadMessages = this.loadMessages.bind(this);
+		this.close = this.close.bind(this);
+		this.loadMessages().then(_ => {
+			history.pushState(
+				"",
+				"",
+				"/Game/" +
+					this.props.game.Properties.ID +
+					"/Channel/" +
+					this.props.channel.Properties.Members.join(",") +
+					"/Messages"
+			);
+		});
+	}
+	close() {
+		history.pushState("", "", "/Game/" + this.props.game.Properties.ID);
+		this.props.close();
 	}
 	sendMessage() {
 		if (this.props.createMessageLink) {
@@ -126,7 +142,7 @@ export default class ChatChannel extends React.Component {
 		});
 		if (messagesLink) {
 			helpers.incProgress();
-			helpers
+			return helpers
 				.safeFetch(helpers.createRequest(messagesLink.URL))
 				.then(resp => resp.json())
 				.then(js => {
@@ -137,11 +153,11 @@ export default class ChatChannel extends React.Component {
 						msgEl.scrollTop = msgEl.scrollHeight;
 						document.getElementById("input_field").focus();
 					});
+					return Promise.resolve({});
 				});
+		} else {
+			return Promise.resolve({});
 		}
-	}
-	componentDidMount() {
-		this.loadMessages();
 	}
 	render() {
 		if (this.props.channel) {
@@ -152,7 +168,7 @@ export default class ChatChannel extends React.Component {
 						style={{ width: "100%" }}
 					>
 						<MaterialUI.Button
-							onClick={this.props.close}
+							onClick={this.close}
 							style={{
 								display: "flex",
 								justifyContent: "space-between"

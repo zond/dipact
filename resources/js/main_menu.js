@@ -3,6 +3,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 import ActivityContainer from '%{ cb "/js/activity_container.js" }%';
 import Notifications from '%{ cb "/js/notifications.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
+import Game from '%{ cb "/js/game.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -18,14 +19,29 @@ export default class MainMenu extends ActivityContainer {
 		this.closeMenu = this.closeMenu.bind(this);
 		this.openMenu = this.openMenu.bind(this);
 		this.logout = this.logout.bind(this);
-		helpers.urlMatch([
+		helpers.urlMatch(
 			[
-				/^\/Game\/([^\/]+)/,
-				match => {
-					console.log("got", match);
-				}
-			]
-		]);
+				[
+					/^\/Game\/([^\/]+)/,
+					match => {
+						this.state.activity = Game;
+						this.state.activityProps = {
+							gamePromise: helpers
+								.safeFetch(
+									helpers.createRequest("/Game/" + match[1])
+								)
+								.then(resp => resp.json()),
+							close: _ => {
+								this.setActivity(Notifications);
+							}
+						};
+					}
+				]
+			],
+			_ => {
+				history.pushState("", "", "/");
+			}
+		);
 	}
 	logout() {
 		localStorage.removeItem("token");

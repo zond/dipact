@@ -20,3 +20,6 @@ window.Globals = {
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Main />, document.getElementById("app"));
+window.addEventListener("popstate", ev => {
+	window.location.reload();
+});

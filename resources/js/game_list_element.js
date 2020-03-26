@@ -465,7 +465,14 @@ export default class GameListElement extends React.Component {
 							background: "#ffffff"
 						}}
 					>
-						<Game game={this.state.game} close={this.closeGame} />
+						<Game
+							gamePromise={
+								new Promise((res, rej) => {
+									res(this.state.game);
+								})
+							}
+							close={this.closeGame}
+						/>
 					</div>
 				</MaterialUI.Zoom>
 				<NationPreferencesDialog parent={this} onSelected={null} />

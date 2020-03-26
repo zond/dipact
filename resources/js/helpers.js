@@ -2,13 +2,18 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
-export function urlMatch(mappings) {
+export function urlMatch(mappings, def) {
 	for (let i = 0; i < mappings.length; i++) {
 		let match = mappings[i][0].exec(Globals.selfURL.pathname);
 		if (match) {
-			mappings[i][1](match);
-			break;
+			if (mappings[i][1]) {
+				mappings[i][1](match);
+			}
+			return;
 		}
+	}
+	if (def) {
+		def();
 	}
 }
 

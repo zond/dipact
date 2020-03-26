@@ -65,6 +65,68 @@ export default class ChatMenu extends React.Component {
 		this.closeChannel = this.closeChannel.bind(this);
 		this.channelName = this.channelName.bind(this);
 		this.natCol = this.natCol.bind(this);
+		let channelLink = this.props.game.Links.find(l => {
+			return l.Rel == "channels";
+		});
+		if (channelLink) {
+			helpers.incProgress();
+			helpers
+				.safeFetch(helpers.createRequest(channelLink.URL))
+				.then(resp => resp.json())
+				.then(js => {
+					helpers.decProgress();
+					this.setState((state, props) => {
+						state = Object.assign({}, state);
+
+						helpers.urlMatch([
+							[
+								/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+								match => {
+									let channel = js.Properties.find(c => {
+										return (
+											c.Properties.Members.join(",") ==
+											match[2]
+										);
+									});
+									if (channel) {
+										state.activeChannel = channel;
+										state.channelOpen = true;
+									}
+								}
+							]
+						]);
+
+						state.channels = js.Properties;
+						state.createMessageLink = js.Links.find(l => {
+							return l.Rel == "message";
+						});
+						return state;
+					});
+				});
+		}
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (
+			this.props.isActive &&
+			!prevProps.isActive &&
+			this.state.channelOpen
+		) {
+			history.pushState(
+				"",
+				"",
+				"/Game/" +
+					this.props.game.Properties.ID +
+					"/Channel/" +
+					this.state.activeChannel.Properties.Members.join(",") +
+					"/Messages"
+			);
+		} else if (
+			!this.props.isActive &&
+			prevProps.isActive &&
+			this.state.channelOpen
+		) {
+			history.pushState("", "", "/Game/" + this.props.game.Properties.ID);
+		}
 	}
 	natCol(nat) {
 		return this.contrasts[this.variant.Properties.Nations.indexOf(nat)];
@@ -79,7 +141,7 @@ export default class ChatMenu extends React.Component {
 		) {
 			return (
 				<MaterialUI.Avatar
-                                        style={{ border: "none" }}
+					style={{ border: "none" }}
 					className="avatar"
 					key="Everyone"
 					alt="Everyone"
@@ -90,26 +152,6 @@ export default class ChatMenu extends React.Component {
 		return channel.Properties.Members.map(member => {
 			return this.flags[member];
 		});
-	}
-	componentDidMount() {
-		let channelLink = this.props.game.Links.find(l => {
-			return l.Rel == "channels";
-		});
-		if (channelLink) {
-			helpers.incProgress();
-			helpers
-				.safeFetch(helpers.createRequest(channelLink.URL))
-				.then(resp => resp.json())
-				.then(js => {
-					helpers.decProgress();
-					this.setState({
-						channels: js.Properties,
-						createMessageLink: js.Links.find(l => {
-							return l.Rel == "message";
-						})
-					});
-				});
-		}
 	}
 	openChannel(channel) {
 		this.setState({ activeChannel: channel, channelOpen: true });
