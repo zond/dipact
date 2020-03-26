@@ -63,6 +63,9 @@ export default class ChatChannel extends React.Component {
 					d.getTime()
 			);
 		});
+		if (!phase) {
+			phase = this.props.phases[this.props.phases.length - 1];
+		}
 		return (
 			<MaterialUI.TableContainer component={MaterialUI.Paper}>
 				<MaterialUI.Table>
