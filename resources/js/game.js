@@ -10,6 +10,7 @@ export default class Game extends React.Component {
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
+			orders: {},
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
@@ -18,6 +19,17 @@ export default class Game extends React.Component {
 		this.changePhase = this.changePhase.bind(this);
 		this.createOrder = this.createOrder.bind(this);
 		this.loadGame = this.loadGame.bind(this);
+		this.receiveOrders = this.receiveOrders.bind(this);
+	}
+	receiveOrders(orders) {
+		let natOrders = {};
+		orders.forEach(order => {
+			if (!natOrders[order.Properties.Nation]) {
+				natOrders[order.Properties.Nation] = [];
+			}
+			natOrders[order.Properties.Nation].push(order);
+		});
+		this.setState({ orders: natOrders });
 	}
 	componentWillUnmount() {
 		history.pushState("", "", "/");
@@ -217,6 +229,7 @@ export default class Game extends React.Component {
 							game={this.state.game}
 							phase={this.state.activePhase}
 							title={this.gameDesc()}
+							ordersSubscriber={this.receiveOrders}
 							createOrder={this.createOrder}
 						/>
 					</div>
@@ -236,6 +249,47 @@ export default class Game extends React.Component {
 							phases={this.state.phases}
 							game={this.state.game}
 						/>
+					</div>
+					<div
+						key="orders-container"
+						style={{
+							marginTop: "105px",
+							overflowY: "scroll",
+							height: "calc(100% - 105px)",
+							display:
+								this.state.activeTab == "orders"
+									? "block"
+									: "none"
+						}}
+					>
+						<MaterialUI.List>
+							{Object.keys(this.state.orders).map(nation => {
+								return (
+									<li key={"nation_" + nation}>
+										<ul>
+											<MaterialUI.ListSubheader>
+												{nation}
+											</MaterialUI.ListSubheader>
+											<MaterialUI.List>
+												{this.state.orders[nation].map(
+													order => {
+														return (
+															<MaterialUI.ListItem
+																key={order.Name}
+															>
+																<MaterialUI.ListItemText>
+																	{order.Name}
+																</MaterialUI.ListItemText>
+															</MaterialUI.ListItem>
+														);
+													}
+												)}
+											</MaterialUI.List>
+										</ul>
+									</li>
+								);
+							})}
+						</MaterialUI.List>
 					</div>
 				</React.Fragment>
 			);

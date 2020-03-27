@@ -8,7 +8,7 @@ export default class DipMap extends React.Component {
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
-		this.fetchOrders = this.fetchOrders.bind(this);
+		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
 		this.updateMap = this.updateMap.bind(this);
 		this.natCol = this.natCol.bind(this);
 		this.map = null;
@@ -104,7 +104,7 @@ export default class DipMap extends React.Component {
 		if (!this.props.phase) {
 			return;
 		}
-		let orderPromise = this.fetchOrders();
+		let orderPromise = this.loadOrdersPromise();
 		let optionsPromise = null;
 		if (this.props.phase.Links) {
 			let optionsLink = this.props.phase.Links.find(l => {
@@ -205,7 +205,7 @@ export default class DipMap extends React.Component {
 		// Assume we are done now, even if we possibly haven't rendered the orders yet.
 		this.renderedPhaseOrdinal = this.props.phase.Properties.PhaseOrdinal;
 	}
-	fetchOrders() {
+	loadOrdersPromise() {
 		if (!this.props.phase.Links) {
 			return null;
 		}
@@ -221,11 +221,16 @@ export default class DipMap extends React.Component {
 				.safeFetch(helpers.createRequest(orderLink.URL))
 				.then(resp => resp.json());
 		};
+		let returnValue = null;
 		if (this.props.phase.Properties.Resolved) {
-			return helpers.memoize(orderLink.URL, fetchPromiseFunc);
+			returnValue = helpers.memoize(orderLink.URL, fetchPromiseFunc);
 		} else {
-			return fetchPromiseFunc();
+			returnValue = fetchPromiseFunc();
 		}
+		return returnValue.then(js => {
+			this.props.ordersSubscriber(js.Properties);
+			return Promise.resolve(js);
+		});
 	}
 	renderOrders(orderPromise, regardingPhase) {
 		return orderPromise.then(js => {
@@ -260,11 +265,12 @@ export default class DipMap extends React.Component {
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options) == 0) {
 			this.props.createOrder(parts).then(_ => {
-				this.renderOrders(this.fetchOrders(), this.props.phase).then(
-					_ => {
-						this.acceptOrders();
-					}
-				);
+				this.renderOrders(
+					this.loadOrdersPromise(),
+					this.props.phase
+				).then(_ => {
+					this.acceptOrders();
+				});
 			});
 		} else {
 			let type = null;
