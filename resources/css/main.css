@@ -24,3 +24,8 @@ body {
 html, body, #app, #app>div {
   height: 100%
 }
+
+.find-game-dialog > div > div {
+	width: 100%;
+}
+
