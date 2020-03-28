@@ -327,7 +327,7 @@ export default class DipMap extends React.Component {
 					></div>
 					<div
 						key="game-desc"
-						style={{ flexBasis: "100%", fontSize: "x-large" }}
+						style={{ flexBasis: "100%", fontSize: "medium", "padding" : "10px", "textAlign":"center", "text-transform" : "capitalize"}}
 					>
 						{this.props.title}
 					</div>
