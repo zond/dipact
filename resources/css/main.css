@@ -16,3 +16,7 @@
 .game-appbar > div {
 	width: 100%;
 }
+
+.find-game-dialog > div > div {
+	width: 100%;
+}

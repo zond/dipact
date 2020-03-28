@@ -1,6 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import ActivityContainer from '%{ cb "/js/activity_container.js" }%';
+import FindGameDialog from '%{ cb "/js/find_game_dialog.js" }%';
 import Notifications from '%{ cb "/js/notifications.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
@@ -19,6 +20,8 @@ export default class MainMenu extends ActivityContainer {
 		this.closeMenu = this.closeMenu.bind(this);
 		this.openMenu = this.openMenu.bind(this);
 		this.logout = this.logout.bind(this);
+		this.findGameByID = this.findGameByID.bind(this);
+		this.findGameDialog = null;
 		helpers.urlMatch(
 			[
 				[
@@ -43,6 +46,29 @@ export default class MainMenu extends ActivityContainer {
 			}
 		);
 	}
+	findGameByID() {
+		this.findGameDialog.setState({
+			open: true,
+			onClick: gameID => {
+				let match = /\/Game\/([^/]+)/.exec(gameID);
+				if (match) {
+					gameID = match[1];
+				}
+				helpers
+					.safeFetch(helpers.createRequest("/Game/" + gameID))
+					.then(resp => resp.json())
+					.then(js => {
+						this.setState({
+							activity: GameList,
+							activityProps: {
+								key: "predefined-game-list",
+								predefinedList: [js]
+							}
+						});
+					});
+			}
+		});
+	}
 	logout() {
 		localStorage.removeItem("token");
 		location.reload();
@@ -62,13 +88,12 @@ export default class MainMenu extends ActivityContainer {
 	renderGameList(ev) {
 		this.setActivity(GameList, {
 			key: ev.currentTarget.getAttribute("urlkey"),
-			url: this.props.urls[ev.currentTarget.getAttribute("urlkey")],
-			variants: this.props.variants
+			url: this.props.urls[ev.currentTarget.getAttribute("urlkey")]
 		});
 	}
 	render() {
 		return (
-			<div>
+			<React.Fragment>
 				<MaterialUI.AppBar position="fixed">
 					<MaterialUI.Toolbar>
 						<MaterialUI.IconButton
@@ -171,11 +196,18 @@ export default class MainMenu extends ActivityContainer {
 								>
 									<MaterialUI.ListItemText primary="Finished games" />
 								</MaterialUI.ListItem>
+								<MaterialUI.ListItem
+									button
+									onClick={this.findGameByID}
+								>
+									<MaterialUI.ListItemText primary="Lookup game" />
+								</MaterialUI.ListItem>
 							</MaterialUI.List>
 						</div>
 					</MaterialUI.ClickAwayListener>
 				</MaterialUI.Drawer>
-			</div>
+				<FindGameDialog parent={this} key="find-game-dialog" />
+			</React.Fragment>
 		);
 	}
 }

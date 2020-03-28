@@ -8,24 +8,23 @@ export default class GameList extends React.Component {
 		this.state = {};
 	}
 	componentDidMount() {
-		helpers.incProgress();
-		helpers.safeFetch(helpers.createRequest(this.props.url.toString()))
-			.then(resp => resp.json())
-			.then(js => {
-				helpers.decProgress();
-				this.setState({ games: js.Properties });
-			});
+		if (this.props.predefinedList) {
+			this.setState({ games: this.props.predefinedList });
+		} else {
+			helpers.incProgress();
+			helpers
+				.safeFetch(helpers.createRequest(this.props.url.toString()))
+				.then(resp => resp.json())
+				.then(js => {
+					helpers.decProgress();
+					this.setState({ games: js.Properties });
+				});
+		}
 	}
 	render() {
 		if (this.state.games) {
 			return this.state.games.map(game => {
-				return (
-					<GameListElement
-						key={game.Properties.ID}
-						game={game}
-						variants={this.props.variants}
-					/>
-				);
+				return <GameListElement key={game.Properties.ID} game={game} />;
 			});
 		} else {
 			return "";
