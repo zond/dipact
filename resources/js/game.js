@@ -17,7 +17,6 @@ export default class Game extends React.Component {
 		this.options = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
-		this.createOrder = this.createOrder.bind(this);
 		this.loadGame = this.loadGame.bind(this);
 		this.receiveOrders = this.receiveOrders.bind(this);
 	}
@@ -104,24 +103,6 @@ export default class Game extends React.Component {
 				return Promise.resolve({});
 			});
 		});
-	}
-	createOrder(parts) {
-		let setOrderLink = this.state.activePhase.Links.find(l => {
-			return l.Rel == "create-order";
-		});
-		if (setOrderLink) {
-			return helpers.safeFetch(
-				helpers.createRequest(setOrderLink.URL, {
-					method: setOrderLink.Method,
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({ Parts: parts.slice(1) })
-				})
-			);
-		} else {
-			return Promise.resolve({});
-		}
 	}
 	changeTab(ev, newValue) {
 		this.setState({ activeTab: newValue });
@@ -230,7 +211,6 @@ export default class Game extends React.Component {
 							phase={this.state.activePhase}
 							title={this.gameDesc()}
 							ordersSubscriber={this.receiveOrders}
-							createOrder={this.createOrder}
 						/>
 					</div>
 					<div

@@ -11,9 +11,49 @@ export default class DipMap extends React.Component {
 		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
 		this.updateMap = this.updateMap.bind(this);
 		this.natCol = this.natCol.bind(this);
+		this.createOrder = this.createOrder.bind(this);
+		this.deleteOrder = this.deleteOrder.bind(this);
 		this.map = null;
+		this.orders = null;
 		this.lastRenderedGameID = null;
 		this.orderDialog = null;
+	}
+	createOrder(parts) {
+		let setOrderLink = this.props.phase.Links.find(l => {
+			return l.Rel == "create-order";
+		});
+		if (setOrderLink) {
+			return helpers.safeFetch(
+				helpers.createRequest(setOrderLink.URL, {
+					method: setOrderLink.Method,
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({ Parts: parts.slice(1) })
+				})
+			);
+		} else {
+			return Promise.resolve({});
+		}
+	}
+	deleteOrder(prov) {
+		let order = this.orders.Properties.find(o => {
+			return o.Properties.Parts[0] == prov;
+		});
+		if (order) {
+			let deleteOrderLink = order.Links.find(l => {
+				return l.Rel == "delete";
+			});
+			if (deleteOrderLink) {
+				return helpers.safeFetch(
+					helpers.createRequest(deleteOrderLink.URL, {
+						method: deleteOrderLink.Method
+					})
+				);
+			}
+		} else {
+			return Promise.resolve({});
+		}
 	}
 	componentDidMount() {
 		this.componentDidUpdate();
@@ -228,6 +268,7 @@ export default class DipMap extends React.Component {
 			returnValue = fetchPromiseFunc();
 		}
 		return returnValue.then(js => {
+			this.orders = js;
 			this.props.ordersSubscriber(js.Properties);
 			return Promise.resolve(js);
 		});
@@ -264,7 +305,7 @@ export default class DipMap extends React.Component {
 	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options) == 0) {
-			this.props.createOrder(parts).then(_ => {
+			this.createOrder(parts).then(_ => {
 				this.renderOrders(
 					this.loadOrdersPromise(),
 					this.props.phase
@@ -297,15 +338,27 @@ export default class DipMap extends React.Component {
 						);
 					}
 					break;
+				case "UnitType":
 				case "OrderType":
 					this.orderDialog.setState({
 						open: true,
-						options: Object.keys(options),
+						options: Object.keys(options).concat("Cancel"),
 						onClick: ord => {
-							this.addOptionHandlers(
-								options[ord].Next,
-								parts.concat(ord)
-							);
+							if (ord == "Cancel") {
+								this.deleteOrder(parts[0]).then(_ => {
+									this.renderOrders(
+										this.loadOrdersPromise(),
+										this.props.phase
+									).then(_ => {
+										this.acceptOrders();
+									});
+								});
+							} else {
+								this.addOptionHandlers(
+									options[ord].Next,
+									parts.concat(ord)
+								);
+							}
 						}
 					});
 					break;
