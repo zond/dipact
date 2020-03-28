@@ -10,14 +10,25 @@ export default class Game extends React.Component {
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
+			orders: {},
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
 		this.options = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
-		this.createOrder = this.createOrder.bind(this);
 		this.loadGame = this.loadGame.bind(this);
+		this.receiveOrders = this.receiveOrders.bind(this);
+	}
+	receiveOrders(orders) {
+		let natOrders = {};
+		orders.forEach(order => {
+			if (!natOrders[order.Properties.Nation]) {
+				natOrders[order.Properties.Nation] = [];
+			}
+			natOrders[order.Properties.Nation].push(order);
+		});
+		this.setState({ orders: natOrders });
 	}
 	componentWillUnmount() {
 		history.pushState("", "", "/");
@@ -92,24 +103,6 @@ export default class Game extends React.Component {
 				return Promise.resolve({});
 			});
 		});
-	}
-	createOrder(parts) {
-		let setOrderLink = this.state.activePhase.Links.find(l => {
-			return l.Rel == "create-order";
-		});
-		if (setOrderLink) {
-			return helpers.safeFetch(
-				helpers.createRequest(setOrderLink.URL, {
-					method: setOrderLink.Method,
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({ Parts: parts.slice(1) })
-				})
-			);
-		} else {
-			return Promise.resolve({});
-		}
 	}
 	changeTab(ev, newValue) {
 		this.setState({ activeTab: newValue });
@@ -188,6 +181,7 @@ export default class Game extends React.Component {
 							onChange={this.changeTab}
 							display="flex"
 							className="game-tabs"
+							variant="fullWidth"
 						>
 							<MaterialUI.Tab
 								value="map"
@@ -217,7 +211,7 @@ export default class Game extends React.Component {
 							game={this.state.game}
 							phase={this.state.activePhase}
 							title={this.gameDesc()}
-							createOrder={this.createOrder}
+							ordersSubscriber={this.receiveOrders}
 						/>
 					</div>
 					<div
@@ -236,6 +230,47 @@ export default class Game extends React.Component {
 							phases={this.state.phases}
 							game={this.state.game}
 						/>
+					</div>
+					<div
+						key="orders-container"
+						style={{
+							marginTop: "105px",
+							overflowY: "scroll",
+							height: "calc(100% - 105px)",
+							display:
+								this.state.activeTab == "orders"
+									? "block"
+									: "none"
+						}}
+					>
+						<MaterialUI.List>
+							{Object.keys(this.state.orders).map(nation => {
+								return (
+									<li key={"nation_" + nation}>
+										<ul>
+											<MaterialUI.ListSubheader>
+												{nation}
+											</MaterialUI.ListSubheader>
+											<MaterialUI.List>
+												{this.state.orders[nation].map(
+													order => {
+														return (
+															<MaterialUI.ListItem
+																key={order.Name}
+															>
+																<MaterialUI.ListItemText>
+																	{order.Name}
+																</MaterialUI.ListItemText>
+															</MaterialUI.ListItem>
+														);
+													}
+												)}
+											</MaterialUI.List>
+										</ul>
+									</li>
+								);
+							})}
+						</MaterialUI.List>
 					</div>
 				</React.Fragment>
 			);
