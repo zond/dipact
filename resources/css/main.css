@@ -16,3 +16,11 @@
 .game-appbar > div {
 	width: 100%;
 }
+
+body {
+	margin: 0px;
+}
+
+html, body, #app, #app>div {
+  height: 100%
+}

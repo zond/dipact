@@ -124,7 +124,7 @@ export default class ChatMenu extends React.Component {
 					className="avatar"
 					key="Everyone"
 					alt="Everyone"
-					src="/static/un_logo.svg"
+					src="/resources/img/un_logo.svg"
 				/>
 			);
 		}
