@@ -65,7 +65,9 @@ export default class GameListElement extends React.Component {
 			.then(resp => resp.json())
 			.then(_ => {
 				helpers.decProgress();
-				this.reloadGame();
+				if (this.state.game.Properties.Members.length > 1) {
+					this.reloadGame();
+				}
 			});
 	}
 	joinGame(link) {

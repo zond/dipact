@@ -174,13 +174,17 @@ export default class ChatMenu extends React.Component {
 				</MaterialUI.Slide>
 				<MaterialUI.ButtonGroup
 					orientation="vertical"
-					style={{ width: "100%" }}
+					style={{
+						width: "100%",
+						height: "100%",
+						overflowY: this.state.channelOpen ? "hidden" : "scroll"
+					}}
 				>
 					{this.state.channels.map(channel => {
 						return (
 							<MaterialUI.Button
 								style={{
-									display: "flex",
+									width: "100%",
 									justifyContent: "left"
 								}}
 								onClick={_ => {
