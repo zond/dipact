@@ -208,6 +208,7 @@ export default class Game extends React.Component {
 						style={{
 							marginTop: "105px",
 							height: "calc(100% - 105px)",
+							"backgroundColor":"black",
 							display:
 								this.state.activeTab == "map" ? "block" : "none"
 						}}
