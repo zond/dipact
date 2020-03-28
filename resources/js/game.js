@@ -181,6 +181,7 @@ export default class Game extends React.Component {
 							onChange={this.changeTab}
 							display="flex"
 							className="game-tabs"
+							variant="fullWidth"
 						>
 							<MaterialUI.Tab
 								value="map"
