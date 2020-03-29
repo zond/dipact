@@ -17,6 +17,15 @@
 	width: 100%;
 }
 
+body {
+	margin: 0px;
+}
+
+html, body, #app, #app>div {
+  height: 100%
+}
+
 .find-game-dialog > div > div {
 	width: 100%;
 }
+

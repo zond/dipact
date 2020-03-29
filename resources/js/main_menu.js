@@ -99,6 +99,7 @@ export default class MainMenu extends ActivityContainer {
 						<MaterialUI.IconButton
 							edge="start"
 							onClick={this.openDrawer}
+							color="secondary"
 						>
 							{helpers.createIcon("\ue5d2")}
 						</MaterialUI.IconButton>
@@ -108,6 +109,7 @@ export default class MainMenu extends ActivityContainer {
 						<MaterialUI.IconButton
 							edge="end"
 							onClick={this.openMenu}
+							color="secondary"
 						>
 							{helpers.createIcon("\ue853")}
 						</MaterialUI.IconButton>

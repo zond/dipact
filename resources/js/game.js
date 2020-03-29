@@ -131,13 +131,15 @@ export default class Game extends React.Component {
 								onClick={this.props.close}
 								key="close"
 								edge="start"
+								color="secondary"
 							>
 								{helpers.createIcon("\ue5cd")}
 							</MaterialUI.IconButton>
 							{this.state.game.Properties.Started &&
 							this.state.activePhase ? (
 								<MaterialUI.Select
-									style={{ width: "100%" }}
+								/* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
+									style={{ width: "100%",  borderBottom: '1px solid rgba(253, 226, 181, 0.7)', color: "#FDE2B5"}}
 									key="phase-select"
 									value={
 										this.state.activePhase.Properties
@@ -171,7 +173,11 @@ export default class Game extends React.Component {
 									width="100%"
 								></MaterialUI.Box>
 							)}
-							<MaterialUI.IconButton edge="end" key="more-icon">
+							<MaterialUI.IconButton 
+								edge="end" 
+								key="more-icon" 
+								color="secondary"
+>
 								{helpers.createIcon("\ue5d4")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Toolbar>
@@ -202,6 +208,7 @@ export default class Game extends React.Component {
 						style={{
 							marginTop: "105px",
 							height: "calc(100% - 105px)",
+							"backgroundColor":"black",
 							display:
 								this.state.activeTab == "map" ? "block" : "none"
 						}}
