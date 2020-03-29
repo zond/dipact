@@ -1,29 +1,8 @@
 import Main from '%{ cb "/js/main.js" }%';
 import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
 import Messaging from '%{ cb "/js/messaging.js" }%';
+import Theme from '%{ cb "/js/theme.js" }%';
 
-
-/* I would prefer to put this into a separate file to impor the class but haven't figured out how to import/export it since we're not using the default React scheme - Joren */
-const Theme = MaterialUI.createMuiTheme({ 
-  typography: {
-    useNextVariants: true,
-  },
-  palette: {
-    primary: {
-      light: '#63ccff',
-      main: '#281A1A',
-      dark: '#006db3',
-      contrastText: '#FDE2B5',
-    },
-     secondary: {
-      light: '#63ccff',
-      main: '#FDE2B5',
-      dark: '#006db3',
-      contrastText: '#000',
-    },
-  },
- }); 
- 
 
 
 window.Globals = {
