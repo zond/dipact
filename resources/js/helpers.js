@@ -89,13 +89,7 @@ export function decProgress() {
 }
 
 export function createRequest(item, opts = {}) {
-	let reqURL = new URL(Globals.serverRequest.url);
-	try {
-		let itemURL = new URL(item);
-		reqURL.pathname = itemURL.pathname;
-	} catch (e) {
-		reqURL.pathname = item;
-	}
+	let reqURL = new URL(item, Globals.serverRequest.url);
 	let headers = Globals.serverRequest.headers;
 	if (opts.headers) {
 		for (let key in opts.headers) {
