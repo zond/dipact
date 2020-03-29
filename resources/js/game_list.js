@@ -9,23 +9,29 @@ export default class GameList extends React.Component {
 			games: this.props.predefinedList || [{ isProgress: true }]
 		};
 		this.load = this.load.bind(this);
+		this.maybeLoadMore = this.maybeLoadMore.bind(this);
 		this.loading = false;
 		this.moreLink = null;
+	}
+	maybeLoadMore() {
+		if (
+			this.moreLink &&
+			!this.loading &&
+			window.scrollY >
+				document.body.scrollHeight - 2 * window.visualViewport.height
+		) {
+			this.load(helpers.createRequest(this.moreLink.URL));
+		}
 	}
 	componentDidMount() {
 		if (this.props.url) {
 			this.load(helpers.createRequest(this.props.url.toString()));
-			window.addEventListener("scroll", e => {
-				if (
-					this.moreLink &&
-					!this.loading &&
-					window.scrollY >
-						document.body.scrollHeight -
-							2 * window.visualViewport.height
-				) {
-					this.load(helpers.createRequest(this.moreLink.URL));
-				}
-			});
+			window.addEventListener("scroll", this.maybeLoadMore);
+		}
+	}
+	componentWillUnmount() {
+		if (this.props.url) {
+			window.removeEventListener("scroll", this.maybeLoadMore);
 		}
 	}
 	load(req) {
