@@ -31,6 +31,10 @@ export default class ChatMenu extends React.Component {
 				}
 			}
 		});
+		this.contrasts = (_ => {
+			let m = dippyMap($("body"));
+			return m.contrasts;
+		})();
 		this.flags = {};
 		this.variant.Properties.Nations.forEach(nation => {
 			let flagLink = this.variant.Links.find(l => {
@@ -46,21 +50,36 @@ export default class ChatMenu extends React.Component {
 					/>
 				);
 			} else {
+				let bgColor = this.contrasts[
+					this.variant.Properties.Nations.indexOf(nation)
+				];
+				let color =
+					helpers.brightnessByColor(bgColor) > 128
+						? "#000000"
+						: "#ffffff";
+				let abbr = this.nationAbbreviations[nation];
+				let fontSize = null;
+				if (abbr.length > 3) {
+					fontSize = "smaller";
+				} else if (abbr.length > 1) {
+					fontSize = "small";
+				}
 				this.flags[nation] = (
 					<MaterialUI.Avatar
 						className="avatar"
 						key={nation}
 						alt={nation}
+						style={{
+							backgroundColor: bgColor,
+							color: color,
+							fontSize: fontSize
+						}}
 					>
-						{this.nationAbbreviations[nation]}
+						{abbr}
 					</MaterialUI.Avatar>
 				);
 			}
 		});
-		this.contrasts = (_ => {
-			let m = dippyMap($("body"));
-			return m.contrasts;
-		})();
 		this.openChannel = this.openChannel.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
 		this.channelName = this.channelName.bind(this);
