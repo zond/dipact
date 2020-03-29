@@ -127,16 +127,16 @@ export default class MainMenu extends ActivityContainer {
 							open={this.state.menuOpen}
 						>
 							<MaterialUI.MenuItem
-								key="logout"
-								onClick={this.logout}
-							>
-								Logout
-							</MaterialUI.MenuItem>
-							<MaterialUI.MenuItem
 								key="close-menu"
 								onClick={this.closeMenu}
 							>
 								Settings
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
+								key="logout"
+								onClick={this.logout}
+							>
+								Logout
 							</MaterialUI.MenuItem>
 						</MaterialUI.Menu>
 					</MaterialUI.Toolbar>

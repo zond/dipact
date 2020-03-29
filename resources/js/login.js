@@ -4,9 +4,10 @@ export default class Login extends React.Component {
 		if (this.props.loginURL) {
 			return (
 				<MaterialUI.Container
-					style={{ textAlign: "center", "verticalAlign":"middle"}}
-					maxWidth="sm"
+					style={{ textAlign: "center","paddingTop":"50px"}}
 				>
+				<p><MaterialUI.Typography variant="h2">Welcome to DipAct</MaterialUI.Typography></p>
+				<p><MaterialUI.Typography variant="body1">The work-in-progress web version of Diplicity.</MaterialUI.Typography></p>
 					<a href={this.props.loginURL} style={{"textDecoration":"none","textTransform":"none"}}>
 						<MaterialUI.Button
 							variant="contained"
