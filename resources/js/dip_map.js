@@ -386,7 +386,14 @@ export default class DipMap extends React.Component {
 					></div>
 					<div
 						key="game-desc"
-						style={{ flexBasis: "100%", fontSize: "small", "padding" : "10px", "textAlign":"center", "text-transform" : "capitalize", "color":"#FDE2B5"}}
+						style={{
+							flexBasis: "100%",
+							fontSize: "small",
+							padding: "10px",
+							textAlign: "center",
+							textTransform: "capitalize",
+							color: "#FDE2B5"
+						}}
 					>
 						{this.props.title}
 					</div>
@@ -396,10 +403,7 @@ export default class DipMap extends React.Component {
 					style={{ display: "none" }}
 					id="units-div"
 				></div>
-				<OrderDialog
-					parent={this}
-					key="order-dialog"
-				/>
+				<OrderDialog parent={this} key="order-dialog" />
 			</React.Fragment>
 		);
 	}

@@ -50,14 +50,32 @@ export default class ChatMenu extends React.Component {
 					/>
 				);
 			} else {
+				let bgColor = this.contrasts[
+					this.variant.Properties.Nations.indexOf(nation)
+				];
+				let color =
+					helpers.brightnessByColor(bgColor) > 128
+						? "#000000"
+						: "#ffffff";
+				let abbr = this.nationAbbreviations[nation];
+				let fontSize = null;
+				if (abbr.length > 3) {
+					fontSize = "smaller";
+				} else if (abbr.length > 1) {
+					fontSize = "small";
+				}
 				this.flags[nation] = (
 					<MaterialUI.Avatar
 						className="avatar"
 						key={nation}
 						alt={nation}
-						style={{ backgroundColor: this.contrasts[this.variant.Properties.Nations.indexOf(nation)] }}
+						style={{
+							backgroundColor: bgColor,
+							color: color,
+							fontSize: fontSize
+						}}
 					>
-						{this.nationAbbreviations[nation]}
+						{abbr}
 					</MaterialUI.Avatar>
 				);
 			}
