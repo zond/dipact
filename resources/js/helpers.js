@@ -96,6 +96,11 @@ export function createRequest(item, opts = {}) {
 			headers.set(key, opts.headers[key]);
 		}
 	}
+	if (opts.params) {
+		for (let key in opts.params) {
+			reqURL.searchParams.set(key, opts.params[key]);
+		}
+	}
 	let req = new Request(reqURL.toString(), {
 		method: opts.method || Globals.serverRequest.method,
 		mode: opts.mode || Globals.serverRequest.mode,
