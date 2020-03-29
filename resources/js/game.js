@@ -135,11 +135,21 @@ export default class Game extends React.Component {
 							>
 								{helpers.createIcon("\ue5cd")}
 							</MaterialUI.IconButton>
+							{/* TODO: make this button go to the previous phase */}
+
+							<MaterialUI.IconButton
+								onClick={this.props.close}
+								key="previouse"
+								edge="start"
+								color="secondary"
+							>
+								{helpers.createIcon("\ue5cb")}
+							</MaterialUI.IconButton>
 							{this.state.game.Properties.Started &&
 							this.state.activePhase ? (
 								<MaterialUI.Select
 								/* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
-									style={{ width: "100%",  borderBottom: '1px solid rgba(253, 226, 181, 0.7)', color: "#FDE2B5"}}
+									style={{ width: "100%", "minWidth":"0", borderBottom: '1px solid rgba(253, 226, 181, 0.7)', color: "#FDE2B5"}}
 									key="phase-select"
 									value={
 										this.state.activePhase.Properties
@@ -157,6 +167,7 @@ export default class Game extends React.Component {
 													phase.Properties
 														.PhaseOrdinal
 												}
+												style={{"textOverflow":"ellipsis"}}
 												value={
 													phase.Properties
 														.PhaseOrdinal
@@ -173,6 +184,14 @@ export default class Game extends React.Component {
 									width="100%"
 								></MaterialUI.Box>
 							)}
+							{/* TODO: make this button go to the next phase */}
+							<MaterialUI.IconButton 
+								edge="end" 
+								key="next" 
+								color="secondary"
+>
+								{helpers.createIcon("\ue5cc")}
+							</MaterialUI.IconButton>
 							<MaterialUI.IconButton 
 								edge="end" 
 								key="more-icon" 
