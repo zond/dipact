@@ -239,6 +239,8 @@ export default class DipMap extends React.Component {
 						this.options = js.Properties;
 						this.acceptOrders();
 					});
+				} else {
+					this.map.clearClickListeners();
 				}
 			});
 		}
