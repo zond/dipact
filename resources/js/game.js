@@ -19,6 +19,18 @@ export default class Game extends React.Component {
 		this.changePhase = this.changePhase.bind(this);
 		this.loadGame = this.loadGame.bind(this);
 		this.receiveOrders = this.receiveOrders.bind(this);
+		this.phaseJumper = this.phaseJumper.bind(this);
+	}
+	phaseJumper(steps) {
+		return _ => {
+			let newPhase = this.state.phases.find(p => {
+				return (
+					p.Properties.PhaseOrdinal ==
+					this.state.activePhase.Properties.PhaseOrdinal + steps
+				);
+			});
+			this.setState({ activePhase: newPhase });
+		};
 	}
 	receiveOrders(orders) {
 		let natOrders = {};
@@ -135,33 +147,32 @@ export default class Game extends React.Component {
 							>
 								{helpers.createIcon("\ue5cd")}
 							</MaterialUI.IconButton>
-							{/* TODO: make this button go to the previous phase */}
-
-
 							{this.state.game.Properties.Started &&
-							this.state.activePhase ? (
-							<MaterialUI.IconButton
-								onClick={this.props.close}
-								key="previouse"
-								edge="start"
-								color="secondary"
-							>
-								{helpers.createIcon("\ue5cb")}
-							</MaterialUI.IconButton>
-
+							this.state.activePhase.Properties.PhaseOrdinal >
+								1 ? (
+								<MaterialUI.IconButton
+									onClick={this.phaseJumper(-1)}
+									key="previous"
+									edge="start"
+									color="secondary"
+								>
+									{helpers.createIcon("\ue5cb")}
+								</MaterialUI.IconButton>
 							) : (
-								<MaterialUI.Box
-									key="spacer"
-									width="100%"
-								></MaterialUI.Box>
+								<MaterialUI.Box key="prev-spacer"></MaterialUI.Box>
 							)}
-
 
 							{this.state.game.Properties.Started &&
 							this.state.activePhase ? (
 								<MaterialUI.Select
-								/* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
-									style={{ width: "100%", "minWidth":"0", borderBottom: '1px solid rgba(253, 226, 181, 0.7)', color: "#FDE2B5"}}
+									/* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
+									style={{
+										width: "100%",
+										minWidth: "0",
+										borderBottom:
+											"1px solid rgba(253, 226, 181, 0.7)",
+										color: "#FDE2B5"
+									}}
 									key="phase-select"
 									value={
 										this.state.activePhase.Properties
@@ -179,7 +190,9 @@ export default class Game extends React.Component {
 													phase.Properties
 														.PhaseOrdinal
 												}
-												style={{"textOverflow":"ellipsis"}}
+												style={{
+													textOverflow: "ellipsis"
+												}}
 												value={
 													phase.Properties
 														.PhaseOrdinal
@@ -192,31 +205,30 @@ export default class Game extends React.Component {
 								</MaterialUI.Select>
 							) : (
 								<MaterialUI.Box
-									key="spacer"
+									key="curr-spacer"
 									width="100%"
 								></MaterialUI.Box>
 							)}
-							{/* TODO: make this button go to the next phase */}
 							{this.state.game.Properties.Started &&
-							this.state.activePhase ? (
-							<MaterialUI.IconButton 
-								edge="end" 
-								key="next" 
-								color="secondary"
->
-								{helpers.createIcon("\ue5cc")}
-							</MaterialUI.IconButton>
+							this.state.activePhase.Properties.PhaseOrdinal <
+								this.state.game.Properties.NewestPhaseMeta[0]
+									.PhaseOrdinal ? (
+								<MaterialUI.IconButton
+									onClick={this.phaseJumper(1)}
+									edge="end"
+									key="next"
+									color="secondary"
+								>
+									{helpers.createIcon("\ue5cc")}
+								</MaterialUI.IconButton>
 							) : (
-								<MaterialUI.Box
-									key="spacer"
-									width="100%"
-								></MaterialUI.Box>
+								<MaterialUI.Box key="next-spacer"></MaterialUI.Box>
 							)}
-							<MaterialUI.IconButton 
-								edge="end" 
-								key="more-icon" 
+							<MaterialUI.IconButton
+								edge="end"
+								key="more-icon"
 								color="secondary"
->
+							>
 								{helpers.createIcon("\ue5d4")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Toolbar>
@@ -247,7 +259,7 @@ export default class Game extends React.Component {
 						style={{
 							marginTop: "105px",
 							height: "calc(100% - 105px)",
-							"backgroundColor":"black",
+							backgroundColor: "black",
 							display:
 								this.state.activeTab == "map" ? "block" : "none"
 						}}
