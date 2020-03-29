@@ -31,6 +31,10 @@ export default class ChatMenu extends React.Component {
 				}
 			}
 		});
+		this.contrasts = (_ => {
+			let m = dippyMap($("body"));
+			return m.contrasts;
+		})();
 		this.flags = {};
 		this.variant.Properties.Nations.forEach(nation => {
 			let flagLink = this.variant.Links.find(l => {
@@ -51,16 +55,13 @@ export default class ChatMenu extends React.Component {
 						className="avatar"
 						key={nation}
 						alt={nation}
+						style={{ backgroundColor: this.contrasts[this.variant.Properties.Nations.indexOf(nation)] }}
 					>
 						{this.nationAbbreviations[nation]}
 					</MaterialUI.Avatar>
 				);
 			}
 		});
-		this.contrasts = (_ => {
-			let m = dippyMap($("body"));
-			return m.contrasts;
-		})();
 		this.openChannel = this.openChannel.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
 		this.channelName = this.channelName.bind(this);
