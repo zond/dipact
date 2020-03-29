@@ -137,6 +137,9 @@ export default class Game extends React.Component {
 							</MaterialUI.IconButton>
 							{/* TODO: make this button go to the previous phase */}
 
+
+							{this.state.game.Properties.Started &&
+							this.state.activePhase ? (
 							<MaterialUI.IconButton
 								onClick={this.props.close}
 								key="previouse"
@@ -145,6 +148,15 @@ export default class Game extends React.Component {
 							>
 								{helpers.createIcon("\ue5cb")}
 							</MaterialUI.IconButton>
+
+							) : (
+								<MaterialUI.Box
+									key="spacer"
+									width="100%"
+								></MaterialUI.Box>
+							)}
+
+
 							{this.state.game.Properties.Started &&
 							this.state.activePhase ? (
 								<MaterialUI.Select
@@ -185,6 +197,8 @@ export default class Game extends React.Component {
 								></MaterialUI.Box>
 							)}
 							{/* TODO: make this button go to the next phase */}
+							{this.state.game.Properties.Started &&
+							this.state.activePhase ? (
 							<MaterialUI.IconButton 
 								edge="end" 
 								key="next" 
@@ -192,6 +206,12 @@ export default class Game extends React.Component {
 >
 								{helpers.createIcon("\ue5cc")}
 							</MaterialUI.IconButton>
+							) : (
+								<MaterialUI.Box
+									key="spacer"
+									width="100%"
+								></MaterialUI.Box>
+							)}
 							<MaterialUI.IconButton 
 								edge="end" 
 								key="more-icon" 
