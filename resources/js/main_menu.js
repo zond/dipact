@@ -12,7 +12,8 @@ export default class MainMenu extends ActivityContainer {
 		this.state = {
 			drawerOpen: false,
 			menuOpen: false,
-			activity: Notifications
+			activity: Notifications,
+			activityProps: { urls: this.props.urls }
 		};
 		this.openDrawer = this.openDrawer.bind(this);
 		this.closeDrawer = this.closeDrawer.bind(this);
@@ -35,7 +36,9 @@ export default class MainMenu extends ActivityContainer {
 								)
 								.then(resp => resp.json()),
 							close: _ => {
-								this.setActivity(Notifications);
+								this.setActivity(Notifications, {
+									urls: this.props.urls
+								});
 							}
 						};
 					}
@@ -151,49 +154,51 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									onClick={_ => {
-										this.setActivity(Notifications);
+										this.setActivity(Notifications, {
+											urls: this.props.urls
+										});
 									}}
 								>
 									<MaterialUI.ListItemText primary="Notifications" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									urlkey="my_started_games_url"
+									urlkey="my-started-games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="My started games" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									urlkey="my_staging_games_url"
+									urlkey="my-staging-games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="My staging games" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									urlkey="my_finished_games_url"
+									urlkey="my-finished-games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="My finished games" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									urlkey="open_games_url"
+									urlkey="open-games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="Open games" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									urlkey="started_games_url"
+									urlkey="started-games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="Started games" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
-									urlkey="finished_games_url"
+									urlkey="finished-games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="Finished games" />

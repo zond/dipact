@@ -64,20 +64,20 @@ export default class Main extends ActivityContainer {
 					state.urls.login_url = loginURL;
 				}
 
-				let linkSetter = (rel, key) => {
+				let linkSetter = rel => {
 					let link = rootJS.Links.find(l => {
 						return l.Rel == rel;
 					});
 					if (link) {
-						state.urls[key] = new URL(link.URL);
+						state.urls[rel] = new URL(link.URL);
 					}
 				};
-				linkSetter("my-started-games", "my_started_games_url");
-				linkSetter("my-staging-games", "my_staging_games_url");
-				linkSetter("my-finished-games", "my_finished_games_url");
-				linkSetter("open-games", "open_games_url");
-				linkSetter("started-games", "started_games_url");
-				linkSetter("finished-games", "finished_games_url");
+				linkSetter("my-started-games");
+				linkSetter("my-staging-games");
+				linkSetter("my-finished-games");
+				linkSetter("open-games");
+				linkSetter("started-games");
+				linkSetter("finished-games");
 
 				if (Globals.user) {
 					localStorage.setItem("token", Globals.token);
