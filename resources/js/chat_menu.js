@@ -22,7 +22,9 @@ export default class ChatMenu extends React.Component {
 			for (let idx = 0; idx < nation.length; idx++) {
 				let matchingNations = this.variant.Properties.Nations.filter(
 					otherNation => {
-						return otherNation.indexOf(nation.slice(0, idx)) == 0;
+						return (
+							otherNation.indexOf(nation.slice(0, idx + 1)) == 0
+						);
 					}
 				).length;
 				if (matchingNations == 1) {
