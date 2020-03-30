@@ -426,7 +426,9 @@ export default class GameListElement extends React.Component {
 		if (this.props.summaryOnly) {
 			return (
 				<React.Fragment>
-					<div onClick={this.viewGame}>{summary}</div>
+					<div style={{ width: "100%" }} onClick={this.viewGame}>
+						{summary}
+					</div>
 					{gameView}
 				</React.Fragment>
 			);
