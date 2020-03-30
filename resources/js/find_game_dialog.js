@@ -30,13 +30,28 @@ export default class FindGameDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<MaterialUI.TextField
+			<MaterialUI.DialogTitle id="form-dialog-title">Find (private) game</MaterialUI.DialogTitle>
+			<MaterialUI.DialogContent>
+          		<MaterialUI.DialogContentText>
+          		Enter any game ID to view it. You can find the Game ID at [TODO: description wheretofind].
+          		</MaterialUI.DialogContentText>
+					<MaterialUI.TextField
 					id="find_game_by_id_input_field"
 					label="Game ID"
-				/>
-				<MaterialUI.IconButton onClick={this.onClick}>
-					{helpers.createIcon("\ue8b6")}
-				</MaterialUI.IconButton>
+		            autoFocus
+		            margin="dense"
+                    fullWidth
+					/>
+				<MaterialUI.DialogActions>
+          				<MaterialUI.Button onClick={this.close} color="primary">
+            			Cancel
+          				</MaterialUI.Button>
+          				<MaterialUI.Button onClick={this.onClick} color="primary">
+            			Find
+          				</MaterialUI.Button>
+        		</MaterialUI.DialogActions>
+			</MaterialUI.DialogContent>
+
 			</MaterialUI.Dialog>
 		);
 	}
