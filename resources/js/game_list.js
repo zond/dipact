@@ -90,6 +90,7 @@ export default class GameList extends React.Component {
 				return (
 					<MaterialUI.Paper
 						style={{
+							width: "100%",
 							paddingRight: 36,
 							paddingBottom: 8,
 							paddingTop: 8
@@ -100,7 +101,7 @@ export default class GameList extends React.Component {
 				);
 			} else {
 				return (
-					<MaterialUI.ExpansionPanel>
+					<MaterialUI.ExpansionPanel style={{ width: "100%" }}>
 						<MaterialUI.ExpansionPanelSummary
 							className="min-width-summary"
 							expandIcon={helpers.createIcon("\ue5cf")}
