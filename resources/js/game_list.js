@@ -37,13 +37,15 @@ export default class GameList extends React.Component {
 	load(req) {
 		this.loading = true;
 		helpers
-			.safeFetch(req)
+			.safeFetch(req, this.props.limit || 64)
 			.then(resp => resp.json())
 			.then(js => {
 				let games = js.Properties;
-				this.moreLink = js.Links.find(l => {
-					return l.Rel == "next";
-				});
+				if (!this.props.skipMore) {
+					this.moreLink = js.Links.find(l => {
+						return l.Rel == "next";
+					});
+				}
 				if (this.moreLink) {
 					games.push({ isProgress: true });
 				}
@@ -57,20 +59,98 @@ export default class GameList extends React.Component {
 				);
 			});
 	}
+	renderElement(el) {
+		if (el.isProgress) {
+			return (
+				<div
+					key="progress"
+					style={{
+						width: "100%",
+						textAlign: "center"
+					}}
+				>
+					<MaterialUI.CircularProgress />
+				</div>
+			);
+		} else {
+			return (
+				<GameListElement
+					summaryOnly={this.props.expansionPanelWrapped}
+					game={el}
+					key={el.Properties.ID}
+				/>
+			);
+		}
+	}
 	render() {
-		return this.state.games.map(game => {
-			if (game.isProgress) {
+		if (this.props.expansionPanelWrapped) {
+			if (this.state.games.length == 0) {
+				return "";
+			} else if (this.state.games.length == 1) {
 				return (
-					<div
-						key="progress"
-						style={{ width: "100%", textAlign: "center" }}
+					<MaterialUI.Paper
+						style={{
+							paddingRight: 36,
+							paddingBottom: 8,
+							paddingTop: 8
+						}}
 					>
-						<MaterialUI.CircularProgress />
-					</div>
+						{this.renderElement(this.state.games[0])}
+					</MaterialUI.Paper>
 				);
 			} else {
-				return <GameListElement key={game.Properties.ID} game={game} />;
+				return (
+					<MaterialUI.ExpansionPanel>
+						<MaterialUI.ExpansionPanelSummary
+							className="min-width-summary"
+							expandIcon={helpers.createIcon("\ue5cf")}
+							style={{
+								paddingRight: 0,
+								paddingLeft: 0
+							}}
+						>
+							{this.renderElement(this.state.games[0])}
+						</MaterialUI.ExpansionPanelSummary>
+						<MaterialUI.ExpansionPanelDetails
+							style={{
+								paddingRight: 36,
+								paddingLeft: 0
+							}}
+						>
+							<div>
+								<MaterialUI.Divider
+									style={{
+										marginTop: -12,
+										marginBottom: 8
+									}}
+									light
+								/>
+								{this.state.games.slice(1).map(game => {
+									return (
+										<React.Fragment
+											key={game.Properties.ID}
+										>
+											{this.renderElement(game)}
+											<MaterialUI.Divider
+												style={{
+													marginTop: "8px",
+													marginBottom: "8px"
+												}}
+												key="divider"
+												light
+											/>
+										</React.Fragment>
+									);
+								})}
+							</div>
+						</MaterialUI.ExpansionPanelDetails>
+					</MaterialUI.ExpansionPanel>
+				);
 			}
-		});
+		} else {
+			return this.state.games.map(game => {
+				return this.renderElement(game);
+			});
+		}
 	}
 }

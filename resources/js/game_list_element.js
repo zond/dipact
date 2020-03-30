@@ -86,7 +86,9 @@ export default class GameListElement extends React.Component {
 	closeGame() {
 		this.setState({ viewOpen: false });
 	}
-	viewGame() {
+	viewGame(e) {
+		e.stopPropagation();
+		e.preventDefault();
 		this.setState({ viewOpen: true });
 	}
 	addIcon(ary, codepoint, color) {
@@ -304,6 +306,131 @@ export default class GameListElement extends React.Component {
 			</MaterialUI.Grid>
 		);
 
+		let summary = (
+			<MaterialUI.Grid container>
+				{(_ => {
+					if (this.state.game.Properties.Started) {
+						return (
+							<React.Fragment>
+								<MaterialUI.Grid key={itemKey++} item xs={11}>
+									<MaterialUI.Typography
+										textroverflow="ellipsis"
+										noWrap={true}
+									>
+										{helpers.gameDesc(this.state.game)}
+									</MaterialUI.Typography>
+								</MaterialUI.Grid>
+								<MaterialUI.Grid key={itemKey++} item xs={1}>
+									{this.state.game.Properties.Finished
+										? helpers.minutesToDuration(
+												-this.state.game.Properties
+													.FinishedAgo /
+													1000000000 /
+													60,
+												true
+										  )
+										: helpers.minutesToDuration(
+												this.state.game.Properties
+													.NewestPhaseMeta[0]
+													.NextDeadlineIn /
+													1000000000 /
+													60,
+												true
+										  )}
+								</MaterialUI.Grid>
+								<MaterialUI.Grid key={itemKey++} item xs={12}>
+									<MaterialUI.Typography>
+										{
+											this.state.game.Properties
+												.NewestPhaseMeta[0].Season
+										}{" "}
+										{
+											this.state.game.Properties
+												.NewestPhaseMeta[0].Year
+										}
+										,{" "}
+										{
+											this.state.game.Properties
+												.NewestPhaseMeta[0].Type
+										}
+									</MaterialUI.Typography>
+								</MaterialUI.Grid>
+							</React.Fragment>
+						);
+					} else {
+						return (
+							<React.Fragment>
+								<MaterialUI.Grid key={itemKey++} item xs={11}>
+									<MaterialUI.Typography
+										textroverflow="ellipsis"
+										noWrap={true}
+									>
+										{helpers.gameDesc(this.state.game)}
+									</MaterialUI.Typography>
+								</MaterialUI.Grid>
+								<MaterialUI.Grid key={itemKey++} item xs={1}>
+									<MaterialUI.Typography>
+										{this.state.game.Properties.NMembers}/
+										{this.variant.Properties.Nations.length}{" "}
+									</MaterialUI.Typography>
+								</MaterialUI.Grid>
+							</React.Fragment>
+						);
+					}
+				})()}
+				<MaterialUI.Grid item xs={12}>
+					<MaterialUI.Typography
+						textroverflow="ellipsis"
+						noWrap={true}
+						display="inline"
+					>
+						{this.state.game.Properties.Variant}{" "}
+						{helpers.minutesToDuration(
+							this.state.game.Properties.PhaseLengthMinutes
+						)}
+					</MaterialUI.Typography>
+					{this.getIcons()}
+				</MaterialUI.Grid>
+			</MaterialUI.Grid>
+		);
+
+		let gameView = (
+			<MaterialUI.Zoom
+				in={this.state.viewOpen}
+				mountOnEnter
+				unmountOnExit
+			>
+				<div
+					style={{
+						position: "fixed",
+						zIndex: 1300,
+						right: 0,
+						bottom: 0,
+						top: 0,
+						left: 0,
+						background: "#ffffff"
+					}}
+				>
+					<Game
+						gamePromise={
+							new Promise((res, rej) => {
+								res(this.state.game);
+							})
+						}
+						close={this.closeGame}
+					/>
+				</div>
+			</MaterialUI.Zoom>
+		);
+
+		if (this.props.summaryOnly) {
+			return (
+				<React.Fragment>
+					<div onClick={this.viewGame}>{summary}</div>
+					{gameView}
+				</React.Fragment>
+			);
+		}
 		return (
 			<React.Fragment>
 				<MaterialUI.ExpansionPanel key="game-details">
@@ -311,132 +438,7 @@ export default class GameListElement extends React.Component {
 						className="min-width-summary"
 						expandIcon={helpers.createIcon("\ue5cf")}
 					>
-						<MaterialUI.Grid container>
-							{(_ => {
-								if (this.state.game.Properties.Started) {
-									return (
-										<React.Fragment>
-											<MaterialUI.Grid
-												key={itemKey++}
-												item
-												xs={11}
-											>
-												<MaterialUI.Typography
-													textroverflow="ellipsis"
-													noWrap={true}
-												>
-													{helpers.gameDesc(
-														this.state.game
-													)}
-												</MaterialUI.Typography>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={itemKey++}
-												item
-												xs={1}
-											>
-												{this.state.game.Properties
-													.Finished
-													? helpers.minutesToDuration(
-															-this.state.game
-																.Properties
-																.FinishedAgo /
-																1000000000 /
-																60,
-															true
-													  )
-													: helpers.minutesToDuration(
-															this.state.game
-																.Properties
-																.NewestPhaseMeta[0]
-																.NextDeadlineIn /
-																1000000000 /
-																60,
-															true
-													  )}
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={itemKey++}
-												item
-												xs={12}
-											>
-												<MaterialUI.Typography>
-													{
-														this.state.game
-															.Properties
-															.NewestPhaseMeta[0]
-															.Season
-													}{" "}
-													{
-														this.state.game
-															.Properties
-															.NewestPhaseMeta[0]
-															.Year
-													}
-													,{" "}
-													{
-														this.state.game
-															.Properties
-															.NewestPhaseMeta[0]
-															.Type
-													}
-												</MaterialUI.Typography>
-											</MaterialUI.Grid>
-										</React.Fragment>
-									);
-								} else {
-									return (
-										<React.Fragment>
-											<MaterialUI.Grid
-												key={itemKey++}
-												item
-												xs={11}
-											>
-												<MaterialUI.Typography
-													textroverflow="ellipsis"
-													noWrap={true}
-												>
-													{helpers.gameDesc(
-														this.state.game
-													)}
-												</MaterialUI.Typography>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={itemKey++}
-												item
-												xs={1}
-											>
-												<MaterialUI.Typography>
-													{
-														this.state.game
-															.Properties.NMembers
-													}
-													/
-													{
-														this.variant.Properties
-															.Nations.length
-													}{" "}
-												</MaterialUI.Typography>
-											</MaterialUI.Grid>
-										</React.Fragment>
-									);
-								}
-							})()}
-							<MaterialUI.Grid item xs={12}>
-								<MaterialUI.Typography
-									textroverflow="ellipsis"
-									noWrap={true}
-									display="inline"
-								>
-									{this.state.game.Properties.Variant}{" "}
-									{helpers.minutesToDuration(
-										this.state.game.Properties
-											.PhaseLengthMinutes
-									)}
-								</MaterialUI.Typography>
-								{this.getIcons()}
-							</MaterialUI.Grid>
-						</MaterialUI.Grid>
+						{summary}
 					</MaterialUI.ExpansionPanelSummary>
 					<MaterialUI.ExpansionPanelDetails
 						style={{ paddingRight: "0.3em", paddingLeft: "0.3em" }}
@@ -451,32 +453,7 @@ export default class GameListElement extends React.Component {
 						</MaterialUI.Paper>
 					</MaterialUI.ExpansionPanelDetails>
 				</MaterialUI.ExpansionPanel>
-				<MaterialUI.Zoom
-					in={this.state.viewOpen}
-					mountOnEnter
-					unmountOnExit
-				>
-					<div
-						style={{
-							position: "fixed",
-							zIndex: 1300,
-							right: 0,
-							bottom: 0,
-							top: 0,
-							left: 0,
-							background: "#ffffff"
-						}}
-					>
-						<Game
-							gamePromise={
-								new Promise((res, rej) => {
-									res(this.state.game);
-								})
-							}
-							close={this.closeGame}
-						/>
-					</div>
-				</MaterialUI.Zoom>
+				{gameView}
 				<NationPreferencesDialog parent={this} onSelected={null} />
 			</React.Fragment>
 		);
