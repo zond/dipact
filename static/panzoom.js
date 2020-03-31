@@ -1422,16 +1422,21 @@
 						function applyTransform(transform) {
 							// TODO: Should we cache this?
 							domElement.style.transformOrigin = "0 0 0";
-							domElement.style.transform =
-								"matrix(" +
+							let transformStyle =
+								"matrix3d(" +
 								transform.scale +
-								", 0, 0, " +
+								", 0, 0, 0, 0, " +
 								transform.scale +
-								", " +
+								", 0, 0, 0, 0, 1, 0, " +
 								transform.x +
 								", " +
 								transform.y +
-								")";
+								", 0, 1)";
+							domElement.style.transform = transformStyle;
+							domElement.style.webkitTransform = transformStyle;
+							domElement.style.MozTransform = transformStyle;
+							domElement.style.msTransform = transformStyle;
+							domElement.style.OTransform = transformStyle;
 						}
 					}
 				},
