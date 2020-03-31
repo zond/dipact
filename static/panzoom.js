@@ -554,6 +554,9 @@
 							if (!zooming) {
 								zooming = true;
 								triggerEvent("zoom");
+								if (options.onZoom) {
+									options.onZoom();
+								}
 							}
 
 							makeDirty();
@@ -1159,6 +1162,9 @@
 						function triggerZoomEnd() {
 							zooming = false;
 							triggerEvent("zoomend");
+							if (options.onZoomend) {
+								options.onZoomend();
+							}
 						}
 
 						function triggerEvent(name) {
