@@ -6,16 +6,18 @@ export default class Notifications extends React.Component {
 	}
 	render() {
 		return (
+
+
 			<MaterialUI.List>
 				<MaterialUI.ListItem>
 					<MaterialUI.ListItemText primary="NEWS: Diplicity has a new React-based UI." />
 				</MaterialUI.ListItem>
 				<li key="started">
 					<ul style={{ paddingInlineStart: 0 }}>
-						<MaterialUI.ListSubheader>
-							Started
+						<MaterialUI.ListSubheader color="primary">
+							My ongoing games
 						</MaterialUI.ListSubheader>
-						<MaterialUI.ListItem>
+						<MaterialUI.ListItem> 
 							<GameList
 								expansionPanelWrapped={true}
 								url={this.props.urls["my-started-games"]}
@@ -27,8 +29,8 @@ export default class Notifications extends React.Component {
 				</li>
 				<li key="staging">
 					<ul style={{ paddingInlineStart: 0 }}>
-						<MaterialUI.ListSubheader>
-							Staging
+						<MaterialUI.ListSubheader color="primary">
+							My forming games
 						</MaterialUI.ListSubheader>
 						<MaterialUI.ListItem>
 							<GameList
@@ -42,8 +44,8 @@ export default class Notifications extends React.Component {
 				</li>
 				<li key="finished">
 					<ul style={{ paddingInlineStart: 0 }}>
-						<MaterialUI.ListSubheader>
-							Finished
+						<MaterialUI.ListSubheader color="primary">
+							My finished games
 						</MaterialUI.ListSubheader>
 						<MaterialUI.ListItem>
 							<GameList
