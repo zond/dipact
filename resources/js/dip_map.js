@@ -13,10 +13,32 @@ export default class DipMap extends React.Component {
 		this.natCol = this.natCol.bind(this);
 		this.createOrder = this.createOrder.bind(this);
 		this.deleteOrder = this.deleteOrder.bind(this);
+		this.snapshotSVG = this.snapshotSVG.bind(this);
 		this.map = null;
 		this.orders = null;
 		this.lastRenderedGameID = null;
 		this.orderDialog = null;
+	}
+	snapshotSVG() {
+		let mapEl = document.getElementById("map");
+		let serializedSVG = btoa(
+			new XMLSerializer().serializeToString(mapEl.children[0])
+		);
+		let snapshotImage = document.createElement("img");
+		snapshotImage.style.width = mapEl.clientWidth;
+		snapshotImage.style.height = mapEl.clientHeight;
+		snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
+		snapshotImage.addEventListener("load", _ => {
+			let snapshotCanvas = document.createElement("canvas");
+			snapshotCanvas.setAttribute("height", mapEl.clientHeight);
+			snapshotCanvas.setAttribute("width", mapEl.clientWidth);
+			snapshotCanvas.style.height = mapEl.clientHeight;
+			snapshotCanvas.style.width = mapEl.clientWidth;
+			snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
+			let snapshotData = snapshotCanvas.toDataURL("image/png");
+			let snapshotEl = document.getElementById("mapSnapshot");
+			snapshotEl.src = snapshotData;
+		});
 	}
 	createOrder(parts) {
 		let setOrderLink = this.props.phase.Links.find(l => {
@@ -71,7 +93,7 @@ export default class DipMap extends React.Component {
 	}
 	componentDidUpdate() {
 		if (this.lastRenderedGameID == this.props.game.Properties.ID) {
-			this.updateMap();
+			this.updateMap().then(this.snapshotSVG);
 			return;
 		}
 
@@ -126,37 +148,9 @@ export default class DipMap extends React.Component {
 					bounds: true,
 					boundsPadding: 0.5,
 					onZoom: e => {
-						let mapEl = document.getElementById("map");
-						let serializedSVG = btoa(
-							new XMLSerializer().serializeToString(
-								mapEl.children[0]
-							)
-						);
-						let snapshotImage = document.createElement("img");
-						snapshotImage.style.width = mapEl.clientWidth;
-						snapshotImage.style.height = mapEl.clientHeight;
-						snapshotImage.src =
-							"data:image/svg+xml;base64," + serializedSVG;
-						console.log("snapshot src", snapshotImage.src);
-						let snapshotCanvas = document.createElement("canvas");
-						snapshotCanvas.setAttribute(
-							"height",
-							mapEl.clientHeight
-						);
-						snapshotCanvas.setAttribute("width", mapEl.clientWidth);
-						snapshotCanvas.style.height = mapEl.clientHeight;
-						snapshotCanvas.style.width = mapEl.clientWidth;
-						snapshotCanvas
-							.getContext("2d")
-							.drawImage(snapshotImage, 0, 0);
-						let snapshotData = snapshotCanvas.toDataURL(
-							"image/png"
-						);
-						mapEl.style.display = "none";
-						let snapshotEl = document.getElementById("mapSnapshot");
-						snapshotEl.src = snapshotData;
-						console.log("snapshot el src", snapshotEl.src);
-						snapshotEl.style.display = "flex";
+						document.getElementById("map").style.display = "none";
+						document.getElementById("mapSnapshot").style.display =
+							"flex";
 					},
 					onZoomend: e => {
 						document.getElementById("map").style.display = "flex";
@@ -173,7 +167,7 @@ export default class DipMap extends React.Component {
 				document.getElementById("units-div").appendChild(container);
 			});
 			this.lastRenderedGameID = this.props.game.Properties.ID;
-			this.updateMap();
+			this.updateMap().then(this.snapshotSVG);
 		});
 	}
 	// This function is wonky, because for historical
@@ -182,7 +176,7 @@ export default class DipMap extends React.Component {
 	// and 'a phase of an actual game'.
 	updateMap() {
 		if (!this.props.phase) {
-			return;
+			return Promise.resolve({});
 		}
 		let orderPromise = this.loadOrdersPromise();
 		let optionsPromise = null;
@@ -265,9 +259,9 @@ export default class DipMap extends React.Component {
 		}
 		if (orderPromise) {
 			let renderingPhase = this.props.phase;
-			this.renderOrders(orderPromise, this.props.phase).then(_ => {
+			return this.renderOrders(orderPromise, this.props.phase).then(_ => {
 				if (optionsPromise) {
-					optionsPromise.then(js => {
+					return optionsPromise.then(js => {
 						helpers.decProgress();
 						// Skip this if we aren't rendering the same phase anymore.
 						if (
@@ -278,14 +272,18 @@ export default class DipMap extends React.Component {
 						}
 						this.options = js.Properties;
 						this.acceptOrders();
+						return Promise.resolve({});
 					});
 				} else {
 					this.map.clearClickListeners();
+					return Promise.resolve({});
 				}
 			});
+		} else {
+			// Assume we are done now, even if we possibly haven't rendered the orders yet.
+			this.renderedPhaseOrdinal = this.props.phase.Properties.PhaseOrdinal;
+			return Promise.resolve({});
 		}
-		// Assume we are done now, even if we possibly haven't rendered the orders yet.
-		this.renderedPhaseOrdinal = this.props.phase.Properties.PhaseOrdinal;
 	}
 	loadOrdersPromise() {
 		if (!this.props.phase.Links) {
@@ -353,6 +351,7 @@ export default class DipMap extends React.Component {
 					this.props.phase
 				).then(_ => {
 					this.acceptOrders();
+					this.snapshotSVG();
 				});
 			});
 		} else {
@@ -393,6 +392,7 @@ export default class DipMap extends React.Component {
 										this.props.phase
 									).then(_ => {
 										this.acceptOrders();
+										this.snapshotSVG();
 									});
 								});
 							} else {
