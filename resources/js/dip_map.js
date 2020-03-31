@@ -120,11 +120,39 @@ export default class DipMap extends React.Component {
 			document.getElementById("map").innerHTML = mapSVG;
 			this.map = dippyMap($("#map"));
 
-			panzoom(document.getElementById("map-container"), {
-				bounds: true,
-				boundsPadding: 0.5
+			var panzoomInstance = panzoom(
+				document.getElementById("map-container"),
+				{
+					bounds: true,
+					boundsPadding: 0.5
+				}
+			);
+			panzoomInstance.on("zoom", e => {
+				let mapEl = document.getElementById("map");
+				let serializedSVG = btoa(
+					new XMLSerializer().serializeToString(mapEl.children[0])
+				);
+				let snapshotImage = document.createElement("img");
+				snapshotImage.style.width = mapEl.clientWidth;
+				snapshotImage.style.height = mapEl.clientHeight;
+				snapshotImage.src =
+					"data:image/svg+xml;base64," + serializedSVG;
+				let snapshotCanvas = document.createElement("canvas");
+				snapshotCanvas.setAttribute("height", mapEl.clientHeight);
+				snapshotCanvas.setAttribute("width", mapEl.clientWidth);
+				snapshotCanvas.style.height = mapEl.clientHeight;
+				snapshotCanvas.style.width = mapEl.clientWidth;
+				snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
+				let snapshotData = snapshotCanvas.toDataURL("image/png");
+				mapEl.style.display = "none";
+				let snapshotEl = document.getElementById("mapSnapshot");
+				snapshotEl.src = snapshotData;
+				snapshotEl.style.display = "flex";
 			});
-
+			panzoomInstance.on("zoomend", e => {
+				document.getElementById("map").style.display = "flex";
+				document.getElementById("mapSnapshot").style.display = "none";
+			});
 			let variantUnits = values[1];
 			variantUnits.forEach(unitData => {
 				let container = document.createElement("div");
@@ -382,10 +410,22 @@ export default class DipMap extends React.Component {
 			<React.Fragment>
 				<div id="map-container">
 					<div
-						style={{ display: "flex", flexWrap: "wrap" }}
+						style={{
+							display: "flex",
+							flexWrap: "wrap"
+						}}
 						key="map"
 						id="map"
 					></div>
+					<img
+						id="mapSnapshot"
+						key="mapSnapshot"
+						style={{
+							width: "100%",
+							display: "none",
+							flexWrap: "wrap"
+						}}
+					/>
 					<div
 						key="game-desc"
 						style={{

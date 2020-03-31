@@ -211,6 +211,8 @@
 						var multiTouch;
 						var paused = false;
 
+						var zooming = false;
+
 						listenForEvents();
 
 						var api = {
@@ -549,7 +551,10 @@
 									transform.scale *= ratio;
 							}
 
-							triggerEvent("zoom");
+							if (!zooming) {
+								zooming = true;
+								triggerEvent("zoom");
+							}
 
 							makeDirty();
 						}
@@ -919,6 +924,9 @@
 
 								touchInProgress = false;
 								triggerPanEnd();
+								if (multiTouch) {
+									triggerZoomEnd();
+								}
 								releaseTouches();
 							}
 						}
@@ -1149,6 +1157,7 @@
 						}
 
 						function triggerZoomEnd() {
+							zooming = false;
 							triggerEvent("zoomend");
 						}
 
