@@ -73,7 +73,7 @@ export default class ChatChannel extends React.Component {
 						},
 						body: JSON.stringify({
 							Body: document.getElementById(
-								"chat_channel_input_field"
+								"chat-channel-input-field"
 							).value,
 							ChannelMembers: this.props.channel.Properties
 								.Members
@@ -82,7 +82,7 @@ export default class ChatChannel extends React.Component {
 				)
 				.then(_ => {
 					helpers.decProgress();
-					document.getElementById("chat_channel_input_field").value =
+					document.getElementById("chat-channel-input-field").value =
 						"";
 					this.loadMessages();
 				});
@@ -189,7 +189,7 @@ export default class ChatChannel extends React.Component {
 						let msgEl = document.getElementById("messages");
 						msgEl.scrollTop = msgEl.scrollHeight;
 						document
-							.getElementById("chat_channel_input_field")
+							.getElementById("chat-channel-input-field")
 							.focus();
 					});
 					return Promise.resolve({});
@@ -273,7 +273,7 @@ export default class ChatChannel extends React.Component {
 						})}
 						<div style={{ display: "flex" }}>
 							<MaterialUI.TextField
-								id="chat_channel_input_field"
+								id="chat-channel-input-field"
 								multiline
 								rows="3"
 								style={{ flexGrow: 100 }}
