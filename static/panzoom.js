@@ -212,6 +212,7 @@
 						var paused = false;
 
 						var zooming = false;
+						var zoomTimeout = null;
 
 						listenForEvents();
 
@@ -557,6 +558,17 @@
 								if (options.onZoom) {
 									options.onZoom();
 								}
+							}
+							if (!multiTouch) {
+								if (zoomTimeout) {
+									clearTimeout(zoomTimeout);
+								}
+								zoomTimeout = setTimeout(_ => {
+									if (zooming && !multiTouch) {
+										triggerZoomEnd();
+										zoomTimeout = null;
+									}
+								}, 100);
 							}
 
 							makeDirty();
