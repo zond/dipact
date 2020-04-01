@@ -17,22 +17,6 @@ export default class ChatMenu extends React.Component {
 		this.variant = Globals.variants.find(v => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
-		this.nationAbbreviations = {};
-		this.variant.Properties.Nations.forEach(nation => {
-			for (let idx = 0; idx < nation.length; idx++) {
-				let matchingNations = this.variant.Properties.Nations.filter(
-					otherNation => {
-						return (
-							otherNation.indexOf(nation.slice(0, idx + 1)) == 0
-						);
-					}
-				).length;
-				if (matchingNations == 1) {
-					this.nationAbbreviations[nation] = nation.slice(0, idx);
-					break;
-				}
-			}
-		});
 		this.contrasts = (_ => {
 			let m = dippyMap($("body"));
 			return m.contrasts;
@@ -59,7 +43,7 @@ export default class ChatMenu extends React.Component {
 					helpers.brightnessByColor(bgColor) > 128
 						? "#000000"
 						: "#ffffff";
-				let abbr = this.nationAbbreviations[nation];
+				let abbr = this.variant.nationAbbreviations[nation];
 				let fontSize = null;
 				if (abbr.length > 3) {
 					fontSize = "smaller";
