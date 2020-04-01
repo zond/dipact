@@ -3,8 +3,6 @@ import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
 import Messaging from '%{ cb "/js/messaging.js" }%';
 import Theme from '%{ cb "/js/theme.js" }%';
 
-
-
 window.Globals = {
 	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
 		headers: {
@@ -20,11 +18,20 @@ window.Globals = {
 	progressDialog: null,
 	variants: [],
 	memoizeCache: {},
-	messaging: Messaging
+	messaging: Messaging,
+	contrastColors: (_ => {
+		let m = dippyMap($("body"));
+		return m.contrasts;
+	})()
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
-ReactDOM.render(<MaterialUI.ThemeProvider theme={Theme}><Main /></MaterialUI.ThemeProvider>, document.getElementById("app"));
+ReactDOM.render(
+	<MaterialUI.ThemeProvider theme={Theme}>
+		<Main />
+	</MaterialUI.ThemeProvider>,
+	document.getElementById("app")
+);
 
 window.addEventListener("popstate", ev => {
 	window.location.reload();

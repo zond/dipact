@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
+
 export default class ChatChannel extends React.Component {
 	constructor(props) {
 		super(props);
@@ -244,12 +246,16 @@ export default class ChatChannel extends React.Component {
 												item
 												xs={2}
 											>
-												{
-													this.props.flags[
+												<NationAvatar
+													variant={
+														this.variant.Properties
+															.Name
+													}
+													nation={
 														message.Properties
 															.Sender
-													]
-												}
+													}
+												/>
 											</MaterialUI.Grid>
 											<MaterialUI.Grid
 												key="body"

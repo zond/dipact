@@ -1,6 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import ChatChannel from '%{ cb "/js/chat_channel.js" }%';
+import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
 export default class ChatMenu extends React.Component {
 	constructor(props) {
@@ -16,55 +17,6 @@ export default class ChatMenu extends React.Component {
 		});
 		this.variant = Globals.variants.find(v => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
-		});
-		this.contrasts = (_ => {
-			let m = dippyMap($("body"));
-			return m.contrasts;
-		})();
-		this.flags = {};
-		this.variant.Properties.Nations.forEach(nation => {
-			let flagLink = this.variant.Links.find(l => {
-				return l.Rel == "flag-" + nation;
-			});
-			if (flagLink) {
-				this.flags[nation] = (
-					<MaterialUI.Avatar
-						className="avatar"
-						key={nation}
-						alt={nation}
-						src={flagLink.URL}
-					/>
-				);
-			} else {
-				let bgColor = this.contrasts[
-					this.variant.Properties.Nations.indexOf(nation)
-				];
-				let color =
-					helpers.brightnessByColor(bgColor) > 128
-						? "#000000"
-						: "#ffffff";
-				let abbr = this.variant.nationAbbreviations[nation];
-				let fontSize = null;
-				if (abbr.length > 3) {
-					fontSize = "smaller";
-				} else if (abbr.length > 1) {
-					fontSize = "small";
-				}
-				this.flags[nation] = (
-					<MaterialUI.Avatar
-						className="avatar"
-						key={nation}
-						alt={nation}
-						style={{
-							backgroundColor: bgColor,
-							color: color,
-							fontSize: fontSize
-						}}
-					>
-						{abbr}
-					</MaterialUI.Avatar>
-				);
-			}
 		});
 		this.openChannel = this.openChannel.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
@@ -113,7 +65,9 @@ export default class ChatMenu extends React.Component {
 		}
 	}
 	natCol(nat) {
-		return this.contrasts[this.variant.Properties.Nations.indexOf(nat)];
+		return Globals.contrastColors[
+			this.variant.Properties.Nations.indexOf(nat)
+		];
 	}
 	channelName(channel) {
 		if (!channel) {
@@ -134,7 +88,13 @@ export default class ChatMenu extends React.Component {
 			);
 		}
 		return channel.Properties.Members.map(member => {
-			return this.flags[member];
+			return (
+				<NationAvatar
+					key={member}
+					variant={this.variant.Properties.Name}
+					nation={member}
+				/>
+			);
 		});
 	}
 	openChannel(channel) {
@@ -171,7 +131,6 @@ export default class ChatMenu extends React.Component {
 							)}
 							isActive={this.props.isActive}
 							createMessageLink={this.state.createMessageLink}
-							flags={this.flags}
 							channel={this.state.activeChannel}
 							close={this.closeChannel}
 						/>
