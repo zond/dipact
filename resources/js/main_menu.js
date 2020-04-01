@@ -2,19 +2,13 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import ActivityContainer from '%{ cb "/js/activity_container.js" }%';
 import FindGameDialog from '%{ cb "/js/find_game_dialog.js" }%';
-import Notifications from '%{ cb "/js/notifications.js" }%';
+import Start from '%{ cb "/js/start.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
 		super(props);
-		this.state = {
-			drawerOpen: false,
-			menuOpen: false,
-			activity: Notifications,
-			activityProps: { urls: this.props.urls }
-		};
 		this.openDrawer = this.openDrawer.bind(this);
 		this.closeDrawer = this.closeDrawer.bind(this);
 		this.renderGameList = this.renderGameList.bind(this);
@@ -22,6 +16,17 @@ export default class MainMenu extends ActivityContainer {
 		this.openMenu = this.openMenu.bind(this);
 		this.logout = this.logout.bind(this);
 		this.findGameByID = this.findGameByID.bind(this);
+		this.renderOpenGames = this.renderOpenGames.bind(this);
+		this.state = {
+			drawerOpen: false,
+			menuOpen: false,
+			activity: Start,
+			activityProps: {
+				urls: this.props.urls,
+				findPrivateGame: this.findGameByID,
+				findOpenGame: this.renderOpenGames
+			}
+		};
 		this.findGameDialog = null;
 		helpers.urlMatch(
 			[
@@ -36,8 +41,10 @@ export default class MainMenu extends ActivityContainer {
 								)
 								.then(resp => resp.json()),
 							close: _ => {
-								this.setActivity(Notifications, {
-									urls: this.props.urls
+								this.setActivity(Start, {
+									urls: this.props.urls,
+									findPrivateGame: this.findGameByID,
+									findOpenGame: this.renderOpenGames
 								});
 							}
 						};
@@ -87,6 +94,12 @@ export default class MainMenu extends ActivityContainer {
 	}
 	closeMenu() {
 		this.setState({ menuOpen: false });
+	}
+	renderOpenGames() {
+		this.setActivity(GameList, {
+			key: "open-games",
+			url: this.props.urls["open-games"]
+		});
 	}
 	renderGameList(ev) {
 		this.setActivity(GameList, {
@@ -154,12 +167,14 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									onClick={_ => {
-										this.setActivity(Notifications, {
-											urls: this.props.urls
+										this.setActivity(Start, {
+											urls: this.props.urls,
+											findPrivateGame: this.findGameByID,
+											findOpenGame: this.renderOpenGames
 										});
 									}}
 								>
-									<MaterialUI.ListItemText primary="Notifications" />
+									<MaterialUI.ListItemText primary="Start" />
 								</MaterialUI.ListItem>
 								<MaterialUI.ListItem
 									button
