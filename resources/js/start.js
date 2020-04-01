@@ -72,8 +72,8 @@ export default class Start extends React.Component {
 							onClick={_ => {
 								this.setState({ newGameFormOpen: true });
 							}}
-							variant="contained"
-							color="primary"
+							variant="outlined"
+							color="secondary"
 						>
 							New game
 						</MaterialUI.Button>
