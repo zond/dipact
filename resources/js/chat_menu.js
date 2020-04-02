@@ -121,7 +121,6 @@ export default class ChatMenu extends React.Component {
 							background: "#ffffff",
 							position: "absolute",
 							zIndex: 1200,
-							"display":"flex","flexDirection":"column"
 						}}
 					>
 						<ChatChannel

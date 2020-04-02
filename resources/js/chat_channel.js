@@ -227,7 +227,7 @@ export default class ChatChannel extends React.Component {
 						id="messages"
 						style={{
 							overflowY: "scroll",
-							height: "calc(100% - 40px)",
+							height: "calc(100% - 56px)",
 							width: "100%"
 
 						}}
