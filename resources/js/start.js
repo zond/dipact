@@ -1,11 +1,13 @@
-import GameList from '%{ cb "/js/game_list.js" }%';
+import * as helpers from '%{ cb "/js/helpers.js" }%';
 
-import NewGame from '%{ cb "/js/new_game.js" }%';
+import GameList from '%{ cb "/js/game_list.js" }%';
+import CreateGameDialog from '%{ cb "/js/create_game_dialog.js" }%';
 
 export default class Start extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { newGameFormOpen: false };
+		this.createGameDialog = null;
 	}
 	render() {
 		return (
@@ -69,31 +71,63 @@ export default class Start extends React.Component {
 						style={{ justifyContent: "space-around" }}
 					>
 						<MaterialUI.Button
+							key="new-game"
 							onClick={_ => {
-								this.setState({ newGameFormOpen: true });
+								this.setState({
+									newGameFormOpen: !this.state.newGameFormOpen
+								});
 							}}
 							variant="outlined"
 							color="secondary"
 						>
 							New game
+							{this.state.newGameFormOpen
+								? helpers.createIcon("\ue5cf")
+								: ""}
 						</MaterialUI.Button>
 					</MaterialUI.Toolbar>
-				</MaterialUI.AppBar>
-				<MaterialUI.Drawer
-					anchor="bottom"
-					open={this.state.newGameFormOpen}
-				>
-					<MaterialUI.ClickAwayListener
-						onClickAway={_ => {
-							this.setState({ newGameFormOpen: false });
-						}}
+					<MaterialUI.Slide
+						mountOnEnter
+						unmountOnExit
+						direction="up"
+						in={this.state.newGameFormOpen}
 					>
-						<NewGame
-							findPrivateGame={this.props.findPrivateGame}
-							findOpenGame={this.props.findOpenGame}
-						/>
-					</MaterialUI.ClickAwayListener>
-				</MaterialUI.Drawer>
+						<MaterialUI.Toolbar style={{ flexDirection: "column" }}>
+							<MaterialUI.Button
+								style={{ margin: 4 }}
+								variant="outlined"
+								color="secondary"
+								key="find-open"
+								onClick={this.props.findOpenGame}
+							>
+								Find open game
+							</MaterialUI.Button>
+							<MaterialUI.Button
+								style={{ margin: 4 }}
+								variant="outlined"
+								color="secondary"
+								key="find-private"
+								onClick={this.props.findPrivateGame}
+							>
+								Find private game
+							</MaterialUI.Button>
+							<MaterialUI.Button
+								style={{ margin: 4 }}
+								variant="outlined"
+								color="secondary"
+								key="create"
+								onClick={_ => {
+									this.createGameDialog.setState({
+										open: true
+									});
+								}}
+							>
+								Create game
+							</MaterialUI.Button>
+						</MaterialUI.Toolbar>
+					</MaterialUI.Slide>
+				</MaterialUI.AppBar>
+				<CreateGameDialog parent={this} />
 			</React.Fragment>
 		);
 	}
