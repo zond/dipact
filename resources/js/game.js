@@ -20,6 +20,7 @@ export default class Game extends React.Component {
 		this.loadGame = this.loadGame.bind(this);
 		this.receiveOrders = this.receiveOrders.bind(this);
 		this.phaseJumper = this.phaseJumper.bind(this);
+		this.dead = false;
 	}
 	phaseJumper(steps) {
 		return _ => {
@@ -43,6 +44,7 @@ export default class Game extends React.Component {
 		this.setState({ orders: natOrders });
 	}
 	componentWillUnmount() {
+		this.dead = true;
 		history.pushState("", "", "/");
 		Globals.messaging.unsubscribe("phase");
 		console.log("Game unsubscribing from `phase` notifications.");
@@ -287,6 +289,7 @@ export default class Game extends React.Component {
 							isActive={this.state.activeTab == "chat"}
 							phases={this.state.phases}
 							game={this.state.game}
+							parent={this}
 						/>
 					</div>
 					<div

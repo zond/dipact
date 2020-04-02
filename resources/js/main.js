@@ -15,10 +15,11 @@ export default class Main extends ActivityContainer {
 		this.handleRoot = this.handleRoot.bind(this);
 	}
 	processToken() {
-		let foundToken = Globals.selfURL.searchParams.get("token");
+		let hrefURL = new URL(window.location.href);
+		let foundToken = hrefURL.searchParams.get("token");
 		if (foundToken) {
-			Globals.selfURL.searchParams.delete("token");
-			history.pushState("", "", Globals.selfURL.toString());
+			hrefURL.searchParams.delete("token");
+			history.pushState("", "", hrefURL.toString());
 		}
 
 		if (!foundToken) {
@@ -68,10 +69,9 @@ export default class Main extends ActivityContainer {
 			});
 			if (loginLink) {
 				let loginURL = new URL(loginLink.URL);
-				loginURL.searchParams.set(
-					"redirect-to",
-					Globals.selfURL.toString()
-				);
+				let hrefURL = new URL(window.location.href);
+				hrefURL.searchParams.delete("token");
+				loginURL.searchParams.set("redirect-to", hrefURL.toString());
 				state.urls.login_url = loginURL;
 			}
 
@@ -103,7 +103,6 @@ export default class Main extends ActivityContainer {
 		});
 	}
 	componentDidMount() {
-		Globals.selfURL = new URL(window.location.href);
 		this.processToken();
 		helpers.incProgress();
 		Promise.all([

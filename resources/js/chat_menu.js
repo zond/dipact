@@ -133,6 +133,7 @@ export default class ChatMenu extends React.Component {
 							createMessageLink={this.state.createMessageLink}
 							channel={this.state.activeChannel}
 							close={this.closeChannel}
+							parent={this}
 						/>
 					</div>
 				</MaterialUI.Slide>

@@ -28,7 +28,8 @@ export function brightnessByColor(color) {
 
 export function urlMatch(mappings, def) {
 	for (let i = 0; i < mappings.length; i++) {
-		let match = mappings[i][0].exec(Globals.selfURL.pathname);
+		let hrefURL = new URL(window.location.href);
+		let match = mappings[i][0].exec(hrefURL.pathname);
 		if (match) {
 			if (mappings[i][1]) {
 				mappings[i][1](match);

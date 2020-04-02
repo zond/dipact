@@ -12,7 +12,6 @@ window.Globals = {
 		mode: "cors"
 	}),
 	user: null,
-	selfURL: null,
 	token: null,
 	progressCount: 0,
 	progressDialog: null,

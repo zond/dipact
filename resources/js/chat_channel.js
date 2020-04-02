@@ -46,7 +46,13 @@ export default class ChatChannel extends React.Component {
 			});
 			console.log("ChatChannel subscribing to `message` notifications.");
 		} else {
-			history.pushState("", "", "/Game/" + this.props.game.Properties.ID);
+			if (!this.props.parent.props.parent.dead) {
+				history.pushState(
+					"",
+					"",
+					"/Game/" + this.props.game.Properties.ID
+				);
+			}
 			Globals.messaging.unsubscribe("message");
 			console.log(
 				"ChatChannel unsubscribing from `message` notifications."

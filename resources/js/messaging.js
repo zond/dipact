@@ -69,11 +69,12 @@ class Messaging {
 							.safeFetch(helpers.createRequest(configLink.URL))
 							.then(resp => resp.json())
 							.then(js => {
+								let hrefURL = new URL(window.location.href);
 								let dipactToken = js.Properties.FCMTokens.find(
 									t => {
 										return (
 											t.App ==
-											"dipact@" + Globals.selfURL.host
+											"dipact@" + hrefURL.host
 										);
 									}
 								);
@@ -85,7 +86,7 @@ class Messaging {
 										Note:
 											"Created via dipact refreshToken on " +
 											new Date(),
-										App: "dipact@" + Globals.selfURL.host,
+										App: "dipact@" + hrefURL.host,
 										MessageConfig: {
 											ClickActionTemplate: messageClickActionTemplate
 										}
