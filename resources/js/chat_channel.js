@@ -11,9 +11,9 @@ export default class ChatChannel extends React.Component {
 		this.variant = Globals.variants.find(v => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
-		this.messagMeta = this.messageMeta.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.loadMessages = this.loadMessages.bind(this);
+		this.phaseResolvedAfter = this.phaseResolvedAfter.bind(this);
 		this.updateHistoryAndSubscription = this.updateHistoryAndSubscription.bind(
 			this
 		);
@@ -95,90 +95,14 @@ export default class ChatChannel extends React.Component {
 				});
 		}
 	}
-	messageMeta(message) {
-		let d = new Date(Date.parse(message.Properties.CreatedAt));
-		let phase = this.props.phases.find(phase => {
+	phaseResolvedAfter(phase, message) {
+		if (phase.Properties.Resolved) {
 			return (
-				!phase.Properties.Resolved ||
 				new Date(Date.parse(phase.Properties.ResolvedAt)).getTime() >
-					d.getTime()
+				new Date(Date.parse(message.Properties.CreatedAt)).getTime()
 			);
-		});
-		if (!phase) {
-			phase = this.props.phases[this.props.phases.length - 1];
 		}
-		return (
-			<MaterialUI.TableContainer component={MaterialUI.Paper}>
-				<MaterialUI.Table>
-					<MaterialUI.TableBody>
-						<MaterialUI.TableRow>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									From
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									{message.Properties.Sender}
-									{" ("}
-									{
-										this.props.game.Properties.Members.find(
-											member => {
-												return (
-													member.Nation ==
-													message.Properties.Sender
-												);
-											}
-										).User.Name
-									}
-									)
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-						</MaterialUI.TableRow>
-						<MaterialUI.TableRow>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									To
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									{message.Properties.ChannelMembers.join(
-										", "
-									)}
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-						</MaterialUI.TableRow>
-						<MaterialUI.TableRow>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									Sent at
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									{helpers.timeStrToDateTime(
-										message.Properties.CreatedAt
-									)}
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-						</MaterialUI.TableRow>
-						<MaterialUI.TableRow>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									During
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-							<MaterialUI.TableCell>
-								<MaterialUI.Typography>
-									{helpers.phaseName(phase)}
-								</MaterialUI.Typography>
-							</MaterialUI.TableCell>
-						</MaterialUI.TableRow>
-					</MaterialUI.TableBody>
-				</MaterialUI.Table>
-			</MaterialUI.TableContainer>
-		);
+		return true;
 	}
 	loadMessages() {
 		let messagesLink = this.props.channel.Links.find(l => {
@@ -192,6 +116,19 @@ export default class ChatChannel extends React.Component {
 				.then(js => {
 					helpers.decProgress();
 					js.Properties.reverse();
+					let currentPhaseIdx = 0;
+					js.Properties.forEach(message => {
+						while (
+							currentPhaseIdx + 1 < this.props.phases.length &&
+							!this.phaseResolvedAfter(
+								this.props.phases[currentPhaseIdx],
+								message
+							)
+						) {
+							currentPhaseIdx++;
+						}
+						message.phase = this.props.phases[currentPhaseIdx];
+					});
 					this.setState({ messages: js.Properties }, _ => {
 						let msgEl = document.getElementById("messages");
 						msgEl.scrollTop = msgEl.scrollHeight;
@@ -244,6 +181,7 @@ export default class ChatChannel extends React.Component {
 									variant={this.variant}
 									nation={message.Properties.Sender}
 									text={message.Properties.Body}
+									phase={message.phase}
 									time={helpers.timeStrToDateTime(
 										message.Properties.CreatedAt
 									)}
