@@ -18,11 +18,11 @@ import (
 
 var (
 	ProdCDN = map[string]string{
-		"ReactJSURL":      "/static/react.production.min.js",
-		"ReactDOMJSURL":   "/static/react-dom.production.min.js",
-		"MaterialUIJSURL": "/static/material-ui.production.min.js",
-		"JQueryJSURL":     "/static/jquery-3.4.1.min.js",
-		"PanZoomJSURL":    "/static/panzoom.min.js",
+		"ReactJSURL":      "/static/js/react.production.min.js",
+		"ReactDOMJSURL":   "/static/js/react-dom.production.min.js",
+		"MaterialUIJSURL": "/static/js/material-ui.production.min.js",
+		"JQueryJSURL":     "/static/js/jquery-3.4.1.min.js",
+		"PanZoomJSURL":    "/static/js/panzoom.min.js",
 	}
 	Delims      = []string{"%{", "}%"}
 	cbRemoveReg = regexp.MustCompile("-cb[0-9]+cb-")

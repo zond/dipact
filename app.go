@@ -85,11 +85,11 @@ func main() {
 		fileSystem = &fs.FileSystem{
 			Root: "resources",
 			TransformByExt: fs.DefaultTransformMap(map[string]string{
-				"ReactJSURL":      "/static/react.development.js",
-				"ReactDOMJSURL":   "/static/react-dom.development.js",
-				"MaterialUIJSURL": "/static/material-ui.development.js",
-				"JQueryJSURL":     "/static/jquery-3.4.1.js",
-				"PanZoomJSURL":    "/static/panzoom.js",
+				"ReactJSURL":      "/static/js/react.development.js",
+				"ReactDOMJSURL":   "/static/js/react-dom.development.js",
+				"MaterialUIJSURL": "/static/js/material-ui.development.js",
+				"JQueryJSURL":     "/static/js/jquery-3.4.1.js",
+				"PanZoomJSURL":    "/static/js/panzoom.js",
 			}),
 			LogFunc: log.Printf,
 		}
