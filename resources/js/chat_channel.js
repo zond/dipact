@@ -201,11 +201,9 @@ export default class ChatChannel extends React.Component {
 		}
 	}
 	render() {
-
 		if (this.props.channel) {
 			return (
 				<React.Fragment>
-
 					<MaterialUI.ButtonGroup
 						orientation="vertical"
 						style={{ width: "100%" }}
@@ -229,37 +227,49 @@ export default class ChatChannel extends React.Component {
 							overflowY: "scroll",
 							height: "calc(100% - 56px)",
 							width: "100%"
-
 						}}
 					>
-
 						{this.state.messages.map(message => {
-
-							const selfish = this.member.Nation === message.Properties.Sender;
+							const selfish =
+								this.member.Nation ===
+								message.Properties.Sender;
 							return (
-								<ChatMessage 
-								name={name}
-								variant={this.props.game.Properties.Variant}
-								nation={message.Properties.Sender}
-								text={message.Properties.Body}
-								time={helpers.timeStrToDateTime(
+								<ChatMessage
+									name={name}
+									variant={this.props.game.Properties.Variant}
+									nation={message.Properties.Sender}
+									text={message.Properties.Body}
+									time={helpers.timeStrToDateTime(
 										message.Properties.CreatedAt
 									)}
-								key={message.Properties.ID} 
-								sender={selfish ? "self" : "" }/>
-				
+									key={message.Properties.ID}
+									sender={selfish ? "self" : ""}
+								/>
 							);
 						})}
-						<div style={{ display: "flex", "alignItems":"flex-start", "maxWidth":"960px", "padding":"8px", "position":"sticky","bottom":"0px", "backgroundColor":"white" }}>
+						<div
+							style={{
+								display: "flex",
+								alignItems: "flex-start",
+								maxWidth: "960px",
+								padding: "8px",
+								position: "sticky",
+								bottom: "0px",
+								backgroundColor: "white"
+							}}
+						>
 							<MaterialUI.TextField
 								id="chat-channel-input-field"
 								multiline
 								rows="2"
-								style={{ flexGrow: 100}}
+								style={{ flexGrow: 100 }}
 								label="Message"
 								variant="outlined"
 							/>
-							<MaterialUI.IconButton onClick={this.sendMessage} color="primary" >
+							<MaterialUI.IconButton
+								onClick={this.sendMessage}
+								color="primary"
+							>
 								{helpers.createIcon("\ue163")}
 							</MaterialUI.IconButton>
 						</div>
