@@ -1,6 +1,5 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 import ChatMessage from '%{ cb "/js/chat_message.js" }%';
-import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
 export default class ChatChannel extends React.Component {
 	constructor(props) {
@@ -236,7 +235,7 @@ export default class ChatChannel extends React.Component {
 							return (
 								<ChatMessage
 									name={name}
-									variant={this.props.game.Properties.Variant}
+									variant={this.variant}
 									nation={message.Properties.Sender}
 									text={message.Properties.Body}
 									time={helpers.timeStrToDateTime(

@@ -91,7 +91,7 @@ export default class ChatMenu extends React.Component {
 			return (
 				<NationAvatar
 					key={member}
-					variant={this.variant.Properties.Name}
+					variant={this.variant}
 					nation={member}
 				/>
 			);
@@ -120,7 +120,7 @@ export default class ChatMenu extends React.Component {
 							right: 0,
 							background: "#ffffff",
 							position: "absolute",
-							zIndex: 1200,
+							zIndex: 1200
 						}}
 					>
 						<ChatChannel
