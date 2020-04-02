@@ -1,6 +1,5 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 import ChatMessage from '%{ cb "/js/chat_message.js" }%';
-
 import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
 export default class ChatChannel extends React.Component {
@@ -202,6 +201,7 @@ export default class ChatChannel extends React.Component {
 		}
 	}
 	render() {
+
 		if (this.props.channel) {
 			return (
 				<React.Fragment>
@@ -232,12 +232,14 @@ export default class ChatChannel extends React.Component {
 
 						}}
 					>
+
 						{this.state.messages.map(message => {
+							console.log(message);
 							return (
-								
 								<ChatMessage 
 								name={name}
-								nation="Italy"
+								variant={this.props.game.Properties.Variant}
+								nation={message.Properties.Sender}
 								text={message.Properties.Body}
 								time={helpers.timeStrToDateTime(
 										message.Properties.CreatedAt

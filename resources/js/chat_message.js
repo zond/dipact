@@ -1,4 +1,4 @@
-
+import NationAvatar from '%{ cb "/js/nation_avatar.js"}%';
 
 
 export default class ChatMessage extends React.Component {
@@ -85,7 +85,7 @@ const textballoondateStyle = {
     return (
       <div style={selfish ? messagecontainerselfStyle : messagecontainerStyle}>
         <div style={selfish ? avatarselfStyle : avatarStyle}>
-          <img style={avatarimageStyle} alt="Flag" />
+          <NationAvatar nation={this.props.nation} variant={this.props.variant} />
         </div>
         <div style={selfish ? textballoonselfStyle : textballoonStyle}>
           <span style={textballoontitleStyle}>
