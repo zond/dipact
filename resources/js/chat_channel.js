@@ -234,8 +234,7 @@ export default class ChatChannel extends React.Component {
 					>
 
 						{this.state.messages.map(message => {
-							console.log(this.member.Nation);
-							console.log(message.Properties.Sender);
+
 							const selfish = this.member.Nation === message.Properties.Sender;
 							return (
 								<ChatMessage 
@@ -251,15 +250,16 @@ export default class ChatChannel extends React.Component {
 				
 							);
 						})}
-						<div style={{ display: "flex" }}>
+						<div style={{ display: "flex", "alignItems":"flex-start" }}>
 							<MaterialUI.TextField
 								id="chat-channel-input-field"
 								multiline
-								rows="3"
-								style={{ flexGrow: 100 }}
+								rows="2"
+								style={{ flexGrow: 100, "margin":"8px"}}
 								label="Message"
+								variant="outlined"
 							/>
-							<MaterialUI.IconButton onClick={this.sendMessage}>
+							<MaterialUI.IconButton onClick={this.sendMessage} style={{ "margin":"0px 4px 0px 0px" }} >
 								{helpers.createIcon("\ue163")}
 							</MaterialUI.IconButton>
 						</div>
