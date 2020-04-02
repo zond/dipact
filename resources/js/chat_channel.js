@@ -259,7 +259,7 @@ export default class ChatChannel extends React.Component {
 								label="Message"
 								variant="outlined"
 							/>
-							<MaterialUI.IconButton onClick={this.sendMessage} style={{ "margin":"0px 4px 0px 0px" }} >
+							<MaterialUI.IconButton onClick={this.sendMessage} color="primary" style={{ "margin":"0px 4px 0px 0px" }} >
 								{helpers.createIcon("\ue163")}
 							</MaterialUI.IconButton>
 						</div>
