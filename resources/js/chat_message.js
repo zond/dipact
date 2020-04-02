@@ -89,7 +89,7 @@ const textballoondateStyle = {
         </div>
         <div style={selfish ? textballoonselfStyle : textballoonStyle}>
           <span style={textballoontitleStyle}>
-            {this.props.name} ({this.props.nation})
+            {this.props.name} {this.props.nation}
           </span>
           <span style={textballoontextStyle}>{this.props.text}</span>
           <span style={textballoondateStyle}>{this.props.time}</span>
