@@ -234,10 +234,12 @@ export default class ChatChannel extends React.Component {
 							return (
 								
 								<ChatMessage 
-								name="Joren"
+								name={name}
 								nation="Italy"
 								text={message.Properties.Body}
-								time="Monday"
+								time={helpers.timeStrToDateTime(
+										message.Properties.CreatedAt
+									)}
 								key={message.Properties.ID} />
 				
 							);
