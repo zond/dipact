@@ -234,7 +234,9 @@ export default class ChatChannel extends React.Component {
 					>
 
 						{this.state.messages.map(message => {
-							console.log(message);
+							console.log(this.member.Nation);
+							console.log(message.Properties.Sender);
+							const selfish = this.member.Nation === message.Properties.Sender;
 							return (
 								<ChatMessage 
 								name={name}
@@ -244,7 +246,8 @@ export default class ChatChannel extends React.Component {
 								time={helpers.timeStrToDateTime(
 										message.Properties.CreatedAt
 									)}
-								key={message.Properties.ID} />
+								key={message.Properties.ID} 
+								sender={selfish ? "self" : "" }/>
 				
 							);
 						})}
