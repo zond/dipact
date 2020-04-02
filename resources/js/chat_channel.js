@@ -1,4 +1,5 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
+import ChatMessage from '%{ cb "/js/chat_message.js" }%';
 
 export default class ChatChannel extends React.Component {
 	constructor(props) {
@@ -202,6 +203,7 @@ export default class ChatChannel extends React.Component {
 		if (this.props.channel) {
 			return (
 				<React.Fragment>
+
 					<MaterialUI.ButtonGroup
 						orientation="vertical"
 						style={{ width: "100%" }}
@@ -225,50 +227,19 @@ export default class ChatChannel extends React.Component {
 							overflowY: "scroll",
 							height: "calc(100% - 40px)",
 							width: "100%"
+
 						}}
 					>
 						{this.state.messages.map(message => {
 							return (
-								<MaterialUI.ExpansionPanel
-									key={message.Properties.ID}
-								>
-									<MaterialUI.ExpansionPanelSummary
-										className="min-width-summary"
-										expandIcon={helpers.createIcon(
-											"\ue88e"
-										)}
-									>
-										<MaterialUI.Grid container>
-											<MaterialUI.Grid
-												key="sender"
-												item
-												xs={2}
-											>
-												{
-													this.props.flags[
-														message.Properties
-															.Sender
-													]
-												}
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key="body"
-												item
-												xs={10}
-											>
-												{message.Properties.Body}
-											</MaterialUI.Grid>
-										</MaterialUI.Grid>
-									</MaterialUI.ExpansionPanelSummary>
-									<MaterialUI.ExpansionPanelDetails
-										style={{
-											paddingRight: "0.3em",
-											paddingLeft: "0.3em"
-										}}
-									>
-										{this.messageMeta(message)}
-									</MaterialUI.ExpansionPanelDetails>
-								</MaterialUI.ExpansionPanel>
+								
+								<ChatMessage 
+								name="Joren"
+								nation="Italy"
+								text={message.Properties.Body}
+								time="Monday"
+								key={message.Properties.ID} />
+				
 							);
 						})}
 						<div style={{ display: "flex" }}>

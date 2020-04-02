@@ -19,6 +19,7 @@
 
 body {
 	margin: 0px;
+	font-family: Roboto;
 }
 
 html, body, #app, #app>div {
