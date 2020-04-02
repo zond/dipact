@@ -250,16 +250,16 @@ export default class ChatChannel extends React.Component {
 				
 							);
 						})}
-						<div style={{ display: "flex", "alignItems":"flex-start", "maxWidth":"1000px", "position":"sticky","bottom":"0px", "backgroundColor":"white" }}>
+						<div style={{ display: "flex", "alignItems":"flex-start", "maxWidth":"960px", "padding":"8px", "position":"sticky","bottom":"0px", "backgroundColor":"white" }}>
 							<MaterialUI.TextField
 								id="chat-channel-input-field"
 								multiline
 								rows="2"
-								style={{ flexGrow: 100, "margin":"8px"}}
+								style={{ flexGrow: 100}}
 								label="Message"
 								variant="outlined"
 							/>
-							<MaterialUI.IconButton onClick={this.sendMessage} color="primary" style={{ "margin":"0px 4px 0px 0px" }} >
+							<MaterialUI.IconButton onClick={this.sendMessage} color="primary" >
 								{helpers.createIcon("\ue163")}
 							</MaterialUI.IconButton>
 						</div>
