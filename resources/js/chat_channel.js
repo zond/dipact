@@ -250,7 +250,7 @@ export default class ChatChannel extends React.Component {
 				
 							);
 						})}
-						<div style={{ display: "flex", "alignItems":"flex-start" }}>
+						<div style={{ display: "flex", "alignItems":"flex-start", "maxWidth":"1000px", "position":"sticky","bottom":"0px", "backgroundColor":"white" }}>
 							<MaterialUI.TextField
 								id="chat-channel-input-field"
 								multiline
