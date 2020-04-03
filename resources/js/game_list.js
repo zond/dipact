@@ -6,12 +6,16 @@ export default class GameList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			games: this.props.predefinedList || [{ isProgress: true }]
+			games: []
 		};
 		this.load = this.load.bind(this);
 		this.maybeLoadMore = this.maybeLoadMore.bind(this);
+		this.reload = this.reload.bind(this);
 		this.loading = false;
 		this.moreLink = null;
+		if (this.props.parentCB) {
+			this.props.parentCB(this);
+		}
 	}
 	maybeLoadMore() {
 		if (
@@ -23,9 +27,19 @@ export default class GameList extends React.Component {
 			this.load(helpers.createRequest(this.moreLink.URL));
 		}
 	}
+	reload() {
+		this.setState(
+			{
+				games: this.props.predefinedList || [{ isProgress: true }]
+			},
+			_ => {
+				this.load(helpers.createRequest(this.props.url.toString()));
+			}
+		);
+	}
 	componentDidMount() {
 		if (this.props.url) {
-			this.load(helpers.createRequest(this.props.url.toString()));
+			this.reload();
 			window.addEventListener("scroll", this.maybeLoadMore);
 		}
 	}

@@ -7,7 +7,11 @@ export default class Start extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { newGameFormOpen: false };
-		this.createGameDialog = null;
+		this.gameCreated = this.gameCreated.bind(this);
+		this.stagingGamesList = null;
+	}
+	gameCreated() {
+		this.stagingGamesList.reload();
 	}
 	render() {
 		return (
@@ -39,6 +43,9 @@ export default class Start extends React.Component {
 							<MaterialUI.ListItem>
 								<GameList
 									expansionPanelWrapped={true}
+									parentCB={c => {
+										this.stagingGamesList = c;
+									}}
 									url={this.props.urls["my-staging-games"]}
 									limit={8}
 									skipMore={true}
@@ -127,7 +134,12 @@ export default class Start extends React.Component {
 						</MaterialUI.Toolbar>
 					</MaterialUI.Slide>
 				</MaterialUI.AppBar>
-				<CreateGameDialog parent={this} />
+				<CreateGameDialog
+					gameCreated={this.gameCreated}
+					parentCB={c => {
+						this.createGameDialog = c;
+					}}
+				/>
 			</React.Fragment>
 		);
 	}

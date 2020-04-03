@@ -9,7 +9,18 @@ export default class CreateGameDialog extends React.Component {
 				Variant: "Classical",
 				NationAllocation: 0,
 				PhaseLengthMinutes: 1440,
-				Desc: ""
+				Desc: Globals.user.GivenName + "'s game",
+				Private: false,
+				Anonymous: false,
+				MinReliability: 0,
+				MinQuickness: 0,
+				MinRating: 0,
+				MaxRating: 0,
+				MaxHated: 0,
+				MaxHater: 0,
+				DisableConferenceChat: false,
+				DisableGroupChat: false,
+				DisablePrivateChat: false
 			},
 			phaseLengthUnit: 60 * 24,
 			phaseLengthMultiplier: 1
@@ -18,24 +29,65 @@ export default class CreateGameDialog extends React.Component {
 		this.createGame = this.createGame.bind(this);
 		this.setPhaseLength = this.setPhaseLength.bind(this);
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
-		this.props.parent.createGameDialog = this;
+		this.checkboxField = this.checkboxField.bind(this);
+		this.floatField = this.floatField.bind(this);
+		if (this.props.parentCB) {
+			this.props.parentCB(this);
+		}
 	}
 	close() {
-		this.setState({ open: false });
+		return new Promise((res, rej) => {
+			this.setState({ open: false }, res);
+		});
 	}
 	createGame() {
-		console.log("create game", this.state.newGameProperties);
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest("/Game", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(this.state.newGameProperties)
+				})
+			)
+			.then(resp => {
+				helpers.decProgress();
+				this.close().then(this.props.gameCreated);
+			});
 	}
-	newGamePropertyUpdater(propertyName) {
+	newGamePropertyUpdater(propertyName, opts = {}) {
 		return ev => {
 			ev.persist();
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
-				state.newGameProperties[propertyName] = ev.target.value;
+				if (ev.target.type == "checkbox") {
+					state.newGameProperties[propertyName] = opts.invert
+						? !ev.target.checked
+						: ev.target.checked;
+				} else {
+					state.newGameProperties[propertyName] = opts.float
+						? Number.parseFloat(ev.target.value)
+						: ev.target.value;
+				}
 				console.log(state.newGameProperties);
 				return state;
 			});
 		};
+	}
+	floatField(name, opts = {}) {
+		return (
+			<MaterialUI.TextField
+				fullWidth
+				label={opts.label || name}
+				margin="dense"
+				value={this.state.newGameProperties[name]}
+				onChange={this.newGamePropertyUpdater(name, {
+					float: true
+				})}
+			/>
+		);
 	}
 	setPhaseLength(ev) {
 		ev.persist();
@@ -51,6 +103,23 @@ export default class CreateGameDialog extends React.Component {
 			console.log(state.newGameProperties);
 			return state;
 		});
+	}
+	checkboxField(name, opts = {}) {
+		return (
+			<MaterialUI.FormControlLabel
+				control={
+					<MaterialUI.Checkbox
+						checked={
+							opts.invert
+								? !this.state.newGameProperties[name]
+								: this.state.newGameProperties[name]
+						}
+						onChange={this.newGamePropertyUpdater(name, opts)}
+					/>
+				}
+				label={opts.label || name}
+			/>
+		);
 	}
 	render() {
 		return (
@@ -69,9 +138,9 @@ export default class CreateGameDialog extends React.Component {
 					<MaterialUI.TextField
 						key="Desc"
 						label="Name"
-						autoFocus
 						margin="dense"
 						fullWidth
+						value={this.state.newGameProperties["Desc"]}
 						onChange={this.newGamePropertyUpdater("Desc")}
 					/>
 					<MaterialUI.Select
@@ -135,6 +204,67 @@ export default class CreateGameDialog extends React.Component {
 							</MaterialUI.MenuItem>
 						</MaterialUI.Select>
 					</MaterialUI.Box>
+					<MaterialUI.FormGroup>
+						{this.checkboxField("Private")}
+						{this.checkboxField("DisableConferenceChat", {
+							invert: true,
+							label: "Conference chat"
+						})}
+						{this.checkboxField("DisableGroupChat", {
+							invert: true,
+							label: "Group chat"
+						})}
+						{this.checkboxField("DisablePrivateChat", {
+							invert: true,
+							label: "Private chat"
+						})}
+						<MaterialUI.FormControlLabel
+							control={
+								<MaterialUI.Checkbox
+									disabled={
+										!this.state.newGameProperties["Private"]
+									}
+									checked={
+										this.state.newGameProperties["Private"]
+											? this.state.newGameProperties[
+													"Anonymous"
+											  ]
+											: this.state.newGameProperties[
+													"DisableConferenceChat"
+											  ] &&
+											  this.state.newGameProperties[
+													"DisableGroupChat"
+											  ] &&
+											  this.state.newGameProperties[
+													"DisablePrivateChat"
+											  ]
+									}
+									onChange={this.newGamePropertyUpdater(
+										"Anonymous"
+									)}
+								/>
+							}
+							label="Anonymous"
+						/>
+					</MaterialUI.FormGroup>
+					{this.floatField("MinReliability", {
+						label: "Minimum reliability, high = active players"
+					})}
+					{this.floatField("MinQuickness", {
+						label: "Minimum quickness, high = fast games"
+					})}
+					{this.floatField("MinRating", {
+						label: "Minimum rating, high = strong players"
+					})}
+					{this.floatField("MaxRating", {
+						label: "Maximum rating, low = weak players"
+					})}
+					{this.floatField("MaxHated", {
+						label: "Maximum hated, low = unbanned players"
+					})}
+					{this.floatField("MaxHater", {
+						label: "Maximum hater, low = patient players"
+					})}
 					<MaterialUI.DialogActions>
 						<MaterialUI.Button onClick={this.close} color="primary">
 							Cancel

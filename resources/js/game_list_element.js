@@ -20,6 +20,7 @@ export default class GameListElement extends React.Component {
 		this.leaveGame = this.leaveGame.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
+		this.dead = false;
 	}
 	joinGameWithPreferences(link, preferences) {
 		helpers.incProgress();
@@ -67,6 +68,13 @@ export default class GameListElement extends React.Component {
 				helpers.decProgress();
 				if (this.state.game.Properties.Members.length > 1) {
 					this.reloadGame();
+				} else {
+					this.dead = true;
+					this.setState((state, props) => {
+						state = Object.assign({}, state);
+						state.game.Links = [];
+						return state;
+					});
 				}
 			});
 	}
@@ -268,11 +276,14 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.Grid>
 			);
 		});
-		let buttons = [
-			<MaterialUI.Button onClick={this.viewGame} key={itemKey++}>
-				View
-			</MaterialUI.Button>
-		];
+		let buttons = [];
+		if (!this.dead) {
+			buttons.push(
+				<MaterialUI.Button onClick={this.viewGame} key={itemKey++}>
+					View
+				</MaterialUI.Button>
+			);
+		}
 		this.state.game.Links.forEach(link => {
 			if (link.Rel == "join") {
 				buttons.push(
