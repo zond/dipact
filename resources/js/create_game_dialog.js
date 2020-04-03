@@ -26,6 +26,7 @@ export default class CreateGameDialog extends React.Component {
 			phaseLengthUnit: 60 * 24,
 			phaseLengthMultiplier: 1
 		};
+		this.validators = [];
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
 		this.setPhaseLength = this.setPhaseLength.bind(this);
@@ -67,6 +68,23 @@ export default class CreateGameDialog extends React.Component {
 		});
 	}
 	createGame() {
+		let invalids = [];
+		this.validators.forEach(validator => {
+			let validation = validator(this.state.newGameProperties);
+			if (validation) {
+				invalids.push(validation);
+			}
+		});
+		if (invalids.length > 0) {
+			this.setState((state, props) => {
+				state = Object.assign({}, state);
+				invalids.forEach(validation => {
+					state.tooltips[validation[0]] = validation[1];
+				});
+				return state;
+			});
+			return;
+		}
 		helpers.incProgress();
 		helpers
 			.safeFetch(
@@ -107,15 +125,18 @@ export default class CreateGameDialog extends React.Component {
 					let newValue = ev.target.value;
 					if (opts.float && newValue != "") {
 						newValue = Number.parseFloat(ev.target.value);
-						if (opts.max && opts.max <= newValue) {
+						if (opts.max && opts.max < newValue) {
 							state.tooltips[propertyName] =
-								"Must be lower than or equal to " + opts.max;
+								"Must be lower than or equal to " +
+								opts.max +
+								".";
 							newValue = opts.max;
 						}
-						if (opts.min && opts.min >= newValue) {
+						if (opts.min && opts.min > newValue) {
 							state.tooltips[propertyName] =
 								"Must be 0, or greater than or equal to " +
-								opts.min;
+								opts.min +
+								".";
 						}
 					}
 					state.newGameProperties[propertyName] = newValue;
@@ -125,6 +146,29 @@ export default class CreateGameDialog extends React.Component {
 		};
 	}
 	floatField(name, opts = {}) {
+		this.validators.push(properties => {
+			if (properties[name] == "") {
+				properties[name] = 0;
+			}
+			properties[name] = Number.parseFloat(properties[name]);
+			if (properties[name] != 0) {
+				if (opts.max && opts.max < properties[name]) {
+					return [
+						name,
+						"Must be lower than or equal to " + opts.max + "."
+					];
+				}
+				if (opts.min && opts.min > properties[name]) {
+					return [
+						name,
+						"Must be 0, or greater than or equal to " +
+							opts.min +
+							"."
+					];
+				}
+			}
+			return null;
+		});
 		opts.float = true;
 		return (
 			<MaterialUI.Tooltip
@@ -194,7 +238,8 @@ export default class CreateGameDialog extends React.Component {
 				</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.DialogContentText>
-						Edit the properties for your new game.
+						Edit the properties for your new game. You can only
+						create games that match your own stats.
 					</MaterialUI.DialogContentText>
 					<MaterialUI.TextField
 						key="Desc"
