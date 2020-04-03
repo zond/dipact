@@ -5,6 +5,7 @@ export default class CreateGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
+			tooltips: {},
 			newGameProperties: {
 				Variant: "Classical",
 				NationAllocation: 0,
@@ -31,9 +32,34 @@ export default class CreateGameDialog extends React.Component {
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
 		this.checkboxField = this.checkboxField.bind(this);
 		this.floatField = this.floatField.bind(this);
+		this.userStats = {
+			Properties: {
+				Glicko: {}
+			}
+		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
+	}
+	componentDidMount() {
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest("/User/" + Globals.user.Id + "/Stats")
+			)
+			.then(resp => resp.json())
+			.then(js => {
+				helpers.decProgress();
+				this.userStats = js;
+				this.setState((state, props) => {
+					state = Object.assign({}, state);
+					state.newGameProperties.MinReliability = Math.min(
+						10,
+						Math.floor(this.userStats.Properties.Reliability)
+					);
+					return state;
+				});
+			});
 	}
 	close() {
 		return new Promise((res, rej) => {
@@ -63,30 +89,65 @@ export default class CreateGameDialog extends React.Component {
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
 				if (ev.target.type == "checkbox") {
+					if (propertyName == "Private") {
+						state.newGameProperties["MinReliability"] = ev.target
+							.checked
+							? 0
+							: Math.min(
+									10,
+									Math.floor(
+										this.userStats.Properties.Reliability
+									)
+							  );
+					}
 					state.newGameProperties[propertyName] = opts.invert
 						? !ev.target.checked
 						: ev.target.checked;
 				} else {
-					state.newGameProperties[propertyName] = opts.float
-						? Number.parseFloat(ev.target.value)
-						: ev.target.value;
+					let newValue = ev.target.value;
+					if (opts.float && newValue != "") {
+						newValue = Number.parseFloat(ev.target.value);
+						if (opts.max && opts.max <= newValue) {
+							state.tooltips[propertyName] =
+								"Must be lower than or equal to " + opts.max;
+							newValue = opts.max;
+						}
+						if (opts.min && opts.min >= newValue) {
+							state.tooltips[propertyName] =
+								"Must be 0, or greater than or equal to " +
+								opts.min;
+						}
+					}
+					state.newGameProperties[propertyName] = newValue;
 				}
-				console.log(state.newGameProperties);
 				return state;
 			});
 		};
 	}
 	floatField(name, opts = {}) {
+		opts.float = true;
 		return (
-			<MaterialUI.TextField
-				fullWidth
-				label={opts.label || name}
-				margin="dense"
-				value={this.state.newGameProperties[name]}
-				onChange={this.newGamePropertyUpdater(name, {
-					float: true
-				})}
-			/>
+			<MaterialUI.Tooltip
+				open={!!this.state.tooltips[name]}
+				onClose={_ => {
+					this.setState((state, props) => {
+						state = Object.assign({}, state);
+						delete state.tooltips[name];
+						return state;
+					});
+				}}
+				title={this.state.tooltips[name] || ""}
+			>
+				<MaterialUI.TextField
+					fullWidth
+					label={opts.label || name}
+					margin="dense"
+					max={opts.max}
+					min={opts.min}
+					value={this.state.newGameProperties[name]}
+					onChange={this.newGamePropertyUpdater(name, opts)}
+				/>
+			</MaterialUI.Tooltip>
 		);
 	}
 	setPhaseLength(ev) {
@@ -248,22 +309,28 @@ export default class CreateGameDialog extends React.Component {
 						/>
 					</MaterialUI.FormGroup>
 					{this.floatField("MinReliability", {
-						label: "Minimum reliability, high = active players"
+						label: "Minimum reliability, high = active players",
+						max: Math.floor(this.userStats.Properties.Reliability)
 					})}
 					{this.floatField("MinQuickness", {
-						label: "Minimum quickness, high = fast games"
+						label: "Minimum quickness, high = fast games",
+						max: Math.floor(this.userStats.Properties.Quickness)
 					})}
 					{this.floatField("MinRating", {
-						label: "Minimum rating, high = strong players"
+						label: "Minimum rating, high = strong players",
+						max: Math.floor(this.userStats.Properties.Glicko.Rating)
 					})}
 					{this.floatField("MaxRating", {
-						label: "Maximum rating, low = weak players"
+						label: "Maximum rating, low = weak players",
+						min: Math.ceil(this.userStats.Properties.Glicko.Rating)
 					})}
 					{this.floatField("MaxHated", {
-						label: "Maximum hated, low = unbanned players"
+						label: "Maximum hated, low = unbanned players",
+						min: Math.ceil(this.userStats.Properties.Hated)
 					})}
 					{this.floatField("MaxHater", {
-						label: "Maximum hater, low = patient players"
+						label: "Maximum hater, low = patient players",
+						min: Math.ceil(this.userStats.Properties.Hater)
 					})}
 					<MaterialUI.DialogActions>
 						<MaterialUI.Button onClick={this.close} color="primary">
