@@ -309,7 +309,7 @@ export default class Game extends React.Component {
 								return (
 									<li key={"nation_" + nation}>
 										<ul>
-											<MaterialUI.ListSubheader>
+											<MaterialUI.ListSubheader style={{"backgroundColor":"white"}}>
 												{nation}
 											</MaterialUI.ListSubheader>
 											<MaterialUI.List>
