@@ -467,7 +467,12 @@ export default class GameListElement extends React.Component {
 					</MaterialUI.ExpansionPanelDetails>
 				</MaterialUI.ExpansionPanel>
 				{gameView}
-				<NationPreferencesDialog parent={this} onSelected={null} />
+				<NationPreferencesDialog
+					parentCB={c => {
+						this.nationPreferencesDialog = c;
+					}}
+					onSelected={null}
+				/>
 			</React.Fragment>
 		);
 	}

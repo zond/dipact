@@ -460,7 +460,12 @@ export default class DipMap extends React.Component {
 					style={{ display: "none" }}
 					id="units-div"
 				></div>
-				<OrderDialog parent={this} key="order-dialog" />
+				<OrderDialog
+					parentCB={c => {
+						this.orderDialog = c;
+					}}
+					key="order-dialog"
+				/>
 			</React.Fragment>
 		);
 	}

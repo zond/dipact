@@ -17,6 +17,7 @@ export default class MainMenu extends ActivityContainer {
 		this.logout = this.logout.bind(this);
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
+		this.renderMyStagingGames = this.renderMyStagingGames.bind(this);
 		this.state = {
 			drawerOpen: false,
 			menuOpen: false,
@@ -24,7 +25,8 @@ export default class MainMenu extends ActivityContainer {
 			activityProps: {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
-				findOpenGame: this.renderOpenGames
+				findOpenGame: this.renderOpenGames,
+				myStagingGames: this.renderMyStagingGames
 			}
 		};
 		this.findGameDialog = null;
@@ -44,7 +46,8 @@ export default class MainMenu extends ActivityContainer {
 								this.setActivity(Start, {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
-									findOpenGame: this.renderOpenGames
+									findOpenGame: this.renderOpenGames,
+									myStagingGames: this.renderMyStagingGames
 								});
 							}
 						};
@@ -94,6 +97,12 @@ export default class MainMenu extends ActivityContainer {
 	}
 	closeMenu() {
 		this.setState({ menuOpen: false });
+	}
+	renderMyStagingGames() {
+		this.setActivity(GameList, {
+			key: "my-staging-games",
+			url: this.props.urls["my-staging-games"]
+		});
 	}
 	renderOpenGames() {
 		this.setActivity(GameList, {
@@ -170,7 +179,9 @@ export default class MainMenu extends ActivityContainer {
 										this.setActivity(Start, {
 											urls: this.props.urls,
 											findPrivateGame: this.findGameByID,
-											findOpenGame: this.renderOpenGames
+											findOpenGame: this.renderOpenGames,
+											myStagingGames: this
+												.renderMyStagingGames
 										});
 									}}
 								>
@@ -228,7 +239,12 @@ export default class MainMenu extends ActivityContainer {
 						</div>
 					</MaterialUI.ClickAwayListener>
 				</MaterialUI.Drawer>
-				<FindGameDialog parent={this} key="find-game-dialog" />
+				<FindGameDialog
+					parentCB={c => {
+						this.findGameDialog = c;
+					}}
+					key="find-game-dialog"
+				/>
 			</React.Fragment>
 		);
 	}

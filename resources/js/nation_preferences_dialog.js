@@ -8,7 +8,9 @@ export default class NationPreferencesDialog extends React.Component {
 			onSelected: null,
 			nations: []
 		};
-		this.props.parent.nationPreferencesDialog = this;
+		if (this.props.parentCB) {
+			this.props.parentCB(this);
+		}
 		this.onSelected = this.onSelected.bind(this);
 	}
 	onSelected(ev) {

@@ -9,7 +9,9 @@ export default class FindGameDialog extends React.Component {
 				console.log("Uninitialized OrderDialog used?!");
 			}
 		};
-		this.props.parent.findGameDialog = this;
+		if (this.props.parentCB) {
+			this.props.parentCB(this);
+		}
 		this.onClick = this.onClick.bind(this);
 		this.close = this.close.bind(this);
 	}

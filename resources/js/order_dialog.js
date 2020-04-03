@@ -8,7 +8,9 @@ export default class OrderDialog extends React.Component {
 				console.log("Uninitialized OrderDialog used?!");
 			}
 		};
-		this.props.parent.orderDialog = this;
+		if (this.props.parentCB) {
+			this.props.parentCB(this);
+		}
 		this.onClick = this.onClick.bind(this);
 	}
 	onClick(ev) {
