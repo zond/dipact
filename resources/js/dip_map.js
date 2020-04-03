@@ -14,6 +14,7 @@ export default class DipMap extends React.Component {
 		this.createOrder = this.createOrder.bind(this);
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
+		this.mapDims = [null, null];
 		this.map = null;
 		this.orders = null;
 		this.lastRenderedGameID = null;
@@ -25,15 +26,15 @@ export default class DipMap extends React.Component {
 			new XMLSerializer().serializeToString(mapEl.children[0])
 		);
 		let snapshotImage = document.createElement("img");
-		snapshotImage.style.width = mapEl.clientWidth;
-		snapshotImage.style.height = mapEl.clientHeight;
+		snapshotImage.style.width = this.mapDims[0];
+		snapshotImage.style.height = this.mapDims[1];
 		snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
 		snapshotImage.addEventListener("load", _ => {
 			let snapshotCanvas = document.createElement("canvas");
-			snapshotCanvas.setAttribute("height", mapEl.clientHeight);
-			snapshotCanvas.setAttribute("width", mapEl.clientWidth);
-			snapshotCanvas.style.height = mapEl.clientHeight;
-			snapshotCanvas.style.width = mapEl.clientWidth;
+			snapshotCanvas.setAttribute("height", this.mapDims[1]);
+			snapshotCanvas.setAttribute("width", this.mapDims[0]);
+			snapshotCanvas.style.height = this.mapDims[1];
+			snapshotCanvas.style.width = this.mapDims[0];
 			snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
 			let snapshotData = snapshotCanvas.toDataURL("image/png");
 			let snapshotEl = document.getElementById("mapSnapshot");
@@ -139,7 +140,9 @@ export default class DipMap extends React.Component {
 			helpers.decProgress();
 
 			let mapSVG = values[0];
-			document.getElementById("map").innerHTML = mapSVG;
+			let mapEl = document.getElementById("map");
+			mapEl.innerHTML = mapSVG;
+			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.map = dippyMap($("#map"));
 
 			var panzoomInstance = panzoom(
