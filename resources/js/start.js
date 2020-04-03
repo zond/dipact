@@ -143,7 +143,7 @@ export default class Start extends React.Component {
 						</MaterialUI.Slide>
 					</MaterialUI.AppBar>
 					<CreateGameDialog
-						gameCreated={this.props.myStagingGamest}
+						gameCreated={this.props.myStagingGames}
 						parentCB={c => {
 							this.createGameDialog = c;
 						}}
