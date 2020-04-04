@@ -36,8 +36,8 @@ export default class Main extends ActivityContainer {
 	}
 	handleVariants(variants) {
 		// Order the variants so that Classical is first and the rest are alphabetical.
-		variants.sort()
-		var classicalIndex = variants.indexOf('Classical');
+		variants.sort((variantA, variantB) => variantA.Name > variantB.Name ? 1 : -1)
+		var classicalIndex = variants.findIndex(variant => variant.Name === 'Classical');
 		if (classicalIndex > 0) {
 			variants.unshift(variants.splice(classicalIndex, 1)[0]);
 		}
