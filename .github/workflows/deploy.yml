@@ -32,7 +32,7 @@ jobs:
       run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
     - name: Deploy default service
       if: env.BRANCH_NAME == 'master'
-      run: gcloud --project dipact app deploy    
+      run: gcloud --project dipact app deploy --stop-previous-version
     - name: Deploy alternate service
       if: env.BRANCH_NAME != 'master'
-      run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy'
+      run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy --stop-previous-version'
