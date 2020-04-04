@@ -9,24 +9,15 @@
 	margin: 2px;
 }
 
-.game-tabs > div > div {
-	justify-content: space-between;
-}
-
-.game-appbar > div {
-	width: 100%;
-}
-
 body {
 	margin: 0px;
 	font-family: Roboto;
 }
 
-html, body, #app, #app>div {
-  height: 100%
-}
-
-.find-game-dialog > div > div {
-	width: 100%;
+html,
+body,
+#app,
+#app > div {
+	height: 100%;
 }
 

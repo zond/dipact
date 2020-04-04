@@ -239,7 +239,6 @@ export default class Game extends React.Component {
 							value={this.state.activeTab}
 							onChange={this.changeTab}
 							display="flex"
-							className="game-tabs"
 							variant="fullWidth"
 						>
 							<MaterialUI.Tab
@@ -309,7 +308,11 @@ export default class Game extends React.Component {
 								return (
 									<li key={"nation_" + nation}>
 										<ul>
-											<MaterialUI.ListSubheader style={{"backgroundColor":"white"}}>
+											<MaterialUI.ListSubheader
+												style={{
+													backgroundColor: "white"
+												}}
+											>
 												{nation}
 											</MaterialUI.ListSubheader>
 											<MaterialUI.List>
