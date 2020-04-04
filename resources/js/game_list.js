@@ -124,7 +124,9 @@ export default class GameList extends React.Component {
 				return (
 					<MaterialUI.ExpansionPanel style={{ width: "100%" }}>
 						<MaterialUI.ExpansionPanelSummary
-							className="min-width-summary"
+							classes={{
+								content: helpers.scopedClass("min-width: 0;")
+							}}
 							expandIcon={helpers.createIcon("\ue5cf")}
 							style={{
 								paddingRight: 0,

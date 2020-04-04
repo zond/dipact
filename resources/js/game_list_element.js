@@ -448,7 +448,9 @@ export default class GameListElement extends React.Component {
 			<React.Fragment>
 				<MaterialUI.ExpansionPanel key="game-details">
 					<MaterialUI.ExpansionPanelSummary
-						className="min-width-summary"
+						classes={{
+							content: helpers.scopedClass("min-width: 0;")
+						}}
 						expandIcon={helpers.createIcon("\ue5cf")}
 					>
 						{summary}
