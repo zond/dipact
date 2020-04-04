@@ -20,7 +20,15 @@ export default class Start extends React.Component {
 				>
 					<MaterialUI.List>
 						<MaterialUI.ListItem>
-							<MaterialUI.ListItemText primary="NEWS: Diplicity has a new React-based UI." />
+							<MaterialUI.ListItemText
+								classes={{
+									primary: helpers.scopedClass(`
+								font-size: xx-large;
+								font-weight: bolder;
+								`)
+								}}
+								primary="NEWS: Diplicity has a new React-based UI."
+							/>
 						</MaterialUI.ListItem>
 						<li key="started">
 							<ul style={{ paddingInlineStart: 0 }}>
