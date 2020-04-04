@@ -289,7 +289,7 @@ export default class CreateGameDialog extends React.Component {
 					>
 						<MaterialUI.TextField
 							name="phase-length-multiplier"
-							label="Amount"
+							label="Phase duration"
 							margin="dense"
 							value={this.state.phaseLengthMultiplier}
 							onChange={this.setPhaseLength}
