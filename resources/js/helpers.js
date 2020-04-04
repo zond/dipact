@@ -93,7 +93,10 @@ export function hash(s) {
 }
 
 export function scopedClass(style) {
-	style = style.replace(/\s\s/g, " ");
+	style = style
+		.replace(/\s+/g, " ")
+		.replace(/^\s*/g, "")
+		.replace(/\s*$/g, "");
 	let h = hash(style);
 	if (!document.getElementById("scoped-style-" + h)) {
 		let newStyle = document.createElement("style");
