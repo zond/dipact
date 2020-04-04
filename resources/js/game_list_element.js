@@ -262,7 +262,7 @@ export default class GameListElement extends React.Component {
 			expandedGameItems.push(
 				<MaterialUI.Grid item key={itemKey++} xs={2}>
 					<MaterialUI.Avatar
-						className="avatar"
+						className={helpers.avatarClass}
 						alt={member.User.Name}
 						src={member.User.Picture}
 					/>

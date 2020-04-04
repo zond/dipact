@@ -2,13 +2,6 @@
 	min-width: 0;
 }
 
-.avatar {
-	border: 1px solid black;
-	width: 36px !important;
-	height: 36px !important;
-	margin: 2px;
-}
-
 body {
 	margin: 0px;
 	font-family: Roboto;
@@ -20,4 +13,3 @@ body,
 #app > div {
 	height: 100%;
 }
-

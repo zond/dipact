@@ -93,6 +93,7 @@ export function hash(s) {
 }
 
 export function scopedClass(style) {
+	style = style.replace(/\s\s/g, " ");
 	let h = hash(style);
 	if (!document.getElementById("scoped-style-" + h)) {
 		let newStyle = document.createElement("style");
@@ -272,3 +273,10 @@ export function minutesToDuration(m, short = false) {
 	};
 	return reduce(m);
 }
+
+export const avatarClass = scopedClass(`
+  border: 1px solid black;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 2px;
+`);

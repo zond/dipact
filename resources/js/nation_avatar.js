@@ -11,7 +11,7 @@ export default class NationAvatar extends React.Component {
 		if (this.flagLink) {
 			return (
 				<MaterialUI.Avatar
-					className="avatar"
+					className={helpers.avatarClass}
 					alt={this.props.nation}
 					src={this.flagLink.URL}
 				/>
@@ -38,7 +38,7 @@ export default class NationAvatar extends React.Component {
 			}
 			return (
 				<MaterialUI.Avatar
-					className="avatar"
+					className={helpers.avatarClass}
 					alt={this.props.nation}
 					style={{
 						backgroundColor: bgColor,
