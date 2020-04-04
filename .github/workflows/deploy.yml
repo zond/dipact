@@ -30,16 +30,8 @@ jobs:
       run: go generate
     - name: Extract branch name
       run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
-    - name: Display working directory
-      run: pwd
-    - name: List directory
-      run: ls -al
-    - name: List .github directory
-      run: ls -al .github
-    - name: List scripts directory
-      run: ls -al .github/scripts
     - name: Delete old app versions
-      run: ./.github/scripts/delete_old_versions.sh default 100
+      run: ./.github/scripts/remove_old_gcloud_versions.sh default 100
     - name: Deploy default service
       if: env.BRANCH_NAME == 'master'
       run: gcloud --project dipact app deploy --stop-previous-version
