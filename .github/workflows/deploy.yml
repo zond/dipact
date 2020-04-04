@@ -30,6 +30,10 @@ jobs:
       run: go generate
     - name: Extract branch name
       run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
+    - name: Display working directory
+      run: pwd
+    - name: Display tree
+      run: tree
     - name: Delete old app versions
       run: ./.github/scripts/delete_old_versions.sh default 100
     - name: Deploy default service
