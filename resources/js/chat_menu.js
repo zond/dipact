@@ -1,5 +1,6 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import CreateChannelDialog from '%{ cb "/js/create_channel_dialog.js" }%';
 import ChatChannel from '%{ cb "/js/chat_channel.js" }%';
 import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
@@ -22,6 +23,7 @@ export default class ChatMenu extends React.Component {
 		this.closeChannel = this.closeChannel.bind(this);
 		this.channelName = this.channelName.bind(this);
 		this.natCol = this.natCol.bind(this);
+		this.createChannelDialog = null;
 	}
 	componentDidMount() {
 		let channelLink = this.props.game.Links.find(l => {
@@ -105,7 +107,7 @@ export default class ChatMenu extends React.Component {
 	}
 	render() {
 		return (
-			<div style={{ position: "relative", height: "100%" }}>
+			<div style={{ position: "relative", height: "calc(100% - 57px)" }}>
 				<MaterialUI.Slide
 					direction="up"
 					in={this.state.channelOpen}
@@ -162,6 +164,33 @@ export default class ChatMenu extends React.Component {
 						);
 					})}
 				</MaterialUI.ButtonGroup>
+				<MaterialUI.AppBar
+					position="fixed"
+					color="primary"
+					style={{ top: "auto", bottom: 0 }}
+				>
+					<MaterialUI.Toolbar
+						style={{ justifyContent: "space-around" }}
+					>
+						<MaterialUI.Button
+							key="new-channel"
+							variant="outlined"
+							color="secondary"
+							onClick={_ => {
+								this.createChannelDialog.setState({
+									open: true
+								});
+							}}
+						>
+							New channel
+						</MaterialUI.Button>
+					</MaterialUI.Toolbar>
+				</MaterialUI.AppBar>
+				<CreateChannelDialog
+					parentCB={c => {
+						this.createChannelDialog = c;
+					}}
+				/>
 			</div>
 		);
 	}
