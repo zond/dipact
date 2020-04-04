@@ -18,11 +18,12 @@ export default class GameList extends React.Component {
 		}
 	}
 	maybeLoadMore() {
+		let scroller = document.getElementById("scroller");
 		if (
 			this.moreLink &&
 			!this.loading &&
-			window.scrollY >
-				document.body.scrollHeight - 2 * window.visualViewport.height
+			scroller.scrollTop >
+				scroller.scrollHeight - 2 * scroller.clientHeight
 		) {
 			this.load(helpers.createRequest(this.moreLink.URL));
 		}
@@ -40,12 +41,18 @@ export default class GameList extends React.Component {
 	componentDidMount() {
 		if (this.props.url) {
 			this.reload();
-			window.addEventListener("scroll", this.maybeLoadMore);
+			let scroller = document.getElementById("scroller");
+			if (scroller) {
+				scroller.addEventListener("scroll", this.maybeLoadMore);
+			}
 		}
 	}
 	componentWillUnmount() {
 		if (this.props.url) {
-			window.removeEventListener("scroll", this.maybeLoadMore);
+			let scroller = document.getElementById("scroller");
+			if (scroller) {
+				scroller.removeEventListener("scroll", this.maybeLoadMore);
+			}
 		}
 	}
 	load(req) {
@@ -163,9 +170,19 @@ export default class GameList extends React.Component {
 				);
 			}
 		} else {
-			return this.state.games.map(game => {
-				return this.renderElement(game);
-			});
+			return (
+				<div
+					id="scroller"
+					style={{
+						overflowY: "scroll",
+						height: "calc(100% - 60px)"
+					}}
+				>
+					{this.state.games.map(game => {
+						return this.renderElement(game);
+					})}
+				</div>
+			);
 		}
 	}
 }
