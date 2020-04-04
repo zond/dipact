@@ -173,8 +173,9 @@ export default class ChatChannel extends React.Component {
 					>
 						{this.state.messages.map(message => {
 							const selfish =
+								this.member &&
 								this.member.Nation ===
-								message.Properties.Sender;
+									message.Properties.Sender;
 							return (
 								<ChatMessage
 									name={name}
