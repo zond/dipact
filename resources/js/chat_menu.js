@@ -19,48 +19,92 @@ export default class ChatMenu extends React.Component {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.openChannel = this.openChannel.bind(this);
+		this.loadChannels = this.loadChannels.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
 		this.natCol = this.natCol.bind(this);
+		this.messageHandler = this.messageHandler.bind(this);
 		this.createChannelDialog = null;
 	}
-	componentDidMount() {
+	messageHandler(payload) {
+		if (payload.data.message.GameID != this.props.game.Properties.ID) {
+			return false;
+		}
+		if (
+			!this.state.channels.find(c => {
+				return (
+					c.Properties.Members.join(",") ==
+					payload.data.message.ChannelMembers.join(",")
+				);
+			})
+		) {
+			this.loadChannels();
+		}
+		return false;
+	}
+	loadChannels(silent = false) {
 		let channelLink = this.props.game.Links.find(l => {
 			return l.Rel == "channels";
 		});
 		if (channelLink) {
-			helpers.incProgress();
-			helpers
+			if (!silent) {
+				helpers.incProgress();
+			}
+			return helpers
 				.safeFetch(helpers.createRequest(channelLink.URL))
 				.then(resp => resp.json())
 				.then(js => {
-					helpers.decProgress();
-					this.setState((state, props) => {
-						state = Object.assign({}, state);
+					if (!silent) {
+						helpers.decProgress();
+					}
+					return new Promise((res, rej) => {
+						this.setState((state, props) => {
+							state = Object.assign({}, state);
 
-						helpers.urlMatch([
-							[
-								/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
-								match => {
-									let channel = js.Properties.find(c => {
-										return (
-											c.Properties.Members.join(",") ==
-											match[2]
-										);
-									});
-									if (channel) {
-										state.activeChannel = channel;
+							helpers.urlMatch([
+								[
+									/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+									match => {
+										let channel = js.Properties.find(c => {
+											return (
+												c.Properties.Members.join(
+													","
+												) == match[2]
+											);
+										});
+										if (channel) {
+											state.activeChannel = channel;
+										}
 									}
-								}
-							]
-						]);
+								]
+							]);
 
-						state.channels = js.Properties;
-						state.createMessageLink = js.Links.find(l => {
-							return l.Rel == "message";
-						});
-						return state;
+							state.channels = js.Properties;
+							state.createMessageLink = js.Links.find(l => {
+								return l.Rel == "message";
+							});
+							return state;
+						}, res);
 					});
 				});
+		} else {
+			return Promise.resolve({});
+		}
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.isActive && !prevProps.isActive) {
+			this.loadChannels(true);
+		}
+	}
+	componentDidMount() {
+		this.loadChannels().then(_ => {
+			if (Globals.messaging.subscribe("message", this.messageHandler)) {
+				console.log("ChatMenu subscribing to `message` notifications.");
+			}
+		});
+	}
+	componentWillUnmount() {
+		if (Globals.messaging.unsubscribe("message", this.messageHandler)) {
+			console.log("ChatMenu unsubscribing from `message` notifications.");
 		}
 	}
 	natCol(nat) {

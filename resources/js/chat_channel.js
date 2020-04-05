@@ -14,9 +14,23 @@ export default class ChatChannel extends React.Component {
 		this.sendMessage = this.sendMessage.bind(this);
 		this.loadMessages = this.loadMessages.bind(this);
 		this.phaseResolvedAfter = this.phaseResolvedAfter.bind(this);
+		this.messageHandler = this.messageHandler.bind(this);
 		this.updateHistoryAndSubscription = this.updateHistoryAndSubscription.bind(
 			this
 		);
+	}
+	messageHandler(payload) {
+		if (payload.data.message.GameID != this.props.game.Properties.ID) {
+			return false;
+		}
+		if (
+			payload.data.message.ChannelMembers.join(",") !=
+			this.props.channel.Properties.Members.join(",")
+		) {
+			return false;
+		}
+		this.loadMessages(true);
+		return true;
 	}
 	updateHistoryAndSubscription(
 		isActive = this.props.isActive && this.props.channel
@@ -31,22 +45,11 @@ export default class ChatChannel extends React.Component {
 					this.props.channel.Properties.Members.join(",") +
 					"/Messages"
 			);
-			Globals.messaging.subscribe("message", payload => {
-				if (
-					payload.data.message.GameID != this.props.game.Properties.ID
-				) {
-					return false;
-				}
-				if (
-					payload.data.message.ChannelMembers.join(",") !=
-					this.props.channel.Properties.Members.join(",")
-				) {
-					return false;
-				}
-				this.loadMessages();
-				return true;
-			});
-			console.log("ChatChannel subscribing to `message` notifications.");
+			if (Globals.messaging.subscribe("message", this.messageHandler)) {
+				console.log(
+					"ChatChannel subscribing to `message` notifications."
+				);
+			}
 		} else {
 			if (!this.props.parent.props.parent.dead) {
 				history.pushState(
@@ -55,10 +58,11 @@ export default class ChatChannel extends React.Component {
 					"/Game/" + this.props.game.Properties.ID
 				);
 			}
-			Globals.messaging.unsubscribe("message");
-			console.log(
-				"ChatChannel unsubscribing from `message` notifications."
-			);
+			if (Globals.messaging.unsubscribe("message", this.messageHandler)) {
+				console.log(
+					"ChatChannel unsubscribing from `message` notifications."
+				);
+			}
 		}
 	}
 	componentDidMount() {
@@ -125,17 +129,21 @@ export default class ChatChannel extends React.Component {
 		}
 		return true;
 	}
-	loadMessages() {
+	loadMessages(silent = false) {
 		let messagesLink = this.props.channel.Links.find(l => {
 			return l.Rel == "messages";
 		});
 		if (messagesLink) {
-			helpers.incProgress();
+			if (!silent) {
+				helpers.incProgress();
+			}
 			return helpers
 				.safeFetch(helpers.createRequest(messagesLink.URL))
 				.then(resp => resp.json())
 				.then(js => {
-					helpers.decProgress();
+					if (!silent) {
+						helpers.decProgress();
+					}
 					js.Properties.reverse();
 					let currentPhaseIdx = 0;
 					js.Properties.forEach(message => {

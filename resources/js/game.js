@@ -20,6 +20,7 @@ export default class Game extends React.Component {
 		this.loadGame = this.loadGame.bind(this);
 		this.receiveOrders = this.receiveOrders.bind(this);
 		this.phaseJumper = this.phaseJumper.bind(this);
+		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.dead = false;
 	}
 	phaseJumper(steps) {
@@ -46,8 +47,9 @@ export default class Game extends React.Component {
 	componentWillUnmount() {
 		this.dead = true;
 		history.pushState("", "", "/");
-		Globals.messaging.unsubscribe("phase");
-		console.log("Game unsubscribing from `phase` notifications.");
+		if (Globals.messaging.unsubscribe("phase", this.phaseMessageHandler)) {
+			console.log("Game unsubscribing from `phase` notifications.");
+		}
 	}
 	componentDidMount() {
 		this.loadGame().then(_ => {
@@ -68,17 +70,21 @@ export default class Game extends React.Component {
 					);
 				}
 			);
-			Globals.messaging.subscribe("phase", payload => {
-				if (
-					payload.data.message.GameID != this.state.game.Properties.ID
-				) {
-					return false;
-				}
-				this.loadGame();
-				return true;
-			});
-			console.log("Game subscribing to `phase` notifications.");
+			if (
+				Globals.messaging.subscribe("phase", this.phaseMessageHandler)
+			) {
+				console.log("Game subscribing to `phase` notifications.");
+			}
 		});
+	}
+	phaseMessageHandler(payload) {
+		if (payload.data.message.GameID != this.state.game.Properties.ID) {
+			return false;
+		}
+		this.loadGame().then(_ => {
+			alert("New phase");
+		});
+		return true;
 	}
 	loadGame() {
 		return this.props.gamePromise.then(game => {
