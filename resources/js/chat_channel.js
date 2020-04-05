@@ -18,7 +18,9 @@ export default class ChatChannel extends React.Component {
 			this
 		);
 	}
-	updateHistoryAndSubscription(isActive = this.props.isActive) {
+	updateHistoryAndSubscription(
+		isActive = this.props.isActive && this.props.channel
+	) {
 		if (isActive) {
 			history.pushState(
 				"",
@@ -87,12 +89,31 @@ export default class ChatChannel extends React.Component {
 						})
 					})
 				)
-				.then(_ => {
-					helpers.decProgress();
-					document.getElementById("chat-channel-input-field").value =
-						"";
-					this.loadMessages();
-				});
+				.then(resp =>
+					resp.json().then(js => {
+						helpers.decProgress();
+						if (
+							!this.props.channel.Links.find(l => {
+								return l.Rel == "messages";
+							})
+						) {
+							this.props.channel.Links.push({
+								Rel: "messages",
+								URL:
+									"/Game/" +
+									this.props.game.Properties.ID +
+									"/Channel/" +
+									js.Properties.ChannelMembers.join(",") +
+									"/Messages",
+								Method: "GET"
+							});
+						}
+						document.getElementById(
+							"chat-channel-input-field"
+						).value = "";
+						this.loadMessages();
+					})
+				);
 		}
 	}
 	phaseResolvedAfter(phase, message) {
@@ -158,7 +179,10 @@ export default class ChatChannel extends React.Component {
 							}}
 						>
 							<span style={{ display: "flex" }}>
-								{this.props.channelName}
+								{helpers.channelName(
+									this.props.channel,
+									this.variant
+								)}
 							</span>
 							{helpers.createIcon("\ue5cf")}
 						</MaterialUI.Button>

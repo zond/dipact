@@ -10,7 +10,6 @@ export default class ChatMenu extends React.Component {
 		this.state = {
 			channels: [],
 			activeChannel: null,
-			channelOpen: false,
 			createMessageLink: null
 		};
 		this.member = this.props.game.Properties.Members.find(e => {
@@ -21,7 +20,6 @@ export default class ChatMenu extends React.Component {
 		});
 		this.openChannel = this.openChannel.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
-		this.channelName = this.channelName.bind(this);
 		this.natCol = this.natCol.bind(this);
 		this.createChannelDialog = null;
 	}
@@ -51,7 +49,6 @@ export default class ChatMenu extends React.Component {
 									});
 									if (channel) {
 										state.activeChannel = channel;
-										state.channelOpen = true;
 									}
 								}
 							]
@@ -71,46 +68,18 @@ export default class ChatMenu extends React.Component {
 			this.variant.Properties.Nations.indexOf(nat)
 		];
 	}
-	channelName(channel) {
-		if (!channel) {
-			return "";
-		}
-		if (
-			channel.Properties.Members.length ==
-			this.variant.Properties.Nations.length
-		) {
-			return (
-				<MaterialUI.Avatar
-					style={{ border: "none" }}
-					className={helpers.avatarClass}
-					key="Everyone"
-					alt="Everyone"
-					src="/static/img/un_logo.svg"
-				/>
-			);
-		}
-		return channel.Properties.Members.map(member => {
-			return (
-				<NationAvatar
-					key={member}
-					variant={this.variant}
-					nation={member}
-				/>
-			);
-		});
-	}
 	openChannel(channel) {
-		this.setState({ activeChannel: channel, channelOpen: true });
+		this.setState({ activeChannel: channel });
 	}
 	closeChannel() {
-		this.setState({ channelOpen: false });
+		this.setState({ activeChannel: null });
 	}
 	render() {
 		return (
 			<div style={{ position: "relative", height: "calc(100% - 57px)" }}>
 				<MaterialUI.Slide
 					direction="up"
-					in={this.state.channelOpen}
+					in={!!this.state.activeChannel}
 					mountOnEnter
 					unmountOnExit
 				>
@@ -128,9 +97,6 @@ export default class ChatMenu extends React.Component {
 						<ChatChannel
 							game={this.props.game}
 							phases={this.props.phases}
-							channelName={this.channelName(
-								this.state.activeChannel
-							)}
 							isActive={this.props.isActive}
 							createMessageLink={this.state.createMessageLink}
 							channel={this.state.activeChannel}
@@ -144,7 +110,9 @@ export default class ChatMenu extends React.Component {
 					style={{
 						width: "100%",
 						height: "100%",
-						overflowY: this.state.channelOpen ? "hidden" : "scroll"
+						overflowY: !!this.state.activeChannel
+							? "hidden"
+							: "scroll"
 					}}
 				>
 					{this.state.channels.map(channel => {
@@ -159,7 +127,7 @@ export default class ChatMenu extends React.Component {
 								}}
 								key={channel.Properties.Members.join(",")}
 							>
-								{this.channelName(channel)}
+								{helpers.channelName(channel, this.variant)}
 							</MaterialUI.Button>
 						);
 					})}
@@ -167,7 +135,11 @@ export default class ChatMenu extends React.Component {
 				<MaterialUI.AppBar
 					position="fixed"
 					color="primary"
-					style={{ top: "auto", bottom: 0 }}
+					style={{
+						top: "auto",
+						bottom: 0,
+						display: !!this.state.activeChannel ? "none" : "flex"
+					}}
 				>
 					<MaterialUI.Toolbar
 						style={{ justifyContent: "space-around" }}
@@ -187,6 +159,15 @@ export default class ChatMenu extends React.Component {
 					</MaterialUI.Toolbar>
 				</MaterialUI.AppBar>
 				<CreateChannelDialog
+					game={this.props.game}
+					createChannel={channel => {
+						this.setState(
+							{ channels: this.state.channels.concat([channel]) },
+							_ => {
+								this.openChannel(channel);
+							}
+						);
+					}}
 					parentCB={c => {
 						this.createChannelDialog = c;
 					}}
