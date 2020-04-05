@@ -202,10 +202,7 @@ function dippyMap(container) {
 			.first();
 		var copy = prov.clone()[0];
 		copy.setAttribute("id", prov.attr("id") + "_highlight");
-		copy.setAttribute(
-			"style",
-			"animation-duration: 2s; animation-iteration-count: infinite; animation-name: fade;"
-		);
+		copy.setAttribute("class", "highlighted");
 		copy.removeAttribute("transform");
 		var x = 0;
 		var y = 0;

@@ -30,6 +30,13 @@
 	}
 }
 
+.highlighted {
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-name: fade;
+	animation-timing-function: ease-in-out;
+}
+
 body {
 	margin: 0px;
 	font-family: Roboto;
