@@ -1,3 +1,5 @@
+import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
+
 export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
@@ -145,6 +147,28 @@ export function urlMatch(mappings, def) {
 	if (def) {
 		def();
 	}
+}
+
+export function channelName(channel, variant) {
+	if (!channel) {
+		return "";
+	}
+	if (
+		channel.Properties.Members.length == variant.Properties.Nations.length
+	) {
+		return (
+			<MaterialUI.Avatar
+				style={{ border: "none" }}
+				className={avatarClass}
+				key="Everyone"
+				alt="Everyone"
+				src="/static/img/un_logo.svg"
+			/>
+		);
+	}
+	return channel.Properties.Members.map(member => {
+		return <NationAvatar key={member} variant={variant} nation={member} />;
+	});
 }
 
 export function phaseName(phase) {

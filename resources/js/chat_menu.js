@@ -10,7 +10,6 @@ export default class ChatMenu extends React.Component {
 		this.state = {
 			channels: [],
 			activeChannel: null,
-			channelOpen: false,
 			createMessageLink: null
 		};
 		this.member = this.props.game.Properties.Members.find(e => {
@@ -20,50 +19,92 @@ export default class ChatMenu extends React.Component {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.openChannel = this.openChannel.bind(this);
+		this.loadChannels = this.loadChannels.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
-		this.channelName = this.channelName.bind(this);
 		this.natCol = this.natCol.bind(this);
+		this.messageHandler = this.messageHandler.bind(this);
 		this.createChannelDialog = null;
 	}
-	componentDidMount() {
+	messageHandler(payload) {
+		if (payload.data.message.GameID != this.props.game.Properties.ID) {
+			return false;
+		}
+		if (
+			!this.state.channels.find(c => {
+				return (
+					c.Properties.Members.join(",") ==
+					payload.data.message.ChannelMembers.join(",")
+				);
+			})
+		) {
+			this.loadChannels();
+		}
+		return false;
+	}
+	loadChannels(silent = false) {
 		let channelLink = this.props.game.Links.find(l => {
 			return l.Rel == "channels";
 		});
 		if (channelLink) {
-			helpers.incProgress();
-			helpers
+			if (!silent) {
+				helpers.incProgress();
+			}
+			return helpers
 				.safeFetch(helpers.createRequest(channelLink.URL))
 				.then(resp => resp.json())
 				.then(js => {
-					helpers.decProgress();
-					this.setState((state, props) => {
-						state = Object.assign({}, state);
+					if (!silent) {
+						helpers.decProgress();
+					}
+					return new Promise((res, rej) => {
+						this.setState((state, props) => {
+							state = Object.assign({}, state);
 
-						helpers.urlMatch([
-							[
-								/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
-								match => {
-									let channel = js.Properties.find(c => {
-										return (
-											c.Properties.Members.join(",") ==
-											match[2]
-										);
-									});
-									if (channel) {
-										state.activeChannel = channel;
-										state.channelOpen = true;
+							helpers.urlMatch([
+								[
+									/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+									match => {
+										let channel = js.Properties.find(c => {
+											return (
+												c.Properties.Members.join(
+													","
+												) == match[2]
+											);
+										});
+										if (channel) {
+											state.activeChannel = channel;
+										}
 									}
-								}
-							]
-						]);
+								]
+							]);
 
-						state.channels = js.Properties;
-						state.createMessageLink = js.Links.find(l => {
-							return l.Rel == "message";
-						});
-						return state;
+							state.channels = js.Properties;
+							state.createMessageLink = js.Links.find(l => {
+								return l.Rel == "message";
+							});
+							return state;
+						}, res);
 					});
 				});
+		} else {
+			return Promise.resolve({});
+		}
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.isActive && !prevProps.isActive) {
+			this.loadChannels(true);
+		}
+	}
+	componentDidMount() {
+		this.loadChannels().then(_ => {
+			if (Globals.messaging.subscribe("message", this.messageHandler)) {
+				console.log("ChatMenu subscribing to `message` notifications.");
+			}
+		});
+	}
+	componentWillUnmount() {
+		if (Globals.messaging.unsubscribe("message", this.messageHandler)) {
+			console.log("ChatMenu unsubscribing from `message` notifications.");
 		}
 	}
 	natCol(nat) {
@@ -71,46 +112,18 @@ export default class ChatMenu extends React.Component {
 			this.variant.Properties.Nations.indexOf(nat)
 		];
 	}
-	channelName(channel) {
-		if (!channel) {
-			return "";
-		}
-		if (
-			channel.Properties.Members.length ==
-			this.variant.Properties.Nations.length
-		) {
-			return (
-				<MaterialUI.Avatar
-					style={{ border: "none" }}
-					className={helpers.avatarClass}
-					key="Everyone"
-					alt="Everyone"
-					src="/static/img/un_logo.svg"
-				/>
-			);
-		}
-		return channel.Properties.Members.map(member => {
-			return (
-				<NationAvatar
-					key={member}
-					variant={this.variant}
-					nation={member}
-				/>
-			);
-		});
-	}
 	openChannel(channel) {
-		this.setState({ activeChannel: channel, channelOpen: true });
+		this.setState({ activeChannel: channel });
 	}
 	closeChannel() {
-		this.setState({ channelOpen: false });
+		this.setState({ activeChannel: null });
 	}
 	render() {
 		return (
 			<div style={{ position: "relative", height: "calc(100% - 57px)" }}>
 				<MaterialUI.Slide
 					direction="up"
-					in={this.state.channelOpen}
+					in={!!this.state.activeChannel}
 					mountOnEnter
 					unmountOnExit
 				>
@@ -128,9 +141,6 @@ export default class ChatMenu extends React.Component {
 						<ChatChannel
 							game={this.props.game}
 							phases={this.props.phases}
-							channelName={this.channelName(
-								this.state.activeChannel
-							)}
 							isActive={this.props.isActive}
 							createMessageLink={this.state.createMessageLink}
 							channel={this.state.activeChannel}
@@ -144,7 +154,9 @@ export default class ChatMenu extends React.Component {
 					style={{
 						width: "100%",
 						height: "100%",
-						overflowY: this.state.channelOpen ? "hidden" : "scroll"
+						overflowY: !!this.state.activeChannel
+							? "hidden"
+							: "scroll"
 					}}
 				>
 					{this.state.channels.map(channel => {
@@ -159,38 +171,63 @@ export default class ChatMenu extends React.Component {
 								}}
 								key={channel.Properties.Members.join(",")}
 							>
-								{this.channelName(channel)}
+								{helpers.channelName(channel, this.variant)}
 							</MaterialUI.Button>
 						);
 					})}
 				</MaterialUI.ButtonGroup>
-				<MaterialUI.AppBar
-					position="fixed"
-					color="primary"
-					style={{ top: "auto", bottom: 0 }}
-				>
-					<MaterialUI.Toolbar
-						style={{ justifyContent: "space-around" }}
-					>
-						<MaterialUI.Button
-							key="new-channel"
-							variant="outlined"
-							color="secondary"
-							onClick={_ => {
-								this.createChannelDialog.setState({
-									open: true
-								});
+				{this.state.createMessageLink ? (
+					<React.Fragment>
+						<MaterialUI.AppBar
+							position="fixed"
+							color="primary"
+							style={{
+								top: "auto",
+								bottom: 0,
+								display: !!this.state.activeChannel
+									? "none"
+									: "flex"
 							}}
 						>
-							New channel
-						</MaterialUI.Button>
-					</MaterialUI.Toolbar>
-				</MaterialUI.AppBar>
-				<CreateChannelDialog
-					parentCB={c => {
-						this.createChannelDialog = c;
-					}}
-				/>
+							<MaterialUI.Toolbar
+								style={{ justifyContent: "space-around" }}
+							>
+								<MaterialUI.Button
+									key="new-channel"
+									variant="outlined"
+									color="secondary"
+									onClick={_ => {
+										this.createChannelDialog.setState({
+											open: true
+										});
+									}}
+								>
+									New channel
+								</MaterialUI.Button>
+							</MaterialUI.Toolbar>
+						</MaterialUI.AppBar>
+						<CreateChannelDialog
+							game={this.props.game}
+							createChannel={channel => {
+								this.setState(
+									{
+										channels: this.state.channels.concat([
+											channel
+										])
+									},
+									_ => {
+										this.openChannel(channel);
+									}
+								);
+							}}
+							parentCB={c => {
+								this.createChannelDialog = c;
+							}}
+						/>
+					</React.Fragment>
+				) : (
+					""
+				)}
 			</div>
 		);
 	}

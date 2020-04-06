@@ -1,7 +1,9 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 const messageClickActionTemplate =
-	"https://dipact.appspot.com/Game/{{game.ID.Encode}}/Channel/{{#each channel.Members}}{{this}}{{#unless @last}},{{/unless}}{{/each}}/Messages";
+	"/Game/{{game.ID.Encode}}/Channel/{{#each channel.Members}}{{this}}{{#unless @last}},{{/unless}}{{/each}}/Messages";
+const phaseClickActionTemplate =
+	"/Game/{{game.ID.Encode}}/Channel/{{#each channel.Members}}{{this}}{{#unless @last}},{{/unless}}{{/each}}/Messages";
 
 class Messaging {
 	constructor() {
@@ -22,6 +24,7 @@ class Messaging {
 		this.refreshToken = this.refreshToken.bind(this);
 		this.onMessage = this.onMessage.bind(this);
 		this.subscribe = this.subscribe.bind(this);
+		this.unsubscribe = this.unsubscribe.bind(this);
 
 		this.messaging
 			.requestPermission()
@@ -45,16 +48,40 @@ class Messaging {
 			});
 	}
 	subscribe(type, handler) {
-		this.subscribers[type] = handler;
+		if (!this.subscribers[type]) {
+			this.subscribers[type] = {};
+		}
+		let found = false;
+		for (let key in this.subscribers[type]) {
+			if (this.subscribers[type][key] == handler) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			this.subscribers[type][
+				Object.keys(this.subscribers[type]).length
+			] = handler;
+			return true;
+		}
+		return false;
 	}
-	unsubscribe(type) {
-		delete this.subscribers[type];
+	unsubscribe(type, handler) {
+		if (this.subscribers[type]) {
+			for (let key in this.subscribers[type]) {
+				if (this.subscribers[type][key] == handler) {
+					delete this.subscribers[type][key];
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	refreshToken() {
 		this.messaging
 			.getToken()
-			.then(token => {
-				console.log("Got FCM token: " + token);
+			.then(receivedToken => {
+				console.log("Got FCM token: " + receivedToken);
 				helpers
 					.safeFetch(Globals.serverRequest)
 					.then(resp => resp.json())
@@ -70,47 +97,66 @@ class Messaging {
 							.then(resp => resp.json())
 							.then(js => {
 								let hrefURL = new URL(window.location.href);
-								let dipactToken = js.Properties.FCMTokens.find(
+								let wantedToken = {
+									Value: receivedToken,
+									Disabled: false,
+									Note:
+										"Created via dipact refreshToken on " +
+										new Date(),
+									App: "dipact@" + hrefURL.host,
+									MessageConfig: {
+										ClickActionTemplate:
+											hrefURL.protocol +
+											"//" +
+											hrefURL.host +
+											messageClickActionTemplate
+									},
+									PhaseConfig: {
+										ClickActionTemplate:
+											hrefURL.protocol +
+											"//" +
+											hrefURL.host +
+											messageClickActionTemplate
+									}
+								};
+								let foundToken = js.Properties.FCMTokens.find(
 									t => {
-										return (
-											t.App ==
-											"dipact@" + hrefURL.host
-										);
+										return t.App == wantedToken.App;
 									}
 								);
 								let updateServer = false;
-								if (!dipactToken) {
-									dipactToken = {
-										Value: token,
-										Disabled: false,
-										Note:
-											"Created via dipact refreshToken on " +
-											new Date(),
-										App: "dipact@" + hrefURL.host,
-										MessageConfig: {
-											ClickActionTemplate: messageClickActionTemplate
-										}
-									};
-									js.Properties.FCMTokens.push(dipactToken);
+								if (!foundToken) {
+									js.Properties.FCMTokens.push(wantedToken);
 									updateServer = true;
 								}
-								if (dipactToken.Value != token) {
-									dipactToken.Value = token;
+								if (foundToken.Value != receivedToken) {
+									foundToken.Value = receivedToken;
 									updateServer = true;
 								}
-								if (dipactToken.Disabled) {
-									dipactToken.Disabled = false;
-									dipactToken.Note =
+								if (foundToken.Disabled) {
+									foundToken.Disabled = false;
+									foundToken.Note =
 										"Re-enabled via dipact refreshToken on " +
 										new Date();
 									updateServer = true;
 								}
 								if (
-									dipactToken.MessageConfig
+									foundToken.MessageConfig
 										.ClickActionTemplate !=
-									messageClickActionTemplate
+									wantedToken.MessageConfig
+										.ClickActionTemplate
 								) {
-									dipactToken.MessageConfig.ClickActionTemplate = messageClickActionTemplate;
+									foundToken.MessageConfig.ClickActionTemplate =
+										wantedToken.MessageConfig.ClickActionTemplate;
+									updateServer = true;
+								}
+								if (
+									foundToken.PhaseConfig
+										.ClickActionTemplate !=
+									wantedToken.PhaseConfig.ClickActionTemplate
+								) {
+									foundToken.PhaseConfig.ClickActionTemplate =
+										wantedToken.PhaseConfig.ClickActionTemplate;
 									updateServer = true;
 								}
 								if (updateServer) {
@@ -161,10 +207,15 @@ class Messaging {
 			)
 		);
 		console.log("Message received:", payload);
-		if (
-			!this.subscribers[payload.data.type] ||
-			!this.subscribers[payload.data.type](payload)
-		) {
+		let handled = false;
+		if (this.subscribers[payload.data.type]) {
+			for (let key in this.subscribers[payload.data.type]) {
+				handled =
+					handled ||
+					this.subscribers[payload.data.type][key](payload);
+			}
+		}
+		if (!handled) {
 			let notification = new Notification(payload.notification.title, {
 				body: payload.notification.body,
 				icon: helpers.createRequest("/favicon.ico").url
