@@ -176,46 +176,58 @@ export default class ChatMenu extends React.Component {
 						);
 					})}
 				</MaterialUI.ButtonGroup>
-				<MaterialUI.AppBar
-					position="fixed"
-					color="primary"
-					style={{
-						top: "auto",
-						bottom: 0,
-						display: !!this.state.activeChannel ? "none" : "flex"
-					}}
-				>
-					<MaterialUI.Toolbar
-						style={{ justifyContent: "space-around" }}
-					>
-						<MaterialUI.Button
-							key="new-channel"
-							variant="outlined"
-							color="secondary"
-							onClick={_ => {
-								this.createChannelDialog.setState({
-									open: true
-								});
+				{this.state.createMessageLink ? (
+					<React.Fragment>
+						<MaterialUI.AppBar
+							position="fixed"
+							color="primary"
+							style={{
+								top: "auto",
+								bottom: 0,
+								display: !!this.state.activeChannel
+									? "none"
+									: "flex"
 							}}
 						>
-							New channel
-						</MaterialUI.Button>
-					</MaterialUI.Toolbar>
-				</MaterialUI.AppBar>
-				<CreateChannelDialog
-					game={this.props.game}
-					createChannel={channel => {
-						this.setState(
-							{ channels: this.state.channels.concat([channel]) },
-							_ => {
-								this.openChannel(channel);
-							}
-						);
-					}}
-					parentCB={c => {
-						this.createChannelDialog = c;
-					}}
-				/>
+							<MaterialUI.Toolbar
+								style={{ justifyContent: "space-around" }}
+							>
+								<MaterialUI.Button
+									key="new-channel"
+									variant="outlined"
+									color="secondary"
+									onClick={_ => {
+										this.createChannelDialog.setState({
+											open: true
+										});
+									}}
+								>
+									New channel
+								</MaterialUI.Button>
+							</MaterialUI.Toolbar>
+						</MaterialUI.AppBar>
+						<CreateChannelDialog
+							game={this.props.game}
+							createChannel={channel => {
+								this.setState(
+									{
+										channels: this.state.channels.concat([
+											channel
+										])
+									},
+									_ => {
+										this.openChannel(channel);
+									}
+								);
+							}}
+							parentCB={c => {
+								this.createChannelDialog = c;
+							}}
+						/>
+					</React.Fragment>
+				) : (
+					""
+				)}
 			</div>
 		);
 	}
