@@ -80,6 +80,8 @@ export default class Login extends React.Component {
                       backgroundColor: "white",
                       color: "#757575",
                       width: "220px",
+                      "textTransform":"initial",
+                      "fontFamily":"\"cabin\", sans-serif"
                     }}
                     startIcon={
                       <i>
