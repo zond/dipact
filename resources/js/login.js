@@ -1,42 +1,110 @@
+import * as helpers from '%{ cb "/js/helpers.js" }%';
+
 export default class Login extends React.Component {
-	render() {
-		if (this.props.loginURL) {
-			return (
-				<MaterialUI.Container
-					style={{ textAlign: "center", paddingTop: "50px" }}
-				>
-					<MaterialUI.Typography variant="h2">
-						Welcome to DipAct
-					</MaterialUI.Typography>
-					<MaterialUI.Typography variant="body1">
-						The work-in-progress web version of Diplicity.
-					</MaterialUI.Typography>
-					<a
-						href={this.props.loginURL}
-						style={{
-							textDecoration: "none",
-							textTransform: "none"
-						}}
-					>
-						<MaterialUI.Button
-							variant="contained"
-							style={{
-								backgroundColor: "white",
-								color: "#757575"
-							}}
-							startIcon={
-								<i>
-									<img src={"/static/img/google_icon.svg"} />{" "}
-								</i>
-							}
-						>
-							Sign in with Google
-						</MaterialUI.Button>
-					</a>
-				</MaterialUI.Container>
-			);
-		} else {
-			return "";
-		}
-	}
+  render() {
+    if (this.props.loginURL) {
+      return (
+        <div
+          className={helpers.scopedClass(`
+								background: url("../static/img/login_background.jpg") no-repeat bottom center fixed;
+        						background-size: cover;
+        						font-weight: 400;
+        						font-family: "Cabin", sans-serif;
+        						background-color: #fde2b5;
+        						margin: 0px;
+        						`)}
+        >
+          <div
+            className={helpers.scopedClass(`
+						align-content: center;
+       					max-width: 940px;
+        				height: calc(100% - 2px);
+        				margin: auto;
+        				
+						`)}
+          >
+            <div
+              className={helpers.scopedClass(`
+								  display: flex;
+								  align-items: flex-end;
+								  align-content: flex-end;
+								  justify-content: center;
+								  flex-wrap:wrap;
+								  height: calc(100% - 32px);
+								  max-width: 340px;
+								  padding: 16px;
+								  
+								  `)}
+            >
+              <div>
+                <img
+                  className={helpers.scopedClass(`
+									align-self: left;
+									width: 100%;
+									max-width: 340px;
+									padding: 0px;
+									margin: 0px;
+									margin-bottom: 8px;
+									`)}
+                  src="../static/img/Logo.png"
+                />
+              </div>
+              <div
+                className={helpers.scopedClass(`
+							  color: white;
+							  font-family: cabin;
+							  text-align: left;
+							  width: 100%;
+							  line-height: 1.4;
+							  
+							  `)}
+              >
+                A digital version of the classic game of Diplomacy. Sign in to
+                play or scroll down find out what the game is about.
+              </div>
+              <div
+                className={helpers.scopedClass(`
+ 				margin-top: 24px;
+       			   `)}
+              >
+                <a
+                  href={this.props.loginURL}
+                  style={{
+                    textDecoration: "none",
+                    textTransform: "none",
+                  }}
+                >
+                  <MaterialUI.Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: "white",
+                      color: "#757575",
+                      width: "220px",
+                    }}
+                    startIcon={
+                      <i>
+                        <img src={"/static/img/google_icon.svg"} />{" "}
+                      </i>
+                    }
+                  >
+                    Sign in with Google
+                  </MaterialUI.Button>
+                </a>
+              </div>
+              <div
+                className={helpers.scopedClass(`
+                margin:  24px calc(50% - 40px);
+        
+         `)}
+              >
+                <img src="../static/img/login_scrolldown.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return "";
+    }
+  }
 }
