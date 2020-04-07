@@ -63,7 +63,6 @@ export default class ChatMessage extends React.Component {
 		const textballoontitleStyle = {
 			fontWeight: "700",
 			fontSize: "14px",
-			paddingBottom: "4px",
 			alignSelf: "flex-start",
 			textAlign: "left",
 			color: "rgba(0, 0, 0, 0.7)"
@@ -73,7 +72,6 @@ export default class ChatMessage extends React.Component {
 			alignSelf: "flex-start",
 			textAlign: "left",
 			fontSize: "14px",
-			paddingBottom: "2px"
 		};
 
 		const textballoondateStyle = {
@@ -96,11 +94,11 @@ export default class ChatMessage extends React.Component {
 					/>
 				</div>
 				<div style={selfish ? textballoonselfStyle : textballoonStyle}>
-					<span style={textballoontitleStyle}>
+					<MaterialUI.Typography style={textballoontitleStyle}>
 						{this.props.name} {this.props.nation}
-					</span>
-					<span style={textballoontextStyle}>{this.props.text}</span>
-					<span style={textballoondateStyle}>{this.props.time}</span>
+					</MaterialUI.Typography>
+					<MaterialUI.Typography style={textballoontextStyle}>{this.props.text}</MaterialUI.Typography>
+					<MaterialUI.Typography style={textballoondateStyle}>{this.props.time}</MaterialUI.Typography>
 				</div>
 			</div>
 		);

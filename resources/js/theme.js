@@ -3,6 +3,11 @@
 const theme = MaterialUI.createMuiTheme({ 
   typography: {
     useNextVariants: true,
+    fontFamily: [
+      'Cabin',
+      'Roboto',
+      'sans-serif',
+    ].join(','),
   },
   palette: {
     primary: {

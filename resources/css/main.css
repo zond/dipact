@@ -9,3 +9,8 @@ body,
 #app > div {
 	height: 100%;
 }
+
+
+.MuiTypography-root {
+	font-family: "cabin" !important;
+}
