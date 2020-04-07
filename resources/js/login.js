@@ -44,7 +44,7 @@ export default class Login extends React.Component {
 									max-width: 340px;
 									padding: 0px;
 									margin: 0px;
-									margin-bottom: 8px;
+									margin-bottom: 4px;
 									`)}
 									src="../static/img/logo.svg"
 								/>
@@ -100,7 +100,7 @@ export default class Login extends React.Component {
 							</div>
 							<div
 								className={helpers.scopedClass(`
-                margin:  24px calc(50% - 40px);
+                margin:  24px calc(50% - 40px); visibility:hidden;
         
          `)}
 							>
