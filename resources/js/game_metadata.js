@@ -5,7 +5,7 @@ import NationAvatar from '%{ cb "/js/nation_avatar.js"}%';
 export default class GameMetadata extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { open: false, gameStates: {} };
+		this.state = { open: false, gameStates: null, bans: Globals.bans };
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});
@@ -17,6 +17,53 @@ export default class GameMetadata extends React.Component {
 		this.valignClass = helpers.scopedClass(
 			"display: flex; align-items: center;"
 		);
+	}
+	toggleBanned(uid) {
+		return _ => {
+			if (Globals.bans[uid]) {
+				let unsignLink = Globals.bans[uid].Links.find(l => {
+					return l.Rel == "unsign";
+				});
+				if (unsignLink) {
+					helpers.incProgress();
+					helpers
+						.safeFetch(
+							helpers.createRequest(unsignLink.URL, {
+								method: unsignLink.Method
+							})
+						)
+						.then(res => res.json())
+						.then(js => {
+							helpers.decProgress();
+							delete Globals.bans[uid];
+							this.setState({ bans: Globals.bans });
+						});
+				}
+			} else {
+				helpers.incProgress();
+				helpers
+					.safeFetch(
+						helpers.createRequest(
+							"/User/" + Globals.user.Id + "/Ban",
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json"
+								},
+								body: JSON.stringify({
+									UserIds: [Globals.user.Id, uid]
+								})
+							}
+						)
+					)
+					.then(res => res.json())
+					.then(js => {
+						helpers.decProgress();
+						Globals.bans[uid] = js;
+						this.setState({ bans: Globals.bans });
+					});
+			}
+		};
 	}
 	toggleMuted(nation) {
 		return _ => {
@@ -108,7 +155,7 @@ export default class GameMetadata extends React.Component {
 				<MaterialUI.DialogTitle>Game metadata</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.Grid container>
-						{this.state.gameStates[this.member.Nation]
+						{this.state.gameStates
 							? this.props.game.Properties.Members.map(member => {
 									return (
 										<React.Fragment
@@ -154,11 +201,20 @@ export default class GameMetadata extends React.Component {
 													control={
 														<MaterialUI.Checkbox
 															disabled={
-																member.Nation ==
-																this.member
-																	.Nation
+																member.User
+																	.Id ==
+																Globals.user.Id
 															}
-															checked={false}
+															checked={
+																!!this.state
+																	.bans[
+																	member.User
+																		.Id
+																]
+															}
+															onChange={this.toggleBanned(
+																member.User.Id
+															)}
 														/>
 													}
 													label="Banned"
@@ -202,11 +258,13 @@ export default class GameMetadata extends React.Component {
 													control={
 														<MaterialUI.Checkbox
 															disabled={
+																!this.member ||
 																member.Nation ==
-																this.member
-																	.Nation
+																	this.member
+																		.Nation
 															}
 															checked={
+																this.member &&
 																(
 																	this.state
 																		.gameStates[

@@ -36,8 +36,12 @@ export default class Main extends ActivityContainer {
 	}
 	handleVariants(variants) {
 		// Order the variants so that Classical is first and the rest are alphabetical.
-		variants.sort((variantA, variantB) => variantA.Name > variantB.Name ? 1 : -1)
-		var classicalIndex = variants.findIndex(variant => variant.Name === 'Classical');
+		variants.sort((variantA, variantB) =>
+			variantA.Name > variantB.Name ? 1 : -1
+		);
+		var classicalIndex = variants.findIndex(
+			variant => variant.Name === "Classical"
+		);
 		if (classicalIndex > 0) {
 			variants.unshift(variants.splice(classicalIndex, 1)[0]);
 		}
@@ -68,6 +72,33 @@ export default class Main extends ActivityContainer {
 	}
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
+		if (Globals.user) {
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						rootJS.Links.find(l => {
+							return l.Rel == "bans";
+						}).URL
+					)
+				)
+				.then(res => res.json())
+				.then(js => {
+					helpers.decProgress();
+					js.Properties.forEach(ban => {
+						if (
+							ban.Properties.OwnerIds.indexOf(Globals.user.Id) !=
+							-1
+						) {
+							Globals.bans[
+								ban.Properties.UserIds.find(uid => {
+									return uid != Globals.user.Id;
+								})
+							] = ban;
+						}
+					});
+				});
+		}
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
 

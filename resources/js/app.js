@@ -21,7 +21,8 @@ window.Globals = {
 	contrastColors: (_ => {
 		let m = dippyMap($("body"));
 		return m.contrasts;
-	})()
+	})(),
+	bans: {}
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
