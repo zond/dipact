@@ -2,6 +2,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import DipMap from '%{ cb "/js/dip_map.js" }%';
 import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
+import OrderList from '%{ cb "/js/order_list.js" }%';
 
 export default class Game extends React.Component {
 	constructor(props) {
@@ -11,6 +12,8 @@ export default class Game extends React.Component {
 			activePhase: null,
 			phases: [],
 			orders: {},
+			variant: null,
+			member: null,
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
@@ -116,6 +119,12 @@ export default class Game extends React.Component {
 			}
 			return promise.then(phases => {
 				this.setState({
+					variant: Globals.variants.find(v => {
+						return v.Properties.Name == game.Properties.Variant;
+					}),
+					member: game.Properties.Members.find(e => {
+						return e.User.Email == Globals.user.Email;
+					}),
 					game: game,
 					phases: phases,
 					activePhase: phases[phases.length - 1]
@@ -255,10 +264,39 @@ export default class Game extends React.Component {
 								value="chat"
 								icon={helpers.createIcon("\ue0b7")}
 							/>
-							<MaterialUI.Tab
-								value="orders"
-								icon={helpers.createIcon("\ue616")}
-							/>
+							{this.state.game &&
+							this.state.member &&
+							!this.state.activePhase.Properties.Resolved ? (
+								this.state.member.NewestPhaseState
+									.OnProbation ||
+								!this.state.member.NewestPhaseState
+									.ReadyToResolve ? (
+									<MaterialUI.Tab
+										value="orders"
+										classes={{
+											wrapper: helpers.scopedClass(
+												"color: red;"
+											)
+										}}
+										icon={helpers.createIcon("\ue615")}
+									/>
+								) : (
+									<MaterialUI.Tab
+										value="orders"
+										classes={{
+											wrapper: helpers.scopedClass(
+												"color: green;"
+											)
+										}}
+										icon={helpers.createIcon("\ue614")}
+									/>
+								)
+							) : (
+								<MaterialUI.Tab
+									value="orders"
+									icon={helpers.createIcon("\ue616")}
+								/>
+							)}
 						</MaterialUI.Tabs>
 					</MaterialUI.AppBar>
 					<div
@@ -309,38 +347,19 @@ export default class Game extends React.Component {
 									: "none"
 						}}
 					>
-						<MaterialUI.List>
-							{Object.keys(this.state.orders).map(nation => {
-								return (
-									<li key={"nation_" + nation}>
-										<ul>
-											<MaterialUI.ListSubheader
-												style={{
-													backgroundColor: "white"
-												}}
-											>
-												{nation}
-											</MaterialUI.ListSubheader>
-											<MaterialUI.List>
-												{this.state.orders[nation].map(
-													order => {
-														return (
-															<MaterialUI.ListItem
-																key={order.Name}
-															>
-																<MaterialUI.ListItemText>
-																	{order.Name}
-																</MaterialUI.ListItemText>
-															</MaterialUI.ListItem>
-														);
-													}
-												)}
-											</MaterialUI.List>
-										</ul>
-									</li>
-								);
-							})}
-						</MaterialUI.List>
+						<OrderList
+							phase={this.state.activePhase}
+							orders={this.state.orders}
+							newPhaseStateHandler={phaseState => {
+								this.setState((state, props) => {
+									state = Object.assign({}, state);
+									state.member.NewestPhaseState =
+										phaseState.Properties;
+									return state;
+								});
+							}}
+							variant={this.state.variant}
+						/>
 					</div>
 				</React.Fragment>
 			);
