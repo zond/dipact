@@ -224,6 +224,34 @@ export default class ChatChannel extends React.Component {
 									) : (
 										""
 									)}
+									{this.props.channel.Properties
+										.NMessagesSince &&
+									Date.parse(
+										this.props.channel.Properties
+											.NMessagesSince.Since
+									) <
+										Date.parse(
+											message.Properties.CreatedAt
+										) &&
+									(idx == 0 ||
+										Date.parse(
+											this.props.channel.Properties
+												.NMessagesSince.Since
+										) >=
+											Date.parse(
+												this.state.messages[idx - 1]
+													.Properties.CreatedAt
+											)) ? (
+										<MaterialUI.Typography
+											color="textPrimary"
+											display="block"
+											variant="caption"
+										>
+											New messages
+										</MaterialUI.Typography>
+									) : (
+										""
+									)}
 									<ChatMessage
 										name={name}
 										variant={this.variant}

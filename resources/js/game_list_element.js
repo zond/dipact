@@ -324,12 +324,31 @@ export default class GameListElement extends React.Component {
 						return (
 							<React.Fragment>
 								<MaterialUI.Grid key={itemKey++} item xs={11}>
-									<MaterialUI.Typography
-										textroverflow="ellipsis"
-										noWrap={true}
-									>
-										{helpers.gameDesc(this.state.game)}
-									</MaterialUI.Typography>
+									{this.member &&
+									this.member.UnreadMessages > 0 ? (
+										<MaterialUI.Badge
+											badgeContent={
+												this.member.UnreadMessages
+											}
+											color="primary"
+										>
+											<MaterialUI.Typography
+												textroverflow="ellipsis"
+												noWrap={true}
+											>
+												{helpers.gameDesc(
+													this.state.game
+												)}
+											</MaterialUI.Typography>
+										</MaterialUI.Badge>
+									) : (
+										<MaterialUI.Typography
+											textroverflow="ellipsis"
+											noWrap={true}
+										>
+											{helpers.gameDesc(this.state.game)}
+										</MaterialUI.Typography>
+									)}
 								</MaterialUI.Grid>
 								<MaterialUI.Grid key={itemKey++} item xs={1}>
 									{this.state.game.Properties.Finished

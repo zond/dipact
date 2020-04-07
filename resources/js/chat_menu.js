@@ -171,7 +171,23 @@ export default class ChatMenu extends React.Component {
 								}}
 								key={channel.Properties.Members.join(",")}
 							>
-								{helpers.channelName(channel, this.variant)}
+								{channel.Properties.NMessagesSince.NMessages >
+								0 ? (
+									<MaterialUI.Badge
+										badgeContent={
+											channel.Properties.NMessagesSince
+												.NMessages
+										}
+										color="primary"
+									>
+										{helpers.channelName(
+											channel,
+											this.variant
+										)}
+									</MaterialUI.Badge>
+								) : (
+									helpers.channelName(channel, this.variant)
+								)}
 							</MaterialUI.Button>
 						);
 					})}
