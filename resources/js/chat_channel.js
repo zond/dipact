@@ -206,7 +206,7 @@ export default class ChatChannel extends React.Component {
 
 
         						`)}
-                        color="Primary"
+                        color="primary"
                         display="block"
                         variant="subtitle2"
                       >
