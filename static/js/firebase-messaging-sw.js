@@ -1,5 +1,5 @@
-importScripts("https://dipact.appspot.com/static/firebase-app.js");
-importScripts("https://dipact.appspot.com/static/firebase-messaging.js");
+importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js');
 
 let firebaseConfig = {
 	apiKey: "AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
