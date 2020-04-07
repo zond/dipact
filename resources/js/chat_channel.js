@@ -203,24 +203,39 @@ export default class ChatChannel extends React.Component {
 							width: "100%"
 						}}
 					>
-						{this.state.messages.map(message => {
+						{this.state.messages.map((message, idx) => {
 							const selfish =
 								this.member &&
 								this.member.Nation ===
 									message.Properties.Sender;
 							return (
-								<ChatMessage
-									name={name}
-									variant={this.variant}
-									nation={message.Properties.Sender}
-									text={message.Properties.Body}
-									phase={message.phase}
-									time={helpers.timeStrToDateTime(
-										message.Properties.CreatedAt
+								<React.Fragment key={message.Properties.ID}>
+									{idx == 0 ||
+									message.phase.Properties.PhaseOrdinal !=
+										this.state.messages[idx - 1].phase
+											.Properties.PhaseOrdinal ? (
+										<MaterialUI.Typography
+											color="textSecondary"
+											display="block"
+											variant="caption"
+										>
+											{helpers.phaseName(message.phase)}
+										</MaterialUI.Typography>
+									) : (
+										""
 									)}
-									key={message.Properties.ID}
-									sender={selfish ? "self" : ""}
-								/>
+									<ChatMessage
+										name={name}
+										variant={this.variant}
+										nation={message.Properties.Sender}
+										text={message.Properties.Body}
+										phase={message.phase}
+										time={helpers.timeStrToDateTime(
+											message.Properties.CreatedAt
+										)}
+										sender={selfish ? "self" : ""}
+									/>
+								</React.Fragment>
 							);
 						})}
 						<div
