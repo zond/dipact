@@ -445,6 +445,7 @@ export default class DipMap extends React.Component {
 						key="game-desc"
 						style={{
 							flexBasis: "100%",
+							"fontFamily":"\"Libre Baskerville\", \"Cabin\", Serif",
 							fontSize: "small",
 							padding: "10px",
 							textAlign: "center",
