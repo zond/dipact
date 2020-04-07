@@ -180,8 +180,9 @@ export default class ChatMenu extends React.Component {
 								}}
 								key={channel.Properties.Members.join(",")}
 							>
-								{channel.Properties.NMessagesSince.NMessages >
-								0 ? (
+								{this.member &&
+								channel.Properties.NMessagesSince.NMessages >
+									0 ? (
 									<MaterialUI.Badge
 										badgeContent={
 											channel.Properties.NMessagesSince
@@ -203,9 +204,7 @@ export default class ChatMenu extends React.Component {
 				</MaterialUI.ButtonGroup>
 				{this.state.createMessageLink ? (
 					<React.Fragment>
-
-
-						<MaterialUI.Fab 
+						<MaterialUI.Fab
 							className={helpers.scopedClass(`
 								margin: 0px;
 								top: auto;
@@ -214,21 +213,22 @@ export default class ChatMenu extends React.Component {
 								left: auto;
 								position: fixed;
 							`)}
-
 							style={{
 								display: !!this.state.activeChannel
 									? "none"
 									: "flex"
-							}} 
-							color="secondary" aria-label="edit" 
+							}}
+							color="secondary"
+							aria-label="edit"
 							onClick={_ => {
-										this.createChannelDialog.setState({
-											open: true
-										});
-							}}>
-  							{helpers.createIcon("\ue145")}
+								this.createChannelDialog.setState({
+									open: true
+								});
+							}}
+						>
+							{helpers.createIcon("\ue145")}
 						</MaterialUI.Fab>
-						
+
 						<CreateChannelDialog
 							game={this.props.game}
 							createChannel={channel => {
