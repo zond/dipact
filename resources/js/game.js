@@ -27,9 +27,7 @@ export default class Game extends React.Component {
 		this.phaseJumper = this.phaseJumper.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.dead = false;
-
 	}
-
 
 	phaseJumper(steps) {
 		return _ => {
@@ -276,6 +274,9 @@ export default class Game extends React.Component {
 								<MaterialUI.MenuItem
 									key="metadata"
 									onClick={_ => {
+										this.setState({
+											moreMenuAnchorEl: null
+										});
 										this.gameMetadata.setState({
 											open: true
 										});
@@ -309,18 +310,26 @@ export default class Game extends React.Component {
 									.ReadyToResolve ? (
 									<MaterialUI.Tab
 										value="orders"
-										
-										icon={	<MaterialUI.SvgIcon>
-												 <path d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M5,14 L3,14 L3,16 L5,16 L5,14 Z M15,14 L7,14 L7,16 L15,16 L15,14 Z M5,6 L3,6 L3,12 L5,12 L5,6 Z M15,10 L7,10 L7,12 L15,12 L15,10 Z M15,6 L7,6 L7,8 L15,8 L15,6 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z" id="order_open"></path>
-												</MaterialUI.SvgIcon>}
+										icon={
+											<MaterialUI.SvgIcon>
+												<path
+													d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M5,14 L3,14 L3,16 L5,16 L5,14 Z M15,14 L7,14 L7,16 L15,16 L15,14 Z M5,6 L3,6 L3,12 L5,12 L5,6 Z M15,10 L7,10 L7,12 L15,12 L15,10 Z M15,6 L7,6 L7,8 L15,8 L15,6 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z"
+													id="order_open"
+												></path>
+											</MaterialUI.SvgIcon>
+										}
 									/>
 								) : (
 									<MaterialUI.Tab
 										value="orders"
-										
-										icon={	<MaterialUI.SvgIcon>
-				 <path d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M13.4347826,7 L7.70608696,12.7391304 L4.56521739,9.60869565 L3,11.173913 L7.70608696,15.8695652 L15,8.56521739 L13.4347826,7 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z" id="order_confirmed"></path>
-												</MaterialUI.SvgIcon>}
+										icon={
+											<MaterialUI.SvgIcon>
+												<path
+													d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M13.4347826,7 L7.70608696,12.7391304 L4.56521739,9.60869565 L3,11.173913 L7.70608696,15.8695652 L15,8.56521739 L13.4347826,7 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z"
+													id="order_confirmed"
+												></path>
+											</MaterialUI.SvgIcon>
+										}
 									/>
 								)
 							) : (
@@ -395,6 +404,7 @@ export default class Game extends React.Component {
 					</div>
 					<GameMetadata
 						game={this.state.game}
+						variant={this.state.variant}
 						parentCB={c => {
 							this.gameMetadata = c;
 						}}

@@ -27,16 +27,18 @@ export default class OrderList extends React.Component {
 						body: JSON.stringify(phaseState.Properties)
 					})
 				)
-				.then(_ => {
+				.then(res => res.json())
+				.then(js => {
 					helpers.decProgress();
 					this.setState(
 						(state, props) => {
 							state = Object.assign({}, state);
-							state.phaseStates[nation] = phaseState;
+							state.phaseStates[nation].Properties =
+								js.Properties;
 							return state;
 						},
 						_ => {
-							this.props.newPhaseStateHandler(phaseState);
+							this.props.newPhaseStateHandler(js);
 						}
 					);
 				});
@@ -106,102 +108,109 @@ export default class OrderList extends React.Component {
 			<MaterialUI.List>
 				{this.props.variant.Properties.Nations.map(nation => {
 					let phaseState = this.state.phaseStates[nation];
-					return (
-						<li key={"nation_" + nation}>
-							<ul>
-								<MaterialUI.ListSubheader
-									style={{
-										backgroundColor: "white"
-									}}
-								>
-									{nation}
-								</MaterialUI.ListSubheader>
-								<MaterialUI.List>
-									{(this.props.orders[nation] || []).map(
-										order => {
-											return (
-												<MaterialUI.ListItem
-													key={order.Name}
-												>
-													<MaterialUI.ListItemText>
-														{order.Name}
-													</MaterialUI.ListItemText>
-												</MaterialUI.ListItem>
-											);
-										}
+					if (phaseState || this.props.orders[nation]) {
+						return (
+							<li key={"nation_" + nation}>
+								<ul>
+									<MaterialUI.ListSubheader
+										style={{
+											backgroundColor: "white"
+										}}
+									>
+										{nation}
+									</MaterialUI.ListSubheader>
+									<MaterialUI.List>
+										{(this.props.orders[nation] || []).map(
+											order => {
+												return (
+													<MaterialUI.ListItem
+														key={order.Name}
+													>
+														<MaterialUI.ListItemText>
+															{order.Name}
+														</MaterialUI.ListItemText>
+													</MaterialUI.ListItem>
+												);
+											}
+										)}
+									</MaterialUI.List>
+									{phaseState ? (
+										<MaterialUI.FormGroup>
+											<MaterialUI.FormControlLabel
+												control={
+													<MaterialUI.Checkbox
+														checked={
+															phaseState
+																.Properties
+																.ReadyToResolve
+														}
+														disabled={
+															!phaseState.Links ||
+															!phaseState.Links.find(
+																l => {
+																	return (
+																		l.Rel ==
+																		"update"
+																	);
+																}
+															)
+														}
+														onChange={this.toggleReady(
+															nation
+														)}
+													/>
+												}
+												label="Ready for next turn"
+											/>
+											<MaterialUI.FormControlLabel
+												control={
+													<MaterialUI.Checkbox
+														checked={
+															phaseState
+																.Properties
+																.WantsDIAS
+														}
+														disabled={
+															!phaseState.Links ||
+															!phaseState.Links.find(
+																l => {
+																	return (
+																		l.Rel ==
+																		"update"
+																	);
+																}
+															)
+														}
+														onChange={this.toggleDIAS(
+															nation
+														)}
+													/>
+												}
+												label="Wants draw"
+											/>
+											<MaterialUI.FormControlLabel
+												control={
+													<MaterialUI.Checkbox
+														checked={
+															phaseState
+																.Properties
+																.OnProbation
+														}
+														disabled={true}
+													/>
+												}
+												label="Assumed inactive"
+											/>
+										</MaterialUI.FormGroup>
+									) : (
+										""
 									)}
-								</MaterialUI.List>
-								{phaseState ? (
-									<MaterialUI.FormGroup>
-										<MaterialUI.FormControlLabel
-											control={
-												<MaterialUI.Checkbox
-													checked={
-														phaseState.Properties
-															.ReadyToResolve
-													}
-													disabled={
-														!phaseState.Links ||
-														!phaseState.Links.find(
-															l => {
-																return (
-																	l.Rel ==
-																	"update"
-																);
-															}
-														)
-													}
-													onChange={this.toggleReady(
-														nation
-													)}
-												/>
-											}
-											label="Ready for next turn"
-										/>
-										<MaterialUI.FormControlLabel
-											control={
-												<MaterialUI.Checkbox
-													checked={
-														phaseState.Properties
-															.WantsDIAS
-													}
-													disabled={
-														!phaseState.Links ||
-														!phaseState.Links.find(
-															l => {
-																return (
-																	l.Rel ==
-																	"update"
-																);
-															}
-														)
-													}
-													onChange={this.toggleDIAS(
-														nation
-													)}
-												/>
-											}
-											label="Wants draw"
-										/>
-										<MaterialUI.FormControlLabel
-											control={
-												<MaterialUI.Checkbox
-													checked={
-														phaseState.Properties
-															.OnProbation
-													}
-													disabled={true}
-												/>
-											}
-											label="Assumed inactive"
-										/>
-									</MaterialUI.FormGroup>
-								) : (
-									""
-								)}
-							</ul>
-						</li>
-					);
+								</ul>
+							</li>
+						);
+					} else {
+						return "";
+					}
 				})}
 			</MaterialUI.List>
 		);

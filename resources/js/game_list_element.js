@@ -14,6 +14,9 @@ export default class GameListElement extends React.Component {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.nationPreferencesDialog = null;
+		this.valignClass = helpers.scopedClass(
+			"display: flex; align-items: center;"
+		);
 		this.viewGame = this.viewGame.bind(this);
 		this.closeGame = this.closeGame.bind(this);
 		this.joinGame = this.joinGame.bind(this);
@@ -269,7 +272,12 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.Grid>
 			);
 			expandedGameItems.push(
-				<MaterialUI.Grid item key={itemKey++} xs={10}>
+				<MaterialUI.Grid
+					className={this.valignClass}
+					item
+					key={itemKey++}
+					xs={10}
+				>
 					<MaterialUI.Typography>
 						{member.User.GivenName} {member.User.FamilyName}
 					</MaterialUI.Typography>
