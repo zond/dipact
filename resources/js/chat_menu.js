@@ -181,6 +181,7 @@ export default class ChatMenu extends React.Component {
 								key={channel.Properties.Members.join(",")}
 							>
 								{this.member &&
+								channel.Properties.NMessagesSince &&
 								channel.Properties.NMessagesSince.NMessages >
 									0 ? (
 									<MaterialUI.Badge
