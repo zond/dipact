@@ -126,7 +126,7 @@ export default class ChatMenu extends React.Component {
 					height:
 						!this.state.activeChannel &&
 						this.state.createMessageLink
-							? "calc(100% - 57px)"
+							? "100%"
 							: "100%"
 				}}
 			>
@@ -203,34 +203,32 @@ export default class ChatMenu extends React.Component {
 				</MaterialUI.ButtonGroup>
 				{this.state.createMessageLink ? (
 					<React.Fragment>
-						<MaterialUI.AppBar
-							position="fixed"
-							color="primary"
+
+
+						<MaterialUI.Fab 
+							className={helpers.scopedClass(`
+								margin: 0px;
+								top: auto;
+								right: 20px;
+								bottom: 20px;
+								left: auto;
+								position: fixed;
+							`)}
+
 							style={{
-								top: "auto",
-								bottom: 0,
 								display: !!this.state.activeChannel
 									? "none"
 									: "flex"
-							}}
-						>
-							<MaterialUI.Toolbar
-								style={{ justifyContent: "space-around" }}
-							>
-								<MaterialUI.Button
-									key="new-channel"
-									variant="outlined"
-									color="secondary"
-									onClick={_ => {
+							}} 
+							color="secondary" aria-label="edit" 
+							onClick={_ => {
 										this.createChannelDialog.setState({
 											open: true
 										});
-									}}
-								>
-									New channel
-								</MaterialUI.Button>
-							</MaterialUI.Toolbar>
-						</MaterialUI.AppBar>
+							}}>
+  							{helpers.createIcon("\ue145")}
+						</MaterialUI.Fab>
+						
 						<CreateChannelDialog
 							game={this.props.game}
 							createChannel={channel => {
