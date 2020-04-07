@@ -120,7 +120,16 @@ export default class ChatMenu extends React.Component {
 	}
 	render() {
 		return (
-			<div style={{ position: "relative", height: "calc(100% - 57px)" }}>
+			<div
+				style={{
+					position: "relative",
+					height:
+						!this.state.activeChannel &&
+						this.state.createMessageLink
+							? "calc(100% - 57px)"
+							: "100%"
+				}}
+			>
 				<MaterialUI.Slide
 					direction="up"
 					in={!!this.state.activeChannel}

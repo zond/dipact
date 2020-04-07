@@ -161,9 +161,6 @@ export default class ChatChannel extends React.Component {
 					this.setState({ messages: js.Properties }, _ => {
 						let msgEl = document.getElementById("messages");
 						msgEl.scrollTop = msgEl.scrollHeight;
-						document
-							.getElementById("chat-channel-input-field")
-							.focus();
 					});
 					return Promise.resolve({});
 				});
@@ -266,32 +263,36 @@ export default class ChatChannel extends React.Component {
 								</React.Fragment>
 							);
 						})}
-						<div
-							style={{
-								display: "flex",
-								alignItems: "flex-start",
-								maxWidth: "960px",
-								padding: "8px",
-								position: "sticky",
-								bottom: "0px",
-								backgroundColor: "white"
-							}}
-						>
-							<MaterialUI.TextField
-								id="chat-channel-input-field"
-								multiline
-								rows="2"
-								style={{ flexGrow: 100 }}
-								label="Message"
-								variant="outlined"
-							/>
-							<MaterialUI.IconButton
-								onClick={this.sendMessage}
-								color="primary"
+						{this.props.createMessageLink ? (
+							<div
+								style={{
+									display: "flex",
+									alignItems: "flex-start",
+									maxWidth: "960px",
+									padding: "8px",
+									position: "sticky",
+									bottom: "0px",
+									backgroundColor: "white"
+								}}
 							>
-								{helpers.createIcon("\ue163")}
-							</MaterialUI.IconButton>
-						</div>
+								<MaterialUI.TextField
+									id="chat-channel-input-field"
+									multiline
+									rows="2"
+									style={{ flexGrow: 100 }}
+									label="Message"
+									variant="outlined"
+								/>
+								<MaterialUI.IconButton
+									onClick={this.sendMessage}
+									color="primary"
+								>
+									{helpers.createIcon("\ue163")}
+								</MaterialUI.IconButton>
+							</div>
+						) : (
+							""
+						)}
 					</div>
 				</React.Fragment>
 			);
