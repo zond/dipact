@@ -50,9 +50,7 @@ export default class CreateChannelDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<MaterialUI.DialogTitle id="form-dialog-title">
-					Create channel
-				</MaterialUI.DialogTitle>
+				<MaterialUI.DialogTitle>Create channel</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.DialogContentText>
 						Pick the participants of the new channel.

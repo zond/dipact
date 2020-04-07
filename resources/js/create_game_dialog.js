@@ -233,9 +233,7 @@ export default class CreateGameDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<MaterialUI.DialogTitle id="form-dialog-title">
-					Create game
-				</MaterialUI.DialogTitle>
+				<MaterialUI.DialogTitle>Create game</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.DialogContentText>
 						Edit the properties for your new game. You can only

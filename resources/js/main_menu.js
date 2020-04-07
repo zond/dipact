@@ -12,15 +12,12 @@ export default class MainMenu extends ActivityContainer {
 		this.openDrawer = this.openDrawer.bind(this);
 		this.closeDrawer = this.closeDrawer.bind(this);
 		this.renderGameList = this.renderGameList.bind(this);
-		this.closeMenu = this.closeMenu.bind(this);
-		this.openMenu = this.openMenu.bind(this);
 		this.logout = this.logout.bind(this);
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
 		this.renderMyStagingGames = this.renderMyStagingGames.bind(this);
 		this.state = {
 			drawerOpen: false,
-			menuOpen: false,
 			activity: Start,
 			activityProps: {
 				urls: this.props.urls,
@@ -92,12 +89,6 @@ export default class MainMenu extends ActivityContainer {
 	closeDrawer() {
 		this.setState({ drawerOpen: false });
 	}
-	openMenu(ev) {
-		this.setState({ anchorEl: ev.currentTarget, menuOpen: true });
-	}
-	closeMenu() {
-		this.setState({ menuOpen: false });
-	}
 	renderMyStagingGames() {
 		this.setActivity(GameList, {
 			key: "my-staging-games",
@@ -133,13 +124,17 @@ export default class MainMenu extends ActivityContainer {
 						></MaterialUI.Typography>
 						<MaterialUI.IconButton
 							edge="end"
-							onClick={this.openMenu}
+							onClick={ev => {
+								this.setState({
+									menuAnchorEl: ev.currentTarget
+								});
+							}}
 							color="secondary"
 						>
 							{helpers.createIcon("\ue853")}
 						</MaterialUI.IconButton>
 						<MaterialUI.Menu
-							anchorEl={this.state.anchorEl}
+							anchorEl={this.state.menuAnchorEl}
 							anchorOrigin={{
 								vertical: "top",
 								horizontal: "right"
@@ -148,12 +143,16 @@ export default class MainMenu extends ActivityContainer {
 								vertical: "top",
 								horizontal: "right"
 							}}
-							onClose={this.closeMenu}
-							open={this.state.menuOpen}
+							onClose={_ => {
+								this.setState({ menuAnchorEl: null });
+							}}
+							open={!!this.state.menuAnchorEl}
 						>
 							<MaterialUI.MenuItem
 								key="close-menu"
-								onClick={this.closeMenu}
+								onClick={_ => {
+									this.setState({ menuAnchorEl: null });
+								}}
 							>
 								Settings
 							</MaterialUI.MenuItem>

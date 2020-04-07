@@ -3,6 +3,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 import DipMap from '%{ cb "/js/dip_map.js" }%';
 import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 import OrderList from '%{ cb "/js/order_list.js" }%';
+import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 
 export default class Game extends React.Component {
 	constructor(props) {
@@ -18,6 +19,7 @@ export default class Game extends React.Component {
 		};
 		this.renderedPhaseOrdinal = null;
 		this.options = null;
+		this.gameMetadata = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.loadGame = this.loadGame.bind(this);
@@ -245,9 +247,40 @@ export default class Game extends React.Component {
 								edge="end"
 								key="more-icon"
 								color="secondary"
+								onClick={ev => {
+									this.setState({
+										moreMenuAnchorEl: ev.currentTarget
+									});
+								}}
 							>
 								{helpers.createIcon("\ue5d4")}
 							</MaterialUI.IconButton>
+							<MaterialUI.Menu
+								anchorEl={this.state.moreMenuAnchorEl}
+								anchorOrigin={{
+									vertical: "top",
+									horizontal: "right"
+								}}
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "right"
+								}}
+								onClose={_ => {
+									this.setState({ moreMenuAnchorEl: null });
+								}}
+								open={!!this.state.moreMenuAnchorEl}
+							>
+								<MaterialUI.MenuItem
+									key="metadata"
+									onClick={_ => {
+										this.gameMetadata.setState({
+											open: true
+										});
+									}}
+								>
+									Metadata
+								</MaterialUI.MenuItem>
+							</MaterialUI.Menu>
 						</MaterialUI.Toolbar>
 						<MaterialUI.Tabs
 							key="tabs"
@@ -361,6 +394,12 @@ export default class Game extends React.Component {
 							variant={this.state.variant}
 						/>
 					</div>
+					<GameMetadata
+						game={this.state.game}
+						parentCB={c => {
+							this.gameMetadata = c;
+						}}
+					/>
 				</React.Fragment>
 			);
 		} else {

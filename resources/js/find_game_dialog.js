@@ -32,7 +32,7 @@ export default class FindGameDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<MaterialUI.DialogTitle id="form-dialog-title">
+				<MaterialUI.DialogTitle>
 					Find (private) game
 				</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
