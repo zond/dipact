@@ -10,7 +10,6 @@ export default class DipMap extends React.Component {
 		this.renderOrders = this.renderOrders.bind(this);
 		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
 		this.updateMap = this.updateMap.bind(this);
-		this.natCol = this.natCol.bind(this);
 		this.createOrder = this.createOrder.bind(this);
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
@@ -83,6 +82,7 @@ export default class DipMap extends React.Component {
 	}
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
+			nextProps.isActive != this.props.isActive ||
 			!nextProps.game ||
 			!this.props.game ||
 			nextProps.game.Properties.ID != this.props.game.Properties.ID ||
@@ -92,7 +92,7 @@ export default class DipMap extends React.Component {
 				this.props.phase.Properties.PhaseOrdinal
 		);
 	}
-	componentDidUpdate() {
+	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.lastRenderedGameID == this.props.game.Properties.ID) {
 			this.updateMap().then(this.snapshotSVG);
 			return;
@@ -169,7 +169,9 @@ export default class DipMap extends React.Component {
 				container.innerHTML = unitData.svg;
 				document.getElementById("units-div").appendChild(container);
 			});
-			this.lastRenderedGameID = this.props.game.Properties.ID;
+			if (this.props.isActive) {
+				this.lastRenderedGameID = this.props.game.Properties.ID;
+			}
 			this.updateMap().then(this.snapshotSVG);
 		});
 	}
@@ -202,7 +204,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + unitData.Unit.Type,
 					unitData.Province,
-					this.natCol(unitData.Unit.Nation)
+					helpers.natCol(unitData.Unit.Nation, this.variant)
 				);
 			});
 		} else {
@@ -211,7 +213,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
-					this.natCol(unit.Nation)
+					helpers.natCol(unitData.Unit.Nation, this.variant)
 				);
 			}
 		}
@@ -220,7 +222,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + disData.Dislodged.Type,
 					disData.Province,
-					this.natCol(disData.Dislodged.Nation)
+					helpers.natCol(unitData.Unit.Nation, this.variant)
 				);
 			});
 		} else {
@@ -229,7 +231,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
-					this.natCol(unit.Nation),
+					helpers.natCol(unitData.Unit.Nation, this.variant),
 					true
 				);
 			}
@@ -245,7 +247,10 @@ export default class DipMap extends React.Component {
 		for (let prov in this.variant.Properties.Graph.Nodes) {
 			let node = this.variant.Properties.Graph.Nodes[prov];
 			if (node.SC && SCs[prov]) {
-				this.map.colorProvince(prov, this.natCol(SCs[prov]));
+				this.map.colorProvince(
+					prov,
+					helpers.natCol(SCs[prov], this.variant)
+				);
 			} else {
 				this.map.hideProvince(prov);
 			}
@@ -256,7 +261,10 @@ export default class DipMap extends React.Component {
 				let orders = this.props.phase.Properties.Orders[nat];
 				for (let prov in orders) {
 					let order = orders[prov];
-					this.map.addOrder([prov] + order, this.natCol(nat));
+					this.map.addOrder(
+						[prov] + order,
+						helpers.natCol(nat, this.variant)
+					);
 				}
 			}
 		}
@@ -330,7 +338,7 @@ export default class DipMap extends React.Component {
 			js.Properties.forEach(orderData => {
 				this.map.addOrder(
 					orderData.Properties.Parts,
-					this.natCol(orderData.Properties.Nation)
+					helpers.natCol(orderData.Properties.Nation, this.variant)
 				);
 			});
 			if (regardingPhase.Properties.Resolutions) {
@@ -417,9 +425,6 @@ export default class DipMap extends React.Component {
 			}
 		}
 	}
-	natCol(nat) {
-		return this.map.contrasts[this.variant.Properties.Nations.indexOf(nat)];
-	}
 	render() {
 		return (
 			<React.Fragment>
@@ -445,7 +450,7 @@ export default class DipMap extends React.Component {
 						key="game-desc"
 						style={{
 							flexBasis: "100%",
-							"fontFamily":"\"Libre Baskerville\", \"Cabin\", Serif",
+							fontFamily: '"Libre Baskerville", "Cabin", Serif',
 							fontSize: "small",
 							padding: "10px",
 							textAlign: "center",

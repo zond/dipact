@@ -6,36 +6,16 @@ export default class ChatMessage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.selfish = this.props.sender === "self";
+		this.col = helpers.natCol(this.props.nation, this.props.variant);
+		this.brightness = helpers.brightnessByColor(this.col);
 	}
 
 	render() {
-		const selfish = this.props.sender === "self";
-
-		const textballoontitleStyle = {
-			fontWeight: "700",
-			fontSize: "14px",
-			alignSelf: "flex-start",
-			textAlign: "left",
-			color: "rgba(0, 0, 0, 0.7)"
-		};
-
-		const textballoontextStyle = {
-			alignSelf: "flex-start",
-			textAlign: "left",
-			fontSize: "14px"
-		};
-
-		const textballoondateStyle = {
-			fontSize: "12px",
-			display: "table",
-			alignSelf: "flex-end",
-			color: "rgba(0, 0, 0, 0.3)"
-		};
-
 		return (
 			<div
 				className={
-					selfish
+					this.selfish
 						? helpers.scopedClass(`
 				display: flex;
 				width: calc(100%-16px);
@@ -58,7 +38,7 @@ export default class ChatMessage extends React.Component {
 			>
 				<div
 					className={
-						selfish
+						this.selfish
 							? helpers.scopedClass(`
 						margin: 0px 0px 0px 8px;
 						`)
@@ -73,31 +53,52 @@ export default class ChatMessage extends React.Component {
 					/>
 				</div>
 				<div
-					className={
-						selfish
-							? helpers.scopedClass(`
-			border-radius: 12px 0px 12px 12px;
-			background-color: rgba(0,148,71,0.1);
+					className={helpers.scopedClass(
+						`
+			border-radius: ` +
+							(this.selfish
+								? "12px 0px 12px 12px;"
+								: "0px 12px 12px 12px;") +
+							`
+			background-color: ` +
+							this.col +
+							`19;
 			display: flex;
+			border: ` +
+							(this.brightness > 128
+								? `1px solid ` + this.col + `;`
+								: `none;`) +
+							`
 			flex-direction: column;
 			padding: 10px;
-						`)
-							: helpers.scopedClass(`
-			border-radius: 0px 12px 12px 12px;
-			background-color: rgba(255,0,0,0.1);
-			display: flex;
-			flex-direction: column;
-			padding: 10px;
-						`)
-					}
+						`
+					)}
 				>
-					<MaterialUI.Typography style={textballoontitleStyle}>
+					<MaterialUI.Typography
+						className={helpers.scopedClass(`
+		                                                font-weight: 700;
+		                                                font-size: 14px;
+		                                                align-self: flex-start;
+		                                                text-align: left;
+		                                                color: rgba(0, 0, 0, 0.7);`)}
+					>
 						{this.props.name} {this.props.nation}
 					</MaterialUI.Typography>
-					<MaterialUI.Typography style={textballoontextStyle}>
+					<MaterialUI.Typography
+						className={helpers.scopedClass(`
+		                                                align-self: flex-start;
+		                                                text-align: left;
+		                                                font-size: 14px;`)}
+					>
 						{this.props.text}
 					</MaterialUI.Typography>
-					<MaterialUI.Typography style={textballoondateStyle}>
+					<MaterialUI.Typography
+						className={helpers.scopedClass(`
+		                                                font-size: 12px;
+		                                                display: table;
+		                                                align-self: flex-end;
+		                                                color: rgba(0, 0, 0, 0.3);`)}
+					>
 						{this.props.time}
 					</MaterialUI.Typography>
 				</div>

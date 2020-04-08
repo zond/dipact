@@ -301,6 +301,10 @@ export function minutesToDuration(m, short = false) {
 	return reduce(m);
 }
 
+export function natCol(nation, variant) {
+	return Globals.contrastColors[variant.Properties.Nations.indexOf(nation)];
+}
+
 export const avatarClass = scopedClass(`
   border: 1px solid black;
   width: 36px !important;

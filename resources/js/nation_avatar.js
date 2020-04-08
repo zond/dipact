@@ -17,12 +17,7 @@ export default class NationAvatar extends React.Component {
 				/>
 			);
 		} else {
-			let bgColor =
-				Globals.contrastColors[
-					this.props.variant.Properties.Nations.indexOf(
-						this.props.nation
-					)
-				];
+			let bgColor = helpers.natCol(this.props.nation, this.props.variant);
 			let color =
 				helpers.brightnessByColor(bgColor) > 128
 					? "#000000"
