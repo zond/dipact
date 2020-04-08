@@ -68,7 +68,8 @@ export default class ChatMenu extends React.Component {
 											return (
 												c.Properties.Members.join(
 													","
-												) == match[2]
+												) ==
+												decodeURIComponent(match[2])
 											);
 										});
 										if (channel) {
