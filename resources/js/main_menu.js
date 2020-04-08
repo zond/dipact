@@ -149,12 +149,42 @@ export default class MainMenu extends ActivityContainer {
 							open={!!this.state.menuAnchorEl}
 						>
 							<MaterialUI.MenuItem
-								key="close-menu"
+								key="help-wiki"
 								onClick={_ => {
-									this.setState({ menuAnchorEl: null });
+									window.open(
+										"https://sites.google.com/corp/view/diplicity"
+									);
 								}}
 							>
-								Settings
+								Help
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
+								key="forum"
+								onClick={_ => {
+									window.open(
+										"https://groups.google.com/forum/#!forum/diplicity-talk"
+									);
+								}}
+							>
+								Forum
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
+								key="chat"
+								onClick={_ => {
+									window.open("https://discord.gg/bu3JxYc");
+								}}
+							>
+								Chat
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
+								key="source"
+								onClick={_ => {
+									window.open(
+										"https://github.com/zond/dipact"
+									);
+								}}
+							>
+								Source code
 							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem
 								key="logout"
