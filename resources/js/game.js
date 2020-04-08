@@ -9,6 +9,7 @@ export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			readyReminder: null,
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
@@ -121,13 +122,18 @@ export default class Game extends React.Component {
 				});
 			}
 			return promise.then(phases => {
+				let member = game.Properties.Members.find(e => {
+					return e.User.Email == Globals.user.Email;
+				});
 				this.setState({
 					variant: Globals.variants.find(v => {
 						return v.Properties.Name == game.Properties.Variant;
 					}),
-					member: game.Properties.Members.find(e => {
-						return e.User.Email == Globals.user.Email;
-					}),
+					member: member,
+					readyReminder:
+						member && !member.NewestPhaseState.ReadyToResolve
+							? "You haven't confirmed our orders yet"
+							: null,
 					game: game,
 					phases: phases,
 					activePhase: phases[phases.length - 1]
@@ -408,6 +414,44 @@ export default class Game extends React.Component {
 						parentCB={c => {
 							this.gameMetadata = c;
 						}}
+					/>
+					<MaterialUI.Snackbar
+						anchorOrigin={{
+							vertical: "bottom",
+							horizontal: "center"
+						}}
+						open={!!this.state.readyReminder}
+						autoHideDuration={6000}
+						onClose={_ => {
+							this.setState({ readyReminder: null });
+						}}
+						message={this.state.readyReminder}
+						action={
+							<React.Fragment>
+								<MaterialUI.Button
+									color="secondary"
+									size="small"
+									onClick={_ => {
+										this.setState({
+											activeTab: "orders",
+											readyReminder: null
+										});
+									}}
+								>
+									View orders
+								</MaterialUI.Button>
+								<MaterialUI.IconButton
+									size="small"
+									aria-label="close"
+									color="inherit"
+									onClick={_ => {
+										this.setState({ readyReminder: null });
+									}}
+								>
+									{helpers.createIcon("\ue5cd")}
+								</MaterialUI.IconButton>
+							</React.Fragment>
+						}
 					/>
 				</React.Fragment>
 			);
