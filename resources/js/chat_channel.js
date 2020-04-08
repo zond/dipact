@@ -197,7 +197,8 @@ export default class ChatChannel extends React.Component {
 						style={{
 							overflowY: "scroll",
 							height: "calc(100% - 56px)",
-							width: "100%"
+							width: "100%",
+							overflowX: "hidden"
 						}}
 					>
 						{this.state.messages.map((message, idx) => {
@@ -213,17 +214,12 @@ export default class ChatChannel extends React.Component {
 											.Properties.PhaseOrdinal ? (
 										<div
 											className={helpers.scopedClass(`
-								display: flex;
-								align-items : center;
-  justify-content: center;
+							                             display: flex;
+							                             align-items : center;
+                                                         justify-content: center;
 											`)}
 										>
 											<MaterialUI.Typography
-												className={helpers.scopedClass(`
-								
-
-
-        						`)}
 												color="primary"
 												display="block"
 												variant="subtitle2"
