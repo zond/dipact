@@ -213,7 +213,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
-					helpers.natCol(unitData.Unit.Nation, this.variant)
+					helpers.natCol(unit.Nation, this.variant)
 				);
 			}
 		}
@@ -222,7 +222,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + disData.Dislodged.Type,
 					disData.Province,
-					helpers.natCol(unitData.Unit.Nation, this.variant)
+					helpers.natCol(disData.Dislodged.Nation, this.variant)
 				);
 			});
 		} else {
@@ -231,7 +231,7 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
-					helpers.natCol(unitData.Unit.Nation, this.variant),
+					helpers.natCol(unit.Nation, this.variant),
 					true
 				);
 			}
