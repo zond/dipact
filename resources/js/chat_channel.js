@@ -252,13 +252,23 @@ export default class ChatChannel extends React.Component {
 												this.state.messages[idx - 1]
 													.Properties.CreatedAt
 											)) ? (
+																				
+										<div
+											className={helpers.scopedClass(`
+												justify-content: center;
+												width: 100%;
+												display: flex;
+												background: repeating-linear-gradient( 45deg, rgba(255,0,0,.1), rgba(255,0,0,0.1) 10px, rgba(255,0,0,0) 10px, rgba(255,0,0,0) 20px )
+
+													`)}>
 										<MaterialUI.Typography
-											color="textPrimary"
+											variant="subtitle2"
+											color="#b71c1c"
 											display="block"
-											variant="caption"
 										>
 											New messages
 										</MaterialUI.Typography>
+										</div>
 									) : (
 										""
 									)}
