@@ -25,7 +25,12 @@ class Messaging {
 		this.onMessage = this.onMessage.bind(this);
 		this.subscribe = this.subscribe.bind(this);
 		this.unsubscribe = this.unsubscribe.bind(this);
-
+		this.started = false;
+	}
+	start() {
+		if (this.started) {
+			return;
+		}
 		this.messaging
 			.requestPermission()
 			.then(_ => {
@@ -42,12 +47,15 @@ class Messaging {
 				// - the user clicks on an app notification created by a service worker
 				//   'messaging.setBackgroundMessageHandler' handler.
 				this.messaging.onMessage(this.onMessage);
+
+				this.started = true;
 			})
 			.catch(err => {
 				console.log("Unable to get permission to notify:", err);
 			});
 	}
 	subscribe(type, handler) {
+		this.start();
 		if (!this.subscribers[type]) {
 			this.subscribers[type] = {};
 		}
@@ -128,36 +136,38 @@ class Messaging {
 								if (!foundToken) {
 									js.Properties.FCMTokens.push(wantedToken);
 									updateServer = true;
-								}
-								if (foundToken.Value != receivedToken) {
-									foundToken.Value = receivedToken;
-									updateServer = true;
-								}
-								if (foundToken.Disabled) {
-									foundToken.Disabled = false;
-									foundToken.Note =
-										"Re-enabled via dipact refreshToken on " +
-										new Date();
-									updateServer = true;
-								}
-								if (
-									foundToken.MessageConfig
-										.ClickActionTemplate !=
-									wantedToken.MessageConfig
-										.ClickActionTemplate
-								) {
-									foundToken.MessageConfig.ClickActionTemplate =
-										wantedToken.MessageConfig.ClickActionTemplate;
-									updateServer = true;
-								}
-								if (
-									foundToken.PhaseConfig
-										.ClickActionTemplate !=
-									wantedToken.PhaseConfig.ClickActionTemplate
-								) {
-									foundToken.PhaseConfig.ClickActionTemplate =
-										wantedToken.PhaseConfig.ClickActionTemplate;
-									updateServer = true;
+								} else {
+									if (foundToken.Value != receivedToken) {
+										foundToken.Value = receivedToken;
+										updateServer = true;
+									}
+									if (foundToken.Disabled) {
+										foundToken.Disabled = false;
+										foundToken.Note =
+											"Re-enabled via dipact refreshToken on " +
+											new Date();
+										updateServer = true;
+									}
+									if (
+										foundToken.MessageConfig
+											.ClickActionTemplate !=
+										wantedToken.MessageConfig
+											.ClickActionTemplate
+									) {
+										foundToken.MessageConfig.ClickActionTemplate =
+											wantedToken.MessageConfig.ClickActionTemplate;
+										updateServer = true;
+									}
+									if (
+										foundToken.PhaseConfig
+											.ClickActionTemplate !=
+										wantedToken.PhaseConfig
+											.ClickActionTemplate
+									) {
+										foundToken.PhaseConfig.ClickActionTemplate =
+											wantedToken.PhaseConfig.ClickActionTemplate;
+										updateServer = true;
+									}
 								}
 								if (updateServer) {
 									let updateLink = js.Links.find(l => {

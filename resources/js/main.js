@@ -73,6 +73,25 @@ export default class Main extends ActivityContainer {
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
 		if (Globals.user) {
+			let configLink = rootJS.Links.find(l => {
+				return l.Rel == "user-config";
+			});
+			if (configLink) {
+				helpers.incProgress();
+				helpers
+					.safeFetch(helpers.createRequest(configLink.URL))
+					.then(resp => resp.json())
+					.then(js => {
+						helpers.decProgress();
+						if (
+							js.Properties.FCMTokens.find(t => {
+								return t.App.indexOf("dipact@") == 0;
+							})
+						) {
+							Globals.messaging.start();
+						}
+					});
+			}
 			helpers.incProgress();
 			helpers
 				.safeFetch(
