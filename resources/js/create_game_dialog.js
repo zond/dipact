@@ -5,7 +5,7 @@ export default class CreateGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
-			tooltips: {},
+			errorMessage: null,
 			newGameProperties: {
 				Variant: "Classical",
 				NationAllocation: 0,
@@ -76,13 +76,7 @@ export default class CreateGameDialog extends React.Component {
 			}
 		});
 		if (invalids.length > 0) {
-			this.setState((state, props) => {
-				state = Object.assign({}, state);
-				invalids.forEach(validation => {
-					state.tooltips[validation[0]] = validation[1];
-				});
-				return state;
-			});
+			this.setState({ errorMessage: invalids.join("<br/>") });
 			return;
 		}
 		helpers.incProgress();
@@ -126,15 +120,17 @@ export default class CreateGameDialog extends React.Component {
 					if (opts.float && newValue != "") {
 						newValue = Number.parseFloat(ev.target.value);
 						if (opts.max && opts.max < newValue) {
-							state.tooltips[propertyName] =
-								"Must be lower than or equal to " +
+							state.errorMessage =
+								propertyName +
+								" must be lower than or equal to " +
 								opts.max +
 								".";
 							newValue = opts.max;
 						}
 						if (opts.min && opts.min > newValue) {
-							state.tooltips[propertyName] =
-								"Must be 0, or greater than or equal to " +
+							state.errorMessage =
+								propertyName +
+								" must be 0, or greater than or equal to " +
 								opts.min +
 								".";
 						}
@@ -153,45 +149,35 @@ export default class CreateGameDialog extends React.Component {
 			properties[name] = Number.parseFloat(properties[name]);
 			if (properties[name] != 0) {
 				if (opts.max && opts.max < properties[name]) {
-					return [
-						name,
-						"Must be lower than or equal to " + opts.max + "."
-					];
+					return (
+						name +
+						" must be lower than or equal to " +
+						opts.max +
+						"."
+					);
 				}
 				if (opts.min && opts.min > properties[name]) {
-					return [
-						name,
-						"Must be 0, or greater than or equal to " +
-							opts.min +
-							"."
-					];
+					return (
+						name +
+						" must be 0, or greater than or equal to " +
+						opts.min +
+						"."
+					);
 				}
 			}
 			return null;
 		});
 		opts.float = true;
 		return (
-			<MaterialUI.Tooltip
-				open={!!this.state.tooltips[name]}
-				onClose={_ => {
-					this.setState((state, props) => {
-						state = Object.assign({}, state);
-						delete state.tooltips[name];
-						return state;
-					});
-				}}
-				title={this.state.tooltips[name] || ""}
-			>
-				<MaterialUI.TextField
-					fullWidth
-					label={opts.label || name}
-					margin="dense"
-					max={opts.max}
-					min={opts.min}
-					value={this.state.newGameProperties[name]}
-					onChange={this.newGamePropertyUpdater(name, opts)}
-				/>
-			</MaterialUI.Tooltip>
+			<MaterialUI.TextField
+				fullWidth
+				label={opts.label || name}
+				margin="dense"
+				max={opts.max}
+				min={opts.min}
+				value={this.state.newGameProperties[name]}
+				onChange={this.newGamePropertyUpdater(name, opts)}
+			/>
 		);
 	}
 	setPhaseLength(ev) {
@@ -387,6 +373,30 @@ export default class CreateGameDialog extends React.Component {
 						</MaterialUI.Button>
 					</MaterialUI.DialogActions>
 				</MaterialUI.DialogContent>
+				<MaterialUI.Snackbar
+					anchorOrigin={{
+						vertical: "bottom",
+						horizontal: "center"
+					}}
+					open={!!this.state.errorMessage}
+					autoHideDuration={6000}
+					onClose={_ => {
+						this.setState({ errorMessage: null });
+					}}
+					message={this.state.errorMessage}
+					action={
+						<MaterialUI.IconButton
+							size="small"
+							aria-label="close"
+							color="inherit"
+							onClick={_ => {
+								this.setState({ errorMessage: null });
+							}}
+						>
+							{helpers.createIcon("\ue5cd")}
+						</MaterialUI.IconButton>
+					}
+				/>
 			</MaterialUI.Dialog>
 		);
 	}
