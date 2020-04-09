@@ -16,8 +16,8 @@ export default class ChatChannel extends React.Component {
 		this.phaseResolvedAfter = this.phaseResolvedAfter.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.updateHistoryAndSubscription = this.updateHistoryAndSubscription.bind(
-			this
-		);
+			this);
+		this.keyPress = this.keyPress.bind(this);
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -74,6 +74,7 @@ export default class ChatChannel extends React.Component {
 	componentWillUnmount() {
 		this.updateHistoryAndSubscription(false);
 	}
+
 	sendMessage() {
 		if (this.props.createMessageLink) {
 			helpers.incProgress();
@@ -129,6 +130,12 @@ export default class ChatChannel extends React.Component {
 		}
 		return true;
 	}
+	keyPress(e){
+      if(e.keyCode == 13){
+         this.sendMessage(e.target.value);
+         // put the login here
+      }
+   }
 	loadMessages(silent = false) {
 		let messagesLink = this.props.channel.Links.find(l => {
 			return l.Rel == "messages";
@@ -174,7 +181,7 @@ export default class ChatChannel extends React.Component {
 				<React.Fragment>
 					<MaterialUI.ButtonGroup
 						orientation="vertical"
-						style={{ width: "100%" }}
+						style={{ width: "100%"}}
 					>
 						<MaterialUI.Button
 							onClick={this.props.close}
@@ -197,6 +204,8 @@ export default class ChatChannel extends React.Component {
 						style={{
 							overflowY: "scroll",
 							height: "calc(100% - 56px)",
+							"maxWidth": "962px",
+							"margin":"auto",
 							width: "100%",
 							overflowX: "hidden"
 						}}
@@ -252,13 +261,24 @@ export default class ChatChannel extends React.Component {
 												this.state.messages[idx - 1]
 													.Properties.CreatedAt
 											)) ? (
+																				
+										<div
+											className={helpers.scopedClass(`
+												justify-content: center;
+												width: 100%;
+												max-width: 960px;
+												display: flex;
+												background: repeating-linear-gradient( 45deg, rgba(255,0,0,.1), rgba(255,0,0,0.1) 10px, rgba(255,0,0,0) 10px, rgba(255,0,0,0) 20px )
+
+													`)}>
 										<MaterialUI.Typography
-											color="textPrimary"
+											variant="subtitle2"
+											color="#b71c1c"
 											display="block"
-											variant="caption"
 										>
 											New messages
 										</MaterialUI.Typography>
+										</div>
 									) : (
 										""
 									)}
@@ -295,6 +315,7 @@ export default class ChatChannel extends React.Component {
 									style={{ flexGrow: 100 }}
 									label="Message"
 									variant="outlined"
+									onKeyDown={this.keyPress}
 								/>
 								<MaterialUI.IconButton
 									onClick={this.sendMessage}
