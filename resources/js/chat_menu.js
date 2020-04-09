@@ -23,6 +23,7 @@ export default class ChatMenu extends React.Component {
 		this.closeChannel = this.closeChannel.bind(this);
 		this.natCol = this.natCol.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
+		this.canCreateChannel = this.canCreateChannel.bind(this);
 		this.createChannelDialog = null;
 	}
 	messageHandler(payload) {
@@ -90,6 +91,14 @@ export default class ChatMenu extends React.Component {
 		} else {
 			return Promise.resolve({});
 		}
+	}
+	canCreateChannel() {
+		return (
+			this.state.createMessageLink &&
+			(!this.props.game.Properties.DisablePrivateChat ||
+				!this.props.game.Properties.DisableGroupChat ||
+				!this.props.game.Properties.DisableConferenceChat)
+		);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.props.isActive && !prevProps.isActive) {
@@ -204,7 +213,7 @@ export default class ChatMenu extends React.Component {
 						);
 					})}
 				</MaterialUI.ButtonGroup>
-				{this.state.createMessageLink ? (
+				{this.canCreateChannel() ? (
 					<React.Fragment>
 						<MaterialUI.Fab
 							className={helpers.scopedClass(`
