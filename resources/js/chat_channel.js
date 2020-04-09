@@ -16,8 +16,8 @@ export default class ChatChannel extends React.Component {
 		this.phaseResolvedAfter = this.phaseResolvedAfter.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.updateHistoryAndSubscription = this.updateHistoryAndSubscription.bind(
-			this
-		);
+			this);
+		this.keyPress = this.keyPress.bind(this);
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -74,6 +74,7 @@ export default class ChatChannel extends React.Component {
 	componentWillUnmount() {
 		this.updateHistoryAndSubscription(false);
 	}
+
 	sendMessage() {
 		if (this.props.createMessageLink) {
 			helpers.incProgress();
@@ -129,6 +130,12 @@ export default class ChatChannel extends React.Component {
 		}
 		return true;
 	}
+	keyPress(e){
+      if(e.keyCode == 13){
+         this.sendMessage(e.target.value);
+         // put the login here
+      }
+   }
 	loadMessages(silent = false) {
 		let messagesLink = this.props.channel.Links.find(l => {
 			return l.Rel == "messages";
@@ -305,6 +312,7 @@ export default class ChatChannel extends React.Component {
 									style={{ flexGrow: 100 }}
 									label="Message"
 									variant="outlined"
+									onKeyDown={this.keyPress}
 								/>
 								<MaterialUI.IconButton
 									onClick={this.sendMessage}
