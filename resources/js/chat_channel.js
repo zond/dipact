@@ -181,7 +181,7 @@ export default class ChatChannel extends React.Component {
 				<React.Fragment>
 					<MaterialUI.ButtonGroup
 						orientation="vertical"
-						style={{ width: "100%" }}
+						style={{ width: "100%"}}
 					>
 						<MaterialUI.Button
 							onClick={this.props.close}
@@ -204,6 +204,8 @@ export default class ChatChannel extends React.Component {
 						style={{
 							overflowY: "scroll",
 							height: "calc(100% - 56px)",
+							"maxWidth": "962px",
+							"margin":"auto",
 							width: "100%",
 							overflowX: "hidden"
 						}}
@@ -264,6 +266,7 @@ export default class ChatChannel extends React.Component {
 											className={helpers.scopedClass(`
 												justify-content: center;
 												width: 100%;
+												max-width: 960px;
 												display: flex;
 												background: repeating-linear-gradient( 45deg, rgba(255,0,0,.1), rgba(255,0,0,0.1) 10px, rgba(255,0,0,0) 10px, rgba(255,0,0,0) 20px )
 
