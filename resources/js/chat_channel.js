@@ -4,6 +4,15 @@ import ChatMessage from '%{ cb "/js/chat_message.js" }%';
 export default class ChatChannel extends React.Component {
 	constructor(props) {
 		super(props);
+		this.newAfter = Number.MAX_SAFE_INTEGER;
+		if (
+			this.props.channel.Properties.NMessagesSince &&
+			this.props.channel.Properties.NMessagesSince.Since
+		) {
+			this.newAfter = Date.parse(
+				this.props.channel.Properties.NMessagesSince.Since
+			);
+		}
 		this.state = { messages: [] };
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
@@ -71,54 +80,79 @@ export default class ChatChannel extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		this.updateHistoryAndSubscription();
+		if (!prevProps.isActive && this.props.isActive) {
+			this.loadMessages(true);
+		}
 	}
 	componentWillUnmount() {
 		this.updateHistoryAndSubscription(false);
 	}
 	sendMessage() {
 		if (this.props.createMessageLink) {
-			helpers.incProgress();
-			helpers
-				.safeFetch(
-					helpers.createRequest(this.props.createMessageLink.URL, {
-						method: this.props.createMessageLink.Method,
-						headers: {
-							"Content-Type": "application/json"
-						},
-						body: JSON.stringify({
-							Body: document.getElementById(
-								"chat-channel-input-field"
-							).value,
-							ChannelMembers: this.props.channel.Properties
-								.Members
-						})
-					})
-				)
-				.then(resp =>
-					resp.json().then(js => {
-						helpers.decProgress();
-						if (
-							!this.props.channel.Links.find(l => {
-								return l.Rel == "messages";
-							})
-						) {
-							this.props.channel.Links.push({
-								Rel: "messages",
-								URL:
-									"/Game/" +
-									this.props.game.Properties.ID +
-									"/Channel/" +
-									js.Properties.ChannelMembers.join(",") +
-									"/Messages",
-								Method: "GET"
-							});
+			this.setState(
+				{
+					messages: this.state.messages.concat([
+						{
+							Properties: {
+								Sender: this.member.Nation,
+								Body: document.getElementById(
+									"chat-channel-input-field"
+								).value,
+								ID: Math.random()
+							}
 						}
-						document.getElementById(
-							"chat-channel-input-field"
-						).value = "";
-						this.loadMessages();
-					})
-				);
+					])
+				},
+				_ => {
+					let msgEl = document.getElementById("messages");
+					msgEl.scrollTop = msgEl.scrollHeight;
+					helpers
+						.safeFetch(
+							helpers.createRequest(
+								this.props.createMessageLink.URL,
+								{
+									method: this.props.createMessageLink.Method,
+									headers: {
+										"Content-Type": "application/json"
+									},
+									body: JSON.stringify({
+										Body: document.getElementById(
+											"chat-channel-input-field"
+										).value,
+										ChannelMembers: this.props.channel
+											.Properties.Members
+									})
+								}
+							)
+						)
+						.then(resp =>
+							resp.json().then(js => {
+								if (
+									!this.props.channel.Links.find(l => {
+										return l.Rel == "messages";
+									})
+								) {
+									this.props.channel.Links.push({
+										Rel: "messages",
+										URL:
+											"/Game/" +
+											this.props.game.Properties.ID +
+											"/Channel/" +
+											js.Properties.ChannelMembers.join(
+												","
+											) +
+											"/Messages",
+										Method: "GET"
+									});
+								}
+								document.getElementById(
+									"chat-channel-input-field"
+								).value = "";
+								this.loadMessages(true);
+							})
+						);
+				}
+			);
 		}
 	}
 	phaseResolvedAfter(phase, message) {
@@ -148,6 +182,9 @@ export default class ChatChannel extends React.Component {
 				.safeFetch(helpers.createRequest(messagesLink.URL))
 				.then(resp => resp.json())
 				.then(js => {
+					if (this.props.loaded) {
+						this.props.loaded();
+					}
 					if (!silent) {
 						helpers.decProgress();
 					}
@@ -218,9 +255,10 @@ export default class ChatChannel extends React.Component {
 							return (
 								<React.Fragment key={message.Properties.ID}>
 									{idx == 0 ||
-									message.phase.Properties.PhaseOrdinal !=
-										this.state.messages[idx - 1].phase
-											.Properties.PhaseOrdinal ? (
+									(message.phase &&
+										message.phase.Properties.PhaseOrdinal !=
+											this.state.messages[idx - 1].phase
+												.Properties.PhaseOrdinal) ? (
 										<div
 											className={helpers.scopedClass(`
 							                             display: flex;
@@ -243,20 +281,13 @@ export default class ChatChannel extends React.Component {
 									) : (
 										""
 									)}
-									{this.props.channel.Properties
-										.NMessagesSince &&
-									Date.parse(
-										this.props.channel.Properties
-											.NMessagesSince.Since
-									) <
+									{message.Properties.CreatedAt &&
+									this.newAfter <
 										Date.parse(
 											message.Properties.CreatedAt
 										) &&
 									(idx == 0 ||
-										Date.parse(
-											this.props.channel.Properties
-												.NMessagesSince.Since
-										) >=
+										this.newAfter >=
 											Date.parse(
 												this.state.messages[idx - 1]
 													.Properties.CreatedAt
@@ -283,11 +314,14 @@ export default class ChatChannel extends React.Component {
 										""
 									)}
 									<ChatMessage
+										key={message.Properties.ID}
 										name={name}
+										undelivered={
+											!message.Properties.CreatedAt
+										}
 										variant={this.variant}
 										nation={message.Properties.Sender}
 										text={message.Properties.Body}
-										phase={message.phase}
 										time={helpers.timeStrToDateTime(
 											message.Properties.CreatedAt
 										)}

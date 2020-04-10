@@ -99,7 +99,9 @@ export default class ChatMessage extends React.Component {
 		                                                align-self: flex-end;
 		                                                color: rgba(0, 0, 0, 0.3);`)}
 					>
-						{this.props.time}
+						{this.props.undelivered
+							? "...in progress..."
+							: this.props.time}
 					</MaterialUI.Typography>
 				</div>
 			</div>
