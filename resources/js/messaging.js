@@ -52,6 +52,9 @@ class Messaging {
 			})
 			.catch(err => {
 				console.log("Unable to get permission to notify:", err);
+				helpers.snackbar(
+					"Unable to get notification permission, you won't get notifications for new messages or phases."
+				);
 			});
 	}
 	subscribe(type, handler) {
