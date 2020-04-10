@@ -84,6 +84,7 @@ export default class Main extends ActivityContainer {
 					.then(js => {
 						helpers.decProgress();
 						if (
+							js.Properties.FCMTokens &&
 							js.Properties.FCMTokens.find(t => {
 								return t.App.indexOf("dipact@") == 0;
 							})

@@ -30,16 +30,7 @@ export default class ChatMenu extends React.Component {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
 			return false;
 		}
-		if (
-			!this.state.channels.find(c => {
-				return (
-					c.Properties.Members.join(",") ==
-					payload.data.message.ChannelMembers.join(",")
-				);
-			})
-		) {
-			this.loadChannels();
-		}
+		this.loadChannels(true);
 		return false;
 	}
 	loadChannels(silent = false) {
@@ -58,34 +49,63 @@ export default class ChatMenu extends React.Component {
 						helpers.decProgress();
 					}
 					return new Promise((res, rej) => {
-						this.setState((state, props) => {
-							state = Object.assign({}, state);
+						this.setState(
+							(state, props) => {
+								state = Object.assign({}, state);
 
-							helpers.urlMatch([
-								[
-									/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
-									match => {
-										let channel = js.Properties.find(c => {
-											return (
-												c.Properties.Members.join(
-													","
-												) ==
-												decodeURIComponent(match[2])
+								helpers.urlMatch([
+									[
+										/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+										match => {
+											let channel = js.Properties.find(
+												c => {
+													return (
+														c.Properties.Members.join(
+															","
+														) ==
+														decodeURIComponent(
+															match[2]
+														)
+													);
+												}
 											);
-										});
-										if (channel) {
-											state.activeChannel = channel;
+											if (channel) {
+												state.activeChannel = channel;
+											}
 										}
-									}
-								]
-							]);
+									]
+								]);
 
-							state.channels = js.Properties;
-							state.createMessageLink = js.Links.find(l => {
-								return l.Rel == "message";
-							});
-							return state;
-						}, res);
+								state.channels = js.Properties;
+								state.createMessageLink = js.Links.find(l => {
+									return l.Rel == "message";
+								});
+								return state;
+							},
+							_ => {
+								this.props.unreadMessages(
+									this.state.channels.reduce(
+										(sum, channel) => {
+											if (
+												channel.Properties
+													.NMessagesSince
+											) {
+												return (
+													sum +
+													channel.Properties
+														.NMessagesSince
+														.NMessages
+												);
+											} else {
+												return sum;
+											}
+										},
+										0
+									)
+								);
+								res();
+							}
+						);
 					});
 				});
 		} else {

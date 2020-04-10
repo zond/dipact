@@ -16,6 +16,7 @@ export default class Game extends React.Component {
 			orders: {},
 			variant: null,
 			member: null,
+			unreadMessages: 0,
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
@@ -29,7 +30,6 @@ export default class Game extends React.Component {
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.dead = false;
 	}
-
 	phaseJumper(steps) {
 		return _ => {
 			let newPhase = this.state.phases.find(p => {
@@ -305,7 +305,19 @@ export default class Game extends React.Component {
 							/>
 							<MaterialUI.Tab
 								value="chat"
-								icon={helpers.createIcon("\ue0b7")}
+								icon={
+									this.state.unreadMessages > 0 ? (
+										<MaterialUI.Badge
+											badgeContent={
+												this.state.unreadMessages
+											}
+										>
+											{helpers.createIcon("\ue0b7")}
+										</MaterialUI.Badge>
+									) : (
+										helpers.createIcon("\ue0b7")
+									)
+								}
 							/>
 							{this.state.game &&
 							this.state.member &&
@@ -377,6 +389,9 @@ export default class Game extends React.Component {
 					>
 						<ChatMenu
 							isActive={this.state.activeTab == "chat"}
+							unreadMessages={n => {
+								this.setState({ unreadMessages: n });
+							}}
 							phases={this.state.phases}
 							game={this.state.game}
 							parent={this}

@@ -94,7 +94,7 @@ export default class DipMap extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.lastRenderedGameID == this.props.game.Properties.ID) {
-			this.updateMap().then(this.snapshotSVG);
+			this.updateMap(true).then(this.snapshotSVG);
 			return;
 		}
 
@@ -179,18 +179,20 @@ export default class DipMap extends React.Component {
 	// reasons the diplicity server provides phases in
 	// different formats for 'start phase for variant'
 	// and 'a phase of an actual game'.
-	updateMap() {
+	updateMap(silent = false) {
 		if (!this.props.phase) {
 			return Promise.resolve({});
 		}
-		let orderPromise = this.loadOrdersPromise();
+		let orderPromise = this.loadOrdersPromise(silent);
 		let optionsPromise = null;
 		if (this.props.phase.Links) {
 			let optionsLink = this.props.phase.Links.find(l => {
 				return l.Rel == "options";
 			});
 			if (optionsLink) {
-				helpers.incProgress();
+				if (!silent) {
+					helpers.incProgress();
+				}
 				optionsPromise = helpers.memoize(optionsLink.URL, _ => {
 					return helpers
 						.safeFetch(helpers.createRequest(optionsLink.URL))
@@ -270,10 +272,16 @@ export default class DipMap extends React.Component {
 		}
 		if (orderPromise) {
 			let renderingPhase = this.props.phase;
-			return this.renderOrders(orderPromise, this.props.phase).then(_ => {
+			return this.renderOrders(
+				orderPromise,
+				this.props.phase,
+				silent
+			).then(_ => {
 				if (optionsPromise) {
 					return optionsPromise.then(js => {
-						helpers.decProgress();
+						if (!silent) {
+							helpers.decProgress();
+						}
 						// Skip this if we aren't rendering the same phase anymore.
 						if (
 							renderingPhase.Properties.PhaseOrdinal !=
@@ -296,7 +304,7 @@ export default class DipMap extends React.Component {
 			return Promise.resolve({});
 		}
 	}
-	loadOrdersPromise() {
+	loadOrdersPromise(silent = false) {
 		if (!this.props.phase.Links) {
 			return null;
 		}
@@ -306,7 +314,9 @@ export default class DipMap extends React.Component {
 		if (!orderLink) {
 			return null;
 		}
-		helpers.incProgress();
+		if (!silent) {
+			helpers.incProgress();
+		}
 		let fetchPromiseFunc = _ => {
 			return helpers
 				.safeFetch(helpers.createRequest(orderLink.URL))
@@ -324,9 +334,11 @@ export default class DipMap extends React.Component {
 			return Promise.resolve(js);
 		});
 	}
-	renderOrders(orderPromise, regardingPhase) {
+	renderOrders(orderPromise, regardingPhase, silent = false) {
 		return orderPromise.then(js => {
-			helpers.decProgress();
+			if (!silent) {
+				helpers.decProgress();
+			}
 			// Skip this if we aren't rendering the same phase anymore.
 			if (
 				regardingPhase.Properties.PhaseOrdinal !=
