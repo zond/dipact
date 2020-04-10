@@ -105,7 +105,7 @@ export default class OrderList extends React.Component {
 	}
 	render() {
 		return (
-			<div style={{"backgroundColor":"red"}} >
+			<div>
 						
 			<MaterialUI.List>
 				{this.props.variant.Properties.Nations.map(nation => {
@@ -186,6 +186,7 @@ export default class OrderList extends React.Component {
 									{phaseState ? (
 										<MaterialUI.FormGroup>
 											<MaterialUI.FormControlLabel
+												style={{"display":"none"}}
 												control={
 													<MaterialUI.Checkbox
 														checked={
@@ -212,6 +213,7 @@ export default class OrderList extends React.Component {
 												label="Ready for next turn"
 											/>
 											<MaterialUI.FormControlLabel
+												style={{"display":"none"}}
 												control={
 													<MaterialUI.Checkbox
 														checked={
@@ -237,19 +239,7 @@ export default class OrderList extends React.Component {
 												}
 												label="Wants draw"
 											/>
-											<MaterialUI.FormControlLabel
-												control={
-													<MaterialUI.Checkbox
-														checked={
-															phaseState
-																.Properties
-																.OnProbation
-														}
-														disabled={true}
-													/>
-												}
-												label="Assumed inactive"
-											/>
+											
 										</MaterialUI.FormGroup>
 									) : (
 										""
@@ -270,28 +260,38 @@ export default class OrderList extends React.Component {
 					min-height: calc(100% - 112px);
 					`)}
 			 />
-				<MaterialUI.AppBar className={helpers.scopedClass(`
+
+  <MaterialUI.AppBar
+    className={helpers.scopedClass(`
 				padding: 16px 48px;
     position: sticky;
     display: flex;
     align-items: center;
     bottom: 0px;
     z-index: 1201;	
-    `
-					)} >
-
-							<MaterialUI.Button  color="secondary" variant="contained" style={{"padding":"6px 16px", "width": "214px"}}>
-
-							<MaterialUI.Checkbox
-
-        style={{"padding":"0px 8px 0px 0px"}}
+    `)}
+  >
+{/*TODO: below, the onClick should handle the toggle ready, which in turn would change the checkbox below*/}
+    <MaterialUI.Button
+      color="secondary"
+      variant="contained"
+      style={{ padding: "6px 16px", width: "214px" }}
+      onClick={this.toggleReady()}
+    >
+      {/*TODO: at this point, phaseState is not defined because it's not going through the nation list. We need to get the phaseState.Properties.ReadytoResolve of the current player... Martin, help!*/}
+      <MaterialUI.Checkbox
+        id="readycheckbox"
+        style={{ padding: "0px 8px 0px 0px" }}
         color="primary"
       />
-							Confirm orders</MaterialUI.Button>
-							<MaterialUI.Typography variant="caption">Check if you're ready for the next turn</MaterialUI.Typography>
+      Confirm orders
+    </MaterialUI.Button>
+    <MaterialUI.Typography variant="caption">
+      When you're ready for the next turn
+    </MaterialUI.Typography>
+  </MaterialUI.AppBar>
+</div>
 
-			</MaterialUI.AppBar>	
-			</div>
 		);
 	}
 }
