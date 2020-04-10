@@ -132,7 +132,6 @@ export default class CreateChannelDialog extends React.Component {
 							Create
 						</MaterialUI.Button>
 					</MaterialUI.DialogActions>
-				</MaterialUI.DialogContent>
 				<MaterialUI.Snackbar
 					anchorOrigin={{
 						vertical: "bottom",
