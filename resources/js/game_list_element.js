@@ -41,6 +41,7 @@ export default class GameListElement extends React.Component {
 			)
 			.then(_ => {
 				helpers.decProgress();
+				Globals.messaging.start();
 				this.reloadGame();
 			});
 	}
