@@ -105,6 +105,8 @@ export default class OrderList extends React.Component {
 	}
 	render() {
 		return (
+			<div style={{"backgroundColor":"red"}} >
+						
 			<MaterialUI.List>
 				{this.props.variant.Properties.Nations.map(nation => {
 					let phaseState = this.state.phaseStates[nation];
@@ -253,13 +255,43 @@ export default class OrderList extends React.Component {
 										""
 									)}
 								</ul>
+
 							</li>
+		
+
 						);
 					} else {
 						return "";
 					}
 				})}
 			</MaterialUI.List>
+			<div id="filler" 
+				className={helpers.scopedClass(`
+					min-height: calc(100% - 112px);
+					`)}
+			 />
+				<MaterialUI.AppBar className={helpers.scopedClass(`
+				padding: 16px 48px;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    bottom: 0px;
+    z-index: 1201;	
+    `
+					)} >
+
+							<MaterialUI.Button  color="secondary" variant="contained" style={{"padding":"6px 16px", "width": "214px"}}>
+
+							<MaterialUI.Checkbox
+
+        style={{"padding":"0px 8px 0px 0px"}}
+        color="primary"
+      />
+							Confirm orders</MaterialUI.Button>
+							<MaterialUI.Typography variant="caption">Check if you're ready for the next turn</MaterialUI.Typography>
+
+			</MaterialUI.AppBar>	
+			</div>
 		);
 	}
 }
