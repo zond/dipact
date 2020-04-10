@@ -5,7 +5,6 @@ export default class CreateGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
-			errorMessage: null,
 			newGameProperties: {
 				Variant: "Classical",
 				NationAllocation: 0,
@@ -76,7 +75,7 @@ export default class CreateGameDialog extends React.Component {
 			}
 		});
 		if (invalids.length > 0) {
-			this.setState({ errorMessage: invalids.join("<br/>") });
+			helpers.snackbar(invalids.join("<br/>"));
 			return;
 		}
 		helpers.incProgress();
@@ -92,6 +91,7 @@ export default class CreateGameDialog extends React.Component {
 			)
 			.then(resp => {
 				helpers.decProgress();
+				Globals.messaging.start();
 				this.close().then(this.props.gameCreated);
 			});
 	}
@@ -120,19 +120,21 @@ export default class CreateGameDialog extends React.Component {
 					if (opts.float && newValue != "") {
 						newValue = Number.parseFloat(ev.target.value);
 						if (opts.max && opts.max < newValue) {
-							state.errorMessage =
+							helpers.snackbar(
 								propertyName +
-								" must be lower than or equal to " +
-								opts.max +
-								".";
+									" must be lower than or equal to " +
+									opts.max +
+									"."
+							);
 							newValue = opts.max;
 						}
 						if (opts.min && opts.min > newValue) {
-							state.errorMessage =
+							helpers.snackbar(
 								propertyName +
-								" must be 0, or greater than or equal to " +
-								opts.min +
-								".";
+									" must be 0, or greater than or equal to " +
+									opts.min +
+									"."
+							);
 						}
 					}
 					state.newGameProperties[propertyName] = newValue;
@@ -373,30 +375,6 @@ export default class CreateGameDialog extends React.Component {
 						</MaterialUI.Button>
 					</MaterialUI.DialogActions>
 				</MaterialUI.DialogContent>
-				<MaterialUI.Snackbar
-					anchorOrigin={{
-						vertical: "bottom",
-						horizontal: "center"
-					}}
-					open={!!this.state.errorMessage}
-					autoHideDuration={6000}
-					onClose={_ => {
-						this.setState({ errorMessage: null });
-					}}
-					message={this.state.errorMessage}
-					action={
-						<MaterialUI.IconButton
-							size="small"
-							aria-label="close"
-							color="inherit"
-							onClick={_ => {
-								this.setState({ errorMessage: null });
-							}}
-						>
-							{helpers.createIcon("\ue5cd")}
-						</MaterialUI.IconButton>
-					}
-				/>
 			</MaterialUI.Dialog>
 		);
 	}

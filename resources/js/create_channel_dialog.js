@@ -12,7 +12,7 @@ export default class CreateChannelDialog extends React.Component {
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});
-		this.state = { open: false, members: {}, errorMessage: null };
+		this.state = { open: false, members: {} };
 		this.state.members[this.member.Nation] = true;
 		this.variant = Globals.variants.find(v => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
@@ -28,27 +28,24 @@ export default class CreateChannelDialog extends React.Component {
 			this.props.game.Properties.DisableConferenceChat &&
 			nMembers == this.variant.Properties.Nations.length
 		) {
-			this.setState({
-				errorMessage:
-					"Conference chat is disabled for this game, you can't create a channel with everyone as a member."
-			});
+			helpers.snackbar(
+				"Conference chat is disabled for this game, you can't create a channel with everyone as a member."
+			);
 		} else if (
 			this.props.game.Properties.DisableGroupChat &&
 			nMembers > 2 &&
 			nMembers != this.variant.Properties.Nations.length
 		) {
-			this.setState({
-				errorMessage:
-					"Group chat is disabled for this game, you can't create a channel with more than two, but less than everyone, as members."
-			});
+			helpers.snackbar(
+				"Group chat is disabled for this game, you can't create a channel with more than two, but less than everyone, as members."
+			);
 		} else if (
 			this.props.game.Properties.DisablePrivateChat &&
 			nMembers == 2
 		) {
-			this.setState({
-				errorMessage:
-					"Private chat is disabled for this game, you can't create a channel with two members."
-			});
+			helpers.snackbar(
+				"Private chat is disabled for this game, you can't create a channel with two members."
+			);
 		} else {
 			this.close().then(_ => {
 				this.props.createChannel(channel);

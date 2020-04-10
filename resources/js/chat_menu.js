@@ -184,6 +184,9 @@ export default class ChatMenu extends React.Component {
 							createMessageLink={this.state.createMessageLink}
 							channel={this.state.activeChannel}
 							close={this.closeChannel}
+							loaded={_ => {
+								this.loadChannels(true);
+							}}
 							parent={this}
 						/>
 					</div>

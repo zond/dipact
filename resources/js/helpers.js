@@ -4,6 +4,10 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function snackbar(s) {
+	Globals.snackbar.setState({ message: s });
+}
+
 /**
  * JS Implementation of MurmurHash3 (r136) (as of May 20, 2011)
  *
