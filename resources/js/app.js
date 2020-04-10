@@ -1,5 +1,6 @@
 import Main from '%{ cb "/js/main.js" }%';
 import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
+import Snackbar from '%{ cb "/js/snackbar.js" }%';
 import Messaging from '%{ cb "/js/messaging.js" }%';
 import Theme from '%{ cb "/js/theme.js" }%';
 
@@ -15,6 +16,7 @@ window.Globals = {
 	token: null,
 	progressCount: 0,
 	progressDialog: null,
+	snackbar: null,
 	variants: [],
 	memoizeCache: {},
 	messaging: Messaging,
@@ -26,6 +28,7 @@ window.Globals = {
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
+ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
 ReactDOM.render(
 	<MaterialUI.ThemeProvider theme={Theme}>
 		<Main />
