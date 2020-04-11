@@ -117,44 +117,19 @@ export default class CreateChannelDialog extends React.Component {
 							);
 						})}
 					</MaterialUI.FormGroup>
-					</MaterialUI.DialogContent>
-					<MaterialUI.DialogActions>
-						<MaterialUI.Button onClick={this.close} color="primary">
-							Cancel
-						</MaterialUI.Button>
-						<MaterialUI.Button
-							onClick={this.createChannel}
-							color="primary"
-						>
-							Create
-						</MaterialUI.Button>
-					</MaterialUI.DialogActions>
-				<MaterialUI.Snackbar
-					anchorOrigin={{
-						vertical: "bottom",
-						horizontal: "center"
-					}}
-					open={!!this.state.errorMessage}
-					autoHideDuration={6000}
-					onClose={_ => {
-						this.setState({ errorMessage: null });
-					}}
-					message={this.state.errorMessage}
-					action={
-						<MaterialUI.IconButton
-							size="small"
-							aria-label="close"
-							color="inherit"
-							onClick={_ => {
-								this.setState({ errorMessage: null });
-							}}
-						>
-							{helpers.createIcon("\ue5cd")}
-						</MaterialUI.IconButton>
-					}
-				/>
+				</MaterialUI.DialogContent>
+				<MaterialUI.DialogActions>
+					<MaterialUI.Button onClick={this.close} color="primary">
+						Cancel
+					</MaterialUI.Button>
+					<MaterialUI.Button
+						onClick={this.createChannel}
+						color="primary"
+					>
+						Create
+					</MaterialUI.Button>
+				</MaterialUI.DialogActions>
 			</MaterialUI.Dialog>
 		);
-
 	}
 }
