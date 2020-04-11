@@ -93,9 +93,11 @@ export default class ChatMenu extends React.Component {
 										} else {
 											let d1 = Date.parse(
 												c1.Properties.LatestMessage
+													.CreatedAt
 											);
 											let d2 = Date.parse(
 												c2.Properties.LatestMessage
+													.CreatedAt
 											);
 											if (d1 > d2) {
 												return -1;
