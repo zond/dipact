@@ -132,7 +132,7 @@ export default class Game extends React.Component {
 					member: member,
 					readyReminder:
 						member && !member.NewestPhaseState.ReadyToResolve
-							? "You haven't confirmed our orders yet"
+							? "You haven't confirmed your orders yet"
 							: null,
 					game: game,
 					phases: phases,
