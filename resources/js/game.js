@@ -306,6 +306,7 @@ export default class Game extends React.Component {
 							<MaterialUI.Tab
 								value="chat"
 								icon={
+									this.state.member &&
 									this.state.unreadMessages > 0 ? (
 										<MaterialUI.Badge
 											badgeContent={

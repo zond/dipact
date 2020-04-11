@@ -76,7 +76,37 @@ export default class ChatMenu extends React.Component {
 									]
 								]);
 
-								state.channels = js.Properties;
+								state.channels = js.Properties.sort(
+									(c1, c2) => {
+										if (
+											c1.Properties.Members.length ==
+											this.variant.Properties.Nations
+												.length
+										) {
+											return -1;
+										} else if (
+											c2.Properties.Members.length ==
+											this.variant.Properties.Nations
+												.length
+										) {
+											return 1;
+										} else {
+											let d1 = Date.parse(
+												c1.Properties.LatestMessage
+											);
+											let d2 = Date.parse(
+												c2.Properties.LatestMessage
+											);
+											if (d1 > d2) {
+												return -1;
+											} else if (d2 > d1) {
+												return 1;
+											} else {
+												return 0;
+											}
+										}
+									}
+								);
 								state.createMessageLink = js.Links.find(l => {
 									return l.Rel == "message";
 								});

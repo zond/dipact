@@ -98,8 +98,10 @@ export default class ChatChannel extends React.Component {
 								Body: document.getElementById(
 									"chat-channel-input-field"
 								).value,
-								ID: Math.random()
-							}
+								ID: Math.random(),
+								CreatedAt: "" + new Date()
+							},
+							undelivered: true
 						}
 					])
 				},
@@ -316,9 +318,7 @@ export default class ChatChannel extends React.Component {
 									<ChatMessage
 										key={message.Properties.ID}
 										name={name}
-										undelivered={
-											!message.Properties.CreatedAt
-										}
+										undelivered={message.undelivered}
 										variant={this.variant}
 										nation={message.Properties.Sender}
 										text={message.Properties.Body}

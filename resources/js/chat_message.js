@@ -100,7 +100,7 @@ export default class ChatMessage extends React.Component {
 		                                                color: rgba(0, 0, 0, 0.3);`)}
 					>
 						{this.props.undelivered
-							? "...in progress..."
+							? "Sending..."
 							: this.props.time}
 					</MaterialUI.Typography>
 				</div>
