@@ -415,6 +415,7 @@ export default class Game extends React.Component {
 						}}
 					>
 						<OrderList
+							member={this.state.member}
 							phase={this.state.activePhase}
 							orders={this.state.orders}
 							newPhaseStateHandler={phaseState => {
