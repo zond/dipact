@@ -52,6 +52,9 @@ export default class Game extends React.Component {
 		this.setState({ orders: natOrders });
 	}
 	componentWillUnmount() {
+		Globals.backListeners = Globals.backListeners.filter(l => {
+			return l != this.props.close;
+		});
 		this.dead = true;
 		history.pushState("", "", "/");
 		if (Globals.messaging.unsubscribe("phase", this.phaseMessageHandler)) {
@@ -83,6 +86,7 @@ export default class Game extends React.Component {
 				console.log("Game subscribing to `phase` notifications.");
 			}
 		});
+		Globals.backListeners.unshift(this.props.close);
 	}
 	phaseMessageHandler(payload) {
 		if (payload.data.message.GameID != this.state.game.Properties.ID) {

@@ -24,6 +24,7 @@ window.Globals = {
 		let m = dippyMap($("body"));
 		return m.contrasts;
 	})(),
+	backListeners: [],
 	bans: {}
 };
 
@@ -37,5 +38,9 @@ ReactDOM.render(
 );
 
 window.addEventListener("popstate", ev => {
-	window.location.reload();
+	if (window.Globals.backListeners.length > 0) {
+		window.Globals.backListeners[0]();
+	} else {
+		window.location.reload();
+	}
 });
