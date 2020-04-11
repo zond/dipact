@@ -117,18 +117,18 @@ export default class CreateChannelDialog extends React.Component {
 							);
 						})}
 					</MaterialUI.FormGroup>
-					<MaterialUI.DialogActions>
-						<MaterialUI.Button onClick={this.close} color="primary">
-							Cancel
-						</MaterialUI.Button>
-						<MaterialUI.Button
-							onClick={this.createChannel}
-							color="primary"
-						>
-							Create
-						</MaterialUI.Button>
-					</MaterialUI.DialogActions>
 				</MaterialUI.DialogContent>
+				<MaterialUI.DialogActions>
+					<MaterialUI.Button onClick={this.close} color="primary">
+						Cancel
+					</MaterialUI.Button>
+					<MaterialUI.Button
+						onClick={this.createChannel}
+						color="primary"
+					>
+						Create
+					</MaterialUI.Button>
+				</MaterialUI.DialogActions>
 			</MaterialUI.Dialog>
 		);
 	}
