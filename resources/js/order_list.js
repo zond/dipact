@@ -156,12 +156,12 @@ export default class OrderList extends React.Component {
 												style={{ alignSelf: "center" }}
 											>
 												<MaterialUI.Tooltip
-													className={helpers.scopedClass(
+													className={phaseState ? helpers.scopedClass(
 														phaseState.Properties
 															.ReadyToResolve
 															? ""
 															: "display: none;"
-													)}
+													) : "" }
 													title="Confirmed their orders"
 												>
 													<MaterialUI.SvgIcon color="primary">
@@ -179,13 +179,13 @@ export default class OrderList extends React.Component {
 													""
 												) : (
 													<MaterialUI.Tooltip
-														className={helpers.scopedClass(
+														className={phaseState ? helpers.scopedClass(
 															phaseState
 																.Properties
 																.WantsDIAS
 																? ""
 																: "display: none;"
-														)}
+														) : "" }
 														title="Wants a draw"
 													>
 														<MaterialUI.SvgIcon
@@ -201,12 +201,12 @@ export default class OrderList extends React.Component {
 												)}
 
 												<MaterialUI.Tooltip
-													className={helpers.scopedClass(
+													className={phaseState ? helpers.scopedClass(
 														phaseState.Properties
 															.OnProbation
 															? ""
 															: "display: none;"
-													)}
+													) : ""}
 													title="Did not send orders"
 												>
 													<MaterialUI.SvgIcon
