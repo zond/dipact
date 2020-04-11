@@ -105,7 +105,7 @@ export default class OrderList extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div style={{"maxWidth":"960px", "margin":"auto"}}>
 				<MaterialUI.List>
 					{this.props.variant.Properties.Nations.sort((n1, n2) => {
 						if (
