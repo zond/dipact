@@ -1,5 +1,7 @@
 import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
+export const DiplicitySender = "Diplicity";
+
 export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }

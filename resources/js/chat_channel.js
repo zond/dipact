@@ -334,7 +334,10 @@ export default class ChatChannel extends React.Component {
 								</React.Fragment>
 							);
 						})}
-						{this.props.createMessageLink ? (
+						{this.props.createMessageLink &&
+						!this.props.channel.Properties.Members.find(m => {
+							return m == helpers.DiplicitySender;
+						}) ? (
 							<div
 								style={{
 									display: "flex",

@@ -2,7 +2,6 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import CreateChannelDialog from '%{ cb "/js/create_channel_dialog.js" }%';
 import ChatChannel from '%{ cb "/js/chat_channel.js" }%';
-import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
 export default class ChatMenu extends React.Component {
 	constructor(props) {
