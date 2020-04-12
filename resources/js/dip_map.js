@@ -408,9 +408,9 @@ export default class DipMap extends React.Component {
 				case "OrderType":
 					this.orderDialog.setState({
 						open: true,
-						options: Object.keys(options).concat("Cancel"),
+						options: Object.keys(options).concat("Clear"),
 						onClick: ord => {
-							if (ord == "Cancel") {
+							if (ord == "Clear") {
 								this.deleteOrder(parts[0]).then(_ => {
 									this.renderOrders(
 										this.loadOrdersPromise(),
