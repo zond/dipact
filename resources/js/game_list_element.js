@@ -402,7 +402,7 @@ export default class GameListElement extends React.Component {
                 </div>
                 <div
                   key={itemKey++}
-                  style={{  display: "flex", "flex-direction":"row", "justify-content":"space-between"}}
+                  style={{  display: "flex", "flex-direction":"row", "justify-content":"space-between", "flexWrap":"wrap"}}
                 >
                
                
@@ -451,6 +451,7 @@ export default class GameListElement extends React.Component {
                     display: "flex",
                     flexDirection: "row",
                     "justify-content": "space-between",
+
                   }}
                 >
                   <MaterialUI.Typography

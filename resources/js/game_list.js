@@ -99,7 +99,7 @@ export default class GameList extends React.Component {
 					summaryOnly={this.props.expansionPanelWrapped}
 					game={el}
 					key={el.Properties.ID}
-					style={{"width":"100%"}}
+
 				/>
 			);
 		}
@@ -111,11 +111,9 @@ export default class GameList extends React.Component {
 			} else if (this.state.games.length == 1) {
 				return (
 					<div
-						style={{
-							width: "100%",
-							"padding": "4px 0px",
-							"border":"1px solid blue"
-						}}
+					style={{
+						"width": "100%",
+					}}
 					>
 						{this.renderElement(this.state.games[0])}
 					</div>
@@ -126,15 +124,7 @@ export default class GameList extends React.Component {
 						{this.state.games.map(game => {
 						return this.renderElement(game);
 					})}
-						{/* <MaterialUI.Divider
-									style={{
-										marginTop: -12,
-										marginBottom: 8
-									}}
-									light
-								/>
-							TODO: this is the divider between the list elements that is misaligned. To fix and remove the last iteration */}
-					</div>
+								</div>
 				);
 			}
 		} else {
@@ -143,7 +133,7 @@ export default class GameList extends React.Component {
 					id="scroller"
 					style={{
 						overflowY: "scroll",
-						height: "calc(100% - 60px)"
+						height: "calc(100% - 60px)",
 					}}
 				>
 					{this.state.games.map(game => {
