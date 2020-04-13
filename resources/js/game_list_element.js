@@ -382,7 +382,7 @@ export default class GameListElement extends React.Component {
                     }}
                   >
                     {helpers.createIcon("\ue422")}{" "}
-                    <MaterialUI.Typography variant="body2">
+                    <MaterialUI.Typography variant="body2"  style={{paddingLeft:"2px"}}>
                       {this.state.game.Properties.Finished
                         ? helpers.minutesToDuration(
                             -this.state.game.Properties.FinishedAgo /
@@ -474,7 +474,7 @@ export default class GameListElement extends React.Component {
                     }}
                   >
                     {helpers.createIcon("\ue7fb")}{" "}
-                    <MaterialUI.Typography variant="body2">
+                    <MaterialUI.Typography variant="body2" style={{paddingLeft:"2px"}}>
                       {this.state.game.Properties.NMembers}/
                       {this.variant.Properties.Nations.length}{" "}
                     </MaterialUI.Typography>
