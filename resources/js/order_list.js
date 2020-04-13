@@ -148,7 +148,7 @@ export default class OrderList extends React.Component {
 													margin: "0px",
 													display: "flex",
 													flexWrap: "wrap",
-													"color":"rgba(40, 26, 26, 0.7)"
+													"color":"rgba(40, 26, 26, 0.54)"
 												}}
 											>
 												{nation}
