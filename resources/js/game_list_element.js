@@ -325,22 +325,22 @@ export default class GameListElement extends React.Component {
       <div
         style={{
           display: "flex",
-          "flex-direction": "column",
+          flexDirection: "column",
           width: "100%",
 
-          "marginTop":"8px"
+          marginTop: "8px",
         }}
       >
         {((_) => {
           if (this.state.game.Properties.Started) {
             return (
-              <React.Fragment style={{ display: "flex" }}>
+              <React.Fragment>
                 {/* IF STARTED */}
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    "justify-content": "space-between",
+                    justifyContent: "space-between",
                   }}
                 >
                   {this.member && this.member.UnreadMessages > 0 ? (
@@ -355,10 +355,9 @@ export default class GameListElement extends React.Component {
                       <MaterialUI.Typography
                         textroverflow="ellipsis"
                         noWrap
-                        style={{"color":"rgba(40, 26, 26, 1)"
-                        }}
+                        style={{ color: "rgba(40, 26, 26, 1)" }}
                       >
-                        {helpers.gameDesc(this.state.game)} 
+                        {helpers.gameDesc(this.state.game)}
                       </MaterialUI.Typography>
                     </MaterialUI.Badge>
                   ) : (
@@ -366,9 +365,9 @@ export default class GameListElement extends React.Component {
                       key={itemKey++}
                       textroverflow="ellipsis"
                       noWrap={true}
-                      style={{  minWidth: "60px", "color":"rgba(40, 26, 26, 1)" }}
+                      style={{ minWidth: "60px", color: "rgba(40, 26, 26, 1)" }}
                     >
-                      {helpers.gameDesc(this.state.game)} 
+                      {helpers.gameDesc(this.state.game)}
                     </MaterialUI.Typography>
                   )}
 
@@ -376,13 +375,53 @@ export default class GameListElement extends React.Component {
                     id="Timer"
                     key={itemKey++}
                     style={{
-                      "align-self": "center",
+                      alignSelf: "center",
                       display: "flex",
-                      "align-items": "center",
+                      alignItems: "center",
                     }}
                   >
-                    {helpers.createIcon("\ue422")}{" "}
-                    <MaterialUI.Typography variant="body2"  style={{paddingLeft:"2px", "color":"rgba(40, 26, 26, 1)" }}>
+
+
+{/* TODO: @Martin I want the time icon (e422) to be rendered if the two other variables are not true. 
+IF on probation, don't show the submitted orders, only show the probation icon.
+IF submitted, don't show the time icon. 
+I'm not sure why it doesn't render here...
+{
+  (() => {
+    if (
+      this.member != null &&
+      this.state.game.Properties.Started &&
+      !this.state.game.Properties.Finished
+    ) {
+      if (this.member.NewestPhaseState.OnProbation) {
+        {
+          helpers.createIcon("\ue88b");
+        }
+        {
+          (" ");
+        }
+      } else if (this.member.NewestPhaseState.ReadyToResolve) {
+        helpers.createIcon("\ue877"); 
+      }
+    } else {
+    	{helpers.createIcon("\ue422")}{" "}
+    }
+  })()
+}
+ */}
+
+
+                 	 {helpers.createIcon("\ue422")}{" "}
+
+
+
+                    <MaterialUI.Typography
+                      variant="body2"
+                      style={{
+                        paddingLeft: "2px",
+                        color: "rgba(40, 26, 26, 1)",
+                      }}
+                    >
                       {this.state.game.Properties.Finished
                         ? helpers.minutesToDuration(
                             -this.state.game.Properties.FinishedAgo /
@@ -402,45 +441,35 @@ export default class GameListElement extends React.Component {
                 </div>
                 <div
                   key={itemKey++}
-                  style={{  display: "flex", "flex-direction":"row", "justify-content":"space-between", "flexWrap":"wrap"}}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                  }}
                 >
-               
-               
-                    <MaterialUI.Typography
-            textroverflow="ellipsis"
-            noWrap={true}
-            display="inline"
-            variant="caption"
-            id="variant"
-            style={{ "color":"rgba(40, 26, 26, 0.7)" }}
-          >
-           
-            {this.state.game.Properties.Variant}{" "}
-            {helpers.minutesToDuration(
-              this.state.game.Properties.PhaseLengthMinutes
-            )} 
-          </MaterialUI.Typography>
-           <MaterialUI.Typography
+                  <MaterialUI.Typography
+                    textroverflow="ellipsis"
+                    noWrap={true}
+                    display="inline"
                     variant="caption"
-            style={{ "color":"rgba(40, 26, 26, 0.7)" }}
+                    id="variant"
+                    style={{ color: "rgba(40, 26, 26, 0.7)" }}
                   >
-                    {
-											this.state.game.Properties
-												.NewestPhaseMeta[0].Season
-										}{" "}
-										{
-											this.state.game.Properties
-												.NewestPhaseMeta[0].Year
-										}
-										,{" "}
-										{
-											this.state.game.Properties
-												.NewestPhaseMeta[0].Type
-										}  
-
+                    {this.state.game.Properties.Variant}{" "}
+                    {helpers.minutesToDuration(
+                      this.state.game.Properties.PhaseLengthMinutes
+                    )}
                   </MaterialUI.Typography>
-                
-          </div>
+                  <MaterialUI.Typography
+                    variant="caption"
+                    style={{ color: "rgba(40, 26, 26, 0.7)" }}
+                  >
+                    {this.state.game.Properties.NewestPhaseMeta[0].Season}{" "}
+                    {this.state.game.Properties.NewestPhaseMeta[0].Year},{" "}
+                    {this.state.game.Properties.NewestPhaseMeta[0].Type}
+                  </MaterialUI.Typography>
+                </div>
               </React.Fragment>
             );
           } else {
@@ -451,60 +480,61 @@ export default class GameListElement extends React.Component {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    "justify-content": "space-between",
-
+                    justifyContent: "space-between",
                   }}
                 >
                   <MaterialUI.Typography
                     key={itemKey++}
                     textroverflow="ellipsis"
                     noWrap={true}
-                    style={{ }}
+                    style={{}}
                   >
                     {helpers.gameDesc(this.state.game)}
                   </MaterialUI.Typography>
-
 
                   <div
                     id="Join"
                     key={itemKey++}
                     style={{
-                      "align-self": "center",
+                      alignSelf: "center",
                       display: "flex",
-                      "align-items": "center",
+                      alignItems: "center",
                     }}
                   >
                     {helpers.createIcon("\ue7fb")}{" "}
-                    <MaterialUI.Typography variant="body2" style={{paddingLeft:"2px"}}>
+                    <MaterialUI.Typography
+                      variant="body2"
+                      style={{ paddingLeft: "2px" }}
+                    >
                       {this.state.game.Properties.NMembers}/
                       {this.variant.Properties.Nations.length}{" "}
                     </MaterialUI.Typography>
                   </div>
                 </div>
-                    <MaterialUI.Typography
-            textroverflow="ellipsis"
-            noWrap={true}
-            display="inline"
-            variant="caption"
-            style={{"color":"rgba(40, 26, 26, 0.7)"  }}
-          >
-            {this.state.game.Properties.Variant}{" "}
-            {helpers.minutesToDuration(
-              this.state.game.Properties.PhaseLengthMinutes
-            )} 
-          </MaterialUI.Typography>
+                <MaterialUI.Typography
+                  textroverflow="ellipsis"
+                  noWrap={true}
+                  display="inline"
+                  variant="caption"
+                  style={{ color: "rgba(40, 26, 26, 0.7)" }}
+                >
+                  {this.state.game.Properties.Variant}{" "}
+                  {helpers.minutesToDuration(
+                    this.state.game.Properties.PhaseLengthMinutes
+                  )}
+                </MaterialUI.Typography>
               </React.Fragment>
             );
           }
         })()}
-      
-         {/*} <div>
+
+        {/*} <div>
             {/*
 					{this.getIcons()} 
             {this.getIcons()}
-          </div> TODO GET ICONS*/}
-        <MaterialUI.Divider light style={{"margin-top":"8px"}}/>
-    	{/* TODO: Remove the divider if this is the latest element in the view*/}
+          </div> TODO: @Joren fix the get icons into the expanded view.*/}
+        <MaterialUI.Divider light style={{ marginTop: "8px" }} />
+        {/* TODO: @Martin, can you help remove the divider if this is the latest element in the view*/}
       </div>
     );
 
@@ -536,7 +566,6 @@ export default class GameListElement extends React.Component {
     if (this.props.summaryOnly) {
       return (
         <React.Fragment>
-          {/*TODO: this is the summarized view*/}
           <div style={{ width: "100%" }} onClick={this.viewGame}>
             {summary}
           </div>
@@ -548,9 +577,8 @@ export default class GameListElement extends React.Component {
       <React.Fragment>
         <MaterialUI.ExpansionPanel
           key="game-details"
-          style={{ backgroundColor: "grey" }}
         >
-          {/* TODO: the expansionpanel on "My games" list */}
+          {/* TODO: @Joren, the next iteration is here: styling the the expansionpanel on "My ..." list */}
           <MaterialUI.ExpansionPanelSummary
             classes={{
               content: helpers.scopedClass("min-width: 0;"),
@@ -563,7 +591,6 @@ export default class GameListElement extends React.Component {
             style={{
               paddingRight: "0.3em",
               paddingLeft: "0.3em",
-              backgroundColor: "red",
             }}
           >
             <MaterialUI.Paper elevation={3}>
@@ -573,7 +600,7 @@ export default class GameListElement extends React.Component {
             </MaterialUI.Paper>
           </MaterialUI.ExpansionPanelDetails>
         </MaterialUI.ExpansionPanel>
-        {gameView} {/* TODO: here is the game view list */}
+        {gameView} 
         <NationPreferencesDialog
           parentCB={(c) => {
             this.nationPreferencesDialog = c;
