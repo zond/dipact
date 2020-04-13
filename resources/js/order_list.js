@@ -340,7 +340,8 @@ export default class OrderList extends React.Component {
 					min-height: calc(100% - 112px);
 					`)}
 				/>
-				{this.props.member &&
+				{this.props.phase &&
+				 !this.props.phase.Properties.Resolved && this.props.member &&
 				this.state.phaseStates[this.props.member.Nation] ? (
 					<MaterialUI.AppBar
 						className={helpers.scopedClass(`
