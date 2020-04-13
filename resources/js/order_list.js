@@ -360,6 +360,11 @@ export default class OrderList extends React.Component {
 						>
 							<MaterialUI.Checkbox
 								style={{ padding: "0px 8px 0px 0px" }}
+								disabled={
+									this.state.phaseStates[
+										this.props.member.Nation
+									].Properties.NoOrders
+								}
 								checked={
 									this.state.phaseStates[
 										this.props.member.Nation
@@ -370,7 +375,10 @@ export default class OrderList extends React.Component {
 							Confirm orders
 						</MaterialUI.Button>
 						<MaterialUI.Typography variant="caption">
-							When you're ready for the next turn
+							{this.state.phaseStates[this.props.member.Nation]
+								.Properties.NoOrders
+								? "You have no orders to give this turn"
+								: "When you're ready for the next turn"}
 						</MaterialUI.Typography>
 					</MaterialUI.AppBar>
 				) : (
