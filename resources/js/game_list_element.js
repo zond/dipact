@@ -355,7 +355,7 @@ export default class GameListElement extends React.Component {
                       <MaterialUI.Typography
                         textroverflow="ellipsis"
                         noWrap
-                        style={{
+                        style={{"color":"rgba(40, 26, 26, 1)"
                         }}
                       >
                         {helpers.gameDesc(this.state.game)} 
@@ -366,7 +366,7 @@ export default class GameListElement extends React.Component {
                       key={itemKey++}
                       textroverflow="ellipsis"
                       noWrap={true}
-                      style={{  minWidth: "60px" }}
+                      style={{  minWidth: "60px", "color":"rgba(40, 26, 26, 1)" }}
                     >
                       {helpers.gameDesc(this.state.game)} 
                     </MaterialUI.Typography>
@@ -382,7 +382,7 @@ export default class GameListElement extends React.Component {
                     }}
                   >
                     {helpers.createIcon("\ue422")}{" "}
-                    <MaterialUI.Typography variant="body2"  style={{paddingLeft:"2px"}}>
+                    <MaterialUI.Typography variant="body2"  style={{paddingLeft:"2px", "color":"rgba(40, 26, 26, 1)" }}>
                       {this.state.game.Properties.Finished
                         ? helpers.minutesToDuration(
                             -this.state.game.Properties.FinishedAgo /
@@ -411,7 +411,8 @@ export default class GameListElement extends React.Component {
             noWrap={true}
             display="inline"
             variant="caption"
-            style={{  }}
+            id="variant"
+            style={{ "color":"rgba(40, 26, 26, 0.7)" }}
           >
            
             {this.state.game.Properties.Variant}{" "}
@@ -421,7 +422,7 @@ export default class GameListElement extends React.Component {
           </MaterialUI.Typography>
            <MaterialUI.Typography
                     variant="caption"
-                    style={{}}
+            style={{ "color":"rgba(40, 26, 26, 0.7)" }}
                   >
                     {
 											this.state.game.Properties
@@ -485,7 +486,7 @@ export default class GameListElement extends React.Component {
             noWrap={true}
             display="inline"
             variant="caption"
-            style={{ }}
+            style={{"color":"rgba(40, 26, 26, 0.7)"  }}
           >
             {this.state.game.Properties.Variant}{" "}
             {helpers.minutesToDuration(
