@@ -86,8 +86,8 @@ export default class GameList extends React.Component {
 				<div
 					key="progress"
 					style={{
-						width: "100%",
-						textAlign: "center"
+						"width": "100%",
+						"textAlign": "center"
 					}}
 				>
 					<MaterialUI.CircularProgress />
@@ -99,6 +99,7 @@ export default class GameList extends React.Component {
 					summaryOnly={this.props.expansionPanelWrapped}
 					game={el}
 					key={el.Properties.ID}
+					style={{"width":"100%"}}
 				/>
 			);
 		}
@@ -109,66 +110,31 @@ export default class GameList extends React.Component {
 				return "";
 			} else if (this.state.games.length == 1) {
 				return (
-					<MaterialUI.Paper
+					<div
 						style={{
 							width: "100%",
-							paddingRight: 36,
-							paddingBottom: 8,
-							paddingTop: 8
+							"padding": "4px 0px",
+							"border":"1px solid blue"
 						}}
 					>
 						{this.renderElement(this.state.games[0])}
-					</MaterialUI.Paper>
+					</div>
 				);
 			} else {
 				return (
-					<MaterialUI.ExpansionPanel style={{ width: "100%" }}>
-						<MaterialUI.ExpansionPanelSummary
-							classes={{
-								content: helpers.scopedClass("min-width: 0;")
-							}}
-							expandIcon={helpers.createIcon("\ue5cf")}
-							style={{
-								paddingRight: 0,
-								paddingLeft: 0
-							}}
-						>
-							{this.renderElement(this.state.games[0])}
-						</MaterialUI.ExpansionPanelSummary>
-						<MaterialUI.ExpansionPanelDetails
-							style={{
-								paddingRight: 36,
-								paddingLeft: 0
-							}}
-						>
-							<div>
-								<MaterialUI.Divider
+					<div style={{"width":"100%"}}> 
+						{this.state.games.map(game => {
+						return this.renderElement(game);
+					})}
+						{/* <MaterialUI.Divider
 									style={{
 										marginTop: -12,
 										marginBottom: 8
 									}}
 									light
 								/>
-								{this.state.games.slice(1).map(game => {
-									return (
-										<React.Fragment
-											key={game.Properties.ID}
-										>
-											{this.renderElement(game)}
-											<MaterialUI.Divider
-												style={{
-													marginTop: "8px",
-													marginBottom: "8px"
-												}}
-												key="divider"
-												light
-											/>
-										</React.Fragment>
-									);
-								})}
-							</div>
-						</MaterialUI.ExpansionPanelDetails>
-					</MaterialUI.ExpansionPanel>
+							TODO: this is the divider between the list elements that is misaligned. To fix and remove the last iteration */}
+					</div>
 				);
 			}
 		} else {
