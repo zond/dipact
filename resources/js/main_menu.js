@@ -5,6 +5,7 @@ import FindGameDialog from '%{ cb "/js/find_game_dialog.js" }%';
 import Start from '%{ cb "/js/start.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
+import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -27,6 +28,7 @@ export default class MainMenu extends ActivityContainer {
 			}
 		};
 		this.findGameDialog = null;
+		this.settingsDialog = null;
 		helpers.urlMatch(
 			[
 				[
@@ -148,6 +150,17 @@ export default class MainMenu extends ActivityContainer {
 							}}
 							open={!!this.state.menuAnchorEl}
 						>
+							<MaterialUI.MenuItem
+								key="settings"
+								onClick={_ => {
+									this.setState({ menuAnchorEl: null });
+									this.settingsDialog.setState({
+										open: true
+									});
+								}}
+							>
+								Settings
+							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem
 								key="help-wiki"
 								onClick={_ => {
@@ -273,6 +286,12 @@ export default class MainMenu extends ActivityContainer {
 						this.findGameDialog = c;
 					}}
 					key="find-game-dialog"
+				/>
+				<SettingsDialog
+					key="settings-dialog"
+					parentCB={c => {
+						this.settingsDialog = c;
+					}}
 				/>
 			</React.Fragment>
 		);

@@ -108,6 +108,9 @@ class Messaging {
 							.safeFetch(helpers.createRequest(configLink.URL))
 							.then(resp => resp.json())
 							.then(js => {
+								if (!js.Properties.FCMTokens) {
+									js.Properties.FCMTokens = [];
+								}
 								let hrefURL = new URL(window.location.href);
 								let wantedToken = {
 									Value: receivedToken,
@@ -139,6 +142,7 @@ class Messaging {
 								let updateServer = false;
 								if (!foundToken) {
 									js.Properties.FCMTokens.push(wantedToken);
+									js.Properties.PhaseDeadlineWarningMinutesAhead = 60;
 									updateServer = true;
 								} else {
 									if (foundToken.Value != receivedToken) {
