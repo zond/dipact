@@ -31,7 +31,9 @@ export default class GameList extends React.Component {
 	reload() {
 		this.setState(
 			{
-				games: this.props.predefinedList || [{ isProgress: true }]
+				games: this.props.predefinedList || [
+					{ isProgress: true, Properties: { ID: "" + Math.random() } }
+				]
 			},
 			_ => {
 				this.load(helpers.createRequest(this.props.url.toString()));
@@ -68,7 +70,10 @@ export default class GameList extends React.Component {
 					});
 				}
 				if (this.moreLink) {
-					games.push({ isProgress: true });
+					games.push({
+						isProgress: true,
+						Properties: { ID: "" + Math.random() }
+					});
 				}
 				this.setState(
 					{
@@ -86,8 +91,8 @@ export default class GameList extends React.Component {
 				<div
 					key="progress"
 					style={{
-						"width": "100%",
-						"textAlign": "center"
+						width: "100%",
+						textAlign: "center"
 					}}
 				>
 					<MaterialUI.CircularProgress />
@@ -96,47 +101,44 @@ export default class GameList extends React.Component {
 		} else {
 			return (
 				<GameListElement
-					summaryOnly={this.props.expansionPanelWrapped}
+					summaryOnly={this.props.contained}
 					game={el}
 					key={el.Properties.ID}
-
 				/>
 			);
 		}
 	}
 	render() {
-		if (this.props.expansionPanelWrapped) {
-			if (this.state.games.length == 0) {
-				return "";
-			} else if (this.state.games.length == 1) {
-				return (
-					<div
-					style={{
-						"width": "100%",
-					}}
-					>
-						{this.renderElement(this.state.games[0])}
-					</div>
-				);
-			} else {
-				return (
-					<div style={{"width":"100%"}}> 
-						{this.state.games.map(game => {
-						return this.renderElement(game);
+		if (this.props.contained) {
+			return (
+				<div style={{ width: "100%" }}>
+					{this.state.games.map((game, idx) => {
+						return (
+							<React.Fragment key={game.Properties.ID}>
+								{this.renderElement(game)}
+								{idx < this.state.games.length - 1 ? (
+									<MaterialUI.Divider
+										light
+										style={{ marginTop: "8px" }}
+									/>
+								) : (
+									""
+								)}
+							</React.Fragment>
+						);
 					})}
-								</div>
-				);
-			}
+				</div>
+			);
 		} else {
 			return (
 				<div
 					id="scroller"
 					style={{
 						overflowY: "scroll",
-						height: "calc(100% - 60px)",
+						height: "calc(100% - 60px)"
 					}}
 				>
-					{this.state.games.map(game => {
+					{this.state.games.map((game, idx) => {
 						return this.renderElement(game);
 					})}
 				</div>
