@@ -392,7 +392,8 @@ export default class GameListElement extends React.Component {
 										style={{
 											alignSelf: "center",
 											display: "flex",
-											alignItems: "center"
+											alignItems: "center",
+											"color":"#281A1A"
 										}}
 									>
 										{this.member != null &&
@@ -400,10 +401,14 @@ export default class GameListElement extends React.Component {
 										!this.state.game.Properties.Finished
 											? this.member.NewestPhaseState
 													.OnProbation
-												? helpers.createIcon("\ue88b")
+												? <MaterialUI.SvgIcon>
+												 <path  d="M2.98188996,2.24133335 L21.3666663,20.6261097 L20.0261097,21.9666663 L19.0573333,20.998 L19,21 L5,21 C3.95,21 3.0822314,20.1799587 3.00551277,19.1486946 L3,19 L3,5 L3.00233335,4.942 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M12,1 C13.235,1 14.2895,1.7581 14.75196,2.828465 L14.82,3 L19,3 C20.05,3 20.9177686,3.82004132 20.9944872,4.85130541 L21,5 L21,17.963 L16.037,13 L17,13 L17,11 L14.037,11 L12.037,9 L17,9 L17,7 L10.037,7 L6.037,3 L9.18,3 C9.579,1.898 10.5917,1.0848 11.80656,1.006235 L12,1 Z M13.0593333,15 L7,15 L7,17 L15.0593333,17 L13.0593333,15 Z M11.0593333,13 L9.06033335,11 L7,11 L7,13 L11.0593333,13 Z M12,3 C11.45,3 11,3.45 11,4 C11,4.55 11.45,5 12,5 C12.55,5 13,4.55 13,4 C13,3.45 12.55,3 12,3 Z" id="Shape" fill="#b71c1c" fill-rule="nonzero"></path>
+												</MaterialUI.SvgIcon> 
 												: this.member.NewestPhaseState
 														.ReadyToResolve
-												? helpers.createIcon("\ue877")
+												? <MaterialUI.SvgIcon>
+													<path d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M13.4347826,7 L7.70608696,12.7391304 L4.56521739,9.60869565 L3,11.173913 L7.70608696,15.8695652 L15,8.56521739 L13.4347826,7 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z" fill="#281A1A" id="Combined-Shape"></path>
+												</MaterialUI.SvgIcon>
 												: helpers.createIcon("\ue422")
 											: ""}
 										<MaterialUI.Typography
