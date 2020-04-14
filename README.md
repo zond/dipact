@@ -1,4 +1,4 @@
-![Deploy](https://github.com/zond/dipact/workflows/Deploy/badge.svg)
+[![Deploy](https://github.com/zond/dipact/workflows/Deploy/badge.svg)](https://github.com/zond/dipact/actions)
 
 # dipact
 
