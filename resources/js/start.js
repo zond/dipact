@@ -14,7 +14,7 @@ export default class Start extends React.Component {
 			<React.Fragment>
 				<div
 					style={{
-						height: "calc(100% - 120px)",
+						height: "calc(100% - 114px)",
 						overflowY: "scroll"
 					}}
 				>
@@ -24,12 +24,25 @@ export default class Start extends React.Component {
 						</MaterialUI.ListItem>
 						<li key="started">
 							<ul style={{ paddingInlineStart: 0 }}>
-								<MaterialUI.ListSubheader color="primary">
+								<MaterialUI.ListSubheader
+									style={{
+										backgroundColor: "white",
+										zIndex: "2",
+										marginBottom: "2px",
+										height: "44px",
+										color: "rgba(40, 26, 26, 0.56)"
+									}}
+								>
 									My ongoing games
 								</MaterialUI.ListSubheader>
-								<MaterialUI.ListItem>
+								<MaterialUI.ListItem
+									style={{
+										padding: "0px 16px 4px 16px",
+										width: "100%"
+									}}
+								>
 									<GameList
-										expansionPanelWrapped={true}
+										contained={true}
 										url={
 											this.props.urls["my-started-games"]
 										}
@@ -41,12 +54,22 @@ export default class Start extends React.Component {
 						</li>
 						<li key="staging">
 							<ul style={{ paddingInlineStart: 0 }}>
-								<MaterialUI.ListSubheader color="primary">
+								<MaterialUI.ListSubheader
+									style={{
+										backgroundColor: "white",
+										zIndex: "2",
+										marginBottom: "2px",
+										height: "44px",
+										color: "rgba(40, 26, 26, 0.56)"
+									}}
+								>
 									My forming games
 								</MaterialUI.ListSubheader>
-								<MaterialUI.ListItem>
+								<MaterialUI.ListItem
+									style={{ padding: "0px 16px 4px 16px" }}
+								>
 									<GameList
-										expansionPanelWrapped={true}
+										contained={true}
 										url={
 											this.props.urls["my-staging-games"]
 										}
@@ -58,12 +81,22 @@ export default class Start extends React.Component {
 						</li>
 						<li key="finished">
 							<ul style={{ paddingInlineStart: 0 }}>
-								<MaterialUI.ListSubheader color="primary">
+								<MaterialUI.ListSubheader
+									style={{
+										backgroundColor: "white",
+										zIndex: "2",
+										marginBottom: "2px",
+										height: "44px",
+										color: "rgba(40, 26, 26, 0.56)"
+									}}
+								>
 									My finished games
 								</MaterialUI.ListSubheader>
-								<MaterialUI.ListItem>
+								<MaterialUI.ListItem
+									style={{ padding: "0px 16px 4px 16px" }}
+								>
 									<GameList
-										expansionPanelWrapped={true}
+										contained={true}
 										url={
 											this.props.urls["my-finished-games"]
 										}

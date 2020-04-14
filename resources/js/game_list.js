@@ -31,7 +31,9 @@ export default class GameList extends React.Component {
 	reload() {
 		this.setState(
 			{
-				games: this.props.predefinedList || [{ isProgress: true }]
+				games: this.props.predefinedList || [
+					{ isProgress: true, Properties: { ID: "" + Math.random() } }
+				]
 			},
 			_ => {
 				this.load(helpers.createRequest(this.props.url.toString()));
@@ -68,7 +70,10 @@ export default class GameList extends React.Component {
 					});
 				}
 				if (this.moreLink) {
-					games.push({ isProgress: true });
+					games.push({
+						isProgress: true,
+						Properties: { ID: "" + Math.random() }
+					});
 				}
 				this.setState(
 					{
@@ -96,7 +101,7 @@ export default class GameList extends React.Component {
 		} else {
 			return (
 				<GameListElement
-					summaryOnly={this.props.expansionPanelWrapped}
+					summaryOnly={this.props.contained}
 					game={el}
 					key={el.Properties.ID}
 				/>
@@ -104,73 +109,26 @@ export default class GameList extends React.Component {
 		}
 	}
 	render() {
-		if (this.props.expansionPanelWrapped) {
-			if (this.state.games.length == 0) {
-				return "";
-			} else if (this.state.games.length == 1) {
-				return (
-					<MaterialUI.Paper
-						style={{
-							width: "100%",
-							paddingRight: 36,
-							paddingBottom: 8,
-							paddingTop: 8
-						}}
-					>
-						{this.renderElement(this.state.games[0])}
-					</MaterialUI.Paper>
-				);
-			} else {
-				return (
-					<MaterialUI.ExpansionPanel style={{ width: "100%" }}>
-						<MaterialUI.ExpansionPanelSummary
-							classes={{
-								content: helpers.scopedClass("min-width: 0;")
-							}}
-							expandIcon={helpers.createIcon("\ue5cf")}
-							style={{
-								paddingRight: 0,
-								paddingLeft: 0
-							}}
-						>
-							{this.renderElement(this.state.games[0])}
-						</MaterialUI.ExpansionPanelSummary>
-						<MaterialUI.ExpansionPanelDetails
-							style={{
-								paddingRight: 36,
-								paddingLeft: 0
-							}}
-						>
-							<div>
-								<MaterialUI.Divider
-									style={{
-										marginTop: -12,
-										marginBottom: 8
-									}}
-									light
-								/>
-								{this.state.games.slice(1).map(game => {
-									return (
-										<React.Fragment
-											key={game.Properties.ID}
-										>
-											{this.renderElement(game)}
-											<MaterialUI.Divider
-												style={{
-													marginTop: "8px",
-													marginBottom: "8px"
-												}}
-												key="divider"
-												light
-											/>
-										</React.Fragment>
-									);
-								})}
-							</div>
-						</MaterialUI.ExpansionPanelDetails>
-					</MaterialUI.ExpansionPanel>
-				);
-			}
+		if (this.props.contained) {
+			return (
+				<div style={{ width: "100%" }}>
+					{this.state.games.map((game, idx) => {
+						return (
+							<React.Fragment key={game.Properties.ID}>
+								{this.renderElement(game)}
+								{idx < this.state.games.length - 1 ? (
+									<MaterialUI.Divider
+										light
+										style={{ marginTop: "8px" }}
+									/>
+								) : (
+									""
+								)}
+							</React.Fragment>
+						);
+					})}
+				</div>
+			);
 		} else {
 			return (
 				<div
@@ -180,7 +138,7 @@ export default class GameList extends React.Component {
 						height: "calc(100% - 60px)"
 					}}
 				>
-					{this.state.games.map(game => {
+					{this.state.games.map((game, idx) => {
 						return this.renderElement(game);
 					})}
 				</div>

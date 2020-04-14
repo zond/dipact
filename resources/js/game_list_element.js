@@ -327,23 +327,45 @@ export default class GameListElement extends React.Component {
 		);
 
 		let summary = (
-			<MaterialUI.Grid container>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					width: "100%",
+
+					marginTop: "8px"
+				}}
+			>
 				{(_ => {
 					if (this.state.game.Properties.Started) {
 						return (
 							<React.Fragment>
-								<MaterialUI.Grid key={itemKey++} item xs={11}>
+								{/* IF STARTED */}
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between"
+									}}
+								>
 									{this.member &&
 									this.member.UnreadMessages > 0 ? (
 										<MaterialUI.Badge
+											key={itemKey++}
 											badgeContent={
 												this.member.UnreadMessages
 											}
 											color="primary"
+											style={{
+												maxWidth: "calc(100% - 70px)"
+											}}
 										>
 											<MaterialUI.Typography
 												textroverflow="ellipsis"
-												noWrap={true}
+												noWrap
+												style={{
+													color: "rgba(40, 26, 26, 1)"
+												}}
 											>
 												{helpers.gameDesc(
 													this.state.game
@@ -352,33 +374,97 @@ export default class GameListElement extends React.Component {
 										</MaterialUI.Badge>
 									) : (
 										<MaterialUI.Typography
+											key={itemKey++}
 											textroverflow="ellipsis"
 											noWrap={true}
+											style={{
+												minWidth: "60px",
+												color: "rgba(40, 26, 26, 1)"
+											}}
 										>
 											{helpers.gameDesc(this.state.game)}
 										</MaterialUI.Typography>
 									)}
-								</MaterialUI.Grid>
-								<MaterialUI.Grid key={itemKey++} item xs={1}>
-									{this.state.game.Properties.Finished
-										? helpers.minutesToDuration(
-												-this.state.game.Properties
-													.FinishedAgo /
-													1000000000 /
-													60,
-												true
-										  )
-										: helpers.minutesToDuration(
-												this.state.game.Properties
-													.NewestPhaseMeta[0]
-													.NextDeadlineIn /
-													1000000000 /
-													60,
-												true
-										  )}
-								</MaterialUI.Grid>
-								<MaterialUI.Grid key={itemKey++} item xs={12}>
-									<MaterialUI.Typography>
+
+									<div
+										id="Timer"
+										key={itemKey++}
+										style={{
+											alignSelf: "center",
+											display: "flex",
+											alignItems: "center"
+										}}
+									>
+										{this.member != null &&
+										this.state.game.Properties.Started &&
+										!this.state.game.Properties.Finished
+											? this.member.NewestPhaseState
+													.OnProbation
+												? helpers.createIcon("\ue88b")
+												: this.member.NewestPhaseState
+														.ReadyToResolve
+												? helpers.createIcon("\ue877")
+												: helpers.createIcon("\ue422")
+											: ""}
+										<MaterialUI.Typography
+											variant="body2"
+											style={{
+												paddingLeft: "2px",
+												color: "rgba(40, 26, 26, 1)"
+											}}
+										>
+											{this.state.game.Properties.Finished
+												? helpers.minutesToDuration(
+														-this.state.game
+															.Properties
+															.FinishedAgo /
+															1000000000 /
+															60,
+														true
+												  )
+												: helpers.minutesToDuration(
+														this.state.game
+															.Properties
+															.NewestPhaseMeta[0]
+															.NextDeadlineIn /
+															1000000000 /
+															60,
+														true
+												  )}
+										</MaterialUI.Typography>
+									</div>
+								</div>
+								<div
+									key={itemKey++}
+									style={{
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between",
+										flexWrap: "wrap"
+									}}
+								>
+									<MaterialUI.Typography
+										textroverflow="ellipsis"
+										noWrap={true}
+										display="inline"
+										variant="caption"
+										id="variant"
+										style={{
+											color: "rgba(40, 26, 26, 0.7)"
+										}}
+									>
+										{this.state.game.Properties.Variant}{" "}
+										{helpers.minutesToDuration(
+											this.state.game.Properties
+												.PhaseLengthMinutes
+										)}
+									</MaterialUI.Typography>
+									<MaterialUI.Typography
+										variant="caption"
+										style={{
+											color: "rgba(40, 26, 26, 0.7)"
+										}}
+									>
 										{
 											this.state.game.Properties
 												.NewestPhaseMeta[0].Season
@@ -393,44 +479,79 @@ export default class GameListElement extends React.Component {
 												.NewestPhaseMeta[0].Type
 										}
 									</MaterialUI.Typography>
-								</MaterialUI.Grid>
+								</div>
 							</React.Fragment>
 						);
 					} else {
 						return (
 							<React.Fragment>
-								<MaterialUI.Grid key={itemKey++} item xs={11}>
+								{/* IF STARTED */}
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between"
+									}}
+								>
 									<MaterialUI.Typography
+										key={itemKey++}
 										textroverflow="ellipsis"
 										noWrap={true}
+										style={{}}
 									>
 										{helpers.gameDesc(this.state.game)}
 									</MaterialUI.Typography>
-								</MaterialUI.Grid>
-								<MaterialUI.Grid key={itemKey++} item xs={1}>
-									<MaterialUI.Typography>
-										{this.state.game.Properties.NMembers}/
-										{this.variant.Properties.Nations.length}{" "}
-									</MaterialUI.Typography>
-								</MaterialUI.Grid>
+
+									<div
+										id="Join"
+										key={itemKey++}
+										style={{
+											alignSelf: "center",
+											display: "flex",
+											alignItems: "center"
+										}}
+									>
+										{helpers.createIcon("\ue7fb")}{" "}
+										<MaterialUI.Typography
+											variant="body2"
+											style={{ paddingLeft: "2px" }}
+										>
+											{
+												this.state.game.Properties
+													.NMembers
+											}
+											/
+											{
+												this.variant.Properties.Nations
+													.length
+											}{" "}
+										</MaterialUI.Typography>
+									</div>
+								</div>
+								<MaterialUI.Typography
+									textroverflow="ellipsis"
+									noWrap={true}
+									display="inline"
+									variant="caption"
+									style={{ color: "rgba(40, 26, 26, 0.7)" }}
+								>
+									{this.state.game.Properties.Variant}{" "}
+									{helpers.minutesToDuration(
+										this.state.game.Properties
+											.PhaseLengthMinutes
+									)}
+								</MaterialUI.Typography>
 							</React.Fragment>
 						);
 					}
 				})()}
-				<MaterialUI.Grid item xs={12}>
-					<MaterialUI.Typography
-						textroverflow="ellipsis"
-						noWrap={true}
-						display="inline"
-					>
-						{this.state.game.Properties.Variant}{" "}
-						{helpers.minutesToDuration(
-							this.state.game.Properties.PhaseLengthMinutes
-						)}
-					</MaterialUI.Typography>
-					{this.getIcons()}
-				</MaterialUI.Grid>
-			</MaterialUI.Grid>
+
+				{/*} <div>
+            {/*
+					{this.getIcons()} 
+            {this.getIcons()}
+          </div> TODO: @Joren fix the get icons into the expanded view.*/}
+			</div>
 		);
 
 		let gameView = (
@@ -475,6 +596,7 @@ export default class GameListElement extends React.Component {
 		return (
 			<React.Fragment>
 				<MaterialUI.ExpansionPanel key="game-details">
+					{/* TODO: @Joren, the next iteration is here: styling the the expansionpanel on "My ..." list */}
 					<MaterialUI.ExpansionPanelSummary
 						classes={{
 							content: helpers.scopedClass("min-width: 0;")
@@ -484,7 +606,10 @@ export default class GameListElement extends React.Component {
 						{summary}
 					</MaterialUI.ExpansionPanelSummary>
 					<MaterialUI.ExpansionPanelDetails
-						style={{ paddingRight: "0.3em", paddingLeft: "0.3em" }}
+						style={{
+							paddingRight: "0.3em",
+							paddingLeft: "0.3em"
+						}}
 					>
 						<MaterialUI.Paper elevation={3}>
 							<MaterialUI.Grid
