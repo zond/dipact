@@ -19,7 +19,6 @@ const messaging = firebase.messaging();
 addEventListener("notificationclick", ev => {
 	ev.waitUntil(
 		clients.matchAll({ includeUncontrolled: true }).then(foundClients => {
-			let foundClient = false;
 			foundClients.forEach(client => {
 				foundClient = true;
 				const message = {
@@ -29,11 +28,14 @@ addEventListener("notificationclick", ev => {
 				};
 				console.log("Sending", message, "to", client);
 				client.postMessage(message);
+				client.focus();
+				return;
 			});
-			if (!foundClient) {
-				console.log("Found no client, opening new at", ev.action);
-				clients.openWindow(ev.action);
-			}
+			console.log("Found no client, opening new at", ev.action);
+			clients.openWindow(ev.action).then(client => {
+				client.focus();
+			});
+			ev.notification.close();
 		})
 	);
 });
