@@ -1,5 +1,7 @@
-importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js');
+importScripts("https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js");
+importScripts(
+	"https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js"
+);
 
 let firebaseConfig = {
 	apiKey: "AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
@@ -13,3 +15,25 @@ let firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
+
+addEventListener("notificationclick", ev => {
+	ev.waitUntil(
+		clients.matchAll({ includeUncontrolled: true }).then(foundClients => {
+			let foundClient = false;
+			foundClients.forEach(client => {
+				foundClient = true;
+				const message = {
+					clickedNotification: {
+						action: ev.action
+					}
+				};
+				console.log("Sending", message, "to", client);
+				client.postMessage(message);
+			});
+			if (!foundClient) {
+				console.log("Found no client, opening new at", ev.action);
+				clients.openWindow(ev.action);
+			}
+		})
+	);
+});

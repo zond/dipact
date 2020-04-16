@@ -19,43 +19,64 @@ class Messaging {
 		firebase.initializeApp(firebaseConfig);
 
 		this.messaging = firebase.messaging();
+		this.registration = null;
 		this.subscribers = {};
+		this.started = false;
+		this.main = null;
+		this.deviceID = localStorage.getItem("deviceID");
+		if (!this.deviceID) {
+			this.deviceID = "" + new Date().getTime() + "_" + Math.random();
+			localStorage.setItem("deviceID", this.deviceID);
+		}
 
 		this.refreshToken = this.refreshToken.bind(this);
 		this.onMessage = this.onMessage.bind(this);
 		this.subscribe = this.subscribe.bind(this);
 		this.unsubscribe = this.unsubscribe.bind(this);
-		this.started = false;
+		this.handleSWMessage = this.handleSWMessage.bind(this);
+	}
+	handleSWMessage(ev) {
+		if (this.main && ev.data.clickedNotification) {
+			this.main.renderPath(ev.data.clickedNotification.action);
+		}
 	}
 	start() {
 		if (this.started) {
 			return;
 		}
-		this.messaging
-			.requestPermission()
-			.then(_ => {
-				console.log("Notification permission granted.");
-				// Get Instance ID token. Initially this makes a network call, once retrieved
-				// subsequent calls to getToken will return from cache.
-				this.refreshToken();
-
-				// Callback fired if Instance ID token is updated.
-				this.messaging.onTokenRefresh(this.refreshToken);
-
-				// Handle incoming messages. Called when:
-				// - a message is received while the app has focus
-				// - the user clicks on an app notification created by a service worker
-				//   'messaging.setBackgroundMessageHandler' handler.
-				this.messaging.onMessage(this.onMessage);
-
-				this.started = true;
-			})
-			.catch(err => {
-				console.log("Unable to get permission to notify:", err);
-				this.started = true;
-				helpers.snackbar(
-					"Unable to get notification permission, you won't get notifications for new messages or phases."
+		this.started = true;
+		navigator.serviceWorker
+			.register("/static/js/firebase-messaging-sw.js")
+			.then(registration => {
+				navigator.serviceWorker.addEventListener(
+					"message",
+					this.handleSWMessage
 				);
+				this.registration = registration;
+				this.messaging.useServiceWorker(this.registration);
+				this.messaging
+					.requestPermission()
+					.then(_ => {
+						console.log("Notification permission granted.");
+						// Get Instance ID token. Initially this makes a network call, once retrieved
+						// subsequent calls to getToken will return from cache.
+						this.refreshToken();
+
+						// Callback fired if Instance ID token is updated.
+						this.messaging.onTokenRefresh(this.refreshToken);
+
+						// Handle incoming messages. Called when:
+						// - a message is received while the app has focus
+						// - the user clicks on an app notification created by a service worker
+						//   'messaging.setBackgroundMessageHandler' handler.
+						this.messaging.onMessage(this.onMessage);
+					})
+					.catch(err => {
+						console.log("Unable to get permission to notify:", err);
+						helpers.snackbar(
+							"Unable to get notification permission, you won't get notifications for new messages or phases."
+						);
+					});
 			});
 	}
 	subscribe(type, handler) {
@@ -118,20 +139,24 @@ class Messaging {
 									Note:
 										"Created via dipact refreshToken on " +
 										new Date(),
-									App: "dipact@" + hrefURL.host,
+									App: "dipact@" + this.deviceID,
 									MessageConfig: {
 										ClickActionTemplate:
 											hrefURL.protocol +
 											"//" +
 											hrefURL.host +
-											messageClickActionTemplate
+											messageClickActionTemplate,
+										DontSendNotification: false,
+										DontSendData: false
 									},
 									PhaseConfig: {
 										ClickActionTemplate:
 											hrefURL.protocol +
 											"//" +
 											hrefURL.host +
-											messageClickActionTemplate
+											messageClickActionTemplate,
+										DontSendNotification: false,
+										DontSendData: false
 									}
 								};
 								let foundToken = js.Properties.FCMTokens.find(
@@ -154,6 +179,42 @@ class Messaging {
 										foundToken.Note =
 											"Re-enabled via dipact refreshToken on " +
 											new Date();
+										updateServer = true;
+									}
+									if (
+										foundToken.MessageConfig
+											.DontSendNotification !=
+										wantedToken.MessageConfig
+											.DontSendNotification
+									) {
+										foundToken.MessageConfig.DontSendNotification =
+											wantedToken.MessageConfig.DontSendNotification;
+										updateServer = true;
+									}
+									if (
+										foundToken.PhaseConfig
+											.DontSendNotification !=
+										wantedToken.PhaseConfig
+											.DontSendNotification
+									) {
+										foundToken.PhaseConfig.DontSendNotification =
+											wantedToken.PhaseConfig.DontSendNotification;
+										updateServer = true;
+									}
+									if (
+										foundToken.MessageConfig.DontSendData !=
+										wantedToken.MessageConfig.DontSendData
+									) {
+										foundToken.MessageConfig.DontSendData =
+											wantedToken.MessageConfig.DontSendData;
+										updateServer = true;
+									}
+									if (
+										foundToken.PhaseConfig.DontSendData !=
+										wantedToken.PhaseConfig.DontSendData
+									) {
+										foundToken.PhaseConfig.DontSendData =
+											wantedToken.PhaseConfig.DontSendData;
 										updateServer = true;
 									}
 									if (
@@ -234,15 +295,18 @@ class Messaging {
 			}
 		}
 		if (!handled) {
-			let notification = new Notification(payload.notification.title, {
+			let actions = [
+				{
+					action: payload.notification.click_action,
+					title: "View"
+				}
+			];
+			this.registration.showNotification(payload.notification.title, {
+				requireInteraction: true,
 				body: payload.notification.body,
-				icon: helpers.createRequest("/favicon.ico").url
+				icon: helpers.createRequest("/favicon.ico").url,
+				actions: actions
 			});
-			notification.onclick = ev => {
-				ev.preventDefault();
-				notification.close();
-				window.open(payload.notification.click_action);
-			};
 		}
 	}
 }

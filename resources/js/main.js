@@ -13,6 +13,14 @@ export default class Main extends ActivityContainer {
 		};
 		this.handleVariants = this.handleVariants.bind(this);
 		this.handleRoot = this.handleRoot.bind(this);
+		this.renderPath = this.renderPath.bind(this);
+		Globals.messaging.main = this;
+	}
+	renderPath(path) {
+		this.setState({ activity: "div" }, _ => {
+			history.pushState("", "", path);
+			this.setActivity(MainMenu, { urls: this.state.urls });
+		});
 	}
 	processToken() {
 		let hrefURL = new URL(window.location.href);
