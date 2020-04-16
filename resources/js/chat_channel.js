@@ -260,8 +260,8 @@ export default class ChatChannel extends React.Component {
 									message.Properties.Sender;
 							return (
 								<React.Fragment key={message.Properties.ID}>
-									{idx == 0 ||
-									(message.phase &&
+									{message.phase &&
+									(idx == 0 ||
 										message.phase.Properties.PhaseOrdinal !=
 											this.state.messages[idx - 1].phase
 												.Properties.PhaseOrdinal) ? (
