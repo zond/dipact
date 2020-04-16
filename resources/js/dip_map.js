@@ -224,7 +224,8 @@ export default class DipMap extends React.Component {
 				this.map.addUnit(
 					"unit" + disData.Dislodged.Type,
 					disData.Province,
-					helpers.natCol(disData.Dislodged.Nation, this.variant)
+					helpers.natCol(disData.Dislodged.Nation, this.variant),
+					true
 				);
 			});
 		} else {
