@@ -304,7 +304,7 @@ class Messaging {
 			this.registration.showNotification(payload.notification.title, {
 				requireInteraction: true,
 				body: payload.notification.body,
-				icon: helpers.createRequest("/favicon.ico").url,
+				icon: "https://diplicity-engine.appspot.com/img/otto.png",
 				actions: actions
 			});
 		}
