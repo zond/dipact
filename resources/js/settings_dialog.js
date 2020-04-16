@@ -3,7 +3,10 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 export default class SettingsDialog extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { open: false, config: null };
+		this.state = {
+			open: false,
+			config: null
+		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
@@ -21,6 +24,7 @@ export default class SettingsDialog extends React.Component {
 		let updateLink = this.state.config.Links.find(l => {
 			return l.Rel == "update";
 		});
+		helpers.incProgress();
 		helpers
 			.safeFetch(
 				helpers.createRequest(updateLink.URL, {
@@ -33,6 +37,7 @@ export default class SettingsDialog extends React.Component {
 			)
 			.then(resp => resp.json())
 			.then(js => {
+				helpers.decProgress();
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
 					state.config = js;
@@ -88,17 +93,64 @@ export default class SettingsDialog extends React.Component {
 				<MaterialUI.DialogTitle>Settings</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					{this.state.config ? (
-						<MaterialUI.TextField
-							fullWidth
-							label="Phase deadline warning minutes before"
-							margin="dense"
-							value={
-								this.state.config.Properties
-									.PhaseDeadlineWarningMinutesAhead
-							}
-							onChange={this.updatePhaseDeadline}
-							onBlur={this.saveConfig}
-						/>
+						<React.Fragment>
+							<MaterialUI.TextField
+								fullWidth
+								label="Phase deadline warning minutes before"
+								margin="dense"
+								value={
+									this.state.config.Properties
+										.PhaseDeadlineWarningMinutesAhead
+								}
+								onChange={this.updatePhaseDeadline}
+								onBlur={this.saveConfig}
+							/>
+							<MaterialUI.FormControlLabel
+								control={
+									<MaterialUI.Checkbox
+										checked={(_ => {
+											if (!Globals.messaging.started) {
+												return false;
+											}
+											let fcmToken = this.state.config.Properties.FCMTokens.find(
+												t => {
+													return (
+														t.App ==
+														"dipact@" +
+															Globals.messaging
+																.deviceID
+													);
+												}
+											);
+											if (!fcmToken) {
+												return false;
+											}
+											if (fcmToken.Disabled) {
+												return false;
+											}
+											return true;
+										})()}
+										onChange={ev => {
+											helpers.incProgress();
+											Globals.messaging.start();
+											Globals.messaging
+												.configure(
+													ev.target.checked
+														? "true"
+														: "false"
+												)
+												.then(js => {
+													helpers.decProgress();
+													this.setState({
+														config: js
+													});
+												});
+										}}
+									/>
+								}
+								label="Push messages"
+							/>
+						</React.Fragment>
 					) : (
 						""
 					)}
