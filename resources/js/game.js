@@ -28,7 +28,14 @@ export default class Game extends React.Component {
 		this.receiveOrders = this.receiveOrders.bind(this);
 		this.phaseJumper = this.phaseJumper.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
+		this.setUnreadMessages = this.setUnreadMessages.bind(this);
 		this.dead = false;
+	}
+	setUnreadMessages(n) {
+		this.setState({ unreadMessages: n });
+		if (this.props.unreadMessagesUpdate) {
+			this.props.unreadMessagesUpdate();
+		}
 	}
 	phaseJumper(steps) {
 		return _ => {
@@ -394,9 +401,7 @@ export default class Game extends React.Component {
 					>
 						<ChatMenu
 							isActive={this.state.activeTab == "chat"}
-							unreadMessages={n => {
-								this.setState({ unreadMessages: n });
-							}}
+							unreadMessages={this.setUnreadMessages}
 							phases={this.state.phases}
 							game={this.state.game}
 							parent={this}
