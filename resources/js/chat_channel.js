@@ -92,71 +92,73 @@ export default class ChatChannel extends React.Component {
 		this.updateHistoryAndSubscription(false);
 	}
 	sendMessage() {
-		if (this.props.createMessageLink) {
-			const msg = document.getElementById("chat-channel-input-field")
-				.value;
-			this.setState(
-				{
-					messages: this.state.messages.concat([
-						{
-							Properties: {
-								Sender: this.member.Nation,
-								Body: msg,
-								ID: Math.random(),
-								CreatedAt: "" + new Date()
-							},
-							undelivered: true
-						}
-					])
-				},
-				_ => {
-					document.getElementById("chat-channel-input-field").value =
-						"";
-					const messagesEl = document.getElementById("messages");
-					messagesEl.scrollTop = messagesEl.scrollHeight;
-					helpers
-						.safeFetch(
-							helpers.createRequest(
-								this.props.createMessageLink.URL,
-								{
-									method: this.props.createMessageLink.Method,
-									headers: {
-										"Content-Type": "application/json"
-									},
-									body: JSON.stringify({
-										Body: msg,
-										ChannelMembers: this.props.channel
-											.Properties.Members
-									})
-								}
-							)
-						)
-						.then(resp =>
-							resp.json().then(js => {
-								if (
-									!this.props.channel.Links.find(l => {
-										return l.Rel == "messages";
-									})
-								) {
-									this.props.channel.Links.push({
-										Rel: "messages",
-										URL:
-											"/Game/" +
-											this.props.game.Properties.ID +
-											"/Channel/" +
-											js.Properties.ChannelMembers.join(
-												","
-											) +
-											"/Messages",
-										Method: "GET"
-									});
-								}
-								this.loadMessages(true);
-							})
-						);
-				}
-			);
+		if (!this.props.createMessageLink) {
+			return;
 		}
+		const msg = document
+			.getElementById("chat-channel-input-field")
+			.value.trim();
+		if (msg == "") {
+			return;
+		}
+		this.setState(
+			{
+				messages: this.state.messages.concat([
+					{
+						Properties: {
+							Sender: this.member.Nation,
+							Body: msg,
+							ID: Math.random(),
+							CreatedAt: "" + new Date()
+						},
+						undelivered: true
+					}
+				])
+			},
+			_ => {
+				document.getElementById("chat-channel-input-field").value = "";
+				const messagesEl = document.getElementById("messages");
+				messagesEl.scrollTop = messagesEl.scrollHeight;
+				helpers
+					.safeFetch(
+						helpers.createRequest(
+							this.props.createMessageLink.URL,
+							{
+								method: this.props.createMessageLink.Method,
+								headers: {
+									"Content-Type": "application/json"
+								},
+								body: JSON.stringify({
+									Body: msg,
+									ChannelMembers: this.props.channel
+										.Properties.Members
+								})
+							}
+						)
+					)
+					.then(resp =>
+						resp.json().then(js => {
+							if (
+								!this.props.channel.Links.find(l => {
+									return l.Rel == "messages";
+								})
+							) {
+								this.props.channel.Links.push({
+									Rel: "messages",
+									URL:
+										"/Game/" +
+										this.props.game.Properties.ID +
+										"/Channel/" +
+										js.Properties.ChannelMembers.join(",") +
+										"/Messages",
+									Method: "GET"
+								});
+							}
+							this.loadMessages(true);
+						})
+					);
+			}
+		);
 	}
 	phaseResolvedAfter(phase, message) {
 		if (phase.Properties.Resolved) {
@@ -169,7 +171,9 @@ export default class ChatChannel extends React.Component {
 	}
 	keyPress(e) {
 		if (e.keyCode == 13 && !e.shiftKey) {
-			this.sendMessage(e.target.value);
+			e.stopPropagation();
+			e.preventDefault();
+			this.sendMessage(e);
 		}
 	}
 	loadMessages(silent = false) {
