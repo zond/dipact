@@ -171,7 +171,7 @@ export default class SettingsDialog extends React.Component {
 										}}
 									/>
 								}
-								label="Push messages"
+								label="Push notifications"
 							/>
 							<MaterialUI.Typography>
 								{Globals.messaging.started
@@ -184,6 +184,44 @@ export default class SettingsDialog extends React.Component {
 										: "Web page didn't get messaging permission, reset that before enabling notifications."
 									: "Messaging subsysten not started."}
 							</MaterialUI.Typography>
+							<MaterialUI.FormControlLabel
+								control={
+									<MaterialUI.Checkbox
+										checked={
+											this.state.config.Properties
+												.MailConfig.Enabled
+										}
+										onChange={ev => {
+											ev.persist();
+											this.setState((state, props) => {
+												state = Object.assign(
+													{},
+													state
+												);
+												state.config.Properties.MailConfig.Enabled =
+													ev.target.checked;
+												let hrefURL = new URL(
+													window.location.href
+												);
+												state.config.Properties.MailConfig.MessageConfig.TextBodyTemplate =
+													"{{message.Body}}\n\nVisit {{unsubscribeURL}} to stop receiving email like this.\n\nVisit " +
+													hrefURL.protocol +
+													"//" +
+													hrefURL.host +
+													"/Game/{{game.ID.Encode}}  to see the latest phase in this game.";
+												state.config.Properties.MailConfig.PhaseConfig.TextBodyTemplate =
+													"{{game.Desc}} has a new phase: " +
+													hrefURL.protocol +
+													"//" +
+													hrefURL.host +
+													"/Game/{{game.ID.Encode}}.\n\nVisit %s to stop receiving email like this.";
+												return state;
+											}, this.saveConfig);
+										}}
+									/>
+								}
+								label="Email notifications"
+							/>
 						</React.Fragment>
 					) : (
 						""
