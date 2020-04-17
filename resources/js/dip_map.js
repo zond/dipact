@@ -22,7 +22,11 @@ export default class DipMap extends React.Component {
 	snapshotSVG() {
 		let mapEl = document.getElementById("map");
 		let serializedSVG = btoa(
-			new XMLSerializer().serializeToString(mapEl.children[0])
+			unescape(
+				encodeURIComponent(
+					new XMLSerializer().serializeToString(mapEl.children[0])
+				)
+			)
 		);
 		let snapshotImage = document.createElement("img");
 		snapshotImage.style.width = this.mapDims[0];
