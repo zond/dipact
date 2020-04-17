@@ -311,6 +311,10 @@ export function natCol(nation, variant) {
 	return Globals.contrastColors[variant.Properties.Nations.indexOf(nation)];
 }
 
+export function twoDecimals(n) {
+	return Math.round(Number.parseFloat(n) * 100) / 100.0;
+}
+
 export const avatarClass = scopedClass(`
   border: 1px solid black;
   width: 36px !important;

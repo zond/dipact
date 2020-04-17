@@ -118,13 +118,7 @@ export default class GameMetadata extends React.Component {
 		if (gameStatesLink) {
 			helpers.incProgress();
 			helpers
-				.safeFetch(
-					helpers.createRequest(
-						this.props.game.Links.find(l => {
-							return l.Rel == "game-states";
-						}).URL
-					)
-				)
+				.safeFetch(helpers.createRequest(gameStatesLink.URL))
 				.then(res => res.json())
 				.then(js => {
 					helpers.decProgress();

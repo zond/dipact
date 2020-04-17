@@ -4,12 +4,14 @@ import DipMap from '%{ cb "/js/dip_map.js" }%';
 import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 import OrderList from '%{ cb "/js/order_list.js" }%';
 import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
+import GameResults from '%{ cb "/js/game_results.js" }%';
 
 export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			readyReminder: null,
+			readyReminder: false,
+			finishedReminder: false,
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
@@ -22,6 +24,7 @@ export default class Game extends React.Component {
 		this.renderedPhaseOrdinal = null;
 		this.options = null;
 		this.gameMetadata = null;
+		this.gameResults = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.loadGame = this.loadGame.bind(this);
@@ -142,11 +145,10 @@ export default class Game extends React.Component {
 					}),
 					member: member,
 					readyReminder:
-						member && !member.NewestPhaseState.ReadyToResolve
-							? "You haven't confirmed your orders yet"
-							: null,
+						member && !member.NewestPhaseState.ReadyToResolve,
 					game: game,
 					phases: phases,
+					finishedReminder: game.Properties.Finished,
 					activePhase: phases[phases.length - 1]
 				});
 				return Promise.resolve({});
@@ -301,6 +303,23 @@ export default class Game extends React.Component {
 								>
 									Metadata
 								</MaterialUI.MenuItem>
+								{this.state.game.Properties.Finished ? (
+									<MaterialUI.MenuItem
+										key="results"
+										onClick={_ => {
+											this.setState({
+												moreMenuAnchorEl: null
+											});
+											this.gameResults.setState({
+												open: true
+											});
+										}}
+									>
+										Results
+									</MaterialUI.MenuItem>
+								) : (
+									""
+								)}
 							</MaterialUI.Menu>
 						</MaterialUI.Toolbar>
 						<MaterialUI.Tabs
@@ -441,17 +460,66 @@ export default class Game extends React.Component {
 							this.gameMetadata = c;
 						}}
 					/>
+					<GameResults
+						game={this.state.game}
+						variant={this.state.variant}
+						parentCB={c => {
+							this.gameResults = c;
+						}}
+					/>
 					<MaterialUI.Snackbar
 						anchorOrigin={{
 							vertical: "bottom",
 							horizontal: "center"
 						}}
-						open={!!this.state.readyReminder}
-						autoHideDuration={6000}
+						open={this.state.finishedReminder}
+						autoHideDuration={32000}
 						onClose={_ => {
-							this.setState({ readyReminder: null });
+							this.setState({ finishedReminder: false });
 						}}
-						message={this.state.readyReminder}
+						message="This game has finished."
+						action={
+							<React.Fragment>
+								<MaterialUI.Button
+									color="secondary"
+									size="small"
+									onClick={_ => {
+										this.setState({
+											finishedReminder: false
+										});
+										this.gameResults.setState({
+											open: true
+										});
+									}}
+								>
+									View results
+								</MaterialUI.Button>
+								<MaterialUI.IconButton
+									size="small"
+									aria-label="close"
+									color="inherit"
+									onClick={_ => {
+										this.setState({
+											finishedReminder: false
+										});
+									}}
+								>
+									{helpers.createIcon("\ue5cd")}
+								</MaterialUI.IconButton>
+							</React.Fragment>
+						}
+					/>
+					<MaterialUI.Snackbar
+						anchorOrigin={{
+							vertical: "bottom",
+							horizontal: "center"
+						}}
+						open={this.state.readyReminder}
+						autoHideDuration={30000}
+						onClose={_ => {
+							this.setState({ readyReminder: false });
+						}}
+						message="You haven't confirmed your orders yet"
 						action={
 							<React.Fragment>
 								<MaterialUI.Button
@@ -460,7 +528,7 @@ export default class Game extends React.Component {
 									onClick={_ => {
 										this.setState({
 											activeTab: "orders",
-											readyReminder: null
+											readyReminder: false
 										});
 									}}
 								>
@@ -471,7 +539,7 @@ export default class Game extends React.Component {
 									aria-label="close"
 									color="inherit"
 									onClick={_ => {
-										this.setState({ readyReminder: null });
+										this.setState({ readyReminder: false });
 									}}
 								>
 									{helpers.createIcon("\ue5cd")}
