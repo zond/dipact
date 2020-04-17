@@ -99,11 +99,11 @@ export default class Game extends React.Component {
 		Globals.backListeners.unshift(this.props.close);
 	}
 	phaseMessageHandler(payload) {
-		if (payload.data.message.GameID != this.state.game.Properties.ID) {
+		if (payload.data.gameID != this.state.game.Properties.ID) {
 			return false;
 		}
 		this.loadGame().then(_ => {
-			alert("New phase");
+			helpers.snackbar("New phase");
 		});
 		return true;
 	}

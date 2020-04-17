@@ -25,7 +25,7 @@ addEventListener("notificationclick", ev => {
 				foundClients.forEach(client => {
 					const message = {
 						clickedNotification: {
-							action: ev.action
+							action: ev.notification.actions[0].action
 						}
 					};
 					console.log("Sending", message, "to", client);
@@ -33,8 +33,11 @@ addEventListener("notificationclick", ev => {
 					client.focus();
 				});
 			} else {
-				console.log("Found no client, opening new at", ev.action);
-				clients.openWindow(ev.action);
+				console.log(
+					"Found no client, opening new at",
+					ev.notification.actions[0].action
+				);
+				clients.openWindow(ev.notification.actions[0].action);
 			}
 			ev.notification.close();
 		})

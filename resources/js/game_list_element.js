@@ -26,7 +26,31 @@ export default class GameListElement extends React.Component {
 		this.leaveGame = this.leaveGame.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
+		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
+		this.messageHandler = this.messageHandler.bind(this);
 		this.dead = false;
+	}
+	messageHandler(payload) {
+		if (payload.data.message.GameID != this.props.game.Properties.ID) {
+			return false;
+		}
+		this.reloadGame();
+		return false;
+	}
+	phaseMessageHandler(payload) {
+		if (payload.data.gameID != this.state.game.Properties.ID) {
+			return false;
+		}
+		this.reloadGame();
+		return false;
+	}
+	componentWillUnmount() {
+		Globals.messaging.unsubscribe("phase", this.phaseMessageHandler);
+		Globals.messaging.unsubscribe("message", this.messageHandler);
+	}
+	componentDidMount() {
+		Globals.messaging.subscribe("phase", this.phaseMessageHandler);
+		Globals.messaging.subscribe("message", this.messageHandler);
 	}
 	joinGameWithPreferences(link, preferences) {
 		helpers.incProgress();
