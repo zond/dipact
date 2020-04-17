@@ -108,48 +108,82 @@ export default class SettingsDialog extends React.Component {
 							<MaterialUI.FormControlLabel
 								control={
 									<MaterialUI.Checkbox
-										checked={(_ => {
-											if (!Globals.messaging.started) {
-												return false;
-											}
-											let fcmToken = this.state.config.Properties.FCMTokens.find(
-												t => {
-													return (
-														t.App ==
-														"dipact@" +
-															Globals.messaging
-																.deviceID
-													);
-												}
-											);
-											if (!fcmToken) {
-												return false;
-											}
-											if (fcmToken.Disabled) {
-												return false;
-											}
-											return true;
-										})()}
+										checked={Globals.messaging.tokenEnabled}
 										onChange={ev => {
+											const wantedState =
+												ev.target.checked;
 											helpers.incProgress();
-											Globals.messaging.start();
 											Globals.messaging
-												.configure(
-													ev.target.checked
-														? "true"
-														: "false"
-												)
+												.start()
 												.then(js => {
 													helpers.decProgress();
-													this.setState({
-														config: js
-													});
+													let currentConfig = this
+														.state.config;
+													if (js) {
+														currentConfig = js;
+													}
+													this.setState(
+														(state, props) => {
+															state = Object.assign(
+																{},
+																state
+															);
+															state.config = currentConfig;
+															return state;
+														},
+														_ => {
+															if (
+																Globals
+																	.messaging
+																	.tokenOnServer
+															) {
+																if (
+																	Globals
+																		.messaging
+																		.tokenEnabled !=
+																	wantedState
+																) {
+																	Globals.messaging.targetState = wantedState
+																		? "enabled"
+																		: "disabled";
+																	helpers.incProgress();
+																	Globals.messaging
+																		.refreshToken()
+																		.then(
+																			js => {
+																				helpers.decProgress();
+																				this.setState(
+																					{
+																						config: js
+																					}
+																				);
+																			}
+																		);
+																} else {
+																	this.forceUpdate();
+																}
+															} else {
+																this.forceUpdate();
+															}
+														}
+													);
 												});
 										}}
 									/>
 								}
 								label="Push messages"
 							/>
+							<MaterialUI.Typography>
+								{Globals.messaging.started
+									? Globals.messaging.hasPermission
+										? Globals.messaging.tokenOnServer
+											? Globals.messaging.tokenEnabled
+												? "Push message token enabled and uploaded to server, all systems nominal."
+												: "Push message token disabled and uploaded to server, notifications turned off."
+											: "Push message token not uploaded to server, notifications nonfunctional."
+										: "Web page didn't get messaging permission, reset that before enabling notifications."
+									: "Messaging subsysten not started."}
+							</MaterialUI.Typography>
 						</React.Fragment>
 					) : (
 						""

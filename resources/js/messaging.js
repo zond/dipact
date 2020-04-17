@@ -19,11 +19,30 @@ class Messaging {
 		firebase.initializeApp(firebaseConfig);
 
 		this.messaging = firebase.messaging();
+
+		// The service worker registration that handles the FCM messages.
 		this.registration = null;
+		// The callbacks that listen to FCM messages from Diplicity.
 		this.subscribers = {};
+		// "undefined" means "accept whatever the server says we should be, but try to enabled if the server knows nothing".
+		this.targetState = "undefined";
+
+		// Has been started, will never start again.
 		this.started = false;
+		// Has notification permission.
+		this.hasPermission = false;
+		// Has an FCM token.
+		this.hasToken = false;
+		// Has uploaded the token to the server.
+		this.tokenOnServer = false;
+		// The token on the server is enabled.
+		this.tokenEnabled = false;
+
+		// Main component that renders pages when we need to do that.
 		this.main = null;
+		// The FCM token itself.
 		this.token = null;
+		// The ID of this device, so that we know if we have a token on the server or not.
 		this.deviceID = localStorage.getItem("deviceID");
 		if (!this.deviceID) {
 			this.deviceID = "" + new Date().getTime() + "_" + Math.random();
@@ -35,7 +54,7 @@ class Messaging {
 		this.subscribe = this.subscribe.bind(this);
 		this.unsubscribe = this.unsubscribe.bind(this);
 		this.handleSWMessage = this.handleSWMessage.bind(this);
-		this.configure = this.configure.bind(this);
+		this.uploadToken = this.uploadToken.bind(this);
 	}
 	handleSWMessage(ev) {
 		if (this.main && ev.data.clickedNotification) {
@@ -43,43 +62,52 @@ class Messaging {
 		}
 	}
 	start() {
-		if (this.started) {
-			return;
-		}
-		this.started = true;
-		navigator.serviceWorker
-			.register("/static/js/firebase-messaging-sw.js")
-			.then(registration => {
-				navigator.serviceWorker.addEventListener(
-					"message",
-					this.handleSWMessage
-				);
-				this.registration = registration;
-				this.messaging.useServiceWorker(this.registration);
-				this.messaging
-					.requestPermission()
-					.then(_ => {
-						console.log("Notification permission granted.");
-						// Get Instance ID token. Initially this makes a network call, once retrieved
-						// subsequent calls to getToken will return from cache.
-						this.refreshToken();
+		return new Promise((res, rej) => {
+			if (this.started) {
+				res();
+				return;
+			}
+			this.started = true;
+			navigator.serviceWorker
+				.register("/static/js/firebase-messaging-sw.js")
+				.then(registration => {
+					navigator.serviceWorker.addEventListener(
+						"message",
+						this.handleSWMessage
+					);
+					this.registration = registration;
+					this.messaging.useServiceWorker(this.registration);
+					this.messaging
+						.requestPermission()
+						.then(_ => {
+							console.log("Notification permission granted.");
+							this.hasPermission = true;
 
-						// Callback fired if Instance ID token is updated.
-						this.messaging.onTokenRefresh(this.refreshToken);
+							// Callback fired if Instance ID token is updated.
+							this.messaging.onTokenRefresh(this.refreshToken);
 
-						// Handle incoming messages. Called when:
-						// - a message is received while the app has focus
-						// - the user clicks on an app notification created by a service worker
-						//   'messaging.setBackgroundMessageHandler' handler.
-						this.messaging.onMessage(this.onMessage);
-					})
-					.catch(err => {
-						console.log("Unable to get permission to notify:", err);
-						helpers.snackbar(
-							"Unable to get notification permission, you won't get notifications for new messages or phases."
-						);
-					});
-			});
+							// Handle incoming messages. Called when:
+							// - a message is received while the app has focus
+							// - the user clicks on an app notification created by a service worker
+							//   'messaging.setBackgroundMessageHandler' handler.
+							this.messaging.onMessage(this.onMessage);
+
+							// Get Instance ID token. Initially this makes a network call, once retrieved
+							// subsequent calls to getToken will return from cache.
+							this.refreshToken().then(res);
+						})
+						.catch(err => {
+							console.log(
+								"Unable to get permission to notify:",
+								err
+							);
+							helpers.snackbar(
+								"Unable to get notification permission, you won't get notifications for new messages or phases."
+							);
+							res();
+						});
+				});
+		});
 	}
 	subscribe(type, handler) {
 		this.start();
@@ -112,180 +140,210 @@ class Messaging {
 		}
 		return false;
 	}
-	configure(enabled = "") {
-		return helpers
-			.safeFetch(Globals.serverRequest)
-			.then(resp => resp.json())
-			.then(rootJS => {
-				let configLink = rootJS.Links.find(l => {
-					return l.Rel == "user-config";
-				});
-				if (!configLink) {
-					console.log(
-						"Weirdness when trying to configure the user settings, can't find the config link in the root JS?"
-					);
-					return Promise.resolve({});
-				}
-				return helpers
-					.safeFetch(helpers.createRequest(configLink.URL))
-					.then(resp => resp.json())
-					.then(js => {
-						if (!js.Properties.FCMTokens) {
-							js.Properties.FCMTokens = [];
-						}
-						let hrefURL = new URL(window.location.href);
-						let wantedToken = {
-							Value: this.token,
-							Disabled: enabled == "false",
-							Note:
-								"Created via dipact configuration on " +
-								new Date(),
-							App: "dipact@" + this.deviceID,
-							MessageConfig: {
-								ClickActionTemplate:
-									hrefURL.protocol +
-									"//" +
-									hrefURL.host +
-									messageClickActionTemplate,
-								DontSendNotification: false,
-								DontSendData: false
-							},
-							PhaseConfig: {
-								ClickActionTemplate:
-									hrefURL.protocol +
-									"//" +
-									hrefURL.host +
-									messageClickActionTemplate,
-								DontSendNotification: false,
-								DontSendData: false
-							}
-						};
-						let foundToken = js.Properties.FCMTokens.find(t => {
-							return t.App == wantedToken.App;
-						});
-						let updateServer = false;
-						if (!foundToken) {
-							foundToken = wantedToken;
-							js.Properties.FCMTokens.push(foundToken);
-							js.Properties.PhaseDeadlineWarningMinutesAhead = 60;
-							updateServer = true;
-						} else {
-							if (foundToken.Disabled && enabled == "true") {
-								foundToken.Disabled = false;
-								updateServer = true;
-							} else if (
-								!foundToken.Disabled &&
-								enabled == "false"
-							) {
-								foundToken.Disabled = true;
-								updateServer = true;
-							}
-							if (foundToken.Value != this.token) {
-								foundToken.Value = this.token;
-								updateServer = true;
-							}
-							if (
-								foundToken.MessageConfig.DontSendNotification !=
-								wantedToken.MessageConfig.DontSendNotification
-							) {
-								foundToken.MessageConfig.DontSendNotification =
-									wantedToken.MessageConfig.DontSendNotification;
-								updateServer = true;
-							}
-							if (
-								foundToken.PhaseConfig.DontSendNotification !=
-								wantedToken.PhaseConfig.DontSendNotification
-							) {
-								foundToken.PhaseConfig.DontSendNotification =
-									wantedToken.PhaseConfig.DontSendNotification;
-								updateServer = true;
-							}
-							if (
-								foundToken.MessageConfig.DontSendData !=
-								wantedToken.MessageConfig.DontSendData
-							) {
-								foundToken.MessageConfig.DontSendData =
-									wantedToken.MessageConfig.DontSendData;
-								updateServer = true;
-							}
-							if (
-								foundToken.PhaseConfig.DontSendData !=
-								wantedToken.PhaseConfig.DontSendData
-							) {
-								foundToken.PhaseConfig.DontSendData =
-									wantedToken.PhaseConfig.DontSendData;
-								updateServer = true;
-							}
-							if (
-								foundToken.MessageConfig.ClickActionTemplate !=
-								wantedToken.MessageConfig.ClickActionTemplate
-							) {
-								foundToken.MessageConfig.ClickActionTemplate =
-									wantedToken.MessageConfig.ClickActionTemplate;
-								updateServer = true;
-							}
-							if (
-								foundToken.PhaseConfig.ClickActionTemplate !=
-								wantedToken.PhaseConfig.ClickActionTemplate
-							) {
-								foundToken.PhaseConfig.ClickActionTemplate =
-									wantedToken.PhaseConfig.ClickActionTemplate;
-								updateServer = true;
-							}
-						}
-						if (updateServer) {
-							let updateLink = js.Links.find(l => {
-								return l.Rel == "update";
-							});
-							return helpers
-								.safeFetch(
-									helpers.createRequest(updateLink.URL, {
-										method: updateLink.Method,
-										body: JSON.stringify(js.Properties),
-										headers: {
-											"Content-Type": "application/json"
-										}
-									})
-								)
-								.then(resp => resp.json())
-								.then(js => {
-									if (foundToken.Disabled) {
-										console.log(
-											"Saved token on server to disable FCM push messages."
-										);
-									} else {
-										console.log(
-											"Saved token on server to enable FCM push messages."
-										);
-									}
-									return Promise.resolve(js);
-								});
-						} else {
-							if (foundToken.Disabled) {
-								console.log(
-									"Token already saved  on server to disable FCM push messages."
-								);
-							} else {
-								console.log(
-									"Token already saved on  server to enable FCM push messages."
-								);
-							}
-							return Promise.resolve(js);
-						}
+	uploadToken() {
+		return new Promise((res, rej) => {
+			helpers
+				.safeFetch(Globals.serverRequest)
+				.then(resp => resp.json())
+				.then(rootJS => {
+					let configLink = rootJS.Links.find(l => {
+						return l.Rel == "user-config";
 					});
-			});
+					if (!configLink) {
+						console.log(
+							"Weirdness when trying to upload token, can't find the config link in the root JS?"
+						);
+						res();
+						return;
+					}
+					helpers
+						.safeFetch(helpers.createRequest(configLink.URL))
+						.then(resp => resp.json())
+						.then(js => {
+							if (!js.Properties.FCMTokens) {
+								js.Properties.FCMTokens = [];
+							}
+							let hrefURL = new URL(window.location.href);
+							let wantedToken = {
+								Value: this.token,
+								// Only if we are explicitly asked to be disabled will be create new tokens that are disabled.
+								Disabled: this.targetState == "disabled",
+								Note:
+									"Created via dipact configuration on " +
+									new Date(),
+								App: "dipact@" + this.deviceID,
+								MessageConfig: {
+									ClickActionTemplate:
+										hrefURL.protocol +
+										"//" +
+										hrefURL.host +
+										messageClickActionTemplate,
+									DontSendNotification: false,
+									DontSendData: false
+								},
+								PhaseConfig: {
+									ClickActionTemplate:
+										hrefURL.protocol +
+										"//" +
+										hrefURL.host +
+										messageClickActionTemplate,
+									DontSendNotification: false,
+									DontSendData: false
+								}
+							};
+							let foundToken = js.Properties.FCMTokens.find(t => {
+								return t.App == wantedToken.App;
+							});
+							let updateServer = false;
+							if (!foundToken) {
+								foundToken = wantedToken;
+								js.Properties.FCMTokens.push(foundToken);
+								js.Properties.PhaseDeadlineWarningMinutesAhead = 60;
+								updateServer = true;
+							} else {
+								// If we are explicitly asked to be enabled or disabled, we'll modify any found token to match.
+								if (
+									foundToken.Disabled &&
+									this.targetState == "enabled"
+								) {
+									foundToken.Disabled = false;
+									updateServer = true;
+								} else if (
+									!foundToken.Disabled &&
+									this.targetState == "disabled"
+								) {
+									foundToken.Disabled = true;
+									updateServer = true;
+								}
+								if (foundToken.Value != this.token) {
+									foundToken.Value = this.token;
+									updateServer = true;
+								}
+								if (
+									foundToken.MessageConfig
+										.DontSendNotification !=
+									wantedToken.MessageConfig
+										.DontSendNotification
+								) {
+									foundToken.MessageConfig.DontSendNotification =
+										wantedToken.MessageConfig.DontSendNotification;
+									updateServer = true;
+								}
+								if (
+									foundToken.PhaseConfig
+										.DontSendNotification !=
+									wantedToken.PhaseConfig.DontSendNotification
+								) {
+									foundToken.PhaseConfig.DontSendNotification =
+										wantedToken.PhaseConfig.DontSendNotification;
+									updateServer = true;
+								}
+								if (
+									foundToken.MessageConfig.DontSendData !=
+									wantedToken.MessageConfig.DontSendData
+								) {
+									foundToken.MessageConfig.DontSendData =
+										wantedToken.MessageConfig.DontSendData;
+									updateServer = true;
+								}
+								if (
+									foundToken.PhaseConfig.DontSendData !=
+									wantedToken.PhaseConfig.DontSendData
+								) {
+									foundToken.PhaseConfig.DontSendData =
+										wantedToken.PhaseConfig.DontSendData;
+									updateServer = true;
+								}
+								if (
+									foundToken.MessageConfig
+										.ClickActionTemplate !=
+									wantedToken.MessageConfig
+										.ClickActionTemplate
+								) {
+									foundToken.MessageConfig.ClickActionTemplate =
+										wantedToken.MessageConfig.ClickActionTemplate;
+									updateServer = true;
+								}
+								if (
+									foundToken.PhaseConfig
+										.ClickActionTemplate !=
+									wantedToken.PhaseConfig.ClickActionTemplate
+								) {
+									foundToken.PhaseConfig.ClickActionTemplate =
+										wantedToken.PhaseConfig.ClickActionTemplate;
+									updateServer = true;
+								}
+							}
+							if (updateServer) {
+								let updateLink = js.Links.find(l => {
+									return l.Rel == "update";
+								});
+								return helpers
+									.safeFetch(
+										helpers.createRequest(updateLink.URL, {
+											method: updateLink.Method,
+											body: JSON.stringify(js.Properties),
+											headers: {
+												"Content-Type":
+													"application/json"
+											}
+										})
+									)
+									.then(resp => resp.json())
+									.then(js => {
+										foundToken = js.Properties.FCMTokens.find(
+											t => {
+												return t.App == wantedToken.App;
+											}
+										);
+										if (foundToken.Disabled) {
+											this.tokenEnabled = false;
+											console.log(
+												"Saved token on server to disable FCM push messages."
+											);
+										} else {
+											this.tokenEnabled = true;
+											console.log(
+												"Saved token on server to enable FCM push messages."
+											);
+										}
+										this.tokenOnServer = true;
+										res(js);
+									});
+							} else {
+								if (foundToken.Disabled) {
+									this.tokenEnabled = false;
+									console.log(
+										"Token already saved  on server to disable FCM push messages."
+									);
+								} else {
+									this.tokenEnabled = true;
+									console.log(
+										"Token already saved on  server to enable FCM push messages."
+									);
+								}
+								this.tokenOnServer = true;
+								res(js);
+							}
+						});
+				});
+		});
 	}
 	refreshToken() {
-		this.messaging
-			.getToken()
-			.then(receivedToken => {
-				this.token = receivedToken;
-				console.log("Got FCM token: " + receivedToken);
-				this.configure();
-			})
-			.catch(err => {
-				console.log("Unable to retrieve FCM token:", err);
-			});
+		return new Promise((res, rej) => {
+			this.messaging
+				.getToken()
+				.then(receivedToken => {
+					this.token = receivedToken;
+					this.hasToken = true;
+					console.log("Got FCM token: " + receivedToken);
+					this.uploadToken().then(res);
+				})
+				.catch(err => {
+					console.log("Unable to retrieve FCM token:", err);
+					res();
+				});
+		});
 	}
 	onMessage(payload) {
 		payload.data = JSON.parse(
