@@ -20,7 +20,10 @@ const messaging = firebase.messaging();
 
 addEventListener("notificationclick", ev => {
 	ev.waitUntil(
-		clients.matchAll({ includeUncontrolled: true }).then(foundClients => {
+		clients.matchAll({
+		  includeUncontrolled: true,
+		  type: "window"
+		}).then(foundClients => {
 			if (foundClients.length > 0) {
 				foundClients.forEach(client => {
 					const message = {
