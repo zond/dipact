@@ -93,15 +93,15 @@ export default class ChatChannel extends React.Component {
 	}
 	sendMessage() {
 		if (this.props.createMessageLink) {
+			const msg = document.getElementById("chat-channel-input-field")
+				.value;
 			this.setState(
 				{
 					messages: this.state.messages.concat([
 						{
 							Properties: {
 								Sender: this.member.Nation,
-								Body: document.getElementById(
-									"chat-channel-input-field"
-								).value,
+								Body: msg,
 								ID: Math.random(),
 								CreatedAt: "" + new Date()
 							},
@@ -110,8 +110,10 @@ export default class ChatChannel extends React.Component {
 					])
 				},
 				_ => {
-					let msgEl = document.getElementById("messages");
-					msgEl.scrollTop = msgEl.scrollHeight;
+					document.getElementById("chat-channel-input-field").value =
+						"";
+					const messagesEl = document.getElementById("messages");
+					messagesEl.scrollTop = messagesEl.scrollHeight;
 					helpers
 						.safeFetch(
 							helpers.createRequest(
@@ -122,9 +124,7 @@ export default class ChatChannel extends React.Component {
 										"Content-Type": "application/json"
 									},
 									body: JSON.stringify({
-										Body: document.getElementById(
-											"chat-channel-input-field"
-										).value,
+										Body: msg,
 										ChannelMembers: this.props.channel
 											.Properties.Members
 									})
@@ -151,9 +151,6 @@ export default class ChatChannel extends React.Component {
 										Method: "GET"
 									});
 								}
-								document.getElementById(
-									"chat-channel-input-field"
-								).value = "";
 								this.loadMessages(true);
 							})
 						);
@@ -171,9 +168,8 @@ export default class ChatChannel extends React.Component {
 		return true;
 	}
 	keyPress(e) {
-		if (e.keyCode == 13) {
+		if (e.keyCode == 13 && !e.shiftKey) {
 			this.sendMessage(e.target.value);
-			// put the login here
 		}
 	}
 	loadMessages(silent = false) {
@@ -209,8 +205,8 @@ export default class ChatChannel extends React.Component {
 						message.phase = this.props.phases[currentPhaseIdx];
 					});
 					this.setState({ messages: js.Properties }, _ => {
-						let msgEl = document.getElementById("messages");
-						msgEl.scrollTop = msgEl.scrollHeight;
+						const messagesEl = document.getElementById("messages");
+						messagesEl.scrollTop = messagesEl.scrollHeight;
 					});
 					return Promise.resolve({});
 				});
