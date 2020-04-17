@@ -178,7 +178,7 @@ class Messaging {
 										"//" +
 										hrefURL.host +
 										messageClickActionTemplate,
-									DontSendNotification: false,
+									DontSendNotification: true,
 									DontSendData: false
 								},
 								PhaseConfig: {
@@ -187,7 +187,7 @@ class Messaging {
 										"//" +
 										hrefURL.host +
 										messageClickActionTemplate,
-									DontSendNotification: false,
+									DontSendNotification: true,
 									DontSendData: false
 								}
 							};
@@ -346,16 +346,8 @@ class Messaging {
 		});
 	}
 	onMessage(payload) {
-		payload.data = JSON.parse(
-			new TextDecoder("utf-8").decode(
-				pako.inflate(
-					Uint8Array.from(atob(payload.data.DiplicityJSON), c =>
-						c.charCodeAt(0)
-					)
-				)
-			)
-		);
-		console.log("Message received:", payload);
+		payload = processNotification(payload, window.location.href);
+		console.log("Message received in foreground: ", payload);
 		let handled = false;
 		if (this.subscribers[payload.data.type]) {
 			for (let key in this.subscribers[payload.data.type]) {
@@ -365,17 +357,16 @@ class Messaging {
 			}
 		}
 		if (!handled) {
-			let actions = [
-				{
-					action: payload.notification.click_action,
-					title: "View"
-				}
-			];
 			this.registration.showNotification(payload.notification.title, {
 				requireInteraction: true,
 				body: payload.notification.body,
 				icon: "https://diplicity-engine.appspot.com/img/otto.png",
-				actions: actions
+				actions: [
+					{
+						action: payload.notification.click_action,
+						title: "View"
+					}
+				]
 			});
 		}
 	}
