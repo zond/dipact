@@ -219,7 +219,18 @@ export default class GameListElement extends React.Component {
   }
 
   render() {
-    let expandedGameCells = [
+    let expandedGameCells = [];
+    expandedGameCells.push(
+<div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+        <MaterialUI.Icon style={{ marginRight: "8px" }}>
+          {helpers.createIcon("\ue55b")}
+        </MaterialUI.Icon>
+        <MaterialUI.Typography>
+          Game variant: {this.state.game.Properties.Variant}
+        </MaterialUI.Typography>
+      </div>
+    	);
+    expandedGameCells.push(
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
         <MaterialUI.Icon style={{ marginRight: "8px" }}>
           <MaterialUI.SvgIcon>
@@ -245,8 +256,8 @@ export default class GameListElement extends React.Component {
         <MaterialUI.Typography>
           Created: {helpers.timeStrToDate(this.state.game.Properties.CreatedAt)}{" "}
         </MaterialUI.Typography>
-      </div>,
-    ];
+      </div>
+    );
     if (this.state.game.Properties.Started) {
       expandedGameCells.push(
         <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
@@ -586,7 +597,7 @@ export default class GameListElement extends React.Component {
     );
 
     let playerList = [];
-    playerList.push(<MaterialUI.Typography style={{"marginTop":"4px"}}>Players:</MaterialUI.Typography>);
+    playerList.push(<MaterialUI.Typography variant="subtitle2" style={{"color":"rgba(40, 26, 26, 0.7)","marginTop":"4px"}}>Players:</MaterialUI.Typography>);
 
     this.state.game.Properties.Members.forEach((member) => {
       playerList.push(
