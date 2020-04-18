@@ -146,49 +146,87 @@ export default class GameListElement extends React.Component {
 	}
 	getIcons() {
 		let icons = [];
-		if (
-			this.state.member != null &&
-			this.state.game.Properties.Started &&
-			!this.state.game.Properties.Finished
-		) {
-			if (this.state.member.NewestPhaseState.OnProbation) {
-				this.addIcon(icons, "\ue88b", "red");
-			} else if (this.state.member.NewestPhaseState.ReadyToResolve) {
-				this.addIcon(icons, "\ue877", "green");
-			}
-		}
-		if (
-			this.state.game.Properties.MinQuickness ||
-			this.state.game.Properties.MinReliability
-		) {
-			this.addIcon(icons, "\ue425", "black");
-		}
-		if (
-			this.state.game.Properties.MinRating ||
-			this.state.game.Properties.MaxRating
-		) {
-			this.addIcon(icons, "\ue83a", "black");
-		}
-		if (
-			this.state.game.Properties.MaxHater ||
-			this.state.game.Properties.MaxHated
-		) {
-			this.addIcon(icons, "\ue612", "black");
-		}
-		if (
-			this.state.game.Properties.DisableConferenceChat ||
-			this.state.game.Properties.DisableGroupChat ||
-			this.state.game.Properties.DisablePrivateChat
-		) {
-			this.addIcon(icons, "\ue61e", "black");
-		}
-		if (this.state.game.Properties.Private) {
-			this.addIcon(icons, "\ue628", "black");
-		}
-		if (this.state.game.Properties.NationAllocation == 1) {
-			this.addIcon(icons, "\ue065", "black");
-		}
-
+    if (
+      this.state.game.Properties.MinQuickness ||
+      this.state.game.Properties.MinReliability
+    ) {
+      this.addIcon(icons, "\ue425", "black");
+    }
+    if (
+      this.state.game.Properties.MinRating ||
+      this.state.game.Properties.MaxRating
+    ) {
+      this.addIcon(icons, "\ue83a", "black");
+    }
+    if (
+      this.state.game.Properties.MaxHater ||
+      this.state.game.Properties.MaxHated
+    ) {
+      icons.push(
+      	<MaterialUI.Tooltip disableFocusListener title="Maximum hate requirement">
+      	<MaterialUI.SvgIcon style={{"height":"16px", "width":"16px"}}>
+      	<g id="Artboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+        <g id="emoticon-angry-outline" transform="translate(2.000000, 2.000000)" fill="#000000" fillRule="nonzero">
+            <path d="M1.499,0.115 L19.2847763,17.8994949 L19.299,17.885 L19.8994949,18.4852814 L18.4852814,19.8994949 L16.3286725,17.7426435 C14.5506593,19.1960497 12.3167744,20 10,20 C7.3478351,20 4.80429597,18.9464316 2.92893219,17.0710678 C1.0535684,15.195704 0,12.6521649 0,10 C0,7.59864107 0.846427847,5.39497595 2.25721107,3.67107713 L0.100505063,1.51471863 L1.499,0.115 Z M3.68005389,5.09447025 C2.62704639,6.44913544 2,8.15134045 2,10 C2,14.418278 5.581722,18 10,18 C11.8486595,18 13.5508646,17.3729536 14.9055298,16.3199461 L13.293,14.707 L12.77,15.23 C12.32,14.5 11.25,14 10,14 C8.75,14 7.68,14.5 7.23,15.23 L5.81,13.81 C6.71,12.72 8.25,12 10,12 C10.2091413,12 10.4152832,12.0102834 10.6176919,12.0302527 L7.32314129,8.73840737 C7.08353442,8.90238797 6.7987395,9 6.5,9 C5.7,9 5,8.3 5,7.5 L5,6.414 L3.68005389,5.09447025 Z M10,0 C12.6521649,0 15.195704,1.0535684 17.0710678,2.92893219 C18.9464316,4.80429597 20,7.3478351 20,10 C20,11.6325537 19.6007944,13.2239482 18.8564416,14.6436748 L17.3584074,13.144315 C17.7713793,12.1791202 18,11.1162587 18,10 C18,7.87826808 17.1571453,5.84343678 15.6568542,4.34314575 C14.1565632,2.84285472 12.1217319,2 10,2 C8.88374129,2 7.82087979,2.22862069 6.85568497,2.64159261 L5.35539972,1.1417664 C6.74323813,0.41258719 8.32343661,0 10,0 Z M15,6 L15,7.5 C15,8.3 14.3,9 13.5,9 C12.7,9 12,8.3 12,7.5 L15,6 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+    </MaterialUI.SvgIcon>
+    </MaterialUI.Tooltip>
+      	);
+    }
+    if (
+      this.state.game.Properties.DisableConferenceChat ||
+      this.state.game.Properties.DisableGroupChat ||
+      this.state.game.Properties.DisablePrivateChat
+    ) {
+      icons.push(
+        <MaterialUI.Tooltip disableFocusListener title="Chat disabled">
+          <MaterialUI.SvgIcon style={{"height":"16px", "width":"16px"}}>
+            <g
+              id="Artboard"
+              stroke="none"
+              strokeWidth="1"
+              fill="none"
+              fillRule="evenodd"
+            >
+              <g id="message-24px">
+                <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                <path
+                  d="M20,2 L4,2 C2.9,2 2.01,2.9 2.01,4 L2,22 L6,18 L20,18 C21.1,18 22,17.1 22,16 L22,4 C22,2.9 21.1,2 20,2 Z M18,14 L6,14 L6,12 L18,12 L18,14 Z M18,11 L6,11 L6,9 L18,9 L18,11 Z M18,8 L6,8 L6,6 L18,6 L18,8 Z"
+                  id="Shape"
+                  fill="#000000"
+                  fillRule="nonzero"
+                ></path>
+              </g>
+              <rect
+                id="Rectangle"
+                fill="#000000"
+                transform="translate(10.899495, 12.498990) rotate(45.000000) translate(-10.899495, -12.498990) "
+                x="-2.10050506"
+                y="11.4989899"
+                width="26"
+                height="2"
+              ></rect>
+              <rect
+                id="Rectangle"
+                fill="#FFFFFF"
+                transform="translate(12.099495, 10.899495) rotate(45.000000) translate(-12.099495, -10.899495) "
+                x="-0.900505063"
+                y="9.89949494"
+                width="26"
+                height="2"
+              ></rect>
+            </g>
+          </MaterialUI.SvgIcon>
+        </MaterialUI.Tooltip>
+      );
+    }
+    if (this.state.game.Properties.Private) {
+      this.addIcon(icons, "\ue897", "black");
+    }
+    if (this.state.game.Properties.NationAllocation == 1) {
+      this.addIcon(icons, "\ue065", "black");
+    }
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}
 	render() {
@@ -579,6 +617,9 @@ export default class GameListElement extends React.Component {
 										</MaterialUI.Typography>
 									</div>
 								</div>
+								<div style={{display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between"}} >
 								<MaterialUI.Typography
 									textroverflow="ellipsis"
 									noWrap={true}
@@ -592,16 +633,15 @@ export default class GameListElement extends React.Component {
 											.PhaseLengthMinutes
 									)}
 								</MaterialUI.Typography>
+								<div> {this.getIcons()}</div>
+								</div>
 							</React.Fragment>
 						);
 					}
 				})()}
 
-				{/*} <div>
-            {/*
-					{this.getIcons()} 
-            {this.getIcons()}
-          </div> TODO: @Joren fix the get icons into the expanded view.*/}
+				 <div>
+          </div> 
 			</div>
 		);
 
