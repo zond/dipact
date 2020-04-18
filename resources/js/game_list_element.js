@@ -199,12 +199,23 @@ export default class GameListElement extends React.Component {
       icons.push(
         <MaterialUI.Tooltip disableFocusListener title="Chat disabled">
           <MaterialUI.SvgIcon style={{ height: "16px", width: "16px" }}>
-             <g id="Artboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-        <g id="message-24px">
-            <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-            <path d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z" id="Combined-Shape" fill="#000000" fillRule="nonzero"></path>
-        </g>
-    </g>
+            <g
+              id="Artboard"
+              stroke="none"
+              strokeWidth="1"
+              fill="none"
+              fillRule="evenodd"
+            >
+              <g id="message-24px">
+                <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                <path
+                  d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
+                  id="Combined-Shape"
+                  fill="#000000"
+                  fillRule="nonzero"
+                ></path>
+              </g>
+            </g>
           </MaterialUI.SvgIcon>
         </MaterialUI.Tooltip>
       );
@@ -221,7 +232,7 @@ export default class GameListElement extends React.Component {
   render() {
     let expandedGameCells = [];
     expandedGameCells.push(
-<div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+      <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
         <MaterialUI.Icon style={{ marginRight: "8px" }}>
           {helpers.createIcon("\ue55b")}
         </MaterialUI.Icon>
@@ -229,7 +240,7 @@ export default class GameListElement extends React.Component {
           Game variant: {this.state.game.Properties.Variant}
         </MaterialUI.Typography>
       </div>
-    	);
+    );
     expandedGameCells.push(
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
         <MaterialUI.Icon style={{ marginRight: "8px" }}>
@@ -304,49 +315,46 @@ export default class GameListElement extends React.Component {
     }
     expandedGameCells.push(
       <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
-        {this.state.game.Properties.NationAllocation == 1
-        	? <MaterialUI.Icon style={{ marginRight: "8px" }}>
-          {helpers.createIcon("\ue065")}
-        </MaterialUI.Icon>
-        :   <MaterialUI.Icon style={{marginRight:"8px"}}>
-              <MaterialUI.SvgIcon>
-                <g
-                  id="Artboard"
-                  stroke="none"
-                  strokeWidth="1"
-                  fill="none"
-                  fillRule="evenodd"
-                >
-                  <g id="playlist_add_check-24px-(1)">
-                    <rect
-                      id="Rectangle"
-                      x="0"
-                      y="0"
-                      width="24"
-                      height="24"
-                    ></rect>
-                    <path
-                      d="M14,10 L2,10 L2,12 L14,12 L14,10 Z M14,6 L2,6 L2,8 L14,8 L14,6 Z M18.51,16.25 L21,18.75 L18.51,21.25 L18.51,19.5 L13,19.5 L13,18 L18.51,18 L18.51,16.25 Z M15.49,12 L15.49,13.75 L21,13.75 L21,15.25 L15.49,15.25 L15.49,17 L13,14.5 L15.49,12 Z M10,14 L10,16 L2,16 L2,14 L10,14 Z"
-                      id="Shape"
-                      fill="#000000"
-                      fillRule="nonzero"
-                    ></path>
-                  </g>
-                  <g id="loop-24px">
-                    <polygon
-                      id="Path"
-                      points="13 12 26 12 26 25 13 25"
-                    ></polygon>
-                    <g id="transfer_within_a_station-24px">
-                      <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-                    </g>
+        {this.state.game.Properties.NationAllocation == 1 ? (
+          <MaterialUI.Icon style={{ marginRight: "8px" }}>
+            {helpers.createIcon("\ue065")}
+          </MaterialUI.Icon>
+        ) : (
+          <MaterialUI.Icon style={{ marginRight: "8px" }}>
+            <MaterialUI.SvgIcon>
+              <g
+                id="Artboard"
+                stroke="none"
+                strokeWidth="1"
+                fill="none"
+                fillRule="evenodd"
+              >
+                <g id="playlist_add_check-24px-(1)">
+                  <rect
+                    id="Rectangle"
+                    x="0"
+                    y="0"
+                    width="24"
+                    height="24"
+                  ></rect>
+                  <path
+                    d="M14,10 L2,10 L2,12 L14,12 L14,10 Z M14,6 L2,6 L2,8 L14,8 L14,6 Z M18.51,16.25 L21,18.75 L18.51,21.25 L18.51,19.5 L13,19.5 L13,18 L18.51,18 L18.51,16.25 Z M15.49,12 L15.49,13.75 L21,13.75 L21,15.25 L15.49,15.25 L15.49,17 L13,14.5 L15.49,12 Z M10,14 L10,16 L2,16 L2,14 L10,14 Z"
+                    id="Shape"
+                    fill="#000000"
+                    fillRule="nonzero"
+                  ></path>
+                </g>
+                <g id="loop-24px">
+                  <polygon id="Path" points="13 12 26 12 26 25 13 25"></polygon>
+                  <g id="transfer_within_a_station-24px">
+                    <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
                   </g>
                 </g>
-              </MaterialUI.SvgIcon>
-            </MaterialUI.Icon>
-            }
+              </g>
+            </MaterialUI.SvgIcon>
+          </MaterialUI.Icon>
+        )}
 
-       
         <MaterialUI.Typography>
           Nation selection:{" "}
           {this.state.game.Properties.NationAllocation == 1
@@ -482,15 +490,26 @@ export default class GameListElement extends React.Component {
         // Add two columns because this is required for formatting nicely.
         expandedGameCells.push(
           <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
-            <MaterialUI.Icon style={{marginRight:"8px"}}>
-     <MaterialUI.SvgIcon>
-             <g id="Artboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-        <g id="message-24px">
-            <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-            <path d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z" id="Combined-Shape" fill="#000000" fillRule="nonzero"></path>
-        </g>
-    </g>
-          </MaterialUI.SvgIcon>
+            <MaterialUI.Icon style={{ marginRight: "8px" }}>
+              <MaterialUI.SvgIcon>
+                <g
+                  id="Artboard"
+                  stroke="none"
+                  strokeWidth="1"
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <g id="message-24px">
+                    <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                    <path
+                      d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
+                      id="Combined-Shape"
+                      fill="#000000"
+                      fillRule="nonzero"
+                    ></path>
+                  </g>
+                </g>
+              </MaterialUI.SvgIcon>
             </MaterialUI.Icon>
             <MaterialUI.Typography>No chat (Gunboat)</MaterialUI.Typography>
           </div>
@@ -506,25 +525,44 @@ export default class GameListElement extends React.Component {
           "Private"
         );
         expandedGameCells.push(
-           <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
-            <MaterialUI.Icon style={{marginRight:"8px"}}>
-     <MaterialUI.SvgIcon>
-             <g id="Artboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-        <g id="message-24px">
-            <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-            <path d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z" id="Combined-Shape" fill="#000000" fillRule="nonzero"></path>
-        </g>
-    </g>
-          </MaterialUI.SvgIcon>
+          <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
+            <MaterialUI.Icon style={{ marginRight: "8px" }}>
+              <MaterialUI.SvgIcon>
+                <g
+                  id="Artboard"
+                  stroke="none"
+                  strokeWidth="1"
+                  fill="none"
+                  fillRule="evenodd"
+                >
+                  <g id="message-24px">
+                    <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                    <path
+                      d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
+                      id="Combined-Shape"
+                      fill="#000000"
+                      fillRule="nonzero"
+                    ></path>
+                  </g>
+                </g>
+              </MaterialUI.SvgIcon>
             </MaterialUI.Icon>
-            <MaterialUI.Typography> {allChannels[false].join(" & ")} chat off</MaterialUI.Typography></div>
+            <MaterialUI.Typography>
+              {" "}
+              {allChannels[false].join(" & ")} chat off
+            </MaterialUI.Typography>
+          </div>
         );
         expandedGameCells.push(
           <div style={{ width: "100%", display: "flex", alignItems: "center" }}>
-            <MaterialUI.Icon style={{marginRight:"8px"}}>
-            {helpers.createIcon("\ue0c9")}
+            <MaterialUI.Icon style={{ marginRight: "8px" }}>
+              {helpers.createIcon("\ue0c9")}
             </MaterialUI.Icon>
-               <MaterialUI.Typography>  {allChannels[true].join(" & ")} chat on </MaterialUI.Typography></div>
+            <MaterialUI.Typography>
+              {" "}
+              {allChannels[true].join(" & ")} chat on{" "}
+            </MaterialUI.Typography>
+          </div>
         );
       }
     }
@@ -537,7 +575,7 @@ export default class GameListElement extends React.Component {
       buttons.push(
         <MaterialUI.Button
           variant="outlined"
-          style={{ marginRight: "16px", "minWidth":"100px" }}
+          style={{ marginRight: "16px", minWidth: "100px" }}
           color="primary"
           onClick={this.viewGame}
           key={itemKey++}
@@ -553,7 +591,7 @@ export default class GameListElement extends React.Component {
             key={itemKey++}
             variant="outlined"
             color="primary"
-            style={{ marginRight: "16px", "minWidth":"100px"}}
+            style={{ marginRight: "16px", minWidth: "100px" }}
             onClick={(_) => {
               this.joinGame(link);
             }}
@@ -567,7 +605,7 @@ export default class GameListElement extends React.Component {
             key={itemKey++}
             variant="outlined"
             color="primary"
-            style={{ marginRight: "16px", "minWidth":"100px"}}
+            style={{ marginRight: "16px", minWidth: "100px" }}
             onClick={(_) => {
               this.leaveGame(link);
             }}
@@ -589,15 +627,18 @@ export default class GameListElement extends React.Component {
       </div>
     );
     expandedGameCells.forEach((cell) =>
-      expandedGameItems.push(
-        <div>
-          {cell}
-        </div>
-      )
+      expandedGameItems.push(<div>{cell}</div>)
     );
 
     let playerList = [];
-    playerList.push(<MaterialUI.Typography variant="subtitle2" style={{"color":"rgba(40, 26, 26, 0.7)","marginTop":"4px"}}>Players:</MaterialUI.Typography>);
+    playerList.push(
+      <MaterialUI.Typography
+        variant="subtitle2"
+        style={{ color: "rgba(40, 26, 26, 0.7)", marginTop: "4px" }}
+      >
+        Players:
+      </MaterialUI.Typography>
+    );
 
     this.state.game.Properties.Members.forEach((member) => {
       playerList.push(
@@ -904,7 +945,7 @@ export default class GameListElement extends React.Component {
               </div>
               <div
                 style={{
-                width:"100%",
+                  width: "100%",
                   maxWidth: "460px",
                 }}
               >
