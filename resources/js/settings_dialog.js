@@ -162,7 +162,7 @@ export default class SettingsDialog extends React.Component {
                   ) : (
                                            <p style={{ marginTop: "2px" }}>
                           <MaterialUI.Typography variant="caption">
-                            No notification permission received.<br /><a href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8">Allow this sites notifications in your browser settings.</a>
+                            No notification permission received.<br /><a href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8" target="_blank">Allow this sites notifications in your browser settings.</a>
                           </MaterialUI.Typography>
                         </p>   
                   )
