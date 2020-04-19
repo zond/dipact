@@ -94,6 +94,8 @@ export default class Main extends ActivityContainer {
 				.then(js => {
 					helpers.decProgress();
 					Globals.userStats = js;
+					// Force an update, since the start view depends on this data.
+					this.forceUpdate();
 				});
 			helpers.incProgress();
 			helpers
