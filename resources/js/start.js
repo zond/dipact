@@ -12,7 +12,7 @@ export default class Start extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{!Globals.userStats.Properties.JoinedGames ? (
+				{Globals.userStats.Properties.JoinedGames ? (
 					<div
 						className={helpers.scopedClass(
 							"height: calc(100% - 114px); overflow-y: scroll;"
