@@ -150,30 +150,56 @@ export default class SettingsDialog extends React.Component {
                       Globals.messaging.tokenEnabled ? (
                         ""
                       ) : (
-""
+                        ""
                       )
                     ) : (
-                        <p style={{ marginTop: "2px" }}>
-                          <MaterialUI.Typography variant="caption">
-                            Notifications disabled [Error: no token uploaded]
-                          </MaterialUI.Typography>
-                        </p>   
-                 )
+                      <p style={{ marginTop: "2px" }}>
+                        <MaterialUI.Typography variant="caption">
+                          Notifications disabled [Error: no token uploaded]
+                        </MaterialUI.Typography>
+                      </p>
+                    )
                   ) : (
-                                           <p style={{ marginTop: "2px" }}>
-                          <MaterialUI.Typography variant="caption">
-                            No notification permission received.<br /><a href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8">Allow this sites notifications in your browser settings.</a>
-                          </MaterialUI.Typography>
-                        </p>   
+                    <p style={{ marginTop: "2px" }}>
+                      <MaterialUI.Typography variant="caption">
+                        No notification permission received.
+                        <br />
+                        <a
+                          href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8"
+                          target="_blank"
+                        >
+                          Allow this sites notifications in your browser
+                          settings.
+                        </a>
+                      </MaterialUI.Typography>
+                    </p>
                   )
                 ) : (
-                                          <p style={{ marginTop: "2px" }}>
-                          <MaterialUI.Typography variant="caption">
-                            Notification disabled [Error: notification system did not start]
-                          </MaterialUI.Typography>
-                        </p>   
+                  <p style={{ marginTop: "2px" }}>
+                    <MaterialUI.Typography variant="caption">
+                      Notification disabled [Error: notification system did not
+                      start]
+                    </MaterialUI.Typography>
+                  </p>
                 )}
               </div>
+
+              <MaterialUI.TextField
+                fullWidth
+                disabled={Globals.messaging.tokenEnabled ? false : true}
+                label="Phase deadline reminder"
+                helperText={
+                  Globals.messaging.tokenEnabled
+                    ? "In minutes. 0 = off"
+                    : "Turn on push notifications to receive alarms"
+                }
+                margin="dense"
+                value={
+                  this.state.config.Properties.PhaseDeadlineWarningMinutesAhead
+                }
+                onChange={this.updatePhaseDeadline}
+                onBlur={this.saveConfig}
+              />
               <MaterialUI.FormControlLabel
                 control={
                   <MaterialUI.Switch
@@ -204,18 +230,6 @@ export default class SettingsDialog extends React.Component {
                 }
                 label="Email notifications"
               />
-
-                <MaterialUI.TextField
-                fullWidth
-                label="Phase deadline alarm (minutes)"
-                margin="dense"
-                value={
-                  this.state.config.Properties.PhaseDeadlineWarningMinutesAhead
-                }
-                onChange={this.updatePhaseDeadline}
-                onBlur={this.saveConfig}
-              />
-
             </React.Fragment>
           ) : (
             ""
