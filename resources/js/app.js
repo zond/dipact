@@ -12,7 +12,9 @@ window.Globals = {
 		},
 		mode: "cors"
 	}),
-	user: null,
+	user: { Properties: {} },
+	userStats: { Properties: { TrueSkill: {} } },
+	userConfig: { Properties: { FCMTokens: [], MailConfig: {} } },
 	token: null,
 	progressCount: 0,
 	progressDialog: null,

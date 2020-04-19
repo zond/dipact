@@ -120,6 +120,16 @@ export default class DipMap extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
+			!prevProps.isActive &&
+			this.props.isActive &&
+			!this.mapDims[0] &&
+			!this.mapDims[1]
+		) {
+			let mapEl = document.getElementById("map");
+			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
+			this.snapshotSVG();
+		}
+		if (
 			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
 			this.props.phase.Properties.PhaseOrdinal !=
 				prevProps.phase.Properties.PhaseOrdinal
@@ -187,7 +197,6 @@ export default class DipMap extends React.Component {
 			!prevState.game ||
 			this.state.game.Properties.ID != prevState.game.Properties.ID
 		) {
-			console.log("detected change of game id");
 			this.setState(
 				(state, props) => {
 					state = Object.assign({}, state);

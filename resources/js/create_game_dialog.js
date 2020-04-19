@@ -12,7 +12,10 @@ export default class CreateGameDialog extends React.Component {
 				Desc: Globals.user.GivenName + "'s game",
 				Private: false,
 				Anonymous: false,
-				MinReliability: 0,
+				MinReliability: Math.min(
+					10,
+					Math.floor(Globals.userStats.Properties.Reliability)
+				),
 				MinQuickness: 0,
 				MinRating: 0,
 				MaxRating: 0,
@@ -22,6 +25,7 @@ export default class CreateGameDialog extends React.Component {
 				DisableGroupChat: false,
 				DisablePrivateChat: false
 			},
+			userStats: Globals.userStats,
 			phaseLengthUnit: 60 * 24,
 			phaseLengthMultiplier: 1
 		};
@@ -32,34 +36,25 @@ export default class CreateGameDialog extends React.Component {
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
 		this.checkboxField = this.checkboxField.bind(this);
 		this.floatField = this.floatField.bind(this);
-		this.userStats = {
-			Properties: {
-				Glicko: {}
-			}
-		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
 	}
-	componentDidMount() {
-		helpers.incProgress();
-		helpers
-			.safeFetch(
-				helpers.createRequest("/User/" + Globals.user.Id + "/Stats")
-			)
-			.then(resp => resp.json())
-			.then(js => {
-				helpers.decProgress();
-				this.userStats = js;
-				this.setState((state, props) => {
-					state = Object.assign({}, state);
-					state.newGameProperties.MinReliability = Math.min(
-						10,
-						Math.floor(this.userStats.Properties.Reliability)
-					);
-					return state;
-				});
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (
+			JSON.stringify(Globals.userStats) !=
+			JSON.stringify(this.state.userStats)
+		) {
+			this.setState((state, props) => {
+				state = Object.assign({}, state);
+				state.userStats = Globals.userStats;
+				state.newGameProperties.MinReliability = Math.min(
+					10,
+					Math.floor(Globals.userStats.Properties.Reliability)
+				);
+				return state;
 			});
+		}
 	}
 	close() {
 		return new Promise((res, rej) => {
@@ -108,7 +103,8 @@ export default class CreateGameDialog extends React.Component {
 							: Math.min(
 									10,
 									Math.floor(
-										this.userStats.Properties.Reliability
+										this.state.userStats.Properties
+											.Reliability
 									)
 							  );
 					}
@@ -341,27 +337,35 @@ export default class CreateGameDialog extends React.Component {
 					</MaterialUI.FormGroup>
 					{this.floatField("MinReliability", {
 						label: "Minimum reliability, high = active players",
-						max: Math.floor(this.userStats.Properties.Reliability)
+						max: Math.floor(
+							this.state.userStats.Properties.Reliability
+						)
 					})}
 					{this.floatField("MinQuickness", {
 						label: "Minimum quickness, high = fast games",
-						max: Math.floor(this.userStats.Properties.Quickness)
+						max: Math.floor(
+							this.state.userStats.Properties.Quickness
+						)
 					})}
 					{this.floatField("MinRating", {
 						label: "Minimum rating, high = strong players",
-						max: Math.floor(this.userStats.Properties.Glicko.Rating)
+						max: Math.floor(
+							this.state.userStats.Properties.TrueSkill.Rating
+						)
 					})}
 					{this.floatField("MaxRating", {
 						label: "Maximum rating, low = weak players",
-						min: Math.ceil(this.userStats.Properties.Glicko.Rating)
+						min: Math.ceil(
+							this.state.userStats.Properties.TrueSkill.Rating
+						)
 					})}
 					{this.floatField("MaxHated", {
 						label: "Maximum hated, low = unbanned players",
-						min: Math.ceil(this.userStats.Properties.Hated)
+						min: Math.ceil(this.state.userStats.Properties.Hated)
 					})}
 					{this.floatField("MaxHater", {
 						label: "Maximum hater, low = patient players",
-						min: Math.ceil(this.userStats.Properties.Hater)
+						min: Math.ceil(this.state.userStats.Properties.Hater)
 					})}
 					<MaterialUI.DialogActions>
 						<MaterialUI.Button onClick={this.close} color="primary">
