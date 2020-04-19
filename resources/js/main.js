@@ -81,26 +81,42 @@ export default class Main extends ActivityContainer {
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
 		if (Globals.user) {
-			let configLink = rootJS.Links.find(l => {
-				return l.Rel == "user-config";
-			});
-			if (configLink) {
-				helpers.incProgress();
-				helpers
-					.safeFetch(helpers.createRequest(configLink.URL))
-					.then(resp => resp.json())
-					.then(js => {
-						helpers.decProgress();
-						if (
-							js.Properties.FCMTokens &&
-							js.Properties.FCMTokens.find(t => {
-								return t.App.indexOf("dipact@") == 0;
-							})
-						) {
-							Globals.messaging.start();
-						}
-					});
-			}
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						rootJS.Links.find(l => {
+							return l.Rel == "user-stats";
+						}).URL
+					)
+				)
+				.then(resp => resp.json())
+				.then(js => {
+					helpers.decProgress();
+					Globals.userStats = js;
+				});
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						rootJS.Links.find(l => {
+							return l.Rel == "user-config";
+						}).URL
+					)
+				)
+				.then(resp => resp.json())
+				.then(js => {
+					helpers.decProgress();
+					Globals.userConfig = js;
+					if (
+						js.Properties.FCMTokens &&
+						js.Properties.FCMTokens.find(t => {
+							return t.App.indexOf("dipact@") == 0;
+						})
+					) {
+						Globals.messaging.start();
+					}
+				});
 			helpers.incProgress();
 			helpers
 				.safeFetch(
