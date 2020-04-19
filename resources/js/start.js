@@ -123,7 +123,7 @@ export default class Start extends React.Component {
 											.newGameFormOpen
 									});
 								}}
-								variant="outlined"
+								variant="contained"
 								color="secondary"
 							>
 								New game
