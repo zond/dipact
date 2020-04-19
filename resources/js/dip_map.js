@@ -5,19 +5,30 @@ import OrderDialog from '%{ cb "/js/order_dialog.js" }%';
 export default class DipMap extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			game: null,
+			phase: null,
+			member: null,
+			variant: null,
+			laboratoryMode: this.props.laboratoryMode,
+			labEditMode: false,
+			orders: null,
+			options: null,
+			svgLoaded: false,
+			labPlayAs: ""
+		};
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
-		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
 		this.updateMap = this.updateMap.bind(this);
 		this.createOrder = this.createOrder.bind(this);
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
+		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
 		this.mapDims = [null, null];
 		this.map = null;
-		this.orders = null;
-		this.lastRenderedGameID = null;
 		this.orderDialog = null;
+		this.firstLoadFinished = false;
 	}
 	snapshotSVG() {
 		let mapEl = document.getElementById("map");
@@ -45,7 +56,7 @@ export default class DipMap extends React.Component {
 		});
 	}
 	createOrder(parts) {
-		let setOrderLink = this.props.phase.Links.find(l => {
+		let setOrderLink = this.state.phase.Links.find(l => {
 			return l.Rel == "create-order";
 		});
 		if (setOrderLink) {
@@ -63,7 +74,7 @@ export default class DipMap extends React.Component {
 		}
 	}
 	deleteOrder(prov) {
-		let order = this.orders.Properties.find(o => {
+		let order = this.state.orders.find(o => {
 			return o.Properties.Parts[0] == prov;
 		});
 		if (order) {
@@ -82,306 +93,320 @@ export default class DipMap extends React.Component {
 		}
 	}
 	componentDidMount() {
-		this.componentDidUpdate();
+		this.setState({ game: this.props.game, phase: this.props.phase });
 	}
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			nextProps.isActive != this.props.isActive ||
-			!nextProps.game ||
-			!this.props.game ||
-			nextProps.game.Properties.ID != this.props.game.Properties.ID ||
-			!nextProps.phase ||
-			!this.props.phase ||
-			nextProps.phase.Properties.PhaseOrdinal !=
-				this.props.phase.Properties.PhaseOrdinal
-		);
+	loadOrdersPromise() {
+		let orderLink = this.state.phase.Links.find(l => {
+			return l.Rel == "orders";
+		});
+		if (orderLink) {
+			const promiseFunc = _ => {
+				return helpers
+					.safeFetch(helpers.createRequest(orderLink.URL))
+					.then(resp => resp.json());
+			};
+			return new Promise((res, rej) => {
+				(this.state.phase.Properties.Resolved
+					? helpers.memoize(orderLink.URL, promiseFunc)
+					: promiseFunc()
+				).then(js => {
+					this.props.ordersSubscriber(js.Properties);
+					res(js.Properties);
+				});
+			});
+		} else {
+			return Promise.resolve(null);
+		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (this.lastRenderedGameID == this.props.game.Properties.ID) {
-			this.updateMap(true).then(this.snapshotSVG);
-			return;
+		if (
+			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
+			this.props.phase.Properties.PhaseOrdinal !=
+				prevProps.phase.Properties.PhaseOrdinal
+		) {
+			this.setState({ game: this.props.game, phase: this.props.phase });
 		}
-
-		this.member = this.props.game.Properties.Members.find(e => {
-			return e.User.Email == Globals.user.Email;
-		});
-		this.variant = Globals.variants.find(v => {
-			return v.Properties.Name == this.props.game.Properties.Variant;
-		});
-
-		helpers.incProgress();
-		let variantMapSVG =
-			"/Variant/" + this.props.game.Properties.Variant + "/Map.svg";
-		let promises = [
-			helpers.memoize(variantMapSVG, _ => {
-				return helpers
-					.safeFetch(helpers.createRequest(variantMapSVG))
-					.then(resp => resp.text());
-			}),
-			Promise.all(
-				this.variant.Properties.UnitTypes.map(unitType => {
-					let variantUnitSVG =
-						"/Variant/" +
-						this.props.game.Properties.Variant +
-						"/Units/" +
-						unitType +
-						".svg";
-					return helpers.memoize(variantUnitSVG, _ => {
-						return helpers
-							.safeFetch(helpers.createRequest(variantUnitSVG))
-							.then(resp => resp.text())
-							.then(svg => {
-								return {
-									name: unitType,
-									svg: svg
-								};
-							});
-					});
-				})
-			)
-		];
-		Promise.all(promises).then(values => {
-			helpers.decProgress();
-
-			let mapSVG = values[0];
-			let mapEl = document.getElementById("map");
-			mapEl.innerHTML = mapSVG;
-			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
-			this.map = dippyMap($("#map"));
-
-			var panzoomInstance = panzoom(
-				document.getElementById("map-container"),
-				{
-					bounds: true,
-					boundsPadding: 0.5,
-					onZoom: e => {
-						document.getElementById("map").style.display = "none";
-						document.getElementById("mapSnapshot").style.display =
-							"flex";
-					},
-					onZoomend: e => {
-						document.getElementById("map").style.display = "flex";
-						document.getElementById("mapSnapshot").style.display =
-							"none";
+		if (
+			this.state.svgLoaded != prevState.svgLoaded ||
+			!prevState.game ||
+			!prevState.phase ||
+			this.state.game.Properties.ID != prevState.game.Properties.ID ||
+			this.state.phase.Properties.PhaseOrdinal !=
+				prevState.phase.Properties.PhaseOrdinal
+		) {
+			if (this.state.phase.Links) {
+				let silent = this.firstLoadFinished;
+				if (!silent) {
+					helpers.incProgress();
+				}
+				let promises = [this.loadOrdersPromise()];
+				let optionsLink = this.state.phase.Links.find(l => {
+					return l.Rel == "options";
+				});
+				if (optionsLink) {
+					promises.push(
+						helpers.memoize(optionsLink.URL, _ => {
+							return helpers
+								.safeFetch(
+									helpers.createRequest(optionsLink.URL)
+								)
+								.then(resp => resp.json())
+								.then(js => {
+									return js.Properties;
+								});
+						})
+					);
+				} else {
+					promises.push(Promise.resolve(null));
+				}
+				Promise.all(promises).then(values => {
+					if (!silent) {
+						helpers.decProgress();
+						this.firstLoadFinished = true;
 					}
+					this.setState(
+						(state, props) => {
+							state = Object.assign({}, state);
+							state.orders = values[0];
+							state.options = values[1];
+							return state;
+						},
+						_ => {
+							this.updateMap();
+						}
+					);
+				});
+			}
+		} else if (
+			JSON.stringify(this.state.orders) !=
+			JSON.stringify(prevState.orders)
+		) {
+			this.updateMap();
+		}
+		if (
+			!prevState.game ||
+			this.state.game.Properties.ID != prevState.game.Properties.ID
+		) {
+			console.log("detected change of game id");
+			this.setState(
+				(state, props) => {
+					state = Object.assign({}, state);
+					state.svgLoaded = false;
+					state.member = this.state.game.Properties.Members.find(
+						e => {
+							return e.User.Email == Globals.user.Email;
+						}
+					);
+					state.variant = Globals.variants.find(v => {
+						return (
+							v.Properties.Name ==
+							this.state.game.Properties.Variant
+						);
+					});
+					return state;
+				},
+				_ => {
+					let variantMapSVG =
+						"/Variant/" +
+						this.state.game.Properties.Variant +
+						"/Map.svg";
+					let promises = [
+						helpers.memoize(variantMapSVG, _ => {
+							return helpers
+								.safeFetch(helpers.createRequest(variantMapSVG))
+								.then(resp => resp.text());
+						}),
+						Promise.all(
+							this.state.variant.Properties.UnitTypes.map(
+								unitType => {
+									let variantUnitSVG =
+										"/Variant/" +
+										this.state.game.Properties.Variant +
+										"/Units/" +
+										unitType +
+										".svg";
+									return helpers.memoize(
+										variantUnitSVG,
+										_ => {
+											return helpers
+												.safeFetch(
+													helpers.createRequest(
+														variantUnitSVG
+													)
+												)
+												.then(resp => resp.text())
+												.then(svg => {
+													return {
+														name: unitType,
+														svg: svg
+													};
+												});
+										}
+									);
+								}
+							)
+						)
+					];
+					Promise.all(promises).then(values => {
+						let mapSVG = values[0];
+						let mapEl = document.getElementById("map");
+						mapEl.innerHTML = mapSVG;
+						this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
+
+						this.map = dippyMap($("#map"));
+						panzoom(document.getElementById("map-container"), {
+							bounds: true,
+							boundsPadding: 0.5,
+							onZoom: e => {
+								document.getElementById("map").style.display =
+									"none";
+								document.getElementById(
+									"mapSnapshot"
+								).style.display = "flex";
+							},
+							onZoomend: e => {
+								document.getElementById("map").style.display =
+									"flex";
+								document.getElementById(
+									"mapSnapshot"
+								).style.display = "none";
+							}
+						});
+
+						let variantUnits = values[1];
+						variantUnits.forEach(unitData => {
+							let container = document.createElement("div");
+							container.setAttribute(
+								"id",
+								"unit" + unitData.name
+							);
+							container.innerHTML = unitData.svg;
+							document
+								.getElementById("units-div")
+								.appendChild(container);
+						});
+						this.setState({ svgLoaded: true });
+					});
 				}
 			);
-			let variantUnits = values[1];
-			variantUnits.forEach(unitData => {
-				let container = document.createElement("div");
-				container.setAttribute("id", "unit" + unitData.name);
-				container.innerHTML = unitData.svg;
-				document.getElementById("units-div").appendChild(container);
-			});
-			if (this.props.isActive) {
-				this.lastRenderedGameID = this.props.game.Properties.ID;
-			}
-			this.updateMap().then(this.snapshotSVG);
-		});
+		}
 	}
 	// This function is wonky, because for historical
 	// reasons the diplicity server provides phases in
 	// different formats for 'start phase for variant'
 	// and 'a phase of an actual game'.
-	updateMap(silent = false) {
-		if (!this.props.phase) {
-			return Promise.resolve({});
-		}
-		let orderPromise = this.loadOrdersPromise(silent);
-		let optionsPromise = null;
-		if (this.props.phase.Links) {
-			let optionsLink = this.props.phase.Links.find(l => {
-				return l.Rel == "options";
-			});
-			if (optionsLink) {
-				if (!silent) {
-					helpers.incProgress();
-				}
-				optionsPromise = helpers.memoize(optionsLink.URL, _ => {
-					return helpers
-						.safeFetch(helpers.createRequest(optionsLink.URL))
-						.then(resp => resp.json());
-				});
-			}
+	updateMap() {
+		if (!this.state.svgLoaded) {
+			return;
 		}
 		this.map.removeUnits();
-		if (this.props.phase.Properties.Units instanceof Array) {
-			this.props.phase.Properties.Units.forEach(unitData => {
+		if (this.state.phase.Properties.Units instanceof Array) {
+			this.state.phase.Properties.Units.forEach(unitData => {
 				this.map.addUnit(
 					"unit" + unitData.Unit.Type,
 					unitData.Province,
-					helpers.natCol(unitData.Unit.Nation, this.variant)
+					helpers.natCol(unitData.Unit.Nation, this.state.variant)
 				);
 			});
 		} else {
-			for (let prov in this.props.phase.Properties.Units) {
-				let unit = this.props.phase.Properties.Units[prov];
+			for (let prov in this.state.phase.Properties.Units) {
+				let unit = this.state.phase.Properties.Units[prov];
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
-					helpers.natCol(unit.Nation, this.variant)
+					helpers.natCol(unit.Nation, this.state.variant)
 				);
 			}
 		}
-		if (this.props.phase.Properties.Dislodgeds instanceof Array) {
-			this.props.phase.Properties.Dislodgeds.forEach(disData => {
+		if (this.state.phase.Properties.Dislodgeds instanceof Array) {
+			this.state.phase.Properties.Dislodgeds.forEach(disData => {
 				this.map.addUnit(
 					"unit" + disData.Dislodged.Type,
 					disData.Province,
-					helpers.natCol(disData.Dislodged.Nation, this.variant),
+					helpers.natCol(
+						disData.Dislodged.Nation,
+						this.state.variant
+					),
 					true
 				);
 			});
 		} else {
-			for (let prov in this.props.phase.Properties.Dislodgeds) {
-				let unit = this.props.phase.Properties.Units[prov];
+			for (let prov in this.state.phase.Properties.Dislodgeds) {
+				let unit = this.state.phase.Properties.Units[prov];
 				this.map.addUnit(
 					"unit" + unit.Type,
 					prov,
-					helpers.natCol(unit.Nation, this.variant),
+					helpers.natCol(unit.Nation, this.state.variant),
 					true
 				);
 			}
 		}
 		let SCs = {};
-		if (this.props.phase.Properties.SupplyCenters) {
-			SCs = this.props.phase.Properties.SupplyCenters;
+		if (this.state.phase.Properties.SupplyCenters) {
+			SCs = this.state.phase.Properties.SupplyCenters;
 		} else {
-			this.props.phase.Properties.SCs.forEach(scData => {
+			this.state.phase.Properties.SCs.forEach(scData => {
 				SCs[scData.Province] = scData.Owner;
 			});
 		}
-		for (let prov in this.variant.Properties.Graph.Nodes) {
-			let node = this.variant.Properties.Graph.Nodes[prov];
+		for (let prov in this.state.variant.Properties.Graph.Nodes) {
+			let node = this.state.variant.Properties.Graph.Nodes[prov];
 			if (node.SC && SCs[prov]) {
 				this.map.colorProvince(
 					prov,
-					helpers.natCol(SCs[prov], this.variant)
+					helpers.natCol(SCs[prov], this.state.variant)
 				);
 			} else {
 				this.map.hideProvince(prov);
 			}
 		}
 		this.map.showProvinces();
-		if (this.props.phase.Properties.Orders) {
-			for (let nat in this.props.phase.Properties.Orders) {
-				let orders = this.props.phase.Properties.Orders[nat];
+		if (this.state.phase.Properties.Orders) {
+			for (let nat in this.state.phase.Properties.Orders) {
+				let orders = this.state.phase.Properties.Orders[nat];
 				for (let prov in orders) {
 					let order = orders[prov];
 					this.map.addOrder(
 						[prov] + order,
-						helpers.natCol(nat, this.variant)
+						helpers.natCol(nat, this.state.variant)
 					);
 				}
 			}
 		}
-		if (orderPromise) {
-			let renderingPhase = this.props.phase;
-			return this.renderOrders(
-				orderPromise,
-				this.props.phase,
-				silent
-			).then(_ => {
-				if (optionsPromise) {
-					return optionsPromise.then(js => {
-						if (!silent) {
-							helpers.decProgress();
-						}
-						// Skip this if we aren't rendering the same phase anymore.
-						if (
-							renderingPhase.Properties.PhaseOrdinal !=
-							this.props.phase.Properties.PhaseOrdinal
-						) {
-							return;
-						}
-						this.options = js.Properties;
-						this.acceptOrders();
-						return Promise.resolve({});
-					});
-				} else {
-					this.map.clearClickListeners();
-					return Promise.resolve({});
+		this.renderOrders();
+		this.snapshotSVG();
+		this.acceptOrders();
+	}
+	renderOrders() {
+		this.map.removeOrders();
+		(this.state.orders || []).forEach(orderData => {
+			this.map.addOrder(
+				orderData.Properties.Parts,
+				helpers.natCol(orderData.Properties.Nation, this.state.variant)
+			);
+		});
+		if (this.state.phase.Properties.Resolutions instanceof Array) {
+			this.state.phase.Properties.Resolutions.forEach(res => {
+				if (res.Resolution != "OK") {
+					this.map.addCross(res.Province, "#ff0000");
 				}
 			});
-		} else {
-			// Assume we are done now, even if we possibly haven't rendered the orders yet.
-			this.renderedPhaseOrdinal = this.props.phase.Properties.PhaseOrdinal;
-			return Promise.resolve({});
 		}
-	}
-	loadOrdersPromise(silent = false) {
-		if (!this.props.phase.Links) {
-			return null;
-		}
-		let orderLink = this.props.phase.Links.find(l => {
-			return l.Rel == "orders";
-		});
-		if (!orderLink) {
-			return null;
-		}
-		if (!silent) {
-			helpers.incProgress();
-		}
-		let fetchPromiseFunc = _ => {
-			return helpers
-				.safeFetch(helpers.createRequest(orderLink.URL))
-				.then(resp => resp.json());
-		};
-		let returnValue = null;
-		if (this.props.phase.Properties.Resolved) {
-			returnValue = helpers.memoize(orderLink.URL, fetchPromiseFunc);
-		} else {
-			returnValue = fetchPromiseFunc();
-		}
-		return returnValue.then(js => {
-			this.orders = js;
-			this.props.ordersSubscriber(js.Properties);
-			return Promise.resolve(js);
-		});
-	}
-	renderOrders(orderPromise, regardingPhase, silent = false) {
-		return orderPromise.then(js => {
-			if (!silent) {
-				helpers.decProgress();
-			}
-			// Skip this if we aren't rendering the same phase anymore.
-			if (
-				regardingPhase.Properties.PhaseOrdinal !=
-				this.props.phase.Properties.PhaseOrdinal
-			) {
-				return Promise.resolve({});
-			}
-			this.map.removeOrders();
-			js.Properties.forEach(orderData => {
-				this.map.addOrder(
-					orderData.Properties.Parts,
-					helpers.natCol(orderData.Properties.Nation, this.variant)
-				);
-			});
-			if (regardingPhase.Properties.Resolutions) {
-				regardingPhase.Properties.Resolutions.forEach(res => {
-					if (res.Resolution != "OK") {
-						this.map.addCross(res.Province, "#ff0000");
-					}
-				});
-			}
-			return Promise.resolve({});
-		});
 	}
 	acceptOrders() {
-		if (Object.keys(this.options).length > 0) {
-			this.addOptionHandlers(this.options, []);
+		if (Object.keys(this.state.options || {}).length > 0) {
+			this.addOptionHandlers(this.state.options, []);
+		} else {
+			this.map.clearClickListeners();
 		}
 	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options).length == 0) {
+			helpers.incProgress();
 			this.createOrder(parts).then(_ => {
-				this.renderOrders(
-					this.loadOrdersPromise(),
-					this.props.phase
-				).then(_ => {
-					this.acceptOrders();
-					this.snapshotSVG();
+				this.loadOrdersPromise().then(js => {
+					helpers.decProgress();
+					this.setState({ orders: js }, this.acceptOrders);
 				});
 			});
 		} else {
@@ -416,13 +441,14 @@ export default class DipMap extends React.Component {
 						options: Object.keys(options).concat("Clear"),
 						onClick: ord => {
 							if (ord == "Clear") {
+								helpers.incProgress();
 								this.deleteOrder(parts[0]).then(_ => {
-									this.renderOrders(
-										this.loadOrdersPromise(),
-										this.props.phase
-									).then(_ => {
-										this.acceptOrders();
-										this.snapshotSVG();
+									this.loadOrdersPromise().then(js => {
+										helpers.decProgress();
+										this.setState(
+											{ orders: js },
+											this.acceptOrders
+										);
 									});
 								});
 							} else {
@@ -445,39 +471,102 @@ export default class DipMap extends React.Component {
 		}
 	}
 	render() {
+		if (!this.state.game || !this.state.phase) {
+			return "";
+		}
 		return (
 			<React.Fragment>
-				<div id="map-container">
+				{this.props.laboratoryMode ? (
 					<div
-						style={{
-							display: "flex",
-							flexWrap: "wrap"
-						}}
-						key="map"
-						id="map"
-					></div>
-					<img
-						id="mapSnapshot"
-						key="mapSnapshot"
-						style={{
-							width: "100%",
-							display: "none",
-							flexWrap: "wrap"
-						}}
-					/>
-					<div
-						key="game-desc"
-						style={{
-							flexBasis: "100%",
-							fontFamily: '"Libre Baskerville", "Cabin", Serif',
-							fontSize: "small",
-							padding: "10px",
-							textAlign: "center",
-							textTransform: "capitalize",
-							color: "#FDE2B5"
-						}}
+						className={helpers.scopedClass(
+							"background-color: white; display: flex;"
+						)}
 					>
-						{this.props.title}
+						<MaterialUI.FormControlLabel
+							key="edit-mode"
+							control={
+								<MaterialUI.Switch
+									checked={this.state.labEditMode}
+									onChange={ev => {
+										this.setState({
+											labEditMode: ev.target.checked
+										});
+									}}
+								/>
+							}
+							label="Edit mode"
+						/>
+						<MaterialUI.FormControl
+							key="play-as"
+							className={helpers.scopedClass("flex-grow: 1;")}
+						>
+							<MaterialUI.InputLabel>
+								Play as
+							</MaterialUI.InputLabel>
+							<MaterialUI.Select
+								disabled={this.state.labEditMode}
+								value={this.state.labPlayAs}
+								onChange={ev => {
+									this.setState({
+										labPlayAs: ev.target.value
+									});
+								}}
+							>
+								{this.state.variant.Properties.Nations.map(
+									nation => {
+										return (
+											<MaterialUI.MenuItem
+												key={nation}
+												value={nation}
+											>
+												{nation}
+											</MaterialUI.MenuItem>
+										);
+									}
+								)}
+							</MaterialUI.Select>
+						</MaterialUI.FormControl>
+					</div>
+				) : (
+					""
+				)}
+				<div className={helpers.scopedClass("overflow: hidden;")}>
+					<div
+						id="map-container"
+						className={helpers.scopedClass("height: 100%;")}
+					>
+						<div
+							className={helpers.scopedClass(
+								"display: flex; flex-wrap: wrap"
+							)}
+							key="map"
+							id="map"
+						></div>
+						<img
+							id="mapSnapshot"
+							key="mapSnapshot"
+							className={helpers.scopedClass(
+								"width: 100%; flex-wrap: wrap;"
+							)}
+							style={{
+								display: "none"
+							}}
+						/>
+						<div
+							key="game-desc"
+							className={helpers.scopedClass(`
+								flex-basis: 100%;
+								font-family:	"Libre Baskerville", "Cabin", Serif;
+								font-size: small;
+								padding: 10px;
+								text-align: center;
+								color: #FDE2B5;
+								`)}
+						>
+							{helpers.gameDesc(this.state.game) +
+								" - " +
+								this.state.game.Properties.Variant}
+						</div>
 					</div>
 				</div>
 				<div

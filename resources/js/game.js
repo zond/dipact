@@ -19,6 +19,7 @@ export default class Game extends React.Component {
 			variant: null,
 			member: null,
 			unreadMessages: 0,
+			laboratoryMode: false,
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
@@ -158,13 +159,6 @@ export default class Game extends React.Component {
 	changeTab(ev, newValue) {
 		this.setState({ activeTab: newValue });
 	}
-	gameDesc() {
-		return (
-			helpers.gameDesc(this.state.game) +
-			" - " +
-			this.state.game.Properties.Variant
-		);
-	}
 	changePhase(ev) {
 		this.setState({
 			activePhase: this.state.phases.find(phase => {
@@ -303,6 +297,24 @@ export default class Game extends React.Component {
 								>
 									Metadata
 								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem
+									key="laborator-mode"
+									disabled={
+										Globals.user.Email !=
+										"zondolfin@gmail.com"
+									}
+									onClick={_ => {
+										this.setState({
+											moreMenuAnchorEl: null,
+											laboratoryMode: !this.state
+												.laboratoryMode
+										});
+									}}
+								>
+									{this.state.laboratoryMode
+										? "Disable lab mode"
+										: "Enable lab mode"}
+								</MaterialUI.MenuItem>
 								{this.state.game.Properties.Finished ? (
 									<MaterialUI.MenuItem
 										key="results"
@@ -400,10 +412,10 @@ export default class Game extends React.Component {
 						}}
 					>
 						<DipMap
+							laboratoryMode={this.state.laboratoryMode}
 							isActive={this.state.activeTab == "map"}
 							game={this.state.game}
 							phase={this.state.activePhase}
-							title={this.gameDesc()}
 							ordersSubscriber={this.receiveOrders}
 						/>
 					</div>
