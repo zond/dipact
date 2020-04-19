@@ -54,6 +54,8 @@ messaging.setBackgroundMessageHandler(payload => {
 		requireInteraction: true,
 		body: payload.notification.body,
 		icon: "https://diplicity-engine.appspot.com/img/otto.png",
+		tag: payload.notification.click_action,
+		renotify: true,
 		actions: [
 			{
 				action: payload.notification.click_action,
