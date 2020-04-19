@@ -29,6 +29,7 @@ export default class Start extends React.Component {
           <div
             id="top"
             style={{
+              margin: "auto",
               width: "100%",
               maxWidth: "400px",
               alignSelf: "center",
