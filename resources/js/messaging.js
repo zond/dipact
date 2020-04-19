@@ -102,7 +102,7 @@ class Messaging {
 								err
 							);
 							helpers.snackbar(
-								"Unable to get notification permission, you won't get notifications for new messages or phases."
+								"No notification permission. You won't get new message or phase notifications."
 							);
 							res();
 						});
