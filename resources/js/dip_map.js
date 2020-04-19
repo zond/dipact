@@ -199,13 +199,15 @@ export default class DipMap extends React.Component {
 		) {
 			this.setState(
 				(state, props) => {
-					state = Object.assign({}, state);
-					state.svgLoaded = false;
-					state.member = this.state.game.Properties.Members.find(
+					const member = this.state.game.Properties.Members.find(
 						e => {
 							return e.User.Email == Globals.user.Email;
 						}
 					);
+					state = Object.assign({}, state);
+					state.svgLoaded = false;
+					state.member = member;
+					state.labPlayAs = member.Nation;
 					state.variant = Globals.variants.find(v => {
 						return (
 							v.Properties.Name ==
