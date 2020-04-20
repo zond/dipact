@@ -90,6 +90,7 @@ func main() {
 				"MaterialUIJSURL": "/static/js/material-ui.development.js",
 				"JQueryJSURL":     "/static/js/jquery-3.4.1.js",
 				"PanZoomJSURL":    "/static/js/panzoom.js",
+				"ChartJSURL":      "/static/js/Chart.js",
 			}),
 			LogFunc: log.Printf,
 		}
