@@ -11,7 +11,7 @@ export default class DipMap extends React.Component {
 			member: null,
 			variant: null,
 			laboratoryMode: this.props.laboratoryMode,
-			labEditMode: false,
+			labEditMode: true,
 			orders: null,
 			options: null,
 			svgLoaded: false,
@@ -19,6 +19,8 @@ export default class DipMap extends React.Component {
 		};
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
+		this.acceptEdits = this.acceptEdits.bind(this);
+		this.handleLaboratoryCommand = this.handleLaboratoryCommand.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
 		this.updateMap = this.updateMap.bind(this);
 		this.createOrder = this.createOrder.bind(this);
@@ -426,13 +428,14 @@ export default class DipMap extends React.Component {
 		const unitOptions = {};
 		this.state.variant.Properties.UnitTypes.forEach(unitType => {
 			unitOptions[unitType] = {
-				Type: "OrderType"
+				Type: "LabCommand",
+				Next: {}
 			};
 		});
 		const nationUnitOptions = {};
 		this.state.variant.Properties.Nations.forEach(nation => {
 			nationUnitOptions[nation] = {
-				Type: "OrderType",
+				Type: "LabCommand",
 				Next: Object.assign({}, unitOptions)
 			};
 		});
@@ -441,18 +444,15 @@ export default class DipMap extends React.Component {
 				const provData = this.state.variant.Properties.Graph.Nodes[
 					superProv
 				];
-				console.log("looking at", superProv, "=>" + provData);
 				Object.keys(provData.Subs).forEach(subProv => {
-					console.log("looking at", superProv, subProv);
 					const name = superProv + (subProv ? "/" + subProv : "");
-					console.log("adding click listener to", name);
 					this.map.addClickListener(
 						name,
 						prov => {
 							this.map.clearClickListeners();
 							let options = {
 								Unit: {
-									Type: "OrderType",
+									Type: "LabCommand",
 									Next: Object.assign({}, nationUnitOptions)
 								}
 							};
@@ -471,15 +471,24 @@ export default class DipMap extends React.Component {
 			this.map.clearClickListeners();
 		}
 	}
+	handleLaboratoryCommand(parts) {
+		console.log(parts);
+		this.acceptEdits();
+	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options).length == 0) {
-			helpers.incProgress();
-			this.createOrder(parts).then(_ => {
-				this.loadOrdersPromise().then(js => {
-					helpers.decProgress();
-					this.setState({ orders: js }, this.acceptOrders);
+			if (this.state.laboratoryMode) {
+				this.handleLaboratoryCommand(parts);
+				this.acceptEdits();
+			} else {
+				helpers.incProgress();
+				this.createOrder(parts).then(_ => {
+					this.loadOrdersPromise().then(js => {
+						helpers.decProgress();
+						this.setState({ orders: js }, this.acceptOrders);
+					});
 				});
-			});
+			}
 		} else {
 			let type = null;
 			for (let option in options) {
@@ -505,11 +514,30 @@ export default class DipMap extends React.Component {
 						);
 					}
 					break;
+				case "LabCommand":
+					this.orderDialog.setState({
+						open: true,
+						options: Object.keys(options).concat("Cancel"),
+						onClick: ord => {
+							if (ord == "Cancel") {
+								this.acceptEdits();
+							} else {
+								this.addOptionHandlers(
+									options[ord].Next,
+									parts.concat(ord)
+								);
+							}
+						}
+					});
+					break;
 				case "UnitType":
 				case "OrderType":
 					this.orderDialog.setState({
 						open: true,
-						options: Object.keys(options).concat("Clear"),
+						options: Object.keys(options).concat([
+							"Clear",
+							"Cancel"
+						]),
 						onClick: ord => {
 							if (ord == "Clear") {
 								helpers.incProgress();
@@ -522,6 +550,8 @@ export default class DipMap extends React.Component {
 										);
 									});
 								});
+							} else if (ord == "Cancel") {
+								this.acceptOrders();
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
