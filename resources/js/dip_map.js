@@ -119,6 +119,10 @@ export default class DipMap extends React.Component {
 		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.laboratoryMode && this.state.laboratoryMode) {
+			this.acceptEdits();
+		}
+		// Get map dimensions if it's the first time we can get them.
 		if (
 			!prevProps.isActive &&
 			this.props.isActive &&
@@ -129,20 +133,29 @@ export default class DipMap extends React.Component {
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
 		}
+		// Set the game and phase if it's the first time we render them.
 		if (
 			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
 			this.props.phase.Properties.PhaseOrdinal !=
-				prevProps.phase.Properties.PhaseOrdinal
+				prevProps.phase.Properties.PhaseOrdinal ||
+			this.props.laboratoryMode != prevProps.laboratoryMode
 		) {
-			this.setState({ game: this.props.game, phase: this.props.phase });
+			this.setState({
+				game: this.props.game,
+				phase: this.props.phase,
+				laboratoryMode: this.props.laboratoryMode
+			});
 		}
+		// If we are not in lab mode, and the SVG loaded-state, the game,
+		// or the phase has changed, then reload options and orders.
 		if (
-			this.state.svgLoaded != prevState.svgLoaded ||
-			!prevState.game ||
-			!prevState.phase ||
-			this.state.game.Properties.ID != prevState.game.Properties.ID ||
-			this.state.phase.Properties.PhaseOrdinal !=
-				prevState.phase.Properties.PhaseOrdinal
+			!this.state.laboratoryMode &&
+			(this.state.svgLoaded != prevState.svgLoaded ||
+				!prevState.game ||
+				!prevState.phase ||
+				this.state.game.Properties.ID != prevState.game.Properties.ID ||
+				this.state.phase.Properties.PhaseOrdinal !=
+					prevState.phase.Properties.PhaseOrdinal)
 		) {
 			if (this.state.phase.Links) {
 				let silent = this.firstLoadFinished;
@@ -193,6 +206,7 @@ export default class DipMap extends React.Component {
 		) {
 			this.updateMap();
 		}
+		// Reload all the SVGs if it's a new game.
 		if (
 			!prevState.game ||
 			this.state.game.Properties.ID != prevState.game.Properties.ID
@@ -403,6 +417,49 @@ export default class DipMap extends React.Component {
 				}
 			});
 		}
+	}
+	acceptEdits() {
+		this.map.clearClickListeners();
+		const unitOptions = {};
+		this.state.variant.Properties.UnitTypes.forEach(unitType => {
+			unitOptions[unitType] = {
+				Type: "OrderType"
+			};
+		});
+		const nationUnitOptions = {};
+		this.state.variant.Properties.Nations.forEach(nation => {
+			nationUnitOptions[nation] = {
+				Type: "OrderType",
+				Next: Object.assign({}, unitOptions)
+			};
+		});
+		Object.keys(this.state.variant.Properties.Graph.Nodes).forEach(
+			superProv => {
+				const provData = this.state.variant.Properties.Graph.Nodes[
+					superProv
+				];
+				console.log("looking at", superProv, "=>" + provData);
+				Object.keys(provData.Subs).forEach(subProv => {
+					console.log("looking at", superProv, subProv);
+					const name = superProv + (subProv ? "/" + subProv : "");
+					console.log("adding click listener to", name);
+					this.map.addClickListener(
+						name,
+						prov => {
+							this.map.clearClickListeners();
+							let options = {
+								Unit: {
+									Type: "OrderType",
+									Next: Object.assign({}, nationUnitOptions)
+								}
+							};
+							this.addOptionHandlers(options, ["edit", prov]);
+						},
+						{ touch: true }
+					);
+				});
+			}
+		);
 	}
 	acceptOrders() {
 		if (Object.keys(this.state.options || {}).length > 0) {
