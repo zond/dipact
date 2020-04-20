@@ -218,16 +218,19 @@ export default class DipMap extends React.Component {
 							return e.User.Email == Globals.user.Email;
 						}
 					);
-					state = Object.assign({}, state);
-					state.svgLoaded = false;
-					state.member = member;
-					state.labPlayAs = member.Nation;
-					state.variant = Globals.variants.find(v => {
+					const variant = Globals.variants.find(v => {
 						return (
 							v.Properties.Name ==
 							this.state.game.Properties.Variant
 						);
 					});
+					state = Object.assign({}, state);
+					state.svgLoaded = false;
+					state.member = member;
+					state.labPlayAs = member
+						? member.Nation
+						: variant.Properties.Nations[0];
+					state.variant = variant;
 					return state;
 				},
 				_ => {

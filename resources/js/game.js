@@ -5,6 +5,7 @@ import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 import OrderList from '%{ cb "/js/order_list.js" }%';
 import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 import GameResults from '%{ cb "/js/game_results.js" }%';
+import PreliminaryScores from '%{ cb "/js/preliminary_scores.js" }%';
 
 export default class Game extends React.Component {
 	constructor(props) {
@@ -26,6 +27,7 @@ export default class Game extends React.Component {
 		this.options = null;
 		this.gameMetadata = null;
 		this.gameResults = null;
+		this.preliminaryScores = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.loadGame = this.loadGame.bind(this);
@@ -298,7 +300,20 @@ export default class Game extends React.Component {
 									Metadata
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
-									key="laborator-mode"
+									key="scores"
+									onClick={_ => {
+										this.setState({
+											moreMenuAnchorEl: null
+										});
+										this.preliminaryScores.setState({
+											open: true
+										});
+									}}
+								>
+									Scores
+								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem
+									key="laboratory-mode"
 									disabled={
 										Globals.user.Email !=
 										"zondolfin@gmail.com"
@@ -477,6 +492,13 @@ export default class Game extends React.Component {
 						variant={this.state.variant}
 						parentCB={c => {
 							this.gameResults = c;
+						}}
+					/>
+					<PreliminaryScores
+						phases={this.state.phases}
+						variant={this.state.variant}
+						parentCB={c => {
+							this.preliminaryScores = c;
 						}}
 					/>
 					<MaterialUI.Snackbar

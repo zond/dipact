@@ -44,6 +44,14 @@ export default class GameResults extends React.Component {
 			>
 				<MaterialUI.DialogTitle>Game results</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
+					<MaterialUI.Typography>
+						This is the scoreboard for this game, based on number of
+						owned supply centers. The scoring system used is the{" "}
+						<a href="http://windycityweasels.org/tribute-scoring-system/">
+							Tribute
+						</a>{" "}
+						ssytem.
+					</MaterialUI.Typography>
 					<MaterialUI.List>
 						{this.state.gameResult
 							? this.props.variant.Properties.Nations.slice()
