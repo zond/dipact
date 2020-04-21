@@ -12,6 +12,7 @@ export default class CreateGameDialog extends React.Component {
 				Desc: Globals.user.GivenName + "'s game",
 				Private: false,
 				Anonymous: false,
+				LastYear: 0,
 				MinReliability: Math.min(
 					10,
 					Math.floor(Globals.userStats.Properties.Reliability)
@@ -133,6 +134,9 @@ export default class CreateGameDialog extends React.Component {
 							);
 						}
 					}
+					if (opts.int && newValue != "") {
+						newValue = Number.parseInt(ev.target.value);
+					}
 					state.newGameProperties[propertyName] = newValue;
 				}
 				return state;
@@ -168,6 +172,7 @@ export default class CreateGameDialog extends React.Component {
 		opts.float = true;
 		return (
 			<MaterialUI.TextField
+				type="number"
 				fullWidth
 				label={opts.label || name}
 				margin="dense"
@@ -292,6 +297,16 @@ export default class CreateGameDialog extends React.Component {
 							</MaterialUI.MenuItem>
 						</MaterialUI.Select>
 					</MaterialUI.Box>
+					<MaterialUI.TextField
+						type="number"
+						fullWidth
+						label="End after year (0 = off)"
+						margin="dense"
+						value={this.state.newGameProperties.LastYear}
+						onChange={this.newGamePropertyUpdater("LastYear", {
+							int: true
+						})}
+					/>
 					<MaterialUI.FormGroup>
 						{this.checkboxField("Private")}
 						{this.checkboxField("DisableConferenceChat", {
