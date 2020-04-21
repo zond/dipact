@@ -11,15 +11,18 @@ export default class DipMap extends React.Component {
 			member: null,
 			variant: null,
 			laboratoryMode: this.props.laboratoryMode,
-			labEditMode: true,
+			labEditMode: false,
 			orders: null,
 			options: null,
 			svgLoaded: false,
 			labPlayAs: ""
 		};
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
+		this.makeVariantPhase = this.makeVariantPhase.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
 		this.acceptEdits = this.acceptEdits.bind(this);
+		this.acceptLabCommands = this.acceptLabCommands.bind(this);
+		this.acceptLabOrders = this.acceptLabOrders.bind(this);
 		this.handleLaboratoryCommand = this.handleLaboratoryCommand.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
 		this.updateMap = this.updateMap.bind(this);
@@ -122,7 +125,7 @@ export default class DipMap extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.laboratoryMode && this.state.laboratoryMode) {
-			this.acceptEdits();
+			this.acceptLabCommands();
 		}
 		// Get map dimensions if it's the first time we can get them.
 		if (
@@ -423,6 +426,86 @@ export default class DipMap extends React.Component {
 			});
 		}
 	}
+	acceptLabCommands() {
+		if (this.state.labEditMode) {
+			this.acceptEdits();
+		} else {
+			this.acceptLabOrders();
+		}
+	}
+	makeVariantPhase() {
+		return {
+			Variant: this.state.variant.Properties.Name,
+			Season: this.state.phase.Properties.Season,
+			Year: this.state.phase.Properties.Year,
+			Type: this.state.phase.Properties.Type,
+			Units:
+				this.state.phase.Properties.Units instanceof Array
+					? this.state.phase.Properties.Units.reduce((sum, el) => {
+							sum[el.Province] = el.Unit;
+							return sum;
+					  }, {})
+					: this.state.phase.Properties.Units,
+			SupplyCenters: this.state.phase.Properties.SCs
+				? this.state.phase.Properties.SCs.reduce((sum, el) => {
+						sum[el.Province] = el.Owner;
+						return sum;
+				  }, {})
+				: this.state.phase.Properties.SupplyCenters,
+			Dislodgeds:
+				this.state.phase.Properties.Dislodgeds instanceof Array
+					? this.state.phase.Properties.Dislodgeds.reduce(
+							(sum, el) => {
+								sum[el.Province] = el.Dislodged;
+								return sum;
+							},
+							{}
+					  )
+					: this.state.phase.Properties.Dislodgeds,
+			Dislodgers:
+				this.state.phase.Properties.Dislodgers instanceof Array
+					? this.state.phase.Properties.Dislodgers.reduce(
+							(sum, el) => {
+								sum[el.Province] = el.Dislodger;
+								return sum;
+							},
+							{}
+					  )
+					: this.state.phase.Properties.Dislodgers,
+			Bounces:
+				this.state.phase.Properties.Bounces instanceof Array
+					? this.state.phase.Properties.Bounces.reduce((sum, el) => {
+							sum[el.Province] = el.BounceList.split(",").reduce(
+								(sum, el) => {
+									sum[el] = true;
+									return sum;
+								},
+								{}
+							);
+							return sum;
+					  }, {})
+					: this.state.phase.Properties.Bounces
+		};
+	}
+	acceptLabOrders() {
+		const optionsLink = this.state.variant.Links.find(l => {
+			return l.Rel == this.state.labPlayAs + "-options";
+		});
+		helpers
+			.safeFetch(
+				helpers.createRequest(optionsLink.URL, {
+					method: optionsLink.Method,
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(this.makeVariantPhase())
+				})
+			)
+			.then(res => res.json())
+			.then(js => {
+				console.log("got options", js);
+			});
+	}
 	acceptEdits() {
 		this.map.clearClickListeners();
 		const unitOptions = {};
@@ -473,13 +556,13 @@ export default class DipMap extends React.Component {
 	}
 	handleLaboratoryCommand(parts) {
 		console.log(parts);
-		this.acceptEdits();
+		this.acceptLabCommands();
 	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options).length == 0) {
 			if (this.state.laboratoryMode) {
 				this.handleLaboratoryCommand(parts);
-				this.acceptEdits();
+				this.acceptLabCommands();
 			} else {
 				helpers.incProgress();
 				this.createOrder(parts).then(_ => {
@@ -520,7 +603,7 @@ export default class DipMap extends React.Component {
 						options: Object.keys(options).concat("Cancel"),
 						onClick: ord => {
 							if (ord == "Cancel") {
-								this.acceptEdits();
+								this.acceptLabCommands();
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
