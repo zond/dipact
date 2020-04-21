@@ -5,7 +5,7 @@ import NationAvatar from '%{ cb "/js/nation_avatar.js"}%';
 export default class GameResults extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { open: false, gameResult: null };
+		this.state = { open: false, gameResult: null, trueSkills: null };
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});
@@ -26,9 +26,23 @@ export default class GameResults extends React.Component {
 			helpers
 				.safeFetch(helpers.createRequest(gameResultLink.URL))
 				.then(res => res.json())
-				.then(js => {
-					helpers.decProgress();
-					this.setState({ gameResult: js });
+				.then(gameResultJS => {
+					helpers
+						.safeFetch(
+							helpers.createRequest(
+								gameResultJS.Links.find(l => {
+									return l.Rel == "true-skills";
+								}).URL
+							)
+						)
+						.then(res => res.json())
+						.then(trueSkillsJS => {
+							helpers.decProgress();
+							this.setState({
+								gameResult: gameResultJS,
+								trueSkills: trueSkillsJS
+							});
+						});
 				});
 		}
 	}
@@ -80,6 +94,14 @@ export default class GameResults extends React.Component {
 										const score = this.state.gameResult.Properties.Scores.find(
 											s => {
 												return s.Member == nation;
+											}
+										);
+										const trueSkill = this.state.trueSkills.Properties.find(
+											l => {
+												return (
+													l.Properties.Member ==
+													nation
+												);
 											}
 										);
 										return (
@@ -234,16 +256,58 @@ export default class GameResults extends React.Component {
 																							);
 																						}
 																					)}
-																				<MaterialUI.TableRow>
-																					<MaterialUI.TableCell>
-																						Sum
-																					</MaterialUI.TableCell>
-																					<MaterialUI.TableCell>
-																						{helpers.twoDecimals(
-																							score.Score
-																						)}
-																					</MaterialUI.TableCell>
-																				</MaterialUI.TableRow>
+																				{trueSkill ? (
+																					<React.Fragment>
+																						<MaterialUI.TableRow>
+																							<MaterialUI.TableCell>
+																								Sum
+																							</MaterialUI.TableCell>
+																							<MaterialUI.TableCell>
+																								{helpers.twoDecimals(
+																									score.Score
+																								)}
+																							</MaterialUI.TableCell>
+																						</MaterialUI.TableRow>
+																						<MaterialUI.TableRow>
+																							<MaterialUI.TableCell>
+																								Previous
+																								rating
+																							</MaterialUI.TableCell>
+																							<MaterialUI.TableCell>
+																								{helpers.twoDecimals(
+																									trueSkill
+																										.Properties
+																										.Previous
+																										.Rating
+																								)}
+																							</MaterialUI.TableCell>
+																						</MaterialUI.TableRow>
+																						<MaterialUI.TableRow>
+																							<MaterialUI.TableCell>
+																								New
+																								rating
+																							</MaterialUI.TableCell>
+																							<MaterialUI.TableCell>
+																								{helpers.twoDecimals(
+																									trueSkill
+																										.Properties
+																										.Rating
+																								)}
+																							</MaterialUI.TableCell>
+																						</MaterialUI.TableRow>
+																					</React.Fragment>
+																				) : (
+																					<MaterialUI.TableRow>
+																						<MaterialUI.TableCell>
+																							Sum
+																						</MaterialUI.TableCell>
+																						<MaterialUI.TableCell>
+																							{helpers.twoDecimals(
+																								score.Score
+																							)}
+																						</MaterialUI.TableCell>
+																					</MaterialUI.TableRow>
+																				)}
 																			</MaterialUI.TableBody>
 																		</MaterialUI.Table>
 																	</MaterialUI.TableContainer>

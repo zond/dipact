@@ -255,6 +255,18 @@ export default class GameListElement extends React.Component {
 				style={{ width: "100%", display: "flex", alignItems: "center" }}
 			>
 				<MaterialUI.Icon style={{ marginRight: "8px" }}>
+					{helpers.createIcon("\ue88b")}
+				</MaterialUI.Icon>
+				<MaterialUI.Typography>
+					Ends after year: {this.state.game.Properties.LastYear}
+				</MaterialUI.Typography>
+			</div>
+		);
+		expandedGameCells.push(
+			<div
+				style={{ width: "100%", display: "flex", alignItems: "center" }}
+			>
+				<MaterialUI.Icon style={{ marginRight: "8px" }}>
 					<MaterialUI.SvgIcon>
 						<g
 							id="Artboard"

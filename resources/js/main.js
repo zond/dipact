@@ -14,6 +14,7 @@ export default class Main extends ActivityContainer {
 		this.handleVariants = this.handleVariants.bind(this);
 		this.handleRoot = this.handleRoot.bind(this);
 		this.renderPath = this.renderPath.bind(this);
+		this.presentContent = this.presentContent.bind(this);
 		Globals.messaging.main = this;
 	}
 	renderPath(path) {
@@ -78,6 +79,50 @@ export default class Main extends ActivityContainer {
 			});
 		});
 	}
+	presentContent(rootJS) {
+		this.setState((state, props) => {
+			state = Object.assign({}, state);
+
+			let loginLink = rootJS.Links.find(l => {
+				return l.Rel == "login";
+			});
+			if (loginLink) {
+				let loginURL = new URL(loginLink.URL);
+				let hrefURL = new URL(window.location.href);
+				hrefURL.searchParams.delete("token");
+				loginURL.searchParams.set("redirect-to", hrefURL.toString());
+				state.urls.login_url = loginURL;
+			}
+
+			let linkSetter = rel => {
+				let link = rootJS.Links.find(l => {
+					return l.Rel == rel;
+				});
+				if (link) {
+					state.urls[rel] = new URL(link.URL);
+				}
+			};
+			linkSetter("my-started-games");
+			linkSetter("my-staging-games");
+			linkSetter("my-finished-games");
+			linkSetter("open-games");
+			linkSetter("started-games");
+			linkSetter("finished-games");
+
+			if (Globals.user) {
+				localStorage.setItem("token", Globals.token);
+				state.activity = MainMenu;
+				state.activityProps = { urls: state.urls };
+			} else if (state.urls.login_url) {
+				state.activity = Login;
+				state.activityProps = {
+					loginURL: state.urls.login_url
+				};
+			}
+
+			return state;
+		});
+	}
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
 		if (Globals.user) {
@@ -94,8 +139,7 @@ export default class Main extends ActivityContainer {
 				.then(js => {
 					helpers.decProgress();
 					Globals.userStats = js;
-					// Force an update, since the start view depends on this data.
-					this.forceUpdate();
+					this.presentContent(rootJS);
 				});
 			helpers.incProgress();
 			helpers
@@ -144,47 +188,9 @@ export default class Main extends ActivityContainer {
 						}
 					});
 				});
+		} else {
+			this.presentContent(rootJS);
 		}
-		this.setState((state, props) => {
-			state = Object.assign({}, state);
-
-			let loginLink = rootJS.Links.find(l => {
-				return l.Rel == "login";
-			});
-			if (loginLink) {
-				let loginURL = new URL(loginLink.URL);
-				let hrefURL = new URL(window.location.href);
-				hrefURL.searchParams.delete("token");
-				loginURL.searchParams.set("redirect-to", hrefURL.toString());
-				state.urls.login_url = loginURL;
-			}
-
-			let linkSetter = rel => {
-				let link = rootJS.Links.find(l => {
-					return l.Rel == rel;
-				});
-				if (link) {
-					state.urls[rel] = new URL(link.URL);
-				}
-			};
-			linkSetter("my-started-games");
-			linkSetter("my-staging-games");
-			linkSetter("my-finished-games");
-			linkSetter("open-games");
-			linkSetter("started-games");
-			linkSetter("finished-games");
-
-			if (Globals.user) {
-				localStorage.setItem("token", Globals.token);
-				state.activity = MainMenu;
-				state.activityProps = { urls: state.urls };
-			} else if (state.urls.login_url) {
-				state.activity = Login;
-				state.activityProps = { loginURL: state.urls.login_url };
-			}
-
-			return state;
-		});
 	}
 	componentDidMount() {
 		this.processToken();
