@@ -21,8 +21,6 @@ export default class DipMap extends React.Component {
 		this.makeVariantPhase = this.makeVariantPhase.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
 		this.acceptEdits = this.acceptEdits.bind(this);
-		this.acceptLabCommands = this.acceptLabCommands.bind(this);
-		this.acceptLabOrders = this.acceptLabOrders.bind(this);
 		this.handleLaboratoryCommand = this.handleLaboratoryCommand.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
 		this.updateMap = this.updateMap.bind(this);
@@ -124,8 +122,14 @@ export default class DipMap extends React.Component {
 		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (!prevState.laboratoryMode && this.state.laboratoryMode) {
-			this.acceptLabCommands();
+		// Just start accepting orders if we just got switched from non lab-mode to lab mode.
+		if (
+			this.state.laboratoryMode &&
+			(!prevState.laboratoryMode ||
+				this.state.labPlayAs != prevState.labPlayAs ||
+				this.state.labEditMode != prevState.labEditMode)
+		) {
+			this.acceptOrders();
 		}
 		// Get map dimensions if it's the first time we can get them.
 		if (
@@ -138,7 +142,7 @@ export default class DipMap extends React.Component {
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
 		}
-		// Set the game and phase if it's the first time we render them.
+		// Set the state if it differs from the props.
 		if (
 			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
 			this.props.phase.Properties.PhaseOrdinal !=
@@ -207,7 +211,8 @@ export default class DipMap extends React.Component {
 			}
 		} else if (
 			JSON.stringify(this.state.orders) !=
-			JSON.stringify(prevState.orders)
+				JSON.stringify(prevState.orders) ||
+			JSON.stringify(this.state.phase) != JSON.stringify(prevState.phase)
 		) {
 			this.updateMap();
 		}
@@ -426,13 +431,6 @@ export default class DipMap extends React.Component {
 			});
 		}
 	}
-	acceptLabCommands() {
-		if (this.state.labEditMode) {
-			this.acceptEdits();
-		} else {
-			this.acceptLabOrders();
-		}
-	}
 	makeVariantPhase() {
 		return {
 			Variant: this.state.variant.Properties.Name,
@@ -487,27 +485,7 @@ export default class DipMap extends React.Component {
 					: this.state.phase.Properties.Bounces
 		};
 	}
-	acceptLabOrders() {
-		const optionsLink = this.state.variant.Links.find(l => {
-			return l.Rel == this.state.labPlayAs + "-options";
-		});
-		helpers
-			.safeFetch(
-				helpers.createRequest(optionsLink.URL, {
-					method: optionsLink.Method,
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify(this.makeVariantPhase())
-				})
-			)
-			.then(res => res.json())
-			.then(js => {
-				console.log("got options", js);
-			});
-	}
 	acceptEdits() {
-		this.map.clearClickListeners();
 		const unitOptions = {};
 		this.state.variant.Properties.UnitTypes.forEach(unitType => {
 			unitOptions[unitType] = {
@@ -515,8 +493,21 @@ export default class DipMap extends React.Component {
 				Next: {}
 			};
 		});
-		const nationUnitOptions = {};
+		const nationUnitOptions = {
+			Neutral: {
+				Type: "LabCommand",
+				Next: Object.assign({}, unitOptions)
+			},
+			None: { Type: "LabCommand", Next: {} }
+		};
+		const nationSCOptions = {
+			Neutral: { Type: "LabCommand", Next: {} }
+		};
 		this.state.variant.Properties.Nations.forEach(nation => {
+			nationSCOptions[nation] = {
+				Type: "LabCommand",
+				Next: {}
+			};
 			nationUnitOptions[nation] = {
 				Type: "LabCommand",
 				Next: Object.assign({}, unitOptions)
@@ -533,12 +524,18 @@ export default class DipMap extends React.Component {
 						name,
 						prov => {
 							this.map.clearClickListeners();
-							let options = {
+							const options = {
 								Unit: {
 									Type: "LabCommand",
 									Next: Object.assign({}, nationUnitOptions)
 								}
 							};
+							if (provData.SC) {
+								options["SC"] = {
+									Type: "LabCommand",
+									Next: Object.assign({}, nationSCOptions)
+								};
+							}
 							this.addOptionHandlers(options, ["edit", prov]);
 						},
 						{ touch: true }
@@ -548,21 +545,125 @@ export default class DipMap extends React.Component {
 		);
 	}
 	acceptOrders() {
-		if (Object.keys(this.state.options || {}).length > 0) {
-			this.addOptionHandlers(this.state.options, []);
+		this.map.clearClickListeners();
+		if (this.state.laboratoryMode) {
+			if (this.state.labEditMode) {
+				this.acceptEdits();
+			} else {
+				const optionsLink = this.state.variant.Links.find(l => {
+					return l.Rel == this.state.labPlayAs + "-options";
+				});
+				helpers
+					.safeFetch(
+						helpers.createRequest(optionsLink.URL, {
+							method: optionsLink.Method,
+							headers: {
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify(this.makeVariantPhase())
+						})
+					)
+					.then(res => res.json())
+					.then(js => {
+						if (Object.keys(js.Properties).length > 0) {
+							this.addOptionHandlers(js.Properties, []);
+						}
+					});
+			}
 		} else {
-			this.map.clearClickListeners();
+			if (Object.keys(this.state.options || {}).length > 0) {
+				this.addOptionHandlers(this.state.options, []);
+			}
 		}
 	}
 	handleLaboratoryCommand(parts) {
-		console.log(parts);
-		this.acceptLabCommands();
+		console.log("handleLaboratoryCommand(" + parts + ")");
+		if (this.state.labEditMode) {
+			if (parts[2] == "SC") {
+				this.setState((state, props) => {
+					state = Object.assign({}, state);
+					state.phase = JSON.parse(JSON.stringify(state.phase));
+					if (state.phase.Properties.SCs) {
+						state.phase.Properties.SCs = state.phase.Properties.SCs.filter(
+							sc => {
+								return sc.Province != parts[1];
+							}
+						);
+						if (parts[3] != "Neutral") {
+							state.phase.Properties.SCs.push({
+								Province: parts[1],
+								Owner: parts[3]
+							});
+						}
+					} else {
+						delete (state.phase.Properties.SupplyCenters, parts[1]);
+						if (parts[3] != "Neutral") {
+							state.phase.Properties.SupplyCenters[parts[1]] =
+								parts[3];
+						}
+					}
+					return state;
+				}, this.acceptOrders);
+			} else if (parts[2] == "Unit") {
+				this.setState((state, props) => {
+					state = Object.assign({}, state);
+					state.phase = JSON.parse(JSON.stringify(state.phase));
+					if (state.phase.Properties.Units instanceof Array) {
+						state.phase.Properties.Units = state.phase.Properties.Units.filter(
+							unit => {
+								return unit.Province != parts[1];
+							}
+						);
+						if (parts[3] != "None") {
+							state.phase.Properties.Units.push({
+								Province: parts[1],
+								Unit: { Type: parts[4], Nation: parts[3] }
+							});
+						}
+					} else {
+						delete (state.phase.Properties.Units, parts[1]);
+						if (parts[3] != "None") {
+							state.phase.Properties.Units[parts[1]] = {
+								Type: parts[4],
+								Nation: parts[3]
+							};
+						}
+					}
+					return state;
+				}, this.acceptOrders);
+			}
+		} else {
+			if (parts[0] == "Clear") {
+				this.setState(
+					{
+						orders: this.state.orders.filter(order => {
+							return order.Properties.Parts[0] != parts[1];
+						})
+					},
+					this.acceptOrders
+				);
+			} else {
+				this.setState((state, props) => {
+					state = Object.assign({}, state);
+					state.orders = state.orders.filter(order => {
+						return order.Properties.Parts[0] != parts[0];
+					});
+					state.orders.push({
+						Properties: {
+							Parts: parts.slice(1),
+							Nation: this.state.labPlayAs
+						}
+					});
+					return state;
+				}, this.acceptOrders);
+			}
+		}
 	}
 	addOptionHandlers(options, parts) {
 		if (Object.keys(options).length == 0) {
 			if (this.state.laboratoryMode) {
 				this.handleLaboratoryCommand(parts);
-				this.acceptLabCommands();
+				this.acceptOrders();
 			} else {
 				helpers.incProgress();
 				this.createOrder(parts).then(_ => {
@@ -603,7 +704,7 @@ export default class DipMap extends React.Component {
 						options: Object.keys(options).concat("Cancel"),
 						onClick: ord => {
 							if (ord == "Cancel") {
-								this.acceptLabCommands();
+								this.acceptOrders();
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
@@ -623,16 +724,23 @@ export default class DipMap extends React.Component {
 						]),
 						onClick: ord => {
 							if (ord == "Clear") {
-								helpers.incProgress();
-								this.deleteOrder(parts[0]).then(_ => {
-									this.loadOrdersPromise().then(js => {
-										helpers.decProgress();
-										this.setState(
-											{ orders: js },
-											this.acceptOrders
-										);
+								if (this.state.laboratoryMode) {
+									this.handleLaboratoryCommand(
+										["Clear"].concat(parts)
+									);
+									this.acceptOrders();
+								} else {
+									helpers.incProgress();
+									this.deleteOrder(parts[0]).then(_ => {
+										this.loadOrdersPromise().then(js => {
+											helpers.decProgress();
+											this.setState(
+												{ orders: js },
+												this.acceptOrders
+											);
+										});
 									});
-								});
+								}
 							} else if (ord == "Cancel") {
 								this.acceptOrders();
 							} else {
