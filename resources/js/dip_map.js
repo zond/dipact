@@ -142,7 +142,7 @@ export default class DipMap extends React.Component {
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
 		}
-		// Set the state if it differs from the props.
+		// Set the state if props changed.
 		if (
 			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
 			this.props.phase.Properties.PhaseOrdinal !=
@@ -159,7 +159,8 @@ export default class DipMap extends React.Component {
 		// or the phase has changed, then reload options and orders.
 		if (
 			!this.state.laboratoryMode &&
-			(this.state.svgLoaded != prevState.svgLoaded ||
+			(prevState.laboratoryMode ||
+				this.state.svgLoaded != prevState.svgLoaded ||
 				!prevState.game ||
 				!prevState.phase ||
 				this.state.game.Properties.ID != prevState.game.Properties.ID ||
