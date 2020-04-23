@@ -35,6 +35,9 @@ export default class DipMap extends React.Component {
 		this.firstLoadFinished = false;
 	}
 	snapshotSVG() {
+		if (!this.mapDims[0] || !this.mapDims[1]) {
+			return;
+		}
 		let mapEl = document.getElementById("map");
 		let serializedSVG = btoa(
 			unescape(
@@ -123,7 +126,8 @@ export default class DipMap extends React.Component {
 		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		// Set the state if props are changed, or we don't have state. Except for laboratoryMode, which is only controlled from parent.
+		this.updateMap();
+		// Forward properties to state, if the state doesn't exist or the properties changed.
 		if (
 			!this.state.game ||
 			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
@@ -135,20 +139,12 @@ export default class DipMap extends React.Component {
 			this.setState({
 				game: this.props.game,
 				svgLoaded:
+					this.state.game &&
 					this.props.game.Properties.ID ==
-					prevProps.game.Properties.ID,
+						prevProps.game.Properties.ID,
 				phase: this.props.phase,
 				laboratoryMode: this.props.laboratoryMode
 			});
-		}
-		// If we are in lab mode, and it's new or it has changed, just accept orders again.
-		if (
-			this.state.laboratoryMode &&
-			(!prevState.laboratoryMode ||
-				this.state.labPlayAs != prevState.labPlayAs ||
-				this.state.labEditMode != prevState.labEditMode)
-		) {
-			this.acceptOrders();
 		}
 		// Get map dimensions if it's the first time we can get them.
 		if (
@@ -161,8 +157,7 @@ export default class DipMap extends React.Component {
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
 		}
-		// If laboratory mode, the game,
-		// or the phase state has changed.
+		// If anything that requires rendering new orders or options has changed.
 		if (
 			this.state.laboratoryMode != prevState.laboratoryMode ||
 			!prevState.game ||
@@ -180,27 +175,27 @@ export default class DipMap extends React.Component {
 					this.loadOrdersPromise().then(orders => {
 						this.setState({ orders: orders });
 					});
-				} else if (this.state.phase.Properties.Orders) {
+				} else {
 					// Otherwise use the orders in the phase, which we should have saved when we created it.
 					const orders = [];
-					Object.keys(this.state.phase.Properties.Orders).forEach(
-						nation => {
-							Object.keys(
-								this.state.phase.Properties.Orders[nation]
-							).forEach(province => {
-								orders.push({
-									Properties: {
-										Nation: nation,
-										Parts: [province].concat(
-											this.state.phase.Properties.Orders[
-												nation
-											][province]
-										)
-									}
-								});
+					Object.keys(
+						this.state.phase.Properties.Orders || {}
+					).forEach(nation => {
+						Object.keys(
+							this.state.phase.Properties.Orders[nation]
+						).forEach(province => {
+							orders.push({
+								Properties: {
+									Nation: nation,
+									Parts: [province].concat(
+										this.state.phase.Properties.Orders[
+											nation
+										][province]
+									)
+								}
 							});
-						}
-					);
+						});
+					});
 					this.setState({ orders: orders });
 				}
 			} else {
@@ -242,16 +237,8 @@ export default class DipMap extends React.Component {
 					});
 				}
 			}
-		} else if (
-			// Else, if the svg, phase or orders has changed, just update the map.
-			prevState.svgLoaded != this.state.svgLoaded ||
-			JSON.stringify(this.state.orders) !=
-				JSON.stringify(prevState.orders) ||
-			JSON.stringify(this.state.phase) != JSON.stringify(prevState.phase)
-		) {
-			this.updateMap();
 		}
-		// Reload all the SVGs if it's a new game.
+		// Reload all the SVGs if the new state has a new game.
 		if (
 			!prevState.game ||
 			this.state.game.Properties.ID != prevState.game.Properties.ID
