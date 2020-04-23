@@ -12,6 +12,9 @@ export default class OrderList extends React.Component {
 	toggleFunc(nation, updater) {
 		return _ => {
 			let phaseState = this.state.phaseStates[nation];
+			if (!phaseState || !phaseState.Links) {
+				reutrn;
+			}
 			updater(phaseState);
 			let updateLink = phaseState.Links.find(l => {
 				return l.Rel == "update";
@@ -56,7 +59,7 @@ export default class OrderList extends React.Component {
 		});
 	}
 	loadPhaseStates() {
-		if (!this.props.phase) {
+		if (!this.props.phase || !this.props.phase || !this.props.phase.Links) {
 			return;
 		}
 		let phaseStatesLink = this.props.phase.Links.find(l => {
@@ -148,7 +151,8 @@ export default class OrderList extends React.Component {
 													margin: "0px",
 													display: "flex",
 													flexWrap: "wrap",
-													"color":"rgba(40, 26, 26, 0.54)"
+													color:
+														"rgba(40, 26, 26, 0.54)"
 												}}
 											>
 												{nation}
@@ -341,7 +345,8 @@ export default class OrderList extends React.Component {
 					`)}
 				/>
 				{this.props.phase &&
-				 !this.props.phase.Properties.Resolved && this.props.member &&
+				!this.props.phase.Properties.Resolved &&
+				this.props.member &&
 				this.state.phaseStates[this.props.member.Nation] ? (
 					<MaterialUI.AppBar
 						className={helpers.scopedClass(`

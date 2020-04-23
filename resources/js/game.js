@@ -35,7 +35,31 @@ export default class Game extends React.Component {
 		this.phaseJumper = this.phaseJumper.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.setUnreadMessages = this.setUnreadMessages.bind(this);
+		this.labPhaseResolve = this.labPhaseResolve.bind(this);
 		this.dead = false;
+	}
+	labPhaseResolve(resolvedPhase, newPhase) {
+		this.setState({
+			phases: this.state.phases
+				.map(oldPhase => {
+					if (
+						oldPhase.Properties.PhaseOrdinal ==
+						resolvedPhase.Properties.PhaseOrdinal
+					) {
+						return resolvedPhase;
+					} else {
+						return oldPhase;
+					}
+				})
+				.filter(oldPhase => {
+					return (
+						oldPhase.Properties.PhaseOrdinal <
+						newPhase.Properties.PhaseOrdinal
+					);
+				})
+				.concat([newPhase]),
+			activePhase: newPhase
+		});
 	}
 	setUnreadMessages(n) {
 		this.setState({ unreadMessages: n });
@@ -246,8 +270,8 @@ export default class Game extends React.Component {
 							)}
 							{this.state.game.Properties.Started &&
 							this.state.activePhase.Properties.PhaseOrdinal <
-								this.state.game.Properties.NewestPhaseMeta[0]
-									.PhaseOrdinal ? (
+								this.state.phases[this.state.phases.length - 1]
+									.Properties.PhaseOrdinal ? (
 								<MaterialUI.IconButton
 									onClick={this.phaseJumper(1)}
 									edge="end"
@@ -315,11 +339,20 @@ export default class Game extends React.Component {
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
 									onClick={_ => {
-										this.setState({
-											moreMenuAnchorEl: null,
-											laboratoryMode: !this.state
-												.laboratoryMode
-										});
+										this.setState(
+											{
+												moreMenuAnchorEl: null,
+												laboratoryMode: !this.state
+													.laboratoryMode
+											},
+											_ => {
+												if (
+													!this.state.laboratoryMode
+												) {
+													this.loadGame();
+												}
+											}
+										);
 									}}
 								>
 									{this.state.laboratoryMode
@@ -423,6 +456,7 @@ export default class Game extends React.Component {
 						}}
 					>
 						<DipMap
+							labPhaseResolve={this.labPhaseResolve}
 							laboratoryMode={this.state.laboratoryMode}
 							isActive={this.state.activeTab == "map"}
 							game={this.state.game}

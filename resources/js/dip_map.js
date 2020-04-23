@@ -123,6 +123,24 @@ export default class DipMap extends React.Component {
 		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		// Set the state if props are changed, or we don't have state. Except for laboratoryMode, which is only controlled from parent.
+		if (
+			!this.state.game ||
+			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
+			!this.state.phase ||
+			this.props.phase.Properties.PhaseOrdinal !=
+				prevProps.phase.Properties.PhaseOrdinal ||
+			this.props.laboratoryMode != this.state.laboratoryMode
+		) {
+			this.setState({
+				game: this.props.game,
+				svgLoaded:
+					this.props.game.Properties.ID ==
+					prevProps.game.Properties.ID,
+				phase: this.props.phase,
+				laboratoryMode: this.props.laboratoryMode
+			});
+		}
 		// If we are in lab mode, and it's new or it has changed, just accept orders again.
 		if (
 			this.state.laboratoryMode &&
@@ -143,40 +161,47 @@ export default class DipMap extends React.Component {
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
 		}
-		// Set the state if props changed.
+		// If laboratory mode, the game,
+		// or the phase state has changed.
 		if (
-			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
-			this.props.phase.Properties.PhaseOrdinal !=
-				prevProps.phase.Properties.PhaseOrdinal ||
-			this.props.laboratoryMode != prevProps.laboratoryMode
-		) {
-			this.setState({
-				game: this.props.game,
-				svgLoaded:
-					this.props.game.Properties.ID ==
-					prevProps.game.Properties.ID,
-				phase: this.props.phase,
-				laboratoryMode: this.props.laboratoryMode
-			});
-		}
-		// If we are watching a "real" phase from the server,
-		// and if laboratory mode, the SVG loaded-state, the game,
-		// or the phase has changed.
-		if (
-			this.state.phase.Properties.GameID &&
-			(this.state.laboratoryMode != prevState.laboratoryMode ||
-				!prevState.game ||
-				!prevState.phase ||
-				this.state.game.Properties.ID != prevState.game.Properties.ID ||
-				this.state.phase.Properties.PhaseOrdinal !=
-					prevState.phase.Properties.PhaseOrdinal)
+			this.state.laboratoryMode != prevState.laboratoryMode ||
+			!prevState.game ||
+			!prevState.phase ||
+			this.state.game.Properties.ID != prevState.game.Properties.ID ||
+			this.state.phase.Properties.PhaseOrdinal !=
+				prevState.phase.Properties.PhaseOrdinal
 		) {
 			if (this.state.laboratoryMode) {
-				// If we ARE in laboratory mode, reload orders.
-				if (this.state.phase.Links) {
+				// If we ARE in laboratory mode, reload orders if phase is "real".
+				if (
+					this.state.phase.Links &&
+					this.state.phase.Properties.GameID
+				) {
 					this.loadOrdersPromise().then(orders => {
 						this.setState({ orders: orders });
 					});
+				} else if (this.state.phase.Properties.Orders) {
+					// Otherwise use the orders in the phase, which we should have saved when we created it.
+					const orders = [];
+					Object.keys(this.state.phase.Properties.Orders).forEach(
+						nation => {
+							Object.keys(
+								this.state.phase.Properties.Orders[nation]
+							).forEach(province => {
+								orders.push({
+									Properties: {
+										Nation: nation,
+										Parts: [province].concat(
+											this.state.phase.Properties.Orders[
+												nation
+											][province]
+										)
+									}
+								});
+							});
+						}
+					);
+					this.setState({ orders: orders });
 				}
 			} else {
 				// If we are NOT in laboratory mode, reload options AND orders.
@@ -442,6 +467,7 @@ export default class DipMap extends React.Component {
 	}
 	makeVariantPhase() {
 		return {
+			PhaseOrdinal: this.state.phase.Properties.PhaseOrdinal,
 			Variant: this.state.variant.Properties.Name,
 			Season: this.state.phase.Properties.Season,
 			Year: this.state.phase.Properties.Year,
@@ -565,6 +591,7 @@ export default class DipMap extends React.Component {
 		const optionsLink = this.state.variant.Links.find(l => {
 			return l.Rel == "resolve-state";
 		});
+		const variantPhase = this.makeVariantPhase();
 		helpers
 			.safeFetch(
 				helpers.createRequest(optionsLink.URL, {
@@ -572,13 +599,14 @@ export default class DipMap extends React.Component {
 					headers: {
 						"Content-Type": "application/json"
 					},
-					body: JSON.stringify(this.makeVariantPhase())
+					body: JSON.stringify(variantPhase)
 				})
 			)
 			.then(res => res.json())
 			.then(js => {
-				console.log("resolved to", js);
-				this.setState({ phase: js, orders: [] });
+				js.Properties.PhaseOrdinal =
+					this.state.phase.Properties.PhaseOrdinal + 1;
+				this.props.labPhaseResolve({ Properties: variantPhase }, js);
 			});
 	}
 	acceptOrders() {
