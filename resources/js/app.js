@@ -4,11 +4,14 @@ import Snackbar from '%{ cb "/js/snackbar.js" }%';
 import Messaging from '%{ cb "/js/messaging.js" }%';
 import Theme from '%{ cb "/js/theme.js" }%';
 
+const hrefURL = new URL(window.location.href);
+
 window.Globals = {
 	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
 		headers: {
 			"X-Diplicity-API-Level": "8",
-			Accept: "application/json"
+			Accept: "application/json",
+			"X-Diplicity-Client-Name": "dipact@" + hrefURL.host
 		},
 		mode: "cors"
 	}),
