@@ -152,6 +152,7 @@ export default class DipMap extends React.Component {
 		) {
 			this.setState({
 				game: this.props.game,
+				svgLoaded: false,
 				phase: this.props.phase,
 				laboratoryMode: this.props.laboratoryMode
 			});
@@ -162,7 +163,6 @@ export default class DipMap extends React.Component {
 		if (
 			this.state.phase.Properties.GameID &&
 			(this.state.laboratoryMode != prevState.laboratoryMode ||
-				this.state.svgLoaded != prevState.svgLoaded ||
 				!prevState.game ||
 				!prevState.phase ||
 				this.state.game.Properties.ID != prevState.game.Properties.ID ||
@@ -216,7 +216,8 @@ export default class DipMap extends React.Component {
 				}
 			}
 		} else if (
-			// Else, if the phase or orders has changed, just update the map.
+			// Else, if the svg, phase or orders has changed, just update the map.
+			prevState.svgLoaded != this.state.svgLoaded ||
 			JSON.stringify(this.state.orders) !=
 				JSON.stringify(prevState.orders) ||
 			JSON.stringify(this.state.phase) != JSON.stringify(prevState.phase)
@@ -242,7 +243,6 @@ export default class DipMap extends React.Component {
 						);
 					});
 					state = Object.assign({}, state);
-					state.svgLoaded = false;
 					state.member = member;
 					state.labPlayAs = member
 						? member.Nation
