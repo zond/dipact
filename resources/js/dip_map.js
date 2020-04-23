@@ -122,7 +122,7 @@ export default class DipMap extends React.Component {
 		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		// Just start accepting orders if we just got switched from non lab-mode to lab mode.
+		// If we are in lab mode, and it's new or it has changed, just accept orders again.
 		if (
 			this.state.laboratoryMode &&
 			(!prevState.laboratoryMode ||
@@ -155,62 +155,64 @@ export default class DipMap extends React.Component {
 				laboratoryMode: this.props.laboratoryMode
 			});
 		}
-		// If we are not in lab mode, and the SVG loaded-state, the game,
-		// or the phase has changed, then reload options and orders.
+		// If laboraotry mode, the SVG loaded-state, the game,
+		// or the phase has changed.
 		if (
-			!this.state.laboratoryMode &&
-			(prevState.laboratoryMode ||
-				this.state.svgLoaded != prevState.svgLoaded ||
-				!prevState.game ||
-				!prevState.phase ||
-				this.state.game.Properties.ID != prevState.game.Properties.ID ||
-				this.state.phase.Properties.PhaseOrdinal !=
-					prevState.phase.Properties.PhaseOrdinal)
+			this.state.laboratoryMode != prevState.laboratoryMode ||
+			!prevState.game ||
+			!prevState.phase ||
+			this.state.game.Properties.ID != prevState.game.Properties.ID ||
+			this.state.phase.Properties.PhaseOrdinal !=
+				prevState.phase.Properties.PhaseOrdinal
 		) {
-			if (this.state.phase.Links) {
-				let silent = this.firstLoadFinished;
-				if (!silent) {
-					helpers.incProgress();
+			if (this.state.laboratoryMode) {
+				// If we ARE in laboratory mode, reload orders.
+				if (this.state.phase.Links) {
+					this.loadOrdersPromise().then(orders => {
+						this.setState({ orders: orders }, this.updateMap);
+					});
 				}
-				let promises = [this.loadOrdersPromise()];
-				let optionsLink = this.state.phase.Links.find(l => {
-					return l.Rel == "options";
-				});
-				if (optionsLink) {
-					promises.push(
-						helpers.memoize(optionsLink.URL, _ => {
-							return helpers
-								.safeFetch(
-									helpers.createRequest(optionsLink.URL)
-								)
-								.then(resp => resp.json())
-								.then(js => {
-									return js.Properties;
-								});
-						})
-					);
-				} else {
-					promises.push(Promise.resolve(null));
-				}
-				Promise.all(promises).then(values => {
+			} else {
+				// If we are NOT in laboratory mode, reload options AND orders.
+				if (this.state.phase.Links) {
+					let silent = this.firstLoadFinished;
 					if (!silent) {
-						helpers.decProgress();
-						this.firstLoadFinished = true;
+						helpers.incProgress();
 					}
-					this.setState(
-						(state, props) => {
-							state = Object.assign({}, state);
-							state.orders = values[0];
-							state.options = values[1];
-							return state;
-						},
-						_ => {
-							this.updateMap();
+					let promises = [this.loadOrdersPromise()];
+					let optionsLink = this.state.phase.Links.find(l => {
+						return l.Rel == "options";
+					});
+					if (optionsLink) {
+						promises.push(
+							helpers.memoize(optionsLink.URL, _ => {
+								return helpers
+									.safeFetch(
+										helpers.createRequest(optionsLink.URL)
+									)
+									.then(resp => resp.json())
+									.then(js => {
+										return js.Properties;
+									});
+							})
+						);
+					} else {
+						promises.push(Promise.resolve(null));
+					}
+					Promise.all(promises).then(values => {
+						if (!silent) {
+							helpers.decProgress();
+							this.firstLoadFinished = true;
 						}
-					);
-				});
+						this.setState(
+							{ orders: values[0], options: values[1] },
+							this.updateMap
+						);
+					});
+				}
 			}
 		} else if (
+			// Else, if the phase or orders has changed, just update the map.
 			JSON.stringify(this.state.orders) !=
 				JSON.stringify(prevState.orders) ||
 			JSON.stringify(this.state.phase) != JSON.stringify(prevState.phase)
