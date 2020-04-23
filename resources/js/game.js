@@ -314,10 +314,6 @@ export default class Game extends React.Component {
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
-									disabled={
-										Globals.user.Email !=
-										"zondolfin@gmail.com"
-									}
 									onClick={_ => {
 										this.setState({
 											moreMenuAnchorEl: null,

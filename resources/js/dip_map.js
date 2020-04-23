@@ -20,6 +20,7 @@ export default class DipMap extends React.Component {
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.makeVariantPhase = this.makeVariantPhase.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
+		this.labResolve = this.labResolve.bind(this);
 		this.acceptEdits = this.acceptEdits.bind(this);
 		this.handleLaboratoryCommand = this.handleLaboratoryCommand.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
@@ -155,21 +156,24 @@ export default class DipMap extends React.Component {
 				laboratoryMode: this.props.laboratoryMode
 			});
 		}
-		// If laboraotry mode, the SVG loaded-state, the game,
+		// If we are watching a "real" phase from the server,
+		// and if laboratory mode, the SVG loaded-state, the game,
 		// or the phase has changed.
 		if (
-			this.state.laboratoryMode != prevState.laboratoryMode ||
-			!prevState.game ||
-			!prevState.phase ||
-			this.state.game.Properties.ID != prevState.game.Properties.ID ||
-			this.state.phase.Properties.PhaseOrdinal !=
-				prevState.phase.Properties.PhaseOrdinal
+			this.state.phase.Properties.GameID &&
+			(this.state.laboratoryMode != prevState.laboratoryMode ||
+				this.state.svgLoaded != prevState.svgLoaded ||
+				!prevState.game ||
+				!prevState.phase ||
+				this.state.game.Properties.ID != prevState.game.Properties.ID ||
+				this.state.phase.Properties.PhaseOrdinal !=
+					prevState.phase.Properties.PhaseOrdinal)
 		) {
 			if (this.state.laboratoryMode) {
 				// If we ARE in laboratory mode, reload orders.
 				if (this.state.phase.Links) {
 					this.loadOrdersPromise().then(orders => {
-						this.setState({ orders: orders }, this.updateMap);
+						this.setState({ orders: orders });
 					});
 				}
 			} else {
@@ -204,10 +208,10 @@ export default class DipMap extends React.Component {
 							helpers.decProgress();
 							this.firstLoadFinished = true;
 						}
-						this.setState(
-							{ orders: values[0], options: values[1] },
-							this.updateMap
-						);
+						this.setState({
+							orders: values[0],
+							options: values[1]
+						});
 					});
 				}
 			}
@@ -446,13 +450,13 @@ export default class DipMap extends React.Component {
 							sum[el.Province] = el.Unit;
 							return sum;
 					  }, {})
-					: this.state.phase.Properties.Units,
+					: this.state.phase.Properties.Units || {},
 			SupplyCenters: this.state.phase.Properties.SCs
 				? this.state.phase.Properties.SCs.reduce((sum, el) => {
 						sum[el.Province] = el.Owner;
 						return sum;
 				  }, {})
-				: this.state.phase.Properties.SupplyCenters,
+				: this.state.phase.Properties.SupplyCenters || {},
 			Dislodgeds:
 				this.state.phase.Properties.Dislodgeds instanceof Array
 					? this.state.phase.Properties.Dislodgeds.reduce(
@@ -462,7 +466,7 @@ export default class DipMap extends React.Component {
 							},
 							{}
 					  )
-					: this.state.phase.Properties.Dislodgeds,
+					: this.state.phase.Properties.Dislodgeds || {},
 			Dislodgers:
 				this.state.phase.Properties.Dislodgers instanceof Array
 					? this.state.phase.Properties.Dislodgers.reduce(
@@ -472,7 +476,15 @@ export default class DipMap extends React.Component {
 							},
 							{}
 					  )
-					: this.state.phase.Properties.Dislodgers,
+					: this.state.phase.Properties.Dislodgers || {},
+			Orders: this.state.orders.reduce((sum, el) => {
+				const natOrders = sum[el.Properties.Nation] || {};
+				natOrders[el.Properties.Parts[0]] = el.Properties.Parts.slice(
+					1
+				);
+				sum[el.Properties.Nation] = natOrders;
+				return sum;
+			}, {}),
 			Bounces:
 				this.state.phase.Properties.Bounces instanceof Array
 					? this.state.phase.Properties.Bounces.reduce((sum, el) => {
@@ -485,7 +497,7 @@ export default class DipMap extends React.Component {
 							);
 							return sum;
 					  }, {})
-					: this.state.phase.Properties.Bounces
+					: this.state.phase.Properties.Bounces || {}
 		};
 	}
 	acceptEdits() {
@@ -547,6 +559,26 @@ export default class DipMap extends React.Component {
 			}
 		);
 	}
+	labResolve() {
+		const optionsLink = this.state.variant.Links.find(l => {
+			return l.Rel == "resolve-state";
+		});
+		helpers
+			.safeFetch(
+				helpers.createRequest(optionsLink.URL, {
+					method: optionsLink.Method,
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(this.makeVariantPhase())
+				})
+			)
+			.then(res => res.json())
+			.then(js => {
+				console.log("resolved to", js);
+				this.setState({ phase: js, orders: [] });
+			});
+	}
 	acceptOrders() {
 		this.map.clearClickListeners();
 		if (this.state.laboratoryMode) {
@@ -580,7 +612,6 @@ export default class DipMap extends React.Component {
 		}
 	}
 	handleLaboratoryCommand(parts) {
-		console.log("handleLaboratoryCommand(" + parts + ")");
 		if (this.state.labEditMode) {
 			if (parts[2] == "SC") {
 				this.setState((state, props) => {
@@ -821,6 +852,11 @@ export default class DipMap extends React.Component {
 								)}
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
+						<MaterialUI.Tooltip title="Resolve">
+							<MaterialUI.IconButton onClick={this.labResolve}>
+								{helpers.createIcon("\ue044")}
+							</MaterialUI.IconButton>
+						</MaterialUI.Tooltip>
 					</div>
 				) : (
 					""
