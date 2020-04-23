@@ -152,7 +152,9 @@ export default class DipMap extends React.Component {
 		) {
 			this.setState({
 				game: this.props.game,
-				svgLoaded: false,
+				svgLoaded:
+					this.props.game.Properties.ID ==
+					prevProps.game.Properties.ID,
 				phase: this.props.phase,
 				laboratoryMode: this.props.laboratoryMode
 			});
