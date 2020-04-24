@@ -145,6 +145,7 @@ export default class GameListElement extends React.Component {
 		);
 	}
 	getIcons() {
+		let itemKey = 0;
 		let icons = [];
 		if (
 			this.state.game.Properties.MinQuickness ||
@@ -164,6 +165,7 @@ export default class GameListElement extends React.Component {
 		) {
 			icons.push(
 				<MaterialUI.Tooltip
+					key={itemKey++}
 					disableFocusListener
 					title="Maximum hate requirement"
 				>
@@ -199,7 +201,11 @@ export default class GameListElement extends React.Component {
 			this.state.game.Properties.DisablePrivateChat
 		) {
 			icons.push(
-				<MaterialUI.Tooltip disableFocusListener title="Chat disabled">
+				<MaterialUI.Tooltip
+					key={itemKey++}
+					disableFocusListener
+					title="Chat disabled"
+				>
 					<MaterialUI.SvgIcon
 						style={{ height: "16px", width: "16px" }}
 					>
