@@ -36,7 +36,38 @@ export default class Game extends React.Component {
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.setUnreadMessages = this.setUnreadMessages.bind(this);
 		this.labPhaseResolve = this.labPhaseResolve.bind(this);
+		this.serializePhaseState = this.serializePhaseState.bind(this);
 		this.dead = false;
+	}
+	serializePhaseState(phase) {
+		return encodeURIComponent(
+			btoa(
+				pako.deflate(
+					JSON.stringify({
+						activePhase: phase.Properties.PhaseOrdinal,
+						phases: this.state.phases
+							.map(p => {
+								if (
+									p.Properties.PhaseOrdinal ==
+									phase.Properties.PhaseOrdinal
+								) {
+									return phase;
+								} else {
+									return p;
+								}
+							})
+							.filter(p => {
+								return (
+									!p.Properties.GameID ||
+									p.Properties.PhaseOrdinal ==
+										phase.Properties.PhaseOrdinal
+								);
+							})
+					}),
+					{ to: "string" }
+				)
+			)
+		);
 	}
 	labPhaseResolve(resolvedPhase, newPhase) {
 		this.setState({
@@ -106,6 +137,33 @@ export default class Game extends React.Component {
 						/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
 						match => {
 							this.setState({ activeTab: "chat" });
+						}
+					],
+					[
+						/^\/Game\/([^\/]+)\/Lab\/(.+)$/,
+						match => {
+							const serializedState = JSON.parse(
+								pako.inflate(
+									atob(decodeURIComponent(match[2])),
+									{ to: "string" }
+								)
+							);
+							const newPhases = this.state.phases.slice();
+							serializedState.phases.forEach(phase => {
+								newPhases[
+									phase.Properties.PhaseOrdinal - 1
+								] = phase;
+							});
+							this.setState({
+								laboratoryMode: true,
+								activePhase: newPhases.find(phase => {
+									return (
+										phase.Properties.PhaseOrdinal ==
+										serializedState.activePhase
+									);
+								}),
+								phases: newPhases
+							});
 						}
 					]
 				],
@@ -457,6 +515,7 @@ export default class Game extends React.Component {
 					>
 						<DipMap
 							labPhaseResolve={this.labPhaseResolve}
+							serializePhaseState={this.serializePhaseState}
 							laboratoryMode={this.state.laboratoryMode}
 							isActive={this.state.activeTab == "map"}
 							game={this.state.game}

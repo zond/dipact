@@ -1,12 +1,6 @@
 function processNotification(payload, href) {
 	payload.data = JSON.parse(
-		new TextDecoder("utf-8").decode(
-			pako.inflate(
-				Uint8Array.from(atob(payload.data.DiplicityJSON), c =>
-					c.charCodeAt(0)
-				)
-			)
-		)
+		pako.inflate(atob(payload.data.DiplicityJSON), { to: "string" })
 	);
 	const hrefURL = new URL(href);
 	payload.notification = {};

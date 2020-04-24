@@ -21,6 +21,7 @@ export default class DipMap extends React.Component {
 		this.makeVariantPhase = this.makeVariantPhase.bind(this);
 		this.acceptOrders = this.acceptOrders.bind(this);
 		this.labResolve = this.labResolve.bind(this);
+		this.labShare = this.labShare.bind(this);
 		this.acceptEdits = this.acceptEdits.bind(this);
 		this.handleLaboratoryCommand = this.handleLaboratoryCommand.bind(this);
 		this.renderOrders = this.renderOrders.bind(this);
@@ -33,6 +34,49 @@ export default class DipMap extends React.Component {
 		this.map = null;
 		this.orderDialog = null;
 		this.firstLoadFinished = false;
+	}
+	labShare() {
+		const hrefURL = new URL(window.location.href);
+		const variantPhase = this.makeVariantPhase();
+		const url =
+			hrefURL.protocol +
+			"//" +
+			hrefURL.host +
+			"/Game/" +
+			this.state.game.Properties.ID +
+			"/Lab/" +
+			this.props.serializePhaseState({
+				Properties: variantPhase
+			});
+		fetch(
+			new Request(
+				"https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
+				{
+					method: "POST",
+					headers: {
+						Accept: "application/json"
+					},
+					body: JSON.stringify({
+						dynamicLinkInfo: {
+							domainUriPrefix: "dipact.page.link",
+							link: url,
+							navigationInfo: {
+								enableForcedRedirect: true
+							}
+						},
+						suffix: {
+							option: "SHORT"
+						}
+					})
+				}
+			)
+		)
+			.then(resp => resp.json())
+			.then(js => {
+				navigator.clipboard.writeText(js.shortLink).then(_ => {
+					helpers.snackbar("URL copied to clipboard");
+				});
+			});
 	}
 	snapshotSVG() {
 		if (!this.mapDims[0] || !this.mapDims[1]) {
@@ -139,7 +183,7 @@ export default class DipMap extends React.Component {
 			this.setState({
 				game: this.props.game,
 				svgLoaded:
-					this.state.game &&
+					this.state.svgLoaded &&
 					this.props.game.Properties.ID ==
 						prevProps.game.Properties.ID,
 				phase: this.props.phase,
@@ -229,6 +273,12 @@ export default class DipMap extends React.Component {
 						if (!silent) {
 							helpers.decProgress();
 							this.firstLoadFinished = true;
+						}
+						if (
+							this.state.laboratoryMode &&
+							!this.state.phase.Properties.GameID
+						) {
+							return;
 						}
 						this.setState({
 							orders: values[0],
@@ -492,7 +542,7 @@ export default class DipMap extends React.Component {
 							{}
 					  )
 					: this.state.phase.Properties.Dislodgers || {},
-			Orders: this.state.orders.reduce((sum, el) => {
+			Orders: (this.state.orders || []).reduce((sum, el) => {
 				const natOrders = sum[el.Properties.Nation] || {};
 				natOrders[el.Properties.Parts[0]] = el.Properties.Parts.slice(
 					1
@@ -602,6 +652,7 @@ export default class DipMap extends React.Component {
 			if (this.state.labEditMode) {
 				this.acceptEdits();
 			} else {
+				const variantPhase = this.makeVariantPhase();
 				const optionsLink = this.state.variant.Links.find(l => {
 					return l.Rel == this.state.labPlayAs + "-options";
 				});
@@ -612,11 +663,17 @@ export default class DipMap extends React.Component {
 							headers: {
 								"Content-Type": "application/json"
 							},
-							body: JSON.stringify(this.makeVariantPhase())
+							body: JSON.stringify(variantPhase)
 						})
 					)
 					.then(res => res.json())
 					.then(js => {
+						if (
+							this.state.phase.Properties.PhaseOrdinal !=
+							variantPhase.PhaseOrdinal
+						) {
+							return;
+						}
 						if (Object.keys(js.Properties).length > 0) {
 							this.addOptionHandlers(js.Properties, []);
 						}
@@ -837,7 +894,7 @@ export default class DipMap extends React.Component {
 									}}
 								/>
 							}
-							label="Edit mode"
+							label="Edit"
 						/>
 						<MaterialUI.FormControl
 							key="play-as"
@@ -869,6 +926,11 @@ export default class DipMap extends React.Component {
 								)}
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
+						<MaterialUI.Tooltip title="Share">
+							<MaterialUI.IconButton onClick={this.labShare}>
+								{helpers.createIcon("\ue80d")}
+							</MaterialUI.IconButton>
+						</MaterialUI.Tooltip>
 						<MaterialUI.Tooltip title="Resolve">
 							<MaterialUI.IconButton onClick={this.labResolve}>
 								{helpers.createIcon("\ue044")}
