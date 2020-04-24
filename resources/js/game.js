@@ -216,6 +216,7 @@ export default class Game extends React.Component {
 						.safeFetch(helpers.createRequest(variantStartPhase))
 						.then(resp => resp.json())
 						.then(js => {
+							js.Properties.PhaseOrdinal = 1;
 							return Promise.resolve([js]);
 						});
 				});
@@ -264,7 +265,7 @@ export default class Game extends React.Component {
 							>
 								{helpers.createIcon("\ue5cd")}
 							</MaterialUI.IconButton>
-							{this.state.game.Properties.Started &&
+							{this.state.activePhase &&
 							this.state.activePhase.Properties.PhaseOrdinal >
 								1 ? (
 								<MaterialUI.IconButton
@@ -279,8 +280,7 @@ export default class Game extends React.Component {
 								<MaterialUI.Box key="prev-spacer"></MaterialUI.Box>
 							)}
 
-							{this.state.game.Properties.Started &&
-							this.state.activePhase ? (
+							{this.state.activePhase ? (
 								<MaterialUI.Select
 									/* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
 									style={{
@@ -326,7 +326,7 @@ export default class Game extends React.Component {
 									width="100%"
 								></MaterialUI.Box>
 							)}
-							{this.state.game.Properties.Started &&
+							{this.state.activePhase &&
 							this.state.activePhase.Properties.PhaseOrdinal <
 								this.state.phases[this.state.phases.length - 1]
 									.Properties.PhaseOrdinal ? (

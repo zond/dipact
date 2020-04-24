@@ -642,7 +642,7 @@ export default class DipMap extends React.Component {
 			.then(res => res.json())
 			.then(js => {
 				js.Properties.PhaseOrdinal =
-					this.state.phase.Properties.PhaseOrdinal + 1;
+					(this.state.phase.Properties.PhaseOrdinal || 1) + 1;
 				this.props.labPhaseResolve({ Properties: variantPhase }, js);
 			});
 	}
