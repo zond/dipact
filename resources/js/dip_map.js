@@ -30,6 +30,10 @@ export default class DipMap extends React.Component {
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
 		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
+		this.lastRenderedPhaseHash = 0;
+		this.lastRenderedOrdersHash = 0;
+		this.svgSerializer = new XMLSerializer();
+		this.lastSnapshottedSVGHash = 0;
 		this.mapDims = [null, null];
 		this.map = null;
 		this.orderDialog = null;
@@ -83,28 +87,27 @@ export default class DipMap extends React.Component {
 			return;
 		}
 		let mapEl = document.getElementById("map");
-		let serializedSVG = btoa(
-			unescape(
-				encodeURIComponent(
-					new XMLSerializer().serializeToString(mapEl.children[0])
-				)
-			)
-		);
-		let snapshotImage = document.createElement("img");
-		snapshotImage.style.width = this.mapDims[0];
-		snapshotImage.style.height = this.mapDims[1];
-		snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
-		snapshotImage.addEventListener("load", _ => {
-			let snapshotCanvas = document.createElement("canvas");
-			snapshotCanvas.setAttribute("height", this.mapDims[1]);
-			snapshotCanvas.setAttribute("width", this.mapDims[0]);
-			snapshotCanvas.style.height = this.mapDims[1];
-			snapshotCanvas.style.width = this.mapDims[0];
-			snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
-			let snapshotData = snapshotCanvas.toDataURL("image/png");
-			let snapshotEl = document.getElementById("mapSnapshot");
-			snapshotEl.src = snapshotData;
-		});
+		const svgXML = this.svgSerializer.serializeToString(mapEl.children[0]);
+		const svgHash = helpers.hash(svgXML);
+		if (svgHash != this.lastSerializedSVG) {
+			this.lastSerializedSVG = svgHash;
+			let serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
+			let snapshotImage = document.createElement("img");
+			snapshotImage.style.width = this.mapDims[0];
+			snapshotImage.style.height = this.mapDims[1];
+			snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
+			snapshotImage.addEventListener("load", _ => {
+				let snapshotCanvas = document.createElement("canvas");
+				snapshotCanvas.setAttribute("height", this.mapDims[1]);
+				snapshotCanvas.setAttribute("width", this.mapDims[0]);
+				snapshotCanvas.style.height = this.mapDims[1];
+				snapshotCanvas.style.width = this.mapDims[0];
+				snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
+				let snapshotData = snapshotCanvas.toDataURL("image/png");
+				let snapshotEl = document.getElementById("mapSnapshot");
+				snapshotEl.src = snapshotData;
+			});
+		}
 	}
 	createOrder(parts) {
 		let setOrderLink = this.state.phase.Links.find(l => {
@@ -408,77 +411,81 @@ export default class DipMap extends React.Component {
 		if (!this.state.svgLoaded) {
 			return;
 		}
-		this.map.removeUnits();
-		if (this.state.phase.Properties.Units instanceof Array) {
-			this.state.phase.Properties.Units.forEach(unitData => {
-				this.map.addUnit(
-					"unit" + unitData.Unit.Type,
-					unitData.Province,
-					helpers.natCol(unitData.Unit.Nation, this.state.variant)
-				);
-			});
-		} else {
-			for (let prov in this.state.phase.Properties.Units) {
-				let unit = this.state.phase.Properties.Units[prov];
-				this.map.addUnit(
-					"unit" + unit.Type,
-					prov,
-					helpers.natCol(unit.Nation, this.state.variant)
-				);
-			}
-		}
-		if (this.state.phase.Properties.Dislodgeds instanceof Array) {
-			this.state.phase.Properties.Dislodgeds.forEach(disData => {
-				this.map.addUnit(
-					"unit" + disData.Dislodged.Type,
-					disData.Province,
-					helpers.natCol(
-						disData.Dislodged.Nation,
-						this.state.variant
-					),
-					true
-				);
-			});
-		} else {
-			for (let prov in this.state.phase.Properties.Dislodgeds) {
-				let unit = this.state.phase.Properties.Units[prov];
-				this.map.addUnit(
-					"unit" + unit.Type,
-					prov,
-					helpers.natCol(unit.Nation, this.state.variant),
-					true
-				);
-			}
-		}
-		let SCs = {};
-		if (this.state.phase.Properties.SupplyCenters) {
-			SCs = this.state.phase.Properties.SupplyCenters;
-		} else {
-			this.state.phase.Properties.SCs.forEach(scData => {
-				SCs[scData.Province] = scData.Owner;
-			});
-		}
-		for (let prov in this.state.variant.Properties.Graph.Nodes) {
-			let node = this.state.variant.Properties.Graph.Nodes[prov];
-			if (node.SC && SCs[prov]) {
-				this.map.colorProvince(
-					prov,
-					helpers.natCol(SCs[prov], this.state.variant)
-				);
-			} else {
-				this.map.hideProvince(prov);
-			}
-		}
-		this.map.showProvinces();
-		if (this.state.phase.Properties.Orders) {
-			for (let nat in this.state.phase.Properties.Orders) {
-				let orders = this.state.phase.Properties.Orders[nat];
-				for (let prov in orders) {
-					let order = orders[prov];
-					this.map.addOrder(
-						[prov] + order,
-						helpers.natCol(nat, this.state.variant)
+		const phaseHash = helpers.hash(JSON.stringify(this.state.phase));
+		if (phaseHash != this.lastRenderedPhaseHash) {
+			this.lastRenderedPhaseHash = phaseHash;
+			this.map.removeUnits();
+			if (this.state.phase.Properties.Units instanceof Array) {
+				this.state.phase.Properties.Units.forEach(unitData => {
+					this.map.addUnit(
+						"unit" + unitData.Unit.Type,
+						unitData.Province,
+						helpers.natCol(unitData.Unit.Nation, this.state.variant)
 					);
+				});
+			} else {
+				for (let prov in this.state.phase.Properties.Units) {
+					let unit = this.state.phase.Properties.Units[prov];
+					this.map.addUnit(
+						"unit" + unit.Type,
+						prov,
+						helpers.natCol(unit.Nation, this.state.variant)
+					);
+				}
+			}
+			if (this.state.phase.Properties.Dislodgeds instanceof Array) {
+				this.state.phase.Properties.Dislodgeds.forEach(disData => {
+					this.map.addUnit(
+						"unit" + disData.Dislodged.Type,
+						disData.Province,
+						helpers.natCol(
+							disData.Dislodged.Nation,
+							this.state.variant
+						),
+						true
+					);
+				});
+			} else {
+				for (let prov in this.state.phase.Properties.Dislodgeds) {
+					let unit = this.state.phase.Properties.Units[prov];
+					this.map.addUnit(
+						"unit" + unit.Type,
+						prov,
+						helpers.natCol(unit.Nation, this.state.variant),
+						true
+					);
+				}
+			}
+			let SCs = {};
+			if (this.state.phase.Properties.SupplyCenters) {
+				SCs = this.state.phase.Properties.SupplyCenters;
+			} else {
+				this.state.phase.Properties.SCs.forEach(scData => {
+					SCs[scData.Province] = scData.Owner;
+				});
+			}
+			for (let prov in this.state.variant.Properties.Graph.Nodes) {
+				let node = this.state.variant.Properties.Graph.Nodes[prov];
+				if (node.SC && SCs[prov]) {
+					this.map.colorProvince(
+						prov,
+						helpers.natCol(SCs[prov], this.state.variant)
+					);
+				} else {
+					this.map.hideProvince(prov);
+				}
+			}
+			this.map.showProvinces();
+			if (this.state.phase.Properties.Orders) {
+				for (let nat in this.state.phase.Properties.Orders) {
+					let orders = this.state.phase.Properties.Orders[nat];
+					for (let prov in orders) {
+						let order = orders[prov];
+						this.map.addOrder(
+							[prov] + order,
+							helpers.natCol(nat, this.state.variant)
+						);
+					}
 				}
 			}
 		}
@@ -487,19 +494,26 @@ export default class DipMap extends React.Component {
 		this.acceptOrders();
 	}
 	renderOrders() {
-		this.map.removeOrders();
-		(this.state.orders || []).forEach(orderData => {
-			this.map.addOrder(
-				orderData.Properties.Parts,
-				helpers.natCol(orderData.Properties.Nation, this.state.variant)
-			);
-		});
-		if (this.state.phase.Properties.Resolutions instanceof Array) {
-			this.state.phase.Properties.Resolutions.forEach(res => {
-				if (res.Resolution != "OK") {
-					this.map.addCross(res.Province, "#ff0000");
-				}
+		const ordersHash = helpers.hash(JSON.stringify(this.state.orders));
+		if (ordersHash != this.lastRenderedOrdersHash) {
+			this.lastRenderedOrdersHash = ordersHash;
+			this.map.removeOrders();
+			(this.state.orders || []).forEach(orderData => {
+				this.map.addOrder(
+					orderData.Properties.Parts,
+					helpers.natCol(
+						orderData.Properties.Nation,
+						this.state.variant
+					)
+				);
 			});
+			if (this.state.phase.Properties.Resolutions instanceof Array) {
+				this.state.phase.Properties.Resolutions.forEach(res => {
+					if (res.Resolution != "OK") {
+						this.map.addCross(res.Province, "#ff0000");
+					}
+				});
+			}
 		}
 	}
 	makeVariantPhase() {
