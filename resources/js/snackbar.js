@@ -14,7 +14,10 @@ export default class Snackbar extends React.Component {
 					horizontal: "center"
 				}}
 				open={!!this.state.message}
-				autoHideDuration={6000}
+				autoHideDuration={Math.max(
+					6000,
+					60 * (this.state.message || "").length
+				)}
 				onClose={_ => {
 					this.setState({ message: null });
 				}}

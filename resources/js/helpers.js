@@ -205,7 +205,6 @@ export function safeFetch(req) {
 }
 
 export function memoize(key, promiseFunc) {
-	console.log("memoize cache size", Object.keys(Globals.memoizeCache).length);
 	if (Globals.memoizeCache[key]) {
 		return Promise.resolve(Globals.memoizeCache[key]);
 	} else {
