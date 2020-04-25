@@ -57,9 +57,25 @@ export default class GameResults extends React.Component {
         onClose={this.close}
       >
         <MaterialUI.DialogTitle>Game result</MaterialUI.DialogTitle>
-        <MaterialUI.DialogContent style={{paddingBottom:"0px"}}>
-          <MaterialUI.Typography>
-            This is the end-game points based on the{" "}
+        <MaterialUI.DialogContent style={{ paddingBottom: "0px" }}>
+          {/* TODO: @Martin, here, please add the checks: 
+          	1) if the game resulted in a solo-win, show the top. 
+          	2) if the game resultated in a draw, calculate the one with the most points and add it as game.winner (or whatever variable). This will create a "winner in a draw", and increase the salience of the scoring system.
+          	3) could you please sort the resulting array/list in the dialog based on points achieved? The one with the top points should be on top. Even the current.player doesn't need to be on top, because we want that player to go through the "walk of shame" and go through the list down (especially if a draw and he/she originally felt "draw is a win too", we want them to feel they suck so they don't draw the same way next time.)
+          	Ideally, surviving players (even in solo win) would be on top of eliminated players, but that is less important if too much hassle.
+
+          {haswinner ? 
+        		<MaterialUI.Typography>
+        			The game was won by {game.winner}.
+        			</MaterialUi.Typography>
+        		 : 
+        		<MaterialUI.Typography>
+        			The game was a draw. {game.winner} earned the highest score.
+        		</MaterialUI.Typography>
+        		} */}
+
+          <MaterialUI.Typography variant="caption">
+            Final points are calculated below based on the{" "}
             <a href="http://windycityweasels.org/tribute-scoring-system/">
               Tribute
             </a>{" "}
@@ -313,7 +329,7 @@ export default class GameResults extends React.Component {
                                           }}
                                         >
                                           <MaterialUI.Typography variant="subtitle2">
-                                            Points vs Predicted	 outcome
+                                            Points vs Predicted outcome
                                           </MaterialUI.Typography>
                                           <MaterialUI.Typography variant="subtitle2">
                                             {helpers.twoDecimals(
@@ -330,6 +346,7 @@ export default class GameResults extends React.Component {
                                             padding: "0px",
                                             margin: "0px",
                                             width: "100%",
+                                            borderTop: "1px solid black",
                                           }}
                                         >
                                           <MaterialUI.Typography variant="subtitle2">
@@ -350,10 +367,9 @@ export default class GameResults extends React.Component {
                                           padding: "0px",
                                           margin: "0px",
                                           width: "100%",
-                                          backgroundColor: "pink",
                                         }}
                                       >
-                                        <div>Sum</div>
+                                        <div>Total points</div>
                                         <div>
                                           {helpers.twoDecimals(score.Score)}
                                         </div>
