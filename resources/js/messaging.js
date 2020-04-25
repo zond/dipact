@@ -64,7 +64,7 @@ class Messaging {
 	start() {
 		if (!firebase.messaging.isSupported()) {
 			helpers.snackbar(
-				"Firebase messaging is not supported in your browser, notifications for new phases and messages will not work."
+				"Firebase messaging is not supported in your browser, push notifications for new phases and messages will not work. Use email notifications instead."
 			);
 			return Promise.resolve({});
 		}
