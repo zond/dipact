@@ -18,8 +18,6 @@ class Messaging {
 		};
 		firebase.initializeApp(firebaseConfig);
 
-		this.messaging = firebase.messaging();
-
 		// The service worker registration that handles the FCM messages.
 		this.registration = null;
 		// The callbacks that listen to FCM messages from Diplicity.
@@ -55,6 +53,12 @@ class Messaging {
 		this.unsubscribe = this.unsubscribe.bind(this);
 		this.handleSWMessage = this.handleSWMessage.bind(this);
 		this.uploadToken = this.uploadToken.bind(this);
+
+		if (firebase.messaging.isSupported()) {
+			this.messaging = firebase.messaging();
+		} else {
+			this.messaging = null;
+		}
 	}
 	handleSWMessage(ev) {
 		if (this.main && ev.data.clickedNotification) {
