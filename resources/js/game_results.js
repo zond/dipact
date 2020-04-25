@@ -38,6 +38,20 @@ export default class GameResults extends React.Component {
 						.then(res => res.json())
 						.then(trueSkillsJS => {
 							helpers.decProgress();
+							gameResultJS.Properties.Scores = gameResultJS.Properties.Scores.sort(
+								(a, b) => {
+									if (a.Score > b.Score) {
+										return -1;
+									} else if (a.Score < b.Score) {
+										return 1;
+									} else if (a.SCs > b.SCs) {
+										return -1;
+									} else if (a.SCs < b.SCs) {
+										return 1;
+									}
+									return 0;
+								}
+							);
 							this.setState({
 								gameResult: gameResultJS,
 								trueSkills: trueSkillsJS
@@ -58,21 +72,32 @@ export default class GameResults extends React.Component {
 			>
 				<MaterialUI.DialogTitle>Game result</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent style={{ paddingBottom: "0px" }}>
-					{/* TODO: @Martin, here, please add the checks: 
-          	1) if the game resulted in a solo-win, show the top. 
-          	2) if the game resultated in a draw, calculate the one with the most points and add it as game.winner (or whatever variable). This will create a "winner in a draw", and increase the salience of the scoring system.
-          	3) could you please sort the resulting array/list in the dialog based on points achieved? The one with the top points should be on top. Even the current.player doesn't need to be on top, because we want that player to go through the "walk of shame" and go through the list down (especially if a draw and he/she originally felt "draw is a win too", we want them to feel they suck so they don't draw the same way next time.)
-          	Ideally, surviving players (even in solo win) would be on top of eliminated players, but that is less important if too much hassle.
-
-          {haswinner ? 
-        		<MaterialUI.Typography>
-        			The game was won by {game.winner}.
-        			</MaterialUi.Typography>
-        		 : 
-        		<MaterialUI.Typography>
-        			The game was a draw. {game.winner} earned the highest score.
-        		</MaterialUI.Typography>
-        		} */}
+					{this.state.gameResult ? (
+						this.state.gameResult.Properties.SoloWinnerMember ? (
+							<MaterialUI.Typography>
+								The game was won by{" "}
+								{
+									this.state.gameResult.Properties
+										.SoloWinnerMember
+								}
+								.
+							</MaterialUI.Typography>
+						) : (
+							<MaterialUI.Typography>
+								The game was a draw.
+								{this.state.gameResult.Properties.Scores[0]
+									.Score >
+								this.state.gameResult.Properties.Scores[1].Score
+									? " " +
+									  this.state.gameResult.Properties.Scores[0]
+											.Member +
+									  " earned the highest score."
+									: ""}
+							</MaterialUI.Typography>
+						)
+					) : (
+						""
+					)}
 
 					<MaterialUI.Typography variant="caption">
 						Final points are calculated below based on the{" "}
@@ -83,45 +108,19 @@ export default class GameResults extends React.Component {
 					</MaterialUI.Typography>
 					<MaterialUI.List>
 						{this.state.gameResult
-							? this.props.variant.Properties.Nations.slice()
-									.sort((n1, n2) => {
-										if (
-											this.member &&
-											n1 == this.member.Nation
-										) {
-											return -1;
-										} else if (
-											this.member &&
-											n2 == this.member.Nation
-										) {
-											return 1;
-										} else {
-											if (n1 < n2) {
-												return -1;
-											} else if (n2 < n1) {
-												return 1;
-											} else {
-												return 0;
-											}
-										}
-									})
-									.map(nation => {
-										const score = this.state.gameResult.Properties.Scores.find(
-											s => {
-												return s.Member == nation;
-											}
-										);
+							? this.state.gameResult.Properties.Scores.map(
+									score => {
 										const trueSkill = this.state.trueSkills.Properties.find(
 											l => {
 												return (
 													l.Properties.Member ==
-													nation
+													score.Member
 												);
 											}
 										);
 										return (
 											<MaterialUI.ListItem
-												key={"nation_" + nation}
+												key={"nation_" + score.Member}
 												style={{
 													padding: "0px",
 													margin: "0px"
@@ -164,7 +163,9 @@ export default class GameResults extends React.Component {
 															}}
 														>
 															<NationAvatar
-																nation={nation}
+																nation={
+																	score.Member
+																}
 																className={
 																	helpers.avatarClass
 																}
@@ -187,13 +188,15 @@ export default class GameResults extends React.Component {
 																	variant="subtitle2"
 																	color="primary"
 																>
-																	{nation}
+																	{
+																		score.Member
+																	}
 																</MaterialUI.Typography>
 																{this.state
 																	.gameResult
 																	.Properties
 																	.SoloWinnerMember ==
-																nation ? (
+																score.Member ? (
 																	<MaterialUI.Typography
 																		variant="caption"
 																		key="solo-winner"
@@ -213,11 +216,20 @@ export default class GameResults extends React.Component {
 																	this.state
 																		.gameResult
 																		.Properties
-																		.DIASMembers ||
+																		.EliminatedMembers ||
 																	[]
 																).indexOf(
-																	nation
-																) != -1 ? (
+																	score.Member
+																) == -1 &&
+																(
+																	this.state
+																		.gameResult
+																		.Properties
+																		.NMRMembers ||
+																	[]
+																).indexOf(
+																	score.Member
+																) == -1 ? (
 																	<MaterialUI.Typography
 																		variant="caption"
 																		key="dias-member"
@@ -235,7 +247,7 @@ export default class GameResults extends React.Component {
 																		.EliminatedMembers ||
 																	[]
 																).indexOf(
-																	nation
+																	score.Member
 																) != -1 ? (
 																	<MaterialUI.Typography
 																		variant="caption"
@@ -253,7 +265,7 @@ export default class GameResults extends React.Component {
 																		.NMRMembers ||
 																	[]
 																).indexOf(
-																	nation
+																	score.Member
 																) != -1 ? (
 																	<MaterialUI.Typography
 																		variant="caption"
@@ -418,18 +430,26 @@ export default class GameResults extends React.Component {
 																							"rgba(40, 26, 26,0.3)"
 																					}}
 																				>
-																					<MaterialUI.Typography variant="subtitle2">
-																						Previous
-																						rating
-																					</MaterialUI.Typography>
-																					<MaterialUI.Typography variant="subtitle2">
-																						{helpers.twoDecimals(
-																							trueSkill
-																								.Properties
-																								.Previous
-																								.Rating
-																						)}
-																					</MaterialUI.Typography>
+																					{trueSkill
+																						.Properties
+																						.Previous ? (
+																						<React.Fragment>
+																							<MaterialUI.Typography variant="subtitle2">
+																								Previous
+																								rating
+																							</MaterialUI.Typography>
+																							<MaterialUI.Typography variant="subtitle2">
+																								{helpers.twoDecimals(
+																									trueSkill
+																										.Properties
+																										.Previous
+																										.Rating
+																								)}
+																							</MaterialUI.Typography>
+																						</React.Fragment>
+																					) : (
+																						""
+																					)}
 																				</div>
 																				<div
 																					style={{
@@ -447,23 +467,31 @@ export default class GameResults extends React.Component {
 																							"rgba(40, 26, 26,0.3)"
 																					}}
 																				>
-																					<MaterialUI.Typography variant="subtitle2">
-																						Points
-																						vs
-																						Predicted
-																						outcome
-																					</MaterialUI.Typography>
-																					<MaterialUI.Typography variant="subtitle2">
-																						{helpers.twoDecimals(
-																							trueSkill
-																								.Properties
-																								.Rating -
-																								trueSkill
-																									.Properties
-																									.Previous
-																									.Rating
-																						)}
-																					</MaterialUI.Typography>
+																					{trueSkill
+																						.Properties
+																						.Previous ? (
+																						<React.Fragment>
+																							<MaterialUI.Typography variant="subtitle2">
+																								Points
+																								vs
+																								Predicted
+																								outcome
+																							</MaterialUI.Typography>
+																							<MaterialUI.Typography variant="subtitle2">
+																								{helpers.twoDecimals(
+																									trueSkill
+																										.Properties
+																										.Rating -
+																										trueSkill
+																											.Properties
+																											.Previous
+																											.Rating
+																								)}
+																							</MaterialUI.Typography>
+																						</React.Fragment>
+																					) : (
+																						""
+																					)}
 																				</div>
 																				<div
 																					style={{
@@ -530,7 +558,8 @@ export default class GameResults extends React.Component {
 												</MaterialUI.ExpansionPanel>
 											</MaterialUI.ListItem>
 										);
-									})
+									}
+							  )
 							: ""}
 					</MaterialUI.List>
 					<MaterialUI.DialogActions
