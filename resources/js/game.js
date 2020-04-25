@@ -231,7 +231,9 @@ export default class Game extends React.Component {
 					}),
 					member: member,
 					readyReminder:
-						member && !member.NewestPhaseState.ReadyToResolve,
+						!game.Properties.Finished &&
+						member &&
+						!member.NewestPhaseState.ReadyToResolve,
 					game: game,
 					phases: phases,
 					finishedReminder: game.Properties.Finished,
