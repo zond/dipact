@@ -6,6 +6,20 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function decoratedSort(ary, decF, sortF) {
+	return ary
+		.map(e => {
+			return {
+				el: e,
+				dec: decF(e)
+			};
+		})
+		.sort(sortF)
+		.map(e => {
+			return e.el;
+		});
+}
+
 export function snackbar(s) {
 	Globals.snackbar.setState({ message: s });
 }
