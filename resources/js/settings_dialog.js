@@ -95,9 +95,8 @@ export default class SettingsDialog extends React.Component {
 												Globals.messaging.tokenEnabled
 											}
 											disabled={
-												Globals.messaging.hasPermission
-													? false
-													: true
+												Globals.messaging
+													.hasPermission == "false"
 											}
 											onChange={ev => {
 												const wantedState =
@@ -163,44 +162,57 @@ export default class SettingsDialog extends React.Component {
 									}
 									label="Push notifications"
 								/>
-								{Globals.messaging.started ? (
-									Globals.messaging.hasPermission ? (
-										Globals.messaging.tokenOnServer ? (
-											Globals.messaging.tokenEnabled ? (
-												""
+								{firebase.messaging.isSupported() ? (
+									Globals.messaging.started ? (
+										Globals.messaging.hasPermission ? (
+											Globals.messaging.tokenOnServer ? (
+												Globals.messaging
+													.tokenEnabled ? (
+													""
+												) : (
+													""
+												)
 											) : (
-												""
+												<p style={{ marginTop: "2px" }}>
+													<MaterialUI.Typography variant="caption">
+														Notifications disabled
+														[Error: no token
+														uploaded]
+													</MaterialUI.Typography>
+												</p>
 											)
 										) : (
 											<p style={{ marginTop: "2px" }}>
 												<MaterialUI.Typography variant="caption">
-													Notifications disabled
-													[Error: no token uploaded]
+													No notification permission
+													received.
+													<br />
+													<a
+														href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8"
+														target="_blank"
+													>
+														Allow this sites
+														notifications in your
+														browser settings.
+													</a>
 												</MaterialUI.Typography>
 											</p>
 										)
 									) : (
 										<p style={{ marginTop: "2px" }}>
 											<MaterialUI.Typography variant="caption">
-												No notification permission
-												received.
-												<br />
-												<a
-													href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8"
-													target="_blank"
-												>
-													Allow this sites
-													notifications in your
-													browser settings.
-												</a>
+												Notifications disabled [Error:
+												notification system did not
+												start]
 											</MaterialUI.Typography>
 										</p>
 									)
 								) : (
 									<p style={{ marginTop: "2px" }}>
 										<MaterialUI.Typography variant="caption">
-											Notification disabled [Error:
-											notification system did not start]
+											Notifications disabled [Error:
+											Firebase Messaging not supported on
+											your browser]
 										</MaterialUI.Typography>
 									</p>
 								)}

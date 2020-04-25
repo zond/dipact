@@ -30,7 +30,7 @@ class Messaging {
 		// Has been started, will never start again.
 		this.started = false;
 		// Has notification permission.
-		this.hasPermission = false;
+		this.hasPermission = "unknown";
 		// Has an FCM token.
 		this.hasToken = false;
 		// Has uploaded the token to the server.
@@ -64,7 +64,7 @@ class Messaging {
 	start() {
 		if (!firebase.messaging.isSupported()) {
 			helpers.snackbar(
-				"Firebase messaging is not supported in your browser, push notifications for new phases and messages will not work. Use email notifications instead."
+				"Firebase messaging is not supported in your browser, push notifications for new phases and messages will not work. Turn on email notifications in the settings menu instead."
 			);
 			return Promise.resolve({});
 		}
@@ -87,7 +87,7 @@ class Messaging {
 						.requestPermission()
 						.then(_ => {
 							console.log("Notification permission granted.");
-							this.hasPermission = true;
+							this.hasPermission = "true";
 
 							// Callback fired if Instance ID token is updated.
 							this.messaging.onTokenRefresh(this.refreshToken);
@@ -103,6 +103,7 @@ class Messaging {
 							this.refreshToken().then(res);
 						})
 						.catch(err => {
+							this.hasPermission = "false";
 							console.log(
 								"Unable to get permission to notify:",
 								err
