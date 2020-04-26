@@ -91,6 +91,7 @@ func main() {
 				"JQueryJSURL":     "/static/js/jquery-3.4.1.js",
 				"PanZoomJSURL":    "/static/js/panzoom.js",
 				"ChartJSURL":      "/static/js/Chart.js",
+				"IroJSURL":        "/static/js/iro.js",
 			}),
 			LogFunc: log.Printf,
 		}

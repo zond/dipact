@@ -24,6 +24,7 @@ var (
 		"JQueryJSURL":     "/static/js/jquery-3.4.1.min.js",
 		"PanZoomJSURL":    "/static/js/panzoom.min.js",
 		"ChartJSURL":      "/static/js/Chart.min.js",
+		"IroJSURL":        "/static/js/iro.min.js",
 	}
 	Delims      = []string{"%{", "}%"}
 	cbRemoveReg = regexp.MustCompile("-cb[0-9]+cb-")

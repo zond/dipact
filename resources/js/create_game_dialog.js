@@ -176,8 +176,6 @@ export default class CreateGameDialog extends React.Component {
 				fullWidth
 				label={opts.label || name}
 				margin="dense"
-				max={opts.max}
-				min={opts.min}
 				value={this.state.newGameProperties[name]}
 				onChange={this.newGamePropertyUpdater(name, opts)}
 			/>
@@ -277,7 +275,9 @@ export default class CreateGameDialog extends React.Component {
 						<MaterialUI.TextField
 							name="phase-length-multiplier"
 							label="Phase duration"
+							type="number"
 							margin="dense"
+							inputProps={{ min: 0 }}
 							value={this.state.phaseLengthMultiplier}
 							onChange={this.setPhaseLength}
 						/>
@@ -300,6 +300,7 @@ export default class CreateGameDialog extends React.Component {
 					<MaterialUI.TextField
 						type="number"
 						fullWidth
+						inputProps={{ min: 0 }}
 						label="End after year (0 = off)"
 						margin="dense"
 						value={this.state.newGameProperties.LastYear}
