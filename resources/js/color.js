@@ -51,6 +51,8 @@ export default class Color extends React.Component {
 					{this.state.value}
 				</MaterialUI.Button>
 				<MaterialUI.Dialog
+					onEntered={helpers.genOnback(this.close)}
+					onExited={helpers.genUnback(this.close)}
 					open={this.state.dialogOpen}
 					disableBackdropClick={false}
 					onClose={this.close}

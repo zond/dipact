@@ -63,6 +63,8 @@ export default class GameResults extends React.Component {
 	render() {
 		return (
 			<MaterialUI.Dialog
+				onEntered={helpers.genOnback(this.close)}
+				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{

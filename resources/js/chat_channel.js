@@ -77,7 +77,7 @@ export default class ChatChannel extends React.Component {
 	}
 	componentDidMount() {
 		this.loadMessages().then(this.updateHistoryAndSubscription);
-		Globals.backListeners.unshift(this.props.close);
+		helpers.onback(this.props.close);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		this.updateHistoryAndSubscription();
@@ -86,9 +86,7 @@ export default class ChatChannel extends React.Component {
 		}
 	}
 	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.props.close;
-		});
+		helpers.unback(this.props.close);
 		this.updateHistoryAndSubscription(false);
 	}
 	sendMessage() {

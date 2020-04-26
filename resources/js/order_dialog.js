@@ -1,3 +1,5 @@
+import * as helpers from '%{ cb "/js/helpers.js" }%';
+
 export default class OrderDialog extends React.Component {
 	constructor(props) {
 		super(props);
@@ -31,6 +33,8 @@ export default class OrderDialog extends React.Component {
 	render() {
 		return (
 			<MaterialUI.Dialog
+				onEntered={helpers.genOnback(this.close)}
+				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				onClose={this.close}

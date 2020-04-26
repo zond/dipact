@@ -27,6 +27,8 @@ export default class FindGameDialog extends React.Component {
 	render() {
 		return (
 			<MaterialUI.Dialog
+				onEntered={helpers.genOnback(this.close)}
+				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				className="find-game-dialog"
 				disableBackdropClick={false}

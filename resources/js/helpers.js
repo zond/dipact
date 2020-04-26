@@ -321,3 +321,25 @@ export const avatarClass = scopedClass(`
   height: 36px !important;
   margin: 2px;
 `);
+
+export function unback(f) {
+	Globals.backListeners = Globals.backListeners.filter(l => {
+		return l != f;
+	});
+}
+
+export function onback(f) {
+	Globals.backListeners.unshift(f);
+}
+
+export function genOnback(f) {
+	return _ => {
+		onback(f);
+	};
+}
+
+export function genUnback(f) {
+	return _ => {
+		unback(f);
+	};
+}

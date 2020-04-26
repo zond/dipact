@@ -216,6 +216,8 @@ export default class CreateGameDialog extends React.Component {
 	render() {
 		return (
 			<MaterialUI.Dialog
+				onEntered={helpers.genOnback(this.close)}
+				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				onClose={this.close}

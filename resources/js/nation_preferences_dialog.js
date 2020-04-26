@@ -12,6 +12,10 @@ export default class NationPreferencesDialog extends React.Component {
 			this.props.parentCB(this);
 		}
 		this.onSelected = this.onSelected.bind(this);
+		this.close = this.close.bind(this);
+	}
+	close() {
+		this.setState({ open: false });
 	}
 	onSelected(ev) {
 		this.setState({ open: false });
@@ -19,7 +23,13 @@ export default class NationPreferencesDialog extends React.Component {
 	}
 	render() {
 		return (
-			<MaterialUI.Dialog open={this.state.open}>
+			<MaterialUI.Dialog
+				open={this.state.open}
+				onEntered={helpers.genOnback(this.close)}
+				onExited={helpers.genUnback(this.close)}
+				disableBackdropClick={false}
+				onClose={this.close}
+			>
 				<MaterialUI.Typography style={{ margin: "1em" }}>
 					Sort the possible nations in order of preference.
 				</MaterialUI.Typography>
