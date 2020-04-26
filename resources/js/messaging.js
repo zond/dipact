@@ -46,6 +46,7 @@ class Messaging {
 			this.deviceID = "" + new Date().getTime() + "_" + Math.random();
 			localStorage.setItem("deviceID", this.deviceID);
 		}
+		this.tokenApp = "dipact@" + this.deviceID;
 
 		this.refreshToken = this.refreshToken.bind(this);
 		this.onMessage = this.onMessage.bind(this);
@@ -53,6 +54,7 @@ class Messaging {
 		this.unsubscribe = this.unsubscribe.bind(this);
 		this.handleSWMessage = this.handleSWMessage.bind(this);
 		this.uploadToken = this.uploadToken.bind(this);
+		this.findGlobalToken = this.findGlobalToken.bind(this);
 
 		if (firebase.messaging.isSupported()) {
 			this.messaging = firebase.messaging();
@@ -151,18 +153,23 @@ class Messaging {
 		}
 		return false;
 	}
+	findGlobalToken() {
+		if (!Globals.userConfig.Properties.FCMTokens) {
+			Globals.userConfig.Properties.FCMTokens = [];
+		}
+		return Globals.userConfig.Properties.FCMTokens.find(t => {
+			return t.App == this.tokenApp;
+		});
+	}
 	uploadToken() {
 		return new Promise((res, rej) => {
-			if (!Globals.userConfig.Properties.FCMTokens) {
-				Globals.userConfig.Properties.FCMTokens = [];
-			}
 			let hrefURL = new URL(window.location.href);
 			let wantedToken = {
 				Value: this.token,
 				// Only if we are explicitly asked to be disabled will be create new tokens that are disabled.
 				Disabled: this.targetState == "disabled",
 				Note: "Created via dipact configuration on " + new Date(),
-				App: "dipact@" + this.deviceID,
+				App: this.tokenApp,
 				MessageConfig: {
 					ClickActionTemplate:
 						hrefURL.protocol +
@@ -182,9 +189,7 @@ class Messaging {
 					DontSendData: false
 				}
 			};
-			let foundToken = Globals.userConfig.Properties.FCMTokens.find(t => {
-				return t.App == wantedToken.App;
-			});
+			let foundToken = this.findGlobalToken();
 			let updateServer = false;
 			if (!foundToken) {
 				foundToken = wantedToken;

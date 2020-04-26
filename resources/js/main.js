@@ -13,6 +13,7 @@ export default class Main extends ActivityContainer {
 		};
 		this.handleVariants = this.handleVariants.bind(this);
 		this.handleRoot = this.handleRoot.bind(this);
+		this.handleUserConfig = this.handleUserConfig.bind(this);
 		this.renderPath = this.renderPath.bind(this);
 		this.presentContent = this.presentContent.bind(this);
 		Globals.messaging.main = this;
@@ -123,6 +124,13 @@ export default class Main extends ActivityContainer {
 			return state;
 		});
 	}
+	handleUserConfig(configJS) {
+		helpers.decProgress();
+		Globals.userConfig = configJS;
+		if (Globals.messaging.findGlobalToken()) {
+			Globals.messaging.start();
+		}
+	}
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
 		if (Globals.user) {
@@ -151,18 +159,7 @@ export default class Main extends ActivityContainer {
 					)
 				)
 				.then(resp => resp.json())
-				.then(js => {
-					helpers.decProgress();
-					Globals.userConfig = js;
-					if (
-						js.Properties.FCMTokens &&
-						js.Properties.FCMTokens.find(t => {
-							return t.App.indexOf("dipact@") == 0;
-						})
-					) {
-						Globals.messaging.start();
-					}
-				});
+				.then(this.handleUserConfig);
 			helpers.incProgress();
 			helpers
 				.safeFetch(
