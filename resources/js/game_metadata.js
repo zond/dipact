@@ -18,6 +18,14 @@ export default class GameMetadata extends React.Component {
 			"display: flex; align-items: center;"
 		);
 	}
+	componentDidMount() {
+		Globals.backListeners.unshift(this.close);
+	}
+	componentWillUnmount() {
+		Globals.backListeners = Globals.backListeners.filter(l => {
+			return l != this.props.close;
+		});
+	}
 	toggleBanned(uid) {
 		return _ => {
 			if (Globals.bans[uid]) {
