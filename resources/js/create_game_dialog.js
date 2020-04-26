@@ -41,14 +41,6 @@ export default class CreateGameDialog extends React.Component {
 			this.props.parentCB(this);
 		}
 	}
-	componentDidMount() {
-		Globals.backListeners.unshift(this.close);
-	}
-	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.close;
-		});
-	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
 			JSON.stringify(Globals.userStats) !=

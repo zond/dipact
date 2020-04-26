@@ -9,14 +9,6 @@ export default class PreliminaryScores extends React.Component {
 			this.props.parentCB(this);
 		}
 	}
-	componentDidMount() {
-		Globals.backListeners.unshift(this.close);
-	}
-	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.close;
-		});
-	}
 	close() {
 		this.setState({ open: false, canvas: null, chart: null });
 	}

@@ -13,14 +13,6 @@ export default class OrderDialog extends React.Component {
 		this.onClick = this.onClick.bind(this);
 		this.close = this.close.bind(this);
 	}
-	componentDidMount() {
-		Globals.backListeners.unshift(this.close);
-	}
-	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.close;
-		});
-	}
 	onClick(ev) {
 		const option = ev.currentTarget.getAttribute("xoption");
 		this.setState({ open: false }, _ => {

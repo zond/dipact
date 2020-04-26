@@ -32,14 +32,6 @@ export default class SettingsDialog extends React.Component {
 		this.addColorOverride = this.addColorOverride.bind(this);
 		this.saveConfig = this.saveConfig.bind(this);
 	}
-	componentDidMount() {
-		Globals.backListeners.unshift(this.close);
-	}
-	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.close;
-		});
-	}
 	addColorOverride() {
 		let index = -1;
 		let value = "";

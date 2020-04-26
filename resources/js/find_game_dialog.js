@@ -15,14 +15,6 @@ export default class FindGameDialog extends React.Component {
 		this.onClick = this.onClick.bind(this);
 		this.close = this.close.bind(this);
 	}
-	componentDidMount() {
-		Globals.backListeners.unshift(this.close);
-	}
-	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.close;
-		});
-	}
 	close() {
 		this.setState({ open: false });
 	}
