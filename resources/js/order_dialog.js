@@ -4,22 +4,45 @@ export default class OrderDialog extends React.Component {
 		this.state = {
 			open: false,
 			options: [],
-			onClick: _ => {
-				console.log("Uninitialized OrderDialog used?!");
-			}
+			onClick: null,
+			onClose: null
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
 		this.onClick = this.onClick.bind(this);
+		this.close = this.close.bind(this);
+	}
+	componentDidMount() {
+		Globals.backListeners.unshift(this.close);
+	}
+	componentWillUnmount() {
+		Globals.backListeners = Globals.backListeners.filter(l => {
+			return l != this.close;
+		});
 	}
 	onClick(ev) {
-		this.setState({ open: false });
-		this.state.onClick(ev.currentTarget.getAttribute("xoption"));
+		const option = ev.currentTarget.getAttribute("xoption");
+		this.setState({ open: false }, _ => {
+			if (this.state.onClick) {
+				this.state.onClick(option);
+			}
+		});
+	}
+	close() {
+		this.setState({ open: false }, _ => {
+			if (this.state.onClose) {
+				this.state.onClose();
+			}
+		});
 	}
 	render() {
 		return (
-			<MaterialUI.Dialog open={this.state.open}>
+			<MaterialUI.Dialog
+				open={this.state.open}
+				disableBackdropClick={false}
+				onClose={this.close}
+			>
 				<MaterialUI.ButtonGroup orientation="vertical">
 					{this.state.options.map(option => {
 						return (

@@ -23,7 +23,7 @@ export default class GameMetadata extends React.Component {
 	}
 	componentWillUnmount() {
 		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.props.close;
+			return l != this.close;
 		});
 	}
 	toggleBanned(uid) {

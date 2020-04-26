@@ -824,6 +824,7 @@ export default class DipMap extends React.Component {
 					this.orderDialog.setState({
 						open: true,
 						options: Object.keys(options).concat("Cancel"),
+						onClose: this.acceptOrders,
 						onClick: ord => {
 							if (ord == "Cancel") {
 								this.acceptOrders();
@@ -844,6 +845,7 @@ export default class DipMap extends React.Component {
 							"Clear",
 							"Cancel"
 						]),
+						onClose: this.acceptOrders,
 						onClick: ord => {
 							if (ord == "Clear") {
 								if (this.state.laboratoryMode) {
