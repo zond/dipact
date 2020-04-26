@@ -17,7 +17,7 @@ window.Globals = {
 	}),
 	user: { Properties: {} },
 	userStats: { Properties: { TrueSkill: {} } },
-	userConfig: { Properties: { FCMTokens: [], MailConfig: {} } },
+	userConfig: { Properties: { FCMTokens: [], MailConfig: {}, Colors: [] } },
 	token: null,
 	progressCount: 0,
 	progressDialog: null,
@@ -29,6 +29,13 @@ window.Globals = {
 		let m = dippyMap($("body"));
 		return m.contrasts;
 	})(),
+	colorOverrides: {
+		nationCodes: {},
+		variantCodes: {},
+		overrides: [],
+		variants: {},
+		nations: {}
+	},
 	backListeners: [],
 	bans: {}
 };

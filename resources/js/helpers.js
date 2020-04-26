@@ -6,6 +6,51 @@ export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
+export function parseUserConfigColor(override) {
+	const parts = override.split("/");
+	if (parts.length == 1) {
+		return {
+			type: "position",
+			value: parts[0]
+		};
+	} else if (parts.length == 2) {
+		return {
+			type: "nation",
+			nation: Globals.colorOverrides.nationCodes[parts[0]],
+			value: parts[1]
+		};
+	} else if (parts.length == 3) {
+		return {
+			type: "variant",
+			variant: Globals.colorOverrides.variantCodes[parts[0]],
+			nation: Globals.colorOverrides.nationCodes[parts[1]],
+			value: parts[2]
+		};
+	}
+}
+
+export function parseUserConfigColors() {
+	Globals.colorOverrides.overrides = [];
+	Globals.colorOverrides.variants = {};
+	Globals.colorOverrides.nations = {};
+	(Globals.userConfig.Properties.Colors || []).forEach(override => {
+		if (override != "") {
+			const parsed = parseUserConfigColor(override);
+			if (parsed.type == "position") {
+				Globals.colorOverrides.overrides.push(parsed.value);
+			} else if (parsed.type == "nation") {
+				Globals.colorOverrides.nations[parsed.nation] = parsed.value;
+			} else if (parsed.type == "variant") {
+				if (!Globals.colorOverrides.variants[parsed.variant]) {
+					Globals.colorOverrides.variants[parsed.variant] = {};
+				}
+				Globals.colorOverrides.variants[parsed.variant][parsed.nation] =
+					parsed.value;
+			}
+		}
+	});
+}
+
 export function snackbar(s) {
 	Globals.snackbar.setState({ message: s });
 }

@@ -58,8 +58,14 @@ export default class Main extends ActivityContainer {
 
 		Globals.variants = variants;
 		Globals.variants.forEach(variant => {
+			Globals.colorOverrides.variantCodes[
+				variant.Properties.Name.replace(/[^\w]/g, "")
+			] = variant.Properties.Name;
 			variant.nationAbbreviations = {};
 			variant.Properties.Nations.forEach(nation => {
+				Globals.colorOverrides.nationCodes[
+					nation.replace(/[^\w]/g, "")
+				] = nation;
 				for (let idx = 0; idx < nation.length; idx++) {
 					let matchingNations = variant.Properties.Nations.filter(
 						otherNation => {
@@ -79,6 +85,9 @@ export default class Main extends ActivityContainer {
 				}
 			});
 		});
+		if (Globals.userConfig.Properties.Colors.length > 0) {
+			helpers.parseUserConfigColors();
+		}
 	}
 	presentContent(rootJS) {
 		this.setState((state, props) => {
@@ -129,6 +138,9 @@ export default class Main extends ActivityContainer {
 		Globals.userConfig = configJS;
 		if (Globals.messaging.findGlobalToken()) {
 			Globals.messaging.start();
+		}
+		if (Globals.variants.length > 0) {
+			helpers.parseUserConfigColors();
 		}
 	}
 	handleRoot(rootJS) {

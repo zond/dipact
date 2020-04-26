@@ -33,34 +33,56 @@ export default class SettingsDialog extends React.Component {
 		this.saveConfig = this.saveConfig.bind(this);
 	}
 	addColorOverride() {
-		let index = -1;
-		let value = "";
 		if (this.state.newColorOverrideType == "position") {
-			index = this.state.newColorOverridePosition;
-			value = this.state.newColorOverrideColor;
+			Globals.colorOverrides.overrides[
+				this.state.newColorOverridePosition
+			] = this.state.newColorOverrideColor;
 		} else if (this.state.newColorOverrideType == "nation") {
-			value =
-				this.state.newColorOverrideNation +
-				"/" +
-				this.state.newColorOverrideColor;
+			Globals.colorOverrides.nations[
+				this.state.newColorOverrideNation.replace(/[^\w]/g, "")
+			] = this.state.newColorOverrideColor;
 		} else {
-			value =
-				this.state.newColorOverrideVariant +
-				"/" +
-				this.state.newColorOverrideNation +
-				"/" +
-				this.state.newColorOverrideColor;
+			const variantCode = this.state.newColorOverrideVariant.replace(
+				/[^\w]/g,
+				""
+			);
+			if (!Globals.colorOverrides.variants[variantCode]) {
+				Globals.colorOverrides.variants[variantCode] = {};
+			}
+			Globals.colorOverrides.variants[variantCode][
+				this.state.newColorOverrideNation.replace(/[^\w]/g, "")
+			] = this.state.newColorOverrideColor;
 		}
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
-			if (!state.userConfig.Properties.Colors) {
-				state.userConfig.Properties.Colors = [];
-			}
-			if (index == -1) {
-				state.userConfig.Properties.Colors.push(value);
-			} else {
-				state.userConfig.Properties.Colors[index] = value;
-			}
+			state.userConfig.Properties.Colors =
+				Globals.colorOverrides.overrides;
+			Object.keys(Globals.colorOverrides.nations || {}).forEach(
+				nationCode => {
+					state.userConfig.Properties.Colors.push(
+						nationCode +
+							"/" +
+							Globals.colorOverrides.nations[nationCode]
+					);
+				}
+			);
+			Object.keys(Globals.colorOverrides.variants || {}).forEach(
+				variantCode => {
+					Object.keys(
+						Globals.colorOverrides.variants[variantCode] || {}
+					).forEach(nationCode => {
+						state.userConfig.Properties.Colors.push(
+							variantCode +
+								"/" +
+								nationCode +
+								"/" +
+								Globals.colorOverrides.variants[variantCode][
+									nationCode
+								]
+						);
+					});
+				}
+			);
 			return state;
 		}, this.saveConfig);
 	}
@@ -120,6 +142,7 @@ export default class SettingsDialog extends React.Component {
 			.then(js => {
 				helpers.decProgress();
 				Globals.userConfig = js;
+				helpers.parseUserConfigColors();
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
 					state.userConfig = js;
@@ -356,116 +379,152 @@ export default class SettingsDialog extends React.Component {
 							/>
 							<h3>Colors</h3>
 							<MaterialUI.List>
-								{(
-									this.state.userConfig.Properties.Colors ||
-									[]
-								).map((color, idx) => {
-									const parts = color.split("/");
-									if (parts.length == 1) {
-										return (
-											<MaterialUI.ListItem
-												button
-												key={idx}
-											>
-												<MaterialUI.ListItemText
-													primary={
-														"Override position " +
-														idx
+								{(_ => {
+									let overridePos = 0;
+									return (
+										this.state.userConfig.Properties
+											.Colors || []
+									).map((color, idx) => {
+										if (color == "") {
+											return "";
+										}
+										const parts = color.split("/");
+										if (parts.length == 1) {
+											return (
+												<MaterialUI.ListItem
+													button
+													key={
+														"override_" +
+														overridePos +
+														"_" +
+														color
 													}
-												/>
-												<Color
-													value={color}
-													onSelect={this.newColorSetter(
-														idx,
-														""
-													)}
-												/>
-												<MaterialUI.ListItemSecondaryAction>
-													<MaterialUI.IconButton
-														edge="end"
-														onClick={this.newColorDeleter(
-															idx
+												>
+													<MaterialUI.ListItemText
+														primary={
+															"Override position " +
+															overridePos++
+														}
+													/>
+													<Color
+														value={color}
+														onSelect={this.newColorSetter(
+															idx,
+															""
 														)}
-													>
-														{helpers.createIcon(
-															"\ue92b"
-														)}
-													</MaterialUI.IconButton>
-												</MaterialUI.ListItemSecondaryAction>
-											</MaterialUI.ListItem>
-										);
-									} else if (parts.length == 2) {
-										return (
-											<MaterialUI.ListItem
-												button
-												key={idx}
-											>
-												<MaterialUI.ListItemText
-													primary={
-														"Override " + parts[0]
-													}
-												/>
-												<Color
-													value={parts[1]}
-													onSelect={this.newColorSetter(
-														idx,
-														parts[0] + "/"
-													)}
-												/>
-												<MaterialUI.ListItemSecondaryAction>
-													<MaterialUI.IconButton
-														edge="end"
-														onClick={this.newColorDeleter(
-															idx
-														)}
-													>
-														{helpers.createIcon(
-															"\ue92b"
-														)}
-													</MaterialUI.IconButton>
-												</MaterialUI.ListItemSecondaryAction>
-											</MaterialUI.ListItem>
-										);
-									} else if (parts.length == 3) {
-										return (
-											<MaterialUI.ListItem
-												button
-												key={idx}
-											>
-												<MaterialUI.ListItemText
-													primary={
-														"Override " +
-														parts[1] +
-														" in " +
-														parts[0]
-													}
-												/>
-												<Color
-													value={parts[2]}
-													onSelect={this.newColorSetter(
-														idx,
+													/>
+													<MaterialUI.ListItemSecondaryAction>
+														<MaterialUI.IconButton
+															edge="end"
+															onClick={this.newColorDeleter(
+																idx
+															)}
+														>
+															{helpers.createIcon(
+																"\ue92b"
+															)}
+														</MaterialUI.IconButton>
+													</MaterialUI.ListItemSecondaryAction>
+												</MaterialUI.ListItem>
+											);
+										} else if (parts.length == 2) {
+											return (
+												<MaterialUI.ListItem
+													button
+													key={
+														"nation_" +
 														parts[0] +
-															"/" +
-															parts[1] +
-															"/"
-													)}
-												/>
-												<MaterialUI.ListItemSecondaryAction>
-													<MaterialUI.IconButton
-														edge="end"
-														onClick={this.newColorDeleter(
-															idx
+														"_" +
+														parts[1]
+													}
+												>
+													<MaterialUI.ListItemText
+														primary={
+															"Override " +
+															Globals
+																.colorOverrides
+																.nationCodes[
+																parts[0]
+															]
+														}
+													/>
+													<Color
+														value={parts[1]}
+														onSelect={this.newColorSetter(
+															idx,
+															parts[0] + "/"
 														)}
-													>
-														{helpers.createIcon(
-															"\ue92b"
+													/>
+													<MaterialUI.ListItemSecondaryAction>
+														<MaterialUI.IconButton
+															edge="end"
+															onClick={this.newColorDeleter(
+																idx
+															)}
+														>
+															{helpers.createIcon(
+																"\ue92b"
+															)}
+														</MaterialUI.IconButton>
+													</MaterialUI.ListItemSecondaryAction>
+												</MaterialUI.ListItem>
+											);
+										} else if (parts.length == 3) {
+											return (
+												<MaterialUI.ListItem
+													button
+													key={
+														"variant_" +
+														parts[0] +
+														"_nation_" +
+														parts[1] +
+														"_" +
+														parts[2]
+													}
+												>
+													<MaterialUI.ListItemText
+														primary={
+															"Override " +
+															Globals
+																.colorOverrides
+																.nationCodes[
+																parts[1]
+															] +
+															" in " +
+															Globals
+																.colorOverrides
+																.variantCodes[
+																parts[0]
+															]
+														}
+													/>
+													<Color
+														value={parts[2]}
+														onSelect={this.newColorSetter(
+															idx,
+															parts[0] +
+																"/" +
+																parts[1] +
+																"/"
 														)}
-													</MaterialUI.IconButton>
-												</MaterialUI.ListItemSecondaryAction>
-											</MaterialUI.ListItem>
-										);
-									}
-								})}
+													/>
+													<MaterialUI.ListItemSecondaryAction>
+														<MaterialUI.IconButton
+															edge="end"
+															onClick={this.newColorDeleter(
+																idx
+															)}
+														>
+															{helpers.createIcon(
+																"\ue92b"
+															)}
+														</MaterialUI.IconButton>
+													</MaterialUI.ListItemSecondaryAction>
+												</MaterialUI.ListItem>
+											);
+										}
+									});
+								})()}
 							</MaterialUI.List>
 							<div
 								className={helpers.scopedClass(
@@ -527,8 +586,8 @@ export default class SettingsDialog extends React.Component {
 											inputProps={{
 												min: 0,
 												max:
-													Globals.contrastColors
-														.length - 1
+													Globals.colorOverrides
+														.overrides.length
 											}}
 											value={
 												this.state
