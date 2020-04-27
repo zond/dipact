@@ -90,7 +90,7 @@ export default class UserAvatar extends React.Component {
 											)
 										)}
 										{this.makeRow(
-											"Quickness (ratio of phases committed phases)",
+											"Quickness (ratio of committed phases)",
 											helpers.twoDecimals(
 												this.state.userStats.Properties
 													.Quickness
