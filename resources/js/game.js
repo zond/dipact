@@ -237,9 +237,11 @@ export default class Game extends React.Component {
 						activePhase: phases[phases.length - 1]
 					},
 					_ => {
+if (this.state.game.Properties.Finished) {
 						this.gameResults.setState({
 							open: true
 						});
+}
 					}
 				);
 				return Promise.resolve({});
