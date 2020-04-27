@@ -726,7 +726,7 @@ export default class GameListElement extends React.Component {
 							key="warning"
 							className={helpers.scopedClass("color: red;")}
 						>
-							WARNING: This game has a phase length of less than
+							WARNING: This game has a phase deadline of less than
 							12 hours. If you are away from your device when the
 							game starts (or when a phase resolves) you may tank
 							your reliability rating, and potentially miss the
