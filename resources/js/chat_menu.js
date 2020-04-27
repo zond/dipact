@@ -263,6 +263,32 @@ export default class ChatMenu extends React.Component {
 								) : (
 									helpers.channelName(channel, this.variant)
 								)}
+								<div
+									className={helpers.scopedClass(
+										"display: flex; flex-direction: column; align-items: flex-start; margin-left: 8px; min-width: 0;"
+									)}
+								>
+									<MaterialUI.Typography
+										className={helpers.scopedClass(
+											"font-size: x-small; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
+										)}
+									>
+										{channel.Properties.NMessages} messages;
+										latest from{" "}
+										{
+											channel.Properties.LatestMessage
+												.Sender
+										}
+										:
+									</MaterialUI.Typography>
+									<MaterialUI.Typography
+										className={helpers.scopedClass(
+											"font-size: x-small; text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
+										)}
+									>
+										{channel.Properties.LatestMessage.Body}
+									</MaterialUI.Typography>
+								</div>
 							</MaterialUI.Button>
 						);
 					})}
