@@ -299,7 +299,11 @@ export default class GameMetadata extends React.Component {
 							  })
 							: ""}
 					</MaterialUI.Grid>
-					<MaterialUI.DialogActions>
+					<MaterialUI.DialogActions
+						className={helpers.scopedClass(
+							"background-color: white; position: sticky; bottom: 0px;"
+						)}
+					>
 						<MaterialUI.Button onClick={this.close} color="primary">
 							Close
 						</MaterialUI.Button>

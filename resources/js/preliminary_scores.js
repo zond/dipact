@@ -120,7 +120,11 @@ export default class PreliminaryScores extends React.Component {
 						system.
 					</MaterialUI.Typography>
 					<canvas id="score-chart" width="480" height="720"></canvas>
-					<MaterialUI.DialogActions>
+					<MaterialUI.DialogActions
+						className={helpers.scopedClass(
+							"background-color: white; position: sticky; bottom: 0px;"
+						)}
+					>
 						<MaterialUI.Button onClick={this.close} color="primary">
 							Close
 						</MaterialUI.Button>

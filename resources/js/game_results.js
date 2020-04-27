@@ -567,11 +567,9 @@ export default class GameResults extends React.Component {
 							: ""}
 					</MaterialUI.List>
 					<MaterialUI.DialogActions
-						style={{
-							backgroundColor: "white",
-							position: "sticky",
-							bottom: "0px"
-						}}
+						className={helpers.scopedClass(
+							"background-color: white; position: sticky; bottom: 0px;"
+						)}
 					>
 						<MaterialUI.Button onClick={this.close} color="primary">
 							Close

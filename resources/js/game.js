@@ -399,6 +399,23 @@ export default class Game extends React.Component {
 								>
 									Scores
 								</MaterialUI.MenuItem>
+								{this.state.game.Properties.Finished ? (
+									<MaterialUI.MenuItem
+										key="results"
+										onClick={_ => {
+											this.setState({
+												moreMenuAnchorEl: null
+											});
+											this.gameResults.setState({
+												open: true
+											});
+										}}
+									>
+										Results
+									</MaterialUI.MenuItem>
+								) : (
+									""
+								)}
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
 									onClick={_ => {
@@ -422,23 +439,6 @@ export default class Game extends React.Component {
 										? "Disable lab mode"
 										: "Enable lab mode"}
 								</MaterialUI.MenuItem>
-								{this.state.game.Properties.Finished ? (
-									<MaterialUI.MenuItem
-										key="results"
-										onClick={_ => {
-											this.setState({
-												moreMenuAnchorEl: null
-											});
-											this.gameResults.setState({
-												open: true
-											});
-										}}
-									>
-										Results
-									</MaterialUI.MenuItem>
-								) : (
-									""
-								)}
 							</MaterialUI.Menu>
 						</MaterialUI.Toolbar>
 						<MaterialUI.Tabs
