@@ -1,6 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import Game from '%{ cb "/js/game.js" }%';
+import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 
 export default class GameListElement extends React.Component {
@@ -796,12 +797,7 @@ export default class GameListElement extends React.Component {
 					key={itemKey++}
 					style={{ display: "flex", alignItems: "center" }}
 				>
-					<MaterialUI.Avatar
-						className={helpers.avatarClass}
-						alt={member.User.Name}
-						src={member.User.Picture}
-						style={{ marginRight: "16px" }}
-					/>
+					<UserAvatar user={member.User} />
 					<MaterialUI.Typography>
 						{member.User.GivenName} {member.User.FamilyName}
 					</MaterialUI.Typography>

@@ -1,5 +1,6 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationAvatar from '%{ cb "/js/nation_avatar.js"}%';
 
 export default class GameMetadata extends React.Component {
@@ -173,12 +174,8 @@ export default class GameMetadata extends React.Component {
 												item
 												xs={2}
 											>
-												<MaterialUI.Avatar
-													className={
-														helpers.avatarClass
-													}
-													alt={member.User.Name}
-													src={member.User.Picture}
+												<UserAvatar
+													user={member.User}
 												/>
 											</MaterialUI.Grid>
 											<MaterialUI.Grid
