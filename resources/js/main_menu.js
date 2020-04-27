@@ -62,22 +62,32 @@ export default class MainMenu extends ActivityContainer {
 		this.findGameDialog.setState({
 			open: true,
 			onFind: gameID => {
+				if (gameID == "") {
+					return;
+				}
 				const match = /\/Game\/([^/]+)/.exec(gameID);
 				if (match) {
 					gameID = match[1];
 				}
 				helpers
 					.safeFetch(helpers.createRequest("/Game/" + gameID))
-					.then(resp => resp.json())
-					.then(js => {
-						this.setState({
-							activity: GameList,
-							activityProps: {
-								label: gameID,
-								key: "predefined-game-list",
-								predefinedList: [js]
-							}
-						});
+					.then(resp => {
+						if (resp.status == 200) {
+							resp.json().then(js => {
+								this.setState({
+									activity: GameList,
+									activityProps: {
+										label: gameID,
+										key: "predefined-game-list",
+										predefinedList: [js]
+									}
+								});
+							});
+						} else {
+							helpers.snackbar(
+								"Didn't find a game with ID " + gameID
+							);
+						}
 					});
 			}
 		});
