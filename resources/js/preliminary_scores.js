@@ -117,7 +117,7 @@ export default class PreliminaryScores extends React.Component {
 						<a href="http://windycityweasels.org/tribute-scoring-system/">
 							Tribute
 						</a>{" "}
-						ssytem.
+						system.
 					</MaterialUI.Typography>
 					<canvas id="score-chart" width="480" height="720"></canvas>
 					<MaterialUI.DialogActions>
