@@ -12,7 +12,6 @@ export default class Game extends React.Component {
 		super(props);
 		this.state = {
 			readyReminder: false,
-			finishedReminder: false,
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
@@ -223,20 +222,26 @@ export default class Game extends React.Component {
 				let member = game.Properties.Members.find(e => {
 					return e.User.Email == Globals.user.Email;
 				});
-				this.setState({
-					variant: Globals.variants.find(v => {
-						return v.Properties.Name == game.Properties.Variant;
-					}),
-					member: member,
-					readyReminder:
-						!game.Properties.Finished &&
-						member &&
-						!member.NewestPhaseState.ReadyToResolve,
-					game: game,
-					phases: phases,
-					finishedReminder: game.Properties.Finished,
-					activePhase: phases[phases.length - 1]
-				});
+				this.setState(
+					{
+						variant: Globals.variants.find(v => {
+							return v.Properties.Name == game.Properties.Variant;
+						}),
+						member: member,
+						readyReminder:
+							!game.Properties.Finished &&
+							member &&
+							!member.NewestPhaseState.ReadyToResolve,
+						game: game,
+						phases: phases,
+						activePhase: phases[phases.length - 1]
+					},
+					_ => {
+						this.gameResults.setState({
+							open: true
+						});
+					}
+				);
 				return Promise.resolve({});
 			});
 		});
@@ -589,48 +594,6 @@ export default class Game extends React.Component {
 						parentCB={c => {
 							this.preliminaryScores = c;
 						}}
-					/>
-					<MaterialUI.Snackbar
-						anchorOrigin={{
-							vertical: "bottom",
-							horizontal: "center"
-						}}
-						open={this.state.finishedReminder}
-						autoHideDuration={32000}
-						onClose={_ => {
-							this.setState({ finishedReminder: false });
-						}}
-						message="This game has finished."
-						action={
-							<React.Fragment>
-								<MaterialUI.Button
-									color="secondary"
-									size="small"
-									onClick={_ => {
-										this.setState({
-											finishedReminder: false
-										});
-										this.gameResults.setState({
-											open: true
-										});
-									}}
-								>
-									View results
-								</MaterialUI.Button>
-								<MaterialUI.IconButton
-									size="small"
-									aria-label="close"
-									color="inherit"
-									onClick={_ => {
-										this.setState({
-											finishedReminder: false
-										});
-									}}
-								>
-									{helpers.createIcon("\ue5cd")}
-								</MaterialUI.IconButton>
-							</React.Fragment>
-						}
 					/>
 					<MaterialUI.Snackbar
 						anchorOrigin={{

@@ -434,7 +434,8 @@ export default class GameResults extends React.Component {
 																				>
 																					{trueSkill
 																						.Properties
-																						.Previous ? (
+																						.Previous instanceof
+																					Array ? (
 																						<React.Fragment>
 																							<MaterialUI.Typography variant="subtitle2">
 																								Previous
@@ -471,7 +472,8 @@ export default class GameResults extends React.Component {
 																				>
 																					{trueSkill
 																						.Properties
-																						.Previous ? (
+																						.Previous instanceof
+																					Array ? (
 																						<React.Fragment>
 																							<MaterialUI.Typography variant="subtitle2">
 																								Points
