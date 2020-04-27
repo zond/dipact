@@ -110,6 +110,41 @@ export default class UserAvatar extends React.Component {
 													.Hater
 											)
 										)}
+										{this.makeRow(
+											"Joined games",
+											this.state.userStats.Properties
+												.JoinedGames
+										)}
+										{this.makeRow(
+											"Started games",
+											this.state.userStats.Properties
+												.StartedGames
+										)}
+										{this.makeRow(
+											"Abandoned games",
+											this.state.userStats.Properties
+												.FinishedGames
+										)}
+										{this.makeRow(
+											"Solo wins",
+											this.state.userStats.Properties
+												.SoloGames
+										)}
+										{this.makeRow(
+											"Draws",
+											this.state.userStats.Properties
+												.DIASGames
+										)}
+										{this.makeRow(
+											"Eliminations",
+											this.state.userStats.Properties
+												.EliminatedGames
+										)}
+										{this.makeRow(
+											"Abandoned games",
+											this.state.userStats.Properties
+												.DroppedGames
+										)}
 									</MaterialUI.TableBody>
 								</MaterialUI.Table>
 							</MaterialUI.TableContainer>
