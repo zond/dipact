@@ -78,6 +78,50 @@ export default class UserAvatar extends React.Component {
 												)
 											</MaterialUI.TableCell>
 										</MaterialUI.TableRow>
+										<MaterialUI.TableRow>
+											<MaterialUI.TableCell>
+												Reliability
+											</MaterialUI.TableCell>
+											<MaterialUI.TableCell>
+												{helpers.twoDecimals(
+													this.state.userStats
+														.Properties.Reliability
+												)}
+											</MaterialUI.TableCell>
+										</MaterialUI.TableRow>
+										<MaterialUI.TableRow>
+											<MaterialUI.TableCell>
+												Quickness
+											</MaterialUI.TableCell>
+											<MaterialUI.TableCell>
+												{helpers.twoDecimals(
+													this.state.userStats
+														.Properties.Quickness
+												)}
+											</MaterialUI.TableCell>
+										</MaterialUI.TableRow>
+										<MaterialUI.TableRow>
+											<MaterialUI.TableCell>
+												Hated
+											</MaterialUI.TableCell>
+											<MaterialUI.TableCell>
+												{helpers.twoDecimals(
+													this.state.userStats
+														.Properties.Hated
+												)}
+											</MaterialUI.TableCell>
+										</MaterialUI.TableRow>
+										<MaterialUI.TableRow>
+											<MaterialUI.TableCell>
+												Hater
+											</MaterialUI.TableCell>
+											<MaterialUI.TableCell>
+												{helpers.twoDecimals(
+													this.state.userStats
+														.Properties.Hater
+												)}
+											</MaterialUI.TableCell>
+										</MaterialUI.TableRow>
 									</MaterialUI.TableBody>
 								</MaterialUI.Table>
 							</MaterialUI.TableContainer>
