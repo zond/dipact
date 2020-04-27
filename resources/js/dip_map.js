@@ -105,7 +105,9 @@ export default class DipMap extends React.Component {
 				snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
 				let snapshotData = snapshotCanvas.toDataURL("image/png");
 				let snapshotEl = document.getElementById("mapSnapshot");
-				snapshotEl.src = snapshotData;
+				if (snapshotEl) {
+					snapshotEl.src = snapshotData;
+				}
 			});
 		}
 	}

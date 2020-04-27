@@ -59,12 +59,12 @@ export default class Main extends ActivityContainer {
 		Globals.variants = variants;
 		Globals.variants.forEach(variant => {
 			Globals.colorOverrides.variantCodes[
-				variant.Properties.Name.replace(/[^\w]/g, "")
+				variant.Properties.Name.replace(helpers.overrideReg, "")
 			] = variant.Properties.Name;
 			variant.nationAbbreviations = {};
 			variant.Properties.Nations.forEach(nation => {
 				Globals.colorOverrides.nationCodes[
-					nation.replace(/[^\w]/g, "")
+					nation.replace(helpers.overrideReg, "")
 				] = nation;
 				for (let idx = 0; idx < nation.length; idx++) {
 					let matchingNations = variant.Properties.Nations.filter(

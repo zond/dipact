@@ -32,7 +32,7 @@ window.Globals = {
 	colorOverrides: {
 		nationCodes: {},
 		variantCodes: {},
-		overrides: [],
+		positions: [],
 		variants: {},
 		nations: {}
 	},

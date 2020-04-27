@@ -34,29 +34,35 @@ export default class SettingsDialog extends React.Component {
 	}
 	addColorOverride() {
 		if (this.state.newColorOverrideType == "position") {
-			Globals.colorOverrides.overrides[
+			Globals.colorOverrides.positions[
 				this.state.newColorOverridePosition
 			] = this.state.newColorOverrideColor;
 		} else if (this.state.newColorOverrideType == "nation") {
 			Globals.colorOverrides.nations[
-				this.state.newColorOverrideNation.replace(/[^\w]/g, "")
+				this.state.newColorOverrideNation.replace(
+					helpers.overrideReg,
+					""
+				)
 			] = this.state.newColorOverrideColor;
 		} else {
 			const variantCode = this.state.newColorOverrideVariant.replace(
-				/[^\w]/g,
+				helpers.overrideReg,
 				""
 			);
 			if (!Globals.colorOverrides.variants[variantCode]) {
 				Globals.colorOverrides.variants[variantCode] = {};
 			}
 			Globals.colorOverrides.variants[variantCode][
-				this.state.newColorOverrideNation.replace(/[^\w]/g, "")
+				this.state.newColorOverrideNation.replace(
+					helpers.overrideReg,
+					""
+				)
 			] = this.state.newColorOverrideColor;
 		}
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
 			state.userConfig.Properties.Colors =
-				Globals.colorOverrides.overrides;
+				Globals.colorOverrides.positions;
 			Object.keys(Globals.colorOverrides.nations || {}).forEach(
 				nationCode => {
 					state.userConfig.Properties.Colors.push(
@@ -400,12 +406,26 @@ export default class SettingsDialog extends React.Component {
 														color
 													}
 												>
-													<MaterialUI.ListItemText
-														primary={
-															"Override position " +
-															overridePos++
-														}
-													/>
+													<div
+														className={helpers.scopedClass(
+															"flex: 1 1 auto;"
+														)}
+													>
+														Override{" "}
+														<span
+															style={{
+																backgroundColor:
+																	Globals
+																		.contrastColors[
+																		overridePos
+																	]
+															}}
+														>
+															position
+															{" " +
+																overridePos++}
+														</span>
+													</div>
 													<Color
 														value={color}
 														onSelect={this.newColorSetter(
@@ -577,41 +597,47 @@ export default class SettingsDialog extends React.Component {
 								{this.state.newColorOverrideType ==
 								"position" ? (
 									<React.Fragment>
-										<MaterialUI.TextField
-											type="number"
+										<MaterialUI.FormControl
 											className={helpers.scopedClass(
 												"flex-grow: 1;"
 											)}
-											label="Color position to override"
-											inputProps={{
-												min: 0,
-												max:
-													Globals.colorOverrides
-														.overrides.length
-											}}
-											value={
-												this.state
-													.newColorOverridePosition
-											}
-											style={{
-												backgroundColor:
-													Globals.contrastColors[
-														this.state
-															.newColorOverridePosition
-													]
-											}}
-											onChange={ev => {
-												let newValue = ev.target.value;
-												if (newValue != "") {
-													newValue = Number.parseInt(
-														newValue
-													);
+										>
+											<MaterialUI.InputLabel>
+												Color position to override
+											</MaterialUI.InputLabel>
+											<MaterialUI.Input
+												type="number"
+												inputProps={{
+													min: 0,
+													max:
+														Globals.colorOverrides
+															.positions.length
+												}}
+												style={{
+													backgroundColor:
+														Globals.contrastColors[
+															this.state
+																.newColorOverridePosition
+														]
+												}}
+												value={
+													this.state
+														.newColorOverridePosition
 												}
-												this.setState({
-													newColorOverridePosition: newValue
-												});
-											}}
-										/>
+												onChange={ev => {
+													let newValue =
+														ev.target.value;
+													if (newValue != "") {
+														newValue = Number.parseInt(
+															newValue
+														);
+													}
+													this.setState({
+														newColorOverridePosition: newValue
+													});
+												}}
+											/>
+										</MaterialUI.FormControl>
 									</React.Fragment>
 								) : (
 									<React.Fragment>

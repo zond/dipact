@@ -1,12 +1,14 @@
 import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
+export const overrideReg = /[^\w]/g;
+
 export const DiplicitySender = "Diplicity";
 
 export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
 
-export function parseUserConfigColor(override) {
+function parseUserConfigColor(override) {
 	const parts = override.split("/");
 	if (parts.length == 1) {
 		return {
@@ -30,14 +32,14 @@ export function parseUserConfigColor(override) {
 }
 
 export function parseUserConfigColors() {
-	Globals.colorOverrides.overrides = [];
+	Globals.colorOverrides.positions = [];
 	Globals.colorOverrides.variants = {};
 	Globals.colorOverrides.nations = {};
 	(Globals.userConfig.Properties.Colors || []).forEach(override => {
 		if (override != "") {
 			const parsed = parseUserConfigColor(override);
 			if (parsed.type == "position") {
-				Globals.colorOverrides.overrides.push(parsed.value);
+				Globals.colorOverrides.positions.push(parsed.value);
 			} else if (parsed.type == "nation") {
 				Globals.colorOverrides.nations[parsed.nation] = parsed.value;
 			} else if (parsed.type == "variant") {
@@ -353,7 +355,21 @@ export function minutesToDuration(m, short = false) {
 }
 
 export function natCol(nation, variant) {
-	return Globals.contrastColors[variant.Properties.Nations.indexOf(nation)];
+	const nationCode = nation.replace(overrideReg, "");
+	const variantCode = variant.Properties.Name.replace(overrideReg, "");
+	if (
+		Globals.colorOverrides.variants[variantCode] &&
+		Globals.colorOverrides.variants[variantCode][nationCode]
+	) {
+		return Globals.colorOverrides.variants[variantCode][nationCode];
+	} else if (Globals.colorOverrides.nations[nationCode]) {
+		return Globals.colorOverrides.nations[nationCode];
+	}
+	const pos = variant.Properties.Nations.indexOf(nation);
+	if (Globals.colorOverrides.positions[pos]) {
+		return Globals.colorOverrides.positions[pos];
+	}
+	return Globals.contrastColors[pos];
 }
 
 export function twoDecimals(n) {

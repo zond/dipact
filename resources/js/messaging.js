@@ -278,6 +278,7 @@ class Messaging {
 					.then(resp => resp.json())
 					.then(js => {
 						Globals.userConfig = js;
+						helpers.parseUserConfigColors();
 						foundToken = js.Properties.FCMTokens.find(t => {
 							return t.App == wantedToken.App;
 						});
