@@ -61,8 +61,8 @@ export default class MainMenu extends ActivityContainer {
 	findGameByID() {
 		this.findGameDialog.setState({
 			open: true,
-			onClick: gameID => {
-				let match = /\/Game\/([^/]+)/.exec(gameID);
+			onFind: gameID => {
+				const match = /\/Game\/([^/]+)/.exec(gameID);
 				if (match) {
 					gameID = match[1];
 				}
@@ -73,6 +73,7 @@ export default class MainMenu extends ActivityContainer {
 						this.setState({
 							activity: GameList,
 							activityProps: {
+								label: gameID,
 								key: "predefined-game-list",
 								predefinedList: [js]
 							}
@@ -93,6 +94,7 @@ export default class MainMenu extends ActivityContainer {
 	}
 	renderMyStagingGames() {
 		this.setActivity(GameList, {
+			label: "My staging games",
 			key: "my-staging-games",
 			url: this.props.urls["my-staging-games"]
 		});
@@ -100,11 +102,13 @@ export default class MainMenu extends ActivityContainer {
 	renderOpenGames() {
 		this.setActivity(GameList, {
 			key: "open-games",
+			label: "Open games",
 			url: this.props.urls["open-games"]
 		});
 	}
 	renderGameList(ev) {
 		this.setActivity(GameList, {
+			label: ev.currentTarget.getAttribute("label"),
 			key: ev.currentTarget.getAttribute("urlkey"),
 			url: this.props.urls[ev.currentTarget.getAttribute("urlkey")]
 		});
@@ -232,6 +236,7 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									urlkey="my-started-games"
+									label="My started games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="My started games" />
@@ -239,6 +244,7 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									urlkey="my-staging-games"
+									label="My staging games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="My staging games" />
@@ -246,6 +252,7 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									urlkey="my-finished-games"
+									label="My finished games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="My finished games" />
@@ -253,6 +260,7 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									urlkey="open-games"
+									label="Open games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="Open games" />
@@ -260,6 +268,7 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									urlkey="started-games"
+									label="Started games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="Started games" />
@@ -267,6 +276,7 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									button
 									urlkey="finished-games"
+									label="Finished games"
 									onClick={this.renderGameList}
 								>
 									<MaterialUI.ListItemText primary="Finished games" />

@@ -5,24 +5,23 @@ export default class FindGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
-			onClick: _ => {
-				console.log("Uninitialized OrderDialog used?!");
-			}
+			onFind: null
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
-		this.onClick = this.onClick.bind(this);
+		this.onFind = this.onFind.bind(this);
 		this.close = this.close.bind(this);
 	}
 	close() {
 		this.setState({ open: false });
 	}
-	onClick() {
-		this.setState({ open: false });
-		this.state.onClick(
-			document.getElementById("find-game-by-id-input-field").value
-		);
+	onFind() {
+		const gameID = document.getElementById("find-game-by-id-input-field")
+			.value;
+		this.setState({ open: false }, _ => {
+			this.state.onFind(gameID);
+		});
 	}
 	render() {
 		return (
@@ -34,9 +33,7 @@ export default class FindGameDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<MaterialUI.DialogTitle>
-					Find (private) game
-				</MaterialUI.DialogTitle>
+				<MaterialUI.DialogTitle>Find game</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.DialogContentText>
 						Enter any game ID to view it. You can find the Game ID
@@ -54,7 +51,7 @@ export default class FindGameDialog extends React.Component {
 							Cancel
 						</MaterialUI.Button>
 						<MaterialUI.Button
-							onClick={this.onClick}
+							onClick={this.onFind}
 							color="primary"
 						>
 							Find

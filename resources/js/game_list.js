@@ -6,7 +6,7 @@ export default class GameList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			games: []
+			games: this.props.predefinedList || []
 		};
 		this.load = this.load.bind(this);
 		this.maybeLoadMore = this.maybeLoadMore.bind(this);
@@ -138,6 +138,7 @@ export default class GameList extends React.Component {
 						height: "calc(100% - 60px)"
 					}}
 				>
+					{this.props.label ? this.props.label : ""}
 					{this.state.games.map((game, idx) => {
 						return this.renderElement(game);
 					})}
