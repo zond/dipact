@@ -720,6 +720,20 @@ export default class GameListElement extends React.Component {
 		}
 		this.state.game.Links.forEach(link => {
 			if (link.Rel == "join") {
+				if (this.state.game.Properties.PhaseLengthMinutes < 60 * 12) {
+					buttons.unshift(
+						<MaterialUI.Typography
+							key="warning"
+							className={helpers.scopedClass("color: red;")}
+						>
+							WARNING: This game has a phase length of less than
+							12 hours. If you are away from your device when the
+							game starts (or when a phase resolves) you may tank
+							your reliability rating, and potentially miss the
+							entire game.
+						</MaterialUI.Typography>
+					);
+				}
 				buttons.push(
 					<MaterialUI.Button
 						key={itemKey++}
