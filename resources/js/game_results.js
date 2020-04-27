@@ -444,7 +444,7 @@ export default class GameResults extends React.Component {
 																								{helpers.twoDecimals(
 																									trueSkill
 																										.Properties
-																										.Previous
+																										.Previous[0]
 																										.Rating
 																								)}
 																							</MaterialUI.Typography>
@@ -486,7 +486,7 @@ export default class GameResults extends React.Component {
 																										.Rating -
 																										trueSkill
 																											.Properties
-																											.Previous
+																											.Previous[0]
 																											.Rating
 																								)}
 																							</MaterialUI.Typography>
