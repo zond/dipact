@@ -165,6 +165,18 @@ export default class GameResults extends React.Component {
 															}}
 														>
 															<NationAvatar
+																game={
+																	this.props
+																		.game
+																}
+																gameState={
+																	this.props
+																		.gameState
+																}
+																newGameState={
+																	this.props
+																		.newGameState
+																}
 																nation={
 																	score.Member
 																}

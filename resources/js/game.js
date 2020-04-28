@@ -628,6 +628,17 @@ export default class Game extends React.Component {
 						}}
 					/>
 					<GameResults
+						newGameState={this.newGameState}
+						gameState={
+							this.state.member
+								? this.state.gameStates.find(gs => {
+										return (
+											gs.Properties.Nation ==
+											this.state.member.Nation
+										);
+								  })
+								: null
+						}
 						game={this.state.game}
 						variant={this.state.variant}
 						parentCB={c => {
