@@ -1000,6 +1000,7 @@ export default class GameListElement extends React.Component {
 												.PhaseLengthMinutes
 										)}
 									</MaterialUI.Typography>
+									<div> {this.getIcons()} </div>
 									<MaterialUI.Typography
 										variant="caption"
 										style={{
