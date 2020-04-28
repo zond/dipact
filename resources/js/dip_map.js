@@ -958,11 +958,12 @@ export default class DipMap extends React.Component {
 				) : (
 					""
 				)}
-				<div className={helpers.scopedClass("overflow: hidden;")}>
-					<div
-						id="map-container"
-						className={helpers.scopedClass("height: 100%;")}
-					>
+				<div
+					className={helpers.scopedClass(
+						"height: 100%; overflow: hidden;"
+					)}
+				>
+					<div id="map-container">
 						<div
 							className={helpers.scopedClass(
 								"display: flex; flex-wrap: wrap"
