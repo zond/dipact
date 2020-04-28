@@ -247,8 +247,8 @@ export default class Game extends React.Component {
 				);
 			}
 			return Promise.all(promises).then(values => {
-				const gameStates = values[0].Properties;
-				const phases = values[1];
+				const gameStates = gameStatesLink ? values[0].Properties : null;
+				const phases = gameStatesLink ? values[1] : values[0];
 				let member = game.Properties.Members.find(e => {
 					return e.User.Email == Globals.user.Email;
 				});

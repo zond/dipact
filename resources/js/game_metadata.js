@@ -8,7 +8,7 @@ export default class GameMetadata extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
-			gameStates: this.props.gameStates.reduce((sum, el) => {
+			gameStates: (this.props.gameStates || []).reduce((sum, el) => {
 				sum[el.Properties.Nation] = el;
 				return sum;
 			}, {}),
