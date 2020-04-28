@@ -1,4 +1,3 @@
-import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
 
 export const overrideReg = /[^\w]/g;
 
@@ -202,28 +201,6 @@ export function urlMatch(mappings, def) {
 	}
 }
 
-export function channelName(channel, variant) {
-	if (!channel) {
-		return "";
-	}
-	if (
-		channel.Properties.Members.length == variant.Properties.Nations.length
-	) {
-		return (
-			<MaterialUI.Avatar
-				style={{ border: "none" }}
-				className={avatarClass}
-				key="Everyone"
-				alt="Everyone"
-				src="/static/img/un_logo.svg"
-			/>
-		);
-	}
-	return channel.Properties.Members.map(member => {
-		return <NationAvatar key={member} variant={variant} nation={member} />;
-	});
-}
-
 export function phaseName(phase) {
 	return (
 		phase.Properties.Season +
@@ -375,13 +352,6 @@ export function natCol(nation, variant) {
 export function twoDecimals(n) {
 	return Math.round(Number.parseFloat(n) * 100) / 100.0;
 }
-
-export const avatarClass = scopedClass(`
-  border: 1px solid black;
-  width: 36px !important;
-  height: 36px !important;
-  margin: 2px;
-`);
 
 export function unback(f) {
 	Globals.backListeners = Globals.backListeners.filter(l => {

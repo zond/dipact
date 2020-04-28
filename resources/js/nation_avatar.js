@@ -11,7 +11,8 @@ export default class NationAvatar extends React.Component {
 		if (this.flagLink) {
 			return (
 				<MaterialUI.Avatar
-					className={helpers.avatarClass}
+					className={this.props.className}
+					classes={this.props.classes}
 					alt={this.props.nation}
 					src={this.flagLink.URL}
 				/>
@@ -19,7 +20,8 @@ export default class NationAvatar extends React.Component {
 		} else if (this.props.nation == helpers.DiplicitySender) {
 			return (
 				<MaterialUI.Avatar
-					className={helpers.avatarClass}
+					className={this.props.className}
+					classes={this.props.classes}
 					alt={this.props.nation}
 					src="https://diplicity-engine.appspot.com/img/otto.png"
 				/>
@@ -41,7 +43,8 @@ export default class NationAvatar extends React.Component {
 			}
 			return (
 				<MaterialUI.Avatar
-					className={helpers.avatarClass}
+					className={this.props.className}
+					classes={this.props.classes}
 					alt={this.props.nation}
 					style={{
 						backgroundColor: bgColor,

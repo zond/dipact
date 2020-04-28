@@ -2,6 +2,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import CreateChannelDialog from '%{ cb "/js/create_channel_dialog.js" }%';
 import ChatChannel from '%{ cb "/js/chat_channel.js" }%';
+import NationAvatarGroup from '%{ cb "/js/nation_avatar_group.js" }%';
 
 export default class ChatMenu extends React.Component {
 	constructor(props) {
@@ -259,13 +260,16 @@ export default class ChatMenu extends React.Component {
 										}
 										color="primary"
 									>
-										{helpers.channelName(
-											channel,
-											this.variant
-										)}
+										<NationAvatarGroup
+											variant={this.variant}
+											nations={channel.Properties.Members}
+										/>
 									</MaterialUI.Badge>
 								) : (
-									helpers.channelName(channel, this.variant)
+									<NationAvatarGroup
+										variant={this.variant}
+										nations={channel.Properties.Members}
+									/>
 								)}
 								{channel.Properties.NMessages &&
 								channel.Properties.LatestMessage ? (

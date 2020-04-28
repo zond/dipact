@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
+
 import ChatMessage from '%{ cb "/js/chat_message.js" }%';
+import NationAvatarGroup from '%{ cb "/js/nation_avatar_group.js" }%';
 
 export default class ChatChannel extends React.Component {
 	constructor(props) {
@@ -232,10 +234,12 @@ export default class ChatChannel extends React.Component {
 							}}
 						>
 							<span style={{ display: "flex" }}>
-								{helpers.channelName(
-									this.props.channel,
-									this.variant
-								)}
+								<NationAvatarGroup
+									variant={this.variant}
+									nations={
+										this.props.channel.Properties.Members
+									}
+								/>
 							</span>
 							{helpers.createIcon("\ue5cf")}
 						</MaterialUI.Button>
