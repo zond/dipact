@@ -219,9 +219,13 @@ export default class GameMetadata extends React.Component {
 													}
 													game={this.props.game}
 													gameState={
-														this.state.gameStates[
-															this.member.Nation
-														]
+														this.member
+															? this.state
+																	.gameStates[
+																	this.member
+																		.Nation
+															  ]
+															: null
 													}
 													nation={member.Nation}
 													variant={this.props.variant}

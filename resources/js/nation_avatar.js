@@ -24,10 +24,11 @@ export default class NationAvatar extends React.Component {
 			ev.preventDefault();
 			ev.stopPropagation();
 		}
-		this.setState({ dialogOpen: false, picker: null });
+		this.setState({ dialogOpen: false });
 	}
 	badger(content) {
 		if (
+			this.member &&
 			this.state.gameState &&
 			this.state.gameState.Properties.Muted instanceof Array &&
 			this.state.gameState.Properties.Muted.indexOf(this.props.nation) !=
@@ -88,7 +89,7 @@ export default class NationAvatar extends React.Component {
 			});
 	}
 	buttoner(content) {
-		if (this.member) {
+		if (this.member && this.state.gameState) {
 			return (
 				<div
 					onClick={ev => {
@@ -157,42 +158,50 @@ export default class NationAvatar extends React.Component {
 		return (
 			<React.Fragment>
 				{avatar}
-				<MaterialUI.Dialog
-					onEntered={helpers.genOnback(this.close)}
-					onExited={helpers.genUnback(this.close)}
-					open={this.state.dialogOpen}
-					disableBackdropClick={false}
-					onClose={this.close}
-				>
-					<MaterialUI.DialogTitle>
-						{this.props.nation}
-					</MaterialUI.DialogTitle>
-					<MaterialUI.DialogContent>
-						<MaterialUI.FormControlLabel
-							control={
-								<MaterialUI.Checkbox
-									disabled={
-										!this.member ||
-										this.props.nation == this.member.Nation
-									}
-									checked={
-										(
-											this.state.gameState.Properties
-												.Muted || []
-										).indexOf(this.props.nation) != -1
-									}
-									onClick={this.toggleMuted}
-								/>
-							}
-							label="Muted"
-						/>
-					</MaterialUI.DialogContent>
-					<MaterialUI.DialogActions>
-						<MaterialUI.Button onClick={this.close} color="primary">
-							Close
-						</MaterialUI.Button>
-					</MaterialUI.DialogActions>
-				</MaterialUI.Dialog>
+				{this.member ? (
+					<MaterialUI.Dialog
+						onEntered={helpers.genOnback(this.close)}
+						onExited={helpers.genUnback(this.close)}
+						open={this.state.dialogOpen}
+						disableBackdropClick={false}
+						onClose={this.close}
+					>
+						<MaterialUI.DialogTitle>
+							{this.props.nation}
+						</MaterialUI.DialogTitle>
+						<MaterialUI.DialogContent>
+							<MaterialUI.FormControlLabel
+								control={
+									<MaterialUI.Checkbox
+										disabled={
+											!this.member ||
+											this.props.nation ==
+												this.member.Nation
+										}
+										checked={
+											(
+												this.state.gameState.Properties
+													.Muted || []
+											).indexOf(this.props.nation) != -1
+										}
+										onClick={this.toggleMuted}
+									/>
+								}
+								label="Muted"
+							/>
+						</MaterialUI.DialogContent>
+						<MaterialUI.DialogActions>
+							<MaterialUI.Button
+								onClick={this.close}
+								color="primary"
+							>
+								Close
+							</MaterialUI.Button>
+						</MaterialUI.DialogActions>
+					</MaterialUI.Dialog>
+				) : (
+					""
+				)}
 			</React.Fragment>
 		);
 	}

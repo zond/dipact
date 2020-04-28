@@ -4,6 +4,9 @@ import Game from '%{ cb "/js/game.js" }%';
 import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 
+const warningClass = helpers.scopedClass("color: red;");
+const noticeClass = helpers.scopedClass("font-weight: bold !important;");
+
 export default class GameListElement extends React.Component {
 	constructor(props) {
 		super(props);
@@ -706,6 +709,30 @@ export default class GameListElement extends React.Component {
 
 		let buttons = [];
 
+		if (this.state.game.Properties.ActiveBans) {
+			buttons.push(
+				<MaterialUI.Typography
+					key="banned-notice"
+					className={noticeClass}
+				>
+					You have banned one or more of the current members of this
+					game, or one or more of them has banned you.
+				</MaterialUI.Typography>
+			);
+		}
+		if (this.state.game.Properties.FailedRequirements) {
+			buttons.push(
+				<MaterialUI.Typography
+					key="requirement-notice"
+					className={noticeClass}
+				>
+					You have failed one or more of the requirements to join this
+					game, namely{" "}
+					{this.state.game.Properties.FailedRequirements.join(", ")}.
+				</MaterialUI.Typography>
+			);
+		}
+
 		if (!this.dead) {
 			buttons.push(
 				<MaterialUI.Button
@@ -724,8 +751,8 @@ export default class GameListElement extends React.Component {
 				if (this.state.game.Properties.PhaseLengthMinutes < 60 * 12) {
 					buttons.unshift(
 						<MaterialUI.Typography
-							key="deadline_warning"
-							className={helpers.scopedClass("color: red;")}
+							key="deadline-warning"
+							className={warningClass}
 						>
 							WARNING: This game has a phase deadline of less than
 							12 hours. If you are away from your device when the
@@ -741,8 +768,8 @@ export default class GameListElement extends React.Component {
 				) {
 					buttons.unshift(
 						<MaterialUI.Typography
-							key="reliability_warning"
-							className={helpers.scopedClass("color: red;")}
+							key="reliability-warning"
+							className={warningClass}
 						>
 							WARNING: This game has no reliability requirements,
 							which means it will likely have one or more absent
