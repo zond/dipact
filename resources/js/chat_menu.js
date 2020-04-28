@@ -229,9 +229,10 @@ export default class ChatMenu extends React.Component {
 				</MaterialUI.Slide>
 				<MaterialUI.ButtonGroup
 					orientation="vertical"
+					className={helpers.scopedClass(
+						"width: 100%; height: 100%; transform: translateZ(0); -webkit-transform: translateZ(0);"
+					)}
 					style={{
-						width: "100%",
-						height: "100%",
 						overflowY: !!this.state.activeChannel
 							? "hidden"
 							: "scroll"
