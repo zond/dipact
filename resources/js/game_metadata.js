@@ -159,6 +159,9 @@ export default class GameMetadata extends React.Component {
 												xs={2}
 											>
 												<UserAvatar
+													banChange={_ => {
+														this.forceUpdate();
+													}}
 													user={member.User}
 												/>
 											</MaterialUI.Grid>

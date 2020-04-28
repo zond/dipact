@@ -6,6 +6,55 @@ export default class UserAvatar extends React.Component {
 		this.state = { dialogOpen: false, userStats: null };
 		this.close = this.close.bind(this);
 		this.makeRow = this.makeRow.bind(this);
+		this.toggleBanned = this.toggleBanned.bind(this);
+	}
+	toggleBanned() {
+		if (Globals.bans[this.props.user.Id]) {
+			let unsignLink = Globals.bans[this.props.user.Id].Links.find(l => {
+				return l.Rel == "unsign";
+			});
+			if (unsignLink) {
+				helpers.incProgress();
+				helpers
+					.safeFetch(
+						helpers.createRequest(unsignLink.URL, {
+							method: unsignLink.Method
+						})
+					)
+					.then(res => res.json())
+					.then(js => {
+						helpers.decProgress();
+						delete Globals.bans[this.props.user.Id];
+						this.forceUpdate();
+						if (this.props.banChange) {
+							this.props.banChange();
+						}
+					});
+			}
+		} else {
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest("/User/" + Globals.user.Id + "/Ban", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({
+							UserIds: [Globals.user.Id, this.props.user.Id]
+						})
+					})
+				)
+				.then(res => res.json())
+				.then(js => {
+					helpers.decProgress();
+					Globals.bans[this.props.user.Id] = js;
+					this.forceUpdate();
+					if (this.props.banChange) {
+						this.props.banChange();
+					}
+				});
+		}
 	}
 	close() {
 		this.setState({ dialogOpen: false, picker: null });
@@ -61,6 +110,18 @@ export default class UserAvatar extends React.Component {
 						{this.props.user.Name}
 					</MaterialUI.DialogTitle>
 					<MaterialUI.DialogContent>
+						<MaterialUI.FormControlLabel
+							control={
+								<MaterialUI.Checkbox
+									disabled={
+										this.props.user.Id == Globals.user.Id
+									}
+									checked={!!Globals.bans[this.props.user.Id]}
+									onClick={this.toggleBanned}
+								/>
+							}
+							label="Banned"
+						/>
 						{this.state.userStats ? (
 							<MaterialUI.TableContainer
 								component={MaterialUI.Paper}
