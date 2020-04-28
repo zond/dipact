@@ -333,27 +333,27 @@ export default class ChatMenu extends React.Component {
 												"text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
 											)}
 										>
-											{channel.Properties.Members.filter(
-												(n) => {
-													return (
-														!this.member ||
-														n != this.member.Nation
-													);
-												}
-											).map((n, i) => {
-												if (i == 0) {
-													return n;
-												} else if (
-													i ==
-													channel.Properties.Members
-														.length -
-														1
-												) {
-													return ", and " + n;
-												} else {
-													return ", " + n;
-												}
-											})}{" "}
+											{channel.Properties.Members
+												.length ==
+											this.variant.Properties.Nations
+												.length
+												? "Everyone"
+												: channel.Properties.Members.filter(
+														(n) => {
+															return (
+																!this.member ||
+																n !=
+																	this.member
+																		.Nation
+															);
+														}
+												  ).map((n, i) => {
+														if (i == 0) {
+															return n;
+														} else {
+															return ", " + n;
+														}
+												  })}{" "}
 											({channel.Properties.NMessages})
 										</MaterialUI.Typography>
 										<MaterialUI.Typography
@@ -362,13 +362,29 @@ export default class ChatMenu extends React.Component {
 												"text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
 											)}
 										>
-											{this.member.Nation ==
-											channel.Properties.LatestMessage
-												.Sender
-												? "You"
-												: channel.Properties
-														.LatestMessage.Sender}
-											{": "}
+											{this.member ? (
+												this.member.Nation ==
+												channel.Properties.LatestMessage
+													.Sender ? (
+													<span
+														style={{
+															fontStyle: "italic",
+														}}
+													>
+														You:{" "}
+													</span>
+												) : channel.Properties.Members
+														.length > 2 ? (
+													channel.Properties
+														.LatestMessage.Sender +
+													": "
+												) : (
+													""
+												)
+											) : (
+												channel.Properties.LatestMessage
+													.Sender + ": "
+											)}
 											{
 												channel.Properties.LatestMessage
 													.Body
