@@ -235,6 +235,9 @@ export default class ChatChannel extends React.Component {
 						>
 							<span style={{ display: "flex" }}>
 								<NationAvatarGroup
+									game={this.props.game}
+									newGameState={this.props.newGameState}
+									gameState={this.props.gameState}
 									variant={this.variant}
 									nations={
 										this.props.channel.Properties.Members
@@ -322,6 +325,9 @@ export default class ChatChannel extends React.Component {
 										""
 									)}
 									<ChatMessage
+										game={this.props.game}
+										newGameState={this.props.newGameState}
+										gameState={this.props.gameState}
 										key={message.Properties.ID}
 										name={name}
 										undelivered={message.undelivered}

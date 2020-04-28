@@ -6,7 +6,14 @@ import NationAvatar from '%{ cb "/js/nation_avatar.js"}%';
 export default class GameMetadata extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { open: false, gameStates: null, bans: Globals.bans };
+		this.state = {
+			open: false,
+			gameStates: this.props.gameStates.reduce((sum, el) => {
+				sum[el.Properties.Nation] = el;
+				return sum;
+			}, {}),
+			bans: Globals.bans
+		};
 		this.member = this.props.game.Properties.Members.find(e => {
 			return e.User.Email == Globals.user.Email;
 		});
@@ -114,35 +121,12 @@ export default class GameMetadata extends React.Component {
 							js.Properties;
 						return state;
 					});
+					this.props.newGameState(js);
 				});
 		};
 	}
 	close() {
 		this.setState({ open: false });
-	}
-	componentDidMount() {
-		let gameStatesLink = this.props.game.Links.find(l => {
-			return l.Rel == "game-states";
-		});
-		if (gameStatesLink) {
-			helpers.incProgress();
-			helpers
-				.safeFetch(helpers.createRequest(gameStatesLink.URL))
-				.then(res => res.json())
-				.then(js => {
-					helpers.decProgress();
-					this.setState((state, props) => {
-						state = Object.assign({}, state);
-						state.gameStates = {};
-						js.Properties.forEach(gameState => {
-							state.gameStates[
-								gameState.Properties.Nation
-							] = gameState;
-						});
-						return state;
-					});
-				});
-		}
 	}
 	render() {
 		return (
@@ -230,6 +214,15 @@ export default class GameMetadata extends React.Component {
 												xs={2}
 											>
 												<NationAvatar
+													newGameState={
+														this.props.newGameState
+													}
+													game={this.props.game}
+													gameState={
+														this.state.gameStates[
+															this.member.Nation
+														]
+													}
 													nation={member.Nation}
 													variant={this.props.variant}
 												/>

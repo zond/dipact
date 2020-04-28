@@ -84,6 +84,9 @@ export default class NationAvatarGroup extends React.Component {
 				<div className={groupContainer}>
 					<div className={avatarRow1}>
 						<NationAvatar
+							gameState={this.props.gameState}
+							newGameState={this.props.newGameState}
+							game={this.props.game}
 							nation={this.props.nations[0]}
 							variant={this.props.variant}
 							classes={{ root: avatar1 }}
@@ -96,14 +99,20 @@ export default class NationAvatarGroup extends React.Component {
 				<div className={groupContainer}>
 					<div className={avatarRow2}>
 						<NationAvatar
+							gameState={this.props.gameState}
 							key={this.props.nations[0]}
+							newGameState={this.props.newGameState}
+							game={this.props.game}
 							nation={this.props.nations[0]}
 							variant={this.props.variant}
 							classes={{ root: avatar2 }}
 						/>
 						<NationAvatar
+							gameState={this.props.gameState}
 							key={this.props.nations[1]}
 							nation={this.props.nations[1]}
+							newGameState={this.props.newGameState}
+							game={this.props.game}
 							variant={this.props.variant}
 							classes={{ root: avatar2 }}
 						/>
@@ -115,13 +124,19 @@ export default class NationAvatarGroup extends React.Component {
 				<div className={groupContainer}>
 					<div className={avatarRow34}>
 						<NationAvatar
+							gameState={this.props.gameState}
+							newGameState={this.props.newGameState}
+							game={this.props.game}
 							key={this.props.nations[0]}
 							nation={this.props.nations[0]}
 							variant={this.props.variant}
 							classes={{ root: avatar34 }}
 						/>
 						<NationAvatar
+							gameState={this.props.gameState}
 							key={this.props.nations[1]}
+							newGameState={this.props.newGameState}
+							game={this.props.game}
 							nation={this.props.nations[1]}
 							variant={this.props.variant}
 							classes={{ root: avatar34 }}
@@ -129,13 +144,19 @@ export default class NationAvatarGroup extends React.Component {
 					</div>
 					<div className={avatarRow34}>
 						<NationAvatar
+							gameState={this.props.gameState}
 							key={this.props.nations[2]}
+							newGameState={this.props.newGameState}
+							game={this.props.game}
 							nation={this.props.nations[2]}
 							variant={this.props.variant}
 							classes={{ root: avatar34 }}
 						/>
 						{this.props.nations.length > 3 ? (
 							<NationAvatar
+								newGameState={this.props.newGameState}
+								game={this.props.game}
+								gameState={this.props.gameState}
 								key={this.props.nations[3]}
 								nation={this.props.nations[3]}
 								variant={this.props.variant}
@@ -175,7 +196,10 @@ export default class NationAvatarGroup extends React.Component {
 							return (
 								<NationAvatar
 									key={nation}
+									gameState={this.props.gameState}
 									nation={nation}
+									newGameState={this.props.newGameState}
+									game={this.props.game}
 									variant={this.props.variant}
 									classes={{ root: avatar59 }}
 								/>
@@ -188,6 +212,9 @@ export default class NationAvatarGroup extends React.Component {
 								<NationAvatar
 									key={nation}
 									nation={nation}
+									gameState={this.props.gameState}
+									newGameState={this.props.newGameState}
+									game={this.props.game}
 									variant={this.props.variant}
 									classes={{ root: avatar59 }}
 								/>
@@ -202,6 +229,9 @@ export default class NationAvatarGroup extends React.Component {
 										key={nation}
 										nation={nation}
 										variant={this.props.variant}
+										newGameState={this.props.newGameState}
+										game={this.props.game}
+										gameState={this.props.gameState}
 										classes={{ root: avatar59 }}
 									/>
 								);

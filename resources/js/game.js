@@ -20,6 +20,7 @@ export default class Game extends React.Component {
 			member: null,
 			unreadMessages: 0,
 			laboratoryMode: false,
+			gameStates: [],
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
@@ -36,7 +37,20 @@ export default class Game extends React.Component {
 		this.setUnreadMessages = this.setUnreadMessages.bind(this);
 		this.labPhaseResolve = this.labPhaseResolve.bind(this);
 		this.serializePhaseState = this.serializePhaseState.bind(this);
+		this.newGameState = this.newGameState.bind(this);
 		this.dead = false;
+	}
+	newGameState(gameState) {
+		this.setState((state, props) => {
+			state = Object.assign({}, state);
+			state.gameStates = state.gameStates.map(gs => {
+				if (gs.Properties.Nation == gameState.Properties.Nation) {
+					gs.Properties = gameState.Properties;
+				}
+				return gs;
+			});
+			return state;
+		});
 	}
 	serializePhaseState(phase) {
 		return encodeURIComponent(
@@ -191,39 +205,56 @@ export default class Game extends React.Component {
 	}
 	loadGame() {
 		return this.props.gamePromise.then(game => {
-			let promise = null;
+			const promises = [];
+			const gameStatesLink = game.Links.find(l => {
+				return l.Rel == "game-states";
+			});
+			if (gameStatesLink) {
+				promises.push(
+					helpers
+						.safeFetch(helpers.createRequest(gameStatesLink.URL))
+						.then(res => res.json())
+				);
+			}
 			if (game.Properties.Started) {
-				promise = helpers
-					.safeFetch(
-						helpers.createRequest(
-							game.Links.find(l => {
-								return l.Rel == "phases";
-							}).URL
+				promises.push(
+					helpers
+						.safeFetch(
+							helpers.createRequest(
+								game.Links.find(l => {
+									return l.Rel == "phases";
+								}).URL
+							)
 						)
-					)
-					.then(resp => resp.json())
-					.then(js => {
-						return Promise.resolve(js.Properties);
-					});
-			} else {
-				let variantStartPhase =
-					"/Variant/" + game.Properties.Variant + "/Start";
-				promise = helpers.memoize(variantStartPhase, _ => {
-					return helpers
-						.safeFetch(helpers.createRequest(variantStartPhase))
 						.then(resp => resp.json())
 						.then(js => {
-							js.Properties.PhaseOrdinal = 1;
-							return Promise.resolve([js]);
-						});
-				});
+							return Promise.resolve(js.Properties);
+						})
+				);
+			} else {
+				const variantStartPhase =
+					"/Variant/" + game.Properties.Variant + "/Start";
+				promises.push(
+					helpers.memoize(variantStartPhase, _ => {
+						return helpers
+							.safeFetch(helpers.createRequest(variantStartPhase))
+							.then(resp => resp.json())
+							.then(js => {
+								js.Properties.PhaseOrdinal = 1;
+								return Promise.resolve([js]);
+							});
+					})
+				);
 			}
-			return promise.then(phases => {
+			return Promise.all(promises).then(values => {
+				const gameStates = values[0].Properties;
+				const phases = values[1];
 				let member = game.Properties.Members.find(e => {
 					return e.User.Email == Globals.user.Email;
 				});
 				this.setState(
 					{
+						gameStates: gameStates,
 						variant: Globals.variants.find(v => {
 							return v.Properties.Name == game.Properties.Variant;
 						}),
@@ -542,6 +573,17 @@ export default class Game extends React.Component {
 						}}
 					>
 						<ChatMenu
+							newGameState={this.newGameState}
+							gameState={
+								this.state.member
+									? this.state.gameStates.find(gs => {
+											return (
+												gs.Properties.Nation ==
+												this.state.member.Nation
+											);
+									  })
+									: null
+							}
 							isActive={this.state.activeTab == "chat"}
 							unreadMessages={this.setUnreadMessages}
 							phases={this.state.phases}
@@ -577,8 +619,10 @@ export default class Game extends React.Component {
 						/>
 					</div>
 					<GameMetadata
+						gameStates={this.state.gameStates}
 						game={this.state.game}
 						variant={this.state.variant}
+						newGameState={this.newGameState}
 						parentCB={c => {
 							this.gameMetadata = c;
 						}}

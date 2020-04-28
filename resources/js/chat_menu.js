@@ -214,6 +214,8 @@ export default class ChatMenu extends React.Component {
 						}}
 					>
 						<ChatChannel
+							newGameState={this.props.newGameState}
+							gameState={this.props.gameState}
 							game={this.props.game}
 							phases={this.props.phases}
 							isActive={this.props.isActive}
@@ -262,12 +264,20 @@ export default class ChatMenu extends React.Component {
 										color="primary"
 									>
 										<NationAvatarGroup
+											game={this.props.game}
+											newGameState={
+												this.props.newGameState
+											}
+											gameState={this.props.gameState}
 											variant={this.variant}
 											nations={channel.Properties.Members}
 										/>
 									</MaterialUI.Badge>
 								) : (
 									<NationAvatarGroup
+										game={this.props.game}
+										newGameState={this.props.newGameState}
+										gameState={this.props.gameState}
 										variant={this.variant}
 										nations={channel.Properties.Members}
 									/>
