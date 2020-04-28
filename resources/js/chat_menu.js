@@ -362,11 +362,12 @@ export default class ChatMenu extends React.Component {
 												"text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
 											)}
 										>
-											{" "}
-											{
-												this.member.Nation == channel.Properties.LatestMessage
-													.Sender ? "You" : channel.Properties.LatestMessage.Sender )
-											}
+											{this.member.Nation ==
+											channel.Properties.LatestMessage
+												.Sender
+												? "You"
+												: channel.Properties
+														.LatestMessage.Sender}
 											{": "}
 											{
 												channel.Properties.LatestMessage
