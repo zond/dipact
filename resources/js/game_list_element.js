@@ -6,6 +6,18 @@ import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%
 
 const warningClass = helpers.scopedClass("color: red;");
 const noticeClass = helpers.scopedClass("font-weight: bold !important;");
+const secondRowSummaryClass = helpers.scopedClass(`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+flex-wrap: wrap;`);
+const secondRowSummaryColorClass = helpers.scopedClass(
+	"color: rgba(40, 26, 26, 0.7);"
+);
+const summaryIconsAndPhaseClass = helpers.scopedClass(
+	"display: flex; justify-content: right;"
+);
+const summaryIconsClass = helpers.scopedClass("padding-right: 4px;");
 
 export default class GameListElement extends React.Component {
 	constructor(props) {
@@ -26,6 +38,7 @@ export default class GameListElement extends React.Component {
 		);
 		this.viewGame = this.viewGame.bind(this);
 		this.closeGame = this.closeGame.bind(this);
+		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
 		this.leaveGame = this.leaveGame.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
@@ -977,12 +990,7 @@ export default class GameListElement extends React.Component {
 								</div>
 								<div
 									key={itemKey++}
-									style={{
-										display: "flex",
-										flexDirection: "row",
-										justifyContent: "space-between",
-										flexWrap: "wrap"
-									}}
+									className={secondRowSummaryClass}
 								>
 									<MaterialUI.Typography
 										textroverflow="ellipsis"
@@ -990,9 +998,7 @@ export default class GameListElement extends React.Component {
 										display="inline"
 										variant="caption"
 										id="variant"
-										style={{
-											color: "rgba(40, 26, 26, 0.7)"
-										}}
+										className={secondRowSummaryColorClass}
 									>
 										{this.state.game.Properties.Variant}{" "}
 										{helpers.minutesToDuration(
@@ -1000,27 +1006,31 @@ export default class GameListElement extends React.Component {
 												.PhaseLengthMinutes
 										)}
 									</MaterialUI.Typography>
-									<div> {this.getIcons()} </div>
-									<MaterialUI.Typography
-										variant="caption"
-										style={{
-											color: "rgba(40, 26, 26, 0.7)"
-										}}
-									>
-										{
-											this.state.game.Properties
-												.NewestPhaseMeta[0].Season
-										}{" "}
-										{
-											this.state.game.Properties
-												.NewestPhaseMeta[0].Year
-										}
-										,{" "}
-										{
-											this.state.game.Properties
-												.NewestPhaseMeta[0].Type
-										}
-									</MaterialUI.Typography>
+									<div className={summaryIconsAndPhaseClass}>
+										<div className={summaryIconsClass}>
+											{this.getIcons()}
+										</div>
+										<MaterialUI.Typography
+											variant="caption"
+											className={
+												secondRowSummaryColorClass
+											}
+										>
+											{
+												this.state.game.Properties
+													.NewestPhaseMeta[0].Season
+											}{" "}
+											{
+												this.state.game.Properties
+													.NewestPhaseMeta[0].Year
+											}
+											,{" "}
+											{
+												this.state.game.Properties
+													.NewestPhaseMeta[0].Type
+											}
+										</MaterialUI.Typography>
+									</div>
 								</div>
 							</React.Fragment>
 						);
