@@ -724,7 +724,7 @@ export default class GameListElement extends React.Component {
 				if (this.state.game.Properties.PhaseLengthMinutes < 60 * 12) {
 					buttons.unshift(
 						<MaterialUI.Typography
-							key="warning"
+							key="deadline_warning"
 							className={helpers.scopedClass("color: red;")}
 						>
 							WARNING: This game has a phase deadline of less than
@@ -735,6 +735,20 @@ export default class GameListElement extends React.Component {
 						</MaterialUI.Typography>
 					);
 				}
+                                if (this.state.game.Properties.MinReliability == 0 &&
+                                    Globals.userStats.Properties.Reliability >= 10) {
+                                        buttons.unshift(
+						<MaterialUI.Typography
+							key="reliability_warning"
+							className={helpers.scopedClass("color: red;")}
+						>
+							WARNING: This game has no reliability requirements,
+						        which means it will likely have one or more absent
+                                                        players. Since you have a reliability > 10, you have
+                                                        a wide selection of more reliable games to join.
+						</MaterialUI.Typography>							</MaterialUI.Typography>
+					);
+                                }
 				buttons.push(
 					<MaterialUI.Button
 						key={itemKey++}
