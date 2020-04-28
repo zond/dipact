@@ -746,7 +746,7 @@ export default class GameListElement extends React.Component {
 						        which means it will likely have one or more absent
                                                         players. Since you have a reliability > 10, you have
                                                         a wide selection of more reliable games to join.
-						</MaterialUI.Typography>							</MaterialUI.Typography>
+						</MaterialUI.Typography>
 					);
                                 }
 				buttons.push(
