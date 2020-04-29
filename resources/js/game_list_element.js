@@ -28,6 +28,7 @@ export default class GameListElement extends React.Component {
 		this.state = {
 			game: this.props.game,
 			viewOpen: false,
+			expanded: false,
 			member: props.game.Properties.Members.find(e => {
 				return e.User.Email == Globals.user.Email;
 			})
@@ -1191,7 +1192,12 @@ export default class GameListElement extends React.Component {
 		}
 		return (
 			<React.Fragment>
-				<MaterialUI.ExpansionPanel key="game-details">
+				<MaterialUI.ExpansionPanel
+					key="game-details"
+					onChange={(ev, exp) => {
+						this.setState({ expanded: exp });
+					}}
+				>
 					{/* TODO: @Joren, the next iteration is here: styling the the expansionpanel on "My ..." list */}
 					<MaterialUI.ExpansionPanelSummary
 						classes={{
@@ -1202,32 +1208,36 @@ export default class GameListElement extends React.Component {
 						{summary}
 					</MaterialUI.ExpansionPanelSummary>
 					<MaterialUI.ExpansionPanelDetails style={{}}>
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between",
-								flexWrap: "wrap",
-								maxWidth: "960px",
-								width: "100%"
-							}}
-						>
+						{this.state.expanded ? (
 							<div
 								style={{
-									maxWidth: "460px"
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "space-between",
+									flexWrap: "wrap",
+									maxWidth: "960px",
+									width: "100%"
 								}}
 							>
-								{expandedGameItems}
+								<div
+									style={{
+										maxWidth: "460px"
+									}}
+								>
+									{expandedGameItems}
+								</div>
+								<div
+									style={{
+										width: "100%",
+										maxWidth: "460px"
+									}}
+								>
+									{playerList}
+								</div>
 							</div>
-							<div
-								style={{
-									width: "100%",
-									maxWidth: "460px"
-								}}
-							>
-								{playerList}
-							</div>
-						</div>
+						) : (
+							""
+						)}
 					</MaterialUI.ExpansionPanelDetails>
 				</MaterialUI.ExpansionPanel>
 				{gameView}
