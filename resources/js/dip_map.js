@@ -313,9 +313,10 @@ export default class DipMap extends React.Component {
 					});
 					state = Object.assign({}, state);
 					state.member = member;
-					state.labPlayAs = member
-						? member.Nation
-						: variant.Properties.Nations[0];
+					state.labPlayAs =
+						member && member.Nation
+							? member.Nation
+							: variant.Properties.Nations[0];
 					state.variant = variant;
 					return state;
 				},
