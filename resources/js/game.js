@@ -498,57 +498,58 @@ export default class Game extends React.Component {
 								}}
 								open={!!this.state.moreMenuAnchorEl}
 							>
-								{this.state.game.Started ? (
-									<React.Fragment>
-										<MaterialUI.MenuItem
-											key="metadata"
-											onClick={_ => {
-												this.setState({
-													moreMenuAnchorEl: null
-												});
-												this.gameMetadata.setState({
-													open: true
-												});
-											}}
-										>
-											Metadata
-										</MaterialUI.MenuItem>
-										<MaterialUI.MenuItem
-											key="scores"
-											onClick={_ => {
-												this.setState({
-													moreMenuAnchorEl: null
-												});
-												this.preliminaryScores.setState(
-													{
-														open: true
-													}
-												);
-											}}
-										>
-											Scores
-										</MaterialUI.MenuItem>
-										{this.state.game.Properties.Finished ? (
+								{this.state.game.Properties.Started
+									? [
 											<MaterialUI.MenuItem
-												key="results"
+												key="metadata"
 												onClick={_ => {
 													this.setState({
 														moreMenuAnchorEl: null
 													});
-													this.gameResults.setState({
+													this.gameMetadata.setState({
 														open: true
 													});
 												}}
 											>
-												Results
-											</MaterialUI.MenuItem>
-										) : (
-											""
-										)}
-									</React.Fragment>
-								) : (
-									""
-								)}
+												Metadata
+											</MaterialUI.MenuItem>,
+											<MaterialUI.MenuItem
+												key="scores"
+												onClick={_ => {
+													this.setState({
+														moreMenuAnchorEl: null
+													});
+													this.preliminaryScores.setState(
+														{
+															open: true
+														}
+													);
+												}}
+											>
+												Scores
+											</MaterialUI.MenuItem>,
+											this.state.game.Properties
+												.Finished ? (
+												<MaterialUI.MenuItem
+													key="results"
+													onClick={_ => {
+														this.setState({
+															moreMenuAnchorEl: null
+														});
+														this.gameResults.setState(
+															{
+																open: true
+															}
+														);
+													}}
+												>
+													Results
+												</MaterialUI.MenuItem>
+											) : (
+												""
+											)
+									  ]
+									: ""}
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
 									onClick={_ => {
@@ -574,7 +575,7 @@ export default class Game extends React.Component {
 								</MaterialUI.MenuItem>
 							</MaterialUI.Menu>
 						</MaterialUI.Toolbar>
-						{this.state.game.Started ? (
+						{this.state.game.Properties.Started ? (
 							<MaterialUI.Tabs
 								key="tabs"
 								value={this.state.activeTab}
@@ -718,7 +719,7 @@ export default class Game extends React.Component {
 							ordersSubscriber={this.receiveOrders}
 						/>
 					</div>
-					{this.state.game.Started ? (
+					{this.state.game.Properties.Started ? (
 						<React.Fragment>
 							<div
 								key="chat-container"
@@ -787,24 +788,6 @@ export default class Game extends React.Component {
 									this.gameMetadata = c;
 								}}
 							/>
-							<GameResults
-								newGameState={this.newGameState}
-								gameState={
-									this.state.member && this.state.gameStates
-										? this.state.gameStates.find(gs => {
-												return (
-													gs.Properties.Nation ==
-													this.state.member.Nation
-												);
-										  })
-										: null
-								}
-								game={this.state.game}
-								variant={this.state.variant}
-								parentCB={c => {
-									this.gameResults = c;
-								}}
-							/>
 							<PreliminaryScores
 								phases={this.state.phases}
 								variant={this.state.variant}
@@ -821,6 +804,24 @@ export default class Game extends React.Component {
 							onSelected={null}
 						/>
 					)}
+					<GameResults
+						newGameState={this.newGameState}
+						gameState={
+							this.state.member && this.state.gameStates
+								? this.state.gameStates.find(gs => {
+										return (
+											gs.Properties.Nation ==
+											this.state.member.Nation
+										);
+								  })
+								: null
+						}
+						game={this.state.game}
+						variant={this.state.variant}
+						parentCB={c => {
+							this.gameResults = c;
+						}}
+					/>
 					<MaterialUI.Snackbar
 						anchorOrigin={{
 							vertical: "bottom",

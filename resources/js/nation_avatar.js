@@ -158,7 +158,7 @@ export default class NationAvatar extends React.Component {
 		return (
 			<React.Fragment>
 				{avatar}
-				{this.member ? (
+				{this.state.dialogOpen && this.member ? (
 					<MaterialUI.Dialog
 						onEntered={helpers.genOnback(this.close)}
 						onExited={helpers.genUnback(this.close)}

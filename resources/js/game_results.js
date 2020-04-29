@@ -79,6 +79,18 @@ export default class GameResults extends React.Component {
 							<MaterialUI.Typography>
 								The game was won by{" "}
 								{
+									this.props.game.Properties.Members.find(
+										m => {
+											return (
+												m.Nation ==
+												this.state.gameResult.Properties
+													.SoloWinnerMember
+											);
+										}
+									).User.Name
+								}{" "}
+								playing{" "}
+								{
 									this.state.gameResult.Properties
 										.SoloWinnerMember
 								}
@@ -91,9 +103,20 @@ export default class GameResults extends React.Component {
 									.Score >
 								this.state.gameResult.Properties.Scores[1].Score
 									? " " +
+									  this.props.game.Properties.Members.find(
+											m => {
+												return (
+													m.Nation ==
+													this.state.gameResult
+														.Properties.Scores[0]
+														.Member
+												);
+											}
+									  ).User.Name +
+									  " earned the highest score as " +
 									  this.state.gameResult.Properties.Scores[0]
 											.Member +
-									  " earned the highest score."
+									  "."
 									: ""}
 							</MaterialUI.Typography>
 						)
