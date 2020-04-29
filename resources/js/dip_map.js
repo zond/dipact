@@ -87,7 +87,10 @@ export default class DipMap extends React.Component {
 			return;
 		}
 		let mapEl = document.getElementById("map");
-		const svgXML = this.svgSerializer.serializeToString(mapEl.children[0]);
+		const svg = mapEl.children[0].cloneNode(true);
+		svg.setAttribute("width", this.mapDims[0]);
+		svg.setAttribute("height", this.mapDims[1]);
+		const svgXML = this.svgSerializer.serializeToString(svg);
 		const svgHash = helpers.hash(svgXML);
 		if (svgHash != this.lastSerializedSVG) {
 			this.lastSerializedSVG = svgHash;
@@ -369,24 +372,29 @@ export default class DipMap extends React.Component {
 						this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 
 						this.map = dippyMap($("#map"));
-						panzoom(document.getElementById("map-container"), {
-							bounds: true,
-							boundsPadding: 0.5,
-							onZoom: e => {
-								document.getElementById("map").style.display =
-									"none";
-								document.getElementById(
-									"mapSnapshot"
-								).style.display = "flex";
-							},
-							onZoomend: e => {
-								document.getElementById("map").style.display =
-									"flex";
-								document.getElementById(
-									"mapSnapshot"
-								).style.display = "none";
+						panzoom(
+							document.getElementById("map-container"),
+							{
+								bounds: true,
+								boundsPadding: 0.5,
+								onZoom: e => {
+									document.getElementById(
+										"map"
+									).style.display = "none";
+									document.getElementById(
+										"mapSnapshot"
+									).style.display = "flex";
+								},
+								onZoomend: e => {
+									document.getElementById(
+										"map"
+									).style.display = "flex";
+									document.getElementById(
+										"mapSnapshot"
+									).style.display = "none";
+								}
 							}
-						});
+						);
 
 						let variantUnits = values[1];
 						variantUnits.forEach(unitData => {
