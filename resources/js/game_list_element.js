@@ -18,6 +18,9 @@ const summaryIconsAndPhaseClass = helpers.scopedClass(
 	"display: flex; justify-content: right;"
 );
 const summaryIconsClass = helpers.scopedClass("padding-right: 4px;");
+const sixteenBySixteenClass = helpers.scopedClass(
+	"height: 16px !important; width: 16px !important;"
+);
 
 export default class GameListElement extends React.Component {
 	constructor(props) {
@@ -86,7 +89,18 @@ export default class GameListElement extends React.Component {
 			.then(_ => {
 				helpers.decProgress();
 				Globals.messaging.start();
-				this.reloadGame();
+				this.setState(
+					(state, props) => {
+						state = Object.assign({}, state);
+						state.game.Links = state.game.Links.filter(l => {
+							return l.Rel != "join";
+						});
+						return state;
+					},
+					_ => {
+						this.reloadGame();
+					}
+				);
 			});
 	}
 	reloadGame() {
@@ -119,16 +133,22 @@ export default class GameListElement extends React.Component {
 			.then(resp => resp.json())
 			.then(_ => {
 				helpers.decProgress();
-				if (this.state.game.Properties.Members.length > 1) {
-					this.reloadGame();
-				} else {
-					this.dead = true;
-					this.setState((state, props) => {
+				this.setState(
+					(state, props) => {
 						state = Object.assign({}, state);
-						state.game.Links = [];
+						state.game.Links = state.game.Links.filter(l => {
+							return l.Rel != "leave";
+						});
 						return state;
-					});
-				}
+					},
+					_ => {
+						if (this.state.game.Properties.Members.length > 1) {
+							this.reloadGame();
+						} else {
+							this.dead = true;
+						}
+					}
+				);
 			});
 	}
 	joinGame(link) {
@@ -186,9 +206,7 @@ export default class GameListElement extends React.Component {
 					disableFocusListener
 					title="Maximum hate requirement"
 				>
-					<MaterialUI.SvgIcon
-						style={{ height: "16px", width: "16px" }}
-					>
+					<MaterialUI.SvgIcon className={sixteenBySixteenClass}>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -223,9 +241,7 @@ export default class GameListElement extends React.Component {
 					disableFocusListener
 					title="Chat disabled"
 				>
-					<MaterialUI.SvgIcon
-						style={{ height: "16px", width: "16px" }}
-					>
+					<MaterialUI.SvgIcon className={sixteenBySixteenClass}>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -1131,12 +1147,32 @@ export default class GameListElement extends React.Component {
 					}}
 				>
 					<Game
+						onJoinGame={this.reloadGame}
+						onLeaveGame={_ => {
+							if (this.state.game.Properties.Members.length > 1) {
+								this.reloadGame();
+							} else {
+								this.dead = true;
+							}
+						}}
 						unreadMessagesUpdate={this.reloadGame}
-						gamePromise={
-							new Promise((res, rej) => {
-								res(this.state.game);
-							})
-						}
+						gamePromise={reload => {
+							if (reload) {
+								return helpers
+									.safeFetch(
+										helpers.createRequest(
+											this.state.game.Links.find(l => {
+												return l.Rel == "self";
+											}).URL
+										)
+									)
+									.then(resp => resp.json());
+							} else {
+								return new Promise((res, rej) => {
+									res(this.state.game);
+								});
+							}
+						}}
 						close={this.closeGame}
 					/>
 				</div>

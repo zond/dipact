@@ -36,11 +36,15 @@ export default class MainMenu extends ActivityContainer {
 					match => {
 						this.state.activity = Game;
 						this.state.activityProps = {
-							gamePromise: helpers
-								.safeFetch(
-									helpers.createRequest("/Game/" + match[1])
-								)
-								.then(resp => resp.json()),
+							gamePromise: _ => {
+								return helpers
+									.safeFetch(
+										helpers.createRequest(
+											"/Game/" + match[1]
+										)
+									)
+									.then(resp => resp.json());
+							},
 							close: _ => {
 								this.setActivity(Start, {
 									urls: this.props.urls,
