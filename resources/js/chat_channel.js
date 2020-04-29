@@ -30,6 +30,7 @@ export default class ChatChannel extends React.Component {
 			this
 		);
 		this.keyPress = this.keyPress.bind(this);
+		this.scrollDown = this.scrollDown.bind(this);
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -117,8 +118,7 @@ export default class ChatChannel extends React.Component {
 			},
 			_ => {
 				document.getElementById("chat-channel-input-field").value = "";
-				const messagesEl = document.getElementById("messages");
-				messagesEl.scrollTop = messagesEl.scrollHeight;
+				this.scrollDown();
 				helpers
 					.safeFetch(
 						helpers.createRequest(
@@ -208,14 +208,17 @@ export default class ChatChannel extends React.Component {
 						}
 						message.phase = this.props.phases[currentPhaseIdx];
 					});
-					this.setState({ messages: js.Properties }, _ => {
-						const messagesEl = document.getElementById("messages");
-						messagesEl.scrollTop = messagesEl.scrollHeight;
-					});
+					this.setState({ messages: js.Properties }, this.scrollDown);
 					return Promise.resolve({});
 				});
 		} else {
 			return Promise.resolve({});
+		}
+	}
+	scrollDown() {
+		const messagesEl = document.getElementById("messages");
+		if (messagesEl) {
+			messagesEl.scrollTop = messagesEl.scrollHeight;
 		}
 	}
 	render() {
