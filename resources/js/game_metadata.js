@@ -121,7 +121,7 @@ export default class GameMetadata extends React.Component {
 							js.Properties;
 						return state;
 					});
-					this.props.newGameState(js);
+					this.props.onNewGameState(js);
 				});
 		};
 	}
@@ -159,6 +159,20 @@ export default class GameMetadata extends React.Component {
 												xs={2}
 											>
 												<UserAvatar
+													onNewGameState={
+														this.props
+															.onNewGameState
+													}
+													game={this.props.game}
+													gameState={
+														this.member
+															? this.state
+																	.gameStates[
+																	this.member
+																		.Nation
+															  ]
+															: null
+													}
 													banChange={_ => {
 														this.forceUpdate();
 													}}
@@ -217,8 +231,9 @@ export default class GameMetadata extends React.Component {
 												xs={2}
 											>
 												<NationAvatar
-													newGameState={
-														this.props.newGameState
+													onNewGameState={
+														this.props
+															.onNewGameState
 													}
 													game={this.props.game}
 													gameState={

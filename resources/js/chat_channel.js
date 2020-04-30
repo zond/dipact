@@ -329,7 +329,9 @@ export default class ChatChannel extends React.Component {
 									)}
 									<ChatMessage
 										game={this.props.game}
-										newGameState={this.props.newGameState}
+										onNewGameState={
+											this.props.onNewGameState
+										}
 										gameState={this.props.gameState}
 										key={message.Properties.ID}
 										name={name}

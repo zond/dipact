@@ -215,7 +215,7 @@ export default class ChatMenu extends React.Component {
 						}}
 					>
 						<ChatChannel
-							newGameState={this.props.newGameState}
+							onNewGameState={this.props.onNewGameState}
 							gameState={this.props.gameState}
 							game={this.props.game}
 							phases={this.props.phases}

@@ -39,7 +39,7 @@ export default class Game extends React.Component {
 		this.setUnreadMessages = this.setUnreadMessages.bind(this);
 		this.labPhaseResolve = this.labPhaseResolve.bind(this);
 		this.serializePhaseState = this.serializePhaseState.bind(this);
-		this.newGameState = this.newGameState.bind(this);
+		this.onNewGameState = this.onNewGameState.bind(this);
 		this.join = this.join.bind(this);
 		this.joinWithPreferences = this.joinWithPreferences.bind(this);
 		this.leave = this.leave.bind(this);
@@ -130,7 +130,7 @@ export default class Game extends React.Component {
 				}
 			});
 	}
-	newGameState(gameState) {
+	onNewGameState(gameState) {
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
 			state.gameStates = state.gameStates.map(gs => {
@@ -733,7 +733,7 @@ export default class Game extends React.Component {
 								}}
 							>
 								<ChatMenu
-									newGameState={this.newGameState}
+									onNewGameState={this.onNewGameState}
 									gameState={
 										this.state.member &&
 										this.state.gameStates
@@ -783,7 +783,7 @@ export default class Game extends React.Component {
 								gameStates={this.state.gameStates}
 								game={this.state.game}
 								variant={this.state.variant}
-								newGameState={this.newGameState}
+								onNewGameState={this.onNewGameState}
 								parentCB={c => {
 									this.gameMetadata = c;
 								}}
@@ -805,7 +805,7 @@ export default class Game extends React.Component {
 						/>
 					)}
 					<GameResults
-						newGameState={this.newGameState}
+						onNewGameState={this.onNewGameState}
 						gameState={
 							this.state.member && this.state.gameStates
 								? this.state.gameStates.find(gs => {

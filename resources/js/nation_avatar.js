@@ -1,38 +1,41 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
+
+/*
+ * MUST HAVE:
+ * - nation: The nation string.
+ * - variant: A variant object.
+ * MIGHT HAVE:
+ * - game: A game object.
+ *         Will enable opening a stats dialog when clicked.
+ * - gameState: A game state object representing the config of the logged in user for the current game.
+ *              Will badge the icon if the nation is muted.
+ *              Forwarded to the stats dialog.
+ * - onNewGameState: A callback to run with the new game state if it gets changed (due to muting the user in the game).
+ *                   Forwarded to the stats dialog.
+ */
 export default class NationAvatar extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dialogOpen: false,
-			userStats: null,
-			gameState: this.props.gameState
-		};
-		this.member = this.props.game.Properties.Members.find(e => {
-			return e.User.Email == Globals.user.Email;
-		});
-		this.close = this.close.bind(this);
+		this.state = { dialogOpen: false };
+		this.member = this.props.game
+			? this.props.game.Properties.Members.find(e => {
+					return e.User.Email == Globals.user.Email;
+			  })
+			: null;
 		this.flagLink = this.props.variant.Links.find(l => {
 			return l.Rel == "flag-" + this.props.nation;
 		});
 		this.badger = this.badger.bind(this);
 		this.buttoner = this.buttoner.bind(this);
-		this.toggleMuted = this.toggleMuted.bind(this);
-	}
-	close(ev) {
-		if (ev) {
-			ev.preventDefault();
-			ev.stopPropagation();
-		}
-		this.setState({ dialogOpen: false });
 	}
 	badger(content) {
 		if (
-			this.member &&
-			this.state.gameState &&
-			this.state.gameState.Properties.Muted instanceof Array &&
-			this.state.gameState.Properties.Muted.indexOf(this.props.nation) !=
-				-1
+			this.props.gameState &&
+			(this.props.gameState.Properties.Muted || []).indexOf(
+				this.props.nation
+			) != -1
 		) {
 			return this.buttoner(
 				<MaterialUI.Badge
@@ -46,50 +49,8 @@ export default class NationAvatar extends React.Component {
 			return this.buttoner(content);
 		}
 	}
-	toggleMuted(ev) {
-		ev.preventDefault();
-		ev.stopPropagation();
-		if (this.state.gameState.Properties.Muted == null) {
-			this.state.gameState.Properties.Muted = [];
-		}
-		let idx = this.state.gameState.Properties.Muted.indexOf(
-			this.props.nation
-		);
-		if (idx == -1) {
-			this.state.gameState.Properties.Muted.push(this.props.nation);
-		} else {
-			this.state.gameState.Properties.Muted = this.state.gameState.Properties.Muted.slice(
-				0,
-				idx
-			).concat(this.state.gameState.Properties.Muted.slice(idx + 1));
-		}
-		let updateLink = this.state.gameState.Links.find(l => {
-			return l.Rel == "update";
-		});
-		helpers.incProgress();
-		helpers
-			.safeFetch(
-				helpers.createRequest(updateLink.URL, {
-					headers: {
-						"Content-Type": "application/json"
-					},
-					method: updateLink.Method,
-					body: JSON.stringify(this.state.gameState.Properties)
-				})
-			)
-			.then(res => res.json())
-			.then(js => {
-				helpers.decProgress();
-				this.setState((state, props) => {
-					state = Object.assign({}, state);
-					state.gameState.Properties = js.Properties;
-					return state;
-				});
-				this.props.newGameState(js);
-			});
-	}
 	buttoner(content) {
-		if (this.member && this.state.gameState) {
+		if (this.member && this.props.gameState) {
 			return (
 				<div
 					onClick={ev => {
@@ -158,47 +119,20 @@ export default class NationAvatar extends React.Component {
 		return (
 			<React.Fragment>
 				{avatar}
-				{this.state.dialogOpen && this.member ? (
-					<MaterialUI.Dialog
-						onEntered={helpers.genOnback(this.close)}
-						onExited={helpers.genUnback(this.close)}
-						open={this.state.dialogOpen}
-						disableBackdropClick={false}
-						onClose={this.close}
-					>
-						<MaterialUI.DialogTitle>
-							{this.props.nation}
-						</MaterialUI.DialogTitle>
-						<MaterialUI.DialogContent>
-							<MaterialUI.FormControlLabel
-								control={
-									<MaterialUI.Checkbox
-										disabled={
-											!this.member ||
-											this.props.nation ==
-												this.member.Nation
-										}
-										checked={
-											(
-												this.state.gameState.Properties
-													.Muted || []
-											).indexOf(this.props.nation) != -1
-										}
-										onClick={this.toggleMuted}
-									/>
-								}
-								label="Muted"
-							/>
-						</MaterialUI.DialogContent>
-						<MaterialUI.DialogActions>
-							<MaterialUI.Button
-								onClick={this.close}
-								color="primary"
-							>
-								Close
-							</MaterialUI.Button>
-						</MaterialUI.DialogActions>
-					</MaterialUI.Dialog>
+				{this.state.dialogOpen ? (
+					<StatsDialog
+						game={this.props.game}
+						onClose={_ => {
+							this.setState({ dialogOpen: false });
+						}}
+						user={
+							this.props.game.Properties.Members.find(m => {
+								return m.Nation == this.props.nation;
+							}).User
+						}
+						gameState={this.props.gameState}
+						onNewGameState={this.props.onNewGameState}
+					/>
 				) : (
 					""
 				)}

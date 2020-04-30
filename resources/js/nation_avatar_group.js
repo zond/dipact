@@ -54,9 +54,26 @@ const avatar59 = helpers.scopedClass(`
   flex-basis: 1;
 `);
 
+/*
+ * See NationAvatar, but with nations as an array instead of a single nation.
+ */
 export default class NationAvatarGroup extends React.Component {
 	constructor(props) {
 		super(props);
+		this.natAv = this.natAv.bind(this);
+	}
+	natAv(nation, className) {
+		return (
+			<NationAvatar
+				key={nation}
+				gameState={this.props.gameState}
+				onNewGameState={this.props.onNewGameState}
+				game={this.props.game}
+				nation={nation}
+				variant={this.props.variant}
+				classes={{ root: className }}
+			/>
+		);
 	}
 	render() {
 		if (
@@ -83,14 +100,7 @@ export default class NationAvatarGroup extends React.Component {
 			return (
 				<div className={groupContainer}>
 					<div className={avatarRow1}>
-						<NationAvatar
-							gameState={this.props.gameState}
-							newGameState={this.props.newGameState}
-							game={this.props.game}
-							nation={this.props.nations[0]}
-							variant={this.props.variant}
-							classes={{ root: avatar1 }}
-						/>
+						{this.natAv(this.props.nations[0], avatar1)}
 					</div>
 				</div>
 			);
@@ -98,24 +108,8 @@ export default class NationAvatarGroup extends React.Component {
 			return (
 				<div className={groupContainer}>
 					<div className={avatarRow2}>
-						<NationAvatar
-							gameState={this.props.gameState}
-							key={this.props.nations[0]}
-							newGameState={this.props.newGameState}
-							game={this.props.game}
-							nation={this.props.nations[0]}
-							variant={this.props.variant}
-							classes={{ root: avatar2 }}
-						/>
-						<NationAvatar
-							gameState={this.props.gameState}
-							key={this.props.nations[1]}
-							nation={this.props.nations[1]}
-							newGameState={this.props.newGameState}
-							game={this.props.game}
-							variant={this.props.variant}
-							classes={{ root: avatar2 }}
-						/>
+						{this.natAv(this.props.nations[0], avatar2)}
+						{this.natAv(this.props.nations[1], avatar2)}
 					</div>
 				</div>
 			);
@@ -123,48 +117,14 @@ export default class NationAvatarGroup extends React.Component {
 			return (
 				<div className={groupContainer}>
 					<div className={avatarRow34}>
-						<NationAvatar
-							gameState={this.props.gameState}
-							newGameState={this.props.newGameState}
-							game={this.props.game}
-							key={this.props.nations[0]}
-							nation={this.props.nations[0]}
-							variant={this.props.variant}
-							classes={{ root: avatar34 }}
-						/>
-						<NationAvatar
-							gameState={this.props.gameState}
-							key={this.props.nations[1]}
-							newGameState={this.props.newGameState}
-							game={this.props.game}
-							nation={this.props.nations[1]}
-							variant={this.props.variant}
-							classes={{ root: avatar34 }}
-						/>
+						{this.natAv(this.props.nations[0], avatar34)}
+						{this.natAv(this.props.nations[1], avatar34)}
 					</div>
 					<div className={avatarRow34}>
-						<NationAvatar
-							gameState={this.props.gameState}
-							key={this.props.nations[2]}
-							newGameState={this.props.newGameState}
-							game={this.props.game}
-							nation={this.props.nations[2]}
-							variant={this.props.variant}
-							classes={{ root: avatar34 }}
-						/>
-						{this.props.nations.length > 3 ? (
-							<NationAvatar
-								newGameState={this.props.newGameState}
-								game={this.props.game}
-								gameState={this.props.gameState}
-								key={this.props.nations[3]}
-								nation={this.props.nations[3]}
-								variant={this.props.variant}
-								classes={{ root: avatar34 }}
-							/>
-						) : (
-							""
-						)}
+						{this.natAv(this.props.nations[2], avatar34)}
+						{this.props.nations.length > 3
+							? this.natAv(this.props.nations[3], avatar34)
+							: ""}
 					</div>
 				</div>
 			);
@@ -193,48 +153,18 @@ export default class NationAvatarGroup extends React.Component {
 				<div className={groupContainer}>
 					<div className={avatarRow59}>
 						{row0.map(nation => {
-							return (
-								<NationAvatar
-									key={nation}
-									gameState={this.props.gameState}
-									nation={nation}
-									newGameState={this.props.newGameState}
-									game={this.props.game}
-									variant={this.props.variant}
-									classes={{ root: avatar59 }}
-								/>
-							);
+							return this.natAv(nation, avatar59);
 						})}
 					</div>
 					<div className={avatarRow59}>
 						{row1.map(nation => {
-							return (
-								<NationAvatar
-									key={nation}
-									nation={nation}
-									gameState={this.props.gameState}
-									newGameState={this.props.newGameState}
-									game={this.props.game}
-									variant={this.props.variant}
-									classes={{ root: avatar59 }}
-								/>
-							);
+							return this.natAv(nation, avatar59);
 						})}
 					</div>
 					{row2.length > 0 ? (
 						<div className={avatarRow59}>
 							{row2.map(nation => {
-								return (
-									<NationAvatar
-										key={nation}
-										nation={nation}
-										variant={this.props.variant}
-										newGameState={this.props.newGameState}
-										game={this.props.game}
-										gameState={this.props.gameState}
-										classes={{ root: avatar59 }}
-									/>
-								);
+								return this.natAv(nation, avatar59);
 							})}
 						</div>
 					) : (

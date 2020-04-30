@@ -49,7 +49,7 @@ export default class ChatMessage extends React.Component {
 				>
 					<NationAvatar
 						game={this.props.game}
-						newGameState={this.props.newGameState}
+						onNewGameState={this.props.onNewGameState}
 						gameState={this.props.gameState}
 						nation={this.props.nation}
 						variant={this.props.variant}
