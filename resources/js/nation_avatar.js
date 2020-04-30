@@ -122,7 +122,9 @@ export default class NationAvatar extends React.Component {
 				{this.state.dialogOpen ? (
 					<StatsDialog
 						game={this.props.game}
-						onClose={_ => {
+						onClose={ev => {
+                                                        ev.stopPropagation();
+                                                        ev.preventDefault();
 							this.setState({ dialogOpen: false });
 						}}
 						user={
