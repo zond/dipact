@@ -34,14 +34,7 @@ function processNotification(payload, href) {
 			payload.data.phaseMeta.Year +
 			", " +
 			payload.data.phaseMeta.Type;
-		payload.notification.body =
-			payload.data.gameDesc +
-			" has a new phase: " +
-			payload.data.phaseMeta.Season +
-			" " +
-			payload.data.phaseMeta.Year +
-			", " +
-			payload.data.phaseMeta.Type;
+		payload.notification.body = payload.data.gameDesc + " has a new phase.";
 	}
 	return payload;
 }
