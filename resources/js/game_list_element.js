@@ -3,6 +3,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
 import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
+import RenameGameDialog from '%{ cb "/js/rename_game_dialog.js" }%';
 
 const warningClass = helpers.scopedClass("color: red;");
 const noticeClass = helpers.scopedClass("font-weight: bold !important;");
@@ -37,6 +38,7 @@ export default class GameListElement extends React.Component {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.nationPreferencesDialog = null;
+		this.renameGameDialog = null;
 		this.valignClass = helpers.scopedClass(
 			"display: flex; align-items: center;"
 		);
@@ -45,11 +47,15 @@ export default class GameListElement extends React.Component {
 		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
 		this.leaveGame = this.leaveGame.bind(this);
+		this.renameGame = this.renameGame.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.dead = false;
+	}
+	renameGame() {
+		this.renameGameDialog.setState({ open: true });
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -812,6 +818,19 @@ export default class GameListElement extends React.Component {
 					View
 				</MaterialUI.Button>
 			);
+			if (this.state.member) {
+				buttons.push(
+					<MaterialUI.Button
+						variant="outlined"
+						style={{ marginRight: "16px", minWidth: "100px" }}
+						color="primary"
+						onClick={this.renameGame}
+						key={itemKey++}
+					>
+						Rename
+					</MaterialUI.Button>
+				);
+			}
 		}
 		this.state.game.Links.forEach(link => {
 			if (link.Rel == "join") {
@@ -1276,13 +1295,24 @@ export default class GameListElement extends React.Component {
 						)}
 					</MaterialUI.ExpansionPanelDetails>
 				</MaterialUI.ExpansionPanel>
-				{gameView}
+				{this.state.viewOpen ? gameView : ""}
 				<NationPreferencesDialog
 					parentCB={c => {
 						this.nationPreferencesDialog = c;
 					}}
 					onSelected={null}
 				/>
+				{this.state.member ? (
+					<RenameGameDialog
+						onRename={this.reloadGame}
+						game={this.state.game}
+						parentCB={c => {
+							this.renameGameDialog = c;
+						}}
+					/>
+				) : (
+					""
+				)}
 			</React.Fragment>
 		);
 	}
