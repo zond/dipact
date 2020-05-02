@@ -3,7 +3,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 export default class OrderList extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { phaseStates: {} };
+		this.state = { phaseStates: {}, resolutions: {} };
 		this.loadPhaseStates = this.loadPhaseStates.bind(this);
 		this.toggleDIAS = this.toggleDIAS.bind(this);
 		this.toggleReady = this.toggleReady.bind(this);
@@ -104,6 +104,17 @@ export default class OrderList extends React.Component {
 					prevProps.phase.Properties.PhaseOrdinal)
 		) {
 			this.loadPhaseStates();
+			this.setState({
+				resolutions: this.props.phase.Properties.Resolutions
+					? this.props.phase.Properties.Resolutions.reduce(
+							(sum, el) => {
+								sum[el.Province] = el;
+								return sum;
+							},
+							{}
+					  )
+					: {}
+			});
 		}
 	}
 	render() {
@@ -326,6 +337,31 @@ export default class OrderList extends React.Component {
 															<MaterialUI.ListItemText>
 																{order.Name}
 															</MaterialUI.ListItemText>
+															{this.state
+																.resolutions[
+																order.Properties
+																	.Parts[0]
+															] ? (
+																<MaterialUI.ListItemText
+																	style={{
+																		textAlign:
+																			"right"
+																	}}
+																>
+																	{
+																		this
+																			.state
+																			.resolutions[
+																			order
+																				.Properties
+																				.Parts[0]
+																		]
+																			.Resolution
+																	}
+																</MaterialUI.ListItemText>
+															) : (
+																""
+															)}
 														</MaterialUI.ListItem>
 													);
 												})}
