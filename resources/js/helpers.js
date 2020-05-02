@@ -331,6 +331,16 @@ export function minutesToDuration(m, short = false) {
 	return reduce(m);
 }
 
+export function phaseLengthDisplay(properties) {
+	var movementPhase = properties.PhaseLengthMinutes;
+	var nonMovementPhase = properties.NonMovementPhaseLengthMinutes;
+	var displayString = minutesToDuration(movementPhase);
+	if (nonMovementPhase && movementPhase != nonMovementPhase) {
+		displayString += "/" + minutesToDuration(nonMovementPhase);
+	}
+	return displayString;
+}
+
 export function natCol(nation, variant) {
 	const nationCode = nation.replace(overrideReg, "");
 	const variantCode = variant.Properties.Name.replace(overrideReg, "");

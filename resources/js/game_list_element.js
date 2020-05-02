@@ -1018,9 +1018,8 @@ export default class GameListElement extends React.Component {
 										className={secondRowSummaryColorClass}
 									>
 										{this.state.game.Properties.Variant}{" "}
-										{helpers.minutesToDuration(
+										{helpers.phaseLengthDisplay(
 											this.state.game.Properties
-												.PhaseLengthMinutes
 										)}
 									</MaterialUI.Typography>
 									<div className={summaryIconsAndPhaseClass}>
@@ -1114,9 +1113,8 @@ export default class GameListElement extends React.Component {
 										}}
 									>
 										{this.state.game.Properties.Variant}{" "}
-										{helpers.minutesToDuration(
+										{helpers.phaseLengthDisplay(
 											this.state.game.Properties
-												.PhaseLengthMinutes
 										)}
 									</MaterialUI.Typography>
 									<div> {this.getIcons()}</div>
