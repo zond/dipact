@@ -290,6 +290,43 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.Typography>
 			</div>
 		);
+		expandedGameCells.push(
+			<div
+				style={{ width: "100%", display: "flex", alignItems: "center" }}
+			>
+				<MaterialUI.Icon style={{ marginRight: "8px" }}>
+					{helpers.createIcon("\ue01b")}
+				</MaterialUI.Icon>
+				<MaterialUI.Typography>
+					Phase deadline{" "}
+					{helpers.minutesToDuration(
+						this.state.game.Properties.PhaseLengthMinutes
+					)}
+				</MaterialUI.Typography>
+			</div>
+		);
+		if (this.state.game.Properties.NonMovementPhaseLengthMinutes) {
+			expandedGameCells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center"
+					}}
+				>
+					<MaterialUI.Icon style={{ marginRight: "8px" }}>
+						{helpers.createIcon("\ue01b")}
+					</MaterialUI.Icon>
+					<MaterialUI.Typography>
+						Non movement phase deadline{" "}
+						{helpers.minutesToDuration(
+							this.state.game.Properties
+								.NonMovementPhaseLengthMinutes
+						)}
+					</MaterialUI.Typography>
+				</div>
+			);
+		}
 		if (this.state.game.Properties.LastYear) {
 			expandedGameCells.push(
 				<div
