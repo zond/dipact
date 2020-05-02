@@ -9,6 +9,7 @@ export default class CreateGameDialog extends React.Component {
 				Variant: "Classical",
 				NationAllocation: 0,
 				PhaseLengthMinutes: 1440,
+				NonMovementPhaseLengthMinutes: 0,
 				Desc: Globals.user.GivenName + "'s game",
 				Private: false,
 				Anonymous: false,
@@ -27,6 +28,9 @@ export default class CreateGameDialog extends React.Component {
 				DisablePrivateChat: false
 			},
 			userStats: Globals.userStats,
+			samePhaseLength: true,
+			nonMovementPhaseLengthUnit: 60 * 24,
+			nonMovementPhaseLengthMultiplier: 1,
 			phaseLengthUnit: 60 * 24,
 			phaseLengthMultiplier: 1
 		};
@@ -34,6 +38,9 @@ export default class CreateGameDialog extends React.Component {
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
 		this.setPhaseLength = this.setPhaseLength.bind(this);
+		this.setNonMovementPhaseLength = this.setNonMovementPhaseLength.bind(
+			this
+		);
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
 		this.checkboxField = this.checkboxField.bind(this);
 		this.floatField = this.floatField.bind(this);
@@ -181,6 +188,38 @@ export default class CreateGameDialog extends React.Component {
 			/>
 		);
 	}
+	setNonMovementPhaseLength(ev) {
+		ev.persist();
+		this.setState((state, props) => {
+			state = Object.assign({}, state);
+			if (ev.target.name == "non-movement-phase-length-unit") {
+				state.nonMovementPhaseLengthUnit = ev.target.value;
+				state.newGameProperties["NonMovementPhaseLengthMinutes"] =
+					state.nonMovementPhaseLengthUnit *
+					state.nonMovementPhaseLengthMultiplier;
+			} else if (
+				ev.target.name == "non-movement-phase-length-multiplier"
+			) {
+				state.nonMovementPhaseLengthMultiplier = ev.target.value;
+				state.newGameProperties["NonMovementPhaseLengthMinutes"] =
+					state.nonMovementPhaseLengthUnit *
+					state.nonMovementPhaseLengthMultiplier;
+			} else if (ev.target.name == "same-phase-length") {
+				if (ev.target.checked) {
+					state.newGameProperties[
+						"NonMovementPhaseLengthMinutes"
+					] = 0;
+					state.samePhaseLength = true;
+				} else {
+					state.newGameProperties["NonMovementPhaseLengthMinutes"] =
+						state.nonMovementPhaseLengthUnit *
+						state.nonMovementPhaseLengthMultiplier;
+					state.samePhaseLength = false;
+				}
+			}
+			return state;
+		});
+	}
 	setPhaseLength(ev) {
 		ev.persist();
 		this.setState((state, props) => {
@@ -192,7 +231,6 @@ export default class CreateGameDialog extends React.Component {
 			}
 			state.newGameProperties["PhaseLengthMinutes"] =
 				state.phaseLengthUnit * state.phaseLengthMultiplier;
-			console.log(state.newGameProperties);
 			return state;
 		});
 	}
@@ -299,6 +337,56 @@ export default class CreateGameDialog extends React.Component {
 							</MaterialUI.MenuItem>
 						</MaterialUI.Select>
 					</MaterialUI.Box>
+					<MaterialUI.FormControlLabel
+						key="samePhaseLength"
+						control={
+							<MaterialUI.Checkbox
+								name="same-phase-length"
+								checked={this.state.samePhaseLength}
+								onChange={this.setNonMovementPhaseLength}
+							/>
+						}
+						label="Same length for all phases"
+					/>
+					{this.state.samePhaseLength ? (
+						""
+					) : (
+						<MaterialUI.Box
+							display="flex"
+							justifyContent="space-between"
+							key="NonMovementPhaseLengthMinutes"
+						>
+							<MaterialUI.TextField
+								name="non-movement-phase-length-multiplier"
+								label="Non movement phase duration"
+								type="number"
+								margin="dense"
+								inputProps={{ min: 0 }}
+								value={
+									this.state.nonMovementPhaseLengthMultiplier
+								}
+								onChange={this.setNonMovementPhaseLength}
+							/>
+							<MaterialUI.Select
+								name="non-movement-phase-length-unit"
+								value={this.state.nonMovementPhaseLengthUnit}
+								onChange={this.setNonMovementPhaseLength}
+							>
+								<MaterialUI.MenuItem key={1} value={1}>
+									Minutes
+								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem key={60} value={60}>
+									Hours
+								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem
+									key={60 * 24}
+									value={60 * 24}
+								>
+									Days
+								</MaterialUI.MenuItem>
+							</MaterialUI.Select>
+						</MaterialUI.Box>
+					)}
 					<MaterialUI.TextField
 						type="number"
 						fullWidth
