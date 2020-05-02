@@ -1183,6 +1183,7 @@ export default class GameListElement extends React.Component {
 					}}
 				>
 					<Game
+						onChangeReady={this.reloadGame}
 						onJoinGame={this.reloadGame}
 						onLeaveGame={_ => {
 							if (this.state.game.Properties.Members.length > 1) {

@@ -794,6 +794,9 @@ export default class Game extends React.Component {
 												phaseState.Properties;
 											return state;
 										});
+										if (this.props.onChangeReady) {
+											this.props.onChangeReady();
+										}
 									}}
 									variant={this.state.variant}
 								/>
