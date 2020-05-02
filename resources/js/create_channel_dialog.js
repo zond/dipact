@@ -84,6 +84,7 @@ export default class CreateChannelDialog extends React.Component {
 		};
 	}
 	close() {
+		helpers.unback(this.close);
 		return new Promise((res, rej) => {
 			this.setState({ open: false }, res);
 		});
@@ -92,7 +93,6 @@ export default class CreateChannelDialog extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				onClose={this.close}

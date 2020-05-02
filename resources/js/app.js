@@ -51,7 +51,8 @@ ReactDOM.render(
 
 window.addEventListener("popstate", ev => {
 	if (window.Globals.backListeners.length > 0) {
-		window.Globals.backListeners[0]();
+		const listener = window.Globals.backListeners.shift();
+		listener();
 	} else {
 		window.location.reload();
 	}

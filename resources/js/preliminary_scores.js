@@ -10,6 +10,7 @@ export default class PreliminaryScores extends React.Component {
 		}
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false, canvas: null, chart: null });
 	}
 	componentDidUpdate() {
@@ -100,7 +101,6 @@ export default class PreliminaryScores extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{

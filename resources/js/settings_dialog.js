@@ -115,6 +115,7 @@ export default class SettingsDialog extends React.Component {
 		};
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -178,7 +179,6 @@ export default class SettingsDialog extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{

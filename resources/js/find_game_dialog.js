@@ -14,11 +14,13 @@ export default class FindGameDialog extends React.Component {
 		this.close = this.close.bind(this);
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
 	onFind() {
 		const gameID = document.getElementById("find-game-by-id-input-field")
 			.value;
+		helpers.unback(this.close);
 		this.setState({ open: false }, _ => {
 			this.state.onFind(gameID);
 		});
@@ -27,7 +29,6 @@ export default class FindGameDialog extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				className="find-game-dialog"
 				disableBackdropClick={false}

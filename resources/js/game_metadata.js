@@ -26,14 +26,6 @@ export default class GameMetadata extends React.Component {
 			"display: flex; align-items: center;"
 		);
 	}
-	componentDidMount() {
-		Globals.backListeners.unshift(this.close);
-	}
-	componentWillUnmount() {
-		Globals.backListeners = Globals.backListeners.filter(l => {
-			return l != this.close;
-		});
-	}
 	toggleBanned(uid) {
 		return _ => {
 			if (Globals.bans[uid]) {
@@ -126,205 +118,250 @@ export default class GameMetadata extends React.Component {
 		};
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
 	render() {
-		return (
-			<MaterialUI.Dialog
-				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
-				open={this.state.open}
-				className="find-game-dialog"
-				disableBackdropClick={false}
-				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;")
-				}}
-				onClose={this.close}
-			>
-				<MaterialUI.DialogTitle>Game metadata</MaterialUI.DialogTitle>
-				<MaterialUI.DialogContent>
-					<MaterialUI.Grid container>
-						{this.state.gameStates
-							? this.props.game.Properties.Members.map(member => {
-									return (
-										<React.Fragment
-											key={member.Nation + "-fragment"}
-										>
-											<MaterialUI.Grid
-												key={
-													member.Nation +
-													"-user-avatar"
-												}
-												item
-												xs={2}
-											>
-												<UserAvatar
-													onNewGameState={
-														this.props
-															.onNewGameState
+		if (this.state.open) {
+			return (
+				<MaterialUI.Dialog
+					onEntered={helpers.genOnback(this.close)}
+					open={this.state.open}
+					className="find-game-dialog"
+					disableBackdropClick={false}
+					classes={{
+						paper: helpers.scopedClass("margin: 2px; width: 100%;")
+					}}
+					onClose={this.close}
+				>
+					<MaterialUI.DialogTitle>
+						Game metadata
+					</MaterialUI.DialogTitle>
+					<MaterialUI.DialogContent>
+						<MaterialUI.Grid container>
+							{this.state.gameStates
+								? this.props.game.Properties.Members.map(
+										member => {
+											return (
+												<React.Fragment
+													key={
+														member.Nation +
+														"-fragment"
 													}
-													game={this.props.game}
-													gameState={
-														this.member
-															? this.state
-																	.gameStates[
-																	this.member
-																		.Nation
-															  ]
-															: null
-													}
-													banChange={_ => {
-														this.forceUpdate();
-													}}
-													user={member.User}
-												/>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={
-													member.Nation + "-user-name"
-												}
-												item
-												xs={6}
-												className={this.valignClass}
-											>
-												<MaterialUI.Typography>
-													{member.User.Name}
-												</MaterialUI.Typography>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={
-													member.Nation +
-													"-nation-banned"
-												}
-												item
-												xs={4}
-											>
-												<MaterialUI.FormControlLabel
-													control={
-														<MaterialUI.Checkbox
-															disabled={
-																member.User
-																	.Id ==
-																Globals.user.Id
+												>
+													<MaterialUI.Grid
+														key={
+															member.Nation +
+															"-user-avatar"
+														}
+														item
+														xs={2}
+													>
+														<UserAvatar
+															onNewGameState={
+																this.props
+																	.onNewGameState
 															}
-															checked={
-																!!this.state
-																	.bans[
-																	member.User
-																		.Id
-																]
+															game={
+																this.props.game
 															}
-															onChange={this.toggleBanned(
-																member.User.Id
-															)}
+															gameState={
+																this.member
+																	? this.state
+																			.gameStates[
+																			this
+																				.member
+																				.Nation
+																	  ]
+																	: null
+															}
+															banChange={_ => {
+																this.forceUpdate();
+															}}
+															user={member.User}
 														/>
-													}
-													label="Banned"
-												/>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={
-													member.Nation +
-													"-nation-avatar"
-												}
-												item
-												xs={2}
-											>
-												<NationAvatar
-													onNewGameState={
-														this.props
-															.onNewGameState
-													}
-													game={this.props.game}
-													gameState={
-														this.member
-															? this.state
-																	.gameStates[
-																	this.member
-																		.Nation
-															  ]
-															: null
-													}
-													nation={member.Nation}
-													variant={this.props.variant}
-												/>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												key={
-													member.Nation +
-													"-nation-name"
-												}
-												className={this.valignClass}
-												item
-												xs={6}
-											>
-												<MaterialUI.Typography>
-													{member.Nation}
-												</MaterialUI.Typography>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												item
-												key={
-													member.Nation +
-													"-user-muted"
-												}
-												xs={4}
-											>
-												<MaterialUI.FormControlLabel
-													control={
-														<MaterialUI.Checkbox
-															disabled={
-																!this.member ||
-																member.Nation ==
-																	this.member
-																		.Nation
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														key={
+															member.Nation +
+															"-user-name"
+														}
+														item
+														xs={6}
+														className={
+															this.valignClass
+														}
+													>
+														<MaterialUI.Typography>
+															{member.User.Name}
+														</MaterialUI.Typography>
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														key={
+															member.Nation +
+															"-nation-banned"
+														}
+														item
+														xs={4}
+													>
+														<MaterialUI.FormControlLabel
+															control={
+																<MaterialUI.Checkbox
+																	disabled={
+																		member
+																			.User
+																			.Id ==
+																		Globals
+																			.user
+																			.Id
+																	}
+																	checked={
+																		!!this
+																			.state
+																			.bans[
+																			member
+																				.User
+																				.Id
+																		]
+																	}
+																	onChange={this.toggleBanned(
+																		member
+																			.User
+																			.Id
+																	)}
+																/>
 															}
-															checked={
-																this.member &&
-																(
-																	this.state
-																		.gameStates[
-																		this
-																			.member
-																			.Nation
-																	].Properties
-																		.Muted ||
-																	[]
-																).indexOf(
-																	member.Nation
-																) != -1
+															label="Banned"
+														/>
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														key={
+															member.Nation +
+															"-nation-avatar"
+														}
+														item
+														xs={2}
+													>
+														<NationAvatar
+															onNewGameState={
+																this.props
+																	.onNewGameState
 															}
-															onChange={this.toggleMuted(
+															game={
+																this.props.game
+															}
+															gameState={
+																this.member
+																	? this.state
+																			.gameStates[
+																			this
+																				.member
+																				.Nation
+																	  ]
+																	: null
+															}
+															nation={
 																member.Nation
-															)}
+															}
+															variant={
+																this.props
+																	.variant
+															}
 														/>
-													}
-													label="Muted"
-												/>
-											</MaterialUI.Grid>
-											<MaterialUI.Grid
-												item
-												key={member.Nation + "-divider"}
-												xs={12}
-											>
-												<MaterialUI.Divider />
-											</MaterialUI.Grid>
-										</React.Fragment>
-									);
-							  })
-							: ""}
-					</MaterialUI.Grid>
-					<MaterialUI.DialogActions
-						className={helpers.scopedClass(
-							"background-color: white; position: sticky; bottom: 0px;"
-						)}
-					>
-						<MaterialUI.Button onClick={this.close} color="primary">
-							Close
-						</MaterialUI.Button>
-					</MaterialUI.DialogActions>
-				</MaterialUI.DialogContent>
-			</MaterialUI.Dialog>
-		);
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														key={
+															member.Nation +
+															"-nation-name"
+														}
+														className={
+															this.valignClass
+														}
+														item
+														xs={6}
+													>
+														<MaterialUI.Typography>
+															{member.Nation}
+														</MaterialUI.Typography>
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														item
+														key={
+															member.Nation +
+															"-user-muted"
+														}
+														xs={4}
+													>
+														<MaterialUI.FormControlLabel
+															control={
+																<MaterialUI.Checkbox
+																	disabled={
+																		!this
+																			.member ||
+																		member.Nation ==
+																			this
+																				.member
+																				.Nation
+																	}
+																	checked={
+																		this
+																			.member &&
+																		(
+																			this
+																				.state
+																				.gameStates[
+																				this
+																					.member
+																					.Nation
+																			]
+																				.Properties
+																				.Muted ||
+																			[]
+																		).indexOf(
+																			member.Nation
+																		) != -1
+																	}
+																	onChange={this.toggleMuted(
+																		member.Nation
+																	)}
+																/>
+															}
+															label="Muted"
+														/>
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														item
+														key={
+															member.Nation +
+															"-divider"
+														}
+														xs={12}
+													>
+														<MaterialUI.Divider />
+													</MaterialUI.Grid>
+												</React.Fragment>
+											);
+										}
+								  )
+								: ""}
+						</MaterialUI.Grid>
+						<MaterialUI.DialogActions
+							className={helpers.scopedClass(
+								"background-color: white; position: sticky; bottom: 0px;"
+							)}
+						>
+							<MaterialUI.Button
+								onClick={this.close}
+								color="primary"
+							>
+								Close
+							</MaterialUI.Button>
+						</MaterialUI.DialogActions>
+					</MaterialUI.DialogContent>
+				</MaterialUI.Dialog>
+			);
+		} else {
+			return "";
+		}
 	}
 }

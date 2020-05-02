@@ -15,6 +15,7 @@ export default class GameResults extends React.Component {
 		this.close = this.close.bind(this);
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
 	componentDidMount() {
@@ -64,7 +65,6 @@ export default class GameResults extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{

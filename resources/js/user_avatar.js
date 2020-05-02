@@ -38,8 +38,10 @@ export default class UserAvatar extends React.Component {
 					<StatsDialog
 						game={this.props.game}
 						onClose={ev => {
-							ev.stopPropagation();
-							ev.preventDefault();
+							if (ev) {
+								ev.stopPropagation();
+								ev.preventDefault();
+							}
 							this.setState({ dialogOpen: false });
 						}}
 						user={this.props.user}

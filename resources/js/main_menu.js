@@ -6,6 +6,7 @@ import Start from '%{ cb "/js/start.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
 import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
+import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -20,6 +21,7 @@ export default class MainMenu extends ActivityContainer {
 		this.state = {
 			drawerOpen: false,
 			activity: Start,
+			statsDialogOpen: false,
 			activityProps: {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
@@ -180,6 +182,17 @@ export default class MainMenu extends ActivityContainer {
 								Settings
 							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem
+								key="stats"
+								onClick={_ => {
+									this.setState({
+										menuAnchorEl: null,
+										statsDialogOpen: true
+									});
+								}}
+							>
+								Stats
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
 								key="help-wiki"
 								onClick={_ => {
 									window.open(
@@ -317,6 +330,17 @@ export default class MainMenu extends ActivityContainer {
 						this.settingsDialog = c;
 					}}
 				/>
+				{this.state.statsDialogOpen ? (
+					<StatsDialog
+						open={this.state.statsDialogOpen}
+						user={Globals.user}
+						onClose={_ => {
+							this.setState({ statsDialogOpen: false });
+						}}
+					/>
+				) : (
+					""
+				)}
 			</React.Fragment>
 		);
 	}

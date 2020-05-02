@@ -52,6 +52,7 @@ export default class GameListElement extends React.Component {
 		this.reloadGame = this.reloadGame.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
+		// Dead means that we left this game when we were the only member, so it's gone.
 		this.dead = false;
 	}
 	renameGame() {
@@ -153,6 +154,7 @@ export default class GameListElement extends React.Component {
 							this.reloadGame();
 						} else {
 							this.dead = true;
+							this.forceUpdate();
 						}
 					}
 				);
@@ -1209,6 +1211,7 @@ export default class GameListElement extends React.Component {
 								this.reloadGame();
 							} else {
 								this.dead = true;
+								this.forceUpdate();
 							}
 						}}
 						unreadMessagesUpdate={this.reloadGame}

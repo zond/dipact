@@ -9,9 +9,11 @@ export default class Color extends React.Component {
 		this.close = this.close.bind(this);
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ dialogOpen: false, picker: null });
 	}
 	select() {
+		helpers.unback(this.close);
 		this.setState({ dialogOpen: false, picker: null }, _ => {
 			if (this.props.onSelect) {
 				this.props.onSelect(this.state.value);
@@ -52,7 +54,6 @@ export default class Color extends React.Component {
 				</MaterialUI.Button>
 				<MaterialUI.Dialog
 					onEntered={helpers.genOnback(this.close)}
-					onExited={helpers.genUnback(this.close)}
 					open={this.state.dialogOpen}
 					disableBackdropClick={false}
 					onClose={this.close}

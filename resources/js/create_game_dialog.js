@@ -66,6 +66,7 @@ export default class CreateGameDialog extends React.Component {
 	}
 	close() {
 		return new Promise((res, rej) => {
+			helpers.unback(this.close);
 			this.setState({ open: false }, res);
 		});
 	}
@@ -255,7 +256,6 @@ export default class CreateGameDialog extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				onClose={this.close}

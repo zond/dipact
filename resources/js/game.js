@@ -45,6 +45,8 @@ export default class Game extends React.Component {
 		this.joinWithPreferences = this.joinWithPreferences.bind(this);
 		this.leave = this.leave.bind(this);
 		this.refinePhaseMessage = this.refinePhaseMessage.bind(this);
+		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
+		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
 	}
 	refinePhaseMessage(msg) {
@@ -87,8 +89,6 @@ export default class Game extends React.Component {
 					_ => {
 						if (this.state.game.Properties.Members.length > 1) {
 							this.loadGame();
-						} else {
-							this.dead = true;
 						}
 					}
 				);

@@ -37,6 +37,7 @@ export default class RenameGameDialog extends React.Component {
 			});
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
 	render() {
@@ -44,7 +45,6 @@ export default class RenameGameDialog extends React.Component {
 			<MaterialUI.Dialog
 				open={this.state.open}
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				disableBackdropClick={false}
 				onClose={this.close}
 			>

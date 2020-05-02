@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import LeaderboardDialog from '%{ cb "/js/leaderboard_dialog.js" }%';
+
 /*
  * MUST HAVE:
  * - user: A user object.
@@ -16,6 +18,7 @@ export default class StatsDialog extends React.Component {
 		super(props);
 		this.state = {
 			userStats: null,
+			leaderboardDialogOpen: false,
 			gameState: this.props.gameState
 		};
 		this.member = this.props.game
@@ -31,6 +34,7 @@ export default class StatsDialog extends React.Component {
 			: null;
 		this.toggleBanned = this.toggleBanned.bind(this);
 		this.toggleMuted = this.toggleMuted.bind(this);
+		this.onClose = helpers.genUnbackClose(this.props.onClose);
 	}
 	toggleMuted(ev) {
 		ev.preventDefault();
@@ -144,146 +148,171 @@ export default class StatsDialog extends React.Component {
 	}
 	render() {
 		return (
-			<MaterialUI.Dialog
-				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
-				disableBackdropClick={false}
-				open={true}
-				onClose={this.props.onClose}
-			>
-				<MaterialUI.DialogTitle>
-					{this.props.user.Name}
-					{this.props.game ? " playing " + this.nation : ""}
-				</MaterialUI.DialogTitle>
-				<MaterialUI.DialogContent>
-					<MaterialUI.FormControlLabel
-						control={
-							<MaterialUI.Checkbox
-								disabled={this.props.user.Id == Globals.user.Id}
-								checked={!!Globals.bans[this.props.user.Id]}
-								onClick={this.toggleBanned}
-							/>
-						}
-						label="Banned"
-					/>
-					{this.member ? (
+			<React.Fragment>
+				<MaterialUI.Dialog
+					onEntered={helpers.genOnback(this.props.onClose)}
+					disableBackdropClick={false}
+					open={true}
+					onClose={this.onClose}
+				>
+					<MaterialUI.DialogTitle>
+						{this.props.user.Name}
+						{this.props.game ? " playing " + this.nation : ""}
+					</MaterialUI.DialogTitle>
+					<MaterialUI.DialogContent>
 						<MaterialUI.FormControlLabel
 							control={
 								<MaterialUI.Checkbox
 									disabled={
 										this.props.user.Id == Globals.user.Id
 									}
-									checked={
-										(
-											this.state.gameState.Properties
-												.Muted || []
-										).indexOf(this.nation) != -1
-									}
-									onClick={this.toggleMuted}
+									checked={!!Globals.bans[this.props.user.Id]}
+									onClick={this.toggleBanned}
 								/>
 							}
-							label="Muted"
+							label="Banned"
 						/>
-					) : (
-						""
-					)}
-					{this.state.userStats ? (
-						<MaterialUI.TableContainer component={MaterialUI.Paper}>
-							<MaterialUI.Table>
-								<MaterialUI.TableBody>
-									{this.makeRow(
-										"Ranking (position in server wide leaderboard)",
-										"#" +
-											(this.state.userStats.Properties
-												.TrueSkill.HigherRatedCount +
-												1)
-									)}
-									{this.makeRow(
-										"TrueSkill rating (calculation based on win/loss history",
-										helpers.twoDecimals(
+						{this.member ? (
+							<MaterialUI.FormControlLabel
+								control={
+									<MaterialUI.Checkbox
+										disabled={
+											this.props.user.Id ==
+											Globals.user.Id
+										}
+										checked={
+											(
+												this.state.gameState.Properties
+													.Muted || []
+											).indexOf(this.nation) != -1
+										}
+										onClick={this.toggleMuted}
+									/>
+								}
+								label="Muted"
+							/>
+						) : (
+							""
+						)}
+						{this.state.userStats ? (
+							<MaterialUI.TableContainer
+								component={MaterialUI.Paper}
+							>
+								<MaterialUI.Table>
+									<MaterialUI.TableBody>
+										{this.makeRow(
+											"Ranking (position in server wide leaderboard)",
+											<MaterialUI.Button
+												variant="outlined"
+												onClick={_ => {
+													this.setState({
+														leaderboardDialogOpen: true
+													});
+												}}
+											>
+												{"#" +
+													(this.state.userStats
+														.Properties.TrueSkill
+														.HigherRatedCount +
+														1)}
+											</MaterialUI.Button>
+										)}
+										{this.makeRow(
+											"TrueSkill rating (calculation based on win/loss history",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.TrueSkill.Rating
+											)
+										)}
+										{this.makeRow(
+											"Reliability (ratio non NMR phases)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Reliability
+											)
+										)}
+										{this.makeRow(
+											"Quickness (ratio of committed phases)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Quickness
+											)
+										)}
+										{this.makeRow(
+											"Hated (ratio of games resulting in being banned)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Hated
+											)
+										)}
+										{this.makeRow(
+											"Hater (ratio of games resulting in banning someone)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Hater
+											)
+										)}
+										{this.makeRow(
+											"Joined games",
 											this.state.userStats.Properties
-												.TrueSkill.Rating
-										)
-									)}
-									{this.makeRow(
-										"Reliability (ratio non NMR phases)",
-										helpers.twoDecimals(
+												.JoinedGames
+										)}
+										{this.makeRow(
+											"Started games",
 											this.state.userStats.Properties
-												.Reliability
-										)
-									)}
-									{this.makeRow(
-										"Quickness (ratio of committed phases)",
-										helpers.twoDecimals(
+												.StartedGames
+										)}
+										{this.makeRow(
+											"Abandoned games",
 											this.state.userStats.Properties
-												.Quickness
-										)
-									)}
-									{this.makeRow(
-										"Hated (ratio of games resulting in being banned)",
-										helpers.twoDecimals(
+												.FinishedGames
+										)}
+										{this.makeRow(
+											"Solo wins",
 											this.state.userStats.Properties
-												.Hated
-										)
-									)}
-									{this.makeRow(
-										"Hater (ratio of games resulting in banning someone)",
-										helpers.twoDecimals(
+												.SoloGames
+										)}
+										{this.makeRow(
+											"Draws",
 											this.state.userStats.Properties
-												.Hater
-										)
-									)}
-									{this.makeRow(
-										"Joined games",
-										this.state.userStats.Properties
-											.JoinedGames
-									)}
-									{this.makeRow(
-										"Started games",
-										this.state.userStats.Properties
-											.StartedGames
-									)}
-									{this.makeRow(
-										"Abandoned games",
-										this.state.userStats.Properties
-											.FinishedGames
-									)}
-									{this.makeRow(
-										"Solo wins",
-										this.state.userStats.Properties
-											.SoloGames
-									)}
-									{this.makeRow(
-										"Draws",
-										this.state.userStats.Properties
-											.DIASGames
-									)}
-									{this.makeRow(
-										"Eliminations",
-										this.state.userStats.Properties
-											.EliminatedGames
-									)}
-									{this.makeRow(
-										"Abandoned games",
-										this.state.userStats.Properties
-											.DroppedGames
-									)}
-								</MaterialUI.TableBody>
-							</MaterialUI.Table>
-						</MaterialUI.TableContainer>
-					) : (
-						""
-					)}
-				</MaterialUI.DialogContent>
-				<MaterialUI.DialogActions>
-					<MaterialUI.Button
-						onClick={this.props.onClose}
-						color="primary"
-					>
-						Close
-					</MaterialUI.Button>
-				</MaterialUI.DialogActions>
-			</MaterialUI.Dialog>
+												.DIASGames
+										)}
+										{this.makeRow(
+											"Eliminations",
+											this.state.userStats.Properties
+												.EliminatedGames
+										)}
+										{this.makeRow(
+											"Abandoned games",
+											this.state.userStats.Properties
+												.DroppedGames
+										)}
+									</MaterialUI.TableBody>
+								</MaterialUI.Table>
+							</MaterialUI.TableContainer>
+						) : (
+							""
+						)}
+					</MaterialUI.DialogContent>
+					<MaterialUI.DialogActions>
+						<MaterialUI.Button
+							onClick={this.onClose}
+							color="primary"
+						>
+							Close
+						</MaterialUI.Button>
+					</MaterialUI.DialogActions>
+				</MaterialUI.Dialog>
+				{this.state.leaderboardDialogOpen ? (
+					<LeaderboardDialog
+						onClose={_ => {
+							this.setState({ leaderboardDialogOpen: false });
+						}}
+					/>
+				) : (
+					""
+				)}
+			</React.Fragment>
 		);
 	}
 }

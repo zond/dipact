@@ -15,6 +15,7 @@ export default class NationPreferencesDialog extends React.Component {
 		this.close = this.close.bind(this);
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
 	onSelected(ev) {
@@ -26,7 +27,6 @@ export default class NationPreferencesDialog extends React.Component {
 			<MaterialUI.Dialog
 				open={this.state.open}
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				disableBackdropClick={false}
 				onClose={this.close}
 			>

@@ -24,6 +24,7 @@ export default class OrderDialog extends React.Component {
 		});
 	}
 	close() {
+		helpers.unback(this.close);
 		this.setState({ open: false }, _ => {
 			if (this.state.onClose) {
 				this.state.onClose();
@@ -34,7 +35,6 @@ export default class OrderDialog extends React.Component {
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
-				onExited={helpers.genUnback(this.close)}
 				open={this.state.open}
 				disableBackdropClick={false}
 				onClose={this.close}

@@ -1,4 +1,3 @@
-
 export const overrideReg = /[^\w]/g;
 
 export const DiplicitySender = "Diplicity";
@@ -379,8 +378,9 @@ export function genOnback(f) {
 	};
 }
 
-export function genUnback(f) {
+export function genUnbackClose(f) {
 	return _ => {
 		unback(f);
+		f();
 	};
 }
