@@ -13,6 +13,7 @@ export default class Game extends React.Component {
 		super(props);
 		this.state = {
 			readyReminder: false,
+			phaseMessages: [],
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
@@ -43,7 +44,20 @@ export default class Game extends React.Component {
 		this.join = this.join.bind(this);
 		this.joinWithPreferences = this.joinWithPreferences.bind(this);
 		this.leave = this.leave.bind(this);
+		this.refinePhaseMessage = this.refinePhaseMessage.bind(this);
 		this.dead = false;
+	}
+	refinePhaseMessage(msg) {
+		const parts = msg.split(":");
+		switch (parts[0]) {
+			case "MustDisband":
+				return "You must disband " + parts[1] + " units this phase.";
+				break;
+			case "MayBuild":
+				return "You may build " + parts[1] + " units this phase.";
+				break;
+		}
+		return "";
 	}
 	leave() {
 		const link = this.state.game.Links.find(l => {
@@ -349,6 +363,11 @@ export default class Game extends React.Component {
 							return v.Properties.Name == game.Properties.Variant;
 						}),
 						member: member,
+						phaseMessages: member
+							? (member.NewestPhaseState.Messages || "")
+									.split(",")
+									.map(this.refinePhaseMessage)
+							: [],
 						readyReminder:
 							member &&
 							game.Properties.Started &&
@@ -832,7 +851,19 @@ export default class Game extends React.Component {
 						onClose={_ => {
 							this.setState({ readyReminder: false });
 						}}
-						message="You haven't confirmed your orders yet"
+						message={[
+							<MaterialUI.Typography key="ready-warning">
+								You haven't confirmed your orders yet.
+							</MaterialUI.Typography>
+						].concat(
+							this.state.phaseMessages.map(m => {
+								return (
+									<MaterialUI.Typography key={m}>
+										{m}
+									</MaterialUI.Typography>
+								);
+							})
+						)}
 						action={
 							<React.Fragment>
 								<MaterialUI.Button
