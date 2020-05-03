@@ -3,7 +3,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 export default class Login extends React.Component {
 	componentDidMount() {
 		gtag("set", { "page": "Login" });
-		gtag("event", "pageview");
+		gtag("event", "page_view");
 	}
 	render() {
 		if (this.props.loginURL) {

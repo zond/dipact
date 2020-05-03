@@ -280,7 +280,7 @@ export default class Game extends React.Component {
 								phases: newPhases
 							});
 							gtag("set", { "page": "Game" });
-							gtag("event", "pageview");
+							gtag("event", "page_view");
 						}
 					]
 				],

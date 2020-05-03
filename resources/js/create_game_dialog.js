@@ -65,7 +65,7 @@ export default class CreateGameDialog extends React.Component {
 		}
 		if (!prevState.open && this.state.open) {
 			gtag("set", { "page": "CreateGameDialog" });
-			gtag("event", "pageview");
+			gtag("event", "page_view");
 		}
 	}
 	close() {

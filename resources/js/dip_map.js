@@ -406,7 +406,7 @@ export default class DipMap extends React.Component {
 						});
 						this.setState({ svgLoaded: true });
 						gtag("set", { "page": "DipMap" });
-						gtag("event", "pageview");
+						gtag("event", "page_view");
 					});
 				}
 			);

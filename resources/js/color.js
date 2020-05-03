@@ -37,7 +37,7 @@ export default class Color extends React.Component {
 							this.setState({ value: color.hexString });
 						});
 						gtag("set", { "page": "Color" });
-						gtag("event", "pageview");
+						gtag("event", "page_view");
 					}
 				);
 			}

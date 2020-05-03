@@ -64,7 +64,7 @@ export default class ChatChannel extends React.Component {
 				);
 			}
 			gtag("set", { "page": "ChatChannel" });
-			gtag("event", "pageview");
+			gtag("event", "page_view");
 		} else {
 			if (!this.props.parent.props.parent.dead) {
 				history.pushState(

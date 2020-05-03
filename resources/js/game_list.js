@@ -49,7 +49,7 @@ export default class GameList extends React.Component {
 			}
 		}
 		gtag("set", { page: "GameList" });
-		gtag("event", "pageview");
+		gtag("event", "page_view");
 	}
 	componentWillUnmount() {
 		if (this.props.url) {

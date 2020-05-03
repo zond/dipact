@@ -16,7 +16,7 @@ export default class FindGameDialog extends React.Component {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
 			gtag("set", { "page": "FindGameDialog" });
-			gtag("event", "pageview");
+			gtag("event", "page_view");
 		}
 	}
 	close() {

@@ -98,7 +98,7 @@ export default class PreliminaryScores extends React.Component {
 		}
 		if (!prevState.open && this.state.open) {
 			gtag("set", { page: "PreliminaryScores" });
-			gtag("event", "pageview");
+			gtag("event", "page_view");
 		}
 	}
 	render() {

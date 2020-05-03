@@ -137,7 +137,7 @@ export default class StatsDialog extends React.Component {
 				helpers.decProgress();
 				this.setState({ userStats: js });
 				gtag("set", { "page": "StatsDialog" });
-				gtag("event", "pageview");
+				gtag("event", "page_view");
 			});
 	}
 	makeRow(label, value) {

@@ -31,7 +31,7 @@ export default class LeaderboardDialog extends React.Component {
 				helpers.decProgress();
 				this.setState({ userStats: js.Properties });
 				gtag("set", { "page": "LeaderboardDialog" });
-				gtag("event", "pageview");
+				gtag("event", "page_view");
 			});
 	}
 	render() {

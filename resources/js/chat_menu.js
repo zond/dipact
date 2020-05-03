@@ -160,7 +160,7 @@ export default class ChatMenu extends React.Component {
 		if (this.props.isActive && !prevProps.isActive) {
 			this.loadChannels(true);
 			gtag("set", { "page": "ChatMenu" });
-			gtag("event", "pageview");
+			gtag("event", "page_view");
 		}
 	}
 	componentDidMount() {

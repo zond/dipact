@@ -11,7 +11,7 @@ export default class Start extends React.Component {
 	}
 	componentDidMount() {
 		gtag("set", { "page": "Start" });
-		gtag("event", "pageview");
+		gtag("event", "page_view");
 	}
 	render() {
 		return (

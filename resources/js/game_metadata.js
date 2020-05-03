@@ -29,7 +29,7 @@ export default class GameMetadata extends React.Component {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
 			gtag("set", { "page": "GameMetadata" });
-			gtag("event", "pageview");
+			gtag("event", "page_view");
 		}
 	}
 	toggleBanned(uid) {
