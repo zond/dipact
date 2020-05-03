@@ -18,6 +18,12 @@ export default class GameResults extends React.Component {
 		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "GameResults" });
+			gtag("event", "pageview");
+		}
+	}
 	componentDidMount() {
 		let gameResultLink = this.props.game.Links.find(l => {
 			return l.Rel == "game-result";

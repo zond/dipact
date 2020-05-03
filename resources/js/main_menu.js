@@ -64,6 +64,10 @@ export default class MainMenu extends ActivityContainer {
 			}
 		);
 	}
+	componentDidMount() {
+		gtag("set", { "page": "MainMenu" });
+		gtag("event", "pageview");
+	}
 	findGameByID() {
 		this.findGameDialog.setState({
 			open: true,

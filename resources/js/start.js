@@ -9,6 +9,10 @@ export default class Start extends React.Component {
 		this.state = { newGameFormOpen: false };
 		this.createGameDialog = null;
 	}
+	componentDidMount() {
+		gtag("set", { "page": "Start" });
+		gtag("event", "pageview");
+	}
 	render() {
 		return (
 			<React.Fragment>

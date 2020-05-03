@@ -14,6 +14,12 @@ export default class NationPreferencesDialog extends React.Component {
 		this.onSelected = this.onSelected.bind(this);
 		this.close = this.close.bind(this);
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "NationPreferencesDialog" });
+			gtag("event", "pageview");
+		}
+	}
 	close() {
 		helpers.unback(this.close);
 		this.setState({ open: false });

@@ -13,6 +13,12 @@ export default class FindGameDialog extends React.Component {
 		this.onFind = this.onFind.bind(this);
 		this.close = this.close.bind(this);
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "FindGameDialog" });
+			gtag("event", "pageview");
+		}
+	}
 	close() {
 		helpers.unback(this.close);
 		this.setState({ open: false });

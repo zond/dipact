@@ -15,6 +15,12 @@ export default class RenameGameDialog extends React.Component {
 		this.close = this.close.bind(this);
 		this.rename = this.rename.bind(this);
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "RenameGameDialog" });
+			gtag("event", "pageview");
+		}
+	}
 	rename() {
 		const renameLink = this.props.game.Links.find(l => {
 			return l.Rel == "update-membership";

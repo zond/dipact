@@ -1244,7 +1244,7 @@ export default class GameListElement extends React.Component {
 					<div style={{ width: "100%" }} onClick={this.viewGame}>
 						{summary}
 					</div>
-					{gameView}
+					{this.state.viewOpen ? gameView : ""}
 				</React.Fragment>
 			);
 		}

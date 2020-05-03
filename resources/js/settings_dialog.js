@@ -125,6 +125,10 @@ export default class SettingsDialog extends React.Component {
 		) {
 			this.setState({ userConfig: Globals.userConfig });
 		}
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "SettingsDialog" });
+			gtag("event", "pageview");
+		}
 	}
 	saveConfig() {
 		this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = Number.parseInt(

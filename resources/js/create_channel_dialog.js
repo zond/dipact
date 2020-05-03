@@ -18,6 +18,12 @@ export default class CreateChannelDialog extends React.Component {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "CreateChannelDialog" });
+			gtag("event", "pageview");
+		}
+	}
 	createChannel() {
 		let channel = { Properties: { Members: [] }, Links: [] };
 		for (let member in this.state.members) {

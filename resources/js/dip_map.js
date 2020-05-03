@@ -80,6 +80,7 @@ export default class DipMap extends React.Component {
 				navigator.clipboard.writeText(js.shortLink).then(_ => {
 					helpers.snackbar("URL copied to clipboard");
 				});
+						gtag("event", "labshare");
 			});
 	}
 	snapshotSVG() {
@@ -372,29 +373,24 @@ export default class DipMap extends React.Component {
 						this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 
 						this.map = dippyMap($("#map"));
-						panzoom(
-							document.getElementById("map-container"),
-							{
-								bounds: true,
-								boundsPadding: 0.5,
-								onZoom: e => {
-									document.getElementById(
-										"map"
-									).style.display = "none";
-									document.getElementById(
-										"mapSnapshot"
-									).style.display = "flex";
-								},
-								onZoomend: e => {
-									document.getElementById(
-										"map"
-									).style.display = "flex";
-									document.getElementById(
-										"mapSnapshot"
-									).style.display = "none";
-								}
+						panzoom(document.getElementById("map-container"), {
+							bounds: true,
+							boundsPadding: 0.5,
+							onZoom: e => {
+								document.getElementById("map").style.display =
+									"none";
+								document.getElementById(
+									"mapSnapshot"
+								).style.display = "flex";
+							},
+							onZoomend: e => {
+								document.getElementById("map").style.display =
+									"flex";
+								document.getElementById(
+									"mapSnapshot"
+								).style.display = "none";
 							}
-						);
+						});
 
 						let variantUnits = values[1];
 						variantUnits.forEach(unitData => {
@@ -409,6 +405,8 @@ export default class DipMap extends React.Component {
 								.appendChild(container);
 						});
 						this.setState({ svgLoaded: true });
+						gtag("set", { "page": "DipMap" });
+						gtag("event", "pageview");
 					});
 				}
 			);

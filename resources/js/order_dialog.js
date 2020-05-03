@@ -15,6 +15,12 @@ export default class OrderDialog extends React.Component {
 		this.onClick = this.onClick.bind(this);
 		this.close = this.close.bind(this);
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "OrderDialog" });
+			gtag("event", "pageview");
+		}
+	}
 	onClick(ev) {
 		const option = ev.currentTarget.getAttribute("xoption");
 		this.setState({ open: false }, _ => {

@@ -13,7 +13,7 @@ export default class PreliminaryScores extends React.Component {
 		helpers.unback(this.close);
 		this.setState({ open: false, canvas: null, chart: null });
 	}
-	componentDidUpdate() {
+	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.state.open && !this.state.canvas) {
 			const canvas = document.getElementById("score-chart");
 			if (!canvas) {
@@ -95,6 +95,10 @@ export default class PreliminaryScores extends React.Component {
 		}
 		if (this.state.open && this.state.canvas && this.state.chart) {
 			this.state.chart.update();
+		}
+		if (!prevState.open && this.state.open) {
+			gtag("set", { page: "PreliminaryScores" });
+			gtag("event", "pageview");
 		}
 	}
 	render() {

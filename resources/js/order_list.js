@@ -116,6 +116,10 @@ export default class OrderList extends React.Component {
 					: {}
 			});
 		}
+		if (!prevProps.isActive && this.props.isActive) {
+			gtag("set", { "page": "OrderList" });
+			gtag("event", "pageview");
+		}
 	}
 	render() {
 		return (

@@ -279,6 +279,8 @@ export default class Game extends React.Component {
 								}),
 								phases: newPhases
 							});
+							gtag("set", { "page": "Game" });
+							gtag("event", "pageview");
 						}
 					]
 				],
@@ -583,6 +585,8 @@ export default class Game extends React.Component {
 													!this.state.laboratoryMode
 												) {
 													this.loadGame();
+												} else {
+		gtag("event", "labmode");
 												}
 											}
 										);
@@ -784,6 +788,7 @@ export default class Game extends React.Component {
 								}}
 							>
 								<OrderList
+									isActive={this.state.activeTab == "orders"}
 									member={this.state.member}
 									phase={this.state.activePhase}
 									orders={this.state.orders}

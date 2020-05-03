@@ -26,6 +26,12 @@ export default class GameMetadata extends React.Component {
 			"display: flex; align-items: center;"
 		);
 	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (!prevState.open && this.state.open) {
+			gtag("set", { "page": "GameMetadata" });
+			gtag("event", "pageview");
+		}
+	}
 	toggleBanned(uid) {
 		return _ => {
 			if (Globals.bans[uid]) {
