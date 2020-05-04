@@ -68,18 +68,18 @@ class Messaging {
 		}
 	}
 	start() {
-		if (!firebase.messaging.isSupported()) {
-			helpers.snackbar(
-				"Firebase messaging is not supported in your browser, push notifications for new phases and messages will not work. Turn on email notifications in the settings menu instead."
-			);
-			return Promise.resolve({});
-		}
 		return new Promise((res, rej) => {
 			if (this.started) {
 				res();
 				return;
 			}
 			this.started = true;
+			if (!firebase.messaging.isSupported()) {
+				helpers.snackbar(
+					"Firebase messaging is not supported in your browser, push notifications for new phases and messages will not work. Turn on email notifications in the settings menu instead."
+				);
+				return Promise.resolve({});
+			}
 			navigator.serviceWorker
 				.register("/static/js/firebase-messaging-sw.js")
 				.then(registration => {
