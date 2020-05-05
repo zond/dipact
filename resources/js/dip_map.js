@@ -40,7 +40,7 @@ export default class DipMap extends React.Component {
 		this.firstLoadFinished = false;
 	}
 	labShare() {
-		const hrefURL = new URL(window.location.href);
+		const hrefURL = new URL(location.href);
 		const variantPhase = this.makeVariantPhase();
 		const url =
 			hrefURL.protocol +

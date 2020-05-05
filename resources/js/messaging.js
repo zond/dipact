@@ -163,7 +163,7 @@ class Messaging {
 	}
 	uploadToken() {
 		return new Promise((res, rej) => {
-			let hrefURL = new URL(window.location.href);
+			let hrefURL = new URL(location.href);
 			let wantedToken = {
 				Value: this.token,
 				// Only if we are explicitly asked to be disabled will be create new tokens that are disabled.
@@ -330,7 +330,7 @@ class Messaging {
 		});
 	}
 	onMessage(payload) {
-		payload = processNotification(payload, window.location.href);
+		payload = processNotification(payload, location.href);
 		console.log("Message received in foreground: ", payload);
 		let handled = false;
 		if (this.subscribers[payload.data.type]) {

@@ -194,7 +194,7 @@ export default class MainMenu extends ActivityContainer {
 							<MaterialUI.MenuItem
 								key="help-wiki"
 								onClick={_ => {
-									window.open(
+									open(
 										"https://sites.google.com/corp/view/diplicity"
 									);
 								}}
@@ -204,7 +204,7 @@ export default class MainMenu extends ActivityContainer {
 							<MaterialUI.MenuItem
 								key="forum"
 								onClick={_ => {
-									window.open(
+									open(
 										"https://groups.google.com/forum/#!forum/diplicity-talk"
 									);
 								}}
@@ -214,7 +214,7 @@ export default class MainMenu extends ActivityContainer {
 							<MaterialUI.MenuItem
 								key="chat"
 								onClick={_ => {
-									window.open("https://discord.gg/bu3JxYc");
+									open("https://discord.gg/bu3JxYc");
 								}}
 							>
 								Chat
@@ -222,9 +222,7 @@ export default class MainMenu extends ActivityContainer {
 							<MaterialUI.MenuItem
 								key="source"
 								onClick={_ => {
-									window.open(
-										"https://github.com/zond/dipact"
-									);
+									open("https://github.com/zond/dipact");
 								}}
 							>
 								Source code

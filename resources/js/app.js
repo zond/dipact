@@ -6,7 +6,7 @@ import Snackbar from '%{ cb "/js/snackbar.js" }%';
 import Messaging from '%{ cb "/js/messaging.js" }%';
 import Theme from '%{ cb "/js/theme.js" }%';
 
-const hrefURL = new URL(window.location.href);
+const hrefURL = new URL(location.href);
 
 window.Globals = {
 	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
@@ -39,6 +39,7 @@ window.Globals = {
 		nations: {}
 	},
 	backListeners: [],
+	WrapperCallbacks: {},
 	bans: {},
 	loginURL: null
 };
@@ -52,11 +53,11 @@ ReactDOM.render(
 	document.getElementById("app")
 );
 
-window.addEventListener("popstate", ev => {
-	if (window.Globals.backListeners.length > 0) {
-		const listener = window.Globals.backListeners.shift();
+addEventListener("popstate", ev => {
+	if (Globals.backListeners.length > 0) {
+		const listener = Globals.backListeners.shift();
 		listener();
 	} else {
-		window.location.reload();
+		location.reload();
 	}
 });

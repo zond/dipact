@@ -186,7 +186,7 @@ export function brightnessByColor(color) {
 
 export function urlMatch(mappings, def) {
 	for (let i = 0; i < mappings.length; i++) {
-		let hrefURL = new URL(window.location.href);
+		let hrefURL = new URL(location.href);
 		let match = mappings[i][0].exec(hrefURL.pathname);
 		if (match) {
 			if (mappings[i][1]) {
@@ -384,11 +384,12 @@ export function safeFetch(req) {
 			localStorage.removeItem("token");
 			if (window.Wrapper && window.Wrapper.getToken) {
 				return new Promise((res, rej) => {
-					window.Wrapper.getToken(token => {
+					Globals.WrapperCallbacks.getToken = token => {
 						storeToken(token);
 						req.headers.set("Authorization", "bearer " + token);
 						safeFetch(req).then(res);
-					});
+					};
+					window.Wrapper.getToken();
 				});
 			} else {
 				login();
@@ -401,20 +402,23 @@ export function safeFetch(req) {
 
 export function login() {
 	if (window.Wrapper && window.Wrapper.getToken) {
-		window.Wrapper.getToken(token => {
+		Globals.WrapperCallbacks.getToken = token => {
+			console.log("token", token);
 			storeToken(token);
-			window.location.reload();
-		});
+			location.reload();
+		};
+		incProgress();
+		window.Wrapper.getToken();
 	} else {
-		const hrefURL = new URL(window.location.href);
+		const hrefURL = new URL(location.href);
 		hrefURL.searchParams.delete("token");
 		const loginURL = new URL(Globals.loginURL.toString());
 		loginURL.searchParams.set("redirect-to", hrefURL.toString());
-		window.location.href = loginURL;
+		location.href = loginURL;
 	}
 }
 
 export function logout() {
 	localStorage.removeItem("token");
-	window.location.reload();
+	location.reload();
 }

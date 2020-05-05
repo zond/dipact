@@ -126,7 +126,7 @@ export default class SettingsDialog extends React.Component {
 			this.setState({ userConfig: Globals.userConfig });
 		}
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page": "SettingsDialog" });
+			gtag("set", { page: "SettingsDialog" });
 			gtag("event", "page_view");
 		}
 	}
@@ -366,7 +366,7 @@ export default class SettingsDialog extends React.Component {
 												state.userConfig.Properties.MailConfig.Enabled =
 													ev.target.checked;
 												let hrefURL = new URL(
-													window.location.href
+													location.href
 												);
 												state.userConfig.Properties.MailConfig.MessageConfig.TextBodyTemplate =
 													"{{message.Body}}\n\nVisit {{unsubscribeURL}} to stop receiving email like this.\n\nVisit " +

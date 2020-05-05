@@ -25,7 +25,7 @@ export default class Main extends ActivityContainer {
 		});
 	}
 	processToken() {
-		let hrefURL = new URL(window.location.href);
+		let hrefURL = new URL(location.href);
 		let foundToken = hrefURL.searchParams.get("token");
 		if (foundToken) {
 			hrefURL.searchParams.delete("token");
