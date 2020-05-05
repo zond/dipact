@@ -2,11 +2,11 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 export default class Login extends React.Component {
 	componentDidMount() {
-		gtag("set", { "page": "Login" });
+		gtag("set", { page: "Login" });
 		gtag("event", "page_view");
 	}
 	render() {
-		if (this.props.loginURL) {
+		if (Globals.loginURL) {
 			return (
 				<div
 					className={helpers.scopedClass(`
@@ -72,35 +72,28 @@ export default class Login extends React.Component {
  				margin-top: 24px;
        			   `)}
 							>
-								<a
-									href={this.props.loginURL}
+								<MaterialUI.Button
+									variant="contained"
 									style={{
-										textDecoration: "none",
-										textTransform: "none"
+										backgroundColor: "white",
+										color: "#757575",
+										width: "220px",
+										textTransform: "initial",
+										fontFamily: '"cabin", sans-serif'
 									}}
+									onClick={helpers.login}
+									startIcon={
+										<i>
+											<img
+												src={
+													"/static/img/google_icon.svg"
+												}
+											/>{" "}
+										</i>
+									}
 								>
-									<MaterialUI.Button
-										variant="contained"
-										style={{
-											backgroundColor: "white",
-											color: "#757575",
-											width: "220px",
-											textTransform: "initial",
-											fontFamily: '"cabin", sans-serif'
-										}}
-										startIcon={
-											<i>
-												<img
-													src={
-														"/static/img/google_icon.svg"
-													}
-												/>{" "}
-											</i>
-										}
-									>
-										Sign in with Google
-									</MaterialUI.Button>
-								</a>
+									Sign in with Google
+								</MaterialUI.Button>
 							</div>
 							<div
 								className={helpers.scopedClass(`

@@ -1,3 +1,5 @@
+import * as helpers from '%{ cb "/js/helpers.js" }%';
+
 import Main from '%{ cb "/js/main.js" }%';
 import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
 import Snackbar from '%{ cb "/js/snackbar.js" }%';
@@ -37,7 +39,8 @@ window.Globals = {
 		nations: {}
 	},
 	backListeners: [],
-	bans: {}
+	bans: {},
+	loginURL: null
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));

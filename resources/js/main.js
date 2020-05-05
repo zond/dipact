@@ -37,11 +37,7 @@ export default class Main extends ActivityContainer {
 		}
 
 		if (foundToken) {
-			Globals.token = foundToken;
-			Globals.serverRequest.headers.append(
-				"Authorization",
-				"bearer " + foundToken
-			);
+			helpers.storeToken(foundToken);
 		}
 	}
 	handleVariants(variants) {
@@ -97,11 +93,7 @@ export default class Main extends ActivityContainer {
 				return l.Rel == "login";
 			});
 			if (loginLink) {
-				let loginURL = new URL(loginLink.URL);
-				let hrefURL = new URL(window.location.href);
-				hrefURL.searchParams.delete("token");
-				loginURL.searchParams.set("redirect-to", hrefURL.toString());
-				state.urls.login_url = loginURL;
+				Globals.loginURL = new URL(loginLink.URL);
 			}
 
 			let linkSetter = rel => {
@@ -120,14 +112,10 @@ export default class Main extends ActivityContainer {
 			linkSetter("finished-games");
 
 			if (Globals.user) {
-				localStorage.setItem("token", Globals.token);
 				state.activity = MainMenu;
 				state.activityProps = { urls: state.urls };
 			} else if (state.urls.login_url) {
 				state.activity = Login;
-				state.activityProps = {
-					loginURL: state.urls.login_url
-				};
 			}
 
 			return state;

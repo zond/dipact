@@ -215,16 +215,9 @@ export function timeStrToDateTime(s) {
 	return d.toLocaleTimeString() + " " + d.toLocaleDateString();
 }
 
-export function safeFetch(req) {
-	return fetch(req).then(resp => {
-		if (resp.status == 401) {
-			localStorage.removeItem("token");
-			location.replace("/");
-			return Promise.resolve({});
-		} else {
-			return Promise.resolve(resp);
-		}
-	});
+export function storeToken(token) {
+	localStorage.setItem("token", token);
+	Globals.serverRequest.headers.set("Authorization", "bearer " + token);
 }
 
 export function memoize(key, promiseFunc) {
@@ -383,4 +376,45 @@ export function genUnbackClose(f) {
 		unback(f);
 		f();
 	};
+}
+
+export function safeFetch(req) {
+	return fetch(req).then(resp => {
+		if (resp.status == 401) {
+			localStorage.removeItem("token");
+			if (window.Wrapper && window.Wrapper.getToken) {
+				return new Promise((res, rej) => {
+					window.Wrapper.getToken(token => {
+						storeToken(token);
+						req.headers.set("Authorization", "bearer " + token);
+						safeFetch(req).then(res);
+					});
+				});
+			} else {
+				login();
+			}
+		} else {
+			return Promise.resolve(resp);
+		}
+	});
+}
+
+export function login() {
+	if (window.Wrapper && window.Wrapper.getToken) {
+		window.Wrapper.getToken(token => {
+			storeToken(token);
+			window.location.reload();
+		});
+	} else {
+		const hrefURL = new URL(window.location.href);
+		hrefURL.searchParams.delete("token");
+		const loginURL = new URL(Globals.loginURL.toString());
+		loginURL.searchParams.set("redirect-to", hrefURL.toString());
+		window.location.href = loginURL;
+	}
+}
+
+export function logout() {
+	localStorage.removeItem("token");
+	window.location.reload();
 }

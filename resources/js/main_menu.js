@@ -14,7 +14,6 @@ export default class MainMenu extends ActivityContainer {
 		this.openDrawer = this.openDrawer.bind(this);
 		this.closeDrawer = this.closeDrawer.bind(this);
 		this.renderGameList = this.renderGameList.bind(this);
-		this.logout = this.logout.bind(this);
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
 		this.renderMyStagingGames = this.renderMyStagingGames.bind(this);
@@ -65,7 +64,7 @@ export default class MainMenu extends ActivityContainer {
 		);
 	}
 	componentDidMount() {
-		gtag("set", { "page": "MainMenu" });
+		gtag("set", { page: "MainMenu" });
 		gtag("event", "page_view");
 	}
 	findGameByID() {
@@ -101,10 +100,6 @@ export default class MainMenu extends ActivityContainer {
 					});
 			}
 		});
-	}
-	logout() {
-		localStorage.removeItem("token");
-		location.reload();
 	}
 	openDrawer() {
 		this.setState({ drawerOpen: true });
@@ -236,7 +231,7 @@ export default class MainMenu extends ActivityContainer {
 							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem
 								key="logout"
-								onClick={this.logout}
+								onClick={helpers.logout}
 							>
 								Logout
 							</MaterialUI.MenuItem>
