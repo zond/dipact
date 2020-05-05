@@ -64,8 +64,7 @@ export default class Login extends React.Component {
 							  `)}
 							>
 								A digital version of the classic game of
-								Diplomacy. Sign in to play or scroll down find
-								out what the game is about.
+								Diplomacy. Sign in to play.
 							</div>
 							<div
 								className={helpers.scopedClass(`
