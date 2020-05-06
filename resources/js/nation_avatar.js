@@ -50,7 +50,7 @@ export default class NationAvatar extends React.Component {
 		}
 	}
 	buttoner(content) {
-		if (this.member && this.props.gameState) {
+		if (this.props.game) {
 			return (
 				<div
 					onClick={ev => {
