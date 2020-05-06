@@ -30,6 +30,7 @@ export default class DipMap extends React.Component {
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
 		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
+		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
 		this.lastRenderedOrdersHash = 0;
 		this.svgSerializer = new XMLSerializer();
@@ -80,7 +81,7 @@ export default class DipMap extends React.Component {
 				navigator.clipboard.writeText(js.shortLink).then(_ => {
 					helpers.snackbar("URL copied to clipboard");
 				});
-						gtag("event", "labshare");
+				gtag("event", "labshare");
 			});
 	}
 	snapshotSVG() {
@@ -405,7 +406,7 @@ export default class DipMap extends React.Component {
 								.appendChild(container);
 						});
 						this.setState({ svgLoaded: true });
-						gtag("set", { "page": "DipMap" });
+						gtag("set", { page: "DipMap" });
 						gtag("event", "page_view");
 					});
 				}
@@ -423,49 +424,9 @@ export default class DipMap extends React.Component {
 		const phaseHash = helpers.hash(JSON.stringify(this.state.phase));
 		if (phaseHash != this.lastRenderedPhaseHash) {
 			this.lastRenderedPhaseHash = phaseHash;
-			this.map.removeUnits();
-			if (this.state.phase.Properties.Units instanceof Array) {
-				this.state.phase.Properties.Units.forEach(unitData => {
-					this.map.addUnit(
-						"unit" + unitData.Unit.Type,
-						unitData.Province,
-						helpers.natCol(unitData.Unit.Nation, this.state.variant)
-					);
-				});
-			} else {
-				for (let prov in this.state.phase.Properties.Units) {
-					let unit = this.state.phase.Properties.Units[prov];
-					this.map.addUnit(
-						"unit" + unit.Type,
-						prov,
-						helpers.natCol(unit.Nation, this.state.variant)
-					);
-				}
-			}
-			if (this.state.phase.Properties.Dislodgeds instanceof Array) {
-				this.state.phase.Properties.Dislodgeds.forEach(disData => {
-					this.map.addUnit(
-						"unit" + disData.Dislodged.Type,
-						disData.Province,
-						helpers.natCol(
-							disData.Dislodged.Nation,
-							this.state.variant
-						),
-						true
-					);
-				});
-			} else {
-				for (let prov in this.state.phase.Properties.Dislodgeds) {
-					let unit = this.state.phase.Properties.Units[prov];
-					this.map.addUnit(
-						"unit" + unit.Type,
-						prov,
-						helpers.natCol(unit.Nation, this.state.variant),
-						true
-					);
-				}
-			}
-			let SCs = {};
+
+			this.phaseSpecialStrokes = {};
+			const SCs = {};
 			if (this.state.phase.Properties.SupplyCenters) {
 				SCs = this.state.phase.Properties.SupplyCenters;
 			} else {
@@ -476,25 +437,79 @@ export default class DipMap extends React.Component {
 			for (let prov in this.state.variant.Properties.Graph.Nodes) {
 				let node = this.state.variant.Properties.Graph.Nodes[prov];
 				if (node.SC && SCs[prov]) {
-					this.map.colorProvince(
-						prov,
-						helpers.natCol(SCs[prov], this.state.variant)
-					);
+					const col = helpers.natCol(SCs[prov], this.state.variant);
+					if (helpers.brightnessByColor(col) < 0.5) {
+						this.phaseSpecialStrokes[prov] = "#ffffff";
+						this.map.colorSC(prov, "#ffffff");
+					}
+					this.map.colorProvince(prov, col);
 				} else {
 					this.map.hideProvince(prov);
 				}
 			}
 			this.map.showProvinces();
-			if (this.state.phase.Properties.Orders) {
-				for (let nat in this.state.phase.Properties.Orders) {
-					let orders = this.state.phase.Properties.Orders[nat];
-					for (let prov in orders) {
-						let order = orders[prov];
-						this.map.addOrder(
-							[prov] + order,
-							helpers.natCol(nat, this.state.variant)
-						);
-					}
+			this.map.removeUnits();
+			if (this.state.phase.Properties.Units instanceof Array) {
+				this.state.phase.Properties.Units.forEach(unitData => {
+					const superProv = unitData.Province.split("/")[0];
+					this.map.addUnit(
+						"unit" + unitData.Unit.Type,
+						unitData.Province,
+						helpers.natCol(
+							unitData.Unit.Nation,
+							this.state.variant
+						),
+						false,
+						false,
+						"#units",
+						{ stroke: this.phaseSpecialStrokes[superProv] }
+					);
+				});
+			} else {
+				for (let prov in this.state.phase.Properties.Units) {
+					let unit = this.state.phase.Properties.Units[prov];
+					const superProv = prov.split("/")[0];
+					this.map.addUnit(
+						"unit" + unit.Type,
+						prov,
+						helpers.natCol(unit.Nation, this.state.variant),
+						false,
+						false,
+						"#units",
+						{ stroke: this.phaseSpecialStrokes[superProv] }
+					);
+				}
+			}
+
+			if (this.state.phase.Properties.Dislodgeds instanceof Array) {
+				this.state.phase.Properties.Dislodgeds.forEach(disData => {
+					const superProv = disData.Province.split("/")[0];
+					this.map.addUnit(
+						"unit" + disData.Dislodged.Type,
+						disData.Province,
+						helpers.natCol(
+							disData.Dislodged.Nation,
+							this.state.variant
+						),
+						true,
+						false,
+						"#units",
+						{ stroke: this.phaseSpecialStrokes[superProv] }
+					);
+				});
+			} else {
+				for (let prov in this.state.phase.Properties.Dislodgeds) {
+					const superProv = prov.split("/")[0];
+					let unit = this.state.phase.Properties.Units[prov];
+					this.map.addUnit(
+						"unit" + unit.Type,
+						prov,
+						helpers.natCol(unit.Nation, this.state.variant),
+						true,
+						false,
+						"#units",
+						{ stroke: this.phaseSpecialStrokes[superProv] }
+					);
 				}
 			}
 		}
@@ -503,17 +518,40 @@ export default class DipMap extends React.Component {
 		this.acceptOrders();
 	}
 	renderOrders() {
-		const ordersHash = helpers.hash(JSON.stringify(this.state.orders));
+		const ordersHash = helpers.hash(
+			JSON.stringify([
+				this.state.orders,
+				this.state.phase.Properties.Orders
+			])
+		);
 		if (ordersHash != this.lastRenderedOrdersHash) {
 			this.lastRenderedOrdersHash = ordersHash;
 			this.map.removeOrders();
+
+			if (this.state.phase.Properties.Orders) {
+				for (let nat in this.state.phase.Properties.Orders) {
+					let orders = this.state.phase.Properties.Orders[nat];
+					for (let prov in orders) {
+						const superProv = prov.split("/")[0];
+						let order = orders[prov];
+						this.map.addOrder(
+							[prov] + order,
+							helpers.natCol(nat, this.state.variant),
+							{ stroke: this.phaseSpecialStrokes[superProv] }
+						);
+					}
+				}
+			}
+
 			(this.state.orders || []).forEach(orderData => {
+				const superProv = orderData.Properties.Parts[0].split("/")[0];
 				this.map.addOrder(
 					orderData.Properties.Parts,
 					helpers.natCol(
 						orderData.Properties.Nation,
 						this.state.variant
-					)
+					),
+					{ stroke: this.phaseSpecialStrokes[superProv] }
 				);
 			});
 			if (this.state.phase.Properties.Resolutions instanceof Array) {
