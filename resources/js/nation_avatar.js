@@ -54,8 +54,10 @@ export default class NationAvatar extends React.Component {
 			return (
 				<div
 					onClick={ev => {
-						ev.stopPropagation();
-						ev.preventDefault();
+						if (ev) {
+							ev.stopPropagation();
+							ev.preventDefault();
+						}
 						this.setState({ dialogOpen: true });
 					}}
 				>
@@ -123,8 +125,10 @@ export default class NationAvatar extends React.Component {
 					<StatsDialog
 						game={this.props.game}
 						onClose={ev => {
-                                                        ev.stopPropagation();
-                                                        ev.preventDefault();
+							if (ev) {
+								ev.stopPropagation();
+								ev.preventDefault();
+							}
 							this.setState({ dialogOpen: false });
 						}}
 						user={

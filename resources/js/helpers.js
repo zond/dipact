@@ -409,12 +409,14 @@ export function login() {
 		};
 		incProgress();
 		window.Wrapper.getToken();
-	} else {
+	} else if (Globals.loginURL) {
 		const hrefURL = new URL(location.href);
 		hrefURL.searchParams.delete("token");
 		const loginURL = new URL(Globals.loginURL.toString());
 		loginURL.searchParams.set("redirect-to", hrefURL.toString());
 		location.href = loginURL;
+	} else {
+		location.reload();
 	}
 }
 
