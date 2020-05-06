@@ -334,29 +334,6 @@ export default class SettingsDialog extends React.Component {
 								)}
 							</div>
 
-							<MaterialUI.TextField
-								inputProps={{ min: 0 }}
-								fullWidth
-								disabled={
-									Globals.messaging.tokenEnabled
-										? false
-										: true
-								}
-								type="number"
-								label="Phase deadline reminder"
-								helperText={
-									Globals.messaging.tokenEnabled
-										? "In minutes. 0 = off"
-										: "Turn on push notifications to receive alarms"
-								}
-								margin="dense"
-								value={
-									this.state.userConfig.Properties
-										.PhaseDeadlineWarningMinutesAhead
-								}
-								onChange={this.updatePhaseDeadline}
-								onBlur={this.saveConfig}
-							/>
 							<MaterialUI.FormControlLabel
 								control={
 									<MaterialUI.Switch
@@ -394,6 +371,31 @@ export default class SettingsDialog extends React.Component {
 									/>
 								}
 								label="Email notifications"
+							/>
+							<MaterialUI.TextField
+								inputProps={{ min: 0 }}
+								fullWidth
+								disabled={
+									!this.state.userConfig.Properties.MailConfig
+										.Enabled &&
+									!Globals.messaging.tokenEnabled
+								}
+								type="number"
+								label="Phase deadline reminder"
+								helperText={
+									this.state.userConfig.Properties.MailConfig
+										.Enabled ||
+									Globals.messaging.tokenEnabled
+										? "In minutes. 0 = off"
+										: "Turn on notifications to receive alarms"
+								}
+								margin="dense"
+								value={
+									this.state.userConfig.Properties
+										.PhaseDeadlineWarningMinutesAhead
+								}
+								onChange={this.updatePhaseDeadline}
+								onBlur={this.saveConfig}
 							/>
 							<h3>Colors</h3>
 							<MaterialUI.List>
