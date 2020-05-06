@@ -244,18 +244,23 @@ export default class SettingsDialog extends React.Component {
 																			? "enabled"
 																			: "disabled";
 																		helpers.incProgress();
-																		Globals.messaging
-																			.refreshToken()
-																			.then(
-																				js => {
-																					helpers.decProgress();
-																					this.setState(
-																						{
-																							config: js
-																						}
-																					);
-																				}
-																			);
+																		const uploadPromise =
+																			window.Wrapper &&
+																			window
+																				.Wrapper
+																				.startFCM
+																				? Globals.messaging.uploadToken()
+																				: Globals.messaging.refreshToken();
+																		uploadPromise.then(
+																			js => {
+																				helpers.decProgress();
+																				this.setState(
+																					{
+																						config: js
+																					}
+																				);
+																			}
+																		);
 																	} else {
 																		this.forceUpdate();
 																	}
@@ -270,9 +275,12 @@ export default class SettingsDialog extends React.Component {
 									}
 									label="Push notifications"
 								/>
-								{firebase.messaging.isSupported() ? (
+								{firebase.messaging.isSupported() ||
+								(window.Wrapper && window.Wrapper.startFCM) ? (
 									Globals.messaging.started ? (
-										Globals.messaging.hasPermission ? (
+										Globals.messaging.hasPermission ||
+										(window.Wrapper &&
+											window.Wrapper.startFCM) ? (
 											Globals.messaging.tokenOnServer ? (
 												Globals.messaging
 													.tokenEnabled ? (

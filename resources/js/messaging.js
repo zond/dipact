@@ -55,6 +55,7 @@ class Messaging {
 		this.handleSWMessage = this.handleSWMessage.bind(this);
 		this.uploadToken = this.uploadToken.bind(this);
 		this.findGlobalToken = this.findGlobalToken.bind(this);
+		this.onNewToken = this.onNewToken.bind(this);
 
 		if (firebase.messaging.isSupported()) {
 			this.messaging = firebase.messaging();
@@ -74,6 +75,11 @@ class Messaging {
 				return;
 			}
 			this.started = true;
+			if (window.Wrapper && window.Wrapper.startFCM) {
+				window.Wrapper.startFCM();
+				res();
+				return;
+			}
 			if (!firebase.messaging.isSupported()) {
 				helpers.snackbar(
 					"Firebase messaging is not supported in your browser, push notifications for new phases and messages will not work. Turn on email notifications in the settings menu instead."
@@ -313,21 +319,20 @@ class Messaging {
 			}
 		});
 	}
+	onNewToken(receivedToken) {
+		this.token = receivedToken;
+		this.hasToken = true;
+		console.log("Got FCM token: " + receivedToken);
+		return this.uploadToken();
+	}
 	refreshToken() {
-		return new Promise((res, rej) => {
-			this.messaging
-				.getToken()
-				.then(receivedToken => {
-					this.token = receivedToken;
-					this.hasToken = true;
-					console.log("Got FCM token: " + receivedToken);
-					this.uploadToken().then(res);
-				})
-				.catch(err => {
-					console.log("Unable to retrieve FCM token:", err);
-					res();
-				});
-		});
+		return this.messaging
+			.getToken()
+			.then(this.onNewToken)
+			.catch(err => {
+				console.log("Unable to retrieve FCM token:", err);
+				res();
+			});
 	}
 	onMessage(payload) {
 		payload = processNotification(payload, location.href);
