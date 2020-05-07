@@ -34,7 +34,15 @@ function processNotification(payload, href) {
 			payload.data.phaseMeta.Year +
 			", " +
 			payload.data.phaseMeta.Type;
-		payload.notification.body = payload.data.gameDesc + " has a new phase.";
+		payload.notification.body =
+			payload.data.gameDesc +
+			": " +
+			payload.data.phaseMeta.Season +
+			" " +
+			payload.data.phaseMeta.Year +
+			", " +
+			payload.data.phaseMeta.Type +
+			" is resolved";
 	}
 	return payload;
 }
