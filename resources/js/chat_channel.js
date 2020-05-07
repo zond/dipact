@@ -229,26 +229,117 @@ export default class ChatChannel extends React.Component {
 				<React.Fragment>
 					<MaterialUI.ButtonGroup
 						orientation="vertical"
-						style={{ width: "100%" }}
+						style={{ width: "100%", }}
 					>
 						<MaterialUI.Button
 							onClick={this.props.close}
 							style={{
 								display: "flex",
-								justifyContent: "space-between"
+								justifyContent: "space-between",
+								borderTopLeftRadius: "0px",
+								borderTopRightRadius: "0px",
+								marginTop: "-1px",
 							}}
 						>
 							<span style={{ display: "flex" }}>
-								<NationAvatarGroup
-									game={this.props.game}
-									newGameState={this.props.newGameState}
-									gameState={this.props.gameState}
-									variant={this.variant}
-									nations={
-										this.props.channel.Properties.Members
-									}
-								/>
+								
+
+									 {this.variant.Properties.Nations
+											.length ==
+										this.props.channel.Properties.Members.length ? (
+											<NationAvatarGroup
+												game={this.props.game}
+												newGameState={
+													this.props.newGameState
+												}
+												gameState={this.props.gameState}
+												variant={this.variant}
+												nations={
+													this.props.channel.Properties.Members
+												}
+											/>
+										) : (
+											<NationAvatarGroup
+												game={this.props.game}
+												newGameState={
+													this.props.newGameState
+												}
+												gameState={this.props.gameState}
+												variant={this.variant}
+												nations={this.props.channel.Properties.Members.filter(
+													n => {
+														return (
+															!this.member ||
+															n !=
+																this.member
+																	.Nation
+														);
+													}
+												)}
+											/>
+										)}
+
 							</span>
+
+							{this.props.channel.Properties.Members.length > 6 ? (
+							<span style={{width:"calc(100% - 96px)", textAlign:"left", textTransform: "initial", lineHeight: "1.2",}}>
+							
+											{this.props.channel.Properties.Members
+												.length ==
+											this.variant.Properties.Nations
+												.length
+												? "Everyone"
+												: this.props.channel.Properties.Members.filter(
+														n => {
+															return (
+																!this.member ||
+																n !=
+																	this.member
+																		.Nation
+															);
+														}
+												  ).map((n, i) => {
+														if (i == 0) {
+															return n;
+														} else {
+															return ", " + n;
+														}
+												  })}
+							</span>
+							) : (
+									<span style={{width:"calc(100% - 96px)", textAlign:"left", textTransform: "initial", lineHeight: "1.6",}}>
+							
+											{this.props.channel.Properties.Members
+												.length ==
+											this.variant.Properties.Nations
+												.length
+												? "Everyone"
+												: this.props.channel.Properties.Members.filter(
+														n => {
+															return (
+																!this.member ||
+																n !=
+																	this.member
+																		.Nation
+															);
+														}
+												  ).map((n, i) => {
+														if (i == 0) {
+															return n;
+														} else {
+															return ", " + n;
+														}
+												  })}
+							</span>
+							)}
+
+
+
+
+
+
+
+
 							{helpers.createIcon("\ue5cf")}
 						</MaterialUI.Button>
 					</MaterialUI.ButtonGroup>
