@@ -19,6 +19,7 @@ export default class Main extends ActivityContainer {
 		Globals.messaging.main = this;
 	}
 	renderPath(path) {
+		// This is just to force everything to re-render.
 		this.setState({ activity: "div" }, _ => {
 			history.pushState("", "", path);
 			this.setActivity(MainMenu, { urls: this.state.urls });
@@ -112,8 +113,18 @@ export default class Main extends ActivityContainer {
 			linkSetter("finished-games");
 
 			if (Globals.user) {
-				state.activity = MainMenu;
-				state.activityProps = { urls: state.urls };
+				console.log("checking pendingaction");
+				if (
+					window.Wrapper &&
+					window.Wrapper.pendingAction &&
+					window.Wrapper.pendingAction()
+				) {
+					console.log("rendering", window.Wrapper.pendingAction());
+					this.renderPath(window.Wrapper.pendingAction());
+				} else {
+					state.activity = MainMenu;
+					state.activityProps = { urls: state.urls };
+				}
 			} else if (state.urls.login_url) {
 				state.activity = Login;
 			}
