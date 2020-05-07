@@ -334,9 +334,7 @@ class Messaging {
 				res();
 			});
 	}
-	onMessage(payload) {
-		payload = processNotification(payload, location.href);
-		console.log("Message received in foreground: ", payload);
+	handle(payload) {
 		let handled = false;
 		if (this.subscribers[payload.data.type]) {
 			for (let key in this.subscribers[payload.data.type]) {
@@ -345,6 +343,23 @@ class Messaging {
 					this.subscribers[payload.data.type][key](payload);
 			}
 		}
+		return handled;
+	}
+	onWrapperMessage(data) {
+		const payload = processNotification(
+			{ data: { DiplicityJSON: data } },
+			location.href
+		);
+		console.log("Message received by Wrapper" + JSON.stringify(payload));
+		const handled = this.handle(payload);
+		if (!handled && window.Wrapper && window.Wrapper.bounceNotification) {
+			window.Wrapper.bounceNotification(data);
+		}
+	}
+	onMessage(payload) {
+		payload = processNotification(payload, location.href);
+		console.log("Message received in foreground: ", payload);
+		const handled = this.handle(payload);
 		if (!handled) {
 			this.registration.showNotification(payload.notification.title, {
 				requireInteraction: true,

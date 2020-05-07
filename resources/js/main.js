@@ -113,13 +113,11 @@ export default class Main extends ActivityContainer {
 			linkSetter("finished-games");
 
 			if (Globals.user) {
-				console.log("checking pendingaction");
 				if (
 					window.Wrapper &&
 					window.Wrapper.pendingAction &&
 					window.Wrapper.pendingAction()
 				) {
-					console.log("rendering", window.Wrapper.pendingAction());
 					this.renderPath(window.Wrapper.pendingAction());
 				} else {
 					state.activity = MainMenu;
