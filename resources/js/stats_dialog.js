@@ -136,7 +136,7 @@ export default class StatsDialog extends React.Component {
 			.then(js => {
 				helpers.decProgress();
 				this.setState({ userStats: js });
-				gtag("set", { "page": "StatsDialog" });
+				gtag("set", { "page_title": "StatsDialog", "page_path": location.href });
 				gtag("event", "page_view");
 			});
 	}

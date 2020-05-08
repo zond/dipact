@@ -20,7 +20,7 @@ export default class GameResults extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page": "GameResults" });
+			gtag("set", { "page_title": "GameResults", "page_path": location.href });
 			gtag("event", "page_view");
 		}
 	}

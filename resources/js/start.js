@@ -10,7 +10,7 @@ export default class Start extends React.Component {
 		this.createGameDialog = null;
 	}
 	componentDidMount() {
-		gtag("set", { "page": "Start" });
+		gtag("set", { "page_title": "Start", "page_path": location.href });
 		gtag("event", "page_view");
 	}
 	render() {

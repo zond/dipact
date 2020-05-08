@@ -16,7 +16,7 @@ export default class NationPreferencesDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page": "NationPreferencesDialog" });
+			gtag("set", { "page_title": "NationPreferencesDialog", "page_path": location.href });
 			gtag("event", "page_view");
 		}
 	}

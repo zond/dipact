@@ -63,7 +63,7 @@ export default class ChatChannel extends React.Component {
 					"ChatChannel subscribing to `message` notifications."
 				);
 			}
-			gtag("set", { "page": "ChatChannel" });
+			gtag("set", { "page_title": "ChatChannel", "page_path": location.href });
 			gtag("event", "page_view");
 		} else {
 			if (!this.props.parent.props.parent.dead) {

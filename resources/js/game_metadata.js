@@ -28,7 +28,7 @@ export default class GameMetadata extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page": "GameMetadata" });
+			gtag("set", { "page_title": "GameMetadata", "page_path": location.href });
 			gtag("event", "page_view");
 		}
 	}

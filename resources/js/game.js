@@ -279,7 +279,10 @@ export default class Game extends React.Component {
 								}),
 								phases: newPhases
 							});
-							gtag("set", { "page": "Game" });
+							gtag("set", {
+								page_title: "Game",
+								page_path: location.href
+							});
 							gtag("event", "page_view");
 						}
 					]
@@ -519,6 +522,23 @@ export default class Game extends React.Component {
 								}}
 								open={!!this.state.moreMenuAnchorEl}
 							>
+								<MaterialUI.MenuItem
+									key="game-id"
+									onClick={_ => {
+										navigator.clipboard
+											.writeText(
+												this.state.game.Properties.ID
+											)
+											.then(_ => {
+												helpers.snackbar(
+													"Game ID copied to clipboard"
+												);
+											});
+										gtag("event", "gameshare");
+									}}
+								>
+									Share
+								</MaterialUI.MenuItem>
 								{this.state.game.Properties.Started
 									? [
 											<MaterialUI.MenuItem
@@ -586,7 +606,7 @@ export default class Game extends React.Component {
 												) {
 													this.loadGame();
 												} else {
-		gtag("event", "labmode");
+													gtag("event", "labmode");
 												}
 											}
 										);
