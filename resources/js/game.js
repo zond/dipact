@@ -525,11 +525,14 @@ export default class Game extends React.Component {
 								<MaterialUI.MenuItem
 									key="game-id"
 									onClick={_ => {
-										navigator.clipboard
-											.writeText(
+										helpers
+											.copyToClipboard(
 												this.state.game.Properties.ID
 											)
 											.then(_ => {
+												this.setState({
+													moreMenuAnchorEl: null
+												});
 												helpers.snackbar(
 													"Game ID copied to clipboard"
 												);

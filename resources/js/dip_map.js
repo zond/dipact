@@ -78,7 +78,7 @@ export default class DipMap extends React.Component {
 		)
 			.then(resp => resp.json())
 			.then(js => {
-				navigator.clipboard.writeText(js.shortLink).then(_ => {
+				helpers.copyToClipboard(js.shortLink).then(_ => {
 					helpers.snackbar("URL copied to clipboard");
 				});
 				gtag("event", "labshare");

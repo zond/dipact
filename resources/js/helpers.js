@@ -402,10 +402,21 @@ export function safeFetch(req) {
 
 export function login() {
 	if (window.Wrapper && window.Wrapper.getToken) {
-		Globals.WrapperCallbacks.getToken = token => {
-			console.log("token", token);
-			storeToken(token);
-			location.reload();
+		Globals.WrapperCallbacks.getToken = resp => {
+			if (typeof resp === "string" || resp instanceof String) {
+				// TODO(zond): Remove this fork when the Android app is updated past 1025.
+				storeToken(resp);
+				location.reload();
+			} else if (resp.error) {
+				decProgress();
+				snackbar("Error logging in: " + resp.error);
+			} else if (resp.token) {
+				storeToken(resp.token);
+				location.reload();
+			} else {
+				decProgress();
+				snackbar("Error logging in, no response at all.");
+			}
 		};
 		incProgress();
 		window.Wrapper.getToken();
@@ -423,4 +434,13 @@ export function login() {
 export function logout() {
 	localStorage.removeItem("token");
 	location.reload();
+}
+
+export function copyToClipboard(s) {
+	if (window.Wrapper && window.Wrapper.copyToClipboard) {
+		window.Wrapper.copyToClipboard(s);
+		return Promise.resolve({});
+	} else {
+		return navigator.clipboard.writeText(s);
+	}
 }

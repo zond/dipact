@@ -55,8 +55,8 @@ export default class ErrorsDialog extends React.Component {
 											style={{ textTransform: "none" }}
 											variant="outlined"
 											onClick={_ => {
-												navigator.clipboard
-													.writeText(
+												helpers
+													.copyToClipboard(
 														JSON.stringify(el)
 													)
 													.then(_ => {
