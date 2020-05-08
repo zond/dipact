@@ -53,6 +53,24 @@ ReactDOM.render(
 	document.getElementById("app")
 );
 
+addEventListener("error", ev => {
+	const oldErrorsJSON = localStorage.getItem("errors");
+	const oldErrors = oldErrorsJSON ? JSON.parse(oldErrorsJSON) : [];
+	oldErrors.push({
+		at: new Date(),
+		message: ev.message,
+		filename: ev.filename,
+		lineno: ev.lineno,
+		colno: ev.colno,
+		error: ev.error
+	});
+	while (oldErrors.length > 64) {
+		oldErrors.shift();
+	}
+	localStorage.setItem("errors", JSON.stringify(oldErrors));
+	return false;
+});
+
 addEventListener("popstate", ev => {
 	if (Globals.backListeners.length > 0) {
 		const listener = Globals.backListeners.shift();

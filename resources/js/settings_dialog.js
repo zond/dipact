@@ -126,7 +126,10 @@ export default class SettingsDialog extends React.Component {
 			this.setState({ userConfig: Globals.userConfig });
 		}
 		if (!prevState.open && this.state.open) {
-			gtag("set", { page: "SettingsDialog" });
+			gtag("set", {
+				page_title: "SettingsDialog",
+				page_path: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}

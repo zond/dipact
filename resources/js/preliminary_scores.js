@@ -97,7 +97,10 @@ export default class PreliminaryScores extends React.Component {
 			this.state.chart.update();
 		}
 		if (!prevState.open && this.state.open) {
-			gtag("set", { page: "PreliminaryScores" });
+			gtag("set", {
+				page_title: "PreliminaryScores",
+				page_path: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}
@@ -115,7 +118,8 @@ export default class PreliminaryScores extends React.Component {
 				<MaterialUI.DialogTitle>Scores</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.Typography>
-						If the game ends in a draw, points will be divided as below (based on the{" "}
+						If the game ends in a draw, points will be divided as
+						below (based on the{" "}
 						<a href="http://windycityweasels.org/tribute-scoring-system/">
 							Tribute
 						</a>{" "}

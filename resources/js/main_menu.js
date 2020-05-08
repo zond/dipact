@@ -6,6 +6,7 @@ import Start from '%{ cb "/js/start.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
 import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
+import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
 
 export default class MainMenu extends ActivityContainer {
@@ -30,6 +31,7 @@ export default class MainMenu extends ActivityContainer {
 		};
 		this.findGameDialog = null;
 		this.settingsDialog = null;
+		this.errorsDialog = null;
 		helpers.urlMatch(
 			[
 				[
@@ -64,7 +66,10 @@ export default class MainMenu extends ActivityContainer {
 		);
 	}
 	componentDidMount() {
-		gtag("set", { page: "MainMenu" });
+		gtag("set", {
+			page_title: "MainMenu",
+			page_path: location.href
+		});
 		gtag("event", "page_view");
 	}
 	findGameByID() {
@@ -228,6 +233,17 @@ export default class MainMenu extends ActivityContainer {
 								Source code
 							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem
+								key="errors"
+								onClick={_ => {
+									this.setState({
+										menuAnchorEl: null
+									});
+									this.errorsDialog.setState({ open: true });
+								}}
+							>
+								Error log
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
 								key="logout"
 								onClick={helpers.logout}
 							>
@@ -325,6 +341,12 @@ export default class MainMenu extends ActivityContainer {
 					key="settings-dialog"
 					parentCB={c => {
 						this.settingsDialog = c;
+					}}
+				/>
+				<ErrorsDialog
+					key="errors-dialog"
+					parentCB={c => {
+						this.errorsDialog = c;
 					}}
 				/>
 				{this.state.statsDialogOpen ? (
