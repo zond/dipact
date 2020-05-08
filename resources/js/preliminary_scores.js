@@ -115,13 +115,11 @@ export default class PreliminaryScores extends React.Component {
 				<MaterialUI.DialogTitle>Scores</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.Typography>
-						This chart represents the scoreboard for each year of
-						the game, if the game would have ended that year. The
-						scoring system used is the{" "}
+						If the game ends in a draw, points will be divided as below (based on the{" "}
 						<a href="http://windycityweasels.org/tribute-scoring-system/">
 							Tribute
 						</a>{" "}
-						system.
+						system).
 					</MaterialUI.Typography>
 					<canvas id="score-chart" width="480" height="720"></canvas>
 					<MaterialUI.DialogActions

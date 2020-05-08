@@ -248,7 +248,12 @@ export default class ChatMenu extends React.Component {
 							<MaterialUI.Button
 								style={{
 									width: "100%",
-									justifyContent: "left"
+									justifyContent: "left",
+									paddingTop: "8px",
+									paddingBottom: "8px",
+									border:"none",
+									borderBottom: "1px solid rgb(40,26,26,0.1)", 
+									borderRadius: "0px",
 								}}
 								onClick={_ => {
 									this.openChannel(channel);

@@ -6,7 +6,6 @@ const groupContainer = helpers.scopedClass(`
   background-color: rgba(40, 26, 26, 1);
   width: 40px;
   border-radius: 100px;
-  margin-top: 10px;
   clip-path: circle(50% at 50% 50%);
 `);
 const avatarRow1 = helpers.scopedClass(`

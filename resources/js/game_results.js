@@ -131,7 +131,7 @@ export default class GameResults extends React.Component {
 					)}
 
 					<MaterialUI.Typography variant="caption">
-						Final points are calculated below based on the{" "}
+						Points below are based on the{" "}
 						<a href="http://windycityweasels.org/tribute-scoring-system/">
 							Tribute
 						</a>{" "}
