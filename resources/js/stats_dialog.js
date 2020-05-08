@@ -227,7 +227,7 @@ export default class StatsDialog extends React.Component {
 											)
 										)}
 										{this.makeRow(
-											"Reliability (ratio non NMR phases)",
+											"Reliability (ratio of non NMR phases)",
 											helpers.twoDecimals(
 												this.state.userStats.Properties
 													.Reliability
