@@ -68,7 +68,7 @@ export default class MainMenu extends ActivityContainer {
 	componentDidMount() {
 		gtag("set", {
 			page_title: "MainMenu",
-			page_path: location.href
+			page_location: location.href
 		});
 		gtag("event", "page_view");
 	}

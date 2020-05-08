@@ -18,7 +18,7 @@ export default class ErrorsDialog extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "ErrorsDialog",
-				page_path: location.href
+				page_location: location.href
 			});
 			gtag("event", "page_view");
 			const jsonErrors = localStorage.getItem("errors");

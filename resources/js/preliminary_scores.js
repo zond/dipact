@@ -99,7 +99,7 @@ export default class PreliminaryScores extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "PreliminaryScores",
-				page_path: location.href
+				page_location: location.href
 			});
 			gtag("event", "page_view");
 		}

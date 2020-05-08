@@ -48,7 +48,7 @@ export default class GameList extends React.Component {
 				scroller.addEventListener("scroll", this.maybeLoadMore);
 			}
 		}
-		gtag("set", { page_title: "GameList", page_path: location.href });
+		gtag("set", { page_title: "GameList", page_location: location.href });
 		gtag("event", "page_view");
 	}
 	componentWillUnmount() {

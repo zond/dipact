@@ -408,7 +408,7 @@ export default class DipMap extends React.Component {
 						this.setState({ svgLoaded: true });
 						gtag("set", {
 							page_title: "DipMap",
-							page_path: location.href
+							page_location: location.href
 						});
 						gtag("event", "page_view");
 					});

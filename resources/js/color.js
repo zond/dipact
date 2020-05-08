@@ -36,7 +36,7 @@ export default class Color extends React.Component {
 						this.state.picker.on("color:change", color => {
 							this.setState({ value: color.hexString });
 						});
-						gtag("set", { "page_title": "Color", "page_path": location.href });
+						gtag("set", { "page_title": "Color", "page_location": location.href });
 						gtag("event", "page_view");
 					}
 				);

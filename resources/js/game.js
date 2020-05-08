@@ -281,7 +281,7 @@ export default class Game extends React.Component {
 							});
 							gtag("set", {
 								page_title: "Game",
-								page_path: location.href
+								page_location: location.href
 							});
 							gtag("event", "page_view");
 						}
