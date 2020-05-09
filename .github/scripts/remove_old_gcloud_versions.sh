@@ -24,11 +24,11 @@ VERSIONS_TO_KEEP=$(($3 + 1))
 # If you run a flexible environment, run this script instead as it will make sure that the instances are stopped before trying to remove them
 #VERSIONS=$(gcloud app versions list --project $PROJECT --service $INSTANCE_TYPE --sort-by '~version' --filter="version.servingStatus='STOPPED'" --format 'value(version.id)' | sort -r | tail -n +$VERSIONS_TO_KEEP | paste -sd " " -)
 # If you run the standard environment, you can't stop services and will always get an empty result if you run the command above.
-VERSIONS=$(gcloud app versions list --project $PROJECT --service $INSTANCE_TYPE --sort-by '~version' --format 'value(version.id)' | sort -r | tail -n +$VERSIONS_TO_KEEP | paste -sd " " -)
+VERSIONS=($(gcloud app versions list --project $PROJECT --service $INSTANCE_TYPE --sort-by '~version' --format 'value(version.id)' | sort -r | tail -n +$VERSIONS_TO_KEEP | paste -sd " " -))
 
 # Don't try to delete old versions if there were no from the filtering.
-if [ ${#VERSIONS} -gt 0 ]
+if [ ${#VERSIONS[*]} -gt 0 ]
 then
     # If you want to confirm before deletion, remove the -q
-    gcloud app versions delete --project $PROJECT --service $INSTANCE_TYPE $VERSIONS -q
+    gcloud app versions delete --project $PROJECT --service $INSTANCE_TYPE ${VERSIONS[*]} -q
 fi
