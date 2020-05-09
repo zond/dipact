@@ -83,6 +83,7 @@ export default class Game extends React.Component {
 			.then(resp => resp.json())
 			.then(_ => {
 				helpers.decProgress();
+				gtag("event", "game_leave");
 				if (this.props.onLeaveGame) {
 					this.props.onLeaveGame();
 				}
@@ -134,6 +135,7 @@ export default class Game extends React.Component {
 			)
 			.then(_ => {
 				helpers.decProgress();
+				gtag("event", "game_join");
 				Globals.messaging.start();
 				this.setState(
 					(state, props) => {
@@ -545,7 +547,7 @@ export default class Game extends React.Component {
 													"Game ID copied to clipboard"
 												);
 											});
-										gtag("event", "gameshare");
+										gtag("event", "game_share");
 									}}
 								>
 									Share
@@ -617,7 +619,10 @@ export default class Game extends React.Component {
 												) {
 													this.loadGame();
 												} else {
-													gtag("event", "labmode");
+													gtag(
+														"event",
+														"enable_lab_mode"
+													);
 												}
 											}
 										);
@@ -644,7 +649,6 @@ export default class Game extends React.Component {
 													"Debug data copied to clipboard"
 												);
 											});
-										gtag("event", "gameshare");
 									}}
 								>
 									Debug

@@ -9,7 +9,7 @@ export default class OrderList extends React.Component {
 		this.toggleReady = this.toggleReady.bind(this);
 		this.toggleFunc = this.toggleFunc.bind(this);
 	}
-	toggleFunc(nation, updater) {
+	toggleFunc(nation, gtagEvent, updater) {
 		return _ => {
 			let phaseState = this.state.phaseStates[nation];
 			if (!phaseState || !phaseState.Links) {
@@ -33,6 +33,7 @@ export default class OrderList extends React.Component {
 				.then(res => res.json())
 				.then(js => {
 					helpers.decProgress();
+					gtag("event", "toggle_phase_state_" + gtagEvent);
 					this.setState(
 						(state, props) => {
 							state = Object.assign({}, state);
@@ -48,12 +49,12 @@ export default class OrderList extends React.Component {
 		};
 	}
 	toggleDIAS(nation) {
-		return this.toggleFunc(nation, phaseState => {
+		return this.toggleFunc(nation, "dias", phaseState => {
 			phaseState.Properties.WantsDIAS = !phaseState.Properties.WantsDIAS;
 		});
 	}
 	toggleReady(nation) {
-		return this.toggleFunc(nation, phaseState => {
+		return this.toggleFunc(nation, "ready", phaseState => {
 			phaseState.Properties.ReadyToResolve = !phaseState.Properties
 				.ReadyToResolve;
 		});
@@ -117,7 +118,10 @@ export default class OrderList extends React.Component {
 			});
 		}
 		if (!prevProps.isActive && this.props.isActive) {
-			gtag("set", { "page_title": "OrderList", "page_location": location.href });
+			gtag("set", {
+				page_title: "OrderList",
+				page_location: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}

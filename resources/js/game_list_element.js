@@ -96,6 +96,7 @@ export default class GameListElement extends React.Component {
 			)
 			.then(_ => {
 				helpers.decProgress();
+				gtag("event", "game_list_element_join");
 				Globals.messaging.start();
 				this.setState(
 					(state, props) => {
@@ -141,6 +142,7 @@ export default class GameListElement extends React.Component {
 			.then(resp => resp.json())
 			.then(_ => {
 				helpers.decProgress();
+				gtag("event", "game_list_element_leave");
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);

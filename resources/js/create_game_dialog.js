@@ -130,6 +130,7 @@ export default class CreateGameDialog extends React.Component {
 			)
 			.then(resp => {
 				helpers.decProgress();
+				gtag("event", "create_game");
 				Globals.messaging.start();
 				this.close().then(this.props.gameCreated);
 			});

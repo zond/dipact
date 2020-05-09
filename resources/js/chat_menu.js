@@ -159,7 +159,10 @@ export default class ChatMenu extends React.Component {
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.props.isActive && !prevProps.isActive) {
 			this.loadChannels(true);
-			gtag("set", { "page_title": "ChatMenu", "page_location": location.href });
+			gtag("set", {
+				page_title: "ChatMenu",
+				page_location: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}
@@ -251,9 +254,9 @@ export default class ChatMenu extends React.Component {
 									justifyContent: "left",
 									paddingTop: "8px",
 									paddingBottom: "8px",
-									border:"none",
-									borderBottom: "1px solid rgb(40,26,26,0.1)", 
-									borderRadius: "0px",
+									border: "none",
+									borderBottom: "1px solid rgb(40,26,26,0.1)",
+									borderRadius: "0px"
 								}}
 								onClick={_ => {
 									this.openChannel(channel);
@@ -447,6 +450,7 @@ export default class ChatMenu extends React.Component {
 										])
 									},
 									_ => {
+										gtag("event", "create_chat_channel");
 										this.openChannel(channel);
 									}
 								);

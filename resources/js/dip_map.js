@@ -87,7 +87,7 @@ export default class DipMap extends React.Component {
 				helpers.copyToClipboard(js.shortLink).then(_ => {
 					helpers.snackbar("URL copied to clipboard");
 				});
-				gtag("event", "labshare");
+				gtag("event", "lab_share");
 			});
 	}
 	snapshotSVG() {
@@ -742,6 +742,7 @@ export default class DipMap extends React.Component {
 			)
 			.then(res => res.json())
 			.then(js => {
+				gtag("event", "lab_resolve");
 				js.Properties.PhaseOrdinal =
 					(this.state.phase.Properties.PhaseOrdinal || 1) + 1;
 				this.props.labPhaseResolve({ Properties: variantPhase }, js);
@@ -884,6 +885,7 @@ export default class DipMap extends React.Component {
 				helpers.incProgress();
 				this.debugCount("addOptionsHandlers/regularOrder");
 				this.createOrder(parts).then(_ => {
+					gtag("event", "create_order");
 					this.debugCount("addOptionsHandlers/orderCreated");
 					this.loadOrdersPromise().then(js => {
 						this.debugCount("addOptionsHandlers/newOrdersLoaded");
@@ -957,6 +959,7 @@ export default class DipMap extends React.Component {
 								} else {
 									helpers.incProgress();
 									this.deleteOrder(parts[0]).then(_ => {
+										gtag("event", "delete_order");
 										this.loadOrdersPromise().then(js => {
 											helpers.decProgress();
 											this.setState(
