@@ -16,7 +16,10 @@ export default class NationPreferencesDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page_title": "NationPreferencesDialog", "page_location": location.href });
+			gtag("set", {
+				page_title: "NationPreferencesDialog",
+				page_location: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}
@@ -36,83 +39,105 @@ export default class NationPreferencesDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<MaterialUI.Typography style={{ margin: "1em" }}>
-					Sort the possible nations in order of preference.
-				</MaterialUI.Typography>
-				<MaterialUI.Paper elevation={3}>
-					<MaterialUI.List>
-						{this.state.nations.map((nation, idx) => {
-							return (
-								<MaterialUI.ListItem key={nation}>
-									<MaterialUI.Grid container>
-										<MaterialUI.Grid
-											key={nation}
-											item
-											xs={10}
-										>
-											<MaterialUI.Typography>
-												{nation}
-											</MaterialUI.Typography>
-										</MaterialUI.Grid>
-										<MaterialUI.Grid
-											key={nation + "_down"}
-											item
-											xs={1}
-										>
-											<MaterialUI.IconButton
-												onClick={_ => {
-													if (
-														idx + 1 <
-														this.state.nations
-															.length
-													) {
-														let nations = this.state.nations.slice();
-														let tmp =
-															nations[idx + 1];
-														nations[idx + 1] =
-															nations[idx];
-														nations[idx] = tmp;
-														this.setState({
-															nations: nations
-														});
-													}
-												}}
+				<MaterialUI.DialogTitle>
+					Nation preferences
+				</MaterialUI.DialogTitle>
+				<MaterialUI.DialogContent style={{ paddingBottom: "0px" }}>
+					<MaterialUI.Typography style={{ margin: "1em" }}>
+						Sort the possible nations in order of preference.
+					</MaterialUI.Typography>
+					<MaterialUI.Paper elevation={3}>
+						<MaterialUI.List>
+							{this.state.nations.map((nation, idx) => {
+								return (
+									<MaterialUI.ListItem key={nation}>
+										<MaterialUI.Grid container>
+											<MaterialUI.Grid
+												key={nation}
+												item
+												xs={10}
 											>
-												{helpers.createIcon("\ue5db")}
-											</MaterialUI.IconButton>
-										</MaterialUI.Grid>
-										<MaterialUI.Grid
-											key={nation + "_up"}
-											item
-											xs={1}
-										>
-											<MaterialUI.IconButton
-												onClick={_ => {
-													if (idx > 0) {
-														let nations = this.state.nations.slice();
-														let tmp =
-															nations[idx - 1];
-														nations[idx - 1] =
-															nations[idx];
-														nations[idx] = tmp;
-														this.setState({
-															nations: nations
-														});
-													}
-												}}
+												<MaterialUI.Typography>
+													{nation}
+												</MaterialUI.Typography>
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key={nation + "_down"}
+												item
+												xs={1}
 											>
-												{helpers.createIcon("\ue5d8")}
-											</MaterialUI.IconButton>
+												<MaterialUI.IconButton
+													onClick={_ => {
+														if (
+															idx + 1 <
+															this.state.nations
+																.length
+														) {
+															let nations = this.state.nations.slice();
+															let tmp =
+																nations[
+																	idx + 1
+																];
+															nations[idx + 1] =
+																nations[idx];
+															nations[idx] = tmp;
+															this.setState({
+																nations: nations
+															});
+														}
+													}}
+												>
+													{helpers.createIcon(
+														"\ue5db"
+													)}
+												</MaterialUI.IconButton>
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key={nation + "_up"}
+												item
+												xs={1}
+											>
+												<MaterialUI.IconButton
+													onClick={_ => {
+														if (idx > 0) {
+															let nations = this.state.nations.slice();
+															let tmp =
+																nations[
+																	idx - 1
+																];
+															nations[idx - 1] =
+																nations[idx];
+															nations[idx] = tmp;
+															this.setState({
+																nations: nations
+															});
+														}
+													}}
+												>
+													{helpers.createIcon(
+														"\ue5d8"
+													)}
+												</MaterialUI.IconButton>
+											</MaterialUI.Grid>
 										</MaterialUI.Grid>
-									</MaterialUI.Grid>
-								</MaterialUI.ListItem>
-							);
-						})}
-					</MaterialUI.List>
-					<MaterialUI.Button onClick={this.onSelected}>
-						Join
-					</MaterialUI.Button>
-				</MaterialUI.Paper>
+									</MaterialUI.ListItem>
+								);
+							})}
+						</MaterialUI.List>
+					</MaterialUI.Paper>
+					<MaterialUI.DialogActions
+						className={helpers.scopedClass(
+							"background-color: white; position: sticky; bottom: 0px;"
+						)}
+					>
+						<MaterialUI.Button
+							onClick={this.onSelected}
+							color="primary"
+						>
+							Join
+						</MaterialUI.Button>
+					</MaterialUI.DialogActions>
+				</MaterialUI.DialogContent>
 			</MaterialUI.Dialog>
 		);
 	}

@@ -1,5 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
+
 export default class CreateGameDialog extends React.Component {
 	constructor(props) {
 		super(props);
@@ -37,6 +39,9 @@ export default class CreateGameDialog extends React.Component {
 		this.validators = [];
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
+		this.createGameWithPreferences = this.createGameWithPreferences.bind(
+			this
+		);
 		this.setPhaseLength = this.setPhaseLength.bind(this);
 		this.setNonMovementPhaseLength = this.setNonMovementPhaseLength.bind(
 			this
@@ -47,6 +52,7 @@ export default class CreateGameDialog extends React.Component {
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
+		this.nationPreferencesDialog = null;
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
@@ -64,7 +70,10 @@ export default class CreateGameDialog extends React.Component {
 			});
 		}
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page_title": "CreateGameDialog", "page_location": location.href });
+			gtag("set", {
+				page_title: "CreateGameDialog",
+				page_location: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}
@@ -75,6 +84,24 @@ export default class CreateGameDialog extends React.Component {
 		});
 	}
 	createGame() {
+		if (this.state.newGameProperties.NationAllocation == 1) {
+			this.nationPreferencesDialog.setState({
+				open: true,
+				nations: Globals.variants.find(v => {
+					return (
+						v.Properties.Name ==
+						this.state.newGameProperties.Variant
+					);
+				}).Properties.Nations,
+				onSelected: preferences => {
+					this.createGameWithPreferences(preferences);
+				}
+			});
+		} else {
+			this.createGameWithPreferences([]);
+		}
+	}
+	createGameWithPreferences(preferences) {
 		let invalids = [];
 		this.validators.forEach(validator => {
 			let validation = validator(this.state.newGameProperties);
@@ -86,6 +113,10 @@ export default class CreateGameDialog extends React.Component {
 			helpers.snackbar(invalids.join("<br/>"));
 			return;
 		}
+		const newGameProps = Object.assign({}, this.state.newGameProperties);
+		newGameProps.FirstMember = {
+			NationPreferences: preferences.join(",")
+		};
 		helpers.incProgress();
 		helpers
 			.safeFetch(
@@ -94,7 +125,7 @@ export default class CreateGameDialog extends React.Component {
 					headers: {
 						"Content-Type": "application/json"
 					},
-					body: JSON.stringify(this.state.newGameProperties)
+					body: JSON.stringify(newGameProps)
 				})
 			)
 			.then(resp => {
@@ -258,123 +289,81 @@ export default class CreateGameDialog extends React.Component {
 	}
 	render() {
 		return (
-			<MaterialUI.Dialog
-				onEntered={helpers.genOnback(this.close)}
-				open={this.state.open}
-				disableBackdropClick={false}
-				onClose={this.close}
-			>
-				<MaterialUI.DialogTitle>Create game</MaterialUI.DialogTitle>
-				<MaterialUI.DialogContent>
-					<MaterialUI.DialogContentText>
-						Edit the properties for your new game. You can only
-						create games that match your own stats.
-					</MaterialUI.DialogContentText>
-					<MaterialUI.TextField
-						key="Desc"
-						label="Name"
-						margin="dense"
-						fullWidth
-						value={this.state.newGameProperties["Desc"]}
-						onChange={this.newGamePropertyUpdater("Desc")}
-					/>
-					<MaterialUI.Select
-						key="Variant"
-						fullWidth
-						value={this.state.newGameProperties["Variant"]}
-						onChange={this.newGamePropertyUpdater("Variant")}
-					>
-						{Globals.variants.map(variant => {
-							return (
-								<MaterialUI.MenuItem
-									key={variant.Properties.Name}
-									value={variant.Properties.Name}
-								>
-									{variant.Properties.Name},{" "}
-									{variant.Properties.Nations.length} players
-								</MaterialUI.MenuItem>
-							);
-						})}
-					</MaterialUI.Select>
-					<MaterialUI.Select
-						key="NationAllocation"
-						fullWidth
-						value={this.state.newGameProperties["NationAllocation"]}
-						onChange={this.newGamePropertyUpdater(
-							"NationAllocation"
-						)}
-					>
-						<MaterialUI.MenuItem key={0} value={0}>
-							Random nation allocation
-						</MaterialUI.MenuItem>
-						<MaterialUI.MenuItem key={1} value={1}>
-							Preference based nation allocation
-						</MaterialUI.MenuItem>
-					</MaterialUI.Select>
-					<MaterialUI.Box
-						display="flex"
-						justifyContent="space-between"
-						key="PhaseLengthMinutes"
-					>
+			<React.Fragment>
+				<MaterialUI.Dialog
+					onEntered={helpers.genOnback(this.close)}
+					open={this.state.open}
+					disableBackdropClick={false}
+					onClose={this.close}
+				>
+					<MaterialUI.DialogTitle>Create game</MaterialUI.DialogTitle>
+					<MaterialUI.DialogContent>
+						<MaterialUI.DialogContentText>
+							Edit the properties for your new game. You can only
+							create games that match your own stats.
+						</MaterialUI.DialogContentText>
 						<MaterialUI.TextField
-							name="phase-length-multiplier"
-							label="Phase duration"
-							type="number"
+							key="Desc"
+							label="Name"
 							margin="dense"
-							inputProps={{ min: 0 }}
-							value={this.state.phaseLengthMultiplier}
-							onChange={this.setPhaseLength}
+							fullWidth
+							value={this.state.newGameProperties["Desc"]}
+							onChange={this.newGamePropertyUpdater("Desc")}
 						/>
 						<MaterialUI.Select
-							name="phase-length-unit"
-							value={this.state.phaseLengthUnit}
-							onChange={this.setPhaseLength}
+							key="Variant"
+							fullWidth
+							value={this.state.newGameProperties["Variant"]}
+							onChange={this.newGamePropertyUpdater("Variant")}
 						>
+							{Globals.variants.map(variant => {
+								return (
+									<MaterialUI.MenuItem
+										key={variant.Properties.Name}
+										value={variant.Properties.Name}
+									>
+										{variant.Properties.Name},{" "}
+										{variant.Properties.Nations.length}{" "}
+										players
+									</MaterialUI.MenuItem>
+								);
+							})}
+						</MaterialUI.Select>
+						<MaterialUI.Select
+							key="NationAllocation"
+							fullWidth
+							value={
+								this.state.newGameProperties["NationAllocation"]
+							}
+							onChange={this.newGamePropertyUpdater(
+								"NationAllocation"
+							)}
+						>
+							<MaterialUI.MenuItem key={0} value={0}>
+								Random nation allocation
+							</MaterialUI.MenuItem>
 							<MaterialUI.MenuItem key={1} value={1}>
-								Minutes
-							</MaterialUI.MenuItem>
-							<MaterialUI.MenuItem key={60} value={60}>
-								Hours
-							</MaterialUI.MenuItem>
-							<MaterialUI.MenuItem key={60 * 24} value={60 * 24}>
-								Days
+								Preference based nation allocation
 							</MaterialUI.MenuItem>
 						</MaterialUI.Select>
-					</MaterialUI.Box>
-					<MaterialUI.FormControlLabel
-						key="samePhaseLength"
-						control={
-							<MaterialUI.Checkbox
-								name="same-phase-length"
-								checked={this.state.samePhaseLength}
-								onChange={this.setNonMovementPhaseLength}
-							/>
-						}
-						label="Same length for all phases"
-					/>
-					{this.state.samePhaseLength ? (
-						""
-					) : (
 						<MaterialUI.Box
 							display="flex"
 							justifyContent="space-between"
-							key="NonMovementPhaseLengthMinutes"
+							key="PhaseLengthMinutes"
 						>
 							<MaterialUI.TextField
-								name="non-movement-phase-length-multiplier"
-								label="Non movement phase duration"
+								name="phase-length-multiplier"
+								label="Phase duration"
 								type="number"
 								margin="dense"
 								inputProps={{ min: 0 }}
-								value={
-									this.state.nonMovementPhaseLengthMultiplier
-								}
-								onChange={this.setNonMovementPhaseLength}
+								value={this.state.phaseLengthMultiplier}
+								onChange={this.setPhaseLength}
 							/>
 							<MaterialUI.Select
-								name="non-movement-phase-length-unit"
-								value={this.state.nonMovementPhaseLengthUnit}
-								onChange={this.setNonMovementPhaseLength}
+								name="phase-length-unit"
+								value={this.state.phaseLengthUnit}
+								onChange={this.setPhaseLength}
 							>
 								<MaterialUI.MenuItem key={1} value={1}>
 									Minutes
@@ -390,106 +379,176 @@ export default class CreateGameDialog extends React.Component {
 								</MaterialUI.MenuItem>
 							</MaterialUI.Select>
 						</MaterialUI.Box>
-					)}
-					<MaterialUI.TextField
-						type="number"
-						fullWidth
-						inputProps={{ min: 0 }}
-						label="End after year (0 = off)"
-						margin="dense"
-						value={this.state.newGameProperties.LastYear}
-						onChange={this.newGamePropertyUpdater("LastYear", {
-							int: true
-						})}
-					/>
-					<MaterialUI.FormGroup>
-						{this.checkboxField("Private")}
-						{this.checkboxField("DisableConferenceChat", {
-							invert: true,
-							label: "Conference chat"
-						})}
-						{this.checkboxField("DisableGroupChat", {
-							invert: true,
-							label: "Group chat"
-						})}
-						{this.checkboxField("DisablePrivateChat", {
-							invert: true,
-							label: "Private chat"
-						})}
 						<MaterialUI.FormControlLabel
+							key="samePhaseLength"
 							control={
 								<MaterialUI.Checkbox
-									disabled={
-										!this.state.newGameProperties["Private"]
-									}
-									checked={
-										this.state.newGameProperties["Private"]
-											? this.state.newGameProperties[
-													"Anonymous"
-											  ]
-											: this.state.newGameProperties[
-													"DisableConferenceChat"
-											  ] &&
-											  this.state.newGameProperties[
-													"DisableGroupChat"
-											  ] &&
-											  this.state.newGameProperties[
-													"DisablePrivateChat"
-											  ]
-									}
-									onChange={this.newGamePropertyUpdater(
-										"Anonymous"
-									)}
+									name="same-phase-length"
+									checked={this.state.samePhaseLength}
+									onChange={this.setNonMovementPhaseLength}
 								/>
 							}
-							label="Anonymous"
+							label="Same length for all phases"
 						/>
-					</MaterialUI.FormGroup>
-					{this.floatField("MinReliability", {
-						label: "Minimum reliability, high = active players",
-						max: Math.floor(
-							this.state.userStats.Properties.Reliability
-						)
-					})}
-					{this.floatField("MinQuickness", {
-						label: "Minimum quickness, high = fast games",
-						max: Math.floor(
-							this.state.userStats.Properties.Quickness
-						)
-					})}
-					{this.floatField("MinRating", {
-						label: "Minimum rating, high = strong players",
-						max: Math.floor(
-							this.state.userStats.Properties.TrueSkill.Rating
-						)
-					})}
-					{this.floatField("MaxRating", {
-						label: "Maximum rating, low = weak players",
-						min: Math.ceil(
-							this.state.userStats.Properties.TrueSkill.Rating
-						)
-					})}
-					{this.floatField("MaxHated", {
-						label: "Maximum hated, low = unbanned players",
-						min: Math.ceil(this.state.userStats.Properties.Hated)
-					})}
-					{this.floatField("MaxHater", {
-						label: "Maximum hater, low = patient players",
-						min: Math.ceil(this.state.userStats.Properties.Hater)
-					})}
-					<MaterialUI.DialogActions>
-						<MaterialUI.Button onClick={this.close} color="primary">
-							Cancel
-						</MaterialUI.Button>
-						<MaterialUI.Button
-							onClick={this.createGame}
-							color="primary"
-						>
-							Create
-						</MaterialUI.Button>
-					</MaterialUI.DialogActions>
-				</MaterialUI.DialogContent>
-			</MaterialUI.Dialog>
+						{this.state.samePhaseLength ? (
+							""
+						) : (
+							<MaterialUI.Box
+								display="flex"
+								justifyContent="space-between"
+								key="NonMovementPhaseLengthMinutes"
+							>
+								<MaterialUI.TextField
+									name="non-movement-phase-length-multiplier"
+									label="Non movement phase duration"
+									type="number"
+									margin="dense"
+									inputProps={{ min: 0 }}
+									value={
+										this.state
+											.nonMovementPhaseLengthMultiplier
+									}
+									onChange={this.setNonMovementPhaseLength}
+								/>
+								<MaterialUI.Select
+									name="non-movement-phase-length-unit"
+									value={
+										this.state.nonMovementPhaseLengthUnit
+									}
+									onChange={this.setNonMovementPhaseLength}
+								>
+									<MaterialUI.MenuItem key={1} value={1}>
+										Minutes
+									</MaterialUI.MenuItem>
+									<MaterialUI.MenuItem key={60} value={60}>
+										Hours
+									</MaterialUI.MenuItem>
+									<MaterialUI.MenuItem
+										key={60 * 24}
+										value={60 * 24}
+									>
+										Days
+									</MaterialUI.MenuItem>
+								</MaterialUI.Select>
+							</MaterialUI.Box>
+						)}
+						<MaterialUI.TextField
+							type="number"
+							fullWidth
+							inputProps={{ min: 0 }}
+							label="End after year (0 = off)"
+							margin="dense"
+							value={this.state.newGameProperties.LastYear}
+							onChange={this.newGamePropertyUpdater("LastYear", {
+								int: true
+							})}
+						/>
+						<MaterialUI.FormGroup>
+							{this.checkboxField("Private")}
+							{this.checkboxField("DisableConferenceChat", {
+								invert: true,
+								label: "Conference chat"
+							})}
+							{this.checkboxField("DisableGroupChat", {
+								invert: true,
+								label: "Group chat"
+							})}
+							{this.checkboxField("DisablePrivateChat", {
+								invert: true,
+								label: "Private chat"
+							})}
+							<MaterialUI.FormControlLabel
+								control={
+									<MaterialUI.Checkbox
+										disabled={
+											!this.state.newGameProperties[
+												"Private"
+											]
+										}
+										checked={
+											this.state.newGameProperties[
+												"Private"
+											]
+												? this.state.newGameProperties[
+														"Anonymous"
+												  ]
+												: this.state.newGameProperties[
+														"DisableConferenceChat"
+												  ] &&
+												  this.state.newGameProperties[
+														"DisableGroupChat"
+												  ] &&
+												  this.state.newGameProperties[
+														"DisablePrivateChat"
+												  ]
+										}
+										onChange={this.newGamePropertyUpdater(
+											"Anonymous"
+										)}
+									/>
+								}
+								label="Anonymous"
+							/>
+						</MaterialUI.FormGroup>
+						{this.floatField("MinReliability", {
+							label: "Minimum reliability, high = active players",
+							max: Math.floor(
+								this.state.userStats.Properties.Reliability
+							)
+						})}
+						{this.floatField("MinQuickness", {
+							label: "Minimum quickness, high = fast games",
+							max: Math.floor(
+								this.state.userStats.Properties.Quickness
+							)
+						})}
+						{this.floatField("MinRating", {
+							label: "Minimum rating, high = strong players",
+							max: Math.floor(
+								this.state.userStats.Properties.TrueSkill.Rating
+							)
+						})}
+						{this.floatField("MaxRating", {
+							label: "Maximum rating, low = weak players",
+							min: Math.ceil(
+								this.state.userStats.Properties.TrueSkill.Rating
+							)
+						})}
+						{this.floatField("MaxHated", {
+							label: "Maximum hated, low = unbanned players",
+							min: Math.ceil(
+								this.state.userStats.Properties.Hated
+							)
+						})}
+						{this.floatField("MaxHater", {
+							label: "Maximum hater, low = patient players",
+							min: Math.ceil(
+								this.state.userStats.Properties.Hater
+							)
+						})}
+						<MaterialUI.DialogActions>
+							<MaterialUI.Button
+								onClick={this.close}
+								color="primary"
+							>
+								Cancel
+							</MaterialUI.Button>
+							<MaterialUI.Button
+								onClick={this.createGame}
+								color="primary"
+							>
+								Create
+							</MaterialUI.Button>
+						</MaterialUI.DialogActions>
+					</MaterialUI.DialogContent>
+				</MaterialUI.Dialog>
+				<NationPreferencesDialog
+					parentCB={c => {
+						this.nationPreferencesDialog = c;
+					}}
+					onSelected={null}
+				/>
+			</React.Fragment>
 		);
 	}
 }
