@@ -26,12 +26,14 @@ export default class Game extends React.Component {
 			game: null
 		};
 		this.renderedPhaseOrdinal = null;
+		this.debugCounters = {};
 		this.options = null;
 		this.gameMetadata = null;
 		this.gameResults = null;
 		this.preliminaryScores = null;
 		this.nationPreferencesDialog = null;
 		this.changeTab = this.changeTab.bind(this);
+		this.debugCount = this.debugCount.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.loadGame = this.loadGame.bind(this);
 		this.receiveOrders = this.receiveOrders.bind(this);
@@ -48,6 +50,12 @@ export default class Game extends React.Component {
 		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
+	}
+	debugCount(tag) {
+		if (!this.debugCounters[tag]) {
+			this.debugCounters[tag] = 0;
+		}
+		this.debugCounters[tag] += 1;
 	}
 	refinePhaseMessage(msg) {
 		const parts = msg.split(":");
@@ -619,6 +627,28 @@ export default class Game extends React.Component {
 										? "Disable lab mode"
 										: "Enable lab mode"}
 								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem
+									key="debug-data"
+									onClick={_ => {
+										helpers
+											.copyToClipboard(
+												JSON.stringify(
+													this.debugCounters
+												)
+											)
+											.then(_ => {
+												this.setState({
+													moreMenuAnchorEl: null
+												});
+												helpers.snackbar(
+													"Debug data copied to clipboard"
+												);
+											});
+										gtag("event", "gameshare");
+									}}
+								>
+									Debug
+								</MaterialUI.MenuItem>
 							</MaterialUI.Menu>
 						</MaterialUI.Toolbar>
 						{this.state.game.Properties.Started ? (
@@ -756,6 +786,7 @@ export default class Game extends React.Component {
 						}}
 					>
 						<DipMap
+							debugCount={this.debugCount}
 							labPhaseResolve={this.labPhaseResolve}
 							serializePhaseState={this.serializePhaseState}
 							laboratoryMode={this.state.laboratoryMode}

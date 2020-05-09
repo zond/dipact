@@ -30,6 +30,7 @@ export default class DipMap extends React.Component {
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
 		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
+		this.debugCount = this.debugCount.bind(this);
 		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
 		this.lastRenderedOrdersHash = 0;
@@ -39,6 +40,11 @@ export default class DipMap extends React.Component {
 		this.map = null;
 		this.orderDialog = null;
 		this.firstLoadFinished = false;
+	}
+	debugCount(tag) {
+		if (this.props.debugCount) {
+			this.props.debugCount(tag);
+		}
 	}
 	labShare() {
 		const hrefURL = new URL(location.href);
@@ -85,9 +91,11 @@ export default class DipMap extends React.Component {
 			});
 	}
 	snapshotSVG() {
+		this.debugCount("snapshotSVG/called");
 		if (!this.mapDims[0] || !this.mapDims[1]) {
 			return;
 		}
+		this.debugCount("snapshotSVG/mapDims");
 		let mapEl = document.getElementById("map");
 		const svg = mapEl.children[0].cloneNode(true);
 		svg.setAttribute("width", this.mapDims[0]);
@@ -95,6 +103,7 @@ export default class DipMap extends React.Component {
 		const svgXML = this.svgSerializer.serializeToString(svg);
 		const svgHash = helpers.hash(svgXML);
 		if (svgHash != this.lastSerializedSVG) {
+			this.debugCount("snapshotSVG/differentHash");
 			this.lastSerializedSVG = svgHash;
 			let serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
 			let snapshotImage = document.createElement("img");
@@ -102,6 +111,7 @@ export default class DipMap extends React.Component {
 			snapshotImage.style.height = this.mapDims[1];
 			snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
 			snapshotImage.addEventListener("load", _ => {
+				this.debugCount("snapshotSVG/loadedSnapshot");
 				let snapshotCanvas = document.createElement("canvas");
 				snapshotCanvas.setAttribute("height", this.mapDims[1]);
 				snapshotCanvas.setAttribute("width", this.mapDims[0]);
@@ -111,6 +121,7 @@ export default class DipMap extends React.Component {
 				let snapshotData = snapshotCanvas.toDataURL("image/png");
 				let snapshotEl = document.getElementById("mapSnapshot");
 				if (snapshotEl) {
+					this.debugCount("snapshotSVG/snapshotEl");
 					snapshotEl.src = snapshotData;
 				}
 			});
@@ -190,6 +201,7 @@ export default class DipMap extends React.Component {
 				prevProps.phase.Properties.PhaseOrdinal ||
 			this.props.laboratoryMode != this.state.laboratoryMode
 		) {
+			this.debugCount("componentDidUpdate/forwardProps");
 			this.setState({
 				game: this.props.game,
 				svgLoaded:
@@ -207,6 +219,7 @@ export default class DipMap extends React.Component {
 			!this.mapDims[0] &&
 			!this.mapDims[1]
 		) {
+			this.debugCount("componentDidUpdate/gotMapDims");
 			let mapEl = document.getElementById("map");
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
@@ -220,6 +233,7 @@ export default class DipMap extends React.Component {
 			this.state.phase.Properties.PhaseOrdinal !=
 				prevState.phase.Properties.PhaseOrdinal
 		) {
+			this.debugCount("componentDidUpdate/reRender");
 			if (this.state.laboratoryMode) {
 				// If we ARE in laboratory mode, reload orders if phase is "real".
 				if (
@@ -253,6 +267,7 @@ export default class DipMap extends React.Component {
 					this.setState({ orders: orders });
 				}
 			} else {
+				this.debugCount("componentDidUpdate/reRenderNormal");
 				// If we are NOT in laboratory mode, reload options AND orders.
 				if (this.state.phase.Links) {
 					let silent = this.firstLoadFinished;
@@ -264,6 +279,7 @@ export default class DipMap extends React.Component {
 						return l.Rel == "options";
 					});
 					if (optionsLink) {
+						this.debugCount("componentDidUpdate/reRenderOptions");
 						promises.push(
 							helpers.memoize(optionsLink.URL, _ => {
 								return helpers
@@ -290,6 +306,9 @@ export default class DipMap extends React.Component {
 						) {
 							return;
 						}
+						this.debugCount(
+							"componentDidUpdate/reRenderNormalSuccess"
+						);
 						this.setState({
 							orders: values[0],
 							options: values[1]
@@ -303,6 +322,7 @@ export default class DipMap extends React.Component {
 			!prevState.game ||
 			this.state.game.Properties.ID != prevState.game.Properties.ID
 		) {
+			this.debugCount("componentDidUpdate/loadSVGs");
 			this.setState(
 				(state, props) => {
 					const member = this.state.game.Properties.Members.find(
@@ -421,12 +441,15 @@ export default class DipMap extends React.Component {
 	// different formats for 'start phase for variant'
 	// and 'a phase of an actual game'.
 	updateMap() {
+		this.debugCount("updateMap/called");
 		if (!this.state.svgLoaded) {
 			return;
 		}
+		this.debugCount("updateMap/hasSVGs");
 		const phaseHash = helpers.hash(JSON.stringify(this.state.phase));
 		if (phaseHash != this.lastRenderedPhaseHash) {
 			this.lastRenderedPhaseHash = phaseHash;
+			this.debugCount("updateMap/differentPhase");
 
 			this.phaseSpecialStrokes = {};
 			const SCs = {};
@@ -446,11 +469,15 @@ export default class DipMap extends React.Component {
 						this.map.colorSC(prov, "#ffffff");
 					}
 					this.map.colorProvince(prov, col);
+					this.debugCount("updateMap/coloredProvince/" + col);
 				} else {
 					this.map.hideProvince(prov);
+					this.debugCount("updateMap/hidProvince");
 				}
 			}
 			this.map.showProvinces();
+			this.debugCount("updateMap/renderedProvinces");
+
 			this.map.removeUnits();
 			if (this.state.phase.Properties.Units instanceof Array) {
 				this.state.phase.Properties.Units.forEach(unitData => {
@@ -467,6 +494,7 @@ export default class DipMap extends React.Component {
 						"#units",
 						{ stroke: this.phaseSpecialStrokes[superProv] }
 					);
+					this.debugCount("updateMap/renderedUnit");
 				});
 			} else {
 				for (let prov in this.state.phase.Properties.Units) {
@@ -481,8 +509,10 @@ export default class DipMap extends React.Component {
 						"#units",
 						{ stroke: this.phaseSpecialStrokes[superProv] }
 					);
+					this.debugCount("updateMap/renderedVariantUnit");
 				}
 			}
+			this.debugCount("updateMap/renderedUnits");
 
 			if (this.state.phase.Properties.Dislodgeds instanceof Array) {
 				this.state.phase.Properties.Dislodgeds.forEach(disData => {
@@ -499,6 +529,7 @@ export default class DipMap extends React.Component {
 						"#units",
 						{ stroke: this.phaseSpecialStrokes[superProv] }
 					);
+					this.debugCount("updateMap/renderedDislodged");
 				});
 			} else {
 				for (let prov in this.state.phase.Properties.Dislodgeds) {
@@ -513,6 +544,7 @@ export default class DipMap extends React.Component {
 						"#units",
 						{ stroke: this.phaseSpecialStrokes[superProv] }
 					);
+					this.debugCount("updateMap/renderedVariantDislodged");
 				}
 			}
 		}
@@ -521,6 +553,7 @@ export default class DipMap extends React.Component {
 		this.acceptOrders();
 	}
 	renderOrders() {
+		this.debugCount("renderOrders/called");
 		const ordersHash = helpers.hash(
 			JSON.stringify([
 				this.state.orders,
@@ -529,6 +562,7 @@ export default class DipMap extends React.Component {
 		);
 		if (ordersHash != this.lastRenderedOrdersHash) {
 			this.lastRenderedOrdersHash = ordersHash;
+			this.debugCount("renderOrders/differentOrders");
 			this.map.removeOrders();
 
 			if (this.state.phase.Properties.Orders) {
@@ -542,6 +576,7 @@ export default class DipMap extends React.Component {
 							helpers.natCol(nat, this.state.variant),
 							{ stroke: this.phaseSpecialStrokes[superProv] }
 						);
+						this.debugCount("renderOrders/renderedVariantOrder");
 					}
 				}
 			}
@@ -556,6 +591,7 @@ export default class DipMap extends React.Component {
 					),
 					{ stroke: this.phaseSpecialStrokes[superProv] }
 				);
+				this.debugCount("renderOrders/renderedOrder");
 			});
 			if (this.state.phase.Properties.Resolutions instanceof Array) {
 				this.state.phase.Properties.Resolutions.forEach(res => {
@@ -563,6 +599,7 @@ export default class DipMap extends React.Component {
 						this.map.addCross(res.Province, "#ff0000");
 					}
 				});
+				this.debugCount("renderOrders/renderedResolution");
 			}
 		}
 	}
@@ -711,6 +748,7 @@ export default class DipMap extends React.Component {
 			});
 	}
 	acceptOrders() {
+		this.debugCount("acceptOrders/called");
 		this.map.clearClickListeners();
 		if (this.state.laboratoryMode) {
 			if (this.state.labEditMode) {
@@ -745,6 +783,7 @@ export default class DipMap extends React.Component {
 			}
 		} else {
 			if (Object.keys(this.state.options || {}).length > 0) {
+				this.debugCount("acceptOrders/hasOptions");
 				this.addOptionHandlers(this.state.options, []);
 			}
 		}
@@ -835,14 +874,19 @@ export default class DipMap extends React.Component {
 		}
 	}
 	addOptionHandlers(options, parts) {
+		this.debugCount("addOptionsHandlers/called");
 		if (Object.keys(options).length == 0) {
+			this.debugCount("addOptionsHandlers/orderDone");
 			if (this.state.laboratoryMode) {
 				this.handleLaboratoryCommand(parts);
 				this.acceptOrders();
 			} else {
 				helpers.incProgress();
+				this.debugCount("addOptionsHandlers/regularOrder");
 				this.createOrder(parts).then(_ => {
+					this.debugCount("addOptionsHandlers/orderCreated");
 					this.loadOrdersPromise().then(js => {
+						this.debugCount("addOptionsHandlers/newOrdersLoaded");
 						helpers.decProgress();
 						this.setState({ orders: js }, this.acceptOrders);
 					});
@@ -857,6 +901,7 @@ export default class DipMap extends React.Component {
 					throw "Can't use multiple types in the same level of options.";
 				}
 			}
+			this.debugCount("addOptionsHandlers/type/" + type);
 			switch (type) {
 				case "Province":
 					for (let prov in options) {
@@ -870,6 +915,9 @@ export default class DipMap extends React.Component {
 								);
 							},
 							{ touch: true }
+						);
+						this.debugCount(
+							"addOptionsHandlers/addedClickListener"
 						);
 					}
 					break;
@@ -928,11 +976,13 @@ export default class DipMap extends React.Component {
 							}
 						}
 					});
+					this.debugCount("addOptionsHandlers/openedOrderDialog");
 					break;
 				case "SrcProvince":
 					let srcProvince = Object.keys(options)[0];
 					parts[0] = srcProvince;
 					this.addOptionHandlers(options[srcProvince].Next, parts);
+					this.debugCount("addOptionsHandlers/assignedSrcProvince");
 					break;
 			}
 		}
