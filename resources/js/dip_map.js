@@ -127,7 +127,7 @@ export default class DipMap extends React.Component {
 					headers: {
 						"Content-Type": "application/json"
 					},
-					body: JSON.stringify({ Parts: parts.slice(1) })
+					body: JSON.stringify({ Parts: parts })
 				})
 			);
 		} else {
@@ -136,7 +136,7 @@ export default class DipMap extends React.Component {
 	}
 	deleteOrder(prov) {
 		let order = this.state.orders.find(o => {
-			return o.Properties.Parts[0] == prov;
+			return o.Properties.Parts[0].split("/")[0] == prov.split("/")[0];
 		});
 		if (order) {
 			let deleteOrderLink = order.Links.find(l => {
@@ -809,7 +809,10 @@ export default class DipMap extends React.Component {
 				this.setState(
 					{
 						orders: this.state.orders.filter(order => {
-							return order.Properties.Parts[0] != parts[1];
+							return (
+								order.Properties.Parts[0].split("/")[0] !=
+								parts[0].split("/")[0]
+							);
 						})
 					},
 					this.acceptOrders
@@ -822,7 +825,7 @@ export default class DipMap extends React.Component {
 					});
 					state.orders.push({
 						Properties: {
-							Parts: parts.slice(1),
+							Parts: parts,
 							Nation: this.state.labPlayAs
 						}
 					});
@@ -928,10 +931,8 @@ export default class DipMap extends React.Component {
 					break;
 				case "SrcProvince":
 					let srcProvince = Object.keys(options)[0];
-					this.addOptionHandlers(
-						options[srcProvince].Next,
-						[srcProvince].concat(parts)
-					);
+					parts[0] = srcProvince;
+					this.addOptionHandlers(options[srcProvince].Next, parts);
 					break;
 			}
 		}
