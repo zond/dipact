@@ -1,5 +1,7 @@
 export const overrideReg = /[^\w]/g;
 
+const colorReg = (colorReg = /^#([0-9a-fA-F]{3,3}|[0-9a-fA-F]{6,6}|[0-9a-fA-F]{8,8})$/);
+
 export const DiplicitySender = "Diplicity";
 
 export function timeStrToDate(s) {
@@ -8,18 +10,18 @@ export function timeStrToDate(s) {
 
 function parseUserConfigColor(override) {
 	const parts = override.split("/");
-	if (parts.length == 1) {
+	if (parts.length == 1 && parts[0].match(colorReg)) {
 		return {
 			type: "position",
 			value: parts[0]
 		};
-	} else if (parts.length == 2) {
+	} else if (parts.length == 2 && parts[1].match(colorReg)) {
 		return {
 			type: "nation",
 			nation: Globals.colorOverrides.nationCodes[parts[0]],
 			value: parts[1]
 		};
-	} else if (parts.length == 3) {
+	} else if (parts.length == 3 && parts[2].match(colorReg)) {
 		return {
 			type: "variant",
 			variant: Globals.colorOverrides.variantCodes[parts[0]],
