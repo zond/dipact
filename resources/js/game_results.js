@@ -20,7 +20,10 @@ export default class GameResults extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page_title": "GameResults", "page_location": location.href });
+			gtag("set", {
+				page_title: "GameResults",
+				page_location: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}
@@ -34,36 +37,46 @@ export default class GameResults extends React.Component {
 				.safeFetch(helpers.createRequest(gameResultLink.URL))
 				.then(res => res.json())
 				.then(gameResultJS => {
-					helpers
-						.safeFetch(
-							helpers.createRequest(
-								gameResultJS.Links.find(l => {
-									return l.Rel == "true-skills";
-								}).URL
+					gameResultJS.Properties.Scores = gameResultJS.Properties.Scores.sort(
+						(a, b) => {
+							if (a.Score > b.Score) {
+								return -1;
+							} else if (a.Score < b.Score) {
+								return 1;
+							} else if (a.SCs > b.SCs) {
+								return -1;
+							} else if (a.SCs < b.SCs) {
+								return 1;
+							}
+							return 0;
+						}
+					);
+					const trueSkillsLink = gameResultJS.Links.find(l => {
+						return l.Rel == "true-skills";
+					});
+					if (trueSkillsLink) {
+						helpers
+							.safeFetch(
+								helpers.createRequest(
+									gameResultJS.Links.find(l => {
+										return l.Rel == "true-skills";
+									}).URL
+								)
 							)
-						)
-						.then(res => res.json())
-						.then(trueSkillsJS => {
-							helpers.decProgress();
-							gameResultJS.Properties.Scores = gameResultJS.Properties.Scores.sort(
-								(a, b) => {
-									if (a.Score > b.Score) {
-										return -1;
-									} else if (a.Score < b.Score) {
-										return 1;
-									} else if (a.SCs > b.SCs) {
-										return -1;
-									} else if (a.SCs < b.SCs) {
-										return 1;
-									}
-									return 0;
-								}
-							);
-							this.setState({
-								gameResult: gameResultJS,
-								trueSkills: trueSkillsJS
+							.then(res => res.json())
+							.then(trueSkillsJS => {
+								helpers.decProgress();
+								this.setState({
+									gameResult: gameResultJS,
+									trueSkills: trueSkillsJS
+								});
 							});
+					} else {
+						helpers.decProgress();
+						this.setState({
+							gameResult: gameResultJS
 						});
+					}
 				});
 		}
 	}
@@ -141,14 +154,17 @@ export default class GameResults extends React.Component {
 						{this.state.gameResult
 							? this.state.gameResult.Properties.Scores.map(
 									score => {
-										const trueSkill = this.state.trueSkills.Properties.find(
-											l => {
-												return (
-													l.Properties.Member ==
-													score.Member
-												);
-											}
-										);
+										const trueSkill = this.state.trueSkills
+											? this.state.trueSkills.Properties.find(
+													l => {
+														return (
+															l.Properties
+																.Member ==
+															score.Member
+														);
+													}
+											  )
+											: null;
 										return (
 											<MaterialUI.ListItem
 												key={"nation_" + score.Member}
