@@ -348,6 +348,13 @@ export function natCol(nation, variant) {
 	if (Globals.colorOverrides.positions[pos]) {
 		return Globals.colorOverrides.positions[pos];
 	}
+	if (pos == -1) {
+		if (nation == "Neutral") {
+			return "#d0d0d0";
+		}
+		// Recognise this as the color of bugs.
+		return "#ff00ff";
+	}
 	return Globals.contrastColors[pos];
 }
 
