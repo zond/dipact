@@ -85,6 +85,12 @@ export default class ChatChannel extends React.Component {
 	}
 	componentDidMount() {
 		this.loadMessages().then(this.updateHistoryAndSubscription);
+		if (!this.props.isWarned()) {
+			helpers.snackbar(
+				"Warning: All messages become public after the game ends!"
+			);
+			this.props.markWarned();
+		}
 		helpers.onback(this.props.close);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {

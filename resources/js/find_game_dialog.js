@@ -47,8 +47,9 @@ export default class FindGameDialog extends React.Component {
 				<MaterialUI.DialogTitle>Find game</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<MaterialUI.DialogContentText>
-						Enter any game ID to view it. You can find the Game ID
-						in the address bar for any opened game.
+						Enter any game ID or URL to find it. You can find the
+						game URL in the address bar for any opened game, or by
+						choosing "Share" in the top right menu of any game.
 					</MaterialUI.DialogContentText>
 					<MaterialUI.TextField
 						id="find-game-by-id-input-field"

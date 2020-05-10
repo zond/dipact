@@ -24,7 +24,16 @@ export default class ChatMenu extends React.Component {
 		this.natCol = this.natCol.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.canCreateChannel = this.canCreateChannel.bind(this);
+		this.isWarned = this.isWarned.bind(this);
+		this.markWarned = this.markWarned.bind(this);
+		this.warned = false;
 		this.createChannelDialog = null;
+	}
+	isWarned() {
+		return this.warned;
+	}
+	markWarned() {
+		this.warned = true;
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -220,6 +229,8 @@ export default class ChatMenu extends React.Component {
 						}}
 					>
 						<ChatChannel
+							isWarned={this.isWarned}
+							markWarned={this.markWarned}
 							onNewGameState={this.props.onNewGameState}
 							gameState={this.props.gameState}
 							game={this.props.game}
