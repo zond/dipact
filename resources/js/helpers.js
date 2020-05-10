@@ -420,6 +420,7 @@ export function safeFetch(req) {
 					if (s.indexOf("Authorization") != -1) {
 						localStorage.removeItem("token");
 					}
+					req.headers.delete("Authorization");
 					safeFetch(req).then(res);
 				});
 			});
