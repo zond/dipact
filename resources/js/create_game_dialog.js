@@ -7,6 +7,9 @@ export default class CreateGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
+			variant: Globals.variants.find(v => {
+				return v.Properties.Name == "Classical";
+			}),
 			newGameProperties: {
 				Variant: "Classical",
 				NationAllocation: 0,
@@ -36,7 +39,6 @@ export default class CreateGameDialog extends React.Component {
 			phaseLengthUnit: 60 * 24,
 			phaseLengthMultiplier: 1
 		};
-		this.validators = [];
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
 		this.createGameWithPreferences = this.createGameWithPreferences.bind(
@@ -49,10 +51,30 @@ export default class CreateGameDialog extends React.Component {
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
 		this.checkboxField = this.checkboxField.bind(this);
 		this.floatField = this.floatField.bind(this);
+		this.validators = [];
+		this.resetValidators = this.resetValidators.bind(this);
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
 		this.nationPreferencesDialog = null;
+	}
+	resetValidators() {
+		this.validators = [
+			props => {
+				if (
+					props.LastYear != 0 &&
+					props.LastYear <
+						this.state.variant.Properties.Start.Year + 1
+				) {
+					return (
+						"Last year must be 0, or greater than or equal to " +
+						(this.state.variant.Properties.Start.Year + 1) +
+						"."
+					);
+				}
+				return null;
+			}
+		];
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
@@ -87,12 +109,7 @@ export default class CreateGameDialog extends React.Component {
 		if (this.state.newGameProperties.NationAllocation == 1) {
 			this.nationPreferencesDialog.setState({
 				open: true,
-				nations: Globals.variants.find(v => {
-					return (
-						v.Properties.Name ==
-						this.state.newGameProperties.Variant
-					);
-				}).Properties.Nations,
+				nations: this.state.variant.Properties.Nations,
 				onSelected: preferences => {
 					this.createGameWithPreferences(preferences);
 				}
@@ -169,7 +186,7 @@ export default class CreateGameDialog extends React.Component {
 							);
 							newValue = opts.max;
 						}
-						if (opts.min && opts.min > newValue) {
+						if (opts.min && newValue != 0 && opts.min > newValue) {
 							helpers.snackbar(
 								propertyName +
 									" must be 0, or greater than or equal to " +
@@ -180,9 +197,20 @@ export default class CreateGameDialog extends React.Component {
 					}
 					if (opts.int && newValue != "") {
 						newValue = Number.parseInt(ev.target.value);
+						if (opts.min && newValue != 0 && opts.min > newValue) {
+							helpers.snackbar(
+								propertyName +
+									" must be 0, or greater than or equal to " +
+									opts.min +
+									"."
+							);
+						}
 					}
 					state.newGameProperties[propertyName] = newValue;
 				}
+				state.variant = Globals.variants.find(v => {
+					return v.Properties.Name == state.newGameProperties.Variant;
+				});
 				return state;
 			});
 		};
@@ -289,6 +317,7 @@ export default class CreateGameDialog extends React.Component {
 		);
 	}
 	render() {
+		this.resetValidators();
 		return (
 			<React.Fragment>
 				<MaterialUI.Dialog
@@ -433,15 +462,20 @@ export default class CreateGameDialog extends React.Component {
 								</MaterialUI.Select>
 							</MaterialUI.Box>
 						)}
+						<MaterialUI.Typography>
+							Start year{" "}
+							{this.state.variant.Properties.Start.Year}
+						</MaterialUI.Typography>
 						<MaterialUI.TextField
 							type="number"
 							fullWidth
-							inputProps={{ min: 0 }}
 							label="End after year (e.g. 1908) (0 = off)"
 							margin="dense"
 							value={this.state.newGameProperties.LastYear}
 							onChange={this.newGamePropertyUpdater("LastYear", {
-								int: true
+								int: true,
+								min:
+									this.state.variant.Properties.Start.Year + 1
 							})}
 						/>
 						<MaterialUI.FormGroup>
