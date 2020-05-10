@@ -437,7 +437,7 @@ export default class CreateGameDialog extends React.Component {
 							type="number"
 							fullWidth
 							inputProps={{ min: 0 }}
-							label="End after year (0 = off)"
+							label="End after year (e.g. 1908) (0 = off)"
 							margin="dense"
 							value={this.state.newGameProperties.LastYear}
 							onChange={this.newGamePropertyUpdater("LastYear", {
