@@ -419,9 +419,11 @@ export function safeFetch(req) {
 				resp.text().then(s => {
 					if (s.indexOf("Authorization") != -1) {
 						localStorage.removeItem("token");
+						req.headers.delete("Authorization");
+						safeFetch(req).then(res);
+					} else {
+						snackbar("Client error: " + s);
 					}
-					req.headers.delete("Authorization");
-					safeFetch(req).then(res);
 				});
 			});
 		} else {
