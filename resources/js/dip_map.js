@@ -911,6 +911,9 @@ export default class DipMap extends React.Component {
 							prov,
 							prov => {
 								this.map.clearClickListeners();
+								this.debugCount(
+									"addOptionshandler/" + prov + "Clicked"
+								);
 								this.addOptionHandlers(
 									options[prov].Next,
 									parts.concat(prov)
@@ -950,6 +953,9 @@ export default class DipMap extends React.Component {
 						]),
 						onClose: this.acceptOrders,
 						onClick: ord => {
+							this.debugCount(
+								"addOptionshandler/selectedOrder" + ord
+							);
 							if (ord == "Clear") {
 								if (this.state.laboratoryMode) {
 									this.handleLaboratoryCommand(
