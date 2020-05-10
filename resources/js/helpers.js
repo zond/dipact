@@ -393,16 +393,36 @@ export function safeFetch(req) {
 			localStorage.removeItem("token");
 			if (window.Wrapper && window.Wrapper.getToken) {
 				return new Promise((res, rej) => {
-					Globals.WrapperCallbacks.getToken = token => {
-						storeToken(token);
-						req.headers.set("Authorization", "bearer " + token);
-						safeFetch(req).then(res);
+					Globals.WrapperCallbacks.getToken = resp => {
+						if (resp.error) {
+							snackbar("Error logging in: " + resp.error);
+							res({});
+						} else if (resp.token) {
+							storeToken(resp.token);
+							req.headers.set(
+								"Authorization",
+								"bearer " + resp.token
+							);
+							safeFetch(req).then(res);
+						} else {
+							snackbar("Error logging in, no response at all.");
+							res({});
+						}
 					};
 					window.Wrapper.getToken();
 				});
 			} else {
 				login();
 			}
+		} else if (resp.status == 400) {
+			return new Promise((res, rej) => {
+				resp.text().then(s => {
+					if (s.indexOf("Authorization") != -1) {
+						localStorage.removeItem("token");
+					}
+					safeFetch(req).then(res);
+				});
+			});
 		} else {
 			return Promise.resolve(resp);
 		}
@@ -412,11 +432,7 @@ export function safeFetch(req) {
 export function login() {
 	if (window.Wrapper && window.Wrapper.getToken) {
 		Globals.WrapperCallbacks.getToken = resp => {
-			if (typeof resp === "string" || resp instanceof String) {
-				// TODO(zond): Remove this fork when the Android app is updated past 1025.
-				storeToken(resp);
-				location.reload();
-			} else if (resp.error) {
+			if (resp.error) {
 				decProgress();
 				snackbar("Error logging in: " + resp.error);
 			} else if (resp.token) {
