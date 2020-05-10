@@ -56,18 +56,20 @@ ReactDOM.render(
 addEventListener("error", ev => {
 	const oldErrorsJSON = localStorage.getItem("errors");
 	const oldErrors = oldErrorsJSON ? JSON.parse(oldErrorsJSON) : [];
-	oldErrors.push({
+	const struct = {
 		at: new Date(),
 		message: ev.message,
 		filename: ev.filename,
 		lineno: ev.lineno,
 		colno: ev.colno,
 		error: ev.error
-	});
+	};
+	oldErrors.push(struct);
 	while (oldErrors.length > 64) {
 		oldErrors.shift();
 	}
 	localStorage.setItem("errors", JSON.stringify(oldErrors));
+	gtag("event", "exception", struct);
 	return false;
 });
 
