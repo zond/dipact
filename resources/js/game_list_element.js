@@ -792,8 +792,7 @@ export default class GameListElement extends React.Component {
 					key="banned-notice"
 					className={noticeClass}
 				>
-					You have banned one or more of the current members of this
-					game, or one or more of them has banned you.
+					You can't join becaues you banned or are banned by a player.
 				</MaterialUI.Typography>
 			);
 		}
@@ -803,8 +802,7 @@ export default class GameListElement extends React.Component {
 					key="requirement-notice"
 					className={noticeClass}
 				>
-					You have failed one or more of the requirements to join this
-					game, namely{" "}
+					You can't join this game because: {" "}
 					{this.state.game.Properties.FailedRequirements.join(", ")}.
 				</MaterialUI.Typography>
 			);
@@ -844,11 +842,8 @@ export default class GameListElement extends React.Component {
 							key="deadline-warning"
 							className={warningClass}
 						>
-							WARNING: This game has a phase deadline of less than
-							12 hours. If you are away from your device when the
-							game starts (or when a phase resolves) you may tank
-							your reliability rating, and potentially miss the
-							entire game.
+							WARNING: This game has short deadlines (less than 12 hours). 
+							If it starts while you're unavailable, you might miss parts of the game greatly impacting your reliability score.
 						</MaterialUI.Typography>
 					);
 				}
@@ -861,10 +856,8 @@ export default class GameListElement extends React.Component {
 							key="reliability-warning"
 							className={warningClass}
 						>
-							WARNING: This game has no reliability requirements,
-							which means it will likely have one or more absent
-							players. Since you have a reliability > 10, you have
-							a wide selection of more reliable games to join.
+							WARNING: We advise you to join a different game, because you have high reliability. 
+							Since this game has no reliability requirements, it might have (some) absent players. 
 						</MaterialUI.Typography>
 					);
 				}
