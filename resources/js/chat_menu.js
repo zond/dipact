@@ -263,8 +263,8 @@ export default class ChatMenu extends React.Component {
 								style={{
 									width: "100%",
 									justifyContent: "left",
-									paddingTop: "8px",
-									paddingBottom: "8px",
+									paddingTop: "12px",
+									paddingBottom: "12px",
 									border: "none",
 									borderBottom: "1px solid rgb(40,26,26,0.1)",
 									borderRadius: "0px"
@@ -355,7 +355,7 @@ export default class ChatMenu extends React.Component {
 										)}
 									>
 										<MaterialUI.Typography
-											variant="subtitle2"
+											variant="body1"
 											className={helpers.scopedClass(
 												"text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
 											)}

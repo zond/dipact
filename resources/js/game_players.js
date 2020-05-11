@@ -136,81 +136,99 @@ export default class GameMetadata extends React.Component {
           }}
           onClose={this.close}
         >
-          <MaterialUI.DialogTitle>Game metadata</MaterialUI.DialogTitle>
+          <MaterialUI.DialogTitle>Players</MaterialUI.DialogTitle>
           <MaterialUI.DialogContent>
-
-              {this.state.gameStates
-                ? this.props.game.Properties.Members.map((member) => {
-                    return (
-                      <React.Fragment key={member.Nation + "-fragment"}>
-                        <div style={{ display: "flex", width: "100%", flexWrap:"wrap", marginBottom:"12px" }}>
-                          <div style={{ width: "40px", height: "40px", marginRight: "8px"}}>
-                            <UserAvatar
-                              onNewGameState={this.props.onNewGameState}
-                              game={this.props.game}
-                              gameState={
-                                this.member
-                                  ? this.state.gameStates[this.member.Nation]
-                                  : null
-                              }
-                              banChange={(_) => {
-                                this.forceUpdate();
-                              }}
-                              user={member.User}
-                            />
-                          </div>
-
-                          <div
-                            style={{ display: "flex", flexDirection: "column" }}
-                          >
-                            <MaterialUI.Typography variant="body1">
-                              {member.Nation}
-                            </MaterialUI.Typography>
-                            <MaterialUI.Typography variant="subtitle2">
-                              {member.User.Name}
-                            </MaterialUI.Typography>
-                          </div>
-
-                          <div style={{marginLeft:"auto", display:"flex", paddingLeft: "8px"}}>
-                            <MaterialUI.FormControlLabel
-                              control={
-                                <MaterialUI.Checkbox
-                                  disabled={member.User.Id == Globals.user.Id}
-                                  checked={!!this.state.bans[member.User.Id]}
-                                  onChange={this.toggleBanned(member.User.Id)}
-                                />
-                              }
-                              label="Ban"
-                            />
-
-                            <MaterialUI.FormControlLabel
-                              control={
-                                <MaterialUI.Checkbox
-                                  disabled={
-                                    !this.member ||
-                                    member.Nation == this.member.Nation
-                                  }
-                                  checked={
-                                    this.member &&
-                                    (
-                                      this.state.gameStates[this.member.Nation]
-                                        .Properties.Muted || []
-                                    ).indexOf(member.Nation) != -1
-                                  }
-                                  onChange={this.toggleMuted(member.Nation)}
-                                />
-                              }
-                              label="Mute"
-                              style={{marginRigh:"0px"}}
-                            />
-                          </div>
+            {this.state.gameStates
+              ? this.props.game.Properties.Members.map((member) => {
+                  return (
+                    <React.Fragment key={member.Nation + "-fragment"}>
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          flexWrap: "wrap",
+                          marginBottom: "12px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            marginRight: "8px",
+                          }}
+                        >
+                          <UserAvatar
+                            onNewGameState={this.props.onNewGameState}
+                            game={this.props.game}
+                            gameState={
+                              this.member
+                                ? this.state.gameStates[this.member.Nation]
+                                : null
+                            }
+                            banChange={(_) => {
+                              this.forceUpdate();
+                            }}
+                            user={member.User}
+                          />
                         </div>
 
-               
-                      </React.Fragment>
-                    );
-                  })
-                : ""}
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <MaterialUI.Typography variant="body1">
+                            {member.Nation}
+                          </MaterialUI.Typography>
+                          <MaterialUI.Typography variant="subtitle2">
+                            {member.User.Name}
+                          </MaterialUI.Typography>
+                        </div>
+
+                        <div
+                          style={{
+                            marginLeft: "auto",
+                            display: "flex",
+                            paddingLeft: "8px",
+                          }}
+                        >
+                          <MaterialUI.FormControlLabel
+                            control={
+                              <MaterialUI.Checkbox
+                                disabled={member.User.Id == Globals.user.Id}
+                                checked={!!this.state.bans[member.User.Id]}
+                                onChange={this.toggleBanned(member.User.Id)}
+                                color="primary"
+                              />
+                            }
+                            label="Ban"
+                          />
+
+                          <MaterialUI.FormControlLabel
+                            control={
+                              <MaterialUI.Checkbox
+                                disabled={
+                                  !this.member ||
+                                  member.Nation == this.member.Nation
+                                }
+                                checked={
+                                  this.member &&
+                                  (
+                                    this.state.gameStates[this.member.Nation]
+                                      .Properties.Muted || []
+                                  ).indexOf(member.Nation) != -1
+                                }
+                                onChange={this.toggleMuted(member.Nation)}
+                                color="primary"
+                              />
+                            }
+                            label="Mute"
+                            style={{ marginRigh: "0px" }}
+                          />
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  );
+                })
+              : ""}
 
             <MaterialUI.DialogActions
               className={helpers.scopedClass(
