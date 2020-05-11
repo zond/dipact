@@ -164,10 +164,10 @@ export default class GameMetadata extends React.Component {
                             style={{ display: "flex", flexDirection: "column" }}
                           >
                             <MaterialUI.Typography variant="body1">
-                              {member.User.Name}
+                              {member.Nation}
                             </MaterialUI.Typography>
                             <MaterialUI.Typography variant="subtitle2">
-                              {member.Nation}
+                              {member.User.Name}
                             </MaterialUI.Typography>
                           </div>
 
