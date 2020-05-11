@@ -3,7 +3,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 import DipMap from '%{ cb "/js/dip_map.js" }%';
 import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 import OrderList from '%{ cb "/js/order_list.js" }%';
-import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
+import GamePlayers from '%{ cb "/js/game_players.js" }%';
 import GameResults from '%{ cb "/js/game_results.js" }%';
 import PreliminaryScores from '%{ cb "/js/preliminary_scores.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
@@ -28,7 +28,7 @@ export default class Game extends React.Component {
 		this.renderedPhaseOrdinal = null;
 		this.debugCounters = {};
 		this.options = null;
-		this.gameMetadata = null;
+		this.GamePlayers = null;
 		this.gameResults = null;
 		this.preliminaryScores = null;
 		this.nationPreferencesDialog = null;
@@ -561,17 +561,17 @@ export default class Game extends React.Component {
 								{this.state.game.Properties.Started
 									? [
 											<MaterialUI.MenuItem
-												key="metadata"
+												key="Players"
 												onClick={_ => {
 													this.setState({
 														moreMenuAnchorEl: null
 													});
-													this.gameMetadata.setState({
+													this.GamePlayers.setState({
 														open: true
 													});
 												}}
 											>
-												Metadata
+												Players
 											</MaterialUI.MenuItem>,
 											<MaterialUI.MenuItem
 												key="scores"
@@ -870,13 +870,13 @@ export default class Game extends React.Component {
 									variant={this.state.variant}
 								/>
 							</div>
-							<GameMetadata
+							<GamePlayers
 								gameStates={this.state.gameStates}
 								game={this.state.game}
 								variant={this.state.variant}
 								onNewGameState={this.onNewGameState}
 								parentCB={c => {
-									this.gameMetadata = c;
+									this.GamePlayers = c;
 								}}
 							/>
 							<PreliminaryScores
