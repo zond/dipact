@@ -138,6 +138,7 @@ export default class GameMetadata extends React.Component {
         >
           <MaterialUI.DialogTitle>Players</MaterialUI.DialogTitle>
           <MaterialUI.DialogContent>
+          <MaterialUI.Typography variant="subtitle2" style={{paddingBottom: "8px"}}>Banning a player means you'll never play with them again.</MaterialUI.Typography>  
             {this.state.gameStates
               ? this.props.game.Properties.Members.map((member) => {
                   return (
