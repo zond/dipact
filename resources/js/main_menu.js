@@ -156,8 +156,9 @@ export default class MainMenu extends ActivityContainer {
 								});
 							}}
 							color="secondary"
-						>
-							{helpers.createIcon("\ue853")}
+						>	
+							<MaterialUI.Avatar alt="test" src={Globals.user.Picture} style={{width: "32px", height: "32px", border:"1px solid #FDE2B5"}} />
+						
 						</MaterialUI.IconButton>
 						<MaterialUI.Menu
 							anchorEl={this.state.menuAnchorEl}
