@@ -39,24 +39,15 @@ export default class SettingsDialog extends React.Component {
 			] = this.state.newColorOverrideColor;
 		} else if (this.state.newColorOverrideType == "nation") {
 			Globals.colorOverrides.nations[
-				this.state.newColorOverrideNation.replace(
-					helpers.overrideReg,
-					""
-				)
+				this.state.newColorOverrideNation
 			] = this.state.newColorOverrideColor;
 		} else {
-			const variantCode = this.state.newColorOverrideVariant.replace(
-				helpers.overrideReg,
-				""
-			);
-			if (!Globals.colorOverrides.variants[variantCode]) {
-				Globals.colorOverrides.variants[variantCode] = {};
+			const variant = this.state.newColorOverrideVariant;
+			if (!Globals.colorOverrides.variants[variant]) {
+				Globals.colorOverrides.variants[variant] = {};
 			}
-			Globals.colorOverrides.variants[variantCode][
-				this.state.newColorOverrideNation.replace(
-					helpers.overrideReg,
-					""
-				)
+			Globals.colorOverrides.variants[variant][
+				this.state.newColorOverrideNation
 			] = this.state.newColorOverrideColor;
 		}
 		this.setState((state, props) => {
@@ -64,27 +55,25 @@ export default class SettingsDialog extends React.Component {
 			state.userConfig.Properties.Colors =
 				Globals.colorOverrides.positions;
 			Object.keys(Globals.colorOverrides.nations || {}).forEach(
-				nationCode => {
+				nation => {
 					state.userConfig.Properties.Colors.push(
-						nationCode +
+						nation.replace(helpers.overrideReg, "") +
 							"/" +
-							Globals.colorOverrides.nations[nationCode]
+							Globals.colorOverrides.nations[nation]
 					);
 				}
 			);
 			Object.keys(Globals.colorOverrides.variants || {}).forEach(
-				variantCode => {
+				variant => {
 					Object.keys(
-						Globals.colorOverrides.variants[variantCode] || {}
-					).forEach(nationCode => {
+						Globals.colorOverrides.variants[variant] || {}
+					).forEach(nation => {
 						state.userConfig.Properties.Colors.push(
-							variantCode +
+							variant.replace(helpers.overrideReg, "") +
 								"/" +
-								nationCode +
+								nation.replace(helpers.overrideReg, "") +
 								"/" +
-								Globals.colorOverrides.variants[variantCode][
-									nationCode
-								]
+								Globals.colorOverrides.variants[variant][nation]
 						);
 					});
 				}
