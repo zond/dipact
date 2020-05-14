@@ -8,6 +8,7 @@ export default class Start extends React.Component {
 		super(props);
 		this.state = { newGameFormOpen: false };
 		this.createGameDialog = null;
+	
 	}
 	componentDidMount() {
 		gtag("set", { "page_title": "Start", "page_location": location.href });
@@ -25,6 +26,7 @@ export default class Start extends React.Component {
 						<MaterialUI.List>
 							<li key="started">
 								<ul style={{ paddingInlineStart: 0 }}>
+									<div style={{display:"flex", justifyContent:"space-between", paddingRight: "8px", }}>
 									<MaterialUI.ListSubheader
 										style={{
 											backgroundColor: "white",
@@ -36,6 +38,10 @@ export default class Start extends React.Component {
 									>
 										My ongoing games
 									</MaterialUI.ListSubheader>
+									<MaterialUI.Button>
+									View all
+									</MaterialUI.Button>
+									</div>
 									<MaterialUI.ListItem
 										style={{
 											padding: "0px 16px 4px 16px",
@@ -57,6 +63,7 @@ export default class Start extends React.Component {
 							</li>
 							<li key="staging">
 								<ul style={{ paddingInlineStart: 0 }}>
+																		<div style={{display:"flex", justifyContent:"space-between", paddingRight: "8px", }}>
 									<MaterialUI.ListSubheader
 										style={{
 											backgroundColor: "white",
@@ -68,6 +75,11 @@ export default class Start extends React.Component {
 									>
 										My forming games
 									</MaterialUI.ListSubheader>
+									<MaterialUI.Button>
+									View all
+									</MaterialUI.Button>
+									</div>
+
 									<MaterialUI.ListItem
 										style={{
 											padding: "0px 16px 4px 16px"
@@ -88,6 +100,7 @@ export default class Start extends React.Component {
 							</li>
 							<li key="finished">
 								<ul style={{ paddingInlineStart: 0 }}>
+																	<div style={{display:"flex", justifyContent:"space-between", paddingRight: "8px", }}>
 									<MaterialUI.ListSubheader
 										style={{
 											backgroundColor: "white",
@@ -99,6 +112,11 @@ export default class Start extends React.Component {
 									>
 										My finished games
 									</MaterialUI.ListSubheader>
+									<MaterialUI.Button>
+									View all
+									</MaterialUI.Button>
+									</div>
+
 									<MaterialUI.ListItem
 										style={{
 											padding: "0px 16px 4px 16px"

@@ -94,7 +94,9 @@ export default class GameList extends React.Component {
 					key="progress"
 					style={{
 						width: "100%",
-						textAlign: "center"
+						textAlign: "center",
+						paddingTop: "calc(50% - 20px)",
+						paddingBottom: "calc(50% - 20px)",
 					}}
 				>
 					<MaterialUI.CircularProgress />
