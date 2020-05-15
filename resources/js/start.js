@@ -8,10 +8,12 @@ export default class Start extends React.Component {
 		super(props);
 		this.state = { newGameFormOpen: false };
 		this.createGameDialog = null;
-	
+		this.myStagingGamesList = null;
+		this.myStartedGamesList = null;
+		this.myFinishedGamesList = null;
 	}
 	componentDidMount() {
-		gtag("set", { "page_title": "Start", "page_location": location.href });
+		gtag("set", { page_title: "Start", page_location: location.href });
 		gtag("event", "page_view");
 	}
 	render() {
@@ -24,23 +26,26 @@ export default class Start extends React.Component {
 						)}
 					>
 						<MaterialUI.List>
-							<li key="started">
+							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
-									<div style={{display:"flex", justifyContent:"space-between", paddingRight: "8px", }}>
-									<MaterialUI.ListSubheader
+									<div
 										style={{
-											backgroundColor: "white",
-											zIndex: "2",
-											marginBottom: "2px",
-											height: "44px",
-											color: "rgba(40, 26, 26, 0.56)"
+											display: "flex",
+											justifyContent: "space-between",
+											paddingRight: "8px"
 										}}
 									>
-										My ongoing games
-									</MaterialUI.ListSubheader>
-									<MaterialUI.Button>
-									View all
-									</MaterialUI.Button>
+										<MaterialUI.ListSubheader
+											style={{
+												backgroundColor: "white",
+												zIndex: "2",
+												marginBottom: "2px",
+												height: "44px",
+												color: "rgba(40, 26, 26, 0.56)"
+											}}
+										>
+											My ongoing games
+										</MaterialUI.ListSubheader>
 									</div>
 									<MaterialUI.ListItem
 										style={{
@@ -49,35 +54,54 @@ export default class Start extends React.Component {
 										}}
 									>
 										<GameList
+											limit={128}
 											contained={true}
 											url={
 												this.props.urls[
 													"my-started-games"
 												]
 											}
-											limit={8}
-											skipMore={true}
+											onPhaseMessage={_ => {
+												this.myStartedGamesList.reload();
+												this.myFinishedGamesList.reload();
+											}}
+											parentCB={c => {
+												this.myStartedGamesList = c;
+											}}
+											onFilled={_ => {
+												document.getElementById(
+													"my-started-container"
+												).style.display = "block";
+											}}
+											onEmpty={_ => {
+												document.getElementById(
+													"my-started-container"
+												).style.display = "none";
+											}}
 										/>
 									</MaterialUI.ListItem>
 								</ul>
 							</li>
-							<li key="staging">
+							<li key="staging" id="my-staging-container">
 								<ul style={{ paddingInlineStart: 0 }}>
-																		<div style={{display:"flex", justifyContent:"space-between", paddingRight: "8px", }}>
-									<MaterialUI.ListSubheader
+									<div
 										style={{
-											backgroundColor: "white",
-											zIndex: "2",
-											marginBottom: "2px",
-											height: "44px",
-											color: "rgba(40, 26, 26, 0.56)"
+											display: "flex",
+											justifyContent: "space-between",
+											paddingRight: "8px"
 										}}
 									>
-										My forming games
-									</MaterialUI.ListSubheader>
-									<MaterialUI.Button>
-									View all
-									</MaterialUI.Button>
+										<MaterialUI.ListSubheader
+											style={{
+												backgroundColor: "white",
+												zIndex: "2",
+												marginBottom: "2px",
+												height: "44px",
+												color: "rgba(40, 26, 26, 0.56)"
+											}}
+										>
+											My forming games
+										</MaterialUI.ListSubheader>
 									</div>
 
 									<MaterialUI.ListItem
@@ -86,35 +110,62 @@ export default class Start extends React.Component {
 										}}
 									>
 										<GameList
+											limit={128}
 											contained={true}
+											onPhaseMessage={_ => {
+												this.myStartedGamesList.reload();
+												this.myStagingGamesList.reload();
+											}}
+											onFilled={_ => {
+												document.getElementById(
+													"my-staging-container"
+												).style.display = "block";
+											}}
+											withDetails={true}
+											onEmpty={_ => {
+												document.getElementById(
+													"my-staging-container"
+												).style.display = "none";
+											}}
+											parentCB={c => {
+												this.myStagingGamesList = c;
+											}}
 											url={
 												this.props.urls[
 													"my-staging-games"
 												]
 											}
-											limit={8}
-											skipMore={true}
 										/>
 									</MaterialUI.ListItem>
 								</ul>
 							</li>
-							<li key="finished">
+							<li key="finished" id="my-finished-container">
 								<ul style={{ paddingInlineStart: 0 }}>
-																	<div style={{display:"flex", justifyContent:"space-between", paddingRight: "8px", }}>
-									<MaterialUI.ListSubheader
+									<div
 										style={{
-											backgroundColor: "white",
-											zIndex: "2",
-											marginBottom: "2px",
-											height: "44px",
-											color: "rgba(40, 26, 26, 0.56)"
+											display: "flex",
+											justifyContent: "space-between",
+											paddingRight: "8px"
 										}}
 									>
-										My finished games
-									</MaterialUI.ListSubheader>
-									<MaterialUI.Button>
-									View all
-									</MaterialUI.Button>
+										<MaterialUI.ListSubheader
+											style={{
+												backgroundColor: "white",
+												zIndex: "2",
+												marginBottom: "2px",
+												height: "44px",
+												color: "rgba(40, 26, 26, 0.56)"
+											}}
+										>
+											My finished games
+										</MaterialUI.ListSubheader>
+										<MaterialUI.Button
+											onClick={
+												this.props.renderMyFinishedGames
+											}
+										>
+											View all
+										</MaterialUI.Button>
 									</div>
 
 									<MaterialUI.ListItem
@@ -124,13 +175,25 @@ export default class Start extends React.Component {
 									>
 										<GameList
 											contained={true}
+											parentCB={c => {
+												this.myFinishedGamesList = c;
+											}}
+											onFilled={_ => {
+												document.getElementById(
+													"my-finished-container"
+												).style.display = "block";
+											}}
+											onEmpty={_ => {
+												document.getElementById(
+													"my-finished-container"
+												).style.display = "none";
+											}}
 											url={
 												this.props.urls[
 													"my-finished-games"
 												]
 											}
 											limit={8}
-											skipMore={true}
 										/>
 									</MaterialUI.ListItem>
 								</ul>
@@ -326,7 +389,9 @@ export default class Start extends React.Component {
 					</React.Fragment>
 				)}
 				<CreateGameDialog
-					gameCreated={this.props.myStagingGames}
+					gameCreated={_ => {
+						this.myStagingGamesList.reload();
+					}}
 					parentCB={c => {
 						this.createGameDialog = c;
 					}}

@@ -69,7 +69,11 @@ export default class GameListElement extends React.Component {
 		if (payload.data.gameID != this.state.game.Properties.ID) {
 			return false;
 		}
-		this.reloadGame();
+		if (this.props.onPhaseMessage) {
+			this.props.onPhaseMessage();
+		} else {
+			this.reloadGame();
+		}
 		return false;
 	}
 	componentWillUnmount() {
@@ -802,7 +806,7 @@ export default class GameListElement extends React.Component {
 					key="requirement-notice"
 					className={noticeClass}
 				>
-					You can't join this game because: {" "}
+					You can't join this game because:{" "}
 					{this.state.game.Properties.FailedRequirements.join(", ")}.
 				</MaterialUI.Typography>
 			);
@@ -842,8 +846,10 @@ export default class GameListElement extends React.Component {
 							key="deadline-warning"
 							className={warningClass}
 						>
-							WARNING: This game has short deadlines (less than 12 hours). 
-							If it starts while you're unavailable, you might miss parts of the game greatly impacting your reliability score.
+							WARNING: This game has short deadlines (less than 12
+							hours). If it starts while you're unavailable, you
+							might miss parts of the game greatly impacting your
+							reliability score.
 						</MaterialUI.Typography>
 					);
 				}
@@ -856,8 +862,10 @@ export default class GameListElement extends React.Component {
 							key="reliability-warning"
 							className={warningClass}
 						>
-							WARNING: We advise you to join a different game, because you have high reliability. 
-							Since this game has no reliability requirements, it might have (some) absent players. 
+							WARNING: We advise you to join a different game,
+							because you have high reliability. Since this game
+							has no reliability requirements, it might have
+							(some) absent players.
 						</MaterialUI.Typography>
 					);
 				}

@@ -17,7 +17,7 @@ export default class MainMenu extends ActivityContainer {
 		this.renderGameList = this.renderGameList.bind(this);
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
-		this.renderMyStagingGames = this.renderMyStagingGames.bind(this);
+		this.renderMyFinishedGames = this.renderMyFinishedGames.bind(this);
 		this.state = {
 			drawerOpen: false,
 			activity: Start,
@@ -26,7 +26,7 @@ export default class MainMenu extends ActivityContainer {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
 				findOpenGame: this.renderOpenGames,
-				myStagingGames: this.renderMyStagingGames
+				renderMyFinishedGames: this.renderMyFinishedGames
 			}
 		};
 		this.findGameDialog = null;
@@ -53,7 +53,8 @@ export default class MainMenu extends ActivityContainer {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
-									myStagingGames: this.renderMyStagingGames
+									renderMyFinishedGames: this
+										.renderMyFinishedGames
 								});
 							}
 						};
@@ -112,11 +113,11 @@ export default class MainMenu extends ActivityContainer {
 	closeDrawer() {
 		this.setState({ drawerOpen: false });
 	}
-	renderMyStagingGames() {
+	renderMyFinishedGames() {
 		this.setActivity(GameList, {
-			label: "My staging games",
-			key: "my-staging-games",
-			url: this.props.urls["my-staging-games"]
+			label: "My finished games",
+			key: "my-finished-games",
+			url: this.props.urls["my-finished-games"]
 		});
 	}
 	renderOpenGames() {
@@ -237,8 +238,8 @@ export default class MainMenu extends ActivityContainer {
 											urls: this.props.urls,
 											findPrivateGame: this.findGameByID,
 											findOpenGame: this.renderOpenGames,
-											myStagingGames: this
-												.renderMyStagingGames
+											renderMyFinishedGames: this
+												.renderMyFinishedGames
 										});
 									}}
 								>
