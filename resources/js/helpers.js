@@ -336,15 +336,13 @@ export function phaseLengthDisplay(properties) {
 }
 
 export function natCol(nation, variant) {
-	const nationCode = nation.replace(overrideReg, "");
-	const variantCode = variant.Properties.Name.replace(overrideReg, "");
 	if (
-		Globals.colorOverrides.variants[variantCode] &&
-		Globals.colorOverrides.variants[variantCode][nationCode]
+		Globals.colorOverrides.variants[variant.Properties.Name] &&
+		Globals.colorOverrides.variants[variant.Properties.Name][nation]
 	) {
-		return Globals.colorOverrides.variants[variantCode][nationCode];
-	} else if (Globals.colorOverrides.nations[nationCode]) {
-		return Globals.colorOverrides.nations[nationCode];
+		return Globals.colorOverrides.variants[variant.Properties.Name][nation];
+	} else if (Globals.colorOverrides.nations[nation]) {
+		return Globals.colorOverrides.nations[nation];
 	}
 	const pos = variant.Properties.Nations.indexOf(nation);
 	if (Globals.colorOverrides.positions[pos]) {

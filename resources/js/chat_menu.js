@@ -21,7 +21,6 @@ export default class ChatMenu extends React.Component {
 		this.openChannel = this.openChannel.bind(this);
 		this.loadChannels = this.loadChannels.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
-		this.natCol = this.natCol.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.canCreateChannel = this.canCreateChannel.bind(this);
 		this.isWarned = this.isWarned.bind(this);
@@ -186,11 +185,6 @@ export default class ChatMenu extends React.Component {
 		if (Globals.messaging.unsubscribe("message", this.messageHandler)) {
 			console.log("ChatMenu unsubscribing from `message` notifications.");
 		}
-	}
-	natCol(nat) {
-		return Globals.contrastColors[
-			this.variant.Properties.Nations.indexOf(nat)
-		];
 	}
 	openChannel(channel) {
 		this.setState({ activeChannel: channel });
