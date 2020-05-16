@@ -1173,7 +1173,8 @@ export default class GameListElement extends React.Component {
           <MaterialUI.ExpansionPanelSummary
             classes={{
             	root: helpers.scopedClass("padding: 0px;"),
-              content: helpers.scopedClass("min-width: 0; margin: 0px; padding-top:8px; padding-bottom: 8px;"),
+                            content: helpers.scopedClass("min-width: 0; margin: 0px; padding-top:8px; padding-bottom: 8px;"),
+
 
             }}
             expandIcon={helpers.createIcon("\ue5cf")}
@@ -1183,7 +1184,6 @@ export default class GameListElement extends React.Component {
           <MaterialUI.ExpansionPanelDetails 
            classes={{
             	root: helpers.scopedClass("padding: 0px;"),
-              content: helpers.scopedClass("min-width: 0; "),
 
             }}>
             {this.state.expanded ? (
