@@ -66,7 +66,7 @@ export default class GameList extends React.Component {
 			.then(resp => resp.json())
 			.then(js => {
 				let games = js.Properties;
-				if (!this.props.skipMore) {
+				if (!this.props.contained) {
 					this.moreLink = js.Links.find(l => {
 						return l.Rel == "next";
 					});
@@ -83,6 +83,17 @@ export default class GameList extends React.Component {
 					},
 					_ => {
 						this.loading = false;
+						if (
+							this.state.games.length > 0 &&
+							this.props.onFilled
+						) {
+							this.props.onFilled();
+						} else if (
+							this.state.games.length == 0 &&
+							this.props.onEmpty
+						) {
+							this.props.onEmpty();
+						}
 					}
 				);
 			});
@@ -94,7 +105,9 @@ export default class GameList extends React.Component {
 					key="progress"
 					style={{
 						width: "100%",
-						textAlign: "center"
+						textAlign: "center",
+						paddingTop: "calc(50% - 20px)",
+						paddingBottom: "calc(50% - 20px)"
 					}}
 				>
 					<MaterialUI.CircularProgress />
@@ -103,7 +116,10 @@ export default class GameList extends React.Component {
 		} else {
 			return (
 				<GameListElement
-					summaryOnly={this.props.contained}
+					onPhaseMessage={this.props.onPhaseMessage}
+					summaryOnly={
+						this.props.contained && !this.props.withDetails
+					}
 					game={el}
 					key={el.Properties.ID}
 				/>
