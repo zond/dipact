@@ -249,7 +249,7 @@ export default class Start extends React.Component {
 										key="find-private"
 										onClick={this.props.findPrivateGame}
 									>
-										Find game
+										Find game by ID
 									</MaterialUI.Button>
 									<MaterialUI.Button
 										style={{ margin: 4 }}
@@ -365,7 +365,7 @@ export default class Start extends React.Component {
 										key="find-private"
 										onClick={this.props.findPrivateGame}
 									>
-										Find game
+										Find game by ID
 									</MaterialUI.Button>
 									<MaterialUI.Button
 										style={{
