@@ -878,7 +878,7 @@ export default class GameListElement extends React.Component {
 
     this.state.game.Properties.Members.forEach((member) => {
       playerList.push(
-        <div key={itemKey++} style={{ display: "flex", alignItems: "center" }}>
+        <div key={itemKey++} style={{ display: "flex", alignItems: "center", marginBottom: "4px" }}>
           <UserAvatar user={member.User} />
           <MaterialUI.Typography>
             {member.User.GivenName} {member.User.FamilyName}
@@ -1173,7 +1173,7 @@ export default class GameListElement extends React.Component {
           <MaterialUI.ExpansionPanelSummary
             classes={{
             	root: helpers.scopedClass("padding: 0px;"),
-              content: helpers.scopedClass("min-width: 0; margin: 0px;"),
+              content: helpers.scopedClass("min-width: 0; margin: 0px; padding-top:8px; padding-bottom: 8px;"),
 
             }}
             expandIcon={helpers.createIcon("\ue5cf")}
@@ -1207,11 +1207,14 @@ export default class GameListElement extends React.Component {
                 <div
                   style={{
                     width: "100%",
-                    maxWidth: "460px",
+                    maxWidth: "460px",    
                   }}
                 >
                   {playerList}
+                <MaterialUI.Divider style={{marginTop: "16px", marginBottom: "8x"}} light />
+  
                 </div>
+                
               </div>
             ) : (
               ""
