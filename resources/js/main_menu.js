@@ -205,11 +205,14 @@ export default class MainMenu extends ActivityContainer {
 					</MaterialUI.Toolbar>
 				</MaterialUI.AppBar>
 				<div style={{ marginTop: "60px" }}>{this.renderActivity()}</div>
-				<MaterialUI.Drawer open={this.state.drawerOpen} >
+				<MaterialUI.Drawer open={this.state.drawerOpen}>
 					<MaterialUI.ClickAwayListener
 						onClickAway={this.closeDrawer}
 					>
-						<div onClick={this.closeDrawer} style={{width:"220px"}}>
+						<div
+							onClick={this.closeDrawer}
+							style={{ width: "220px" }}
+						>
 							<MaterialUI.List component="nav">
 								<MaterialUI.ListItem
 									style={{
