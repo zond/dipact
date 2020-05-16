@@ -221,10 +221,13 @@ export default class GameMetadata extends React.Component {
 														control={
 															<MaterialUI.Checkbox
 																disabled={
+																	!member.User
+																		.Id ||
 																	member.User
 																		.Id ==
-																	Globals.user
-																		.Id
+																		Globals
+																			.user
+																			.Id
 																}
 																checked={
 																	!!this.state
