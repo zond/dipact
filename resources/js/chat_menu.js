@@ -240,6 +240,13 @@ export default class ChatMenu extends React.Component {
 						/>
 					</div>
 				</MaterialUI.Slide>
+				{this.state.channels && this.state.channels.length > 0 ? (
+					""
+				) : (
+					<MaterialUI.Typography>
+						No chat channels currently.
+					</MaterialUI.Typography>
+				)}
 				<MaterialUI.ButtonGroup
 					orientation="vertical"
 					className={helpers.scopedClass(
