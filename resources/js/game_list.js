@@ -129,7 +129,7 @@ export default class GameList extends React.Component {
 	render() {
 		if (this.props.contained) {
 			return (
-				<div style={{ width: "100%" }}>
+				<div style={{ width: "100%",  }}>
 					{this.state.games.map((game, idx) => {
 						return (
 							<React.Fragment key={game.Properties.ID}>
@@ -153,10 +153,12 @@ export default class GameList extends React.Component {
 					id="scroller"
 					style={{
 						overflowY: "scroll",
-						height: "calc(100% - 60px)"
+						height: "calc(100% - 60px)",
+						padding: "0px 16px",
 					}}
 				>
-					{this.props.label ? this.props.label : ""}
+					            <MaterialUI.Typography variant="subtitle2" style={{color: "rgba(40, 26, 26, 0.56)",  padding: "16px 0px"}}>
+{this.props.label ? this.props.label : ""}</MaterialUI.Typography>
 					{this.state.games.map((game, idx) => {
 						return this.renderElement(game);
 					})}

@@ -47,7 +47,7 @@ export default class Color extends React.Component {
 		return (
 			<React.Fragment>
 				<MaterialUI.Button
-					style={{ backgroundColor: this.state.value }}
+					style={{ backgroundColor: this.state.value, margin: "0px 8px" }}
 					onClick={_ => {
 						this.setState({ dialogOpen: true });
 					}}
