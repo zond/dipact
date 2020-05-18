@@ -106,15 +106,17 @@ export default class OrderList extends React.Component {
 		) {
 			this.loadPhaseStates();
 			this.setState({
-				resolutions: this.props.phase.Properties.Resolutions
-					? this.props.phase.Properties.Resolutions.reduce(
-							(sum, el) => {
-								sum[el.Province] = el;
-								return sum;
-							},
-							{}
-					  )
-					: {}
+				resolutions:
+					this.props.phase.Properties.Resolutions &&
+					this.props.phase.Properties.Resolutions instanceof Array
+						? this.props.phase.Properties.Resolutions.reduce(
+								(sum, el) => {
+									sum[el.Province] = el;
+									return sum;
+								},
+								{}
+						  )
+						: {}
 			});
 		}
 		if (!prevProps.isActive && this.props.isActive) {

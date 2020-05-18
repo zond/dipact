@@ -30,6 +30,7 @@ export default class DipMap extends React.Component {
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
 		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
+		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
@@ -874,6 +875,29 @@ export default class DipMap extends React.Component {
 			}
 		}
 	}
+	filterOK(filter, prov) {
+		const parts = filter.split(":");
+		if (parts[0] == "MAX") {
+			if (this.state.orders) {
+				if (
+					this.state.orders.find(o => {
+						return o.Properties.Parts[0] == prov;
+					})
+				) {
+					return true;
+				}
+				if (
+					this.state.orders.filter(o => {
+						return o.Properties.Parts[1] == parts[1];
+					}).length > Number.parseInt(parts[2])
+				) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return true;
+	}
 	addOptionHandlers(options, parts) {
 		this.debugCount("addOptionsHandlers/called");
 		if (Object.keys(options).length == 0) {
@@ -907,23 +931,27 @@ export default class DipMap extends React.Component {
 			switch (type) {
 				case "Province":
 					for (let prov in options) {
-						this.map.addClickListener(
-							prov,
-							prov => {
-								this.map.clearClickListeners();
-								this.debugCount(
-									"addOptionshandler/" + prov + "Clicked"
-								);
-								this.addOptionHandlers(
-									options[prov].Next,
-									parts.concat(prov)
-								);
-							},
-							{ touch: true }
-						);
-						this.debugCount(
-							"addOptionsHandlers/addedClickListener"
-						);
+						const filter = options[prov].Filter;
+						if (!filter || this.filterOK(filter, prov)) {
+							this.map.addClickListener(
+								prov,
+								prov => {
+									this.map.clearClickListeners();
+									this.debugCount(
+										"addOptionshandler/" + prov + "Clicked"
+									);
+									this.addOptionHandlers(
+										options[prov].Next,
+										parts.concat(prov)
+									);
+								},
+								{ touch: true }
+							);
+							this.debugCount(
+								"addOptionsHandlers/addedClickListener"
+							);
+						}
+						this.debugCount("addOptionsHandlers/checkedFilterOK");
 					}
 					break;
 				case "LabCommand":
