@@ -29,7 +29,8 @@ export default class Color extends React.Component {
 				this.setState(
 					{
 						picker: new iro.ColorPicker(container, {
-							color: this.state.value
+							color: this.state.value,
+							width: 208,
 						})
 					},
 					_ => {
@@ -46,14 +47,20 @@ export default class Color extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<MaterialUI.Button
-					style={{ backgroundColor: this.state.value, margin: "0px 8px" }}
-					onClick={_ => {
+				<div onClick={_ => {
 						this.setState({ dialogOpen: true });
 					}}
+					style={{display:"flex", alignItems:"center "}}>
+				<MaterialUI.Button
+					style={{ backgroundColor: this.state.value, margin: "0px 8px" }}
+					
 				>
 					{this.state.value}
 				</MaterialUI.Button>
+				
+				                  {this.props.edited ? <div  style={{color:"#281A1A"}}>{helpers.createIcon("\ue3c9")}</div> : ""}
+				
+				</div>
 				<MaterialUI.Dialog
 					onEntered={helpers.genOnback(this.close)}
 					open={this.state.dialogOpen}
