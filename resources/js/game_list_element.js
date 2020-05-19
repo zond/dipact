@@ -813,6 +813,7 @@ export default class GameListElement extends React.Component {
 			);
 		}
 
+
 		if (!this.dead) {
 			buttons.push(
 				<MaterialUI.Button
@@ -942,7 +943,7 @@ export default class GameListElement extends React.Component {
 			playerList.push(
 				<div
 					key={itemKey++}
-					style={{ display: "flex", alignItems: "center" }}
+					style={{ display: "flex", alignItems: "center", marginBottom: "4px"}}
 				>
 					<UserAvatar user={member.User} />
 					<MaterialUI.Typography>
@@ -1198,6 +1199,7 @@ export default class GameListElement extends React.Component {
 					}
 				})()}
 
+
 				<div></div>
 			</div>
 		);
@@ -1282,10 +1284,9 @@ export default class GameListElement extends React.Component {
 					<MaterialUI.ExpansionPanelSummary
 						classes={{
 							root: helpers.scopedClass("padding: 0px;"),
-							content: helpers.scopedClass(
-								"min-width: 0; margin: 0px;"
-							)
+							
 						}}
+
 						expandIcon={helpers.createIcon("\ue5cf")}
 					>
 						{summary}
@@ -1293,10 +1294,10 @@ export default class GameListElement extends React.Component {
 					<MaterialUI.ExpansionPanelDetails
 						classes={{
 							root: helpers.scopedClass("padding: 0px;"),
-							content: helpers.scopedClass("min-width: 0; ")
 						}}
 					>
 						{this.state.expanded ? (
+							<div>
 							<div
 								style={{
 									display: "flex",
@@ -1304,7 +1305,9 @@ export default class GameListElement extends React.Component {
 									justifyContent: "space-between",
 									flexWrap: "wrap",
 									maxWidth: "960px",
-									width: "100%"
+									width: "100%",
+									marginBottom: "16px",
+
 								}}
 							>
 								<div
@@ -1317,11 +1320,13 @@ export default class GameListElement extends React.Component {
 								<div
 									style={{
 										width: "100%",
-										maxWidth: "460px"
+										maxWidth: "460px",
 									}}
 								>
 									{playerList}
 								</div>
+							</div>
+							<MaterialUI.Divider />
 							</div>
 						) : (
 							""

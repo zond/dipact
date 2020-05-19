@@ -341,13 +341,8 @@ export function natCol(nation, variant) {
 		Globals.colorOverrides.variants[variant.Properties.Name][nation]
 	) {
 		return Globals.colorOverrides.variants[variant.Properties.Name][nation];
-	} else if (Globals.colorOverrides.nations[nation]) {
-		return Globals.colorOverrides.nations[nation];
 	}
 	const pos = variant.Properties.Nations.indexOf(nation);
-	if (Globals.colorOverrides.positions[pos]) {
-		return Globals.colorOverrides.positions[pos];
-	}
 	if (pos == -1) {
 		if (nation == "Neutral") {
 			return "#d0d0d0";

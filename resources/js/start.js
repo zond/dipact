@@ -106,7 +106,7 @@ export default class Start extends React.Component {
 
 									<MaterialUI.ListItem
 										style={{
-											padding: "0px 16px 4px 16px"
+											padding: "0px 16px"
 										}}
 									>
 										<GameList
