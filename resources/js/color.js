@@ -14,13 +14,33 @@ export default class Color extends React.Component {
 	}
 	select() {
 		helpers.unback(this.close);
-		this.setState({ dialogOpen: false, picker: null }, _ => {
-			if (this.props.onSelect) {
-				this.props.onSelect(this.state.value);
+		const val = this.state.value;
+		if (val.length == 7 || val.length == 4 || val.length == 9) {
+			if (/#[0-9a-fA-F]*/.exec(val)) {
+				this.setState({ dialogOpen: false, picker: null }, _ => {
+					if (this.props.onSelect) {
+						this.props.onSelect(this.state.value);
+					}
+				});
 			}
-		});
+		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (
+			prevState.value != this.state.value &&
+			this.state.picker &&
+			this.state.dialogOpen
+		) {
+			const val = this.state.value;
+			if (val.length == 7 || val.length == 4 || val.length == 9) {
+				if (/#[0-9a-fA-F]*/.exec(val)) {
+					this.state.picker.setColors([this.state.value]);
+				}
+			}
+		}
+		if (prevProps.value != this.props.value) {
+			this.setState({ value: this.props.value });
+		}
 		if (!this.state.picker && this.state.dialogOpen) {
 			const container = document.getElementById(this.fieldID);
 			if (!container) {
@@ -59,6 +79,11 @@ export default class Color extends React.Component {
 					<MaterialUI.Button
 						style={{
 							backgroundColor: this.state.value,
+							color:
+								helpers.brightnessByColor(this.state.value) <
+								127
+									? "white"
+									: "black",
 							margin: "0px 8px"
 						}}
 					>
@@ -81,6 +106,18 @@ export default class Color extends React.Component {
 				>
 					<MaterialUI.DialogContent>
 						<div id={this.fieldID}></div>
+						<MaterialUI.TextField
+							key="hex"
+							label="Hexcode"
+							margin="dense"
+							fullWidth
+							value={this.state.value}
+							onChange={ev => {
+								this.setState({
+									value: ev.target.value
+								});
+							}}
+						/>
 					</MaterialUI.DialogContent>
 					<MaterialUI.DialogActions>
 						<MaterialUI.Button
