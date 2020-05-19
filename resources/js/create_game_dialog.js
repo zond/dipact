@@ -316,6 +316,7 @@ export default class CreateGameDialog extends React.Component {
 			/>
 		);
 	}
+
 	render() {
 		this.resetValidators();
 		return (
@@ -325,13 +326,28 @@ export default class CreateGameDialog extends React.Component {
 					open={this.state.open}
 					disableBackdropClick={false}
 					onClose={this.close}
+					fullScreen
 				>
-					<MaterialUI.DialogTitle>Create game</MaterialUI.DialogTitle>
-					<MaterialUI.DialogContent>
-						<MaterialUI.DialogContentText>
-							Edit the properties for your new game. You can only
-							create games that match your own stats.
-						</MaterialUI.DialogContentText>
+					        <MaterialUI.AppBar>
+          <MaterialUI.Toolbar>
+            <MaterialUI.IconButton
+              edge="start"
+              color="inherit"
+              onClick={this.close}
+              aria-label="close"
+            >
+              {helpers.createIcon("\ue5cd")}
+            </MaterialUI.IconButton>
+            <MaterialUI.Typography variant="h6" style={{ paddingLeft: "16px" }}>
+              Create new game
+            </MaterialUI.Typography>
+          </MaterialUI.Toolbar>
+        </MaterialUI.AppBar>
+
+
+  <div style={{maxWidth:"920px", margin: "auto"}} >
+  <div style={{margin:"72px 16px 0px 16px"}}>
+						<div id="step1">
 						<MaterialUI.TextField
 							key="Desc"
 							label="Name"
@@ -339,26 +355,45 @@ export default class CreateGameDialog extends React.Component {
 							fullWidth
 							value={this.state.newGameProperties["Desc"]}
 							onChange={this.newGamePropertyUpdater("Desc")}
+							style={{marginBottom: "16px"}}
 						/>
+
+						  <MaterialUI.InputLabel shrink id="variantlabel">
+          Variant
+        </MaterialUI.InputLabel>
 						<MaterialUI.Select
 							key="Variant"
+							labelId="variantlabel"
 							fullWidth
 							value={this.state.newGameProperties["Variant"]}
 							onChange={this.newGamePropertyUpdater("Variant")}
+							style={{marginBottom: "16px"}}
 						>
+							{console.log(Globals)}
+							{console.log(this.state)}
 							{Globals.variants.map(variant => {
 								return (
 									<MaterialUI.MenuItem
 										key={variant.Properties.Name}
 										value={variant.Properties.Name}
 									>
-										{variant.Properties.Name},{" "}
+										{variant.Properties.Name} {" ("}
 										{variant.Properties.Nations.length}{" "}
-										players
+										players)
 									</MaterialUI.MenuItem>
 								);
 							})}
 						</MaterialUI.Select>
+
+
+						<MaterialUI.Typography style={{paddingBottom: "4px"}} variant="body2">{this.state.variant.Properties.Description}</MaterialUI.Typography>
+						<img src={this.state.variant.Links[3].URL} style={{paddingBottom:"16px", maxHeight: "300px"}} />
+
+
+						<MaterialUI.Typography style={{paddingBottom: "16px"}} variant="body2">{this.state.variant.Properties.Rules}</MaterialUI.Typography>
+
+
+
 						<MaterialUI.Select
 							key="NationAllocation"
 							fullWidth
@@ -376,6 +411,15 @@ export default class CreateGameDialog extends React.Component {
 								Preference based nation allocation
 							</MaterialUI.MenuItem>
 						</MaterialUI.Select>
+
+						</div>
+						</div>
+
+
+
+
+
+
 						<MaterialUI.Box
 							display="flex"
 							justifyContent="space-between"
@@ -561,21 +605,13 @@ export default class CreateGameDialog extends React.Component {
 								this.state.userStats.Properties.Hater
 							)
 						})}
-						<MaterialUI.DialogActions>
-							<MaterialUI.Button
-								onClick={this.close}
-								color="primary"
-							>
-								Cancel
-							</MaterialUI.Button>
 							<MaterialUI.Button
 								onClick={this.createGame}
 								color="primary"
 							>
 								Create
 							</MaterialUI.Button>
-						</MaterialUI.DialogActions>
-					</MaterialUI.DialogContent>
+						</div>
 				</MaterialUI.Dialog>
 				<NationPreferencesDialog
 					parentCB={c => {
