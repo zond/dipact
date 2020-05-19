@@ -17,7 +17,7 @@ export default class Game extends React.Component {
 			activeTab: "map",
 			activePhase: null,
 			phases: [],
-			orders: {},
+			corroboration: { Properties: {} },
 			variant: null,
 			member: null,
 			unreadMessages: 0,
@@ -36,7 +36,7 @@ export default class Game extends React.Component {
 		this.debugCount = this.debugCount.bind(this);
 		this.changePhase = this.changePhase.bind(this);
 		this.loadGame = this.loadGame.bind(this);
-		this.receiveOrders = this.receiveOrders.bind(this);
+		this.receiveCorroboration = this.receiveCorroboration.bind(this);
 		this.phaseJumper = this.phaseJumper.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.setUnreadMessages = this.setUnreadMessages.bind(this);
@@ -236,15 +236,8 @@ export default class Game extends React.Component {
 			this.setState({ activePhase: newPhase });
 		};
 	}
-	receiveOrders(orders) {
-		let natOrders = {};
-		orders.forEach(order => {
-			if (!natOrders[order.Properties.Nation]) {
-				natOrders[order.Properties.Nation] = [];
-			}
-			natOrders[order.Properties.Nation].push(order);
-		});
-		this.setState({ orders: natOrders });
+	receiveCorroboration(corr) {
+		this.setState({ corroboration: corr });
 	}
 	componentWillUnmount() {
 		helpers.unback(this.props.close);
@@ -803,7 +796,7 @@ export default class Game extends React.Component {
 							isActive={this.state.activeTab == "map"}
 							game={this.state.game}
 							phase={this.state.activePhase}
-							ordersSubscriber={this.receiveOrders}
+							corroborateSubscriber={this.receiveCorroboration}
 						/>
 					</div>
 					{this.state.game.Properties.Started ? (
@@ -855,7 +848,7 @@ export default class Game extends React.Component {
 									isActive={this.state.activeTab == "orders"}
 									member={this.state.member}
 									phase={this.state.activePhase}
-									orders={this.state.orders}
+									corroboration={this.state.corroboration}
 									newPhaseStateHandler={phaseState => {
 										this.setState((state, props) => {
 											state = Object.assign({}, state);

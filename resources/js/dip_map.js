@@ -12,7 +12,7 @@ export default class DipMap extends React.Component {
 			variant: null,
 			laboratoryMode: this.props.laboratoryMode,
 			labEditMode: false,
-			orders: null,
+			corroboration: null,
 			options: null,
 			svgLoaded: false,
 			labPlayAs: ""
@@ -29,7 +29,7 @@ export default class DipMap extends React.Component {
 		this.createOrder = this.createOrder.bind(this);
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
-		this.loadOrdersPromise = this.loadOrdersPromise.bind(this);
+		this.loadCorroboratePromise = this.loadCorroboratePromise.bind(this);
 		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.phaseSpecialStrokes = {};
@@ -148,19 +148,22 @@ export default class DipMap extends React.Component {
 	}
 	deleteOrder(prov) {
 		let order = this.state.orders.find(o => {
-			return o.Properties.Parts[0].split("/")[0] == prov.split("/")[0];
+			return o.Parts[0].split("/")[0] == prov.split("/")[0];
 		});
 		if (order) {
-			let deleteOrderLink = order.Links.find(l => {
-				return l.Rel == "delete";
-			});
-			if (deleteOrderLink) {
-				return helpers.safeFetch(
-					helpers.createRequest(deleteOrderLink.URL, {
-						method: deleteOrderLink.Method
-					})
-				);
-			}
+			return helpers.safeFetch(
+				helpers.createRequest(
+					"/Game/" +
+						this.state.game.Properties.ID +
+						"/Phase/" +
+						this.state.phase.Properties.PhaseOrdinal +
+						"/Order/" +
+						order.Parts[0].replace("/" + "_"),
+					{
+						method: "DELETE"
+					}
+				)
+			);
 		} else {
 			return Promise.resolve({});
 		}
@@ -168,27 +171,30 @@ export default class DipMap extends React.Component {
 	componentDidMount() {
 		this.setState({ game: this.props.game, phase: this.props.phase });
 	}
-	loadOrdersPromise() {
-		let orderLink = this.state.phase.Links.find(l => {
-			return l.Rel == "orders";
+	loadCorroboratePromise() {
+		let corroborateLink = this.state.phase.Links.find(l => {
+			return l.Rel == "corroborate";
 		});
-		if (orderLink) {
+		if (corroborateLink) {
 			const promiseFunc = _ => {
 				return helpers
-					.safeFetch(helpers.createRequest(orderLink.URL))
-					.then(resp => resp.json());
+					.safeFetch(helpers.createRequest(corroborateLink.URL))
+					.then(resp => resp.json())
+					.then(js => {
+						return js;
+					});
 			};
 			return new Promise((res, rej) => {
 				(this.state.phase.Properties.Resolved
-					? helpers.memoize(orderLink.URL, promiseFunc)
+					? helpers.memoize(corroborateLink.URL, promiseFunc)
 					: promiseFunc()
 				).then(js => {
-					this.props.ordersSubscriber(js.Properties);
-					res(js.Properties);
+					this.props.corroborateSubscriber(js);
+					res(js);
 				});
 			});
 		} else {
-			return Promise.resolve(null);
+			return Promise.resolve({ Properties: {} });
 		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -241,8 +247,10 @@ export default class DipMap extends React.Component {
 					this.state.phase.Links &&
 					this.state.phase.Properties.GameID
 				) {
-					this.loadOrdersPromise().then(orders => {
-						this.setState({ orders: orders });
+					this.loadCorroboratePromise().then(corroboration => {
+						this.setState({
+							orders: corroboration.Properties.Orders
+						});
 					});
 				} else {
 					// Otherwise use the orders in the phase, which we should have saved when we created it.
@@ -254,14 +262,12 @@ export default class DipMap extends React.Component {
 							this.state.phase.Properties.Orders[nation]
 						).forEach(province => {
 							orders.push({
-								Properties: {
-									Nation: nation,
-									Parts: [province].concat(
-										this.state.phase.Properties.Orders[
-											nation
-										][province]
-									)
-								}
+								Nation: nation,
+								Parts: [province].concat(
+									this.state.phase.Properties.Orders[nation][
+										province
+									]
+								)
 							});
 						});
 					});
@@ -275,7 +281,7 @@ export default class DipMap extends React.Component {
 					if (!silent) {
 						helpers.incProgress();
 					}
-					let promises = [this.loadOrdersPromise()];
+					let promises = [this.loadCorroboratePromise()];
 					let optionsLink = this.state.phase.Links.find(l => {
 						return l.Rel == "options";
 					});
@@ -311,7 +317,7 @@ export default class DipMap extends React.Component {
 							"componentDidUpdate/reRenderNormalSuccess"
 						);
 						this.setState({
-							orders: values[0],
+							orders: values[0].Properties.Orders,
 							options: values[1]
 						});
 					});
@@ -583,13 +589,10 @@ export default class DipMap extends React.Component {
 			}
 
 			(this.state.orders || []).forEach(orderData => {
-				const superProv = orderData.Properties.Parts[0].split("/")[0];
+				const superProv = orderData.Parts[0].split("/")[0];
 				this.map.addOrder(
-					orderData.Properties.Parts,
-					helpers.natCol(
-						orderData.Properties.Nation,
-						this.state.variant
-					),
+					orderData.Parts,
+					helpers.natCol(orderData.Nation, this.state.variant),
 					{ stroke: this.phaseSpecialStrokes[superProv] }
 				);
 				this.debugCount("renderOrders/renderedOrder");
@@ -645,11 +648,9 @@ export default class DipMap extends React.Component {
 					  )
 					: this.state.phase.Properties.Dislodgers || {},
 			Orders: (this.state.orders || []).reduce((sum, el) => {
-				const natOrders = sum[el.Properties.Nation] || {};
-				natOrders[el.Properties.Parts[0]] = el.Properties.Parts.slice(
-					1
-				);
-				sum[el.Properties.Nation] = natOrders;
+				const natOrders = sum[el.Nation] || {};
+				natOrders[el.Parts[0]] = el.Parts.slice(1);
+				sum[el.Nation] = natOrders;
 				return sum;
 			}, {}),
 			Bounces:
@@ -851,8 +852,8 @@ export default class DipMap extends React.Component {
 					{
 						orders: this.state.orders.filter(order => {
 							return (
-								order.Properties.Parts[0].split("/")[0] !=
-								parts[0].split("/")[0]
+								order.Parts[0].split("/")[0] !=
+								parts[1].split("/")[0]
 							);
 						})
 					},
@@ -862,13 +863,11 @@ export default class DipMap extends React.Component {
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
 					state.orders = state.orders.filter(order => {
-						return order.Properties.Parts[0] != parts[0];
+						return order.Parts[0] != parts[0];
 					});
 					state.orders.push({
-						Properties: {
-							Parts: parts,
-							Nation: this.state.labPlayAs
-						}
+						Parts: parts,
+						Nation: this.state.labPlayAs
 					});
 					return state;
 				}, this.acceptOrders);
@@ -881,14 +880,14 @@ export default class DipMap extends React.Component {
 			if (this.state.orders) {
 				if (
 					this.state.orders.find(o => {
-						return o.Properties.Parts[0] == prov;
+						return o.Parts[0] == prov;
 					})
 				) {
 					return true;
 				}
 				if (
 					this.state.orders.filter(o => {
-						return o.Properties.Parts[1] == parts[1];
+						return o.Parts[1] == parts[1];
 					}).length > Number.parseInt(parts[2])
 				) {
 					return false;
@@ -911,10 +910,13 @@ export default class DipMap extends React.Component {
 				this.createOrder(parts).then(_ => {
 					gtag("event", "create_order");
 					this.debugCount("addOptionsHandlers/orderCreated");
-					this.loadOrdersPromise().then(js => {
+					this.loadCorroboratePromise().then(corr => {
 						this.debugCount("addOptionsHandlers/newOrdersLoaded");
 						helpers.decProgress();
-						this.setState({ orders: js }, this.acceptOrders);
+						this.setState(
+							{ orders: corr.Properties.Orders },
+							this.acceptOrders
+						);
 					});
 				});
 			}
@@ -994,13 +996,19 @@ export default class DipMap extends React.Component {
 									helpers.incProgress();
 									this.deleteOrder(parts[0]).then(_ => {
 										gtag("event", "delete_order");
-										this.loadOrdersPromise().then(js => {
-											helpers.decProgress();
-											this.setState(
-												{ orders: js },
-												this.acceptOrders
-											);
-										});
+										this.loadCorroboratePromise().then(
+											corr => {
+												helpers.decProgress();
+												this.setState(
+													{
+														orders:
+															corr.Properties
+																.Orders
+													},
+													this.acceptOrders
+												);
+											}
+										);
 									});
 								}
 							} else if (ord == "Cancel") {
