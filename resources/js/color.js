@@ -30,14 +30,17 @@ export default class Color extends React.Component {
 					{
 						picker: new iro.ColorPicker(container, {
 							color: this.state.value,
-							width: 208,
+							width: 208
 						})
 					},
 					_ => {
 						this.state.picker.on("color:change", color => {
 							this.setState({ value: color.hexString });
 						});
-						gtag("set", { "page_title": "Color", "page_location": location.href });
+						gtag("set", {
+							page_title: "Color",
+							page_location: location.href
+						});
 						gtag("event", "page_view");
 					}
 				);
@@ -47,19 +50,28 @@ export default class Color extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<div onClick={_ => {
+				<div
+					onClick={_ => {
 						this.setState({ dialogOpen: true });
 					}}
-					style={{display:"flex", alignItems:"center "}}>
-				<MaterialUI.Button
-					style={{ backgroundColor: this.state.value, margin: "0px 8px" }}
-					
+					style={{ display: "flex", alignItems: "center " }}
 				>
-					{this.state.value}
-				</MaterialUI.Button>
-				
-				                  {this.props.edited ? <div  style={{color:"#281A1A"}}>{helpers.createIcon("\ue3c9")}</div> : ""}
-				
+					<MaterialUI.Button
+						style={{
+							backgroundColor: this.state.value,
+							margin: "0px 8px"
+						}}
+					>
+						{this.state.value}
+					</MaterialUI.Button>
+
+					{this.props.edited ? (
+						<div style={{ color: "#281A1A" }}>
+							{helpers.createIcon("\ue3c9")}
+						</div>
+					) : (
+						""
+					)}
 				</div>
 				<MaterialUI.Dialog
 					onEntered={helpers.genOnback(this.close)}
