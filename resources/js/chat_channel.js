@@ -22,6 +22,7 @@ export default class ChatChannel extends React.Component {
 		this.variant = Globals.variants.find(v => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
+		this.abortController = new AbortController();
 		this.sendMessage = this.sendMessage.bind(this);
 		this.loadMessages = this.loadMessages.bind(this);
 		this.phaseResolvedAfter = this.phaseResolvedAfter.bind(this);
@@ -31,6 +32,7 @@ export default class ChatChannel extends React.Component {
 		);
 		this.keyPress = this.keyPress.bind(this);
 		this.scrollDown = this.scrollDown.bind(this);
+		this.pollNewMessages = this.pollNewMessages.bind(this);
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -100,6 +102,7 @@ export default class ChatChannel extends React.Component {
 		}
 	}
 	componentWillUnmount() {
+		this.abortController.abort();
 		helpers.unback(this.props.close);
 		this.updateHistoryAndSubscription(false);
 	}
@@ -166,7 +169,9 @@ export default class ChatChannel extends React.Component {
 									Method: "GET"
 								});
 							}
-							this.loadMessages(true);
+							if (Globals.messaging.tokenEnabled) {
+								this.loadMessages(true);
+							}
 						})
 					);
 			}
@@ -188,8 +193,56 @@ export default class ChatChannel extends React.Component {
 			this.sendMessage(e);
 		}
 	}
+	pollNewMessages() {
+		const messagesLink = this.props.channel.Links.find(l => {
+			return l.Rel == "messages";
+		});
+		if (!messagesLink) {
+			return;
+		}
+		const newestMessage = this.state.messages[
+			this.state.messages.length - 1
+		];
+		const newestMessageCreationTime = newestMessage.Properties.CreatedAt;
+		const newestMessagePhase = newestMessage.phase;
+		console.log("Initiating hanging request for new messages.");
+		helpers
+			.safeFetch(
+				helpers.createRequest(
+					messagesLink.URL +
+						"?since=" +
+						newestMessageCreationTime +
+						"&wait=true"
+				),
+				{ signal: this.abortController.signal }
+			)
+			.then(resp => resp.json())
+			.then(js => {
+				console.log("Got new message!");
+				js.Properties.reverse();
+				js.Properties.forEach(message => {
+					message.phase = newestMessagePhase;
+				});
+				const newMessages = this.state.messages
+					.filter(msg => {
+						return !msg.undelivered;
+					})
+					.concat(js.Properties);
+				this.setState(
+					{
+						messages: newMessages
+					},
+					_ => {
+						this.scrollDown();
+						this.pollNewMessages();
+					}
+				);
+			});
+	}
 	loadMessages(silent = false) {
-		let messagesLink = this.props.channel.Links.find(l => {
+		this.abortController.abort();
+		this.abortController = new AbortController();
+		const messagesLink = this.props.channel.Links.find(l => {
 			return l.Rel == "messages";
 		});
 		if (messagesLink) {
@@ -197,7 +250,9 @@ export default class ChatChannel extends React.Component {
 				helpers.incProgress();
 			}
 			return helpers
-				.safeFetch(helpers.createRequest(messagesLink.URL))
+				.safeFetch(helpers.createRequest(messagesLink.URL), {
+					signal: this.abortController.signal
+				})
 				.then(resp => resp.json())
 				.then(js => {
 					if (this.props.loaded) {
@@ -221,6 +276,9 @@ export default class ChatChannel extends React.Component {
 						message.phase = this.props.phases[currentPhaseIdx];
 					});
 					this.setState({ messages: js.Properties }, this.scrollDown);
+					if (!Globals.messaging.tokenEnabled) {
+						this.pollNewMessages();
+					}
 					return Promise.resolve({});
 				});
 		} else {

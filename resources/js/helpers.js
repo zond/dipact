@@ -380,8 +380,8 @@ export function genUnbackClose(f) {
 	};
 }
 
-export function safeFetch(req) {
-	return fetch(req).then(resp => {
+export function safeFetch(req, opts = {}) {
+	return fetch(req, opts).then(resp => {
 		if (resp.status == 401) {
 			localStorage.removeItem("token");
 			if (window.Wrapper && window.Wrapper.getToken) {
