@@ -300,7 +300,8 @@ export default class SettingsDialog extends React.Component {
 									(window.Wrapper &&
 										window.Wrapper.startFCM) ? (
 										Globals.messaging.started ? (
-											Globals.messaging.hasPermission ||
+											Globals.messaging.hasPermission ==
+												"true" ||
 											(window.Wrapper &&
 												window.Wrapper.startFCM) ? (
 												Globals.messaging

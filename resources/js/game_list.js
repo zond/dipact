@@ -25,7 +25,9 @@ export default class GameList extends React.Component {
 			scroller.scrollTop >
 				scroller.scrollHeight - 2 * scroller.clientHeight
 		) {
-			this.load(helpers.createRequest(this.moreLink.URL));
+			const url = new URL(this.moreLink.URL);
+			url.searchParams.set("limit", this.props.limit || 64);
+			this.load(helpers.createRequest(url));
 		}
 	}
 	reload() {
@@ -36,6 +38,10 @@ export default class GameList extends React.Component {
 				]
 			},
 			_ => {
+				this.props.url.searchParams.set(
+					"limit",
+					this.props.limit || "64"
+				);
 				this.load(helpers.createRequest(this.props.url.toString()));
 			}
 		);
@@ -62,7 +68,7 @@ export default class GameList extends React.Component {
 	load(req) {
 		this.loading = true;
 		helpers
-			.safeFetch(req, this.props.limit || 64)
+			.safeFetch(req)
 			.then(resp => resp.json())
 			.then(js => {
 				let games = js.Properties;
@@ -129,7 +135,7 @@ export default class GameList extends React.Component {
 	render() {
 		if (this.props.contained) {
 			return (
-				<div style={{ width: "100%",  }}>
+				<div style={{ width: "100%" }}>
 					{this.state.games.map((game, idx) => {
 						return (
 							<React.Fragment key={game.Properties.ID}>
@@ -154,11 +160,18 @@ export default class GameList extends React.Component {
 					style={{
 						overflowY: "scroll",
 						height: "calc(100% - 60px)",
-						padding: "0px 16px",
+						padding: "0px 16px"
 					}}
 				>
-					            <MaterialUI.Typography variant="subtitle2" style={{color: "rgba(40, 26, 26, 0.56)",  padding: "16px 0px"}}>
-{this.props.label ? this.props.label : ""}</MaterialUI.Typography>
+					<MaterialUI.Typography
+						variant="subtitle2"
+						style={{
+							color: "rgba(40, 26, 26, 0.56)",
+							padding: "16px 0px"
+						}}
+					>
+						{this.props.label ? this.props.label : ""}
+					</MaterialUI.Typography>
 					{this.state.games.map((game, idx) => {
 						return this.renderElement(game);
 					})}
