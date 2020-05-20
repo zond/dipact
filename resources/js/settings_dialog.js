@@ -518,7 +518,6 @@ export default class SettingsDialog extends React.Component {
 										style={{
 											display: "flex",
 											flexDirection: "column",
-											marginBottom: "200px"
 										}}
 									>
 										{Globals.variants
