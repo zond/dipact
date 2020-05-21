@@ -655,9 +655,9 @@ export default class CreateGameDialog extends React.Component {
 
 				{this.state.newGameProperties["Private"] ? <MaterialUI.Typography
                   variant="body1"
-                  style={{ marginTop: "4px", marginBottom: "8px" }}
+                  style={{ marginTop: "4px", marginBottom: "8px", color: "#f44336" }}
                 >
-                  Private game: requirements might stop your friends from joining your game.
+                  For private games we advise you to not add requirements, so your friends can all join your game.
                 </MaterialUI.Typography> : "" }
                 {/* TODO: instead of using the floatfield, I created a new one because it has more control. 
                 However, each of them needs to : 
@@ -682,12 +682,13 @@ export default class CreateGameDialog extends React.Component {
                 </div>
                 </div>
             {/* TODO: the user input can be 0, but that would be the same as having the checkbox not checked */}
+            {/* TODO: I added helpers.twoDecimals to make the scores seem normal in human eyes. However, there is a risk that a score of 4.457 will round to 4.46, and when the player enters 4.46 it will say "it's too high". Do we need to mitigate this (e.g. make the check with twodecimals on both scores, then use the lowest one in the real value set?*/)}
                 <MaterialUI.TextField type="number"
                   label="Minimum reliability score"
                   value={this.state.newGameProperties["MinReliability"]}
       			  onChange={this.newGamePropertyUpdater("MinReliability")}
       			  error={this.state.userStats.Properties.Reliability < this.state.newGameProperties["MinReliability"] ? true : false }
-      			  helperText={this.state.userStats.Properties.Reliability < this.state.newGameProperties["MinReliability"] ? "Can't be higher than your own reliability (" + this.state.userStats.Properties.Reliability + ")" : "" }
+      			  helperText={this.state.userStats.Properties.Reliability < this.state.newGameProperties["MinReliability"] ? "Can't be higher than your own reliability (" + helpers.twoDecimals(this.state.userStats.Properties.Reliability) + ")" : "" }
       			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
       				/>
 
@@ -713,7 +714,7 @@ export default class CreateGameDialog extends React.Component {
                   value={this.state.newGameProperties["MinQuickness"]}
       			  onChange={this.newGamePropertyUpdater("MinQuickness")}
       			  error={this.state.userStats.Properties.Quickness < this.state.newGameProperties["MinQuickness"] ? true : false }
-      			  helperText={this.state.userStats.Properties.Quickness < this.state.newGameProperties["MinQuickness"] ? "Can't be higher than your own quickness (" + this.state.userStats.Properties.Quickness + ")" : "" }
+      			  helperText={this.state.userStats.Properties.Quickness < this.state.newGameProperties["MinQuickness"] ? "Can't be higher than your own quickness (" + helpers.twoDecimals(this.state.userStats.Properties.Quickness) + ")" : "" }
       			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
 				
 
@@ -741,7 +742,7 @@ export default class CreateGameDialog extends React.Component {
                   value={this.state.newGameProperties["MinRating"]}
       			  onChange={this.newGamePropertyUpdater("MinRating")}
       			  error={this.state.userStats.Properties.TrueSkill.Rating < this.state.newGameProperties["MinRating"] ? true : false }
-      			  helperText={this.state.userStats.Properties.TrueSkill.Rating < this.state.newGameProperties["MinRating"] ? "Can't be lower than your own quickness (" + this.state.userStats.Properties.TrueSkill.Rating + ")" : "" }
+      			  helperText={this.state.userStats.Properties.TrueSkill.Rating < this.state.newGameProperties["MinRating"] ? "Can't be lower than your own quickness (" + helpers.twoDecimals(this.state.userStats.Properties.TrueSkill.Rating) + ")" : "" }
       			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
       				/> 
       			*/}
@@ -769,7 +770,7 @@ export default class CreateGameDialog extends React.Component {
                   value={this.state.newGameProperties["MaxRating"]}
       			  onChange={this.newGamePropertyUpdater("MaxRating")}
       			  error={this.state.userStats.Properties.TrueSkill.Rating > this.state.newGameProperties["MaxRating"] ? true : false }
-      			  helperText={this.state.userStats.Properties.TrueSkill.Rating > this.state.newGameProperties["MaxRating"] ? "Can't be higher than your own rating (" + this.state.userStats.Properties.TrueSkill.Rating + ")" : "" }
+      			  helperText={this.state.userStats.Properties.TrueSkill.Rating > this.state.newGameProperties["MaxRating"] ? "Can't be higher than your own rating (" + helpers.twoDecimals(this.state.userStats.Properties.TrueSkill.Rating) + ")" : "" }
       			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
       				/> 
       			*/}
@@ -801,7 +802,7 @@ export default class CreateGameDialog extends React.Component {
                   value={this.state.newGameProperties["MaxHated"]}
       			  onChange={this.newGamePropertyUpdater("MaxHated")}
       			  error={this.state.userStats.Properties.Hated > this.state.newGameProperties["MaxHated"] ? true : false }
-      			  helperText={this.state.userStats.Properties.Hated > this.state.newGameProperties["MaxHated"] ? "Can't be higher than your own hated score (" + this.state.userStats.Properties.Hated + ")" : "" }
+      			  helperText={this.state.userStats.Properties.Hated > this.state.newGameProperties["MaxHated"] ? "Can't be higher than your own hated score (" + helpers.twoDecimals(this.state.userStats.Properties.Hated) + ")" : "" }
       			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
       				/> 
       			*/}
@@ -828,7 +829,7 @@ export default class CreateGameDialog extends React.Component {
                   value={this.state.newGameProperties["MaxHater"]}
       			  onChange={this.newGamePropertyUpdater("MaxHater")}
       			  error={this.state.userStats.Properties.Hater > this.state.newGameProperties["MaxHater"] ? true : false }
-      			  helperText={this.state.userStats.Properties.Hater > this.state.newGameProperties["MaxHater"] ? "Can't be higher than your own hater score (" + this.state.userStats.Properties.Hater + ")" : "" }
+      			  helperText={this.state.userStats.Properties.Hater > this.state.newGameProperties["MaxHater"] ? "Can't be higher than your own hater score (" + helpers.twoDecimals(this.state.userStats.Properties.Hater) + ")" : "" }
       			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
       				/> 
       			*/}
