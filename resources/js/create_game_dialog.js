@@ -176,7 +176,9 @@ export default class CreateGameDialog extends React.Component {
               );
               newValue = opts.max;
             }
-        {/* TODO: removed this due to in-field validation. Not sure if I can remove */}
+            {
+              /* TODO: removed this due to in-field validation. Not sure if I can remove */
+            }
             if (opts.min && newValue != 0 && opts.min > newValue) {
               helpers.snackbar(
                 propertyName +
@@ -197,7 +199,9 @@ export default class CreateGameDialog extends React.Component {
               );
             }
           }
-      {/* TODO: unto here */} 
+          {
+            /* TODO: unto here */
+          }
           state.newGameProperties[propertyName] = newValue;
         }
         state.variant = Globals.variants.find((v) => {
@@ -499,7 +503,8 @@ export default class CreateGameDialog extends React.Component {
                 ) : (
                   <MaterialUI.Box
                     display="flex"
-                    key="NonMovementPhaseLengthMinutes"
+                    key="nonmovementPhaseLengthMinutes"
+                    style={{ paddingLeft: "32px" }}
                   >
                     <MaterialUI.TextField
                       name="non-movement-phase-length-multiplier"
@@ -538,29 +543,45 @@ export default class CreateGameDialog extends React.Component {
                 <MaterialUI.FormControlLabel
                   key="endEarly"
                   control={
-                    <MaterialUI.Checkbox
-                      name="end-game-early"
-                      checked={true}
-                    />
+                    <MaterialUI.Checkbox name="end-game-early" checked={true} />
                   }
                   label="End in draw after number of years"
                 />
                 {/*TODO: make the above  hide the part below, but needs to be defined in newGamePropertyUpdater which I don't understand*/}
 
-               	{/* TODO: this should calculate the default value of "lastyear" of startyear + 10, IF selected */}
-                <MaterialUI.TextField
-                  type="number"
-                                        style={{ minWidth: "170px" }}
-
-                  error={this.state.newGameProperties.LastYear < (this.state.variant.Properties.Start.Year + 1) ? true : false }
-                  helperText= {this.state.newGameProperties.LastYear < (this.state.variant.Properties.Start.Year + 1) ? "Must be after the start year" : "" }
-                  label={"End after year (game starts " + this.state.variant.Properties.Start.Year + ")"}
-                  value={this.state.newGameProperties.LastYear}
-                  onChange={this.newGamePropertyUpdater("LastYear", {
-                    int: true,
-                    min: this.state.variant.Properties.Start.Year + 1,
-                  })}
-                />
+                {/* TODO: this should calculate the default value of "lastyear" of startyear + 10, IF selected */}
+                <MaterialUI.Box
+                  display="flex"
+                  key="NonMovementPhaseLengthMinutes"
+                  style={{ paddingLeft: "32px" }}
+                >
+                  <MaterialUI.TextField
+                    type="number"
+                    style={{ minWidth: "240px" }}
+                    error={
+                      this.state.newGameProperties.LastYear <
+                      this.state.variant.Properties.Start.Year + 1
+                        ? true
+                        : false
+                    }
+                    helperText={
+                      this.state.newGameProperties.LastYear <
+                      this.state.variant.Properties.Start.Year + 1
+                        ? "Must be after the start year"
+                        : ""
+                    }
+                    label={
+                      "End after year (game starts " +
+                      this.state.variant.Properties.Start.Year +
+                      ")"
+                    }
+                    value={this.state.newGameProperties.LastYear}
+                    onChange={this.newGamePropertyUpdater("LastYear", {
+                      int: true,
+                      min: this.state.variant.Properties.Start.Year + 1,
+                    })}
+                  />
+                </MaterialUI.Box>
               </div>
               <div>
                 <MaterialUI.Typography
@@ -571,50 +592,55 @@ export default class CreateGameDialog extends React.Component {
                 </MaterialUI.Typography>
               </div>
               <div id="part3">
-               <MaterialUI.Typography
+                <MaterialUI.Typography
                   variant="caption"
                   style={{ color: "rgba(0,0,0,0.57)" }}
                 >
                   Allow chats:
                 </MaterialUI.Typography>
-               <MaterialUI.FormGroup>
-              {this.checkboxField("DisableConferenceChat", {
-                invert: true,
-                label: "Conference (all players)",
-              })}
-              {this.checkboxField("DisableGroupChat", {
-                invert: true,
-                label: "Group",
-              })}
-              {this.checkboxField("DisablePrivateChat", {
-                invert: true,
-                label: "Ìndividual",
-              })}
-              <MaterialUI.FormControlLabel
-                control={
-                  <MaterialUI.Checkbox
-                    disabled={!this.state.newGameProperties["Private"]}
-                    checked={
-                      this.state.newGameProperties["Private"]
-                        ? this.state.newGameProperties["Anonymous"]
-                        : this.state.newGameProperties[
-                            "DisableConferenceChat"
-                          ] &&
-                          this.state.newGameProperties["DisableGroupChat"] &&
-                          this.state.newGameProperties["DisablePrivateChat"]
+                <MaterialUI.FormGroup>
+                  {this.checkboxField("DisableConferenceChat", {
+                    invert: true,
+                    label: "Conference (all players)",
+                  })}
+                  {this.checkboxField("DisableGroupChat", {
+                    invert: true,
+                    label: "Group",
+                  })}
+                  {this.checkboxField("DisablePrivateChat", {
+                    invert: true,
+                    label: "Individual",
+                  })}
+                  <MaterialUI.FormControlLabel
+                    control={
+                      <MaterialUI.Checkbox
+                        disabled={!this.state.newGameProperties["Private"]}
+                        checked={
+                          this.state.newGameProperties["Private"]
+                            ? this.state.newGameProperties["Anonymous"]
+                            : this.state.newGameProperties[
+                                "DisableConferenceChat"
+                              ] &&
+                              this.state.newGameProperties[
+                                "DisableGroupChat"
+                              ] &&
+                              this.state.newGameProperties["DisablePrivateChat"]
+                        }
+                        onChange={this.newGamePropertyUpdater("Anonymous")}
+                      />
                     }
-
-                    onChange={this.newGamePropertyUpdater("Anonymous")}
+                    label="Anonymous"
                   />
-                }
-                label="Anonymous"
-              />
-
-
-            </MaterialUI.FormGroup>
-{this.state.newGameProperties["Private"] ? "" : <MaterialUI.FormHelperText>Anonymous only allowed in private games (risk of abuse)</MaterialUI.FormHelperText>}
-</div>
-                            <div>
+                </MaterialUI.FormGroup>
+                {this.state.newGameProperties["Private"] ? (
+                  ""
+                ) : (
+                  <MaterialUI.FormHelperText>
+                    Anonymous only allowed in private games (risk of abuse)
+                  </MaterialUI.FormHelperText>
+                )}
+              </div>
+              <div>
                 <MaterialUI.Typography
                   variant="subtitle2"
                   style={{ marginTop: "16px", marginBottom: "16px" }}
@@ -624,35 +650,192 @@ export default class CreateGameDialog extends React.Component {
               </div>
               <div id="part4">
 
-            {this.floatField("MinReliability", {
-              label: "Minimum reliability, high = active players",
-              max: Math.floor(this.state.userStats.Properties.Reliability),
-            })}
-            {this.floatField("MinQuickness", {
-              label: "Minimum quickness, high = fast games",
-              max: Math.floor(this.state.userStats.Properties.Quickness),
-            })}
-            {this.floatField("MinRating", {
-              label: "Minimum rating, high = strong players",
-              max: Math.floor(this.state.userStats.Properties.TrueSkill.Rating),
-            })}
-            {this.floatField("MaxRating", {
-              label: "Maximum rating, low = weak players",
-              min: Math.ceil(this.state.userStats.Properties.TrueSkill.Rating),
-            })}
-            {this.floatField("MaxHated", {
-              label: "Maximum hated, low = unbanned players",
-              min: Math.ceil(this.state.userStats.Properties.Hated),
-            })}
-            {this.floatField("MaxHater", {
-              label: "Maximum hater, low = patient players",
-              min: Math.ceil(this.state.userStats.Properties.Hater),
-            })}
+
+
+
+				{this.state.newGameProperties["Private"] ? <MaterialUI.Typography
+                  variant="body1"
+                  style={{ marginTop: "4px", marginBottom: "8px" }}
+                >
+                  Private game: requirements might stop your friends from joining your game.
+                </MaterialUI.Typography> : "" }
+                {/* TODO: instead of using the floatfield, I created a new one because it has more control. 
+                However, each of them needs to : 
+                - When the checkbox is not checked, set value to 0 (and hide the textfield)
+                - When the checkbox is checkex, set value to the textfield (and show it)
+
+                TODO: have an onclick on the whole flex div that toggles the checkbox, not just the checkbox.
+
+                TODO: have this one selected by default and the input be their current level
+
+                TODO: if private, have this one de-selected by default */}
+                <div style={{display: "flex", marginLeft: "-10px", marginBottom: "12px"}}>
+                <MaterialUI.Checkbox />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                <MaterialUI.Typography variant="body1">
+                Reliability (important)
+                </MaterialUI.Typography>
+                <MaterialUI.Typography variant="caption" style={{color: "rgba(40,26,26,0.56)"}}>
+                Filter players that keep playing
+                </MaterialUI.Typography>
+
+                </div>
+                </div>
+            {/* TODO: the user input can be 0, but that would be the same as having the checkbox not checked */}
+                <MaterialUI.TextField type="number"
+                  label="Minimum reliability score"
+                  value={this.state.newGameProperties["MinReliability"]}
+      			  onChange={this.newGamePropertyUpdater("MinReliability")}
+      			  error={this.state.userStats.Properties.Reliability < this.state.newGameProperties["MinReliability"] ? true : false }
+      			  helperText={this.state.userStats.Properties.Reliability < this.state.newGameProperties["MinReliability"] ? "Can't be higher than your own reliability (" + this.state.userStats.Properties.Reliability + ")" : "" }
+      			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
+      				/>
+
+
+      			{/* TODO: similar as above */}
+
+ 				 <div style={{display: "flex", marginLeft: "-10px", marginBottom: "12px"}}>
+                <MaterialUI.Checkbox />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                <MaterialUI.Typography variant="body1">
+                Quickness
+                </MaterialUI.Typography>
+                <MaterialUI.Typography variant="caption" style={{color: "rgba(40,26,26,0.56)"}}>
+                Filter players that confirm their orders fast
+                </MaterialUI.Typography>
+
+                </div>
+                </div>
+            {/* TODO: appear below when checkbox is checked. {checked ? : }
+
+                <MaterialUI.TextField type="number"
+                  label="Minimum quickness score"
+                  value={this.state.newGameProperties["MinQuickness"]}
+      			  onChange={this.newGamePropertyUpdater("MinQuickness")}
+      			  error={this.state.userStats.Properties.Quickness < this.state.newGameProperties["MinQuickness"] ? true : false }
+      			  helperText={this.state.userStats.Properties.Quickness < this.state.newGameProperties["MinQuickness"] ? "Can't be higher than your own quickness (" + this.state.userStats.Properties.Quickness + ")" : "" }
+      			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
+				
+
+      				/> 
+      			*/}
+
+
+		 <div style={{display: "flex", marginLeft: "-10px", marginBottom: "12px"}}>
+                <MaterialUI.Checkbox />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                <MaterialUI.Typography variant="body1">
+                Minimum rating
+                </MaterialUI.Typography>
+                <MaterialUI.Typography variant="caption" style={{color: "rgba(40,26,26,0.56)"}}>
+                Filter players who are challenging
+                </MaterialUI.Typography>
+
+                </div>
+                </div>
+
+            {/* TODO: appear when checkbox is checked. {checked ? : }
+
+                <MaterialUI.TextField type="number"
+                  label="Minimum rating"
+                  value={this.state.newGameProperties["MinRating"]}
+      			  onChange={this.newGamePropertyUpdater("MinRating")}
+      			  error={this.state.userStats.Properties.TrueSkill.Rating < this.state.newGameProperties["MinRating"] ? true : false }
+      			  helperText={this.state.userStats.Properties.TrueSkill.Rating < this.state.newGameProperties["MinRating"] ? "Can't be lower than your own quickness (" + this.state.userStats.Properties.TrueSkill.Rating + ")" : "" }
+      			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
+      				/> 
+      			*/}
+
+
+
+
+		 <div style={{display: "flex", marginLeft: "-10px", marginBottom: "12px"}}>
+                <MaterialUI.Checkbox />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                <MaterialUI.Typography variant="body1">
+                Maximum rating
+                </MaterialUI.Typography>
+                <MaterialUI.Typography variant="caption" style={{color: "rgba(40,26,26,0.56)"}}>
+                Filter players that are not too good
+                </MaterialUI.Typography>
+
+                </div>
+                </div>
+
+            {/* TODO: appear when checkbox is checked. {checked ? : }
+
+                <MaterialUI.TextField type="number"
+                  label="Maximum rating"
+                  value={this.state.newGameProperties["MaxRating"]}
+      			  onChange={this.newGamePropertyUpdater("MaxRating")}
+      			  error={this.state.userStats.Properties.TrueSkill.Rating > this.state.newGameProperties["MaxRating"] ? true : false }
+      			  helperText={this.state.userStats.Properties.TrueSkill.Rating > this.state.newGameProperties["MaxRating"] ? "Can't be higher than your own rating (" + this.state.userStats.Properties.TrueSkill.Rating + ")" : "" }
+      			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
+      				/> 
+      			*/}
+
+
+
+
+
+
+
+
+		 <div style={{display: "flex", marginLeft: "-10px", marginBottom: "12px"}}>
+                <MaterialUI.Checkbox />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                <MaterialUI.Typography variant="body1">
+                Hated
+                </MaterialUI.Typography>
+                <MaterialUI.Typography variant="caption" style={{color: "rgba(40,26,26,0.56)"}}>
+                Filter players that are not banned by others
+                </MaterialUI.Typography>
+
+                </div>
+                </div>
+
+            {/* TODO: appear when checkbox is checked. {checked ? : }
+
+                <MaterialUI.TextField type="number"
+                  label="Maximum hated"
+                  value={this.state.newGameProperties["MaxHated"]}
+      			  onChange={this.newGamePropertyUpdater("MaxHated")}
+      			  error={this.state.userStats.Properties.Hated > this.state.newGameProperties["MaxHated"] ? true : false }
+      			  helperText={this.state.userStats.Properties.Hated > this.state.newGameProperties["MaxHated"] ? "Can't be higher than your own hated score (" + this.state.userStats.Properties.Hated + ")" : "" }
+      			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
+      				/> 
+      			*/}
+
+
+
+      				 <div style={{display: "flex", marginLeft: "-10px", marginBottom: "12px"}}>
+                <MaterialUI.Checkbox />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                <MaterialUI.Typography variant="body1">
+                Haters
+                </MaterialUI.Typography>
+                <MaterialUI.Typography variant="caption" style={{color: "rgba(40,26,26,0.56)"}}>
+                Filter patient players (don't ban others)
+                </MaterialUI.Typography>
+
+                </div>
+                </div>
+
+            {/* TODO: appear when checkbox is checked. {checked ? : }
+
+                <MaterialUI.TextField type="number"
+                  label="Maximum hate"
+                  value={this.state.newGameProperties["MaxHater"]}
+      			  onChange={this.newGamePropertyUpdater("MaxHater")}
+      			  error={this.state.userStats.Properties.Hater > this.state.newGameProperties["MaxHater"] ? true : false }
+      			  helperText={this.state.userStats.Properties.Hater > this.state.newGameProperties["MaxHater"] ? "Can't be higher than your own hater score (" + this.state.userStats.Properties.Hater + ")" : "" }
+      			  style={{marginLeft: "32px", width: "calc(100% - 65px)", marginBottom: "16px"}}
+      				/> 
+      			*/}
 
               </div>
             </div>
 
-           
             <MaterialUI.Button onClick={this.createGame} color="primary">
               Create
             </MaterialUI.Button>
