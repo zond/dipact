@@ -813,7 +813,6 @@ export default class GameListElement extends React.Component {
 			);
 		}
 
-
 		if (!this.dead) {
 			buttons.push(
 				<MaterialUI.Button
@@ -943,7 +942,11 @@ export default class GameListElement extends React.Component {
 			playerList.push(
 				<div
 					key={itemKey++}
-					style={{ display: "flex", alignItems: "center", marginBottom: "4px"}}
+					style={{
+						display: "flex",
+						alignItems: "center",
+						marginBottom: "4px"
+					}}
 				>
 					<UserAvatar user={member.User} />
 					<MaterialUI.Typography>
@@ -1199,7 +1202,6 @@ export default class GameListElement extends React.Component {
 					}
 				})()}
 
-
 				<div></div>
 			</div>
 		);
@@ -1284,49 +1286,49 @@ export default class GameListElement extends React.Component {
 					<MaterialUI.ExpansionPanelSummary
 						classes={{
 							root: helpers.scopedClass("padding: 0px;"),
-							
+							content: helpers.scopedClass(
+								"max-width: calc(100% - 32px);"
+							)
 						}}
-
 						expandIcon={helpers.createIcon("\ue5cf")}
 					>
 						{summary}
 					</MaterialUI.ExpansionPanelSummary>
 					<MaterialUI.ExpansionPanelDetails
 						classes={{
-							root: helpers.scopedClass("padding: 0px;"),
+							root: helpers.scopedClass("padding: 0px;")
 						}}
 					>
 						{this.state.expanded ? (
 							<div>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									flexWrap: "wrap",
-									maxWidth: "960px",
-									width: "100%",
-									marginBottom: "16px",
-
-								}}
-							>
 								<div
 									style={{
-										maxWidth: "460px"
-									}}
-								>
-									{expandedGameItems}
-								</div>
-								<div
-									style={{
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between",
+										flexWrap: "wrap",
+										maxWidth: "960px",
 										width: "100%",
-										maxWidth: "460px",
+										marginBottom: "16px"
 									}}
 								>
-									{playerList}
+									<div
+										style={{
+											maxWidth: "460px"
+										}}
+									>
+										{expandedGameItems}
+									</div>
+									<div
+										style={{
+											width: "100%",
+											maxWidth: "460px"
+										}}
+									>
+										{playerList}
+									</div>
 								</div>
-							</div>
-							<MaterialUI.Divider />
+								<MaterialUI.Divider />
 							</div>
 						) : (
 							""
