@@ -15,7 +15,7 @@ export default class CreateGameDialog extends React.Component {
 				NationAllocation: 0,
 				PhaseLengthMinutes: 1440,
 				NonMovementPhaseLengthMinutes: 0,
-				Desc: Globals.user.GivenName + "'s game",
+				Desc: helpers.randomGameName(),
 				Private: false,
 				Anonymous: false,
 				LastYear: 0,
