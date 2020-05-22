@@ -253,13 +253,9 @@ export default class CreateGameDialog extends React.Component {
 	 */
 	limitedCheckboxedFloatField(name, opts = {}) {
 		const maxError =
-			this.state.newGameProperties[name] != 0 &&
-			opts.max &&
-			opts.max.value < this.state.newGameProperties[name];
+			opts.max && opts.max.value < this.state.newGameProperties[name];
 		const minError =
-			this.state.newGameProperties[name] != 0 &&
-			opts.min &&
-			opts.min.value > this.state.newGameProperties[name];
+			opts.min && opts.min.value > this.state.newGameProperties[name];
 		return (
 			<React.Fragment>
 				<div
