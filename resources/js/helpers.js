@@ -353,8 +353,11 @@ export function natCol(nation, variant) {
 	return Globals.contrastColors[pos];
 }
 
-export function twoDecimals(n) {
-	return Math.round(Number.parseFloat(n) * 100) / 100.0;
+export function twoDecimals(n, up = false) {
+	if (up) {
+		return 0.01 + Math.ceil(Number.parseFloat(n) * 100) / 100.0;
+	}
+	return Math.floor(Number.parseFloat(n) * 100) / 100.0;
 }
 
 export function unback(f) {
