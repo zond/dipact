@@ -93,6 +93,67 @@ export default class CreateGameDialog extends React.Component {
 		});
 	}
 	createGame() {
+		const errs = [];
+		if (
+			this.state.newGameProperties.MinReliability != 0 &&
+			this.state.newGameProperties.MinReliability >
+				this.state.userStats.Properties.Reliability
+		) {
+			errs.push(
+				"You can't create a game with higher minimum reliability than your own (" +
+					helpers.twoDecimals(
+						this.state.userStats.Properties.Reliability
+					) +
+					")!"
+			);
+		}
+		if (
+			this.state.newGameProperties.MinQuickness != 0 &&
+			this.state.newGameProperties.MinQuickness >
+				this.state.userStats.Properties.Quickness
+		) {
+			errs.push(
+				"You can't create a game with higher minimum quickness than your own (" +
+					helpers.twoDecimals(
+						this.state.userStats.Properties.Quickness
+					) +
+					")!"
+			);
+		}
+		if (
+			this.state.newGameProperties.MinRating != 0 &&
+			this.state.newGameProperties.MinRating >
+				this.state.userStats.Properties.TrueSkill.Rating
+		) {
+			errs.push(
+				"You can't create a game with higher minimum rating than your own (" +
+					helpers.twoDecimals(
+						this.state.userStats.Properties.TrueSkill.Rating
+					) +
+					")!"
+			);
+		}
+		if (
+			this.state.newGameProperties.MaxRating != 0 &&
+			this.state.newGameProperties.MaxRating <
+				this.state.userStats.Properties.TrueSkill.Rating
+		) {
+			errs.push(
+				"You can't create a game with lower maximum rating than your own (" +
+					helpers.twoDecimals(
+						this.state.userStats.Properties.TrueSkill.Rating
+					) +
+					")!"
+			);
+		}
+		if (errs.length > 0) {
+			helpers.snackbar(
+				errs.map(err => {
+					return <p key={err}>{err}</p>;
+				})
+			);
+			return;
+		}
 		if (this.state.newGameProperties.NationAllocation == 1) {
 			this.nationPreferencesDialog.setState({
 				open: true,
@@ -106,10 +167,6 @@ export default class CreateGameDialog extends React.Component {
 		}
 	}
 	createGameWithPreferences(preferences) {
-		if (invalids.length > 0) {
-			helpers.snackbar(invalids.join("<br/>"));
-			return;
-		}
 		const newGameProps = Object.assign({}, this.state.newGameProperties);
 		newGameProps.FirstMember = {
 			NationPreferences: preferences.join(",")
