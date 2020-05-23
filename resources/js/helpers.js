@@ -1434,7 +1434,7 @@ function randomOf(ary) {
 
 function randomOfFunky(basis, ary) {
 	const options = [];
-	for (let i = 0; i < 64; i++) {
+	for (let i = 0; i < Math.floor(ary.length / 10); i++) {
 		const option = randomOf(ary);
 		options.push({
 			option: option,
