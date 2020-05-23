@@ -230,7 +230,7 @@ export default class StatsDialog extends React.Component {
 											)
 										)}
 										{this.makeRow(
-											"Rating percentile (percentage of players as good or better)",
+											"Rating percentile (percentage of active players as good or better)",
 											"" +
 												helpers.ratingPercentile(
 													this.state.userStats

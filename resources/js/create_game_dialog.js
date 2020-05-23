@@ -297,6 +297,7 @@ export default class CreateGameDialog extends React.Component {
        textfield: {
 	     label: "Minimum reliability score"
 	   },
+	   helperText: null,
 	   max: {
 	     value: this.state.userStats.Properties.Reliability,
 		 helperText: "Can't be higher than your own reliability (" +
@@ -369,7 +370,7 @@ export default class CreateGameDialog extends React.Component {
 								? opts.max.helperText
 								: minError
 								? opts.min.helperText
-								: ""
+								: opts.helperText || ""
 						}
 						style={{
 							marginLeft: "32px",
@@ -926,7 +927,7 @@ export default class CreateGameDialog extends React.Component {
 										checkbox: {
 											label: "Reliability (important)",
 											caption:
-												"Filter players that keep playing"
+												"Find players that keep playing"
 										},
 										textfield: {
 											label: "Minimum reliability score"
@@ -958,7 +959,7 @@ export default class CreateGameDialog extends React.Component {
 										checkbox: {
 											label: "Quickness",
 											caption:
-												"Filter players that confirm their orders before deadline"
+												"Find players that confirm their orders before deadline"
 										},
 										textfield: {
 											label: "Minimum quickness score"
@@ -983,11 +984,19 @@ export default class CreateGameDialog extends React.Component {
 									checkbox: {
 										label: "Minimum rating",
 										caption:
-											"Filter players that are challenging"
+											"Find players that are challenging"
 									},
 									textfield: {
 										label: "Minimum rating"
 									},
+									helperText:
+										"Removes the least challenging " +
+										(100 -
+											helpers.ratingPercentile(
+												this.state.newGameProperties
+													.MinRating
+											)) +
+										"% of active players",
 									max: {
 										value: this.state.userStats.Properties
 											.TrueSkill.Rating,
@@ -1011,8 +1020,15 @@ export default class CreateGameDialog extends React.Component {
 									checkbox: {
 										label: "Maximum rating",
 										caption:
-											"Filter players that aren't too challenging"
+											"Find players that aren't too challenging"
 									},
+									helperText:
+										"Removes the most challenging " +
+										helpers.ratingPercentile(
+											this.state.newGameProperties
+												.MaxRating
+										) +
+										"% of active players",
 									textfield: {
 										label: "Maximum rating"
 									},
