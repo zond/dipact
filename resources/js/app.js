@@ -41,7 +41,8 @@ window.Globals = {
 	backListeners: [],
 	WrapperCallbacks: {},
 	bans: {},
-	loginURL: null
+	loginURL: null,
+	userRatingHistogram: null
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));

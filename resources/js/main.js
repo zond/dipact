@@ -207,7 +207,13 @@ export default class Main extends ActivityContainer {
 					helpers.createRequest("/Variants", { unauthed: true })
 				)
 				.then(resp => resp.json()),
-			helpers.safeFetch(Globals.serverRequest).then(resp => resp.json())
+			helpers.safeFetch(Globals.serverRequest).then(resp => resp.json()),
+			helpers
+				.safeFetch(helpers.createRequest("/Users/Ratings/Histogram"))
+				.then(resp => resp.json())
+				.then(js => {
+					Globals.userRatingHistogram = js;
+				})
 		]).then(values => {
 			helpers.decProgress();
 			this.handleVariants(values[0].Properties);

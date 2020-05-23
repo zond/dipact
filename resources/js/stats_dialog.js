@@ -136,7 +136,10 @@ export default class StatsDialog extends React.Component {
 			.then(js => {
 				helpers.decProgress();
 				this.setState({ userStats: js });
-				gtag("set", { "page_title": "StatsDialog", "page_location": location.href });
+				gtag("set", {
+					page_title: "StatsDialog",
+					page_location: location.href
+				});
 				gtag("event", "page_view");
 			});
 	}
@@ -220,11 +223,21 @@ export default class StatsDialog extends React.Component {
 											</MaterialUI.Button>
 										)}
 										{this.makeRow(
-											"TrueSkill rating (calculation based on win/loss history",
+											"TrueSkill rating (calculation based on win/loss history)",
 											helpers.twoDecimals(
 												this.state.userStats.Properties
 													.TrueSkill.Rating
 											)
+										)}
+										{this.makeRow(
+											"Rating percentile (percentage of players as good or better)",
+											"" +
+												helpers.ratingPercentile(
+													this.state.userStats
+														.Properties.TrueSkill
+														.Rating
+												) +
+												"%"
 										)}
 										{this.makeRow(
 											"Reliability (ratio of non NMR phases)",
