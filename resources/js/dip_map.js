@@ -29,6 +29,7 @@ export default class DipMap extends React.Component {
 		this.createOrder = this.createOrder.bind(this);
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
+		this.getSVGData = this.getSVGData.bind(this);
 		this.loadCorroboratePromise = this.loadCorroboratePromise.bind(this);
 		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
@@ -41,6 +42,22 @@ export default class DipMap extends React.Component {
 		this.map = null;
 		this.orderDialog = null;
 		this.firstLoadFinished = false;
+		if (this.props.parentCB) {
+			this.props.parentCB(this);
+		}
+	}
+	downloadMap() {
+		this.getSVGData({
+			scale: 4,
+			force: true
+		}).then(data => {
+			if (data) {
+				const link = document.createElement("a");
+				link.setAttribute("href", data);
+				link.setAttribute("download", "map.png");
+				link.click();
+			}
+		});
 	}
 	debugCount(tag) {
 		if (this.props.debugCount) {
@@ -91,39 +108,57 @@ export default class DipMap extends React.Component {
 				gtag("event", "lab_share");
 			});
 	}
+	getSVGData(opts = {}) {
+		return new Promise((res, rej) => {
+			this.debugCount("getSVGData/called");
+			if (!this.mapDims[0] || !this.mapDims[1]) {
+				res(null);
+			}
+			this.debugCount("getSVGData/mapDims");
+			let mapEl = document.getElementById("map");
+			const svg = mapEl.children[0].cloneNode(true);
+			svg.setAttribute("width", this.mapDims[0] * (opts.scale || 1.0));
+			svg.setAttribute("height", this.mapDims[1] * (opts.scale || 1.0));
+			const svgXML = this.svgSerializer.serializeToString(svg);
+			const svgHash = helpers.hash(svgXML);
+			if (opts.force || svgHash != this.lastSerializedSVG) {
+				this.debugCount("getSVGData/differentHash");
+				this.lastSerializedSVG = svgHash;
+				let serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
+				let snapshotImage = document.createElement("img");
+				snapshotImage.style.width =
+					this.mapDims[0] * (opts.scale || 1.0);
+				snapshotImage.style.height =
+					this.mapDims[1] * (opts.scale || 1.0);
+				snapshotImage.src =
+					"data:image/svg+xml;base64," + serializedSVG;
+				snapshotImage.addEventListener("load", _ => {
+					this.debugCount("getSVGData/loadedSnapshot");
+					let snapshotCanvas = document.createElement("canvas");
+					snapshotCanvas.setAttribute(
+						"height",
+						this.mapDims[1] * (opts.scale || 1.0)
+					);
+					snapshotCanvas.setAttribute(
+						"width",
+						this.mapDims[0] * (opts.scale || 1.0)
+					);
+					snapshotCanvas.style.height = this.mapDims[1];
+					snapshotCanvas.style.width = this.mapDims[0];
+					snapshotCanvas
+						.getContext("2d")
+						.drawImage(snapshotImage, 0, 0);
+					res(snapshotCanvas.toDataURL("image/png"));
+				});
+			}
+		});
+	}
 	snapshotSVG() {
-		this.debugCount("snapshotSVG/called");
-		if (!this.mapDims[0] || !this.mapDims[1]) {
-			return;
-		}
-		this.debugCount("snapshotSVG/mapDims");
-		let mapEl = document.getElementById("map");
-		const svg = mapEl.children[0].cloneNode(true);
-		svg.setAttribute("width", this.mapDims[0]);
-		svg.setAttribute("height", this.mapDims[1]);
-		const svgXML = this.svgSerializer.serializeToString(svg);
-		const svgHash = helpers.hash(svgXML);
-		if (svgHash != this.lastSerializedSVG) {
-			this.debugCount("snapshotSVG/differentHash");
-			this.lastSerializedSVG = svgHash;
-			let serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
-			let snapshotImage = document.createElement("img");
-			snapshotImage.style.width = this.mapDims[0];
-			snapshotImage.style.height = this.mapDims[1];
-			snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
-			snapshotImage.addEventListener("load", _ => {
-				this.debugCount("snapshotSVG/loadedSnapshot");
-				let snapshotCanvas = document.createElement("canvas");
-				snapshotCanvas.setAttribute("height", this.mapDims[1]);
-				snapshotCanvas.setAttribute("width", this.mapDims[0]);
-				snapshotCanvas.style.height = this.mapDims[1];
-				snapshotCanvas.style.width = this.mapDims[0];
-				snapshotCanvas.getContext("2d").drawImage(snapshotImage, 0, 0);
-				let snapshotData = snapshotCanvas.toDataURL("image/png");
-				let snapshotEl = document.getElementById("mapSnapshot");
-				if (snapshotEl) {
-					this.debugCount("snapshotSVG/snapshotEl");
-					snapshotEl.src = snapshotData;
+		const snapshotEl = document.getElementById("mapSnapshot");
+		if (snapshotEl) {
+			this.getSVGData().then(data => {
+				if (data) {
+					snapshotEl.src = data;
 				}
 			});
 		}
