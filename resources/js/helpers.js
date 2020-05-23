@@ -4,6 +4,21 @@ const colorReg = (colorReg = /^#([0-9a-fA-F]{3,3}|[0-9a-fA-F]{6,6}|[0-9a-fA-F]{8
 
 export const DiplicitySender = "Diplicity";
 
+export function ratingPercentile(rating) {
+	let totalCount = 0;
+	let belowCount = 0;
+	Globals.userRatingHistogram.Properties.Counts.forEach((count, idx) => {
+		totalCount += count;
+		if (
+			idx + Globals.userRatingHistogram.Properties.FirstBucketRating <
+			rating
+		) {
+			belowCount += count;
+		}
+	});
+	return Math.floor(100 - 100 * (belowCount / totalCount));
+}
+
 export function timeStrToDate(s) {
 	return new Date(Date.parse(s)).toLocaleDateString();
 }
