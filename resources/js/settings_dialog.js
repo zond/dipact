@@ -394,7 +394,7 @@ export default class SettingsDialog extends React.Component {
 															hrefURL.protocol +
 															"//" +
 															hrefURL.host +
-															"/Game/{{game.ID.Encode}}.\n\nVisit %s to stop receiving email like this.";
+															"/Game/{{game.ID.Encode}}.\n\nVisit {{unsubscribeURL}} to stop receiving email like this.";
 														return state;
 													},
 													this.saveConfig
