@@ -3,22 +3,135 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import CreateGameDialog from '%{ cb "/js/create_game_dialog.js" }%';
 
+const showedNewAppDrawer = "showedNewAppDrawer";
+
 export default class Start extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { newGameFormOpen: false };
+		this.state = {
+			newGameFormOpen: false,
+			betaDrawerOpen:
+				window.Wrapper && !localStorage.getItem(showedNewAppDrawer)
+		};
 		this.createGameDialog = null;
 		this.myStagingGamesList = null;
 		this.myStartedGamesList = null;
 		this.myFinishedGamesList = null;
+		this.newAppDrawer = this.newAppDrawer.bind(this);
+		if (window.Wrapper) {
+			localStorage.setItem(showedNewAppDrawer, "yes");
+		}
 	}
 	componentDidMount() {
 		gtag("set", { page_title: "Start", page_location: location.href });
 		gtag("event", "page_view");
 	}
+	newAppDrawer() {
+		return (
+			<React.Fragment>
+				<MaterialUI.Drawer
+					classes={{
+						paper: helpers.scopedClass("overflow-y: unset;")
+					}}
+					anchor="top"
+					open={this.state.betaDrawerOpen}
+					onClose={_ => {
+						this.setState({ betaDrawerOpen: false });
+					}}
+				>
+					<MaterialUI.Typography style={{ fontWeight: "bold" }}>
+						Welcome to the new Diplicity app!
+					</MaterialUI.Typography>
+					<MaterialUI.Typography>
+						The new app is slowly rolling out and replacing the old
+						app.
+					</MaterialUI.Typography>
+					<MaterialUI.Typography>
+						To make sure as many bugs as possible are fixed as soon
+						as possible, please report them in the{" "}
+						<a href="https://groups.google.com/forum/#!forum/diplicity-talk">
+							forum
+						</a>
+						.
+					</MaterialUI.Typography>
+					<MaterialUI.Typography>
+						If you want to change back to the old app:
+					</MaterialUI.Typography>
+					<ol>
+						<li>Uninstall the app using Google Play Store.</li>
+						<li>
+							Download the <code>app-release.apk</code> from the
+							latest{" "}
+							<a href="https://github.com/zond/android-diplicity/releases">
+								release
+							</a>
+							.
+						</li>
+						<li>
+							<a href="https://www.google.com/search?q=install+apk+on+android">
+								Install the APK file on your phone.
+							</a>
+						</li>
+					</ol>
+					<div
+						style={{
+							position: "absolute",
+							height: "26px",
+							bottom: "-25",
+							width: "100px",
+							left: "calc(50% - 50px)",
+							borderRadius: "0px 0px 4px 4px",
+							background: "white"
+						}}
+					>
+						<MaterialUI.Typography style={{ padding: "0 0 0 5" }}>
+							New App{" "}
+							<MaterialUI.IconButton
+								style={{ padding: "0" }}
+								onClick={_ => {
+									this.setState({ betaDrawerOpen: false });
+								}}
+							>
+								{helpers.createIcon("\ue5ce")}
+							</MaterialUI.IconButton>
+						</MaterialUI.Typography>
+					</div>
+				</MaterialUI.Drawer>
+				{this.state.betaDrawerOpen ? (
+					""
+				) : (
+					<div
+						style={{
+							position: "absolute",
+							zIndex: "1300",
+							top: "0",
+							height: "26px",
+							width: "100px",
+							left: "calc(50% - 50px)",
+							borderRadius: "0px 0px 4px 4px",
+							background: "white"
+						}}
+					>
+						<MaterialUI.Typography style={{ padding: "0 0 0 5" }}>
+							New App{" "}
+							<MaterialUI.IconButton
+								style={{ padding: "0" }}
+								onClick={_ => {
+									this.setState({ betaDrawerOpen: true });
+								}}
+							>
+								{helpers.createIcon("\ue5cf")}
+							</MaterialUI.IconButton>
+						</MaterialUI.Typography>
+					</div>
+				)}
+			</React.Fragment>
+		);
+	}
 	render() {
 		return (
 			<React.Fragment>
+				{window.Wrapper ? newAppDrawer() : ""}
 				{Globals.userStats.Properties.JoinedGames ? (
 					<div
 						className={helpers.scopedClass(
