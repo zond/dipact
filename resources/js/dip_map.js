@@ -48,7 +48,7 @@ export default class DipMap extends React.Component {
 	}
 	downloadMap() {
 		this.getSVGData({
-			scale: 4,
+			width: 1280,
 			force: true
 		}).then(data => {
 			if (data) {
@@ -114,11 +114,12 @@ export default class DipMap extends React.Component {
 			if (!this.mapDims[0] || !this.mapDims[1]) {
 				res(null);
 			}
+			const scale = opts.width ? opts.width / this.mapDims[0] : 1.0;
 			this.debugCount("getSVGData/mapDims");
 			let mapEl = document.getElementById("map");
 			const svg = mapEl.children[0].cloneNode(true);
-			svg.setAttribute("width", this.mapDims[0] * (opts.scale || 1.0));
-			svg.setAttribute("height", this.mapDims[1] * (opts.scale || 1.0));
+			svg.setAttribute("width", this.mapDims[0] * scale);
+			svg.setAttribute("height", this.mapDims[1] * scale);
 			const svgXML = this.svgSerializer.serializeToString(svg);
 			const svgHash = helpers.hash(svgXML);
 			if (opts.force || svgHash != this.lastSerializedSVG) {
@@ -126,10 +127,8 @@ export default class DipMap extends React.Component {
 				this.lastSerializedSVG = svgHash;
 				let serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
 				let snapshotImage = document.createElement("img");
-				snapshotImage.style.width =
-					this.mapDims[0] * (opts.scale || 1.0);
-				snapshotImage.style.height =
-					this.mapDims[1] * (opts.scale || 1.0);
+				snapshotImage.style.width = this.mapDims[0] * scale;
+				snapshotImage.style.height = this.mapDims[1] * scale;
 				snapshotImage.src =
 					"data:image/svg+xml;base64," + serializedSVG;
 				snapshotImage.addEventListener("load", _ => {
@@ -137,11 +136,11 @@ export default class DipMap extends React.Component {
 					let snapshotCanvas = document.createElement("canvas");
 					snapshotCanvas.setAttribute(
 						"height",
-						this.mapDims[1] * (opts.scale || 1.0)
+						this.mapDims[1] * scale
 					);
 					snapshotCanvas.setAttribute(
 						"width",
-						this.mapDims[0] * (opts.scale || 1.0)
+						this.mapDims[0] * scale
 					);
 					snapshotCanvas.style.height = this.mapDims[1];
 					snapshotCanvas.style.width = this.mapDims[0];
