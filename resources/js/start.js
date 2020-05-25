@@ -131,7 +131,7 @@ export default class Start extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{window.Wrapper ? newAppDrawer() : ""}
+				{window.Wrapper ? this.newAppDrawer() : ""}
 				{Globals.userStats.Properties.JoinedGames ? (
 					<div
 						className={helpers.scopedClass(
