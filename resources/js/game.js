@@ -50,6 +50,7 @@ export default class Game extends React.Component {
 		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
+		this.dip_map = null;
 	}
 	debugCount(tag) {
 		if (!this.debugCounters[tag]) {
@@ -551,6 +552,18 @@ export default class Game extends React.Component {
 								>
 									Share
 								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem
+									key="download-map"
+									onClick={_ => {
+										this.setState({
+											moreMenuAnchorEl: null
+										});
+										this.dip_map.downloadMap();
+										gtag("event", "download_map");
+									}}
+								>
+									Download map
+								</MaterialUI.MenuItem>
 								{this.state.game.Properties.Started
 									? [
 											<MaterialUI.MenuItem
@@ -789,6 +802,9 @@ export default class Game extends React.Component {
 						}}
 					>
 						<DipMap
+							parentCB={c => {
+								this.dip_map = c;
+							}}
 							debugCount={this.debugCount}
 							labPhaseResolve={this.labPhaseResolve}
 							serializePhaseState={this.serializePhaseState}
