@@ -31,7 +31,9 @@ export default class Start extends React.Component {
 			<React.Fragment>
 				<MaterialUI.Drawer
 					classes={{
-						paper: helpers.scopedClass("overflow-y: unset;")
+						paper: helpers.scopedClass(
+							"overflow-y: unset; padding: 5px;"
+						)
 					}}
 					anchor="top"
 					open={this.state.betaDrawerOpen}
@@ -58,9 +60,15 @@ export default class Start extends React.Component {
 						If you want to change back to the old app:
 					</MaterialUI.Typography>
 					<ol>
-						<li>Uninstall the app using Google Play Store.</li>
 						<li>
-							Download the <code>app-release.apk</code> from the
+							Uninstall the app using{" "}
+							<a href="https://play.google.com/store/apps/details?id=se.oort.diplicity">
+								Google Play Store
+							</a>
+							.
+						</li>
+						<li>
+							Download <code>app-release.apk</code> from the
 							latest{" "}
 							<a href="https://github.com/zond/android-diplicity/releases">
 								release
