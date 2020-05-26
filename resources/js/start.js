@@ -121,7 +121,7 @@ export default class Start extends React.Component {
                     display: "flex",
                     alignItems: "flex-start",
                     padding: "6px 8px",
-                    margin: "8px 16px",
+                    margin: "8px 16px 0px 16px",
                     backgroundColor: "rgb(255, 244, 229)",
                   }}
                    onClick={(_) => {
