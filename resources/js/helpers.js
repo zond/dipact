@@ -404,7 +404,11 @@ export function safeFetch(req, opts = {}) {
 			localStorage.removeItem("token");
 			if (window.Wrapper && window.Wrapper.getToken) {
 				return new Promise((res, rej) => {
+					const oldCallback = Globals.WrapperCallbacks.getToken;
 					Globals.WrapperCallbacks.getToken = resp => {
+						if (oldCallback) {
+							oldCallback(resp);
+						}
 						if (resp.error) {
 							snackbar("Error logging in: " + resp.error);
 							res({});
@@ -419,8 +423,11 @@ export function safeFetch(req, opts = {}) {
 							snackbar("Error logging in, no response at all.");
 							res({});
 						}
+						Globals.WrapperCallbacks.getToken = null;
 					};
-					window.Wrapper.getToken();
+					if (!oldCallback) {
+						window.Wrapper.getToken();
+					}
 				});
 			} else {
 				login();
