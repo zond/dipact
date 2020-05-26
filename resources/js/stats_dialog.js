@@ -278,9 +278,14 @@ export default class StatsDialog extends React.Component {
 												.StartedGames
 										)}
 										{this.makeRow(
-											"Abandoned games",
+											"Finished games",
 											this.state.userStats.Properties
 												.FinishedGames
+										)}
+										{this.makeRow(
+											"Abandoned games",
+											this.state.userStats.Properties
+												.DroppedGames
 										)}
 										{this.makeRow(
 											"Solo wins",
