@@ -1048,13 +1048,15 @@ export default class CreateGameDialog extends React.Component {
 								})}
 							</div>
 						</div>
-
+						<div style={{padding: "16px", textAlign:"center"}}>
 						<MaterialUI.Button
+							variant="contained"
 							onClick={this.createGame}
 							color="primary"
 						>
 							Create
 						</MaterialUI.Button>
+						</div>
 					</div>
 				</MaterialUI.Dialog>
 				<NationPreferencesDialog
