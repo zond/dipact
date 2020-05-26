@@ -31,72 +31,120 @@ export default class Start extends React.Component {
       <React.Fragment>
         <MaterialUI.Dialog
           open={this.state.betaDrawerOpen}
+          fullScreen
           onClose={(_) => {
             this.setState({ betaDrawerOpen: false });
           }}
         >
-          <MaterialUI.Typography style={{}}>
-            Welcome to the new Diplicity app!
-          </MaterialUI.Typography>
-          <MaterialUI.Typography>
-            The new app is slowly rolling out and replacing the old app.
-          </MaterialUI.Typography>
-          <MaterialUI.Typography>
-            To make sure as many bugs as possible are fixed as soon as possible,
-            please report them in the{" "}
-            <a href="https://groups.google.com/forum/#!forum/diplicity-talk">
-              forum
-            </a>{" "}
-            or email us about them at{" "}
-            <a href="mailto:diplicity-talk@googlegroups.com">
-              diplicity-talk@googlegroups.com
-            </a>
-            .
-          </MaterialUI.Typography>
-          <MaterialUI.Typography>
-            If you want to change back to the old app:
-          </MaterialUI.Typography>
-          <ol>
-            <li style={{ margin: "8px" }}>
-              Uninstall the app using{" "}
-              <a href="https://play.google.com/store/apps/details?id=se.oort.diplicity">
-                Google Play Store
-              </a>
-              .
-            </li>
-            <li style={{ margin: "8px" }}>
-              Download <code>app-release.apk</code> from the latest{" "}
-              <a href="https://github.com/zond/android-diplicity/releases">
-                release
-              </a>
-              .
-            </li>
-            <li style={{ margin: "8px" }}>
-              <a href="https://www.google.com/search?q=install+apk+on+android">
-                Install the APK file on your phone.
-              </a>
-            </li>
-          </ol>
-          <div
-            style={{
-              position: "absolute",
-              height: "26px",
-              bottom: "-25",
-              width: "100px",
-              left: "calc(50% - 50px)",
-              borderRadius: "0px 0px 4px 4px",
-              background: "white",
-            }}
-          >
-            <MaterialUI.Button
-              style={{ padding: "0 0 0 5" }}
-              onClick={(_) => {
-                this.setState({ betaDrawerOpen: false });
+          <MaterialUI.AppBar>
+            <MaterialUI.Toolbar>
+              <MaterialUI.IconButton
+                edge="start"
+                color="inherit"
+                onClick={(_) => {
+                  this.setState({ betaDrawerOpen: false });
+                }}
+                aria-label="close"
+              >
+                {helpers.createIcon("\ue5cd")}
+              </MaterialUI.IconButton>
+              <MaterialUI.Typography
+                variant="h6"
+                style={{ paddingLeft: "16px" }}
+              >
+                Beta center
+              </MaterialUI.Typography>
+            </MaterialUI.Toolbar>
+          </MaterialUI.AppBar>
+          <div style={{height: "100%", padding: "0x", margin: "0px", maxWidth: "940px", marginLeft: "auto", marginRight: "auto"}}>
+          <div style={{ padding: "16px", marginTop: "56px", height:"calc(100% - 158px)", }}>
+            <MaterialUI.Typography variant="h6" style={{}}>
+              Welcome to the new Diplicity!
+            </MaterialUI.Typography>
+            <MaterialUI.Typography variant="body2">
+              We redesigned our app and started using the new version, which is still in Beta
+              This means there may be some (small) bugs that we haven't
+              found on our own.
+              <br /> If you encounter an issue, please let us know and we'll try
+              to fix it ASAP.
+              <br />
+              <br />
+              Thanks!
+            </MaterialUI.Typography>
+
+            <div
+              style={{
+                marginTop: "32px",
+                display: "flex",
+                justifyContent: "space-evenly",
               }}
             >
-              New App {helpers.createIcon("\ue5ce")}
-            </MaterialUI.Button>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {helpers.createIcon("\ue0b7")}
+
+                <MaterialUI.Typography variant="caption">
+                  <a href="https://groups.google.com/forum/#!forum/diplicity-talk">
+                    Give feedback
+                  </a>
+                </MaterialUI.Typography>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {helpers.createIcon("\ue868")}
+                <MaterialUI.Typography variant="caption">
+                  <a href="mailto:diplicity-talk@googlegroups.com">
+                    Report a bug
+                  </a>{" "}
+                </MaterialUI.Typography>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {helpers.createIcon("\ue889")}
+                <MaterialUI.Typography variant="caption">
+                  <a href="https://sites.google.com/view/diplicity/home/documentation/install-the-old-apk">
+                    Install old app
+                  </a>
+                </MaterialUI.Typography>
+              </div>
+            </div>
+
+            <div style={{ marginTop: "32px", textAlign: "center" }}>
+              <MaterialUI.Button
+                variant="contained"
+                color="primary"
+                onClick={(_) => {
+                  this.setState({ betaDrawerOpen: false });
+                }}
+              >
+                Show me the new app
+              </MaterialUI.Button>
+            </div>
           </div>
+                                    <div
+                  style={{
+                    backgroundImage: "url('../static/img/soldiers.svg'",
+                    height: "72px",
+                     top: "auto",
+                     bottom: "0px",
+                  }}
+                ></div>
+                </div>
         </MaterialUI.Dialog>
       </React.Fragment>
     );
@@ -114,36 +162,46 @@ export default class Start extends React.Component {
             {this.state.betaDrawerOpen ? (
               ""
             ) : (
+              <div
+                style={{
+                  minwidth: "150px",
+                  borderRadius: "3px",
+                  display: "flex",
+                  alignItems: "flex-start",
+                  padding: "6px 8px",
+                  margin: "8px 16px 0px 16px",
+                  backgroundColor: "rgb(255, 244, 229)",
+                }}
+                onClick={(_) => {
+                  this.setState({ betaDrawerOpen: true });
+                }}
+              >
                 <div
                   style={{
-                    minwidth: "150px",
-                    borderRadius: "3px",
-                    display: "flex",
-                    alignItems: "flex-start",
-                    padding: "6px 8px",
-                    margin: "8px 16px 0px 16px",
-                    backgroundColor: "rgb(255, 244, 229)",
-                  }}
-                   onClick={(_) => {
-                    this.setState({ betaDrawerOpen: true });
+                    padding: "5px",
+                    marginRight: "8px",
+                    color: "rgb(255, 152, 0)",
                   }}
                 >
-                  <div style={{ padding: "5px", marginRight: "8px", color: "rgb(255, 152, 0)" }}>
-                    {helpers.createIcon("\ue002")}
-                  </div>
-
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <MaterialUI.Typography variant="body1" style={{ color: "rgb(97, 26, 21)", fontWeight: "500", }}>
-                      This app is in beta
-                    </MaterialUI.Typography>
-
-
-                    <MaterialUI.Typography variant="body2" style={{ color: "rgb(97, 26, 21)" }}>
-                      For more info or to report a bug, touch here
-                    </MaterialUI.Typography>
-
-                  </div>
+                  {helpers.createIcon("\ue002")}
                 </div>
+
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <MaterialUI.Typography
+                    variant="body1"
+                    style={{ color: "rgb(97, 26, 21)", fontWeight: "500" }}
+                  >
+                    This app is in beta state
+                  </MaterialUI.Typography>
+
+                  <MaterialUI.Typography
+                    variant="body2"
+                    style={{ color: "rgb(97, 26, 21)" }}
+                  >
+                    For more info or to report a bug, touch here
+                  </MaterialUI.Typography>
+                </div>
+              </div>
             )}
             <MaterialUI.List>
               <li key="started" id="my-started-container">
