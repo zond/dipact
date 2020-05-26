@@ -22,9 +22,10 @@ export default class OrderList extends React.Component {
 			case "InconsistencyMissingOrder":
 				return "missing order";
 			case "InconsistencyMismatchedSupporter":
-			case "InconsistencyMismatchedConvoyee":
 			case "InconsistencyMismatchedConvoyer":
 				return "doesn't match the order for " + parts[1];
+			case "InconsistencyMismatchedConvoyee":
+				return "should maybe match the order for " + parts[1];
 			case "InconsistencyOrderTypeCount":
 				return (
 					"expected " +
