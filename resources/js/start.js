@@ -32,7 +32,7 @@ export default class Start extends React.Component {
 				<MaterialUI.Drawer
 					classes={{
 						paper: helpers.scopedClass(
-							"overflow-y: unset; padding: 5px;"
+							"overflow-y: unset; padding: 12px;"
 						)
 					}}
 					anchor="top"
@@ -53,6 +53,10 @@ export default class Start extends React.Component {
 						as possible, please report them in the{" "}
 						<a href="https://groups.google.com/forum/#!forum/diplicity-talk">
 							forum
+						</a>{" "}
+						or email us about them at{" "}
+						<a href="mailto:diplicity-talk@googlegroups.com">
+							diplicity-talk@googlegroups.com
 						</a>
 						.
 					</MaterialUI.Typography>
@@ -60,14 +64,14 @@ export default class Start extends React.Component {
 						If you want to change back to the old app:
 					</MaterialUI.Typography>
 					<ol>
-						<li>
+						<li style={{ margin: "8px" }}>
 							Uninstall the app using{" "}
 							<a href="https://play.google.com/store/apps/details?id=se.oort.diplicity">
 								Google Play Store
 							</a>
 							.
 						</li>
-						<li>
+						<li style={{ margin: "8px" }}>
 							Download <code>app-release.apk</code> from the
 							latest{" "}
 							<a href="https://github.com/zond/android-diplicity/releases">
@@ -75,7 +79,7 @@ export default class Start extends React.Component {
 							</a>
 							.
 						</li>
-						<li>
+						<li style={{ margin: "8px" }}>
 							<a href="https://www.google.com/search?q=install+apk+on+android">
 								Install the APK file on your phone.
 							</a>
@@ -92,17 +96,14 @@ export default class Start extends React.Component {
 							background: "white"
 						}}
 					>
-						<MaterialUI.Typography style={{ padding: "0 0 0 5" }}>
-							New App{" "}
-							<MaterialUI.IconButton
-								style={{ padding: "0" }}
-								onClick={_ => {
-									this.setState({ betaDrawerOpen: false });
-								}}
-							>
-								{helpers.createIcon("\ue5ce")}
-							</MaterialUI.IconButton>
-						</MaterialUI.Typography>
+						<MaterialUI.Button
+							style={{ padding: "0 0 0 5" }}
+							onClick={_ => {
+								this.setState({ betaDrawerOpen: false });
+							}}
+						>
+							New App {helpers.createIcon("\ue5ce")}
+						</MaterialUI.Button>
 					</div>
 				</MaterialUI.Drawer>
 				{this.state.betaDrawerOpen ? (
@@ -120,17 +121,14 @@ export default class Start extends React.Component {
 							background: "white"
 						}}
 					>
-						<MaterialUI.Typography style={{ padding: "0 0 0 5" }}>
-							New App{" "}
-							<MaterialUI.IconButton
-								style={{ padding: "0" }}
-								onClick={_ => {
-									this.setState({ betaDrawerOpen: true });
-								}}
-							>
-								{helpers.createIcon("\ue5cf")}
-							</MaterialUI.IconButton>
-						</MaterialUI.Typography>
+						<MaterialUI.Button
+							style={{ padding: "0 0 0 5" }}
+							onClick={_ => {
+								this.setState({ betaDrawerOpen: true });
+							}}
+						>
+							New App {helpers.createIcon("\ue5cf")}
+						</MaterialUI.Button>
 					</div>
 				)}
 			</React.Fragment>
@@ -139,7 +137,7 @@ export default class Start extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{window.Wrapper ? this.newAppDrawer() : ""}
+				{window.Wrapper ? this.newAppDrawer() : this.newAppDrawer()}
 				{Globals.userStats.Properties.JoinedGames ? (
 					<div
 						className={helpers.scopedClass(
