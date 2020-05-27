@@ -547,10 +547,17 @@ export default class CreateGameDialog extends React.Component {
 								/>
 								<MaterialUI.Typography
 									variant="body2"
-									style={{ paddingBottom: "16px" }}
+									style={{ paddingBottom: "4px" }}
 								>
 									Start year:{" "}
 									{this.state.variant.Properties.Start.Year}
+								</MaterialUI.Typography>
+								<MaterialUI.Typography
+									variant="body2"
+									style={{ paddingBottom: "16px" }}
+								>
+									Original author:{" "}
+									{this.state.variant.Properties.CreatedBy}
 								</MaterialUI.Typography>
 
 								<MaterialUI.Typography
