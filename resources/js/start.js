@@ -17,7 +17,7 @@ export default class Start extends React.Component {
     this.myStagingGamesList = null;
     this.myStartedGamesList = null;
     this.myFinishedGamesList = null;
-    this.newAppDrawer = this.newAppDrawer.bind(this);
+    this.newAppDialog = this.newAppDialog.bind(this);
     if (window.Wrapper) {
       localStorage.setItem(showedNewAppDrawer, "yes");
     }
@@ -26,7 +26,7 @@ export default class Start extends React.Component {
     gtag("set", { page_title: "Start", page_location: location.href });
     gtag("event", "page_view");
   }
-  newAppDrawer() {
+  newAppDialog() {
     return (
       <React.Fragment>
         <MaterialUI.Dialog
@@ -152,7 +152,7 @@ export default class Start extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {window.Wrapper ? this.newAppDrawer() : this.newAppDrawer()}
+        {window.Wrapper ? this.newAppDialog() : ""}
         {Globals.userStats.Properties.JoinedGames ? (
           <div
             className={helpers.scopedClass(
