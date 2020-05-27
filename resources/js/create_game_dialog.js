@@ -431,7 +431,7 @@ export default class CreateGameDialog extends React.Component {
 						</MaterialUI.Toolbar>
 					</MaterialUI.AppBar>
 
-					<div style={{ maxWidth: "920px", marginTop: "72px" }}>
+					<div style={{ maxWidth: "920px", marginTop: "72px", marginLeft: "auto"}}>
 						<div
 							style={{
 								margin: "auto",
@@ -1048,13 +1048,15 @@ export default class CreateGameDialog extends React.Component {
 								})}
 							</div>
 						</div>
-
+						<div style={{padding: "16px", textAlign:"center"}}>
 						<MaterialUI.Button
+							variant="contained"
 							onClick={this.createGame}
 							color="primary"
 						>
 							Create
 						</MaterialUI.Button>
+						</div>
 					</div>
 				</MaterialUI.Dialog>
 				<NationPreferencesDialog
