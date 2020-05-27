@@ -52,16 +52,15 @@ export default class DipMap extends React.Component {
 			force: true
 		}).then(data => {
 			if (data) {
-				const link = document.createElement("a");
-				link.setAttribute("href", data);
-				link.setAttribute(
-					"download",
+				helpers.downloadDataURI(
+					data,
 					helpers.gameDesc(this.state.game) +
 						" - " +
 						helpers.phaseName(this.state.phase) +
 						".png"
 				);
-				link.click();
+			} else {
+				helpers.snackbar("Unable to generate map image");
 			}
 		});
 	}
