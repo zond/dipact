@@ -431,7 +431,16 @@ export default class CreateGameDialog extends React.Component {
 						</MaterialUI.Toolbar>
 					</MaterialUI.AppBar>
 
-					<div style={{ maxWidth: "920px", marginTop: "72px", marginLeft: "auto", marginRight: "auto"}}>
+
+					<div
+						style={{
+							maxWidth: "920px",
+							marginTop: "72px",
+							marginLeft: "auto",
+              marginRight: "auto"
+						}}
+					>
+
 						<div
 							style={{
 								margin: "auto",
@@ -445,16 +454,37 @@ export default class CreateGameDialog extends React.Component {
 									flexDirection: "column"
 								}}
 							>
-								<MaterialUI.TextField
-									key="Desc"
-									label="Name"
-									margin="dense"
-									value={this.state.newGameProperties["Desc"]}
-									onChange={this.newGamePropertyUpdater(
-										"Desc"
-									)}
-									style={{ marginBottom: "8px" }}
-								/>
+								<div style={{ display: "flex" }}>
+									<MaterialUI.TextField
+										key="Desc"
+										label="Name"
+										margin="dense"
+										value={
+											this.state.newGameProperties["Desc"]
+										}
+										onChange={this.newGamePropertyUpdater(
+											"Desc"
+										)}
+										style={{
+											marginBottom: "8px",
+											flexGrow: "1"
+										}}
+									/>
+									<MaterialUI.IconButton
+										onClick={_ => {
+											this.setState((state, props) => {
+												state = Object.assign(
+													{},
+													state
+												);
+												state.newGameProperties.Desc = helpers.randomGameName();
+												return state;
+											});
+										}}
+									>
+										{helpers.createIcon("\ue86a")}
+									</MaterialUI.IconButton>
+								</div>
 
 								<MaterialUI.FormControlLabel
 									control={
@@ -1048,14 +1078,14 @@ export default class CreateGameDialog extends React.Component {
 								})}
 							</div>
 						</div>
-						<div style={{padding: "16px", textAlign:"center"}}>
-						<MaterialUI.Button
-							variant="contained"
-							onClick={this.createGame}
-							color="primary"
-						>
-							Create
-						</MaterialUI.Button>
+						<div style={{ padding: "16px", textAlign: "center" }}>
+							<MaterialUI.Button
+								variant="contained"
+								onClick={this.createGame}
+								color="primary"
+							>
+								Create
+							</MaterialUI.Button>
 						</div>
 					</div>
 				</MaterialUI.Dialog>
