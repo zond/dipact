@@ -262,7 +262,41 @@ export default class OrderList extends React.Component {
 												style={{ lineHeight: "1.2em" }}
 											>
 												<div>{nation}</div>
-												<div>{SCs} supply centers</div>
+												<div
+													onClick={_ => {
+														if (
+															this.props.phase
+																.Properties
+																.SoloSCCount
+														) {
+															helpers.snackbar(
+																"This is the number of supply centers owned by this player, and the number needed to win the game this phase. In some variants the number of supply centers needed to win the game changes from phase to phase."
+															);
+														}
+													}}
+												>
+													{SCs} supply centers
+													{this.props.phase.Properties
+														.SoloSCCount ? (
+														<React.Fragment>
+															{" (of " +
+																this.props.phase
+																	.Properties
+																	.SoloSCCount +
+																" "}
+															{helpers.createIcon(
+																"\ue8fd",
+																{
+																	fontSize:
+																		"inherit"
+																}
+															)}
+															{")"}
+														</React.Fragment>
+													) : (
+														""
+													)}
+												</div>
 											</span>
 											{phaseState ? (
 												<React.Fragment>
