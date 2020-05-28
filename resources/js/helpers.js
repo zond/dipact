@@ -68,8 +68,8 @@ export function parseUserConfigColors() {
 	});
 }
 
-export function snackbar(s) {
-	Globals.snackbar.setState({ message: s });
+export function snackbar(s, closesToIgnore = 0) {
+	Globals.snackbar.setState({ message: s, closesToIgnore: closesToIgnore });
 }
 
 /**

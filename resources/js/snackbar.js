@@ -3,8 +3,20 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 export default class Snackbar extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { message: null };
+		this.state = { message: null, closesToIgnore: 0 };
 		Globals.snackbar = this;
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (
+			prevState.message &&
+			!this.state.message &&
+			this.state.closesToIgnore > 0
+		) {
+			this.setState({
+				message: prevState.message,
+				closesToIgnore: this.state.closesToIgnore - 1
+			});
+		}
 	}
 	render() {
 		return (
