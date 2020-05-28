@@ -442,7 +442,7 @@ export default class OrderList extends React.Component {
 														<MaterialUI.ListItemText>
 															{order.Parts.join(
 																" "
-															)}
+															).toLowerCase()}
 															{(
 																order.Inconsistencies ||
 																[]
