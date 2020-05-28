@@ -90,10 +90,11 @@ export default class ChatMessage extends React.Component {
 					<MaterialUI.Typography
 						className={helpers.scopedClass(`
 		                                                align-self: flex-start;
+														white-space: pre-wrap;
 		                                                text-align: left;
 		                                                font-size: 14px;`)}
 					>
-						{this.props.text}
+						{helpers.linkify(this.props.text)}
 					</MaterialUI.Typography>
 					<MaterialUI.Typography
 						className={helpers.scopedClass(`
