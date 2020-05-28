@@ -34,6 +34,7 @@ export default class DipMap extends React.Component {
 		this.loadCorroboratePromise = this.loadCorroboratePromise.bind(this);
 		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
+		this.infoClicked = this.infoClicked.bind(this);
 		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
 		this.lastRenderedOrdersHash = 0;
@@ -45,6 +46,46 @@ export default class DipMap extends React.Component {
 		this.firstLoadFinished = false;
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
+		}
+	}
+	infoClicked(prov) {
+		prov = prov.split("/")[0];
+		const infos = ["Province: " + prov];
+		if (this.state.phase.Properties.SupplyCenters) {
+			const owner = this.state.phase.Properties.SupplyCenters[prov];
+			if (owner) {
+				infos.push("Supply center: " + owner);
+			}
+		} else {
+			this.state.phase.Properties.SCs.forEach(scData => {
+				if (scData.Province.split("/")[0] == prov) {
+					infos.push("Supply center: " + scData.Owner);
+				}
+			});
+		}
+		if (this.state.phase.Properties.Units instanceof Array) {
+			this.state.phase.Properties.Units.forEach(unitData => {
+				if (unitData.Province.split("/")[0] == prov) {
+					infos.push(
+						unitData.Unit.Type + ": " + unitData.Unit.Nation
+					);
+				}
+			});
+		} else {
+			for (let unitProv in this.state.phase.Properties.Units) {
+				const unit = this.state.phase.Properties.Units[unitProv];
+				if (prov == unitProv.split("/")[0]) {
+					infos.push(unit.Type + ": " + unit.Nation);
+				}
+			}
+		}
+		if (infos.length > 0) {
+			helpers.snackbar(
+				infos.map(info => {
+					return <p key={info}>{info}</p>;
+				}),
+				1
+			);
 		}
 	}
 	snackbarIncompleteOrder(parts, types, nextType) {
@@ -473,6 +514,29 @@ export default class DipMap extends React.Component {
 						this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 
 						this.map = dippyMap($("#map"));
+						Object.keys(
+							this.state.variant.Properties.Graph.Nodes
+						).forEach(superProv => {
+							Object.keys(
+								this.state.variant.Properties.Graph.Nodes[
+									superProv
+								].Subs
+							).forEach(subProv => {
+								let prov = superProv;
+								if (subProv) {
+									prov = prov + "/" + subProv;
+								}
+								this.map.addClickListener(
+									prov,
+									this.infoClicked,
+									{
+										nohighlight: true,
+										permanent: true,
+										touch: true
+									}
+								);
+							});
+						});
 						panzoom(document.getElementById("map-container"), {
 							bounds: true,
 							boundsPadding: 0.5,
