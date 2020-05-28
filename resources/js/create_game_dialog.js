@@ -431,13 +431,16 @@ export default class CreateGameDialog extends React.Component {
 						</MaterialUI.Toolbar>
 					</MaterialUI.AppBar>
 
+
 					<div
 						style={{
 							maxWidth: "920px",
 							marginTop: "72px",
-							marginLeft: "auto"
+							marginLeft: "auto",
+              marginRight: "auto"
 						}}
 					>
+
 						<div
 							style={{
 								margin: "auto",

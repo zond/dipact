@@ -384,17 +384,17 @@ export default class SettingsDialog extends React.Component {
 															location.href
 														);
 														state.userConfig.Properties.MailConfig.MessageConfig.TextBodyTemplate =
-															"{{message.Body}}\n\nVisit {{unsubscribeURL}} to stop receiving email like this.\n\nVisit " +
+															"You received a new message on Diplicity:\n\n{{message.Body}}\n\n\nTo view the game, visit\n\n" +
 															hrefURL.protocol +
 															"//" +
 															hrefURL.host +
-															"/Game/{{game.ID.Encode}}  to see the latest phase in this game.";
+															"/Game/{{game.ID.Encode}}\n\n\n\n\nTo turn off email notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
 														state.userConfig.Properties.MailConfig.PhaseConfig.TextBodyTemplate =
-															"{{game.Desc}} has a new phase: " +
+															"{{game.Desc}} has a new phase.\n\n\nTo view the game, visit\n " +
 															hrefURL.protocol +
 															"//" +
 															hrefURL.host +
-															"/Game/{{game.ID.Encode}}.\n\nVisit {{unsubscribeURL}} to stop receiving email like this.";
+															"/Game/{{game.ID.Encode}}.\n\n\n\n\nTo turn off emails notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
 														return state;
 													},
 													this.saveConfig
