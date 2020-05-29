@@ -14,7 +14,6 @@ export function linkify(s) {
 		parts.push(<a href={match[2]}>{match[2]}</a>);
 		remainder = match[4];
 		match = linkReg.exec(remainder);
-		console.log(linkReg, remainder, match);
 	}
 	parts.push(remainder);
 	return parts;
