@@ -265,7 +265,9 @@ export default class OrderList extends React.Component {
                       }}
                     >
                       <span style={{ lineHeight: "1.2em" }}>
-                        <div>{nation}</div>
+                        <div>{nation}{this.props.member &&
+                      this.props.member.Nation == nation &&
+                      hasLink ? " (You)" : ""}</div>
                         <div                        >
                           {SCs} supply centers
                           </div>
