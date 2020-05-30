@@ -18,21 +18,22 @@ export default class OrderList extends React.Component {
 	}
 	presentInconsistency(incon) {
 		const parts = incon.split(":");
+		console.log(parts);
 		switch (parts[0]) {
 			case "InconsistencyMissingOrder":
-				return "missing order";
+				return "No order";
 			case "InconsistencyMismatchedSupporter":
 			case "InconsistencyMismatchedConvoyer":
-				return "doesn't match the order for " + parts[1];
+				return "Doesn't match the order for " + parts[1];
 			case "InconsistencyMismatchedConvoyee":
-				return "should maybe match the order for " + parts[1];
+				return "Should maybe match the order for " + parts[1];
 			case "InconsistencyOrderTypeCount":
 				return (
-					"expected " +
+					"You can give " +
 					parts[5] +
 					" " +
 					parts[1] +
-					" orders, but got " +
+					" orders, but have only given " +
 					parts[3]
 				);
 		}
@@ -254,6 +255,7 @@ export default class OrderList extends React.Component {
 							}).length;
 							return (
 								<li key={"nation_" + nation}>
+								{console.log(this)}
 									<ul style={{ paddingLeft: "0px" }}>
 										<MaterialUI.ListSubheader
 											style={{
@@ -480,6 +482,7 @@ export default class OrderList extends React.Component {
 															","
 														)}
 													>
+
 														<MaterialUI.ListItemText>
 															{order.Parts.join(
 																" "
@@ -492,12 +495,13 @@ export default class OrderList extends React.Component {
 																	<div
 																		style={{
 																			color:
-																				"red"
+																				"#f44336", fontSize: "14px"
 																		}}
+
 																		key={
 																			incon
 																		}
-																	>
+																	> 
 																		{this.presentInconsistency(
 																			incon
 																		)}
@@ -542,7 +546,7 @@ export default class OrderList extends React.Component {
 																		}
 																		style={{
 																			color:
-																				"red"
+																				"#f44336"
 																		}}
 																	>
 																		<MaterialUI.ListItemText>
@@ -570,7 +574,7 @@ export default class OrderList extends React.Component {
 																		)}
 																		style={{
 																			color:
-																				"red"
+																				"f44336"
 																		}}
 																	>
 																		<MaterialUI.ListItemText>
