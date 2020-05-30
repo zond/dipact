@@ -59,21 +59,28 @@ export default class OrderList extends React.Component {
 						body: JSON.stringify(phaseState.Properties)
 					})
 				)
-				.then(res => res.json())
-				.then(js => {
+				.then(resp => {
 					helpers.decProgress();
-					gtag("event", "toggle_phase_state_" + gtagEvent);
-					this.setState(
-						(state, props) => {
-							state = Object.assign({}, state);
-							state.phaseStates[nation].Properties =
-								js.Properties;
-							return state;
-						},
-						_ => {
-							this.props.newPhaseStateHandler(js);
-						}
-					);
+					if (resp.status == 412) {
+						helpers.snackbar(
+							"The server claims you are not able to edit your phase settings any more - maybe the phase has resolved?"
+						);
+						return;
+					}
+					resp.json().then(js => {
+						gtag("event", "toggle_phase_state_" + gtagEvent);
+						this.setState(
+							(state, props) => {
+								state = Object.assign({}, state);
+								state.phaseStates[nation].Properties =
+									js.Properties;
+								return state;
+							},
+							_ => {
+								this.props.newPhaseStateHandler(js);
+							}
+						);
+					});
 				});
 		};
 	}

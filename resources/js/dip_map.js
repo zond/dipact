@@ -1045,11 +1045,12 @@ export default class DipMap extends React.Component {
 				this.handleLaboratoryCommand(parts);
 				this.acceptOrders();
 			} else {
-				this.snackbarIncompleteOrder(parts, types, "Done"),
-					helpers.incProgress();
+				this.snackbarIncompleteOrder(parts, types, "Done");
+				helpers.incProgress();
 				this.debugCount("addOptionsHandlers/regularOrder");
 				this.createOrder(parts).then(resp => {
 					if (resp.status == 412) {
+						helpers.decProgress();
 						helpers.snackbar(
 							"The server claims you are not able to edit orders any more - maybe the phase has resolved?"
 						);
