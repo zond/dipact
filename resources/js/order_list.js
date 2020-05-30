@@ -18,7 +18,6 @@ export default class OrderList extends React.Component {
 	}
 	presentInconsistency(incon) {
 		const parts = incon.split(":");
-		console.log(parts);
 		switch (parts[0]) {
 			case "InconsistencyMissingOrder":
 				return "No order";
@@ -255,7 +254,6 @@ export default class OrderList extends React.Component {
 							}).length;
 							return (
 								<li key={"nation_" + nation}>
-								{console.log(this)}
 									<ul style={{ paddingLeft: "0px" }}>
 										<MaterialUI.ListSubheader
 											style={{
