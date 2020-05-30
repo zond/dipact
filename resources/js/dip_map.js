@@ -256,7 +256,7 @@ export default class DipMap extends React.Component {
 				})
 			);
 		} else {
-			return Promise.resolve({});
+			return Promise.resolve(null);
 		}
 	}
 	deleteOrder(prov) {
@@ -1048,7 +1048,13 @@ export default class DipMap extends React.Component {
 				this.snackbarIncompleteOrder(parts, types, "Done"),
 					helpers.incProgress();
 				this.debugCount("addOptionsHandlers/regularOrder");
-				this.createOrder(parts).then(_ => {
+				this.createOrder(parts).then(resp => {
+					if (resp.status == 412) {
+						helpers.snackbar(
+							"The server claims you are not able to edit orders any more - maybe the phase has resolved?"
+						);
+						return;
+					}
 					gtag("event", "create_order");
 					this.debugCount("addOptionsHandlers/orderCreated");
 					this.loadCorroboratePromise().then(corr => {
