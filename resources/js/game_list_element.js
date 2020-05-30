@@ -1127,7 +1127,8 @@ export default class GameListElement extends React.Component {
 										</MaterialUI.Typography>
 									</div>
 								</div>
-								{this.state.game.Properties.Mustered ? (
+								{!this.state.member ||
+								this.state.game.Properties.Mustered ? (
 									""
 								) : this.state.game.Properties.Members.find(
 										m => {
