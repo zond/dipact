@@ -187,7 +187,7 @@ export default class ChatChannel extends React.Component {
 		return true;
 	}
 	keyPress(e) {
-		if (e.keyCode == 13 && !e.shiftKey) {
+		if (e.key == "Enter" && e.ctrlKey) {
 			e.stopPropagation();
 			e.preventDefault();
 			this.sendMessage(e);
@@ -519,7 +519,7 @@ export default class ChatChannel extends React.Component {
 									multiline
 									rows="2"
 									style={{ flexGrow: 100 }}
-									label="Message"
+									label="Message - Ctrl + Enter to send"
 									variant="outlined"
 									onKeyDown={this.keyPress}
 								/>
