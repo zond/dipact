@@ -42,7 +42,7 @@ function processNotification(payload, href) {
 			payload.data.phaseMeta.Year +
 			", " +
 			payload.data.phaseMeta.Type +
-			" is resolved";
+			" has changed state";
 	}
 	return payload;
 }
