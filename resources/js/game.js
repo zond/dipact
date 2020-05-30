@@ -381,7 +381,8 @@ export default class Game extends React.Component {
 							member &&
 							game.Properties.Started &&
 							!game.Properties.Finished &&
-							!member.NewestPhaseState.NoOrders &&
+							(!member.NewestPhaseState.NoOrders ||
+								!game.Properties.Mustered) &&
 							!member.NewestPhaseState.ReadyToResolve,
 						game: game,
 						phases: phases,
@@ -935,6 +936,9 @@ export default class Game extends React.Component {
 						message={[
 							<MaterialUI.Typography key="ready-warning">
 								You haven't confirmed your orders yet.
+								{this.state.game.Properties.Mustered
+									? ""
+									: " For the game to start, all players have to confirm as ready to play."}
 							</MaterialUI.Typography>
 						].concat(
 							this.state.phaseMessages.map(m => {
