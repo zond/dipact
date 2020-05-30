@@ -79,7 +79,7 @@ export default class Start extends React.Component {
 							</MaterialUI.Typography>
 							<MaterialUI.Typography variant="body2">
 								We redesigned our app and started using the new
-								version, which is still in Beta This means there
+								version, which is still in Beta. This means there
 								may be some (small) bugs that we haven't found
 								on our own.
 								<br /> If you encounter an issue, please let us
