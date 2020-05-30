@@ -1,8 +1,23 @@
 export const overrideReg = /[^\w]/g;
 
-const colorReg = (colorReg = /^#([0-9a-fA-F]{3,3}|[0-9a-fA-F]{6,6}|[0-9a-fA-F]{8,8})$/);
+const colorReg = /^#([0-9a-fA-F]{3,3}|[0-9a-fA-F]{6,6}|[0-9a-fA-F]{8,8})$/;
+const linkReg = /^(.*?)((mailto:|https?:\/\/)[^\s]*[^.\s])(.*)$/ms;
 
 export const DiplicitySender = "Diplicity";
+
+export function linkify(s) {
+	const parts = [];
+	let remainder = s;
+	let match = linkReg.exec(s);
+	while (match) {
+		parts.push(match[1]);
+		parts.push(<a href={match[2]}>{match[2]}</a>);
+		remainder = match[4];
+		match = linkReg.exec(remainder);
+	}
+	parts.push(remainder);
+	return parts;
+}
 
 export function ratingPercentile(rating) {
 	let totalCount = 0;
@@ -68,8 +83,8 @@ export function parseUserConfigColors() {
 	});
 }
 
-export function snackbar(s) {
-	Globals.snackbar.setState({ message: s });
+export function snackbar(s, closesToIgnore = 0) {
+	Globals.snackbar.setState({ message: s, closesToIgnore: closesToIgnore });
 }
 
 /**

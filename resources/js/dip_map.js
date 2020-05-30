@@ -30,9 +30,11 @@ export default class DipMap extends React.Component {
 		this.deleteOrder = this.deleteOrder.bind(this);
 		this.snapshotSVG = this.snapshotSVG.bind(this);
 		this.getSVGData = this.getSVGData.bind(this);
+		this.snackbarIncompleteOrder = this.snackbarIncompleteOrder.bind(this);
 		this.loadCorroboratePromise = this.loadCorroboratePromise.bind(this);
 		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
+		this.infoClicked = this.infoClicked.bind(this);
 		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
 		this.lastRenderedOrdersHash = 0;
@@ -44,6 +46,78 @@ export default class DipMap extends React.Component {
 		this.firstLoadFinished = false;
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
+		}
+	}
+	infoClicked(prov) {
+		prov = prov.split("/")[0];
+		const infos = ["Province: " + prov];
+		if (this.state.phase.Properties.SupplyCenters) {
+			const owner = this.state.phase.Properties.SupplyCenters[prov];
+			if (owner) {
+				infos.push("Supply center: " + owner);
+			}
+		} else {
+			this.state.phase.Properties.SCs.forEach(scData => {
+				if (scData.Province.split("/")[0] == prov) {
+					infos.push("Supply center: " + scData.Owner);
+				}
+			});
+		}
+		if (this.state.phase.Properties.Units instanceof Array) {
+			this.state.phase.Properties.Units.forEach(unitData => {
+				if (unitData.Province.split("/")[0] == prov) {
+					infos.push(
+						unitData.Unit.Type + ": " + unitData.Unit.Nation
+					);
+				}
+			});
+		} else {
+			for (let unitProv in this.state.phase.Properties.Units) {
+				const unit = this.state.phase.Properties.Units[unitProv];
+				if (prov == unitProv.split("/")[0]) {
+					infos.push(unit.Type + ": " + unit.Nation);
+				}
+			}
+		}
+		if (infos.length > 0) {
+			helpers.snackbar(
+				infos.map(info => {
+					return <p key={info}>{info}</p>;
+				}),
+				1
+			);
+		}
+	}
+	snackbarIncompleteOrder(parts, types, nextType) {
+		const words = [];
+		if (parts.length != types.length) {
+			throw "" + parts + " and " + types + " must be of same length!";
+		}
+		parts.forEach((part, idx) => {
+			if (idx + 1 > parts.length || part != parts[idx + 1]) {
+				words.push(part);
+				if (
+					(idx == types.length - 1 &&
+						types[idx] == "Province" &&
+						nextType == "Province") ||
+					(idx + 1 < types.length &&
+						types[idx] == "Province" &&
+						types[idx + 1] == "Province")
+				) {
+					words.push("to");
+				}
+			}
+		});
+		let msg = words.join(" ").toLowerCase();
+		if (nextType == "Done") {
+			msg = "Saving " + msg;
+		} else {
+			if (msg) {
+				msg += "...";
+			}
+		}
+		if (msg) {
+			helpers.snackbar(msg, 1);
 		}
 	}
 	downloadMap() {
@@ -182,7 +256,7 @@ export default class DipMap extends React.Component {
 				})
 			);
 		} else {
-			return Promise.resolve({});
+			return Promise.resolve(null);
 		}
 	}
 	deleteOrder(prov) {
@@ -440,6 +514,29 @@ export default class DipMap extends React.Component {
 						this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 
 						this.map = dippyMap($("#map"));
+						Object.keys(
+							this.state.variant.Properties.Graph.Nodes
+						).forEach(superProv => {
+							Object.keys(
+								this.state.variant.Properties.Graph.Nodes[
+									superProv
+								].Subs
+							).forEach(subProv => {
+								let prov = superProv;
+								if (subProv) {
+									prov = prov + "/" + subProv;
+								}
+								this.map.addClickListener(
+									prov,
+									this.infoClicked,
+									{
+										nohighlight: true,
+										permanent: true,
+										touch: true
+									}
+								);
+							});
+						});
 						panzoom(document.getElementById("map-container"), {
 							bounds: true,
 							boundsPadding: 0.5,
@@ -758,7 +855,11 @@ export default class DipMap extends React.Component {
 									Next: Object.assign({}, nationSCOptions)
 								};
 							}
-							this.addOptionHandlers(options, ["edit", prov]);
+							this.addOptionHandlers(
+								options,
+								["edit", prov],
+								["LabCommand", "Province"]
+							);
 						},
 						{ touch: true }
 					);
@@ -819,14 +920,14 @@ export default class DipMap extends React.Component {
 							return;
 						}
 						if (Object.keys(js.Properties).length > 0) {
-							this.addOptionHandlers(js.Properties, []);
+							this.addOptionHandlers(js.Properties, [], []);
 						}
 					});
 			}
 		} else {
 			if (Object.keys(this.state.options || {}).length > 0) {
 				this.debugCount("acceptOrders/hasOptions");
-				this.addOptionHandlers(this.state.options, []);
+				this.addOptionHandlers(this.state.options, [], []);
 			}
 		}
 	}
@@ -936,7 +1037,7 @@ export default class DipMap extends React.Component {
 		}
 		return true;
 	}
-	addOptionHandlers(options, parts) {
+	addOptionHandlers(options, parts, types) {
 		this.debugCount("addOptionsHandlers/called");
 		if (Object.keys(options).length == 0) {
 			this.debugCount("addOptionsHandlers/orderDone");
@@ -944,9 +1045,17 @@ export default class DipMap extends React.Component {
 				this.handleLaboratoryCommand(parts);
 				this.acceptOrders();
 			} else {
+				this.snackbarIncompleteOrder(parts, types, "Done");
 				helpers.incProgress();
 				this.debugCount("addOptionsHandlers/regularOrder");
-				this.createOrder(parts).then(_ => {
+				this.createOrder(parts).then(resp => {
+					if (resp.status == 412) {
+						helpers.decProgress();
+						helpers.snackbar(
+							"The server claims you are not able to edit orders any more - maybe the phase has resolved?"
+						);
+						return;
+					}
 					gtag("event", "create_order");
 					this.debugCount("addOptionsHandlers/orderCreated");
 					this.loadCorroboratePromise().then(corr => {
@@ -968,6 +1077,7 @@ export default class DipMap extends React.Component {
 					throw "Can't use multiple types in the same level of options.";
 				}
 			}
+			this.snackbarIncompleteOrder(parts, types, type);
 			this.debugCount("addOptionsHandlers/type/" + type);
 			switch (type) {
 				case "Province":
@@ -983,7 +1093,8 @@ export default class DipMap extends React.Component {
 									);
 									this.addOptionHandlers(
 										options[prov].Next,
-										parts.concat(prov)
+										parts.concat(prov),
+										types.concat(type)
 									);
 								},
 								{ touch: true }
@@ -1006,7 +1117,8 @@ export default class DipMap extends React.Component {
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
-									parts.concat(ord)
+									parts.concat(ord),
+									types.concat(type)
 								);
 							}
 						}
@@ -1055,7 +1167,8 @@ export default class DipMap extends React.Component {
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
-									parts.concat(ord)
+									parts.concat(ord),
+									types.concat(type)
 								);
 							}
 						}
@@ -1065,7 +1178,11 @@ export default class DipMap extends React.Component {
 				case "SrcProvince":
 					let srcProvince = Object.keys(options)[0];
 					parts[0] = srcProvince;
-					this.addOptionHandlers(options[srcProvince].Next, parts);
+					this.addOptionHandlers(
+						options[srcProvince].Next,
+						parts,
+						types
+					);
 					this.debugCount("addOptionsHandlers/assignedSrcProvince");
 					break;
 			}

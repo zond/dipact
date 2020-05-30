@@ -60,21 +60,28 @@ export default class OrderList extends React.Component {
 						body: JSON.stringify(phaseState.Properties)
 					})
 				)
-				.then(res => res.json())
-				.then(js => {
+				.then(resp => {
 					helpers.decProgress();
-					gtag("event", "toggle_phase_state_" + gtagEvent);
-					this.setState(
-						(state, props) => {
-							state = Object.assign({}, state);
-							state.phaseStates[nation].Properties =
-								js.Properties;
-							return state;
-						},
-						_ => {
-							this.props.newPhaseStateHandler(js);
-						}
-					);
+					if (resp.status == 412) {
+						helpers.snackbar(
+							"The server claims you are not able to edit your phase settings any more - maybe the phase has resolved?"
+						);
+						return;
+					}
+					resp.json().then(js => {
+						gtag("event", "toggle_phase_state_" + gtagEvent);
+						this.setState(
+							(state, props) => {
+								state = Object.assign({}, state);
+								state.phaseStates[nation].Properties =
+									js.Properties;
+								return state;
+							},
+							_ => {
+								this.props.newPhaseStateHandler(js);
+							}
+						);
+					});
 				});
 		};
 	}
@@ -264,7 +271,41 @@ export default class OrderList extends React.Component {
 												style={{ lineHeight: "1.2em" }}
 											>
 												<div>{nation}</div>
-												<div>{SCs} supply centers</div>
+												<div
+													onClick={_ => {
+														if (
+															this.props.phase
+																.Properties
+																.SoloSCCount
+														) {
+															helpers.snackbar(
+																"This is the number of supply centers owned by this player, and the number needed to win the game this phase. In some variants the number of supply centers needed to win the game changes from phase to phase."
+															);
+														}
+													}}
+												>
+													{SCs} supply centers
+													{this.props.phase.Properties
+														.SoloSCCount ? (
+														<React.Fragment>
+															{" (of " +
+																this.props.phase
+																	.Properties
+																	.SoloSCCount +
+																" "}
+															{helpers.createIcon(
+																"\ue8fd",
+																{
+																	fontSize:
+																		"inherit"
+																}
+															)}
+															{")"}
+														</React.Fragment>
+													) : (
+														""
+													)}
+												</div>
 											</span>
 											{phaseState ? (
 												<React.Fragment>
@@ -445,7 +486,7 @@ export default class OrderList extends React.Component {
 														<MaterialUI.ListItemText>
 															{order.Parts.join(
 																" "
-															)}
+															).toLowerCase()}
 															{(
 																order.Inconsistencies ||
 																[]

@@ -67,6 +67,7 @@ export default class ChatMessage extends React.Component {
 							this.col +
 							`19;
 			display: flex;
+			max-width: calc(100% - 70px);
 			border: ` +
 							(this.brightness > 128
 								? `1px solid ` + this.col + `;`
@@ -90,10 +91,12 @@ export default class ChatMessage extends React.Component {
 					<MaterialUI.Typography
 						className={helpers.scopedClass(`
 		                                                align-self: flex-start;
+														white-space: pre-wrap;
 		                                                text-align: left;
+														max-width: 100%;
 		                                                font-size: 14px;`)}
 					>
-						{this.props.text}
+						{helpers.linkify(this.props.text)}
 					</MaterialUI.Typography>
 					<MaterialUI.Typography
 						className={helpers.scopedClass(`
