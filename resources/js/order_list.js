@@ -481,9 +481,11 @@ export default class OrderList extends React.Component {
 														)}
 													>
 														<MaterialUI.ListItemText>
-															{order.Parts.join(
-																" "
-															).toLowerCase()}
+															{helpers.humanizeOrder(
+																this.props
+																	.variant,
+																order.Parts
+															)}
 															{(
 																order.Inconsistencies ||
 																[]

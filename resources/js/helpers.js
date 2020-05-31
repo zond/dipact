@@ -1547,3 +1547,51 @@ export function downloadDataURI(uri, filename) {
 	);
 	link.click();
 }
+
+export function provName(variant, prov) {
+	if (
+		variant.Properties.ProvinceLongNames &&
+		variant.Properties.ProvinceLongNames[prov]
+	) {
+		return variant.Properties.ProvinceLongNames[prov];
+	}
+	return prov;
+}
+
+export function humanizeOrder(variant, parts, nextType = null) {
+	const types = parts.map(part => {
+		switch (part) {
+			case "Support":
+			case "Convoy":
+			case "Disband":
+			case "Hold":
+			case "Build":
+			case "Move":
+				return "OrderType";
+				break;
+		}
+		return "Province";
+	});
+	const words = [];
+	parts.forEach((part, idx) => {
+		if (idx + 1 > parts.length || part != parts[idx + 1]) {
+			if (types[idx] == "Province") {
+				words.push(provName(variant, part));
+			} else {
+				words.push(part.toLowerCase());
+			}
+			if (
+				(idx == types.length - 1 &&
+					types[idx] == "Province" &&
+					nextType == "Province") ||
+				(idx + 1 < types.length &&
+					types[idx] == "Province" &&
+					types[idx + 1] == "Province") ||
+				(types[idx] == "OrderType" && parts[idx] == "Move")
+			) {
+				words.push("to");
+			}
+		}
+	});
+	return words.join(" ");
+}
