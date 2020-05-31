@@ -722,6 +722,12 @@ export default class DipMap extends React.Component {
 				});
 				this.debugCount("renderOrders/renderedResolution");
 			}
+			if (this.state.phase.Properties.ForceDisbands instanceof Array) {
+				this.state.phase.Properties.ForceDisbands.forEach(prov => {
+					this.map.addCross(prov, "#ff6600");
+					this.map.addBox(prov, 4, "#ff6600");
+				});
+			}
 		}
 	}
 	makeVariantPhase() {
