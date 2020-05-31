@@ -15,6 +15,55 @@ export default class OrderList extends React.Component {
 		this.toggleFunc = this.toggleFunc.bind(this);
 		this.parseCorroboration = this.parseCorroboration.bind(this);
 		this.presentInconsistency = this.presentInconsistency.bind(this);
+		this.buildMessage = this.buildMessage.bind(this);
+	}
+	buildMessage(nat) {
+		if (!this.props.member) {
+			return "";
+		}
+		if (!this.state.phaseStates) {
+			return "";
+		}
+		const phaseState = this.state.phaseStates[this.props.member.Nation];
+		if (!phaseState) {
+			return "";
+		}
+		const msgs = phaseState.Properties.Messages.split(",");
+		let rval = "";
+		if (nat == this.props.member.Nation) {
+			msgs.forEach(msg => {
+				const parts = msg.split(":");
+				if (parts[0] == "MayBuild") {
+					rval =
+						", " +
+						parts[1] +
+						(parts[1] == "1" ? " build" : " builds");
+				}
+				if (parts[0] == "MustDisband") {
+					rval =
+						", " +
+						parts[1] +
+						(parts[1] == "1" ? " disband" : " disbands");
+				}
+			});
+		} else {
+			msgs.forEach(msg => {
+				const parts = msg.split(":");
+				if (parts[0] == "OtherMayBuild" && parts[1] == nat) {
+					rval =
+						"," +
+						parts[2] +
+						(parts[2] == "1" ? " build" : " builds");
+				}
+				if (parts[0] == "OtherMustDisband" && parts[1] == nat) {
+					rval =
+						"," +
+						parts[2] +
+						(parts[2] == "1" ? " disband" : " disbands");
+				}
+			});
+		}
+		return rval;
 	}
 	presentInconsistency(incon) {
 		const parts = incon.split(":");
@@ -303,6 +352,7 @@ export default class OrderList extends React.Component {
 													) : (
 														""
 													)}
+													{this.buildMessage(nation)}
 												</div>
 											</span>
 											{phaseState ? (
