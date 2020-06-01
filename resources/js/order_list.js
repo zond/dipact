@@ -16,17 +16,60 @@ export default class OrderList extends React.Component {
     this.parseCorroboration = this.parseCorroboration.bind(this);
     this.presentInconsistency = this.presentInconsistency.bind(this);
     this.presentResult = this.presentResult.bind(this);
+    this.buildMessage = this.buildMessage.bind(this);
   }
   presentResult(phaseResult) {
     const parts = phaseResult.split(":");
     switch (parts[0]) {
       case "OK":
-        return <div style={{ color: "green", fontSize:"14px"}}>Success</div>;
+        return <div style={{ color: "green", fontSize: "14px" }}>Success</div>;
       case "ErrBounce":
-        return <div style={{fontSize:"14px"}}>{"Bounced with " + parts[1]}</div>;
+        return (
+          <div style={{ fontSize: "14px" }}>{"Bounced with " + parts[1]}</div>
+        );
       case "ErrSupportBroken":
-        return <div style={{fontSize:"14px"}}>{"Support broken by " + parts[1]}</div>;
+        return (
+          <div style={{ fontSize: "14px" }}>
+            {"Support broken by " + parts[1]}
+          </div>
+        );
     }
+  }
+  buildMessage(nat) {
+    if (!this.props.member) {
+      return "";
+    }
+    if (!this.state.phaseStates) {
+      return "";
+    }
+    const phaseState = this.state.phaseStates[this.props.member.Nation];
+    if (!phaseState) {
+      return "";
+    }
+    const msgs = phaseState.Properties.Messages.split(",");
+    let rval = "";
+    if (nat == this.props.member.Nation) {
+      msgs.forEach((msg) => {
+        const parts = msg.split(":");
+        if (parts[0] == "MayBuild") {
+          rval = ", " + parts[1] + (parts[1] == "1" ? " build" : " builds");
+        }
+        if (parts[0] == "MustDisband") {
+          rval = ", " + parts[1] + (parts[1] == "1" ? " disband" : " disbands");
+        }
+      });
+    } else {
+      msgs.forEach((msg) => {
+        const parts = msg.split(":");
+        if (parts[0] == "OtherMayBuild" && parts[1] == nat) {
+          rval = "," + parts[2] + (parts[2] == "1" ? " build" : " builds");
+        }
+        if (parts[0] == "OtherMustDisband" && parts[1] == nat) {
+          rval = "," + parts[2] + (parts[2] == "1" ? " disband" : " disbands");
+        }
+      });
+    }
+    return rval;
   }
   presentInconsistency(incon) {
     const parts = incon.split(":");
@@ -265,26 +308,33 @@ export default class OrderList extends React.Component {
                       }}
                     >
                       <span style={{ lineHeight: "1.2em" }}>
-                        <div>{nation}{this.props.member &&
-                      this.props.member.Nation == nation &&
-                      hasLink ? " (You)" : ""}</div>
-                        <div                        >
-                          {SCs} supply centers
-                          </div>
-                          <div>
-
+                        <div>
+                          {nation}
                           {this.props.member &&
-                      this.props.member.Nation == nation &&
-                      hasLink && this.props.phase.Properties.SoloSCCount ? (
-                            <React.Fragment>
-                              {"(" + 
-                                this.props.phase.Properties.SoloSCCount +
-                                " needed to win"}
-                              {")"}
-                            </React.Fragment>
-                          ) : (
-                            ""
-                          )}
+                          this.props.member.Nation == nation &&
+                          hasLink
+                            ? " (You)"
+                            : ""}
+                        </div>
+                        <div>
+                          {SCs} supply centers
+                          <div>
+                            {this.props.member &&
+                            this.props.member.Nation == nation &&
+                            hasLink &&
+                            this.props.phase.Properties.SoloSCCount ? (
+                              <React.Fragment>
+                                {"(" +
+                                  this.props.phase.Properties.SoloSCCount +
+                                  " needed to win"}
+                                {")"}
+                              </React.Fragment>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                          {this.buildMessage(nation)}{" "}
+                          {/* TODO: What does this do? How does it render? */}
                         </div>
                       </span>
                       {phaseState ? (
@@ -430,7 +480,10 @@ export default class OrderList extends React.Component {
                         return (
                           <MaterialUI.ListItem key={order.Parts.join(",")}>
                             <MaterialUI.ListItemText>
-                              {order.Parts.join(" ").toLowerCase()}
+                              {helpers.humanizeOrder(
+                                this.props.variant,
+                                order.Parts
+                              )}
                               {(order.Inconsistencies || []).map((incon) => {
                                 return (
                                   <div
@@ -448,8 +501,8 @@ export default class OrderList extends React.Component {
                             {this.state.resolutions[order.Parts[0]] ? (
                               <MaterialUI.ListItemText
                                 className={helpers.scopedClass(`
-								font-size: 14px;
-        						`)}
+                font-size: 14px;
+                    `)}
                                 style={{
                                   textAlign: "right",
                                   fontSize: "14px",
@@ -512,8 +565,8 @@ export default class OrderList extends React.Component {
         <div
           id="filler"
           className={helpers.scopedClass(`
-					min-height: calc(100% - 112px);
-					`)}
+          min-height: calc(100% - 112px);
+          `)}
         />
         {this.props.phase &&
         !this.props.phase.Properties.Resolved &&
@@ -521,12 +574,12 @@ export default class OrderList extends React.Component {
         this.state.phaseStates[this.props.member.Nation] ? (
           <MaterialUI.AppBar
             className={helpers.scopedClass(`
-				padding: 16px 48px;
+        padding: 16px 48px;
     position: sticky;
     display: flex;
     align-items: center;
     bottom: 0px;
-    z-index: 1201;	
+    z-index: 1201;  
     `)}
           >
             <MaterialUI.Button
