@@ -14,3 +14,10 @@ body,
 .MuiTypography-root {
 	font-family: "cabin" !important;
 }
+
+
+@media screen and (max-width: 900px) {
+  #desktopOnlyInput {
+    display: none;
+  }
+}
