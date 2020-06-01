@@ -863,6 +863,7 @@ export default class GameListElement extends React.Component {
 					);
 				}
 				if (
+					!this.state.game.Properties.Private &&
 					this.state.game.Properties.MinReliability == 0 &&
 					Globals.userStats.Properties.Reliability >= 10
 				) {
@@ -1126,6 +1127,62 @@ export default class GameListElement extends React.Component {
 										</MaterialUI.Typography>
 									</div>
 								</div>
+								{!this.state.member ||
+								this.state.game.Properties.Mustered ? (
+									""
+								) : this.state.game.Properties.Members.find(
+										m => {
+											return m.User.Id == Globals.user.Id;
+										}
+								  ).NewestPhaseState.ReadyToResolve ? (
+									<MaterialUI.Typography>
+										Confirmed ready{" "}
+										{helpers.createIcon("\ue5ca")}
+									</MaterialUI.Typography>
+								) : (
+									<MaterialUI.Button
+										variant="outlined"
+										style={{
+											marginRight: "16px",
+											minWidth: "100px",
+											marginBottom: "4px"
+										}}
+										color="primary"
+										onClick={ev => {
+											ev.stopPropagation();
+											helpers
+												.safeFetch(
+													helpers.createRequest(
+														"/Game/" +
+															this.state.game
+																.Properties.ID +
+															"/Phase/" +
+															this.state.game
+																.Properties
+																.NewestPhaseMeta[0]
+																.PhaseOrdinal +
+															"/PhaseState",
+														{
+															headers: {
+																"Content-Type":
+																	"application/json"
+															},
+															method: "PUT",
+															body: JSON.stringify(
+																{
+																	ReadyToResolve: true
+																}
+															)
+														}
+													)
+												)
+												.then(this.reloadGame);
+										}}
+										key={itemKey++}
+									>
+										Confirm ready
+									</MaterialUI.Button>
+								)}
 							</React.Fragment>
 						);
 					} else {

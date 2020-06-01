@@ -88,27 +88,8 @@ export default class DipMap extends React.Component {
 			);
 		}
 	}
-	snackbarIncompleteOrder(parts, types, nextType) {
-		const words = [];
-		if (parts.length != types.length) {
-			throw "" + parts + " and " + types + " must be of same length!";
-		}
-		parts.forEach((part, idx) => {
-			if (idx + 1 > parts.length || part != parts[idx + 1]) {
-				words.push(part);
-				if (
-					(idx == types.length - 1 &&
-						types[idx] == "Province" &&
-						nextType == "Province") ||
-					(idx + 1 < types.length &&
-						types[idx] == "Province" &&
-						types[idx + 1] == "Province")
-				) {
-					words.push("to");
-				}
-			}
-		});
-		let msg = words.join(" ").toLowerCase();
+	snackbarIncompleteOrder(parts, nextType) {
+		const msg = helpers.humanizeOrder(this.state.variant, parts, nextType);
 		if (nextType == "Done") {
 			msg = "Saving " + msg;
 		} else {
@@ -741,6 +722,12 @@ export default class DipMap extends React.Component {
 				});
 				this.debugCount("renderOrders/renderedResolution");
 			}
+			if (this.state.phase.Properties.ForceDisbands instanceof Array) {
+				this.state.phase.Properties.ForceDisbands.forEach(prov => {
+					this.map.addCross(prov, "#ff6600");
+					this.map.addBox(prov, 4, "#ff6600");
+				});
+			}
 		}
 	}
 	makeVariantPhase() {
@@ -855,11 +842,7 @@ export default class DipMap extends React.Component {
 									Next: Object.assign({}, nationSCOptions)
 								};
 							}
-							this.addOptionHandlers(
-								options,
-								["edit", prov],
-								["LabCommand", "Province"]
-							);
+							this.addOptionHandlers(options, ["edit", prov]);
 						},
 						{ touch: true }
 					);
@@ -920,14 +903,14 @@ export default class DipMap extends React.Component {
 							return;
 						}
 						if (Object.keys(js.Properties).length > 0) {
-							this.addOptionHandlers(js.Properties, [], []);
+							this.addOptionHandlers(js.Properties, []);
 						}
 					});
 			}
 		} else {
 			if (Object.keys(this.state.options || {}).length > 0) {
 				this.debugCount("acceptOrders/hasOptions");
-				this.addOptionHandlers(this.state.options, [], []);
+				this.addOptionHandlers(this.state.options, []);
 			}
 		}
 	}
@@ -1037,7 +1020,7 @@ export default class DipMap extends React.Component {
 		}
 		return true;
 	}
-	addOptionHandlers(options, parts, types) {
+	addOptionHandlers(options, parts) {
 		this.debugCount("addOptionsHandlers/called");
 		if (Object.keys(options).length == 0) {
 			this.debugCount("addOptionsHandlers/orderDone");
@@ -1045,7 +1028,7 @@ export default class DipMap extends React.Component {
 				this.handleLaboratoryCommand(parts);
 				this.acceptOrders();
 			} else {
-				this.snackbarIncompleteOrder(parts, types, "Done");
+				this.snackbarIncompleteOrder(parts, "Done");
 				helpers.incProgress();
 				this.debugCount("addOptionsHandlers/regularOrder");
 				this.createOrder(parts).then(resp => {
@@ -1077,7 +1060,7 @@ export default class DipMap extends React.Component {
 					throw "Can't use multiple types in the same level of options.";
 				}
 			}
-			this.snackbarIncompleteOrder(parts, types, type);
+			this.snackbarIncompleteOrder(parts, type);
 			this.debugCount("addOptionsHandlers/type/" + type);
 			switch (type) {
 				case "Province":
@@ -1093,8 +1076,7 @@ export default class DipMap extends React.Component {
 									);
 									this.addOptionHandlers(
 										options[prov].Next,
-										parts.concat(prov),
-										types.concat(type)
+										parts.concat(prov)
 									);
 								},
 								{ touch: true }
@@ -1117,8 +1099,7 @@ export default class DipMap extends React.Component {
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
-									parts.concat(ord),
-									types.concat(type)
+									parts.concat(ord)
 								);
 							}
 						}
@@ -1167,8 +1148,7 @@ export default class DipMap extends React.Component {
 							} else {
 								this.addOptionHandlers(
 									options[ord].Next,
-									parts.concat(ord),
-									types.concat(type)
+									parts.concat(ord)
 								);
 							}
 						}
@@ -1178,11 +1158,7 @@ export default class DipMap extends React.Component {
 				case "SrcProvince":
 					let srcProvince = Object.keys(options)[0];
 					parts[0] = srcProvince;
-					this.addOptionHandlers(
-						options[srcProvince].Next,
-						parts,
-						types
-					);
+					this.addOptionHandlers(options[srcProvince].Next, parts);
 					this.debugCount("addOptionsHandlers/assignedSrcProvince");
 					break;
 			}

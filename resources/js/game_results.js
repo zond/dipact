@@ -81,6 +81,9 @@ export default class GameResults extends React.Component {
 		}
 	}
 	render() {
+		if (!this.state.open) {
+			return "";
+		}
 		return (
 			<MaterialUI.Dialog
 				onEntered={helpers.genOnback(this.close)}
@@ -124,12 +127,6 @@ export default class GameResults extends React.Component {
 									? " " +
 									  this.props.game.Properties.Members.find(
 											m => {
-												console.log(
-													m,
-													m.Nation,
-													this.state.gameResult
-														.Properties.Scores[0]
-												);
 												return (
 													m.Nation ==
 													this.state.gameResult

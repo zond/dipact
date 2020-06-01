@@ -503,4 +503,5 @@ export default class ChatChannel extends React.Component {
       return "";
     }
   }
+
 }
