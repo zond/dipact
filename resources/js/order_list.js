@@ -25,12 +25,12 @@ export default class OrderList extends React.Component {
         return <div style={{ color: "green", fontSize: "14px" }}>Success</div>;
       case "ErrBounce":
         return (
-          <div style={{ fontSize: "14px" }}>{"Bounced with " + parts[1]}</div>
+          <div style={{ fontSize: "14px" }}>{"Bounced with " + helpers.provName(this.props.variant,parts[1])}</div>
         );
       case "ErrSupportBroken":
         return (
           <div style={{ fontSize: "14px" }}>
-            {"Support broken by " + parts[1]}
+            {"Support broken by " + helpers.provName(this.props.variant,parts[1])}
           </div>
         );
     }
@@ -52,20 +52,20 @@ export default class OrderList extends React.Component {
       msgs.forEach((msg) => {
         const parts = msg.split(":");
         if (parts[0] == "MayBuild") {
-          rval = ", " + parts[1] + (parts[1] == "1" ? " build" : " builds");
+          rval = parts[1] + (parts[1] == "1" ? " build" : " builds");
         }
         if (parts[0] == "MustDisband") {
-          rval = ", " + parts[1] + (parts[1] == "1" ? " disband" : " disbands");
+          rval = parts[1] + (parts[1] == "1" ? " disband" : " disbands");
         }
       });
     } else {
       msgs.forEach((msg) => {
         const parts = msg.split(":");
         if (parts[0] == "OtherMayBuild" && parts[1] == nat) {
-          rval = "," + parts[2] + (parts[2] == "1" ? " build" : " builds");
+          rval = parts[2] + (parts[2] == "1" ? " build" : " builds");
         }
         if (parts[0] == "OtherMustDisband" && parts[1] == nat) {
-          rval = "," + parts[2] + (parts[2] == "1" ? " disband" : " disbands");
+          rval = parts[2] + (parts[2] == "1" ? " disband" : " disbands");
         }
       });
     }
@@ -78,9 +78,9 @@ export default class OrderList extends React.Component {
         return "No order";
       case "InconsistencyMismatchedSupporter":
       case "InconsistencyMismatchedConvoyer":
-        return "Doesn't match the order for " + parts[1];
+        return "Doesn't match the order for " +  helpers.provName(this.props.variant,parts[1]);
       case "InconsistencyMismatchedConvoyee":
-        return "Should maybe match the order for " + parts[1];
+        return "Should maybe match the order for " +  helpers.provName(this.props.variant,parts[1]);
       case "InconsistencyOrderTypeCount":
         return (
           "You can give " +
@@ -326,7 +326,7 @@ export default class OrderList extends React.Component {
                               <React.Fragment>
                                 {"(" +
                                   this.props.phase.Properties.SoloSCCount +
-                                  " needed to win"}
+                                  " to win"}
                                 {")"}
                               </React.Fragment>
                             ) : (
@@ -530,7 +530,7 @@ export default class OrderList extends React.Component {
                                   }}
                                 >
                                   <MaterialUI.ListItemText>
-                                    {incon.Province}:{" "}
+                                    { helpers.provName(this.props.variant,incon.Province)}:{" "}
                                     {incon.Inconsistencies.map((msg) => {
                                       return this.presentInconsistency(msg);
                                     }).join(", ")}
