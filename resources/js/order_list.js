@@ -396,7 +396,6 @@ export default class OrderList extends React.Component {
                                 </MaterialUI.SvgIcon>
                               </MaterialUI.Tooltip>
                             )}
-
                             <MaterialUI.Tooltip
                               className={
                                 phaseState
