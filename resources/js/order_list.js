@@ -265,6 +265,7 @@ export default class OrderList extends React.Component {
   }
   render() {
     return (
+      <div>
       <div style={{ maxWidth: "960px", margin: "auto" }}>
         <MaterialUI.List>
           {this.props.variant.Properties.Nations.slice()
@@ -313,6 +314,10 @@ export default class OrderList extends React.Component {
                     >    <NationAvatar
         nation={nation}
         variant={this.props.variant}
+         className={helpers.scopedClass(`
+                border: 1px solid ` +
+              helpers.natCol(nation, this.props.variant)
+                    )}
       />
                       <span style={{ lineHeight: "1.2em", marginLeft: "8px", }}>
                         <MaterialUI.Typography variant="body1" color="primary">
@@ -324,7 +329,7 @@ export default class OrderList extends React.Component {
                             : ""}
                         </MaterialUI.Typography>
                         <div>
-                          {SCs} supply centers
+                          {SCs} supply center{SCs == 1 ? "" : "s"}
                           <div>
                             {this.props.member &&
                             this.props.member.Nation == nation &&
@@ -445,6 +450,7 @@ export default class OrderList extends React.Component {
                             style={{
                               padding: "4px 8px",
                             }}
+                           
                             onClick={this.toggleDIAS(nation)}
                           >
                             <MaterialUI.Checkbox
@@ -574,6 +580,7 @@ export default class OrderList extends React.Component {
           min-height: calc(100% - 112px);
           `)}
         />
+        </div>
         {this.props.phase &&
         !this.props.phase.Properties.Resolved &&
         this.props.member &&
@@ -619,6 +626,7 @@ export default class OrderList extends React.Component {
           ""
         )}
       </div>
+
     );
   }
 }
