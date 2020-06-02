@@ -1581,7 +1581,7 @@ export function humanizeOrder(variant, parts, nextType = null) {
 				words.push(part.toLowerCase());
 			}
 			if (
-				(idx == types.length - 1 &&
+				(idx + 1 == types.length &&
 					types[idx] == "Province" &&
 					nextType == "Province") ||
 				(idx + 1 < types.length &&
@@ -1592,7 +1592,16 @@ export function humanizeOrder(variant, parts, nextType = null) {
 				words.push("to");
 			}
 		}
+		if (
+			idx > 1 &&
+			types[idx - 2] == "OrderType" &&
+			parts[idx - 2] == "Support" &&
+			types[idx - 1] == "Province" &&
+			types[idx] == "Province" &&
+			parts[idx - 1] == parts[idx]
+		) {
+			words.push("hold");
+		}
 	});
 	return words.join(" ");
-
 }
