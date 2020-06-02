@@ -159,7 +159,8 @@ export default class ChatMenu extends React.Component {
 	canCreateChannel() {
 		return (
 			this.state.createMessageLink &&
-			(!this.props.game.Properties.DisablePrivateChat ||
+			(this.props.game.Properties.Finished ||
+				!this.props.game.Properties.DisablePrivateChat ||
 				!this.props.game.Properties.DisableGroupChat ||
 				!this.props.game.Properties.DisableConferenceChat)
 		);
