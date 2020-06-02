@@ -1,4 +1,6 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
+import NationAvatar from '%{ cb "/js/nation_avatar.js" }%';
+
 
 export default class OrderList extends React.Component {
   constructor(props) {
@@ -296,26 +298,31 @@ export default class OrderList extends React.Component {
               ).length;
               return (
                 <li key={"nation_" + nation}>
+
                   <ul style={{ paddingLeft: "0px" }}>
+              
                     <MaterialUI.ListSubheader
                       style={{
                         backgroundColor: "white",
-                        padding: "0px 16px",
+                        padding: "8px 16px",
                         margin: "0px",
                         display: "flex",
                         flexWrap: "wrap",
                         color: "rgba(40, 26, 26, 0.54)",
                       }}
-                    >
-                      <span style={{ lineHeight: "1.2em" }}>
-                        <div>
+                    >    <NationAvatar
+        nation={nation}
+        variant={this.props.variant}
+      />
+                      <span style={{ lineHeight: "1.2em", marginLeft: "8px", }}>
+                        <MaterialUI.Typography variant="body1" color="primary">
                           {nation}
                           {this.props.member &&
                           this.props.member.Nation == nation &&
                           hasLink
                             ? " (You)"
                             : ""}
-                        </div>
+                        </MaterialUI.Typography>
                         <div>
                           {SCs} supply centers
                           <div>
@@ -453,7 +460,7 @@ export default class OrderList extends React.Component {
                               }}
                               color="primary"
                             />
-                            Accept a draw
+                            Accept draw
                             <MaterialUI.SvgIcon
                               style={{
                                 paddingLeft: "8px",
