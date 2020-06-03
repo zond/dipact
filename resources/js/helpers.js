@@ -1537,14 +1537,8 @@ export function downloadDataURI(uri, filename) {
 		return;
 	}
 	const link = document.createElement("a");
-	link.setAttribute("href", data);
-	link.setAttribute(
-		"download",
-		helpers.gameDesc(this.state.game) +
-			" - " +
-			helpers.phaseName(this.state.phase) +
-			".png"
-	);
+	link.setAttribute("href", uri);
+	link.setAttribute("download", filename);
 	link.click();
 }
 
