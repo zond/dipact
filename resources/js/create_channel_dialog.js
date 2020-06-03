@@ -20,7 +20,10 @@ export default class CreateChannelDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page_title": "CreateChannelDialog", "page_location": location.href });
+			gtag("set", {
+				page_title: "CreateChannelDialog",
+				page_location: location.href
+			});
 			gtag("event", "page_view");
 		}
 	}
@@ -29,8 +32,19 @@ export default class CreateChannelDialog extends React.Component {
 		for (let member in this.state.members) {
 			channel.Properties.Members.push(member);
 		}
+		channel.Links.push({
+			Rel: "messages",
+			Method: "GET",
+			URL:
+				"/Game/" +
+				this.props.game.Properties.ID +
+				"/Channel/" +
+				channel.Properties.Members.join(",") +
+				"/Messages"
+		});
 		let nMembers = Object.keys(this.state.members).length;
 		if (
+			!this.props.game.Properties.Finished &&
 			this.props.game.Properties.DisableConferenceChat &&
 			nMembers == this.variant.Properties.Nations.length
 		) {
@@ -38,6 +52,7 @@ export default class CreateChannelDialog extends React.Component {
 				"Conference chat is disabled for this game, you can't create a channel with everyone as a member."
 			);
 		} else if (
+			!this.props.game.Properties.Finished &&
 			this.props.game.Properties.DisableGroupChat &&
 			nMembers > 2 &&
 			nMembers != this.variant.Properties.Nations.length
@@ -46,6 +61,7 @@ export default class CreateChannelDialog extends React.Component {
 				"Group chat is disabled for this game, you can't create a channel with more than two, but less than everyone, as members."
 			);
 		} else if (
+			!this.props.game.Properties.Finished &&
 			this.props.game.Properties.DisablePrivateChat &&
 			nMembers == 2
 		) {

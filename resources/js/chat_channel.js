@@ -200,28 +200,25 @@ export default class ChatChannel extends React.Component {
 		if (!messagesLink) {
 			return;
 		}
-		const newestMessage = this.state.messages[
-			this.state.messages.length - 1
-		];
-		const newestMessageCreationTime = newestMessage.Properties.CreatedAt;
-		const newestMessagePhase = newestMessage.phase;
+		let url = messagesLink.URL + "?wait=true";
+		const newestPhase = this.props.phases[this.props.phases.length - 1];
+		if (this.state.messages && this.state.messages.length > 0) {
+			const newestMessage = this.state.messages[
+				this.state.messages.length - 1
+			];
+			url += "&since=" + newestMessage.Properties.CreatedAt;
+		}
 		console.log("Initiating hanging request for new messages.");
 		helpers
-			.safeFetch(
-				helpers.createRequest(
-					messagesLink.URL +
-						"?since=" +
-						newestMessageCreationTime +
-						"&wait=true"
-				),
-				{ signal: this.abortController.signal }
-			)
+			.safeFetch(helpers.createRequest(url), {
+				signal: this.abortController.signal
+			})
 			.then(resp => resp.json())
 			.then(js => {
 				console.log("Got new message!");
 				js.Properties.reverse();
 				js.Properties.forEach(message => {
-					message.phase = newestMessagePhase;
+					message.phase = newestPhase;
 				});
 				const newMessages = this.state.messages
 					.filter(msg => {

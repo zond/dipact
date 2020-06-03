@@ -22,7 +22,6 @@ export default class ChatMenu extends React.Component {
 		this.loadChannels = this.loadChannels.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
-		this.canCreateChannel = this.canCreateChannel.bind(this);
 		this.isWarned = this.isWarned.bind(this);
 		this.markWarned = this.markWarned.bind(this);
 		this.warned = false;
@@ -156,15 +155,6 @@ export default class ChatMenu extends React.Component {
 			return Promise.resolve({});
 		}
 	}
-	canCreateChannel() {
-		return (
-			this.state.createMessageLink &&
-			(this.props.game.Properties.Finished ||
-				!this.props.game.Properties.DisablePrivateChat ||
-				!this.props.game.Properties.DisableGroupChat ||
-				!this.props.game.Properties.DisableConferenceChat)
-		);
-	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (this.props.isActive && !prevProps.isActive) {
 			this.loadChannels(true);
@@ -199,11 +189,7 @@ export default class ChatMenu extends React.Component {
 			<div
 				style={{
 					position: "relative",
-					height:
-						!this.state.activeChannel &&
-						this.state.createMessageLink
-							? "100%"
-							: "100%"
+					height: "100%"
 				}}
 			>
 				<MaterialUI.Slide
@@ -427,7 +413,7 @@ export default class ChatMenu extends React.Component {
 						);
 					})}
 				</MaterialUI.ButtonGroup>
-				{this.canCreateChannel() ? (
+				{this.state.createMessageLink ? (
 					<React.Fragment>
 						<MaterialUI.Fab
 							className={helpers.scopedClass(`
@@ -456,15 +442,24 @@ export default class ChatMenu extends React.Component {
 						<CreateChannelDialog
 							game={this.props.game}
 							createChannel={channel => {
+								const newChannels = this.state.channels;
+								const oldChannel = newChannels.find(ch => {
+									return helpers.deepEqual(
+										channel.Properties.Members,
+										ch.Properties.Members
+									);
+								});
+								if (!oldChannel) {
+									newChannels.push(channel);
+								}
+								const channelToUse = oldChannel || channel;
 								this.setState(
 									{
-										channels: this.state.channels.concat([
-											channel
-										])
+										channels: newChannels
 									},
 									_ => {
 										gtag("event", "create_chat_channel");
-										this.openChannel(channel);
+										this.openChannel(channelToUse);
 									}
 								);
 							}}
