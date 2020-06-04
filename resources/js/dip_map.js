@@ -50,32 +50,31 @@ export default class DipMap extends React.Component {
 	}
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
-		const infos = ["Province: " + prov];
+		console.log(this);
+		const infos = [helpers.provName(this.props.variant,prov)];
 		if (this.state.phase.Properties.SupplyCenters) {
 			const owner = this.state.phase.Properties.SupplyCenters[prov];
 			if (owner) {
-				infos.push("Supply center: " + owner);
+				infos[0] += "(" + owner + ")";
 			}
 		} else {
 			this.state.phase.Properties.SCs.forEach(scData => {
 				if (scData.Province.split("/")[0] == prov) {
-					infos.push("Supply center: " + scData.Owner);
+					infos[0] += " (" + scData.Owner + ")";
 				}
 			});
 		}
 		if (this.state.phase.Properties.Units instanceof Array) {
 			this.state.phase.Properties.Units.forEach(unitData => {
 				if (unitData.Province.split("/")[0] == prov) {
-					infos.push(
-						unitData.Unit.Type + ": " + unitData.Unit.Nation
-					);
+					infos[0] += ", " + unitData.Unit.Type + " (" + unitData.Unit.Nation + ")";
 				}
 			});
 		} else {
 			for (let unitProv in this.state.phase.Properties.Units) {
 				const unit = this.state.phase.Properties.Units[unitProv];
 				if (prov == unitProv.split("/")[0]) {
-					infos.push(unit.Type + ": " + unit.Nation);
+					infos[0] += ", " + unit.Type + " (" + unit.Nation + ")";
 				}
 			}
 		}
