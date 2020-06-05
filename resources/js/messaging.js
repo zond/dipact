@@ -244,11 +244,23 @@ class Messaging {
 					return true;
 				}
 			);
-			// If we have a Wrapper/DeviceID token, then clean up all Wrapper/Static tokens.
+			// If we have a Wrapper/DeviceID ID, then clean up all Wrapper/Static tokens.
 			if (this.deviceID.indexOf("Wrapper/DeviceID") == 0) {
 				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
 					t => {
 						if (t.App.indexOf("Wrapper/Static") != -1) {
+							updateServer = true;
+							return false;
+						}
+						return true;
+					}
+				);
+			}
+			// If we have a Wrapper/* ID, then clean up all android-diplicity tokens.
+			if (this.deviceID.indexOf("Wrapper") == 0) {
+				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
+					t => {
+						if (t.App == "android-diplicity") {
 							updateServer = true;
 							return false;
 						}
