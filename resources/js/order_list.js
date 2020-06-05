@@ -325,6 +325,9 @@ export default class OrderList extends React.Component {
                         <NationAvatar
                           nation={nation}
                           variant={this.props.variant}
+                          gameState={this.props.gameState}
+                          onNewGameState={this.props.onNewGameState}
+                          game={this.props.game}
                           className={helpers.scopedClass(
                             `
                 border: 1px solid ` + helpers.natCol(nation, this.props.variant)
