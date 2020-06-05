@@ -660,11 +660,11 @@ export default class SettingsDialog extends React.Component {
 						</div>
 						<MaterialUI.Button
 							style={{ color: "red" }}
+							variant="outlined"
 							onClick={_ => {
 								if (
-									confirm(
-										"Are you sure you want to reset your settings?\nAll your diplicity clients except this one will get notifications turned off, and all your custom colors will be removed."
-									)
+									document.getElementById("sure-about-reset")
+										.checked
 								) {
 									this.setState(
 										(state, props) => {
@@ -685,6 +685,24 @@ export default class SettingsDialog extends React.Component {
 							}}
 						>
 							Reset settings to default
+							<MaterialUI.FormControlLabel
+								style={{ marginRight: 0 }}
+								classes={{
+									label: helpers.scopedClass(
+										"font-size: unset;"
+									)
+								}}
+								control={
+									<MaterialUI.Checkbox
+										onClick={ev => {
+											ev.stopPropagation();
+										}}
+										style={{ padding: "0 0 0 18" }}
+										id="sure-about-reset"
+									/>
+								}
+								label="Yes I'm sure"
+							/>
 						</MaterialUI.Button>
 					</React.Fragment>
 				) : (
