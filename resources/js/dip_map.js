@@ -50,42 +50,39 @@ export default class DipMap extends React.Component {
 	}
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
-		console.log(this);
-		const infos = [helpers.provName(this.props.variant,prov)];
+		let info = helpers.provName(this.props.variant, prov);
 		if (this.state.phase.Properties.SupplyCenters) {
 			const owner = this.state.phase.Properties.SupplyCenters[prov];
 			if (owner) {
-				infos[0] += "(" + owner + ")";
+				info += "(" + owner + ")";
 			}
 		} else {
 			this.state.phase.Properties.SCs.forEach(scData => {
 				if (scData.Province.split("/")[0] == prov) {
-					infos[0] += " (" + scData.Owner + ")";
+					info += " (" + scData.Owner + ")";
 				}
 			});
 		}
 		if (this.state.phase.Properties.Units instanceof Array) {
 			this.state.phase.Properties.Units.forEach(unitData => {
 				if (unitData.Province.split("/")[0] == prov) {
-					infos[0] += ", " + unitData.Unit.Type + " (" + unitData.Unit.Nation + ")";
+					info +=
+						", " +
+						unitData.Unit.Type +
+						" (" +
+						unitData.Unit.Nation +
+						")";
 				}
 			});
 		} else {
 			for (let unitProv in this.state.phase.Properties.Units) {
 				const unit = this.state.phase.Properties.Units[unitProv];
 				if (prov == unitProv.split("/")[0]) {
-					infos[0] += ", " + unit.Type + " (" + unit.Nation + ")";
+					info += ", " + unit.Type + " (" + unit.Nation + ")";
 				}
 			}
 		}
-		if (infos.length > 0) {
-			helpers.snackbar(
-				infos.map(info => {
-					return <p key={info}>{info}</p>;
-				}),
-				1
-			);
-		}
+		helpers.snackbar(info, 1);
 	}
 	snackbarIncompleteOrder(parts, nextType) {
 		const msg = helpers.humanizeOrder(this.state.variant, parts, nextType);
