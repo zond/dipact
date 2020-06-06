@@ -653,8 +653,8 @@ export default class Game extends React.Component {
                   }}
                 >
                   {this.state.laboratoryMode
-                    ? "Disable lab mode"
-                    : "Enable lab mode"}
+                    ? "Turn off sandbox mode"
+                    : "Sandbox mode"}
                 </MaterialUI.MenuItem>
                 <MaterialUI.MenuItem
                   key="debug-data"
