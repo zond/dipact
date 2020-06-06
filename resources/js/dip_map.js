@@ -1172,7 +1172,7 @@ export default class DipMap extends React.Component {
 				{this.props.laboratoryMode ? (
 					<div
 						className={helpers.scopedClass(
-							"background-color: #FDE2B5; display: flex; align-items: center;"
+							"background-color: #FDE2B5; display: flex; align-items: center; box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);"
 						)}
 						id="test"
 					>	
@@ -1181,11 +1181,11 @@ export default class DipMap extends React.Component {
 							key="edit-mode"
 							control={
 								<MaterialUI.Switch
-									checked={!this.state.labEditMode}
+									checked={this.state.labEditMode}
 									color="primary"
 									onChange={ev => {
 										this.setState({
-											labEditMode: !ev.target.checked
+											labEditMode: ev.target.checked
 										});
 									}}
 								/>
@@ -1229,8 +1229,8 @@ export default class DipMap extends React.Component {
 						</MaterialUI.Tooltip>
 					*/}
 						<MaterialUI.Tooltip title="Resolve">
-							<MaterialUI.IconButton onClick={this.labResolve} style={{marginLeft: "auto", marginLeft: "16px"}}>
-								{helpers.createIcon("\ue044")}
+							<MaterialUI.IconButton onClick={this.labResolve} style={{marginLeft: "auto", marginRight: "8px", color: "#281A1A"}}>
+								{helpers.createIcon("\ue409")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Tooltip>
 					</div>
