@@ -1172,32 +1172,33 @@ export default class DipMap extends React.Component {
 				{this.props.laboratoryMode ? (
 					<div
 						className={helpers.scopedClass(
-							"background-color: white; display: flex;"
+							"background-color: #FDE2B5; display: flex; align-items: center;"
 						)}
-					>
+						id="test"
+					>	
+						<MaterialUI.Typography variant="body1" style={{marginLeft: "16px", marginRight: "8px"}}>Edit</MaterialUI.Typography>
 						<MaterialUI.FormControlLabel
 							key="edit-mode"
 							control={
 								<MaterialUI.Switch
-									checked={this.state.labEditMode}
+									checked={!this.state.labEditMode}
+									color="primary"
 									onChange={ev => {
 										this.setState({
-											labEditMode: ev.target.checked
+											labEditMode: !ev.target.checked
 										});
 									}}
 								/>
 							}
-							label="Edit"
+							label="Play as"
 						/>
+						{this.state.labEditMode ? (
 						<MaterialUI.FormControl
 							key="play-as"
 							className={helpers.scopedClass("flex-grow: 1;")}
 						>
-							<MaterialUI.InputLabel>
-								Play as
-							</MaterialUI.InputLabel>
 							<MaterialUI.Select
-								disabled={this.state.labEditMode}
+								disabled={!this.state.labEditMode}
 								value={this.state.labPlayAs}
 								onChange={ev => {
 									this.setState({
@@ -1219,13 +1220,16 @@ export default class DipMap extends React.Component {
 								)}
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
+						) : ""}
+						{/* TODO: move to game.js 
 						<MaterialUI.Tooltip title="Share">
 							<MaterialUI.IconButton onClick={this.labShare}>
 								{helpers.createIcon("\ue80d")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Tooltip>
+					*/}
 						<MaterialUI.Tooltip title="Resolve">
-							<MaterialUI.IconButton onClick={this.labResolve}>
+							<MaterialUI.IconButton onClick={this.labResolve} style={{marginLeft: "auto", marginLeft: "16px"}}>
 								{helpers.createIcon("\ue044")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Tooltip>
