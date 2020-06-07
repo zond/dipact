@@ -815,7 +815,6 @@ export default class Game extends React.Component {
 							phase={this.state.activePhase}
 							corroborateSubscriber={this.receiveCorroboration}
 							variant={this.state.variant}
-
 						/>
 					</div>
 					{this.state.game.Properties.Started ? (

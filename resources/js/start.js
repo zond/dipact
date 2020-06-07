@@ -79,9 +79,9 @@ export default class Start extends React.Component {
 							</MaterialUI.Typography>
 							<MaterialUI.Typography variant="body2">
 								We redesigned our app and started using the new
-								version, which is still in Beta. This means there
-								may be some (small) bugs that we haven't found
-								on our own.
+								version, which is still in Beta. This means
+								there may be some (small) bugs that we haven't
+								found on our own.
 								<br /> If you encounter an issue, please let us
 								know and we'll try to fix it ASAP.
 								<br />
@@ -274,8 +274,8 @@ export default class Start extends React.Component {
 												]
 											}
 											onPhaseMessage={_ => {
-												this.myStartedGamesList.reload();
-												this.myFinishedGamesList.reload();
+												this.myStartedGamesList.loadPropsURL();
+												this.myFinishedGamesList.loadPropsURL();
 											}}
 											parentCB={c => {
 												this.myStartedGamesList = c;
