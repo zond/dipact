@@ -8,8 +8,16 @@ import Theme from '%{ cb "/js/theme.js" }%';
 
 const hrefURL = new URL(location.href);
 
+const serverURL = new URL(
+	localStorage.getItem("serverURL") || "https://diplicity-engine.appspot.com/"
+);
+const fakeID = localStorage.getItem("fakeID");
+if (fakeID) {
+	serverURL.searchParams.set("fake-id", fakeID);
+}
+
 window.Globals = {
-	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
+	serverRequest: new Request(serverURL, {
 		headers: {
 			"X-Diplicity-API-Level": "8",
 			Accept: "application/json",
