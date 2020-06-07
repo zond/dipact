@@ -248,7 +248,7 @@ export default class DipMap extends React.Component {
 						"/Phase/" +
 						this.state.phase.Properties.PhaseOrdinal +
 						"/Order/" +
-						order.Parts[0].replace("/" + "_"),
+						order.Parts[0].replace("/", "_"),
 					{
 						method: "DELETE"
 					}
@@ -1062,7 +1062,17 @@ export default class DipMap extends React.Component {
 				case "Province":
 					for (let prov in options) {
 						const filter = options[prov].Filter;
-						if (!filter || this.filterOK(filter, prov)) {
+						if (
+							!filter ||
+							(this.state.orders &&
+								this.state.orders.find(o => {
+									return (
+										o.Parts[0].split("/")[0] ==
+										prov.split("/")[0]
+									);
+								})) ||
+							this.filterOK(filter, prov)
+						) {
 							this.map.addClickListener(
 								prov,
 								prov => {
