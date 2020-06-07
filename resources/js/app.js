@@ -50,7 +50,8 @@ window.Globals = {
 	WrapperCallbacks: {},
 	bans: {},
 	loginURL: null,
-	userRatingHistogram: null
+	userRatingHistogram: null,
+	fakeID: fakeID
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));

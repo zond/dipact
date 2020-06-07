@@ -298,6 +298,9 @@ export function decProgress() {
 
 export function createRequest(item, opts = {}) {
 	let reqURL = new URL(item, Globals.serverRequest.url);
+	if (!opts.unauthed && Globals.fakeID) {
+		reqURL.searchParams.set("fake-id", Globals.fakeID);
+	}
 	let headers = Globals.serverRequest.headers;
 	if (opts.headers) {
 		for (let key in opts.headers) {
