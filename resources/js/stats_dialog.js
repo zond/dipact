@@ -302,11 +302,6 @@ export default class StatsDialog extends React.Component {
 											this.state.userStats.Properties
 												.EliminatedGames
 										)}
-										{this.makeRow(
-											"Abandoned games",
-											this.state.userStats.Properties
-												.DroppedGames
-										)}
 									</MaterialUI.TableBody>
 								</MaterialUI.Table>
 							</MaterialUI.TableContainer>
