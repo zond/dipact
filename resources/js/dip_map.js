@@ -35,6 +35,7 @@ export default class DipMap extends React.Component {
 		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.infoClicked = this.infoClicked.bind(this);
+		this.setMapSubtitle = this.setMapSubtitle.bind(this);
 		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
 		this.lastRenderedOrdersHash = 0;
@@ -47,6 +48,76 @@ export default class DipMap extends React.Component {
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
+	}
+	setMapSubtitle() {
+		const svgEl = document.getElementById("map").children[0];
+		if (!svgEl) {
+			return;
+		}
+		let dipMapTitle = document.getElementById("dip-map-title");
+		if (!dipMapTitle) {
+			const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
+			const spacing = addToBottom * 0.12;
+			const realEstate = addToBottom - spacing;
+			const titleRealEstate = realEstate * 0.66;
+			// I'm assuming 1/3 of the font size can stretch below the base line.
+			const titleFontSize = Math.floor(titleRealEstate * 0.66);
+			const promoRealEstate = realEstate - titleRealEstate;
+			const promoFontSize = Math.floor(promoRealEstate * 0.66);
+
+			const container = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"g"
+			);
+			const backgroundBox = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"rect"
+			);
+			backgroundBox.setAttribute("y", svgEl.viewBox.baseVal.height);
+			backgroundBox.setAttribute("x", 0);
+			backgroundBox.setAttribute("width", svgEl.viewBox.baseVal.width);
+			backgroundBox.setAttribute("height", addToBottom);
+			backgroundBox.setAttribute("fill", "black");
+			container.appendChild(backgroundBox);
+			dipMapTitle = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"text"
+			);
+			dipMapTitle.setAttribute("x", 0);
+			dipMapTitle.setAttribute(
+				"y",
+				svgEl.viewBox.baseVal.height + spacing + titleFontSize
+			);
+			dipMapTitle.style.fill = "#fde2b5";
+			dipMapTitle.style.fontSize = titleFontSize + "px";
+			dipMapTitle.style.fontFamily =
+				'"Libre Baskerville", "Cabin", Serif';
+			dipMapTitle.setAttribute("id", "dip-map-title");
+			container.appendChild(dipMapTitle);
+			const promo = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"text"
+			);
+			promo.setAttribute("x", 0);
+			promo.setAttribute(
+				"y",
+				svgEl.viewBox.baseVal.height +
+					spacing +
+					titleRealEstate +
+					promoFontSize
+			);
+			promo.style.fill = "#fde2b5";
+			promo.style.fontSize = promoFontSize + "px";
+			promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
+			promo.innerHTML = "https://diplicity.com";
+			container.appendChild(promo);
+			svgEl.viewBox.baseVal.y = svgEl.viewBox.baseVal.y + addToBottom;
+			svgEl.appendChild(container);
+		}
+		dipMapTitle.innerHTML =
+			helpers.gameDesc(this.state.game) +
+			" - " +
+			helpers.phaseName(this.state.phase);
 	}
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
@@ -565,6 +636,7 @@ export default class DipMap extends React.Component {
 		if (!this.state.svgLoaded) {
 			return;
 		}
+		this.setMapSubtitle();
 		this.debugCount("updateMap/hasSVGs");
 		const phaseHash = helpers.hash(JSON.stringify(this.state.phase));
 		if (phaseHash != this.lastRenderedPhaseHash) {
@@ -1263,21 +1335,6 @@ export default class DipMap extends React.Component {
 								display: "none"
 							}}
 						/>
-						<div
-							key="game-desc"
-							className={helpers.scopedClass(`
-								flex-basis: 100%;
-								font-family:	"Libre Baskerville", "Cabin", Serif;
-								font-size: small;
-								padding: 10px;
-								text-align: center;
-								color: #FDE2B5;
-								`)}
-						>
-							{helpers.gameDesc(this.state.game) +
-								" - " +
-								this.state.game.Properties.Variant}
-						</div>
 					</div>
 				</div>
 				<div
