@@ -74,7 +74,7 @@ export default class DipMap extends React.Component {
 				"rect"
 			);
 			backgroundBox.setAttribute("y", svgEl.viewBox.baseVal.height);
-			backgroundBox.setAttribute("x", 0);
+			backgroundBox.setAttribute("x", svgEl.viewBox.baseVal.x);
 			backgroundBox.setAttribute("width", svgEl.viewBox.baseVal.width);
 			backgroundBox.setAttribute("height", addToBottom);
 			backgroundBox.setAttribute("fill", "black");
@@ -83,7 +83,7 @@ export default class DipMap extends React.Component {
 				"http://www.w3.org/2000/svg",
 				"text"
 			);
-			dipMapTitle.setAttribute("x", 0);
+			dipMapTitle.setAttribute("x", svgEl.viewBox.baseVal.x);
 			dipMapTitle.setAttribute(
 				"y",
 				svgEl.viewBox.baseVal.height + spacing + titleFontSize
@@ -98,7 +98,7 @@ export default class DipMap extends React.Component {
 				"http://www.w3.org/2000/svg",
 				"text"
 			);
-			promo.setAttribute("x", 0);
+			promo.setAttribute("x", svgEl.viewBox.baseVal.x);
 			promo.setAttribute(
 				"y",
 				svgEl.viewBox.baseVal.height +
@@ -111,7 +111,8 @@ export default class DipMap extends React.Component {
 			promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
 			promo.innerHTML = "https://diplicity.com";
 			container.appendChild(promo);
-			svgEl.viewBox.baseVal.y = svgEl.viewBox.baseVal.y + addToBottom;
+			svgEl.viewBox.baseVal.height =
+				svgEl.viewBox.baseVal.height + addToBottom;
 			svgEl.appendChild(container);
 		}
 		dipMapTitle.innerHTML =
