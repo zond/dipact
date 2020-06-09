@@ -11,7 +11,11 @@ export function linkify(s) {
 	let match = linkReg.exec(s);
 	while (match) {
 		parts.push(match[1]);
-		parts.push(<a href={match[2]}>{match[2]}</a>);
+		parts.push(
+			<a key={match[2]} href={match[2]}>
+				{match[2]}
+			</a>
+		);
 		remainder = match[4];
 		match = linkReg.exec(remainder);
 	}
