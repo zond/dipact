@@ -91,3 +91,26 @@ addEventListener("popstate", ev => {
 		location.reload();
 	}
 });
+
+if (window.Wrapper) {
+	if (window.Wrapper.getAPI) {
+		gtag("set", { client: "wrapped-" + window.Wrapper.getAPI() });
+	} else {
+		gtag("set", { client: "wrapped-unknown" });
+	}
+} else {
+	gtag("set", { client: "browser" });
+}
+
+if (
+	window.location.href.indexOf("https://dipact.appspot.com") == 0 ||
+	window.location.href.indexOf("https://diplicity.com") == 0
+) {
+	gtag("set", { api: "prod" });
+} else if (
+	window.location.href.indexOf("https://beta-dot-dipact.appspot.com") == 0
+) {
+	gtag("set", { api: "beta" });
+} else {
+	gtag("set", { api: "unknown" });
+}
