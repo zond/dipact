@@ -431,16 +431,14 @@ export default class CreateGameDialog extends React.Component {
 						</MaterialUI.Toolbar>
 					</MaterialUI.AppBar>
 
-
 					<div
 						style={{
 							maxWidth: "920px",
 							marginTop: "72px",
 							marginLeft: "auto",
-              marginRight: "auto"
+							marginRight: "auto"
 						}}
 					>
-
 						<div
 							style={{
 								margin: "auto",
@@ -594,7 +592,8 @@ export default class CreateGameDialog extends React.Component {
 										]
 									)}
 									onChange={this.newGamePropertyUpdater(
-										"NationAllocation"
+										"NationAllocation",
+										{ int: true }
 									)}
 									style={{
 										flexDirection: "row",
