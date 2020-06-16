@@ -21,7 +21,14 @@ export default class Start extends React.Component {
 		this.myStartedGamesList = null;
 		this.myFinishedGamesList = null;
 		this.newsDialog = this.newsDialog.bind(this);
+		this.hasPlayed = this.hasPlayed.bind(this);
 		localStorage.setItem(latestNewsShownKey, "" + latestNews);
+	}
+	hasPlayed() {
+		return (
+			Globals.userStats.Properties.JoinedGames ||
+			Globals.userStats.Properties.PrivateStats.JoinedGames
+		);
 	}
 	componentDidMount() {
 		gtag("set", { page_title: "Start", page_location: location.href });
@@ -178,7 +185,7 @@ export default class Start extends React.Component {
 		return (
 			<React.Fragment>
 				{this.newsDialog()}
-				{Globals.userStats.Properties.JoinedGames ? (
+				{this.hasPlayed() ? (
 					<div
 						className={helpers.scopedClass(
 							"height: calc(100% - 114px); overflow-y: scroll;"
