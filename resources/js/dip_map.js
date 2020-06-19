@@ -1042,7 +1042,7 @@ export default class DipMap extends React.Component {
 			if (parts[0] == "Clear") {
 				this.setState(
 					{
-						orders: this.state.orders.filter(order => {
+						orders: (this.state.orders || []).filter(order => {
 							return (
 								order.Parts[0].split("/")[0] !=
 								parts[1].split("/")[0]
@@ -1054,7 +1054,7 @@ export default class DipMap extends React.Component {
 			} else {
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
-					state.orders = state.orders.filter(order => {
+					state.orders = (state.orders || []).filter(order => {
 						return order.Parts[0] != parts[0];
 					});
 					state.orders.push({
@@ -1078,7 +1078,7 @@ export default class DipMap extends React.Component {
 					return true;
 				}
 				if (
-					this.state.orders.filter(o => {
+					(this.state.orders || []).filter(o => {
 						return o.Parts[1] == parts[1];
 					}).length > Number.parseInt(parts[2])
 				) {
