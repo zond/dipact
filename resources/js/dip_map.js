@@ -587,6 +587,7 @@ export default class DipMap extends React.Component {
 							});
 						});
 						panzoom(document.getElementById("map-container"), {
+							minZoom: 1,
 							bounds: true,
 							boundsPadding: 0.5,
 							onZoom: e => {
