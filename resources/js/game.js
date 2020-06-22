@@ -543,14 +543,19 @@ export default class Game extends React.Component {
 													this.state.game.Properties
 														.ID
 											)
-											.then(_ => {
-												this.setState({
-													moreMenuAnchorEl: null
-												});
-												helpers.snackbar(
-													"Game URL copied to clipboard"
-												);
-											});
+											.then(
+												_ => {
+													this.setState({
+														moreMenuAnchorEl: null
+													});
+													helpers.snackbar(
+														"Game URL copied to clipboard"
+													);
+												},
+												err => {
+													console.log(err);
+												}
+											);
 										gtag("event", "game_share");
 									}}
 								>

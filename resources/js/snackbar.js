@@ -34,6 +34,7 @@ export default class Snackbar extends React.Component {
 					this.setState({ message: null });
 				}}
 				message={this.state.message}
+				style={{ wordBreak: "break-word" }}
 				action={
 					<MaterialUI.IconButton
 						size="small"

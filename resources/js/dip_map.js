@@ -230,9 +230,14 @@ export default class DipMap extends React.Component {
 		)
 			.then(resp => resp.json())
 			.then(js => {
-				helpers.copyToClipboard(js.shortLink).then(_ => {
-					helpers.snackbar("URL copied to clipboard");
-				});
+				helpers.copyToClipboard(js.shortLink).then(
+					_ => {
+						helpers.snackbar("URL copied to clipboard");
+					},
+					err => {
+						console.log(err);
+					}
+				);
 				gtag("event", "lab_share");
 			});
 	}

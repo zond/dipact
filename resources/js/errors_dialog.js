@@ -59,11 +59,16 @@ export default class ErrorsDialog extends React.Component {
 													.copyToClipboard(
 														JSON.stringify(el)
 													)
-													.then(_ => {
-														helpers.snackbar(
-															"Error copied to clipboard"
-														);
-													});
+													.then(
+														_ => {
+															helpers.snackbar(
+																"Error copied to clipboard"
+															);
+														},
+														err => {
+															console.log(err);
+														}
+													);
 											}}
 										>
 											{el.message}
