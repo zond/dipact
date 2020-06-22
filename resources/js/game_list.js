@@ -8,7 +8,8 @@ export default class GameList extends React.Component {
 		this.state = {
 			games: this.props.predefinedList || []
 		};
-		this.load = this.load.bind(this);
+		this.loadReq = this.loadReq.bind(this);
+		this.loadPropsURL = this.loadPropsURL.bind(this);
 		this.maybeLoadMore = this.maybeLoadMore.bind(this);
 		this.reload = this.reload.bind(this);
 		this.loading = false;
@@ -27,8 +28,12 @@ export default class GameList extends React.Component {
 		) {
 			const url = new URL(this.moreLink.URL);
 			url.searchParams.set("limit", this.props.limit || 64);
-			this.load(helpers.createRequest(url));
+			this.loadReq(helpers.createRequest(url));
 		}
+	}
+	loadPropsURL() {
+		this.props.url.searchParams.set("limit", this.props.limit || "64");
+		this.loadReq(helpers.createRequest(this.props.url.toString()));
 	}
 	reload() {
 		this.setState(
@@ -37,13 +42,7 @@ export default class GameList extends React.Component {
 					{ isProgress: true, Properties: { ID: "" + Math.random() } }
 				]
 			},
-			_ => {
-				this.props.url.searchParams.set(
-					"limit",
-					this.props.limit || "64"
-				);
-				this.load(helpers.createRequest(this.props.url.toString()));
-			}
+			this.loadPropsURL
 		);
 	}
 	componentDidMount() {
@@ -65,7 +64,7 @@ export default class GameList extends React.Component {
 			}
 		}
 	}
-	load(req) {
+	loadReq(req) {
 		this.loading = true;
 		helpers
 			.safeFetch(req)

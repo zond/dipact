@@ -11,7 +11,11 @@ export function linkify(s) {
 	let match = linkReg.exec(s);
 	while (match) {
 		parts.push(match[1]);
-		parts.push(<a href={match[2]}>{match[2]}</a>);
+		parts.push(
+			<a key={match[2]} href={match[2]}>
+				{match[2]}
+			</a>
+		);
 		remainder = match[4];
 		match = linkReg.exec(remainder);
 	}
@@ -298,6 +302,9 @@ export function decProgress() {
 
 export function createRequest(item, opts = {}) {
 	let reqURL = new URL(item, Globals.serverRequest.url);
+	if (!opts.unauthed && Globals.fakeID) {
+		reqURL.searchParams.set("fake-id", Globals.fakeID);
+	}
 	let headers = Globals.serverRequest.headers;
 	if (opts.headers) {
 		for (let key in opts.headers) {
@@ -330,16 +337,20 @@ export function minutesToDuration(m, short = false) {
 			let h = Number.parseInt(m / 60);
 			let remainder = m - h * 60;
 			let rval = "" + h + "h";
-			if (remainder == 0 || short) {
+			if (remainder == 0) {
 				return rval;
+			} else if (short && h > 8) {
+				return ">" + rval;
 			}
 			return rval + " " + reduce(remainder);
 		} else if (m < 60 * 24 * 7) {
 			let d = Number.parseInt(m / (60 * 24));
 			let remainder = m - d * 60 * 24;
 			let rval = "" + d + "d";
-			if (remainder == 0 || short) {
+			if (remainder == 0) {
 				return rval;
+			} else if (short && d > 1) {
+				return ">" + rval;
 			}
 			return rval + " " + reduce(remainder);
 		} else {

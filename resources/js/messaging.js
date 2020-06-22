@@ -36,12 +36,22 @@ class Messaging {
 		// The FCM token itself.
 		this.token = null;
 		// The ID of this device, so that we know if we have a token on the server or not.
-		this.deviceID = localStorage.getItem("deviceID");
-		if (!this.deviceID) {
-			this.deviceID = "" + new Date().getTime() + "_" + Math.random();
-			localStorage.setItem("deviceID", this.deviceID);
+		if (window.Wrapper && window.Wrapper.getDeviceID) {
+			this.deviceID = "Wrapper/DeviceID/" + window.Wrapper.getDeviceID();
+		} else if (window.Wrapper) {
+			this.deviceID = "Wrapper/Static";
+		} else {
+			this.deviceID = localStorage.getItem("deviceID");
+			if (!this.deviceID) {
+				this.deviceID =
+					"Browser/Random/" +
+					new Date().getTime() +
+					"_" +
+					Math.random();
+				localStorage.setItem("deviceID", this.deviceID);
+			}
 		}
-		this.tokenApp = "dipact@" + this.deviceID;
+		this.tokenApp = "dipact-v1@" + this.deviceID;
 
 		this.refreshToken = this.refreshToken.bind(this);
 		this.onMessage = this.onMessage.bind(this);
@@ -222,6 +232,41 @@ class Messaging {
 			} else {
 				Globals.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 60;
 				updateServer = true;
+			}
+			// TODO(zond): Remove the cleaning stuff here after 2020-08-01.
+			// Clean up the old style FCM tokens.
+			Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
+				t => {
+					if (t.App.indexOf("dipact@") == 0) {
+						updateServer = true;
+						return false;
+					}
+					return true;
+				}
+			);
+			// If we have a Wrapper/DeviceID ID, then clean up all Wrapper/Static tokens.
+			if (this.deviceID.indexOf("Wrapper/DeviceID") == 0) {
+				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
+					t => {
+						if (t.App.indexOf("Wrapper/Static") != -1) {
+							updateServer = true;
+							return false;
+						}
+						return true;
+					}
+				);
+			}
+			// If we have a Wrapper/* ID, then clean up all android-diplicity tokens.
+			if (this.deviceID.indexOf("Wrapper") == 0) {
+				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
+					t => {
+						if (t.App == "android-diplicity") {
+							updateServer = true;
+							return false;
+						}
+						return true;
+					}
+				);
 			}
 			if (updateServer) {
 				this.setGlobalToken(wantedToken);

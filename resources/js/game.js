@@ -378,6 +378,9 @@ export default class Game extends React.Component {
 							? (member.NewestPhaseState.Messages || "")
 									.split(",")
 									.map(this.refinePhaseMessage)
+									.filter(m => {
+										return !!m;
+									})
 							: [],
 						readyReminder:
 							member &&
