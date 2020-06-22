@@ -459,7 +459,7 @@ export default class Game extends React.Component {
               )}
 
               {this.state.laboratoryMode ? (
-                <MaterialUI.Typography variant="h6">
+                <MaterialUI.Typography variant="h6" style={{marginRight: "8px",}}>
                   Sandbox
                 </MaterialUI.Typography>
 
@@ -468,16 +468,17 @@ export default class Game extends React.Component {
               )}
               {this.state.activePhase ? (
                 <MaterialUI.Select
-                  /* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
+                  /* TODO: This might be a stretch, but Laboratory mode has SOME "real" and some "fake" turns. E.g. in spring 1902 I can move back to Spring 1901 and create an "alternative" 1901 and commit that. 
+                  Is it possible to make all the "hypothetical" phases to change color? Maybe let me know in the Discord chat and we can discuss more. */
                   style={this.state.laboratoryMode ? {
                     width: "100%",
                     minWidth: "0",
                     borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
-                    color: "#FDE2B5",
+                    color: "rgb(40, 26, 26)",
                   } : {width: "100%",
                     minWidth: "0",
                     borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
-                    color: "#red",
+                    color: "#FDE2B5",
                   }}
                   key="phase-select"
                   value={this.state.activePhase.Properties.PhaseOrdinal}
@@ -569,12 +570,12 @@ export default class Game extends React.Component {
                         this.setState({
                           moreMenuAnchorEl: null,
                         });
-                        helpers.snackbar("Game URL copied to clipboard");
+                        helpers.snackbar("Game URL copied to clipboard. Share it to other players.");
                       });
                     gtag("event", "game_share");
                   }}
                 >
-                  Share
+                  {this.state.game.Properties.Started ? "Share game" : "Invite"}
                 </MaterialUI.MenuItem>
                 <MaterialUI.MenuItem
                   key="download-map"
@@ -673,7 +674,7 @@ export default class Game extends React.Component {
                   Debug
                 </MaterialUI.MenuItem>
               </MaterialUI.Menu>
-             {/*TODO: make this from dip_map.js into game.js. This is now only cosmetic. */}
+             {/*TODO: make this from dip_map.js into game.js. This is now only cosmetic and the functionality only exists in dip_map */}
               {this.state.laboratoryMode ? (
 	
 							<MaterialUI.IconButton color="primary" edge="end" style={{marginLeft:"auto"}}>
@@ -800,22 +801,35 @@ export default class Game extends React.Component {
               </MaterialUI.Toolbar>
             ) : (
               <MaterialUI.Toolbar> 
-          {/* TODO: Here is the lab mode edit bar */}
+          {/* TODO: Here is the lab mode edit bar. 
+          	- The switch should HIDE the selector completely if it's set to "edit" mode
+     			I now used the laboratoryMode to make this switch
+     		- Somehow the console is nagging about a default nation not being selected (which is the case)
+     		- The forward button should "resolve" the case.
+     		*/}
+          {console.log(this)}
 				<MaterialUI.Typography variant="body1" style={{marginRight: "8px"}}>Edit</MaterialUI.Typography>
 						<MaterialUI.FormControlLabel
 							key="edit-mode"
 							control={
 								<MaterialUI.Switch
 									color="primary"
+									checked={this.state.laboratoryMode}
 								/>
 							}
 							label="Play as"
 						/>	
+						{this.state.laboratoryMode ? 
 						<MaterialUI.FormControl
 							key="play-as"
 							className={helpers.scopedClass("flex-grow: 1;")}
 						>
-							<MaterialUI.Select
+							<MaterialUI.Select style={{
+                    width: "100%",
+                    minWidth: "0",
+                    borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
+                    color: "rgb(40, 26, 26)",
+                  }}
 							>
 								{this.state.variant.Properties.Nations.map(
 									nation => {
@@ -831,6 +845,12 @@ export default class Game extends React.Component {
 								)}
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
+						: "" }
+
+	
+							<MaterialUI.IconButton edge="end" style={{marginLeft:"auto", color: "rgb(40, 26, 26)",}}>
+								{helpers.createIcon("\ue01f")}
+							</MaterialUI.IconButton>
 
 
               </MaterialUI.Toolbar>

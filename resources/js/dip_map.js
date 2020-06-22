@@ -1221,7 +1221,7 @@ export default class DipMap extends React.Component {
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
 						) : ""}
-						{/* TODO: move to game.js, 
+						{/* TODO: MARTIN, this functionality is now here, but needs to be moved to game.js where I added the button
 						<MaterialUI.Tooltip title="Share">
 							<MaterialUI.IconButton onClick={this.labShare}>
 								{helpers.createIcon("\ue80d")}
