@@ -162,7 +162,7 @@ export default class DipMap extends React.Component {
 			.then(resp => resp.json())
 			.then(js => {
 				helpers.copyToClipboard(js.shortLink).then(_ => {
-					helpers.snackbar("URL copied to clipboard");
+					helpers.snackbar("Copied URL to clipboard");
 				});
 				gtag("event", "lab_share");
 			});
@@ -1202,7 +1202,7 @@ export default class DipMap extends React.Component {
 								value={this.state.labPlayAs}
 								onChange={ev => {
 									this.setState({
-										labPlayAs: ev.target.value
+										labPlayAs: ev.target.value 
 									});
 								}}
 							>
@@ -1221,7 +1221,7 @@ export default class DipMap extends React.Component {
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
 						) : ""}
-						{/* TODO: move to game.js 
+						{/* TODO: move to game.js, 
 						<MaterialUI.Tooltip title="Share">
 							<MaterialUI.IconButton onClick={this.labShare}>
 								{helpers.createIcon("\ue80d")}

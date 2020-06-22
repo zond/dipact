@@ -460,20 +460,24 @@ export default class Game extends React.Component {
 
               {this.state.laboratoryMode ? (
                 <MaterialUI.Typography variant="h6">
-                  Sandbox mode
+                  Sandbox
                 </MaterialUI.Typography>
 
               ) : (
                 ""
               )}
-              {!this.state.laboratoryMode && this.state.activePhase ? (
+              {this.state.activePhase ? (
                 <MaterialUI.Select
                   /* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
-                  style={{
+                  style={this.state.laboratoryMode ? {
                     width: "100%",
                     minWidth: "0",
                     borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
                     color: "#FDE2B5",
+                  } : {width: "100%",
+                    minWidth: "0",
+                    borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
+                    color: "#red",
                   }}
                   key="phase-select"
                   value={this.state.activePhase.Properties.PhaseOrdinal}
@@ -516,9 +520,6 @@ export default class Game extends React.Component {
                 <MaterialUI.Box key="next-spacer"></MaterialUI.Box>
                 : ""
               )}
-
-
-
 
 
 
@@ -672,7 +673,7 @@ export default class Game extends React.Component {
                   Debug
                 </MaterialUI.MenuItem>
               </MaterialUI.Menu>
-             {/*TODO: make this from dip_map.js into game.js */}
+             {/*TODO: make this from dip_map.js into game.js. This is now only cosmetic. */}
               {this.state.laboratoryMode ? (
 	
 							<MaterialUI.IconButton color="primary" edge="end" style={{marginLeft:"auto"}}>
@@ -798,7 +799,41 @@ export default class Game extends React.Component {
                 </div>
               </MaterialUI.Toolbar>
             ) : (
-              ""
+              <MaterialUI.Toolbar> 
+          {/* TODO: Here is the lab mode edit bar */}
+				<MaterialUI.Typography variant="body1" style={{marginRight: "8px"}}>Edit</MaterialUI.Typography>
+						<MaterialUI.FormControlLabel
+							key="edit-mode"
+							control={
+								<MaterialUI.Switch
+									color="primary"
+								/>
+							}
+							label="Play as"
+						/>	
+						<MaterialUI.FormControl
+							key="play-as"
+							className={helpers.scopedClass("flex-grow: 1;")}
+						>
+							<MaterialUI.Select
+							>
+								{this.state.variant.Properties.Nations.map(
+									nation => {
+										return (
+											<MaterialUI.MenuItem
+												key={nation}
+												value={nation}
+											>
+												{nation}
+											</MaterialUI.MenuItem>
+										);
+									}
+								)}
+							</MaterialUI.Select>
+						</MaterialUI.FormControl>
+
+
+              </MaterialUI.Toolbar>
             )}
           </MaterialUI.AppBar>
 
