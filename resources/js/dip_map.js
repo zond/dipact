@@ -1,6 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import OrderDialog from '%{ cb "/js/order_dialog.js" }%';
+import PZ from '%{ cb "/js/pz.js" }%';
 
 export default class DipMap extends React.Component {
 	constructor(props) {
@@ -232,7 +233,7 @@ export default class DipMap extends React.Component {
 			.then(js => {
 				helpers.copyToClipboard(js.shortLink).then(_ => {
 					helpers.snackbar("Copied URL to clipboard");
-				});
+				}, err => { console.log(err); });
 				gtag("event", "lab_share");
 			});
 	}
@@ -586,17 +587,20 @@ export default class DipMap extends React.Component {
 								);
 							});
 						});
-						panzoom(document.getElementById("map-container"), {
-							bounds: true,
-							boundsPadding: 0.5,
-							onZoom: e => {
+						const pz = new PZ({
+							minScale: 0.5,
+							maxScale: 20,
+							maxTrans: 0.5,
+							el: document.getElementById("map-container"),
+							viewPort: document.getElementById("map-viewport"),
+							onZoomStart: e => {
 								document.getElementById("map").style.display =
 									"none";
 								document.getElementById(
 									"mapSnapshot"
 								).style.display = "flex";
 							},
-							onZoomend: e => {
+							onZoomEnd: e => {
 								document.getElementById("map").style.display =
 									"flex";
 								document.getElementById(
@@ -1318,6 +1322,7 @@ export default class DipMap extends React.Component {
 					""
 				)}
 				<div
+					id="map-viewport"
 					className={helpers.scopedClass(
 						"height: 100%; overflow: hidden;"
 					)}
