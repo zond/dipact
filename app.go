@@ -89,7 +89,6 @@ func main() {
 				"ReactDOMJSURL":   "/static/js/react-dom.development.js",
 				"MaterialUIJSURL": "/static/js/material-ui.development.js",
 				"JQueryJSURL":     "/static/js/jquery-3.4.1.js",
-				"PanZoomJSURL":    "/static/js/panzoom.js",
 				"ChartJSURL":      "/static/js/Chart.js",
 				"IroJSURL":        "/static/js/iro.js",
 			}),

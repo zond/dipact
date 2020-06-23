@@ -512,8 +512,14 @@ export function copyToClipboard(s) {
 	if (window.Wrapper && window.Wrapper.copyToClipboard) {
 		window.Wrapper.copyToClipboard(s);
 		return Promise.resolve({});
-	} else {
+	} else if (navigator.clipboard && navigator.clipboard.writeText) {
 		return navigator.clipboard.writeText(s);
+	} else {
+		snackbar(
+			"Your browser doesn't support clipboard operations and should probably be updated. Here is the text we wanted to copy to your clipboard: " +
+				s
+		);
+		return Promise.reject("no clipboard found");
 	}
 }
 
