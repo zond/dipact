@@ -231,9 +231,14 @@ export default class DipMap extends React.Component {
 		)
 			.then(resp => resp.json())
 			.then(js => {
-				helpers.copyToClipboard(js.shortLink).then(_ => {
-					helpers.snackbar("Copied URL to clipboard");
-				}, err => { console.log(err); });
+				helpers.copyToClipboard(js.shortLink).then(
+					_ => {
+						helpers.snackbar("Copied URL to clipboard");
+					},
+					err => {
+						console.log(err);
+					}
+				);
 				gtag("event", "lab_share");
 			});
 	}
@@ -1253,74 +1258,6 @@ export default class DipMap extends React.Component {
 		}
 		return (
 			<React.Fragment>
-				{this.props.laboratoryMode ? (
-					<div
-						className={helpers.scopedClass(
-							"background-color: #FDE2B5; display: flex; align-items: center; box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);"
-						)}
-						id="test"
-					>	
-						<MaterialUI.Typography variant="body1" style={{marginLeft: "16px", marginRight: "8px"}}>Edit</MaterialUI.Typography>
-						<MaterialUI.FormControlLabel
-							key="edit-mode"
-							control={
-								<MaterialUI.Switch
-									checked={this.state.labEditMode}
-									color="primary"
-									onChange={ev => {
-										this.setState({
-											labEditMode: ev.target.checked
-										});
-									}}
-								/>
-							}
-							label="Play as"
-						/>
-						{this.state.labEditMode ? (
-						<MaterialUI.FormControl
-							key="play-as"
-							className={helpers.scopedClass("flex-grow: 1;")}
-						>
-							<MaterialUI.Select
-								disabled={!this.state.labEditMode}
-								value={this.state.labPlayAs}
-								onChange={ev => {
-									this.setState({
-										labPlayAs: ev.target.value 
-									});
-								}}
-							>
-								{this.state.variant.Properties.Nations.map(
-									nation => {
-										return (
-											<MaterialUI.MenuItem
-												key={nation}
-												value={nation}
-											>
-												{nation}
-											</MaterialUI.MenuItem>
-										);
-									}
-								)}
-							</MaterialUI.Select>
-						</MaterialUI.FormControl>
-						) : ""}
-						{/* TODO: MARTIN, this functionality is now here, but needs to be moved to game.js where I added the button
-						<MaterialUI.Tooltip title="Share">
-							<MaterialUI.IconButton onClick={this.labShare}>
-								{helpers.createIcon("\ue80d")}
-							</MaterialUI.IconButton>
-						</MaterialUI.Tooltip>
-					*/}
-						<MaterialUI.Tooltip title="Resolve">
-							<MaterialUI.IconButton onClick={this.labResolve} style={{marginLeft: "auto", marginRight: "8px", color: "#281A1A"}}>
-								{helpers.createIcon("\ue409")}
-							</MaterialUI.IconButton>
-						</MaterialUI.Tooltip>
-					</div>
-				) : (
-					""
-				)}
 				<div
 					id="map-viewport"
 					className={helpers.scopedClass(

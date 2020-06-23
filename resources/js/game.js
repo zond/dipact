@@ -22,6 +22,8 @@ export default class Game extends React.Component {
 			member: null,
 			unreadMessages: 0,
 			laboratoryMode: false,
+			labEditMode: false,
+			labPlayAs: "",
 			gameStates: [],
 			game: null
 		};
@@ -374,6 +376,10 @@ export default class Game extends React.Component {
 							return v.Properties.Name == game.Properties.Variant;
 						}),
 						member: member,
+						labPlayAs:
+							member && member.Nation
+								? member.Nation
+								: variant.Properties.Nations[0],
 						phaseMessages: member
 							? (member.NewestPhaseState.Messages || "")
 									.split(",")
@@ -498,6 +504,9 @@ export default class Game extends React.Component {
 								<MaterialUI.Select
 									/* TODO: This might be a stretch, but Laboratory mode has SOME "real" and some "fake" turns. E.g. in spring 1902 I can move back to Spring 1901 and create an "alternative" 1901 and commit that. 
                   Is it possible to make all the "hypothetical" phases to change color? Maybe let me know in the Discord chat and we can discuss more. */
+									/*
+									 * Yes it is - 'real' phases have .Properties.ID, while fake phases don't (IIRC).
+									 */
 									style={
 										this.state.laboratoryMode
 											? {
@@ -749,9 +758,11 @@ export default class Game extends React.Component {
 									Debug
 								</MaterialUI.MenuItem>
 							</MaterialUI.Menu>
-							{/*TODO: make this from dip_map.js into game.js. This is now only cosmetic and the functionality only exists in dip_map */}
 							{this.state.laboratoryMode ? (
 								<MaterialUI.IconButton
+									onClick={_ => {
+										this.dip_map.labShare();
+									}}
 									color="primary"
 									edge="end"
 									style={{ marginLeft: "auto" }}
@@ -887,13 +898,6 @@ export default class Game extends React.Component {
 							</MaterialUI.Toolbar>
 						) : (
 							<MaterialUI.Toolbar>
-								{/* TODO: Here is the lab mode edit bar. 
-          	- The switch should HIDE the selector completely if it's set to "edit" mode
-     			I now used the laboratoryMode to make this switch
-     		- Somehow the console is nagging about a default nation not being selected (which is the case)
-     		- The forward button should "resolve" the case.
-     		*/}
-								{console.log(this)}
 								<MaterialUI.Typography
 									variant="body1"
 									style={{ marginRight: "8px" }}
@@ -904,13 +908,23 @@ export default class Game extends React.Component {
 									key="edit-mode"
 									control={
 										<MaterialUI.Switch
+											onChange={ev => {
+												this.setState({
+													labEditMode: !ev.target
+														.checked
+												});
+												this.dip_map.setState({
+													labEditMode: !ev.target
+														.checked
+												});
+											}}
 											color="primary"
-											checked={this.state.laboratoryMode}
+											checked={!this.state.labEditMode}
 										/>
 									}
 									label="Play as"
 								/>
-								{this.state.laboratoryMode ? (
+								{!this.state.labEditMode ? (
 									<MaterialUI.FormControl
 										key="play-as"
 										className={helpers.scopedClass(
@@ -918,6 +932,15 @@ export default class Game extends React.Component {
 										)}
 									>
 										<MaterialUI.Select
+											value={this.state.labPlayAs}
+											onChange={ev => {
+												this.setState({
+													labPlayAs: ev.target.value
+												});
+												this.dip_map.setState({
+													labPlayAs: ev.target.value
+												});
+											}}
 											style={{
 												width: "100%",
 												minWidth: "0",
@@ -946,6 +969,9 @@ export default class Game extends React.Component {
 
 								<MaterialUI.IconButton
 									edge="end"
+									onClick={ev => {
+										this.dip_map.labResolve();
+									}}
 									style={{
 										marginLeft: "auto",
 										color: "rgb(40, 26, 26)"
