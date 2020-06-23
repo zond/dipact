@@ -35,6 +35,7 @@ export default class DipMap extends React.Component {
 		this.filterOK = this.filterOK.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.infoClicked = this.infoClicked.bind(this);
+		this.setMapSubtitle = this.setMapSubtitle.bind(this);
 		this.phaseSpecialStrokes = {};
 		this.lastRenderedPhaseHash = 0;
 		this.lastRenderedOrdersHash = 0;
@@ -48,44 +49,112 @@ export default class DipMap extends React.Component {
 			this.props.parentCB(this);
 		}
 	}
+	setMapSubtitle() {
+		const svgEl = document.getElementById("map").children[0];
+		if (!svgEl) {
+			return;
+		}
+		let dipMapTitle = document.getElementById("dip-map-title");
+		if (!dipMapTitle) {
+			const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
+			const spacing = addToBottom * 0.12;
+			const realEstate = addToBottom - spacing;
+			const titleRealEstate = realEstate * 0.66;
+			// I'm assuming 1/3 of the font size can stretch below the base line.
+			const titleFontSize = Math.floor(titleRealEstate * 0.66);
+			const promoRealEstate = realEstate - titleRealEstate;
+			const promoFontSize = Math.floor(promoRealEstate * 0.66);
+
+			const container = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"g"
+			);
+			const backgroundBox = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"rect"
+			);
+			backgroundBox.setAttribute("y", svgEl.viewBox.baseVal.height);
+			backgroundBox.setAttribute("x", svgEl.viewBox.baseVal.x);
+			backgroundBox.setAttribute("width", svgEl.viewBox.baseVal.width);
+			backgroundBox.setAttribute("height", addToBottom);
+			backgroundBox.setAttribute("fill", "black");
+			container.appendChild(backgroundBox);
+			dipMapTitle = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"text"
+			);
+			dipMapTitle.setAttribute("x", svgEl.viewBox.baseVal.x);
+			dipMapTitle.setAttribute(
+				"y",
+				svgEl.viewBox.baseVal.height + spacing + titleFontSize
+			);
+			dipMapTitle.style.fill = "#fde2b5";
+			dipMapTitle.style.fontSize = titleFontSize + "px";
+			dipMapTitle.style.fontFamily =
+				'"Libre Baskerville", "Cabin", Serif';
+			dipMapTitle.setAttribute("id", "dip-map-title");
+			container.appendChild(dipMapTitle);
+			const promo = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"text"
+			);
+			promo.setAttribute("x", svgEl.viewBox.baseVal.x);
+			promo.setAttribute(
+				"y",
+				svgEl.viewBox.baseVal.height +
+					spacing +
+					titleRealEstate +
+					promoFontSize
+			);
+			promo.style.fill = "#fde2b5";
+			promo.style.fontSize = promoFontSize + "px";
+			promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
+			promo.innerHTML = "https://diplicity.com";
+			container.appendChild(promo);
+			svgEl.viewBox.baseVal.height =
+				svgEl.viewBox.baseVal.height + addToBottom;
+			svgEl.appendChild(container);
+		}
+		dipMapTitle.innerHTML =
+			helpers.gameDesc(this.state.game) +
+			" - " +
+			helpers.phaseName(this.state.phase);
+	}
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
-		console.log(this);
-		const infos = [helpers.provName(this.props.variant,prov)];
+		let info = helpers.provName(this.props.variant, prov);
 		if (this.state.phase.Properties.SupplyCenters) {
 			const owner = this.state.phase.Properties.SupplyCenters[prov];
 			if (owner) {
-				infos[0] += "(" + owner + ")";
+				info += "(" + owner + ")";
 			}
 		} else {
 			this.state.phase.Properties.SCs.forEach(scData => {
 				if (scData.Province.split("/")[0] == prov) {
-					infos[0] += " (" + scData.Owner + ")";
+					info += " (" + scData.Owner + ")";
 				}
 			});
 		}
 		if (this.state.phase.Properties.Units instanceof Array) {
 			this.state.phase.Properties.Units.forEach(unitData => {
 				if (unitData.Province.split("/")[0] == prov) {
-					infos[0] += ", " + unitData.Unit.Type + " (" + unitData.Unit.Nation + ")";
+					info +=
+						", " +
+						unitData.Unit.Type +
+						" (" +
+						unitData.Unit.Nation +
+						")";
 				}
 			});
 		} else {
 			for (let unitProv in this.state.phase.Properties.Units) {
 				const unit = this.state.phase.Properties.Units[unitProv];
 				if (prov == unitProv.split("/")[0]) {
-					infos[0] += ", " + unit.Type + " (" + unit.Nation + ")";
+					info += ", " + unit.Type + " (" + unit.Nation + ")";
 				}
 			}
 		}
-		if (infos.length > 0) {
-			helpers.snackbar(
-				infos.map(info => {
-					return <p key={info}>{info}</p>;
-				}),
-				1
-			);
-		}
+		helpers.snackbar(info, 1);
 	}
 	snackbarIncompleteOrder(parts, nextType) {
 		const msg = helpers.humanizeOrder(this.state.variant, parts, nextType);
@@ -161,9 +230,14 @@ export default class DipMap extends React.Component {
 		)
 			.then(resp => resp.json())
 			.then(js => {
-				helpers.copyToClipboard(js.shortLink).then(_ => {
-					helpers.snackbar("Copied URL to clipboard");
-				});
+				helpers.copyToClipboard(js.shortLink).then(
+					_ => {
+						helpers.snackbar("URL copied to clipboard");
+					},
+					err => {
+						console.log(err);
+					}
+				);
 				gtag("event", "lab_share");
 			});
 	}
@@ -251,7 +325,7 @@ export default class DipMap extends React.Component {
 						"/Phase/" +
 						this.state.phase.Properties.PhaseOrdinal +
 						"/Order/" +
-						order.Parts[0].replace("/" + "_"),
+						order.Parts[0].replace("/", "_"),
 					{
 						method: "DELETE"
 					}
@@ -518,8 +592,9 @@ export default class DipMap extends React.Component {
 							});
 						});
 						panzoom(document.getElementById("map-container"), {
+							minZoom: 1,
 							bounds: true,
-							boundsPadding: 0.5,
+							boundsPadding: 0.1,
 							onZoom: e => {
 								document.getElementById("map").style.display =
 									"none";
@@ -568,6 +643,7 @@ export default class DipMap extends React.Component {
 		if (!this.state.svgLoaded) {
 			return;
 		}
+		this.setMapSubtitle();
 		this.debugCount("updateMap/hasSVGs");
 		const phaseHash = helpers.hash(JSON.stringify(this.state.phase));
 		if (phaseHash != this.lastRenderedPhaseHash) {
@@ -972,7 +1048,7 @@ export default class DipMap extends React.Component {
 			if (parts[0] == "Clear") {
 				this.setState(
 					{
-						orders: this.state.orders.filter(order => {
+						orders: (this.state.orders || []).filter(order => {
 							return (
 								order.Parts[0].split("/")[0] !=
 								parts[1].split("/")[0]
@@ -984,7 +1060,7 @@ export default class DipMap extends React.Component {
 			} else {
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
-					state.orders = state.orders.filter(order => {
+					state.orders = (state.orders || []).filter(order => {
 						return order.Parts[0] != parts[0];
 					});
 					state.orders.push({
@@ -1008,7 +1084,7 @@ export default class DipMap extends React.Component {
 					return true;
 				}
 				if (
-					this.state.orders.filter(o => {
+					(this.state.orders || []).filter(o => {
 						return o.Parts[1] == parts[1];
 					}).length > Number.parseInt(parts[2])
 				) {
@@ -1065,7 +1141,17 @@ export default class DipMap extends React.Component {
 				case "Province":
 					for (let prov in options) {
 						const filter = options[prov].Filter;
-						if (!filter || this.filterOK(filter, prov)) {
+						if (
+							!filter ||
+							(this.state.orders &&
+								this.state.orders.find(o => {
+									return (
+										o.Parts[0].split("/")[0] ==
+										prov.split("/")[0]
+									);
+								})) ||
+							this.filterOK(filter, prov)
+						) {
 							this.map.addClickListener(
 								prov,
 								prov => {
@@ -1172,17 +1258,14 @@ export default class DipMap extends React.Component {
 				{this.props.laboratoryMode ? (
 					<div
 						className={helpers.scopedClass(
-							"background-color: #FDE2B5; display: flex; align-items: center; box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);"
+							"background-color: white; display: flex;"
 						)}
-						id="test"
-					>	
-						<MaterialUI.Typography variant="body1" style={{marginLeft: "16px", marginRight: "8px"}}>Edit</MaterialUI.Typography>
+					>
 						<MaterialUI.FormControlLabel
 							key="edit-mode"
 							control={
 								<MaterialUI.Switch
 									checked={this.state.labEditMode}
-									color="primary"
 									onChange={ev => {
 										this.setState({
 											labEditMode: ev.target.checked
@@ -1190,19 +1273,21 @@ export default class DipMap extends React.Component {
 									}}
 								/>
 							}
-							label="Play as"
+							label="Edit"
 						/>
-						{this.state.labEditMode ? (
 						<MaterialUI.FormControl
 							key="play-as"
 							className={helpers.scopedClass("flex-grow: 1;")}
 						>
+							<MaterialUI.InputLabel>
+								Play as
+							</MaterialUI.InputLabel>
 							<MaterialUI.Select
-								disabled={!this.state.labEditMode}
+								disabled={this.state.labEditMode}
 								value={this.state.labPlayAs}
 								onChange={ev => {
 									this.setState({
-										labPlayAs: ev.target.value 
+										labPlayAs: ev.target.value
 									});
 								}}
 							>
@@ -1220,17 +1305,14 @@ export default class DipMap extends React.Component {
 								)}
 							</MaterialUI.Select>
 						</MaterialUI.FormControl>
-						) : ""}
-						{/* TODO: MARTIN, this functionality is now here, but needs to be moved to game.js where I added the button
 						<MaterialUI.Tooltip title="Share">
 							<MaterialUI.IconButton onClick={this.labShare}>
 								{helpers.createIcon("\ue80d")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Tooltip>
-					*/}
 						<MaterialUI.Tooltip title="Resolve">
-							<MaterialUI.IconButton onClick={this.labResolve} style={{marginLeft: "auto", marginRight: "8px", color: "#281A1A"}}>
-								{helpers.createIcon("\ue409")}
+							<MaterialUI.IconButton onClick={this.labResolve}>
+								{helpers.createIcon("\ue044")}
 							</MaterialUI.IconButton>
 						</MaterialUI.Tooltip>
 					</div>
@@ -1242,7 +1324,7 @@ export default class DipMap extends React.Component {
 						"height: 100%; overflow: hidden;"
 					)}
 				>
-					<div id="map-container">
+					<div id="map-container" style={{ height: "100%" }}>
 						<div
 							className={helpers.scopedClass(
 								"display: flex; flex-wrap: wrap"
@@ -1260,21 +1342,6 @@ export default class DipMap extends React.Component {
 								display: "none"
 							}}
 						/>
-						<div
-							key="game-desc"
-							className={helpers.scopedClass(`
-								flex-basis: 100%;
-								font-family:	"Libre Baskerville", "Cabin", Serif;
-								font-size: small;
-								padding: 10px;
-								text-align: center;
-								color: #FDE2B5;
-								`)}
-						>
-							{helpers.gameDesc(this.state.game) +
-								" - " +
-								this.state.game.Properties.Variant}
-						</div>
 					</div>
 				</div>
 				<div

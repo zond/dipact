@@ -108,7 +108,7 @@ export default class SettingsDialog extends React.Component {
 			return l.Rel == "update";
 		});
 		helpers.incProgress();
-		helpers
+		return helpers
 			.safeFetch(
 				helpers.createRequest(updateLink.URL, {
 					method: updateLink.Method,
@@ -367,8 +367,9 @@ export default class SettingsDialog extends React.Component {
 									control={
 										<MaterialUI.Switch
 											checked={
-												this.state.userConfig.Properties
-													.MailConfig.Enabled
+												!!this.state.userConfig
+													.Properties.MailConfig
+													.Enabled
 											}
 											onChange={ev => {
 												ev.persist();
@@ -384,7 +385,7 @@ export default class SettingsDialog extends React.Component {
 															location.href
 														);
 														state.userConfig.Properties.MailConfig.MessageConfig.TextBodyTemplate =
-															"You received a new message on Diplicity:\n\n\"{{message.Body}}\"\n\n\nTo view the game, visit\n\n" +
+															'You received a new message on Diplicity:\n\n"{{message.Body}}"\n\n\nTo view the game, visit\n\n' +
 															hrefURL.protocol +
 															"//" +
 															hrefURL.host +
@@ -657,6 +658,52 @@ export default class SettingsDialog extends React.Component {
 								</div>
 							</div>
 						</div>
+						<MaterialUI.Button
+							style={{ color: "red" }}
+							variant="outlined"
+							onClick={_ => {
+								if (
+									document.getElementById("sure-about-reset")
+										.checked
+								) {
+									this.setState(
+										(state, props) => {
+											state = Object.assign({}, state);
+											state.userConfig.Properties.Colors = [];
+											state.userConfig.Properties.FCMTokens = [];
+											state.userConfig.Properties.MailConfig = {};
+											state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
+											return state;
+										},
+										_ => {
+											this.saveConfig().then(_ => {
+												location.reload();
+											});
+										}
+									);
+								}
+							}}
+						>
+							Reset settings to default
+							<MaterialUI.FormControlLabel
+								style={{ marginRight: 0 }}
+								classes={{
+									label: helpers.scopedClass(
+										"font-size: unset;"
+									)
+								}}
+								control={
+									<MaterialUI.Checkbox
+										onClick={ev => {
+											ev.stopPropagation();
+										}}
+										style={{ padding: "0 0 0 18" }}
+										id="sure-about-reset"
+									/>
+								}
+								label="Yes I'm sure"
+							/>
+						</MaterialUI.Button>
 					</React.Fragment>
 				) : (
 					""

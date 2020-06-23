@@ -8,8 +8,16 @@ import Theme from '%{ cb "/js/theme.js" }%';
 
 const hrefURL = new URL(location.href);
 
+const serverURL = new URL(
+	localStorage.getItem("serverURL") || "https://diplicity-engine.appspot.com/"
+);
+const fakeID = localStorage.getItem("fakeID");
+if (fakeID) {
+	serverURL.searchParams.set("fake-id", fakeID);
+}
+
 window.Globals = {
-	serverRequest: new Request("https://diplicity-engine.appspot.com/", {
+	serverRequest: new Request(serverURL, {
 		headers: {
 			"X-Diplicity-API-Level": "8",
 			Accept: "application/json",
@@ -42,7 +50,8 @@ window.Globals = {
 	WrapperCallbacks: {},
 	bans: {},
 	loginURL: null,
-	userRatingHistogram: null
+	userRatingHistogram: null,
+	fakeID: fakeID
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
@@ -82,3 +91,26 @@ addEventListener("popstate", ev => {
 		location.reload();
 	}
 });
+
+if (window.Wrapper) {
+	if (window.Wrapper.getAPI) {
+		gtag("set", { client: "wrapped-" + window.Wrapper.getAPI() });
+	} else {
+		gtag("set", { client: "wrapped-unknown" });
+	}
+} else {
+	gtag("set", { client: "browser" });
+}
+
+if (
+	window.location.href.indexOf("https://dipact.appspot.com") == 0 ||
+	window.location.href.indexOf("https://diplicity.com") == 0
+) {
+	gtag("set", { api: "prod" });
+} else if (
+	window.location.href.indexOf("https://beta-dot-dipact.appspot.com") == 0
+) {
+	gtag("set", { api: "beta" });
+} else {
+	gtag("set", { api: "unknown" });
+}
