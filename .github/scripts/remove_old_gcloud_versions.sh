@@ -18,6 +18,9 @@ set -x
 PROJECT=$1
 # The type of instance to filter on (usually default)
 INSTANCE_TYPE=$2
+if [ $INSTANCE_TYPE == "master" ]; then
+	INSTANCE_TYPE="default"
+fi
 # How many versions to keep, and throw away the rest
 VERSIONS_TO_KEEP=$(($3 + 1))
 
