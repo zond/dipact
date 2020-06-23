@@ -112,6 +112,10 @@ export default class DipMap extends React.Component {
 			promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
 			promo.innerHTML = "https://diplicity.com";
 			container.appendChild(promo);
+			const heightChange =
+				(svgEl.viewBox.baseVal.height + addToBottom) /
+				svgEl.viewBox.baseVal.height;
+			this.mapDims[1] *= heightChange;
 			svgEl.viewBox.baseVal.height =
 				svgEl.viewBox.baseVal.height + addToBottom;
 			svgEl.appendChild(container);
