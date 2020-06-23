@@ -1,6 +1,7 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import OrderDialog from '%{ cb "/js/order_dialog.js" }%';
+import PZ from '%{ cb "/js/pz.js" }%';
 
 export default class DipMap extends React.Component {
 	constructor(props) {
@@ -232,7 +233,7 @@ export default class DipMap extends React.Component {
 			.then(js => {
 				helpers.copyToClipboard(js.shortLink).then(
 					_ => {
-						helpers.snackbar("URL copied to clipboard");
+						helpers.snackbar("Copied URL to clipboard");
 					},
 					err => {
 						console.log(err);
@@ -591,18 +592,20 @@ export default class DipMap extends React.Component {
 								);
 							});
 						});
-						panzoom(document.getElementById("map-container"), {
-							minZoom: 1,
-							bounds: true,
-							boundsPadding: 0.1,
-							onZoom: e => {
+						const pz = new PZ({
+							minScale: 0.5,
+							maxScale: 20,
+							maxTrans: 0.5,
+							el: document.getElementById("map-container"),
+							viewPort: document.getElementById("map-viewport"),
+							onZoomStart: e => {
 								document.getElementById("map").style.display =
 									"none";
 								document.getElementById(
 									"mapSnapshot"
 								).style.display = "flex";
 							},
-							onZoomend: e => {
+							onZoomEnd: e => {
 								document.getElementById("map").style.display =
 									"flex";
 								document.getElementById(
@@ -1255,76 +1258,13 @@ export default class DipMap extends React.Component {
 		}
 		return (
 			<React.Fragment>
-				{this.props.laboratoryMode ? (
-					<div
-						className={helpers.scopedClass(
-							"background-color: white; display: flex;"
-						)}
-					>
-						<MaterialUI.FormControlLabel
-							key="edit-mode"
-							control={
-								<MaterialUI.Switch
-									checked={this.state.labEditMode}
-									onChange={ev => {
-										this.setState({
-											labEditMode: ev.target.checked
-										});
-									}}
-								/>
-							}
-							label="Edit"
-						/>
-						<MaterialUI.FormControl
-							key="play-as"
-							className={helpers.scopedClass("flex-grow: 1;")}
-						>
-							<MaterialUI.InputLabel>
-								Play as
-							</MaterialUI.InputLabel>
-							<MaterialUI.Select
-								disabled={this.state.labEditMode}
-								value={this.state.labPlayAs}
-								onChange={ev => {
-									this.setState({
-										labPlayAs: ev.target.value
-									});
-								}}
-							>
-								{this.state.variant.Properties.Nations.map(
-									nation => {
-										return (
-											<MaterialUI.MenuItem
-												key={nation}
-												value={nation}
-											>
-												{nation}
-											</MaterialUI.MenuItem>
-										);
-									}
-								)}
-							</MaterialUI.Select>
-						</MaterialUI.FormControl>
-						<MaterialUI.Tooltip title="Share">
-							<MaterialUI.IconButton onClick={this.labShare}>
-								{helpers.createIcon("\ue80d")}
-							</MaterialUI.IconButton>
-						</MaterialUI.Tooltip>
-						<MaterialUI.Tooltip title="Resolve">
-							<MaterialUI.IconButton onClick={this.labResolve}>
-								{helpers.createIcon("\ue044")}
-							</MaterialUI.IconButton>
-						</MaterialUI.Tooltip>
-					</div>
-				) : (
-					""
-				)}
 				<div
+					id="map-viewport"
 					className={helpers.scopedClass(
 						"height: 100%; overflow: hidden;"
 					)}
 				>
-					<div id="map-container" style={{ height: "100%" }}>
+					<div id="map-container">
 						<div
 							className={helpers.scopedClass(
 								"display: flex; flex-wrap: wrap"

@@ -22,6 +22,8 @@ export default class Game extends React.Component {
 			member: null,
 			unreadMessages: 0,
 			laboratoryMode: false,
+			labEditMode: false,
+			labPlayAs: "",
 			gameStates: [],
 			game: null
 		};
@@ -264,7 +266,9 @@ export default class Game extends React.Component {
 							const serializedState = JSON.parse(
 								pako.inflate(
 									atob(decodeURIComponent(match[2])),
-									{ to: "string" }
+									{
+										to: "string"
+									}
 								)
 							);
 							const newPhases = this.state.phases.slice();
@@ -372,6 +376,10 @@ export default class Game extends React.Component {
 							return v.Properties.Name == game.Properties.Variant;
 						}),
 						member: member,
+						labPlayAs:
+							member && member.Nation
+								? member.Nation
+								: variant.Properties.Nations[0],
 						phaseMessages: member
 							? (member.NewestPhaseState.Messages || "")
 									.split(",")
@@ -417,17 +425,55 @@ export default class Game extends React.Component {
 		if (this.state.game) {
 			return (
 				<React.Fragment>
-					<MaterialUI.AppBar key="app-bar" position="fixed">
+					<MaterialUI.AppBar
+						key="app-bar"
+						position="fixed"
+						color={
+							this.state.laboratoryMode ? "secondary" : "primary"
+						}
+					>
 						<MaterialUI.Toolbar>
-							<MaterialUI.IconButton
-								onClick={this.props.close}
-								key="close"
-								edge="start"
-								color="secondary"
-							>
-								{helpers.createIcon("\ue5cd")}
-							</MaterialUI.IconButton>
-							{this.state.activePhase &&
+							{!this.state.laboratoryMode ? (
+								<MaterialUI.IconButton
+									onClick={this.props.close}
+									key="close"
+									edge="start"
+									color="secondary"
+								>
+									{helpers.createIcon("\ue5cd")}
+								</MaterialUI.IconButton>
+							) : (
+								<MaterialUI.IconButton
+									onClick={_ => {
+										this.setState(
+											{
+												moreMenuAnchorEl: null,
+												laboratoryMode: !this.state
+													.laboratoryMode
+											},
+											_ => {
+												if (
+													!this.state.laboratoryMode
+												) {
+													this.loadGame();
+												} else {
+													gtag(
+														"event",
+														"enable_lab_mode"
+													);
+												}
+											}
+										);
+									}}
+									key="close"
+									edge="start"
+									color="primary"
+								>
+									{helpers.createIcon("\ue5cd")}
+								</MaterialUI.IconButton>
+							)}
+							{!this.state.laboratoryMode &&
+							this.state.activePhase &&
 							this.state.activePhase.Properties.PhaseOrdinal >
 								1 ? (
 								<MaterialUI.IconButton
@@ -438,20 +484,46 @@ export default class Game extends React.Component {
 								>
 									{helpers.createIcon("\ue5cb")}
 								</MaterialUI.IconButton>
-							) : (
+							) : !this.state.laboratoryMode ? (
 								<MaterialUI.Box key="prev-spacer"></MaterialUI.Box>
+							) : (
+								""
 							)}
 
+							{this.state.laboratoryMode ? (
+								<MaterialUI.Typography
+									variant="h6"
+									style={{ marginRight: "8px" }}
+								>
+									Sandbox
+								</MaterialUI.Typography>
+							) : (
+								""
+							)}
 							{this.state.activePhase ? (
 								<MaterialUI.Select
-									/* below I define the colours using Hex, but this should be using MaterialUI primary or secondary colour. Haven't figured out how to yet */
-									style={{
-										width: "100%",
-										minWidth: "0",
-										borderBottom:
-											"1px solid rgba(253, 226, 181, 0.7)",
-										color: "#FDE2B5"
-									}}
+									/* TODO: This might be a stretch, but Laboratory mode has SOME "real" and some "fake" turns. E.g. in spring 1902 I can move back to Spring 1901 and create an "alternative" 1901 and commit that. 
+                  Is it possible to make all the "hypothetical" phases to change color? Maybe let me know in the Discord chat and we can discuss more. */
+									/*
+									 * Yes it is - 'real' phases have .Properties.ID, while fake phases don't (IIRC).
+									 */
+									style={
+										this.state.laboratoryMode
+											? {
+													width: "100%",
+													minWidth: "0",
+													borderBottom:
+														"1px solid rgba(253, 226, 181, 0.7)",
+													color: "rgb(40, 26, 26)"
+											  }
+											: {
+													width: "100%",
+													minWidth: "0",
+													borderBottom:
+														"1px solid rgba(253, 226, 181, 0.7)",
+													color: "#FDE2B5"
+											  }
+									}
 									key="phase-select"
 									value={
 										this.state.activePhase.Properties
@@ -482,11 +554,13 @@ export default class Game extends React.Component {
 										);
 									})}
 								</MaterialUI.Select>
-							) : (
+							) : !this.state.laboratoryMode ? (
 								<MaterialUI.Box
 									key="curr-spacer"
 									width="100%"
 								></MaterialUI.Box>
+							) : (
+								""
 							)}
 							{this.state.activePhase &&
 							this.state.activePhase.Properties.PhaseOrdinal <
@@ -500,21 +574,28 @@ export default class Game extends React.Component {
 								>
 									{helpers.createIcon("\ue5cc")}
 								</MaterialUI.IconButton>
-							) : (
+							) : !this.state.laboratoryMode ? (
 								<MaterialUI.Box key="next-spacer"></MaterialUI.Box>
+							) : (
+								""
 							)}
-							<MaterialUI.IconButton
-								edge="end"
-								key="more-icon"
-								color="secondary"
-								onClick={ev => {
-									this.setState({
-										moreMenuAnchorEl: ev.currentTarget
-									});
-								}}
-							>
-								{helpers.createIcon("\ue5d4")}
-							</MaterialUI.IconButton>
+
+							{!this.state.laboratoryMode ? (
+								<MaterialUI.IconButton
+									edge="end"
+									key="more-icon"
+									color="secondary"
+									onClick={ev => {
+										this.setState({
+											moreMenuAnchorEl: ev.currentTarget
+										});
+									}}
+								>
+									{helpers.createIcon("\ue5d4")}
+								</MaterialUI.IconButton>
+							) : (
+								""
+							)}
 							<MaterialUI.Menu
 								anchorEl={this.state.moreMenuAnchorEl}
 								anchorOrigin={{
@@ -549,7 +630,7 @@ export default class Game extends React.Component {
 														moreMenuAnchorEl: null
 													});
 													helpers.snackbar(
-														"Game URL copied to clipboard"
+														"Game URL copied to clipboard. Share it to other players."
 													);
 												},
 												err => {
@@ -559,7 +640,9 @@ export default class Game extends React.Component {
 										gtag("event", "game_share");
 									}}
 								>
-									Share
+									{this.state.game.Properties.Started
+										? "Share game"
+										: "Invite"}
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
 									key="download-map"
@@ -650,8 +733,8 @@ export default class Game extends React.Component {
 									}}
 								>
 									{this.state.laboratoryMode
-										? "Disable lab mode"
-										: "Enable lab mode"}
+										? "Turn off sandbox mode"
+										: "Sandbox mode"}
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
 									key="debug-data"
@@ -675,8 +758,23 @@ export default class Game extends React.Component {
 									Debug
 								</MaterialUI.MenuItem>
 							</MaterialUI.Menu>
+							{this.state.laboratoryMode ? (
+								<MaterialUI.IconButton
+									onClick={_ => {
+										this.dip_map.labShare();
+									}}
+									color="primary"
+									edge="end"
+									style={{ marginLeft: "auto" }}
+								>
+									{helpers.createIcon("\ue80d")}
+								</MaterialUI.IconButton>
+							) : (
+								""
+							)}
 						</MaterialUI.Toolbar>
-						{this.state.game.Properties.Started ? (
+						{!this.state.laboratoryMode &&
+						this.state.game.Properties.Started ? (
 							<MaterialUI.Tabs
 								key="tabs"
 								value={this.state.activeTab}
@@ -743,7 +841,7 @@ export default class Game extends React.Component {
 									/>
 								)}
 							</MaterialUI.Tabs>
-						) : (
+						) : !this.state.laboratoryMode ? (
 							<MaterialUI.Toolbar
 								className={helpers.scopedClass(
 									"display: flex; justify-content: space-between; min-height: 53px;"
@@ -798,17 +896,116 @@ export default class Game extends React.Component {
 									</MaterialUI.Typography>
 								</div>
 							</MaterialUI.Toolbar>
+						) : (
+							<MaterialUI.Toolbar>
+								<MaterialUI.Typography
+									variant="body1"
+									style={{ marginRight: "8px" }}
+								>
+									Edit
+								</MaterialUI.Typography>
+								<MaterialUI.FormControlLabel
+									key="edit-mode"
+									control={
+										<MaterialUI.Switch
+											onChange={ev => {
+												this.setState({
+													labEditMode: !ev.target
+														.checked
+												});
+												this.dip_map.setState({
+													labEditMode: !ev.target
+														.checked
+												});
+											}}
+											color="primary"
+											checked={!this.state.labEditMode}
+										/>
+									}
+									label="Play as"
+								/>
+								{!this.state.labEditMode ? (
+									<MaterialUI.FormControl
+										key="play-as"
+										className={helpers.scopedClass(
+											"flex-grow: 1;"
+										)}
+									>
+										<MaterialUI.Select
+											value={this.state.labPlayAs}
+											onChange={ev => {
+												this.setState({
+													labPlayAs: ev.target.value
+												});
+												this.dip_map.setState({
+													labPlayAs: ev.target.value
+												});
+											}}
+											style={{
+												width: "100%",
+												minWidth: "0",
+												borderBottom:
+													"1px solid rgba(253, 226, 181, 0.7)",
+												color: "rgb(40, 26, 26)"
+											}}
+										>
+											{this.state.variant.Properties.Nations.map(
+												nation => {
+													return (
+														<MaterialUI.MenuItem
+															key={nation}
+															value={nation}
+														>
+															{nation}
+														</MaterialUI.MenuItem>
+													);
+												}
+											)}
+										</MaterialUI.Select>
+									</MaterialUI.FormControl>
+								) : (
+									""
+								)}
+
+								<MaterialUI.IconButton
+									edge="end"
+									onClick={ev => {
+										this.dip_map.labResolve();
+									}}
+									style={{
+										marginLeft: "auto",
+										color: "rgb(40, 26, 26)"
+									}}
+								>
+									{helpers.createIcon("\ue01f")}
+								</MaterialUI.IconButton>
+							</MaterialUI.Toolbar>
 						)}
 					</MaterialUI.AppBar>
+
 					<div
 						key="map-container"
-						style={{
-							marginTop: "105px",
-							height: "calc(100% - 105px)",
-							backgroundColor: "black",
-							display:
-								this.state.activeTab == "map" ? "block" : "none"
-						}}
+						style={
+							this.state.laboratoryMode
+								? {
+										marginTop: "56px",
+										height: "calc(100% - 56px)",
+										backgroundColor: "black",
+										display:
+											this.state.activeTab == "map"
+												? "block"
+												: "none"
+								  }
+								: {
+										marginTop: "105px",
+										height: "calc(100% - 105px)",
+										backgroundColor: "black",
+										display:
+											this.state.activeTab == "map"
+												? "block"
+												: "none"
+								  }
+						}
 					>
 						<DipMap
 							parentCB={c => {
