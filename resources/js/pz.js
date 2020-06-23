@@ -214,6 +214,7 @@ export default class PZ {
 			let calledOnZoomStart = false;
 			this.touching = true;
 			const touchMoveListener = touchMoveEvent => {
+				touchMoveEvent.preventDefault();
 				const movement = this.averageMovement(
 					touchMoveEvent.changedTouches
 				);
