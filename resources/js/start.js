@@ -1,5 +1,5 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
-
+import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import CreateGameDialog from '%{ cb "/js/create_game_dialog.js" }%';
 
@@ -14,12 +14,14 @@ export default class Start extends React.Component {
 			newsDialogOpen:
 				!localStorage.getItem(latestNewsShownKey) ||
 				Number.parseInt(localStorage.getItem(latestNewsShownKey)) <
-					latestNews
+					latestNews,
 		};
 		this.createGameDialog = null;
 		this.myStagingGamesList = null;
 		this.myStartedGamesList = null;
 		this.myFinishedGamesList = null;
+		this.errorsDialog = null;
+
 		this.newsDialog = this.newsDialog.bind(this);
 		this.hasPlayed = this.hasPlayed.bind(this);
 		localStorage.setItem(latestNewsShownKey, "" + latestNews);
@@ -40,7 +42,7 @@ export default class Start extends React.Component {
 				<MaterialUI.Dialog
 					open={this.state.newsDialogOpen}
 					fullScreen
-					onClose={_ => {
+					onClose={(_) => {
 						this.setState({ newsDialogOpen: false });
 					}}
 				>
@@ -49,7 +51,7 @@ export default class Start extends React.Component {
 							<MaterialUI.IconButton
 								edge="start"
 								color="inherit"
-								onClick={_ => {
+								onClick={(_) => {
 									this.setState({ newsDialogOpen: false });
 								}}
 								aria-label="close"
@@ -71,14 +73,14 @@ export default class Start extends React.Component {
 							margin: "0px",
 							maxWidth: "940px",
 							marginLeft: "auto",
-							marginRight: "auto"
+							marginRight: "auto",
 						}}
 					>
 						<div
 							style={{
 								padding: "16px",
 								marginTop: "56px",
-								height: "calc(100% - 158px)"
+								height: "calc(100% - 158px)",
 							}}
 						>
 							<MaterialUI.Typography variant="h6" style={{}}>
@@ -100,20 +102,26 @@ export default class Start extends React.Component {
 								style={{
 									marginTop: "32px",
 									display: "flex",
-									justifyContent: "space-evenly"
+									justifyContent: "space-evenly",
 								}}
 							>
 								<div
 									style={{
 										display: "flex",
 										flexDirection: "column",
-										alignItems: "center"
+										alignItems: "center",
 									}}
 								>
 									{helpers.createIcon("\ue0b7")}
 
 									<MaterialUI.Typography variant="caption">
-										<a href="https://groups.google.com/forum/#!forum/diplicity-talk">
+										<a
+											href="https://groups.google.com/forum/#!forum/diplicity-talk"
+											style={{
+												color: "#281A1A",
+												textDecoration: "none",
+											}}
+										>
 											Give feedback
 										</a>
 									</MaterialUI.Typography>
@@ -122,12 +130,18 @@ export default class Start extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "column",
-										alignItems: "center"
+										alignItems: "center",
 									}}
 								>
 									{helpers.createIcon("\ue868")}
 									<MaterialUI.Typography variant="caption">
-										<a href="mailto:diplicity-talk@googlegroups.com">
+										<a
+											href="mailto:diplicity-talk@googlegroups.com"
+											style={{
+												color: "#281A1A",
+												textDecoration: "none",
+											}}
+										>
 											Report a bug
 										</a>{" "}
 									</MaterialUI.Typography>
@@ -136,13 +150,24 @@ export default class Start extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "column",
-										alignItems: "center"
+										alignItems: "center",
+									}}
+									onClick={(_) => {
+										this.closeDrawer;
+										this.errorsDialog.setState({
+											open: true,
+										});
 									}}
 								>
-									{helpers.createIcon("\ue889")}
+									<MaterialUI.SvgIcon>
+										<path
+											fill="black"
+											d="M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z"
+										/>
+									</MaterialUI.SvgIcon>
 									<MaterialUI.Typography variant="caption">
-										<a href="https://sites.google.com/view/diplicity/home/documentation/install-the-old-apk">
-											Install old app
+										<a style={{ color: "#281A1A" }}>
+											Error log
 										</a>
 									</MaterialUI.Typography>
 								</div>
@@ -151,19 +176,32 @@ export default class Start extends React.Component {
 							<div
 								style={{
 									marginTop: "32px",
-									textAlign: "center"
+									textAlign: "center",
 								}}
 							>
 								<MaterialUI.Button
 									variant="contained"
 									color="primary"
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState({
-											newsDialogOpen: false
+											newsDialogOpen: false,
 										});
 									}}
 								>
 									Show me the new app
+								</MaterialUI.Button>
+							</div>
+							<div
+								style={{
+									textAlign: "center",
+									marginTop: "8px",
+								}}
+							>
+								<MaterialUI.Button
+									color="primary"
+									href="https://sites.google.com/view/diplicity/home/documentation/install-the-old-apk"
+								>
+									Install the old app
 								</MaterialUI.Button>
 							</div>
 						</div>
@@ -173,7 +211,7 @@ export default class Start extends React.Component {
 									"url('../static/img/soldiers.svg'",
 								height: "72px",
 								top: "auto",
-								bottom: "0px"
+								bottom: "0px",
 							}}
 						></div>
 					</div>
@@ -202,9 +240,9 @@ export default class Start extends React.Component {
 									alignItems: "flex-start",
 									padding: "6px 8px",
 									margin: "8px 16px 0px 16px",
-									backgroundColor: "rgb(255, 244, 229)"
+									backgroundColor: "rgb(255, 244, 229)",
 								}}
-								onClick={_ => {
+								onClick={(_) => {
 									this.setState({ newsDialogOpen: true });
 								}}
 							>
@@ -212,7 +250,7 @@ export default class Start extends React.Component {
 									style={{
 										padding: "5px",
 										marginRight: "8px",
-										color: "rgb(255, 152, 0)"
+										color: "rgb(255, 152, 0)",
 									}}
 								>
 									{helpers.createIcon("\ue002")}
@@ -221,14 +259,14 @@ export default class Start extends React.Component {
 								<div
 									style={{
 										display: "flex",
-										flexDirection: "column"
+										flexDirection: "column",
 									}}
 								>
 									<MaterialUI.Typography
 										variant="body1"
 										style={{
 											color: "rgb(97, 26, 21)",
-											fontWeight: "500"
+											fontWeight: "500",
 										}}
 									>
 										This app is in beta state
@@ -251,7 +289,7 @@ export default class Start extends React.Component {
 										style={{
 											display: "flex",
 											justifyContent: "space-between",
-											paddingRight: "8px"
+											paddingRight: "8px",
 										}}
 									>
 										<MaterialUI.ListSubheader
@@ -260,7 +298,7 @@ export default class Start extends React.Component {
 												zIndex: "2",
 												marginBottom: "2px",
 												height: "44px",
-												color: "rgba(40, 26, 26, 0.56)"
+												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
 											My ongoing games
@@ -269,7 +307,7 @@ export default class Start extends React.Component {
 									<MaterialUI.ListItem
 										style={{
 											padding: "0px 16px 4px 16px",
-											width: "100%"
+											width: "100%",
 										}}
 									>
 										<GameList
@@ -280,19 +318,19 @@ export default class Start extends React.Component {
 													"my-started-games"
 												]
 											}
-											onPhaseMessage={_ => {
+											onPhaseMessage={(_) => {
 												this.myStartedGamesList.loadPropsURL();
 												this.myFinishedGamesList.loadPropsURL();
 											}}
-											parentCB={c => {
+											parentCB={(c) => {
 												this.myStartedGamesList = c;
 											}}
-											onFilled={_ => {
+											onFilled={(_) => {
 												document.getElementById(
 													"my-started-container"
 												).style.display = "block";
 											}}
-											onEmpty={_ => {
+											onEmpty={(_) => {
 												document.getElementById(
 													"my-started-container"
 												).style.display = "none";
@@ -307,7 +345,7 @@ export default class Start extends React.Component {
 										style={{
 											display: "flex",
 											justifyContent: "space-between",
-											paddingRight: "8px"
+											paddingRight: "8px",
 										}}
 									>
 										<MaterialUI.ListSubheader
@@ -316,7 +354,7 @@ export default class Start extends React.Component {
 												zIndex: "2",
 												marginBottom: "2px",
 												height: "44px",
-												color: "rgba(40, 26, 26, 0.56)"
+												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
 											My forming games
@@ -325,28 +363,28 @@ export default class Start extends React.Component {
 
 									<MaterialUI.ListItem
 										style={{
-											padding: "0px 16px"
+											padding: "0px 16px",
 										}}
 									>
 										<GameList
 											limit={128}
 											contained={true}
-											onPhaseMessage={_ => {
+											onPhaseMessage={(_) => {
 												this.myStartedGamesList.reload();
 												this.myStagingGamesList.reload();
 											}}
-											onFilled={_ => {
+											onFilled={(_) => {
 												document.getElementById(
 													"my-staging-container"
 												).style.display = "block";
 											}}
 											withDetails={true}
-											onEmpty={_ => {
+											onEmpty={(_) => {
 												document.getElementById(
 													"my-staging-container"
 												).style.display = "none";
 											}}
-											parentCB={c => {
+											parentCB={(c) => {
 												this.myStagingGamesList = c;
 											}}
 											url={
@@ -364,7 +402,7 @@ export default class Start extends React.Component {
 										style={{
 											display: "flex",
 											justifyContent: "space-between",
-											paddingRight: "8px"
+											paddingRight: "8px",
 										}}
 									>
 										<MaterialUI.ListSubheader
@@ -373,7 +411,7 @@ export default class Start extends React.Component {
 												zIndex: "2",
 												marginBottom: "2px",
 												height: "44px",
-												color: "rgba(40, 26, 26, 0.56)"
+												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
 											My finished games
@@ -389,20 +427,20 @@ export default class Start extends React.Component {
 
 									<MaterialUI.ListItem
 										style={{
-											padding: "0px 16px 4px 16px"
+											padding: "0px 16px 4px 16px",
 										}}
 									>
 										<GameList
 											contained={true}
-											parentCB={c => {
+											parentCB={(c) => {
 												this.myFinishedGamesList = c;
 											}}
-											onFilled={_ => {
+											onFilled={(_) => {
 												document.getElementById(
 													"my-finished-container"
 												).style.display = "block";
 											}}
-											onEmpty={_ => {
+											onEmpty={(_) => {
 												document.getElementById(
 													"my-finished-container"
 												).style.display = "none";
@@ -428,10 +466,10 @@ export default class Start extends React.Component {
 							>
 								<MaterialUI.Button
 									key="new-game"
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState({
 											newGameFormOpen: !this.state
-												.newGameFormOpen
+												.newGameFormOpen,
 										});
 									}}
 									variant="contained"
@@ -475,9 +513,9 @@ export default class Start extends React.Component {
 										variant="outlined"
 										color="secondary"
 										key="create"
-										onClick={_ => {
+										onClick={(_) => {
 											this.createGameDialog.setState({
-												open: true
+												open: true,
 											});
 										}}
 									>
@@ -496,7 +534,7 @@ export default class Start extends React.Component {
 								justifyContent: "space-between",
 								height: "calc(100% - 54px)",
 								overflowY: "scroll",
-								backgroundColor: "#FDE2B5"
+								backgroundColor: "#FDE2B5",
 							}}
 						>
 							<div
@@ -507,7 +545,7 @@ export default class Start extends React.Component {
 									maxWidth: "400px",
 									alignSelf: "center",
 									display: "flex",
-									flexDirection: "column"
+									flexDirection: "column",
 								}}
 							>
 								<img
@@ -523,7 +561,7 @@ export default class Start extends React.Component {
 								<MaterialUI.Typography
 									variant="body2"
 									style={{
-										margin: "0px 16px 0px 16px"
+										margin: "0px 16px 0px 16px",
 									}}
 								>
 									Welcome! Diplomacy games are all about human
@@ -535,7 +573,7 @@ export default class Start extends React.Component {
 								<MaterialUI.Button
 									style={{
 										margin: "16px auto",
-										minWidth: "200px"
+										minWidth: "200px",
 									}}
 									color="primary"
 									variant="outlined"
@@ -551,7 +589,7 @@ export default class Start extends React.Component {
 									style={{
 										backgroundImage:
 											"url('../static/img/soldiers.svg'",
-										height: "72px"
+										height: "72px",
 									}}
 								></div>
 								<div
@@ -559,13 +597,13 @@ export default class Start extends React.Component {
 										backgroundColor: "#291B1B",
 										display: "flex",
 										flexDirection: "column",
-										paddingBottom: "24px"
+										paddingBottom: "24px",
 									}}
 								>
 									<MaterialUI.Button
 										style={{
 											margin: "4px auto",
-											minWidth: "200px"
+											minWidth: "200px",
 										}}
 										variant="outlined"
 										color="secondary"
@@ -577,7 +615,7 @@ export default class Start extends React.Component {
 									<MaterialUI.Button
 										style={{
 											margin: "4px auto",
-											minWidth: "200px"
+											minWidth: "200px",
 										}}
 										variant="outlined"
 										color="secondary"
@@ -589,14 +627,14 @@ export default class Start extends React.Component {
 									<MaterialUI.Button
 										style={{
 											margin: "4px auto",
-											minWidth: "200px"
+											minWidth: "200px",
 										}}
 										variant="outlined"
 										color="secondary"
 										key="create"
-										onClick={_ => {
+										onClick={(_) => {
 											this.createGameDialog.setState({
-												open: true
+												open: true,
 											});
 										}}
 									>
@@ -608,11 +646,17 @@ export default class Start extends React.Component {
 					</React.Fragment>
 				)}
 				<CreateGameDialog
-					gameCreated={_ => {
+					gameCreated={(_) => {
 						this.myStagingGamesList.reload();
 					}}
-					parentCB={c => {
+					parentCB={(c) => {
 						this.createGameDialog = c;
+					}}
+				/>
+				<ErrorsDialog
+					key="errors-dialog"
+					parentCB={(c) => {
+						this.errorsDialog = c;
 					}}
 				/>
 			</React.Fragment>
