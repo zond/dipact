@@ -1,7 +1,7 @@
 export const overrideReg = /[^\w]/g;
 
 const colorReg = /^#([0-9a-fA-F]{3,3}|[0-9a-fA-F]{6,6}|[0-9a-fA-F]{8,8})$/;
-const linkReg = /^(.*?)((mailto:|https?:\/\/)[^\s]*[^.\s])(.*)$/ms;
+const linkReg = /^([^]*?)((mailto:|https?:\/\/)[^\s]*[^.\s])([^]*)$/m;
 
 export const DiplicitySender = "Diplicity";
 
