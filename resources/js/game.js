@@ -366,15 +366,16 @@ export default class Game extends React.Component {
 			return Promise.all(promises).then(values => {
 				const gameStates = gameStatesLink ? values[0].Properties : null;
 				const phases = gameStatesLink ? values[1] : values[0];
-				let member = game.Properties.Members.find(e => {
+				const member = game.Properties.Members.find(e => {
 					return e.User.Email == Globals.user.Email;
+				});
+				const variant = Globals.variants.find(v => {
+					return v.Properties.Name == game.Properties.Variant;
 				});
 				this.setState(
 					{
 						gameStates: gameStates,
-						variant: Globals.variants.find(v => {
-							return v.Properties.Name == game.Properties.Variant;
-						}),
+						variant: variant,
 						member: member,
 						labPlayAs:
 							member && member.Nation
