@@ -210,6 +210,7 @@ export default class DipMap extends React.Component {
 			this.props.serializePhaseState({
 				Properties: variantPhase
 			});
+		console.log(url);
 		fetch(
 			new Request(
 				"https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
