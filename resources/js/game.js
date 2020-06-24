@@ -171,30 +171,32 @@ export default class Game extends React.Component {
 	}
 	serializePhaseState(phase) {
 		return encodeURIComponent(
-			btoa(
-				pako.deflate(
-					JSON.stringify({
-						activePhase: phase.Properties.PhaseOrdinal,
-						phases: this.state.phases
-							.map(p => {
-								if (
-									p.Properties.PhaseOrdinal ==
-									phase.Properties.PhaseOrdinal
-								) {
-									return phase;
-								} else {
-									return p;
-								}
-							})
-							.filter(p => {
-								return (
-									!p.Properties.GameID ||
-									p.Properties.PhaseOrdinal ==
+			encodeURIComponent(
+				btoa(
+					pako.deflate(
+						JSON.stringify({
+							activePhase: phase.Properties.PhaseOrdinal,
+							phases: this.state.phases
+								.map(p => {
+									if (
+										p.Properties.PhaseOrdinal ==
 										phase.Properties.PhaseOrdinal
-								);
-							})
-					}),
-					{ to: "string" }
+									) {
+										return phase;
+									} else {
+										return p;
+									}
+								})
+								.filter(p => {
+									return (
+										!p.Properties.GameID ||
+										p.Properties.PhaseOrdinal ==
+											phase.Properties.PhaseOrdinal
+									);
+								})
+						}),
+						{ to: "string" }
+					)
 				)
 			)
 		);
@@ -265,7 +267,11 @@ export default class Game extends React.Component {
 						match => {
 							const serializedState = JSON.parse(
 								pako.inflate(
-									atob(decodeURIComponent(match[2])),
+									atob(
+										decodeURIComponent(
+											decodeURIComponent(match[2])
+										)
+									),
 									{
 										to: "string"
 									}
