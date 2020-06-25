@@ -172,7 +172,8 @@ export default class PZ {
 			const rect = this.el.getBoundingClientRect();
 			trans.origX = (wheelEvent.clientX - rect.left) / trans.scaleX;
 			trans.origY = (wheelEvent.clientY - rect.top) / trans.scaleY;
-			const scale = 1 + wheelEvent.deltaY * -0.01;
+			const scale =
+				1 + wheelEvent.deltaY * (wheelEvent.ctrlKey ? -0.01 : -0.002);
 			trans.scaleX *= scale;
 			trans.scaleY *= scale;
 			if (this.zoomEndTimeout) {
@@ -188,7 +189,7 @@ export default class PZ {
 				}
 				this.zoomEndTimeout = null;
 			}, 300);
-			trans.apply(0.3);
+			trans.apply();
 		});
 		this.viewPort.addEventListener("mousedown", mouseDownEvent => {
 			let lastEvent = mouseDownEvent;
