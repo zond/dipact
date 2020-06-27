@@ -518,6 +518,7 @@ export default class ChatChannel extends React.Component {
 										multiline
 										rows="2"
 										style={{ flexGrow: 100 }}
+										className="chat-channel-input"
 										label="Message"
 										variant="outlined"
 										onKeyDown={this.keyPress}
