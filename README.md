@@ -4,7 +4,7 @@
 
 ## About
 
-A work-in-progress web client for [diplicity](https://github.com/zond/diplicity).
+A web client for [diplicity](https://github.com/zond/diplicity).
 
 The latest version is deployed at https://www.diplicity.com.
 
