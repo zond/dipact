@@ -597,6 +597,7 @@ export default class DipMap extends React.Component {
 							});
 						});
 						const pz = new PZ({
+							pzid: "dip-map",
 							minScale: 0.5,
 							maxScale: 20,
 							maxTrans: 0.5,

@@ -10,14 +10,16 @@ body,
 	height: 100%;
 }
 
-
 .MuiTypography-root {
 	font-family: "cabin" !important;
 }
 
-
 @media screen and (max-width: 900px) {
-  #desktopOnlyInput {
-    display: none;
-  }
+	#desktopOnlyInput {
+		display: none;
+	}
+}
+
+.chat-channel-input > .MuiInputBase-root {
+	padding: 7.5px 9px;
 }

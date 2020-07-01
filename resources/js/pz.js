@@ -5,6 +5,7 @@ class Transform {
 		this.opts = opts;
 		this.el = opts.el;
 		this.viewPort = opts.viewPort;
+		this.pzID = this.el.getAttribute("data-pz-id");
 		const originString =
 			this.el.style.transformOrigin ||
 			this.el.clientWidth / 2 +
@@ -28,7 +29,7 @@ class Transform {
 		this._origX = originParts[0];
 		this._origY = originParts[1];
 	}
-	apply() {
+	apply(delay = 0.0) {
 		if (this.opts.minScale && this.opts.minScale > this.scaleX) {
 			this.scaleX = this.opts.minScale;
 		}
@@ -69,6 +70,48 @@ class Transform {
 				this.transY += tooMuchTransUp;
 			}
 		}
+		const newTransformOrigin =
+			"" + this._origX + "px " + this._origY + "px 0px";
+		const newTransform =
+			"matrix3d(" +
+			this.scaleX +
+			",0,0,0,0," +
+			this.scaleY +
+			",0,0,0,0,1,0," +
+			this.transX +
+			"," +
+			this.transY +
+			",0,1)";
+		if (delay > 0) {
+			const ts = new Date().getTime();
+			const animID = this.pzID + ts;
+			document.getElementById(this.pzID).innerHTML =
+				`
+@keyframes ` +
+				animID +
+				` {
+  from {
+    transform-origin: ` +
+				(this.el.style.transformOrigin || "50% 50%") +
+				`;
+	transform: ` +
+				(this.el.style.transform ||
+					"matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1)") +
+				`;
+  }
+  to {
+    transform-origin: ` +
+				newTransformOrigin +
+				`;
+	transform: ` +
+				newTransform +
+				`;
+  }
+}
+`;
+			this.el.style.animationName = animID;
+			this.el.style.animationDuration = "" + delay + "s";
+		}
 		this.el.style.transformOrigin =
 			"" + this._origX + "px " + this._origY + "px 0px";
 		this.el.style.transform =
@@ -104,6 +147,12 @@ export default class PZ {
 	constructor(opts = {}) {
 		this.opts = opts;
 		this.el = opts.el;
+		this.el.setAttribute("data-pz-id", opts.pzid);
+		if (!document.getElementById(opts.pzid)) {
+			const pzStyle = document.createElement("style");
+			pzStyle.setAttribute("id", opts.pzid);
+			document.head.appendChild(pzStyle);
+		}
 		this.viewPort = opts.viewPort;
 		this.viewPort.addEventListener("dblclick", dblClickEvent => {
 			const trans = new Transform(this.opts);
@@ -112,7 +161,9 @@ export default class PZ {
 			trans.origY = (dblClickEvent.clientY - rect.top) / trans.scaleY;
 			trans.scaleX *= 1.5;
 			trans.scaleY *= 1.5;
-			trans.apply();
+			if (opts.onZoomStart) opts.onZoomStart();
+			trans.apply(0.5);
+			setTimeout(opts.onZoomEnd, 500);
 		});
 		this.zoomEndTimeout = null;
 		this.viewPort.addEventListener("wheel", wheelEvent => {
@@ -121,7 +172,8 @@ export default class PZ {
 			const rect = this.el.getBoundingClientRect();
 			trans.origX = (wheelEvent.clientX - rect.left) / trans.scaleX;
 			trans.origY = (wheelEvent.clientY - rect.top) / trans.scaleY;
-			const scale = 1 + wheelEvent.deltaY * -0.01;
+			const scale =
+				1 + wheelEvent.deltaY * (wheelEvent.ctrlKey ? -0.01 : -0.002);
 			trans.scaleX *= scale;
 			trans.scaleY *= scale;
 			if (this.zoomEndTimeout) {
@@ -198,7 +250,9 @@ export default class PZ {
 						trans.scaleY;
 					trans.scaleX *= 1.5;
 					trans.scaleY *= 1.5;
-					trans.apply();
+					if (opts.onZoomStart) opts.onZoomStart();
+					trans.apply(0.5);
+					setTimeout(opts.onZoomEnd, 500);
 					return;
 				} else {
 					this.lastSingleTouchStartAt = new Date().getTime();
