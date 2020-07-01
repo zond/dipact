@@ -391,6 +391,11 @@ export function natCol(nation, variant) {
 		// Recognise this as the color of bugs.
 		return "#ff00ff";
 	}
+	// Use Variant.NationColors if set.
+	if (variant.Properties.NationColors &&
+		variant.Properties.NationColors[nation]) {
+		return variant.Properties.NationColors[nation];
+	}
 	return Globals.contrastColors[pos];
 }
 
