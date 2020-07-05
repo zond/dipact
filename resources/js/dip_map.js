@@ -305,15 +305,21 @@ export default class DipMap extends React.Component {
 			return l.Rel == "create-order";
 		});
 		if (setOrderLink) {
-			return helpers.safeFetch(
-				helpers.createRequest(setOrderLink.URL, {
-					method: setOrderLink.Method,
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({ Parts: parts })
-				})
-			);
+			return helpers
+				.safeFetch(
+					helpers.createRequest(setOrderLink.URL, {
+						method: setOrderLink.Method,
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({ Parts: parts })
+					})
+				)
+				.then(res => {
+					if (this.state.member.NewestPhaseState.OnProbation) {
+						this.props.onLeaveProbation();
+					}
+				});
 		} else {
 			return Promise.resolve(null);
 		}

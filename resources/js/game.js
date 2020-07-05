@@ -1018,6 +1018,9 @@ export default class Game extends React.Component {
 							parentCB={c => {
 								this.dip_map = c;
 							}}
+							onLeaveProbation={_ => {
+								this.loadGame();
+							}}
 							debugCount={this.debugCount}
 							labPhaseResolve={this.labPhaseResolve}
 							serializePhaseState={this.serializePhaseState}
