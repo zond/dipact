@@ -306,9 +306,15 @@ export default class SettingsDialog extends React.Component {
 												window.Wrapper.startFCM) ? (
 												Globals.messaging
 													.tokenOnServer ? (
-													Globals.messaging
-														.tokenEnabled ? (
-														""
+													window.Wrapper &&
+													window.Wrapper
+														.notificationStatus ? (
+														window.Wrapper.notificationStatus() !=
+														"OK" ? (
+															window.Wrapper.notificationStatus()
+														) : (
+															""
+														)
 													) : (
 														""
 													)
