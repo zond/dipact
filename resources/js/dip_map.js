@@ -315,10 +315,11 @@ export default class DipMap extends React.Component {
 						body: JSON.stringify({ Parts: parts })
 					})
 				)
-				.then(res => {
+				.then(resp => {
 					if (this.state.member.NewestPhaseState.OnProbation) {
 						this.props.onLeaveProbation();
 					}
+					return Promise.resolve(resp);
 				});
 		} else {
 			return Promise.resolve(null);
