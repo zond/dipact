@@ -849,7 +849,14 @@ export default class GameListElement extends React.Component {
 		}
 		this.state.game.Links.forEach(link => {
 			if (link.Rel == "join") {
-				if (this.state.game.Properties.PhaseLengthMinutes < 60 * 12) {
+				if (
+					this.state.game.Properties.PhaseLengthMinutes < 60 * 12 ||
+					this.state.game.Properties.NonMovementPhaseLengthMinutes !=
+						0 ||
+						this.state.game.Properties
+							.NonMovementPhaseLengthMinutes <
+							60 * 12
+				) {
 					buttons.unshift(
 						<MaterialUI.Typography
 							key="deadline-warning"
