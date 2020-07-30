@@ -22,6 +22,8 @@ export default class CreateGameDialog extends React.Component {
 				Private: false,
 				Anonymous: false,
 				LastYear: 0,
+				// TODO(zond): Change this to false once the feature is better tested.
+				SkipMuster: true,
 				MinReliability: Math.min(
 					10,
 					Math.floor(Globals.userStats.Properties.Reliability)
@@ -759,6 +761,24 @@ export default class CreateGameDialog extends React.Component {
 										</MaterialUI.Select>
 									</MaterialUI.Box>
 								)}
+
+								<MaterialUI.FormControlLabel
+									control={
+										<MaterialUI.Checkbox
+											onChange={this.newGamePropertyUpdater(
+												"SkipMuster"
+											)}
+										/>
+									}
+									label="Skip mustering phase"
+									style={{ marginBottom: "8px" }}
+								/>
+								<MaterialUI.FormHelperText>
+									The initial mustering phase ejects all
+									non-ready players and and reverts the game
+									to the staging state unless all players
+									report ready within the deadline.
+								</MaterialUI.FormHelperText>
 
 								<MaterialUI.FormControlLabel
 									key="endEarly"
