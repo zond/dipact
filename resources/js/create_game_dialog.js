@@ -489,6 +489,11 @@ export default class CreateGameDialog extends React.Component {
 								<MaterialUI.FormControlLabel
 									control={
 										<MaterialUI.Checkbox
+											checked={
+												this.state.newGameProperties[
+													"Private"
+												]
+											}
 											onChange={this.newGamePropertyUpdater(
 												"Private"
 											)}
@@ -765,6 +770,11 @@ export default class CreateGameDialog extends React.Component {
 								<MaterialUI.FormControlLabel
 									control={
 										<MaterialUI.Checkbox
+											checked={
+												this.state.newGameProperties[
+													"SkipMuster"
+												]
+											}
 											onChange={this.newGamePropertyUpdater(
 												"SkipMuster"
 											)}
