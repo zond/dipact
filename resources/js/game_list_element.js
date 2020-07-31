@@ -851,11 +851,11 @@ export default class GameListElement extends React.Component {
 			if (link.Rel == "join") {
 				if (
 					this.state.game.Properties.PhaseLengthMinutes < 60 * 12 ||
-					this.state.game.Properties.NonMovementPhaseLengthMinutes !=
-						0 ||
+					(this.state.game.Properties.NonMovementPhaseLengthMinutes !=
+						0 &&
 						this.state.game.Properties
 							.NonMovementPhaseLengthMinutes <
-							60 * 12
+							60 * 12)
 				) {
 					buttons.unshift(
 						<MaterialUI.Typography
