@@ -1,5 +1,6 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import MetadataDialog from '%{ cb "/js/metadata_dialog.js" }%';
 import DipMap from '%{ cb "/js/dip_map.js" }%';
 import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 import OrderList from '%{ cb "/js/order_list.js" }%';
@@ -34,6 +35,7 @@ export default class Game extends React.Component {
 		this.gameResults = null;
 		this.preliminaryScores = null;
 		this.nationPreferencesDialog = null;
+		this.metadataDialog = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.changePhase = this.changePhase.bind(this);
@@ -663,58 +665,69 @@ export default class Game extends React.Component {
 								>
 									Download map
 								</MaterialUI.MenuItem>
-								{this.state.game.Properties.Started
-									? [
+								{this.state.game.Properties.Started ? (
+									[
+										<MaterialUI.MenuItem
+											key="Players"
+											onClick={_ => {
+												this.setState({
+													moreMenuAnchorEl: null
+												});
+												this.GamePlayers.setState({
+													open: true
+												});
+											}}
+										>
+											Players
+										</MaterialUI.MenuItem>,
+										<MaterialUI.MenuItem
+											key="scores"
+											onClick={_ => {
+												this.setState({
+													moreMenuAnchorEl: null
+												});
+												this.preliminaryScores.setState(
+													{
+														open: true
+													}
+												);
+											}}
+										>
+											Scores
+										</MaterialUI.MenuItem>,
+										this.state.game.Properties.Finished ? (
 											<MaterialUI.MenuItem
-												key="Players"
+												key="results"
 												onClick={_ => {
 													this.setState({
 														moreMenuAnchorEl: null
 													});
-													this.GamePlayers.setState({
+													this.gameResults.setState({
 														open: true
 													});
 												}}
 											>
-												Players
-											</MaterialUI.MenuItem>,
-											<MaterialUI.MenuItem
-												key="scores"
-												onClick={_ => {
-													this.setState({
-														moreMenuAnchorEl: null
-													});
-													this.preliminaryScores.setState(
-														{
-															open: true
-														}
-													);
-												}}
-											>
-												Scores
-											</MaterialUI.MenuItem>,
-											this.state.game.Properties
-												.Finished ? (
-												<MaterialUI.MenuItem
-													key="results"
-													onClick={_ => {
-														this.setState({
-															moreMenuAnchorEl: null
-														});
-														this.gameResults.setState(
-															{
-																open: true
-															}
-														);
-													}}
-												>
-													Results
-												</MaterialUI.MenuItem>
-											) : (
-												""
-											)
-									  ]
-									: ""}
+												Results
+											</MaterialUI.MenuItem>
+										) : (
+											""
+										)
+									]
+								) : (
+									<MaterialUI.MenuItem
+										key="game-metadata"
+										onClick={_ => {
+											this.setState({
+												moreMenuAnchorEl: null
+											});
+											this.metadataDialog.setState({
+												open: true
+											});
+										}}
+									>
+										Metadata
+									</MaterialUI.MenuItem>
+								)}
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
 									onClick={_ => {
@@ -1114,12 +1127,20 @@ export default class Game extends React.Component {
 							/>
 						</React.Fragment>
 					) : (
-						<NationPreferencesDialog
-							parentCB={c => {
-								this.nationPreferencesDialog = c;
-							}}
-							onSelected={null}
-						/>
+						<React.Fragment>
+							<NationPreferencesDialog
+								parentCB={c => {
+									this.nationPreferencesDialog = c;
+								}}
+								onSelected={null}
+							/>
+							<MetadataDialog
+								game={this.state.game}
+								parentCB={c => {
+									this.metadataDialog = c;
+								}}
+							/>
+						</React.Fragment>
 					)}
 					<GameResults
 						onNewGameState={this.onNewGameState}
