@@ -2,7 +2,6 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
-import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 import RenameGameDialog from '%{ cb "/js/rename_game_dialog.js" }%';
 
@@ -436,35 +435,6 @@ export default class GameListElement extends React.Component {
 			</div>
 		);
 
-		let playerList = [];
-		playerList.push(
-			<MaterialUI.Typography
-				key={itemKey++}
-				variant="subtitle2"
-				style={{ color: "rgba(40, 26, 26, 0.7)", marginTop: "4px" }}
-			>
-				Players:
-			</MaterialUI.Typography>
-		);
-
-		this.state.game.Properties.Members.forEach(member => {
-			playerList.push(
-				<div
-					key={itemKey++}
-					style={{
-						display: "flex",
-						alignItems: "center",
-						marginBottom: "4px"
-					}}
-				>
-					<UserAvatar user={member.User} />
-					<MaterialUI.Typography>
-						{member.User.GivenName} {member.User.FamilyName}
-					</MaterialUI.Typography>
-				</div>
-			);
-		});
-
 		let summary = (
 			<div
 				style={{
@@ -884,14 +854,6 @@ export default class GameListElement extends React.Component {
 									>
 										{buttonDiv}
 										<GameMetadata game={this.state.game} />
-									</div>
-									<div
-										style={{
-											width: "100%",
-											maxWidth: "460px"
-										}}
-									>
-										{playerList}
 									</div>
 								</div>
 								<MaterialUI.Divider />
