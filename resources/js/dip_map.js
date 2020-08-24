@@ -302,7 +302,7 @@ export default class DipMap extends React.Component {
 	}
 	createOrder(parts) {
 		let setOrderLink = this.state.phase.Links.find(l => {
-			return l.Rel == "create-order";
+			return l.Rel == "create-and-corroborate";
 		});
 		if (setOrderLink) {
 			return helpers
@@ -1131,7 +1131,8 @@ export default class DipMap extends React.Component {
 					}
 					gtag("event", "create_order");
 					this.debugCount("addOptionsHandlers/orderCreated");
-					this.loadCorroboratePromise().then(corr => {
+					resp.json().then(corr => {
+						this.props.corroborateSubscriber(corr);
 						this.debugCount("addOptionsHandlers/newOrdersLoaded");
 						helpers.decProgress();
 						this.setState(
