@@ -52,6 +52,7 @@ export default class GameListElement extends React.Component {
 		this.reloadGame = this.reloadGame.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
+		this.addIconWithTooltip = this.addIconWithTooltip.bind(this);
 		// Dead means that we left this game when we were the only member, so it's gone.
 		this.dead = false;
 	}
@@ -188,29 +189,53 @@ export default class GameListElement extends React.Component {
 		e.preventDefault();
 		this.setState({ viewOpen: true });
 	}
-	addIcon(ary, codepoint, color) {
+	addIconWithTooltip(ary, codepoint, color, tooltip) {
 		ary.push(
-			helpers.createIcon(codepoint, {
-				padding: "4px 1px 0px 1px",
-				color: color,
-				fontSize: "14px"
-			})
+			<MaterialUI.Tooltip
+				key={"" + codepoint + color + tooltip}
+				disableFocusListener
+				title={tooltip}
+			>
+				{helpers.createIcon(codepoint, {
+					padding: "4px 1px 0px 1px",
+					color: color,
+					fontSize: "14px"
+				})}
+			</MaterialUI.Tooltip>
 		);
 	}
 	getIcons() {
 		let itemKey = 0;
 		let icons = [];
+		if (!this.state.game.Properties.SkipMuster) {
+			this.addIconWithTooltip(
+				icons,
+				"\ue925",
+				"black",
+				"Mustering before start"
+			);
+		}
 		if (
 			this.state.game.Properties.MinQuickness ||
 			this.state.game.Properties.MinReliability
 		) {
-			this.addIcon(icons, "\ue425", "black");
+			this.addIconWithTooltip(
+				icons,
+				"\ue425",
+				"black",
+				"Minimum quickness or reliability requirement"
+			);
 		}
 		if (
 			this.state.game.Properties.MinRating ||
 			this.state.game.Properties.MaxRating
 		) {
-			this.addIcon(icons, "\ue83a", "black");
+			this.addIconWithTooltip(
+				icons,
+				"\ue83a",
+				"black",
+				"Minimum rating requirement"
+			);
 		}
 		if (
 			this.state.game.Properties.MaxHater ||
@@ -283,10 +308,15 @@ export default class GameListElement extends React.Component {
 			);
 		}
 		if (this.state.game.Properties.Private) {
-			this.addIcon(icons, "\ue897", "black");
+			this.addIconWithTooltip(icons, "\ue897", "black", "Private game");
 		}
 		if (this.state.game.Properties.NationAllocation == 1) {
-			this.addIcon(icons, "\ue065", "black");
+			this.addIconWithTooltip(
+				icons,
+				"\ue065",
+				"black",
+				"Preference based nation allocation"
+			);
 		}
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}

@@ -37,6 +37,25 @@ export default class GameMetadata extends React.Component {
 				</MaterialUI.Typography>
 			</div>
 		);
+		if (!this.props.game.Properties.SkipMuster) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center"
+					}}
+					key={cells.length}
+				>
+					<MaterialUI.Icon style={{ marginRight: "8px" }}>
+						{helpers.createIcon("\ue925")}
+					</MaterialUI.Icon>
+					<MaterialUI.Typography>
+						Mustering before start
+					</MaterialUI.Typography>
+				</div>
+			);
+		}
 		if (this.props.game.Properties.NonMovementPhaseLengthMinutes) {
 			cells.push(
 				<div
