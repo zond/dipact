@@ -1143,7 +1143,8 @@ export default class Game extends React.Component {
 							/>
 						</React.Fragment>
 					)}
-					{this.state.game.Properties.Mustered ? (
+					{!this.state.member ||
+					this.state.game.Properties.Mustered ? (
 						""
 					) : (
 						<MusteringPopup
