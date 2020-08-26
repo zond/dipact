@@ -7,6 +7,7 @@ import OrderList from '%{ cb "/js/order_list.js" }%';
 import GamePlayers from '%{ cb "/js/game_players.js" }%';
 import GameResults from '%{ cb "/js/game_results.js" }%';
 import PreliminaryScores from '%{ cb "/js/preliminary_scores.js" }%';
+import MusteringPopup from '%{ cb "/js/mustering_popup.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 
 export default class Game extends React.Component {
@@ -1141,6 +1142,18 @@ export default class Game extends React.Component {
 								}}
 							/>
 						</React.Fragment>
+					)}
+					{this.state.game.Properties.Mustered ? (
+						""
+					) : (
+						<MusteringPopup
+							viewOrders={_ => {
+								this.setState({
+									activeTab: "orders",
+									readyReminder: false
+								});
+							}}
+						/>
 					)}
 					<GameResults
 						onNewGameState={this.onNewGameState}
