@@ -8,6 +8,7 @@ import Game from '%{ cb "/js/game.js" }%';
 import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
 import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
+import About from '%{ cb "/js/about.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -215,6 +216,14 @@ export default class MainMenu extends ActivityContainer {
 						>
 							<MaterialUI.List component="nav">
 								<MaterialUI.ListItem
+									button
+									onClick={(_) => {
+										this.setActivity(About);
+									}}
+								>
+									<MaterialUI.ListItemText primary="About" />
+								</MaterialUI.ListItem>
+								<MaterialUI.ListItem
 									style={{
 										padding: "24px 16px 8px 16px",
 										height: "40px",
@@ -261,32 +270,6 @@ export default class MainMenu extends ActivityContainer {
 									<MaterialUI.ListItemText primary="Settings" />
 								</MaterialUI.ListItem>
 
-								{/* TODO: make sure these are in the "view more"
-                <MaterialUI.ListItem
-                  button
-                  urlkey="my-started-games"
-                  label="My started games"
-                  onClick={this.renderGameList}
-                >
-                  <MaterialUI.ListItemText primary="My started games" />
-                </MaterialUI.ListItem>
-                <MaterialUI.ListItem
-                  button
-                  urlkey="my-staging-games"
-                  label="My staging games"
-                  onClick={this.renderGameList}
-                >
-                  <MaterialUI.ListItemText primary="My staging games" />
-                </MaterialUI.ListItem>
-                <MaterialUI.ListItem
-                  button
-                  urlkey="my-finished-games"
-                  label="My finished games"
-                  onClick={this.renderGameList}
-                >
-                  <MaterialUI.ListItemText primary="My finished games" />
-                </MaterialUI.ListItem>
-            */}
 								<MaterialUI.Divider />
 
 								<MaterialUI.ListItem
