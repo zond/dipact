@@ -16,10 +16,10 @@ export default class ChatChannel extends React.Component {
 			);
 		}
 		this.state = { messages: [] };
-		this.member = this.props.game.Properties.Members.find(e => {
+		this.member = this.props.game.Properties.Members.find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
-		this.variant = Globals.variants.find(v => {
+		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.abortController = new AbortController();
@@ -33,6 +33,20 @@ export default class ChatChannel extends React.Component {
 		this.keyPress = this.keyPress.bind(this);
 		this.scrollDown = this.scrollDown.bind(this);
 		this.pollNewMessages = this.pollNewMessages.bind(this);
+		this.autoExpandInput = this.autoExpandInput.bind(this);
+	}
+	autoExpandInput() {
+		const field = document.getElementById("chat-channel-input-field");
+		field.style.height = "inherit";
+		const computed = window.getComputedStyle(field);
+		const height =
+			parseInt(computed.getPropertyValue("border-top-width"), 10) +
+			parseInt(computed.getPropertyValue("padding-top"), 10) +
+			field.scrollHeight +
+			parseInt(computed.getPropertyValue("padding-bottom"), 10) +
+			parseInt(computed.getPropertyValue("border-bottom-width"), 10);
+		field.style.height = height + "px";
+		this.scrollDown();
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -67,7 +81,7 @@ export default class ChatChannel extends React.Component {
 			}
 			gtag("set", {
 				page_title: "ChatChannel",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		} else {
@@ -118,13 +132,13 @@ export default class ChatChannel extends React.Component {
 							Sender: this.member.Nation,
 							Body: msg,
 							ID: Math.random(),
-							CreatedAt: "" + new Date()
+							CreatedAt: "" + new Date(),
 						},
-						undelivered: true
-					}
-				])
+						undelivered: true,
+					},
+				]),
 			},
-			_ => {
+			(_) => {
 				document.getElementById("chat-channel-input-field").value = "";
 				this.scrollDown();
 				helpers
@@ -134,21 +148,21 @@ export default class ChatChannel extends React.Component {
 							{
 								method: this.props.createMessageLink.Method,
 								headers: {
-									"Content-Type": "application/json"
+									"Content-Type": "application/json",
 								},
 								body: JSON.stringify({
 									Body: msg,
 									ChannelMembers: this.props.channel
-										.Properties.Members
-								})
+										.Properties.Members,
+								}),
 							}
 						)
 					)
-					.then(resp =>
-						resp.json().then(js => {
+					.then((resp) =>
+						resp.json().then((js) => {
 							gtag("event", "send_chat_message");
 							if (
-								!this.props.channel.Links.find(l => {
+								!this.props.channel.Links.find((l) => {
 									return l.Rel == "messages";
 								})
 							) {
@@ -160,7 +174,7 @@ export default class ChatChannel extends React.Component {
 										"/Channel/" +
 										js.Properties.ChannelMembers.join(",") +
 										"/Messages",
-									Method: "GET"
+									Method: "GET",
 								});
 							}
 							if (Globals.messaging.tokenEnabled) {
@@ -186,9 +200,10 @@ export default class ChatChannel extends React.Component {
 			e.preventDefault();
 			this.sendMessage(e);
 		}
+		this.autoExpandInput();
 	}
 	pollNewMessages() {
-		const messagesLink = this.props.channel.Links.find(l => {
+		const messagesLink = this.props.channel.Links.find((l) => {
 			return l.Rel == "messages";
 		});
 		if (!messagesLink) {
@@ -205,25 +220,25 @@ export default class ChatChannel extends React.Component {
 		console.log("Initiating hanging request for new messages.");
 		helpers
 			.safeFetch(helpers.createRequest(url), {
-				signal: this.abortController.signal
+				signal: this.abortController.signal,
 			})
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				console.log("Got new message!");
 				js.Properties.reverse();
-				js.Properties.forEach(message => {
+				js.Properties.forEach((message) => {
 					message.phase = newestPhase;
 				});
 				const newMessages = this.state.messages
-					.filter(msg => {
+					.filter((msg) => {
 						return !msg.undelivered;
 					})
 					.concat(js.Properties);
 				this.setState(
 					{
-						messages: newMessages
+						messages: newMessages,
 					},
-					_ => {
+					(_) => {
 						this.scrollDown();
 						this.pollNewMessages();
 					}
@@ -233,7 +248,7 @@ export default class ChatChannel extends React.Component {
 	loadMessages(silent = false) {
 		this.abortController.abort();
 		this.abortController = new AbortController();
-		const messagesLink = this.props.channel.Links.find(l => {
+		const messagesLink = this.props.channel.Links.find((l) => {
 			return l.Rel == "messages";
 		});
 		if (messagesLink) {
@@ -242,10 +257,10 @@ export default class ChatChannel extends React.Component {
 			}
 			return helpers
 				.safeFetch(helpers.createRequest(messagesLink.URL), {
-					signal: this.abortController.signal
+					signal: this.abortController.signal,
 				})
-				.then(resp => resp.json())
-				.then(js => {
+				.then((resp) => resp.json())
+				.then((js) => {
 					if (this.props.loaded) {
 						this.props.loaded();
 					}
@@ -254,7 +269,7 @@ export default class ChatChannel extends React.Component {
 					}
 					js.Properties.reverse();
 					let currentPhaseIdx = 0;
-					js.Properties.forEach(message => {
+					js.Properties.forEach((message) => {
 						while (
 							currentPhaseIdx + 1 < this.props.phases.length &&
 							!this.phaseResolvedAfter(
@@ -297,7 +312,7 @@ export default class ChatChannel extends React.Component {
 								justifyContent: "space-between",
 								borderTopLeftRadius: "0px",
 								borderTopRightRadius: "0px",
-								marginTop: "-1px"
+								marginTop: "-1px",
 							}}
 						>
 							<span style={{ display: "flex" }}>
@@ -320,7 +335,7 @@ export default class ChatChannel extends React.Component {
 										gameState={this.props.gameState}
 										variant={this.variant}
 										nations={this.props.channel.Properties.Members.filter(
-											n => {
+											(n) => {
 												return (
 													!this.member ||
 													n != this.member.Nation
@@ -338,7 +353,7 @@ export default class ChatChannel extends React.Component {
 										width: "calc(100% - 96px)",
 										textAlign: "left",
 										textTransform: "initial",
-										lineHeight: "1.2"
+										lineHeight: "1.2",
 									}}
 								>
 									{this.props.channel.Properties.Members
@@ -346,7 +361,7 @@ export default class ChatChannel extends React.Component {
 									this.variant.Properties.Nations.length
 										? "Everyone"
 										: this.props.channel.Properties.Members.filter(
-												n => {
+												(n) => {
 													return (
 														!this.member ||
 														n != this.member.Nation
@@ -366,7 +381,7 @@ export default class ChatChannel extends React.Component {
 										width: "calc(100% - 96px)",
 										textAlign: "left",
 										textTransform: "initial",
-										lineHeight: "1.6"
+										lineHeight: "1.6",
 									}}
 								>
 									{this.props.channel.Properties.Members
@@ -374,7 +389,7 @@ export default class ChatChannel extends React.Component {
 									this.variant.Properties.Nations.length
 										? "Everyone"
 										: this.props.channel.Properties.Members.filter(
-												n => {
+												(n) => {
 													return (
 														!this.member ||
 														n != this.member.Nation
@@ -401,7 +416,7 @@ export default class ChatChannel extends React.Component {
 							maxWidth: "962px",
 							margin: "auto",
 							width: "100%",
-							overflowX: "hidden"
+							overflowX: "hidden",
 						}}
 					>
 						{this.state.messages.map((message, idx) => {
@@ -491,14 +506,14 @@ export default class ChatChannel extends React.Component {
 							);
 						})}
 						{this.props.createMessageLink &&
-						!this.props.channel.Properties.Members.find(m => {
+						!this.props.channel.Properties.Members.find((m) => {
 							return m == helpers.DiplicitySender;
 						}) ? (
 							<div
 								style={{
 									display: "flex",
 									flexDirection: "column",
-									alignItems: "flex-end"
+									alignItems: "flex-end",
 								}}
 							>
 								<div
@@ -510,7 +525,7 @@ export default class ChatChannel extends React.Component {
 										padding: "8px 8px 0px 8px",
 										position: "sticky",
 										bottom: "0px",
-										backgroundColor: "white"
+										backgroundColor: "white",
 									}}
 								>
 									<MaterialUI.TextField
