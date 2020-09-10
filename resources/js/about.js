@@ -107,14 +107,14 @@ export default class About extends React.Component {
 				<p>
 					To play a game, you either create one yourself or join one
 					already created. There are two categories of games, private
-					and public. The public ones are listed in the Open Games
+					and public. The public ones are listed in the Open games
 					list, while the private ones require the creator to share a
 					link for others to find them.
 				</p>
 				<h3>Player statistics</h3>
 				<p>
 					To raise the quality of games and to let people play with
-					others of similiar persuation the system tracks a lot of
+					others of similiar persuasion the system tracks a lot of
 					stats for each player, and allows game creators to limit the
 					players able to join the game to players having stats in
 					defined intervals.
