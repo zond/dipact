@@ -2,8 +2,9 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationAvatar from '%{ cb "/js/nation_avatar.js"}%';
+import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 
-export default class GameMetadata extends React.Component {
+export default class GamePlayers extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -143,8 +144,28 @@ export default class GameMetadata extends React.Component {
 					}}
 					onClose={this.close}
 				>
-					<MaterialUI.DialogTitle>Players</MaterialUI.DialogTitle>
+					<MaterialUI.DialogTitle>Metadata</MaterialUI.DialogTitle>
 					<MaterialUI.DialogContent>
+						<MaterialUI.Typography
+							variant="subtitle2"
+							style={{ fontWeight: "bold", paddingBottom: "8px" }}
+						>
+							Settings
+						</MaterialUI.Typography>
+						<GameMetadata
+							game={this.props.game}
+							noplayerlist="true"
+						/>
+						<MaterialUI.Typography
+							variant="subtitle2"
+							style={{
+								fontWeight: "bold",
+								paddingBottom: "8px",
+								paddingTop: "8px",
+							}}
+						>
+							Players
+						</MaterialUI.Typography>
 						<MaterialUI.Typography
 							variant="subtitle2"
 							style={{ paddingBottom: "8px" }}

@@ -537,46 +537,48 @@ export default class GameMetadata extends React.Component {
 				);
 			}
 		}
-		let playerList = [];
-		playerList.push(
-			<MaterialUI.Typography
-				variant="subtitle2"
-				style={{ color: "rgba(40, 26, 26, 0.7)", marginTop: "4px" }}
-				key={playerList.length}
-			>
-				Players:
-			</MaterialUI.Typography>
-		);
-
-		this.props.game.Properties.Members.forEach((member) => {
+		if (!this.props.noplayerlist) {
+			let playerList = [];
 			playerList.push(
-				<div
+				<MaterialUI.Typography
+					variant="subtitle2"
+					style={{ color: "rgba(40, 26, 26, 0.7)", marginTop: "4px" }}
 					key={playerList.length}
-					style={{
-						display: "flex",
-						alignItems: "center",
-						marginBottom: "4px",
-					}}
 				>
-					<UserAvatar user={member.User} />
-					<MaterialUI.Typography>
-						{member.User.GivenName} {member.User.FamilyName}
-					</MaterialUI.Typography>
+					Players:
+				</MaterialUI.Typography>
+			);
+
+			this.props.game.Properties.Members.forEach((member) => {
+				playerList.push(
+					<div
+						key={playerList.length}
+						style={{
+							display: "flex",
+							alignItems: "center",
+							marginBottom: "4px",
+						}}
+					>
+						<UserAvatar user={member.User} />
+						<MaterialUI.Typography>
+							{member.User.GivenName} {member.User.FamilyName}
+						</MaterialUI.Typography>
+					</div>
+				);
+			});
+
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						maxWidth: "460px",
+					}}
+					key={cells.length}
+				>
+					{playerList}
 				</div>
 			);
-		});
-
-		cells.push(
-			<div
-				style={{
-					width: "100%",
-					maxWidth: "460px",
-				}}
-				key={cells.length}
-			>
-				{playerList}
-			</div>
-		);
+		}
 
 		return cells;
 	}

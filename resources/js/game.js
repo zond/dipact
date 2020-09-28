@@ -32,7 +32,7 @@ export default class Game extends React.Component {
 		this.renderedPhaseOrdinal = null;
 		this.debugCounters = {};
 		this.options = null;
-		this.GamePlayers = null;
+		this.gamePlayersDialog = null;
 		this.gameResults = null;
 		this.preliminaryScores = null;
 		this.nationPreferencesDialog = null;
@@ -666,69 +666,66 @@ export default class Game extends React.Component {
 								>
 									Download map
 								</MaterialUI.MenuItem>
-								{this.state.game.Properties.Started ? (
-									[
-										<MaterialUI.MenuItem
-											key="Players"
-											onClick={(_) => {
-												this.setState({
-													moreMenuAnchorEl: null,
-												});
-												this.GamePlayers.setState({
-													open: true,
-												});
-											}}
-										>
-											Players
-										</MaterialUI.MenuItem>,
-										<MaterialUI.MenuItem
-											key="scores"
-											onClick={(_) => {
-												this.setState({
-													moreMenuAnchorEl: null,
-												});
-												this.preliminaryScores.setState(
-													{
-														open: true,
-													}
-												);
-											}}
-										>
-											Scores
-										</MaterialUI.MenuItem>,
-										this.state.game.Properties.Finished ? (
+								<MaterialUI.MenuItem
+									key="game-metadata"
+									onClick={(_) => {
+										this.setState({
+											moreMenuAnchorEl: null,
+										});
+										if (
+											this.state.game.Properties.Started
+										) {
+											this.gamePlayersDialog.setState({
+												open: true,
+											});
+										} else {
+											this.metadataDialog.setState({
+												open: true,
+											});
+										}
+									}}
+								>
+									Metadata
+								</MaterialUI.MenuItem>
+								{this.state.game.Properties.Started
+									? [
 											<MaterialUI.MenuItem
-												key="results"
+												key="scores"
 												onClick={(_) => {
 													this.setState({
 														moreMenuAnchorEl: null,
 													});
-													this.gameResults.setState({
-														open: true,
-													});
+													this.preliminaryScores.setState(
+														{
+															open: true,
+														}
+													);
 												}}
 											>
-												Results
-											</MaterialUI.MenuItem>
-										) : (
-											""
-										),
-									]
-								) : (
-									<MaterialUI.MenuItem
-										key="game-metadata"
-										onClick={(_) => {
-											this.setState({
-												moreMenuAnchorEl: null,
-											});
-											this.metadataDialog.setState({
-												open: true,
-											});
-										}}
-									>
-										Metadata
-									</MaterialUI.MenuItem>
-								)}
+												Scores
+											</MaterialUI.MenuItem>,
+											this.state.game.Properties
+												.Finished ? (
+												<MaterialUI.MenuItem
+													key="results"
+													onClick={(_) => {
+														this.setState({
+															moreMenuAnchorEl: null,
+														});
+														this.gameResults.setState(
+															{
+																open: true,
+															}
+														);
+													}}
+												>
+													Results
+												</MaterialUI.MenuItem>
+											) : (
+												""
+											),
+									  ]
+									: ""}
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
 									onClick={(_) => {
@@ -1120,7 +1117,7 @@ export default class Game extends React.Component {
 								variant={this.state.variant}
 								onNewGameState={this.onNewGameState}
 								parentCB={(c) => {
-									this.GamePlayers = c;
+									this.gamePlayersDialog = c;
 								}}
 							/>
 							<PreliminaryScores
@@ -1148,6 +1145,7 @@ export default class Game extends React.Component {
 						</React.Fragment>
 					)}
 					{!this.state.member ||
+					!this.state.game.Properties.Started ||
 					this.state.game.Properties.Mustered ? (
 						""
 					) : (
