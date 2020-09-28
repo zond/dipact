@@ -347,15 +347,3 @@ export default class GamePlayers extends React.Component {
 		}
 	}
 }
-							>
-								Close
-							</MaterialUI.Button>
-						</MaterialUI.DialogActions>
-					</MaterialUI.DialogContent>
-				</MaterialUI.Dialog>
-			);
-		} else {
-			return "";
-		}
-	}
-}
