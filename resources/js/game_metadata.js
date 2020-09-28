@@ -43,7 +43,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -62,7 +62,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -85,7 +85,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -141,7 +141,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -163,7 +163,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -266,7 +266,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -285,7 +285,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -304,7 +304,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -324,7 +324,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -344,7 +344,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -384,7 +384,7 @@ export default class GameMetadata extends React.Component {
 					style={{
 						width: "100%",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 					key={cells.length}
 				>
@@ -433,7 +433,7 @@ export default class GameMetadata extends React.Component {
 						style={{
 							width: "100%",
 							display: "flex",
-							alignItems: "center"
+							alignItems: "center",
 						}}
 						key={cells.length}
 					>
@@ -483,7 +483,7 @@ export default class GameMetadata extends React.Component {
 						style={{
 							width: "100%",
 							display: "flex",
-							alignItems: "center"
+							alignItems: "center",
 						}}
 						key={cells.length}
 					>
@@ -522,7 +522,7 @@ export default class GameMetadata extends React.Component {
 						style={{
 							width: "100%",
 							display: "flex",
-							alignItems: "center"
+							alignItems: "center",
 						}}
 						key={cells.length}
 					>
@@ -548,14 +548,14 @@ export default class GameMetadata extends React.Component {
 			</MaterialUI.Typography>
 		);
 
-		this.props.game.Properties.Members.forEach(member => {
+		this.props.game.Properties.Members.forEach((member) => {
 			playerList.push(
 				<div
 					key={playerList.length}
 					style={{
 						display: "flex",
 						alignItems: "center",
-						marginBottom: "4px"
+						marginBottom: "4px",
 					}}
 				>
 					<UserAvatar user={member.User} />
@@ -570,7 +570,7 @@ export default class GameMetadata extends React.Component {
 			<div
 				style={{
 					width: "100%",
-					maxWidth: "460px"
+					maxWidth: "460px",
 				}}
 				key={cells.length}
 			>
