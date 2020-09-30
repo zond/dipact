@@ -116,7 +116,7 @@ export default class Start extends React.Component {
 
 									<MaterialUI.Typography variant="caption">
 										<a
-											href="https://groups.google.com/forum/#!forum/diplicity-talk"
+											href="https://groups.google.com/g/diplicity-talk"
 											style={{
 												color: "#281A1A",
 												textDecoration: "none",

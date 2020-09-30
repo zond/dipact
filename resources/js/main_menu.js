@@ -353,7 +353,7 @@ export default class MainMenu extends ActivityContainer {
 									button
 									onClick={(_) => {
 										open(
-											"https://groups.google.com/forum/#!forum/diplicity-talk"
+											"https://groups.google.com/g/diplicity-talk"
 										);
 									}}
 								>
