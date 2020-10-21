@@ -16,7 +16,7 @@ export default class DipMap extends React.Component {
 			corroboration: null,
 			options: null,
 			svgLoaded: false,
-			labPlayAs: ""
+			labPlayAs: "",
 		};
 		this.addOptionHandlers = this.addOptionHandlers.bind(this);
 		this.makeVariantPhase = this.makeVariantPhase.bind(this);
@@ -134,14 +134,14 @@ export default class DipMap extends React.Component {
 				info += "(" + owner + ")";
 			}
 		} else {
-			this.state.phase.Properties.SCs.forEach(scData => {
+			this.state.phase.Properties.SCs.forEach((scData) => {
 				if (scData.Province.split("/")[0] == prov) {
 					info += " (" + scData.Owner + ")";
 				}
 			});
 		}
 		if (this.state.phase.Properties.Units instanceof Array) {
-			this.state.phase.Properties.Units.forEach(unitData => {
+			this.state.phase.Properties.Units.forEach((unitData) => {
 				if (unitData.Province.split("/")[0] == prov) {
 					info +=
 						", " +
@@ -177,8 +177,8 @@ export default class DipMap extends React.Component {
 	downloadMap() {
 		this.getSVGData({
 			width: 1280,
-			force: true
-		}).then(data => {
+			force: true,
+		}).then((data) => {
 			if (data) {
 				helpers.downloadDataURI(
 					data,
@@ -208,7 +208,7 @@ export default class DipMap extends React.Component {
 			this.state.game.Properties.ID +
 			"/Lab/" +
 			this.props.serializePhaseState({
-				Properties: variantPhase
+				Properties: variantPhase,
 			});
 		fetch(
 			new Request(
@@ -216,30 +216,30 @@ export default class DipMap extends React.Component {
 				{
 					method: "POST",
 					headers: {
-						Accept: "application/json"
+						Accept: "application/json",
 					},
 					body: JSON.stringify({
 						dynamicLinkInfo: {
 							domainUriPrefix: "dipact.page.link",
 							link: url,
 							navigationInfo: {
-								enableForcedRedirect: true
-							}
+								enableForcedRedirect: true,
+							},
 						},
 						suffix: {
-							option: "SHORT"
-						}
-					})
+							option: "SHORT",
+						},
+					}),
 				}
 			)
 		)
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				helpers.copyToClipboard(js.shortLink).then(
-					_ => {
+					(_) => {
 						helpers.snackbar("Copied URL to clipboard");
 					},
-					err => {
+					(err) => {
 						console.log(err);
 					}
 				);
@@ -269,7 +269,7 @@ export default class DipMap extends React.Component {
 				snapshotImage.style.height = this.mapDims[1] * scale;
 				snapshotImage.src =
 					"data:image/svg+xml;base64," + serializedSVG;
-				snapshotImage.addEventListener("load", _ => {
+				snapshotImage.addEventListener("load", (_) => {
 					this.debugCount("getSVGData/loadedSnapshot");
 					let snapshotCanvas = document.createElement("canvas");
 					snapshotCanvas.setAttribute(
@@ -293,7 +293,7 @@ export default class DipMap extends React.Component {
 	snapshotSVG() {
 		const snapshotEl = document.getElementById("mapSnapshot");
 		if (snapshotEl) {
-			this.getSVGData().then(data => {
+			this.getSVGData().then((data) => {
 				if (data) {
 					snapshotEl.src = data;
 				}
@@ -301,7 +301,7 @@ export default class DipMap extends React.Component {
 		}
 	}
 	createOrder(parts) {
-		let setOrderLink = this.state.phase.Links.find(l => {
+		let setOrderLink = this.state.phase.Links.find((l) => {
 			return l.Rel == "create-and-corroborate";
 		});
 		if (setOrderLink) {
@@ -310,12 +310,12 @@ export default class DipMap extends React.Component {
 					helpers.createRequest(setOrderLink.URL, {
 						method: setOrderLink.Method,
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
 						},
-						body: JSON.stringify({ Parts: parts })
+						body: JSON.stringify({ Parts: parts }),
 					})
 				)
-				.then(resp => {
+				.then((resp) => {
 					if (this.state.member.NewestPhaseState.OnProbation) {
 						this.props.onLeaveProbation();
 					}
@@ -326,7 +326,7 @@ export default class DipMap extends React.Component {
 		}
 	}
 	deleteOrder(prov) {
-		let order = this.state.orders.find(o => {
+		let order = this.state.orders.find((o) => {
 			return o.Parts[0].split("/")[0] == prov.split("/")[0];
 		});
 		if (order) {
@@ -339,7 +339,7 @@ export default class DipMap extends React.Component {
 						"/Order/" +
 						order.Parts[0].replace("/", "_"),
 					{
-						method: "DELETE"
+						method: "DELETE",
 					}
 				)
 			);
@@ -351,15 +351,15 @@ export default class DipMap extends React.Component {
 		this.setState({ game: this.props.game, phase: this.props.phase });
 	}
 	loadCorroboratePromise() {
-		let corroborateLink = this.state.phase.Links.find(l => {
+		let corroborateLink = this.state.phase.Links.find((l) => {
 			return l.Rel == "corroborate";
 		});
 		if (corroborateLink) {
-			const promiseFunc = _ => {
+			const promiseFunc = (_) => {
 				return helpers
 					.safeFetch(helpers.createRequest(corroborateLink.URL))
-					.then(resp => resp.json())
-					.then(js => {
+					.then((resp) => resp.json())
+					.then((js) => {
 						return js;
 					});
 			};
@@ -367,7 +367,7 @@ export default class DipMap extends React.Component {
 				(this.state.phase.Properties.Resolved
 					? helpers.memoize(corroborateLink.URL, promiseFunc)
 					: promiseFunc()
-				).then(js => {
+				).then((js) => {
 					this.props.corroborateSubscriber(js);
 					res(js);
 				});
@@ -395,7 +395,7 @@ export default class DipMap extends React.Component {
 					this.props.game.Properties.ID ==
 						prevProps.game.Properties.ID,
 				phase: this.props.phase,
-				laboratoryMode: this.props.laboratoryMode
+				laboratoryMode: this.props.laboratoryMode,
 			});
 		}
 		// Get map dimensions if it's the first time we can get them.
@@ -426,9 +426,9 @@ export default class DipMap extends React.Component {
 					this.state.phase.Links &&
 					this.state.phase.Properties.GameID
 				) {
-					this.loadCorroboratePromise().then(corroboration => {
+					this.loadCorroboratePromise().then((corroboration) => {
 						this.setState({
-							orders: corroboration.Properties.Orders
+							orders: corroboration.Properties.Orders,
 						});
 					});
 				} else {
@@ -436,17 +436,17 @@ export default class DipMap extends React.Component {
 					const orders = [];
 					Object.keys(
 						this.state.phase.Properties.Orders || {}
-					).forEach(nation => {
+					).forEach((nation) => {
 						Object.keys(
 							this.state.phase.Properties.Orders[nation]
-						).forEach(province => {
+						).forEach((province) => {
 							orders.push({
 								Nation: nation,
 								Parts: [province].concat(
 									this.state.phase.Properties.Orders[nation][
 										province
 									]
-								)
+								),
 							});
 						});
 					});
@@ -461,19 +461,19 @@ export default class DipMap extends React.Component {
 						helpers.incProgress();
 					}
 					let promises = [this.loadCorroboratePromise()];
-					let optionsLink = this.state.phase.Links.find(l => {
+					let optionsLink = this.state.phase.Links.find((l) => {
 						return l.Rel == "options";
 					});
 					if (optionsLink) {
 						this.debugCount("componentDidUpdate/reRenderOptions");
 						promises.push(
-							helpers.memoize(optionsLink.URL, _ => {
+							helpers.memoize(optionsLink.URL, (_) => {
 								return helpers
 									.safeFetch(
 										helpers.createRequest(optionsLink.URL)
 									)
-									.then(resp => resp.json())
-									.then(js => {
+									.then((resp) => resp.json())
+									.then((js) => {
 										return js.Properties;
 									});
 							})
@@ -481,7 +481,7 @@ export default class DipMap extends React.Component {
 					} else {
 						promises.push(Promise.resolve(null));
 					}
-					Promise.all(promises).then(values => {
+					Promise.all(promises).then((values) => {
 						if (!silent) {
 							helpers.decProgress();
 							this.firstLoadFinished = true;
@@ -497,7 +497,7 @@ export default class DipMap extends React.Component {
 						);
 						this.setState({
 							orders: values[0].Properties.Orders,
-							options: values[1]
+							options: values[1],
 						});
 					});
 				}
@@ -512,11 +512,11 @@ export default class DipMap extends React.Component {
 			this.setState(
 				(state, props) => {
 					const member = this.state.game.Properties.Members.find(
-						e => {
+						(e) => {
 							return e.User.Email == Globals.user.Email;
 						}
 					);
-					const variant = Globals.variants.find(v => {
+					const variant = Globals.variants.find((v) => {
 						return (
 							v.Properties.Name ==
 							this.state.game.Properties.Variant
@@ -531,20 +531,20 @@ export default class DipMap extends React.Component {
 					state.variant = variant;
 					return state;
 				},
-				_ => {
+				(_) => {
 					let variantMapSVG =
 						"/Variant/" +
 						this.state.game.Properties.Variant +
 						"/Map.svg";
 					let promises = [
-						helpers.memoize(variantMapSVG, _ => {
+						helpers.memoize(variantMapSVG, (_) => {
 							return helpers
 								.safeFetch(helpers.createRequest(variantMapSVG))
-								.then(resp => resp.text());
+								.then((resp) => resp.text());
 						}),
 						Promise.all(
 							this.state.variant.Properties.UnitTypes.map(
-								unitType => {
+								(unitType) => {
 									let variantUnitSVG =
 										"/Variant/" +
 										this.state.game.Properties.Variant +
@@ -553,27 +553,27 @@ export default class DipMap extends React.Component {
 										".svg";
 									return helpers.memoize(
 										variantUnitSVG,
-										_ => {
+										(_) => {
 											return helpers
 												.safeFetch(
 													helpers.createRequest(
 														variantUnitSVG
 													)
 												)
-												.then(resp => resp.text())
-												.then(svg => {
+												.then((resp) => resp.text())
+												.then((svg) => {
 													return {
 														name: unitType,
-														svg: svg
+														svg: svg,
 													};
 												});
 										}
 									);
 								}
 							)
-						)
+						),
 					];
-					Promise.all(promises).then(values => {
+					Promise.all(promises).then((values) => {
 						let mapSVG = values[0];
 						let mapEl = document.getElementById("map");
 						mapEl.innerHTML = mapSVG;
@@ -582,12 +582,12 @@ export default class DipMap extends React.Component {
 						this.map = dippyMap($("#map"));
 						Object.keys(
 							this.state.variant.Properties.Graph.Nodes
-						).forEach(superProv => {
+						).forEach((superProv) => {
 							Object.keys(
 								this.state.variant.Properties.Graph.Nodes[
 									superProv
 								].Subs
-							).forEach(subProv => {
+							).forEach((subProv) => {
 								let prov = superProv;
 								if (subProv) {
 									prov = prov + "/" + subProv;
@@ -598,7 +598,7 @@ export default class DipMap extends React.Component {
 									{
 										nohighlight: true,
 										permanent: true,
-										touch: true
+										touch: true,
 									}
 								);
 							});
@@ -610,24 +610,24 @@ export default class DipMap extends React.Component {
 							maxTrans: 0.5,
 							el: document.getElementById("map-container"),
 							viewPort: document.getElementById("map-viewport"),
-							onZoomStart: e => {
+							onZoomStart: (e) => {
 								document.getElementById("map").style.display =
 									"none";
 								document.getElementById(
 									"mapSnapshot"
 								).style.display = "flex";
 							},
-							onZoomEnd: e => {
+							onZoomEnd: (e) => {
 								document.getElementById("map").style.display =
 									"flex";
 								document.getElementById(
 									"mapSnapshot"
 								).style.display = "none";
-							}
+							},
 						});
 
 						let variantUnits = values[1];
-						variantUnits.forEach(unitData => {
+						variantUnits.forEach((unitData) => {
 							let container = document.createElement("div");
 							container.setAttribute(
 								"id",
@@ -641,7 +641,7 @@ export default class DipMap extends React.Component {
 						this.setState({ svgLoaded: true });
 						gtag("set", {
 							page_title: "DipMap",
-							page_location: location.href
+							page_location: location.href,
 						});
 						gtag("event", "page_view");
 					});
@@ -670,7 +670,7 @@ export default class DipMap extends React.Component {
 			if (this.state.phase.Properties.SupplyCenters) {
 				SCs = this.state.phase.Properties.SupplyCenters;
 			} else {
-				this.state.phase.Properties.SCs.forEach(scData => {
+				this.state.phase.Properties.SCs.forEach((scData) => {
 					SCs[scData.Province] = scData.Owner;
 				});
 			}
@@ -694,7 +694,7 @@ export default class DipMap extends React.Component {
 
 			this.map.removeUnits();
 			if (this.state.phase.Properties.Units instanceof Array) {
-				this.state.phase.Properties.Units.forEach(unitData => {
+				this.state.phase.Properties.Units.forEach((unitData) => {
 					const superProv = unitData.Province.split("/")[0];
 					this.map.addUnit(
 						"unit" + unitData.Unit.Type,
@@ -729,7 +729,7 @@ export default class DipMap extends React.Component {
 			this.debugCount("updateMap/renderedUnits");
 
 			if (this.state.phase.Properties.Dislodgeds instanceof Array) {
-				this.state.phase.Properties.Dislodgeds.forEach(disData => {
+				this.state.phase.Properties.Dislodgeds.forEach((disData) => {
 					const superProv = disData.Province.split("/")[0];
 					this.map.addUnit(
 						"unit" + disData.Dislodged.Type,
@@ -771,7 +771,7 @@ export default class DipMap extends React.Component {
 		const ordersHash = helpers.hash(
 			JSON.stringify([
 				this.state.orders,
-				this.state.phase.Properties.Orders
+				this.state.phase.Properties.Orders,
 			])
 		);
 		if (ordersHash != this.lastRenderedOrdersHash) {
@@ -795,7 +795,7 @@ export default class DipMap extends React.Component {
 				}
 			}
 
-			(this.state.orders || []).forEach(orderData => {
+			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
 				this.map.addOrder(
 					orderData.Parts,
@@ -805,7 +805,7 @@ export default class DipMap extends React.Component {
 				this.debugCount("renderOrders/renderedOrder");
 			});
 			if (this.state.phase.Properties.Resolutions instanceof Array) {
-				this.state.phase.Properties.Resolutions.forEach(res => {
+				this.state.phase.Properties.Resolutions.forEach((res) => {
 					if (res.Resolution != "OK") {
 						this.map.addCross(res.Province, "#ff0000");
 					}
@@ -813,7 +813,7 @@ export default class DipMap extends React.Component {
 				this.debugCount("renderOrders/renderedResolution");
 			}
 			if (this.state.phase.Properties.ForceDisbands instanceof Array) {
-				this.state.phase.Properties.ForceDisbands.forEach(prov => {
+				this.state.phase.Properties.ForceDisbands.forEach((prov) => {
 					this.map.addCross(prov, "#ff6600");
 					this.map.addBox(prov, 4, "#ff6600");
 				});
@@ -878,58 +878,58 @@ export default class DipMap extends React.Component {
 							);
 							return sum;
 					  }, {})
-					: this.state.phase.Properties.Bounces || {}
+					: this.state.phase.Properties.Bounces || {},
 		};
 	}
 	acceptEdits() {
 		const unitOptions = {};
-		this.state.variant.Properties.UnitTypes.forEach(unitType => {
+		this.state.variant.Properties.UnitTypes.forEach((unitType) => {
 			unitOptions[unitType] = {
 				Type: "LabCommand",
-				Next: {}
+				Next: {},
 			};
 		});
 		const nationUnitOptions = {
 			Neutral: {
 				Type: "LabCommand",
-				Next: Object.assign({}, unitOptions)
+				Next: Object.assign({}, unitOptions),
 			},
-			None: { Type: "LabCommand", Next: {} }
+			None: { Type: "LabCommand", Next: {} },
 		};
 		const nationSCOptions = {
-			Neutral: { Type: "LabCommand", Next: {} }
+			Neutral: { Type: "LabCommand", Next: {} },
 		};
-		this.state.variant.Properties.Nations.forEach(nation => {
+		this.state.variant.Properties.Nations.forEach((nation) => {
 			nationSCOptions[nation] = {
 				Type: "LabCommand",
-				Next: {}
+				Next: {},
 			};
 			nationUnitOptions[nation] = {
 				Type: "LabCommand",
-				Next: Object.assign({}, unitOptions)
+				Next: Object.assign({}, unitOptions),
 			};
 		});
 		Object.keys(this.state.variant.Properties.Graph.Nodes).forEach(
-			superProv => {
+			(superProv) => {
 				const provData = this.state.variant.Properties.Graph.Nodes[
 					superProv
 				];
-				Object.keys(provData.Subs).forEach(subProv => {
+				Object.keys(provData.Subs).forEach((subProv) => {
 					const name = superProv + (subProv ? "/" + subProv : "");
 					this.map.addClickListener(
 						name,
-						prov => {
+						(prov) => {
 							this.map.clearClickListeners();
 							const options = {
 								Unit: {
 									Type: "LabCommand",
-									Next: Object.assign({}, nationUnitOptions)
-								}
+									Next: Object.assign({}, nationUnitOptions),
+								},
 							};
 							if (provData.SC) {
 								options["SC"] = {
 									Type: "LabCommand",
-									Next: Object.assign({}, nationSCOptions)
+									Next: Object.assign({}, nationSCOptions),
 								};
 							}
 							this.addOptionHandlers(options, ["edit", prov]);
@@ -941,7 +941,7 @@ export default class DipMap extends React.Component {
 		);
 	}
 	labResolve() {
-		const optionsLink = this.state.variant.Links.find(l => {
+		const optionsLink = this.state.variant.Links.find((l) => {
 			return l.Rel == "resolve-state";
 		});
 		const variantPhase = this.makeVariantPhase();
@@ -950,13 +950,13 @@ export default class DipMap extends React.Component {
 				helpers.createRequest(optionsLink.URL, {
 					method: optionsLink.Method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(variantPhase)
+					body: JSON.stringify(variantPhase),
 				})
 			)
-			.then(res => res.json())
-			.then(js => {
+			.then((res) => res.json())
+			.then((js) => {
 				gtag("event", "lab_resolve");
 				js.Properties.PhaseOrdinal =
 					(this.state.phase.Properties.PhaseOrdinal || 1) + 1;
@@ -971,7 +971,7 @@ export default class DipMap extends React.Component {
 				this.acceptEdits();
 			} else {
 				const variantPhase = this.makeVariantPhase();
-				const optionsLink = this.state.variant.Links.find(l => {
+				const optionsLink = this.state.variant.Links.find((l) => {
 					return l.Rel == this.state.labPlayAs + "-options";
 				});
 				helpers
@@ -979,13 +979,13 @@ export default class DipMap extends React.Component {
 						helpers.createRequest(optionsLink.URL, {
 							method: optionsLink.Method,
 							headers: {
-								"Content-Type": "application/json"
+								"Content-Type": "application/json",
 							},
-							body: JSON.stringify(variantPhase)
+							body: JSON.stringify(variantPhase),
 						})
 					)
-					.then(res => res.json())
-					.then(js => {
+					.then((res) => res.json())
+					.then((js) => {
 						if (
 							this.state.phase.Properties.PhaseOrdinal !=
 							variantPhase.PhaseOrdinal
@@ -1012,14 +1012,14 @@ export default class DipMap extends React.Component {
 					state.phase = JSON.parse(JSON.stringify(state.phase));
 					if (state.phase.Properties.SCs) {
 						state.phase.Properties.SCs = state.phase.Properties.SCs.filter(
-							sc => {
+							(sc) => {
 								return sc.Province != parts[1];
 							}
 						);
 						if (parts[3] != "Neutral") {
 							state.phase.Properties.SCs.push({
 								Province: parts[1],
-								Owner: parts[3]
+								Owner: parts[3],
 							});
 						}
 					} else {
@@ -1037,14 +1037,14 @@ export default class DipMap extends React.Component {
 					state.phase = JSON.parse(JSON.stringify(state.phase));
 					if (state.phase.Properties.Units instanceof Array) {
 						state.phase.Properties.Units = state.phase.Properties.Units.filter(
-							unit => {
+							(unit) => {
 								return unit.Province != parts[1];
 							}
 						);
 						if (parts[3] != "None") {
 							state.phase.Properties.Units.push({
 								Province: parts[1],
-								Unit: { Type: parts[4], Nation: parts[3] }
+								Unit: { Type: parts[4], Nation: parts[3] },
 							});
 						}
 					} else {
@@ -1052,7 +1052,7 @@ export default class DipMap extends React.Component {
 						if (parts[3] != "None") {
 							state.phase.Properties.Units[parts[1]] = {
 								Type: parts[4],
-								Nation: parts[3]
+								Nation: parts[3],
 							};
 						}
 					}
@@ -1063,24 +1063,24 @@ export default class DipMap extends React.Component {
 			if (parts[0] == "Clear") {
 				this.setState(
 					{
-						orders: (this.state.orders || []).filter(order => {
+						orders: (this.state.orders || []).filter((order) => {
 							return (
 								order.Parts[0].split("/")[0] !=
 								parts[1].split("/")[0]
 							);
-						})
+						}),
 					},
 					this.acceptOrders
 				);
 			} else {
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
-					state.orders = (state.orders || []).filter(order => {
+					state.orders = (state.orders || []).filter((order) => {
 						return order.Parts[0] != parts[0];
 					});
 					state.orders.push({
 						Parts: parts,
-						Nation: this.state.labPlayAs
+						Nation: this.state.labPlayAs,
 					});
 					return state;
 				}, this.acceptOrders);
@@ -1092,14 +1092,14 @@ export default class DipMap extends React.Component {
 		if (parts[0] == "MAX") {
 			if (this.state.orders) {
 				if (
-					this.state.orders.find(o => {
+					this.state.orders.find((o) => {
 						return o.Parts[0] == prov;
 					})
 				) {
 					return true;
 				}
 				if (
-					(this.state.orders || []).filter(o => {
+					(this.state.orders || []).filter((o) => {
 						return o.Parts[1] == parts[1];
 					}).length > Number.parseInt(parts[2])
 				) {
@@ -1121,7 +1121,7 @@ export default class DipMap extends React.Component {
 				this.snackbarIncompleteOrder(parts, "Done");
 				helpers.incProgress();
 				this.debugCount("addOptionsHandlers/regularOrder");
-				this.createOrder(parts).then(resp => {
+				this.createOrder(parts).then((resp) => {
 					if (resp.status == 412) {
 						helpers.decProgress();
 						helpers.snackbar(
@@ -1131,7 +1131,7 @@ export default class DipMap extends React.Component {
 					}
 					gtag("event", "create_order");
 					this.debugCount("addOptionsHandlers/orderCreated");
-					resp.json().then(corr => {
+					resp.json().then((corr) => {
 						this.props.corroborateSubscriber(corr);
 						this.debugCount("addOptionsHandlers/newOrdersLoaded");
 						helpers.decProgress();
@@ -1160,7 +1160,7 @@ export default class DipMap extends React.Component {
 						if (
 							!filter ||
 							(this.state.orders &&
-								this.state.orders.find(o => {
+								this.state.orders.find((o) => {
 									return (
 										o.Parts[0].split("/")[0] ==
 										prov.split("/")[0]
@@ -1170,7 +1170,7 @@ export default class DipMap extends React.Component {
 						) {
 							this.map.addClickListener(
 								prov,
-								prov => {
+								(prov) => {
 									this.map.clearClickListeners();
 									this.debugCount(
 										"addOptionshandler/" + prov + "Clicked"
@@ -1194,7 +1194,7 @@ export default class DipMap extends React.Component {
 						open: true,
 						options: Object.keys(options).concat("Cancel"),
 						onClose: this.acceptOrders,
-						onClick: ord => {
+						onClick: (ord) => {
 							if (ord == "Cancel") {
 								this.acceptOrders();
 							} else {
@@ -1203,7 +1203,7 @@ export default class DipMap extends React.Component {
 									parts.concat(ord)
 								);
 							}
-						}
+						},
 					});
 					break;
 				case "UnitType":
@@ -1212,10 +1212,10 @@ export default class DipMap extends React.Component {
 						open: true,
 						options: Object.keys(options).concat([
 							"Clear",
-							"Cancel"
+							"Cancel",
 						]),
 						onClose: this.acceptOrders,
-						onClick: ord => {
+						onClick: (ord) => {
 							this.debugCount(
 								"addOptionshandler/selectedOrder" + ord
 							);
@@ -1227,16 +1227,16 @@ export default class DipMap extends React.Component {
 									this.acceptOrders();
 								} else {
 									helpers.incProgress();
-									this.deleteOrder(parts[0]).then(_ => {
+									this.deleteOrder(parts[0]).then((_) => {
 										gtag("event", "delete_order");
 										this.loadCorroboratePromise().then(
-											corr => {
+											(corr) => {
 												helpers.decProgress();
 												this.setState(
 													{
 														orders:
 															corr.Properties
-																.Orders
+																.Orders,
 													},
 													this.acceptOrders
 												);
@@ -1252,7 +1252,7 @@ export default class DipMap extends React.Component {
 									parts.concat(ord)
 								);
 							}
-						}
+						},
 					});
 					this.debugCount("addOptionsHandlers/openedOrderDialog");
 					break;
@@ -1292,7 +1292,7 @@ export default class DipMap extends React.Component {
 								"width: 100%; flex-wrap: wrap;"
 							)}
 							style={{
-								display: "none"
+								display: "none",
 							}}
 						/>
 					</div>
@@ -1303,7 +1303,7 @@ export default class DipMap extends React.Component {
 					id="units-div"
 				></div>
 				<OrderDialog
-					parentCB={c => {
+					parentCB={(c) => {
 						this.orderDialog = c;
 					}}
 					key="order-dialog"
