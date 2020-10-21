@@ -29,6 +29,8 @@ jobs:
               run: go generate
             - name: Extract branch name
               run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
+            - name: Change gcloud account
+              run: gcloud config set account github-actions-deploy@dipact.iam.gserviceaccount.com
             - name: Delete old app versions
               run: "./.github/scripts/remove_old_gcloud_versions.sh dipact ${BRANCH_NAME} 100"
             - name: Deploy default service
