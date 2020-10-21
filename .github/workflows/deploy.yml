@@ -32,7 +32,7 @@ jobs:
               run: "./.github/scripts/remove_old_gcloud_versions.sh dipact ${BRANCH_NAME} 100"
             - name: Deploy default service
               if: env.BRANCH_NAME == 'master'
-              run: gcloud --account github-actions-deploy@dipact.iam.gserviceaccount.com --project dipact app deploy --stop-previous-version
+              run: gcloud --project dipact app deploy --stop-previous-version
             - name: Deploy alternate service
               if: env.BRANCH_NAME != 'master'
-              run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --account github-actions-deploy@dipact.iam.gserviceaccount.com --project dipact app deploy --stop-previous-version'
+              run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy --stop-previous-version'
