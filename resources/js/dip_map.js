@@ -1038,19 +1038,33 @@ export default class DipMap extends React.Component {
 					if (state.phase.Properties.Units instanceof Array) {
 						state.phase.Properties.Units = state.phase.Properties.Units.filter(
 							(unit) => {
-								return unit.Province != parts[1];
+								return (
+									unit.Province != parts[1] &&
+									unit.Province.split("/")[0] !=
+										parts[1].split("/")[0]
+								);
 							}
 						);
 						if (parts[3] != "None") {
+							const prov =
+								parts[4] == "Army"
+									? parts[1].split("/")[0]
+									: parts[1];
 							state.phase.Properties.Units.push({
-								Province: parts[1],
+								Province: prov,
 								Unit: { Type: parts[4], Nation: parts[3] },
 							});
 						}
 					} else {
 						delete (state.phase.Properties.Units, parts[1]);
+						delete (state.phase.Properties.Units,
+						parts[1].split("/")[0]);
 						if (parts[3] != "None") {
-							state.phase.Properties.Units[parts[1]] = {
+							const prov =
+								parts[4] == "Army"
+									? parts[1].split("/")[0]
+									: parts[1];
+							state.phase.Properties.Units[prov] = {
 								Type: parts[4],
 								Nation: parts[3],
 							};
