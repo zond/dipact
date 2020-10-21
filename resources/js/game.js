@@ -783,16 +783,29 @@ export default class Game extends React.Component {
 								</MaterialUI.MenuItem>
 							</MaterialUI.Menu>
 							{this.state.laboratoryMode ? (
-								<MaterialUI.IconButton
-									onClick={(_) => {
-										this.dip_map.labShare();
-									}}
-									color="primary"
-									edge="end"
-									style={{ marginLeft: "auto" }}
-								>
-									{helpers.createIcon("\ue80d")}
-								</MaterialUI.IconButton>
+								<React.Fragment>
+									<MaterialUI.IconButton
+										onClick={(_) => {
+											this.dip_map.downloadMap();
+											gtag("event", "download_map");
+										}}
+										color="primary"
+										edge="end"
+										style={{ marginLeft: "auto" }}
+									>
+										{helpers.createIcon("\ue884")}
+									</MaterialUI.IconButton>
+									<MaterialUI.IconButton
+										onClick={(_) => {
+											this.dip_map.labShare();
+										}}
+										color="primary"
+										edge="end"
+										style={{ marginLeft: "auto" }}
+									>
+										{helpers.createIcon("\ue80d")}
+									</MaterialUI.IconButton>
+								</React.Fragment>
 							) : (
 								""
 							)}
