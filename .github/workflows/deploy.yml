@@ -1,40 +1,39 @@
-
 name: Deploy
 
 on:
-  push:
-    branches: [ '**' ]
+    push:
+        branches: ["**"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Set up GoogleCloudPlatform
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
-    - name: Install App Engine Go
-      run: gcloud components install app-engine-go
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Cache Go modules
-      uses: actions/cache@v1
-      with:
-       path: ~/go/pkg/mod
-       key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-       restore-keys: |
-         ${{ runner.os }}-go-
-    - name: Pregenerate assets
-      run: go generate
-    - name: Extract branch name
-      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
-    - name: Delete old app versions
-      run: './.github/scripts/remove_old_gcloud_versions.sh dipact ${BRANCH_NAME} 100'
-    - name: Deploy default service
-      if: env.BRANCH_NAME == 'master'
-      run: gcloud --project dipact app deploy --stop-previous-version
-    - name: Deploy alternate service
-      if: env.BRANCH_NAME != 'master'
-      run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy --stop-previous-version'
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up GoogleCloudPlatform
+              uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+              with:
+                  service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+                  service_account_key: ${{ secrets.GCP_SA_KEY }}
+                  export_default_credentials: true
+            - name: Install App Engine Go
+              run: gcloud components install app-engine-go
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Cache Go modules
+              uses: actions/cache@v1
+              with:
+                  path: ~/go/pkg/mod
+                  key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+                  restore-keys: |
+                      ${{ runner.os }}-go-
+            - name: Pregenerate assets
+              run: go generate
+            - name: Extract branch name
+              run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF##*/})"
+            - name: Delete old app versions
+              run: "./.github/scripts/remove_old_gcloud_versions.sh dipact ${BRANCH_NAME} 100"
+            - name: Deploy default service
+              if: env.BRANCH_NAME == 'master'
+              run: gcloud --account github-actions-deploy@dipact.iam.gserviceaccount.com --project dipact app deploy --stop-previous-version
+            - name: Deploy alternate service
+              if: env.BRANCH_NAME != 'master'
+              run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --account github-actions-deploy@dipact.iam.gserviceaccount.com --project dipact app deploy --stop-previous-version'
