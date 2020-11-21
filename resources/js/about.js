@@ -141,7 +141,7 @@ export default class About extends React.Component {
 				<p>
 					When creating and joining games, it's recommended to (if
 					possible when taking your own reliability into account)
-					creating and joining games with a minimum reliability
+					create and join games with a minimum reliability
 					requirement of at least 10. This is helped by the minimum
 					reliability of created games defaulting to your own
 					reliability, or 10 if it's higher than 10.
