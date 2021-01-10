@@ -47,20 +47,20 @@ function parseUserConfigColor(override) {
 	if (parts.length == 1 && parts[0].match(colorReg)) {
 		return {
 			type: "position",
-			value: parts[0]
+			value: parts[0],
 		};
 	} else if (parts.length == 2 && parts[1].match(colorReg)) {
 		return {
 			type: "nation",
 			nation: Globals.colorOverrides.nationCodes[parts[0]],
-			value: parts[1]
+			value: parts[1],
 		};
 	} else if (parts.length == 3 && parts[2].match(colorReg)) {
 		return {
 			type: "variant",
 			variant: Globals.colorOverrides.variantCodes[parts[0]],
 			nation: Globals.colorOverrides.nationCodes[parts[1]],
-			value: parts[2]
+			value: parts[2],
 		};
 	}
 }
@@ -69,7 +69,7 @@ export function parseUserConfigColors() {
 	Globals.colorOverrides.positions = [];
 	Globals.colorOverrides.variants = {};
 	Globals.colorOverrides.nations = {};
-	(Globals.userConfig.Properties.Colors || []).forEach(override => {
+	(Globals.userConfig.Properties.Colors || []).forEach((override) => {
 		if (override != "") {
 			const parsed = parseUserConfigColor(override);
 			if (parsed.type == "position") {
@@ -260,7 +260,7 @@ export function memoize(key, promiseFunc) {
 	if (Globals.memoizeCache[key]) {
 		return Promise.resolve(Globals.memoizeCache[key]);
 	} else {
-		return promiseFunc().then(result => {
+		return promiseFunc().then((result) => {
 			Globals.memoizeCache[key] = result;
 			return Promise.resolve(result);
 		});
@@ -268,7 +268,7 @@ export function memoize(key, promiseFunc) {
 }
 
 export function gameDesc(game) {
-	let member = game.Properties.Members.find(member => {
+	let member = game.Properties.Members.find((member) => {
 		return member.User.Email == Globals.user.Email;
 	});
 	if (member && member.GameAlias) {
@@ -277,6 +277,746 @@ export function gameDesc(game) {
 		return game.Properties.Desc;
 	}
 }
+
+export const iso639_1Codes = [
+	{
+		code: "ab",
+		name: "Abkhaz",
+	},
+	{
+		code: "aa",
+		name: "Afar",
+	},
+	{
+		code: "af",
+		name: "Afrikaans",
+	},
+	{
+		code: "ak",
+		name: "Akan",
+	},
+	{
+		code: "sq",
+		name: "Albanian",
+	},
+	{
+		code: "am",
+		name: "Amharic",
+	},
+	{
+		code: "ar",
+		name: "Arabic",
+	},
+	{
+		code: "an",
+		name: "Aragonese",
+	},
+	{
+		code: "hy",
+		name: "Armenian",
+	},
+	{
+		code: "as",
+		name: "Assamese",
+	},
+	{
+		code: "av",
+		name: "Avaric",
+	},
+	{
+		code: "ae",
+		name: "Avestan",
+	},
+	{
+		code: "ay",
+		name: "Aymara",
+	},
+	{
+		code: "az",
+		name: "Azerbaijani",
+	},
+	{
+		code: "bm",
+		name: "Bambara",
+	},
+	{
+		code: "ba",
+		name: "Bashkir",
+	},
+	{
+		code: "eu",
+		name: "Basque",
+	},
+	{
+		code: "be",
+		name: "Belarusian",
+	},
+	{
+		code: "bn",
+		name: "Bengali; Bangla",
+	},
+	{
+		code: "bh",
+		name: "Bihari",
+	},
+	{
+		code: "bi",
+		name: "Bislama",
+	},
+	{
+		code: "bs",
+		name: "Bosnian",
+	},
+	{
+		code: "br",
+		name: "Breton",
+	},
+	{
+		code: "bg",
+		name: "Bulgarian",
+	},
+	{
+		code: "my",
+		name: "Burmese",
+	},
+	{
+		code: "ca",
+		name: "Catalan; Valencian",
+	},
+	{
+		code: "ch",
+		name: "Chamorro",
+	},
+	{
+		code: "ce",
+		name: "Chechen",
+	},
+	{
+		code: "ny",
+		name: "Chichewa; Chewa; Nyanja",
+	},
+	{
+		code: "zh",
+		name: "Chinese",
+	},
+	{
+		code: "cv",
+		name: "Chuvash",
+	},
+	{
+		code: "kw",
+		name: "Cornish",
+	},
+	{
+		code: "co",
+		name: "Corsican",
+	},
+	{
+		code: "cr",
+		name: "Cree",
+	},
+	{
+		code: "hr",
+		name: "Croatian",
+	},
+	{
+		code: "cs",
+		name: "Czech",
+	},
+	{
+		code: "da",
+		name: "Danish",
+	},
+	{
+		code: "dv",
+		name: "Divehi; Dhivehi; Maldivian;",
+	},
+	{
+		code: "nl",
+		name: "Dutch",
+	},
+	{
+		code: "dz",
+		name: "Dzongkha",
+	},
+	{
+		code: "en",
+		name: "English",
+	},
+	{
+		code: "eo",
+		name: "Esperanto",
+	},
+	{
+		code: "et",
+		name: "Estonian",
+	},
+	{
+		code: "ee",
+		name: "Ewe",
+	},
+	{
+		code: "fo",
+		name: "Faroese",
+	},
+	{
+		code: "fj",
+		name: "Fijian",
+	},
+	{
+		code: "fi",
+		name: "Finnish",
+	},
+	{
+		code: "fr",
+		name: "French",
+	},
+	{
+		code: "ff",
+		name: "Fula; Fulah; Pulaar; Pular",
+	},
+	{
+		code: "gl",
+		name: "Galician",
+	},
+	{
+		code: "ka",
+		name: "Georgian",
+	},
+	{
+		code: "de",
+		name: "German",
+	},
+	{
+		code: "el",
+		name: "Greek, Modern",
+	},
+	{
+		code: "gn",
+		name: "GuaranÃ­",
+	},
+	{
+		code: "gu",
+		name: "Gujarati",
+	},
+	{
+		code: "ht",
+		name: "Haitian; Haitian Creole",
+	},
+	{
+		code: "ha",
+		name: "Hausa",
+	},
+	{
+		code: "he",
+		name: "Hebrew (modern)",
+	},
+	{
+		code: "hz",
+		name: "Herero",
+	},
+	{
+		code: "hi",
+		name: "Hindi",
+	},
+	{
+		code: "ho",
+		name: "Hiri Motu",
+	},
+	{
+		code: "hu",
+		name: "Hungarian",
+	},
+	{
+		code: "ia",
+		name: "Interlingua",
+	},
+	{
+		code: "id",
+		name: "Indonesian",
+	},
+	{
+		code: "ie",
+		name: "Interlingue",
+	},
+	{
+		code: "ga",
+		name: "Irish",
+	},
+	{
+		code: "ig",
+		name: "Igbo",
+	},
+	{
+		code: "ik",
+		name: "Inupiaq",
+	},
+	{
+		code: "io",
+		name: "Ido",
+	},
+	{
+		code: "is",
+		name: "Icelandic",
+	},
+	{
+		code: "it",
+		name: "Italian",
+	},
+	{
+		code: "iu",
+		name: "Inuktitut",
+	},
+	{
+		code: "ja",
+		name: "Japanese",
+	},
+	{
+		code: "jv",
+		name: "Javanese",
+	},
+	{
+		code: "kl",
+		name: "Kalaallisut, Greenlandic",
+	},
+	{
+		code: "kn",
+		name: "Kannada",
+	},
+	{
+		code: "kr",
+		name: "Kanuri",
+	},
+	{
+		code: "ks",
+		name: "Kashmiri",
+	},
+	{
+		code: "kk",
+		name: "Kazakh",
+	},
+	{
+		code: "km",
+		name: "Khmer",
+	},
+	{
+		code: "ki",
+		name: "Kikuyu, Gikuyu",
+	},
+	{
+		code: "rw",
+		name: "Kinyarwanda",
+	},
+	{
+		code: "ky",
+		name: "Kyrgyz",
+	},
+	{
+		code: "kv",
+		name: "Komi",
+	},
+	{
+		code: "kg",
+		name: "Kongo",
+	},
+	{
+		code: "ko",
+		name: "Korean",
+	},
+	{
+		code: "ku",
+		name: "Kurdish",
+	},
+	{
+		code: "kj",
+		name: "Kwanyama, Kuanyama",
+	},
+	{
+		code: "la",
+		name: "Latin",
+	},
+	{
+		code: "lb",
+		name: "Luxembourgish, Letzeburgesch",
+	},
+	{
+		code: "lg",
+		name: "Ganda",
+	},
+	{
+		code: "li",
+		name: "Limburgish, Limburgan, Limburger",
+	},
+	{
+		code: "ln",
+		name: "Lingala",
+	},
+	{
+		code: "lo",
+		name: "Lao",
+	},
+	{
+		code: "lt",
+		name: "Lithuanian",
+	},
+	{
+		code: "lu",
+		name: "Luba-Katanga",
+	},
+	{
+		code: "lv",
+		name: "Latvian",
+	},
+	{
+		code: "gv",
+		name: "Manx",
+	},
+	{
+		code: "mk",
+		name: "Macedonian",
+	},
+	{
+		code: "mg",
+		name: "Malagasy",
+	},
+	{
+		code: "ms",
+		name: "Malay",
+	},
+	{
+		code: "ml",
+		name: "Malayalam",
+	},
+	{
+		code: "mt",
+		name: "Maltese",
+	},
+	{
+		code: "mi",
+		name: "MÄori",
+	},
+	{
+		code: "mr",
+		name: "Marathi (MarÄá¹­hÄ«)",
+	},
+	{
+		code: "mh",
+		name: "Marshallese",
+	},
+	{
+		code: "mn",
+		name: "Mongolian",
+	},
+	{
+		code: "na",
+		name: "Nauru",
+	},
+	{
+		code: "nv",
+		name: "Navajo, Navaho",
+	},
+	{
+		code: "nb",
+		name: "Norwegian BokmÃ¥l",
+	},
+	{
+		code: "nd",
+		name: "North Ndebele",
+	},
+	{
+		code: "ne",
+		name: "Nepali",
+	},
+	{
+		code: "ng",
+		name: "Ndonga",
+	},
+	{
+		code: "nn",
+		name: "Norwegian Nynorsk",
+	},
+	{
+		code: "no",
+		name: "Norwegian",
+	},
+	{
+		code: "ii",
+		name: "Nuosu",
+	},
+	{
+		code: "nr",
+		name: "South Ndebele",
+	},
+	{
+		code: "oc",
+		name: "Occitan",
+	},
+	{
+		code: "oj",
+		name: "Ojibwe, Ojibwa",
+	},
+	{
+		code: "cu",
+		name:
+			"Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
+	},
+	{
+		code: "om",
+		name: "Oromo",
+	},
+	{
+		code: "or",
+		name: "Oriya",
+	},
+	{
+		code: "os",
+		name: "Ossetian, Ossetic",
+	},
+	{
+		code: "pa",
+		name: "Panjabi, Punjabi",
+	},
+	{
+		code: "pi",
+		name: "PÄli",
+	},
+	{
+		code: "fa",
+		name: "Persian (Farsi)",
+	},
+	{
+		code: "pl",
+		name: "Polish",
+	},
+	{
+		code: "ps",
+		name: "Pashto, Pushto",
+	},
+	{
+		code: "pt",
+		name: "Portuguese",
+	},
+	{
+		code: "qu",
+		name: "Quechua",
+	},
+	{
+		code: "rm",
+		name: "Romansh",
+	},
+	{
+		code: "rn",
+		name: "Kirundi",
+	},
+	{
+		code: "ro",
+		name: "Romanian, [])",
+	},
+	{
+		code: "ru",
+		name: "Russian",
+	},
+	{
+		code: "sa",
+		name: "Sanskrit (Saá¹ská¹›ta)",
+	},
+	{
+		code: "sc",
+		name: "Sardinian",
+	},
+	{
+		code: "sd",
+		name: "Sindhi",
+	},
+	{
+		code: "se",
+		name: "Northern Sami",
+	},
+	{
+		code: "sm",
+		name: "Samoan",
+	},
+	{
+		code: "sg",
+		name: "Sango",
+	},
+	{
+		code: "sr",
+		name: "Serbian",
+	},
+	{
+		code: "gd",
+		name: "Scottish Gaelic; Gaelic",
+	},
+	{
+		code: "sn",
+		name: "Shona",
+	},
+	{
+		code: "si",
+		name: "Sinhala, Sinhalese",
+	},
+	{
+		code: "sk",
+		name: "Slovak",
+	},
+	{
+		code: "sl",
+		name: "Slovene",
+	},
+	{
+		code: "so",
+		name: "Somali",
+	},
+	{
+		code: "st",
+		name: "Southern Sotho",
+	},
+	{
+		code: "es",
+		name: "Spanish; Castilian",
+	},
+	{
+		code: "su",
+		name: "Sundanese",
+	},
+	{
+		code: "sw",
+		name: "Swahili",
+	},
+	{
+		code: "ss",
+		name: "Swati",
+	},
+	{
+		code: "sv",
+		name: "Swedish",
+	},
+	{
+		code: "ta",
+		name: "Tamil",
+	},
+	{
+		code: "te",
+		name: "Telugu",
+	},
+	{
+		code: "tg",
+		name: "Tajik",
+	},
+	{
+		code: "th",
+		name: "Thai",
+	},
+	{
+		code: "ti",
+		name: "Tigrinya",
+	},
+	{
+		code: "bo",
+		name: "Tibetan Standard, Tibetan, Central",
+	},
+	{
+		code: "tk",
+		name: "Turkmen",
+	},
+	{
+		code: "tl",
+		name: "Tagalog",
+	},
+	{
+		code: "tn",
+		name: "Tswana",
+	},
+	{
+		code: "to",
+		name: "Tonga (Tonga Islands)",
+	},
+	{
+		code: "tr",
+		name: "Turkish",
+	},
+	{
+		code: "ts",
+		name: "Tsonga",
+	},
+	{
+		code: "tt",
+		name: "Tatar",
+	},
+	{
+		code: "tw",
+		name: "Twi",
+	},
+	{
+		code: "ty",
+		name: "Tahitian",
+	},
+	{
+		code: "ug",
+		name: "Uyghur, Uighur",
+	},
+	{
+		code: "uk",
+		name: "Ukrainian",
+	},
+	{
+		code: "ur",
+		name: "Urdu",
+	},
+	{
+		code: "uz",
+		name: "Uzbek",
+	},
+	{
+		code: "ve",
+		name: "Venda",
+	},
+	{
+		code: "vi",
+		name: "Vietnamese",
+	},
+	{
+		code: "vo",
+		name: "VolapÃ¼k",
+	},
+	{
+		code: "wa",
+		name: "Walloon",
+	},
+	{
+		code: "cy",
+		name: "Welsh",
+	},
+	{
+		code: "wo",
+		name: "Wolof",
+	},
+	{
+		code: "fy",
+		name: "Western Frisian",
+	},
+	{
+		code: "xh",
+		name: "Xhosa",
+	},
+	{
+		code: "yi",
+		name: "Yiddish",
+	},
+	{
+		code: "yo",
+		name: "Yoruba",
+	},
+	{
+		code: "za",
+		name: "Zhuang, Chuang",
+	},
+	{
+		code: "zu",
+		name: "Zulu",
+	},
+];
 
 export function createIcon(codepoint, style = {}) {
 	return (
@@ -320,7 +1060,7 @@ export function createRequest(item, opts = {}) {
 		method: opts.method || Globals.serverRequest.method,
 		mode: opts.mode || Globals.serverRequest.mode,
 		headers: headers,
-		body: opts.body
+		body: opts.body,
 	});
 	if (opts.unauthed) {
 		req.headers.delete("Authorization");
@@ -330,7 +1070,7 @@ export function createRequest(item, opts = {}) {
 
 export function minutesToDuration(m, short = false) {
 	let reduce = null;
-	reduce = m => {
+	reduce = (m) => {
 		if (m < 60) {
 			return "" + Number.parseInt(m) + "m";
 		} else if (m < 60 * 24) {
@@ -392,8 +1132,10 @@ export function natCol(nation, variant) {
 		return "#ff00ff";
 	}
 	// Use Variant.NationColors if set.
-	if (variant.Properties.NationColors &&
-		variant.Properties.NationColors[nation]) {
+	if (
+		variant.Properties.NationColors &&
+		variant.Properties.NationColors[nation]
+	) {
 		return variant.Properties.NationColors[nation];
 	}
 	return Globals.contrastColors[pos];
@@ -407,7 +1149,7 @@ export function twoDecimals(n, up = false) {
 }
 
 export function unback(f) {
-	Globals.backListeners = Globals.backListeners.filter(l => {
+	Globals.backListeners = Globals.backListeners.filter((l) => {
 		return l != f;
 	});
 }
@@ -417,26 +1159,26 @@ export function onback(f) {
 }
 
 export function genOnback(f) {
-	return _ => {
+	return (_) => {
 		onback(f);
 	};
 }
 
 export function genUnbackClose(f) {
-	return _ => {
+	return (_) => {
 		unback(f);
 		f();
 	};
 }
 
 export function safeFetch(req, opts = {}) {
-	return fetch(req, opts).then(resp => {
+	return fetch(req, opts).then((resp) => {
 		if (resp.status == 401) {
 			localStorage.removeItem("token");
 			if (window.Wrapper && window.Wrapper.getToken) {
 				return new Promise((res, rej) => {
 					const oldCallback = Globals.WrapperCallbacks.getToken;
-					Globals.WrapperCallbacks.getToken = resp => {
+					Globals.WrapperCallbacks.getToken = (resp) => {
 						if (oldCallback) {
 							oldCallback(resp);
 						}
@@ -465,7 +1207,7 @@ export function safeFetch(req, opts = {}) {
 			}
 		} else if (resp.status == 400) {
 			return new Promise((res, rej) => {
-				resp.text().then(s => {
+				resp.text().then((s) => {
 					if (s.indexOf("Authorization") != -1) {
 						localStorage.removeItem("token");
 						req.headers.delete("Authorization");
@@ -483,7 +1225,7 @@ export function safeFetch(req, opts = {}) {
 
 export function login() {
 	if (window.Wrapper && window.Wrapper.getToken) {
-		Globals.WrapperCallbacks.getToken = resp => {
+		Globals.WrapperCallbacks.getToken = (resp) => {
 			if (resp.error) {
 				decProgress();
 				snackbar("Error logging in: " + resp.error);
@@ -531,7 +1273,7 @@ export function copyToClipboard(s) {
 export function deepEqual(x, y) {
 	return x && y && typeof x === "object" && typeof y === "object"
 		? Object.keys(x).length === Object.keys(y).length &&
-				Object.keys(x).reduce(function(isEqual, key) {
+				Object.keys(x).reduce(function (isEqual, key) {
 					return isEqual && deepEqual(x[key], y[key]);
 				}, true)
 		: x === y;
@@ -595,7 +1337,7 @@ const conflictSynonyms = [
 	"to-do",
 	"tussle",
 	"war",
-	"wrangling"
+	"wrangling",
 ];
 
 const adjectives = [
@@ -862,7 +1604,7 @@ const adjectives = [
 	"voracious",
 	"wheedling",
 	"withering",
-	"zealous"
+	"zealous",
 ];
 
 const nouns = [
@@ -1464,7 +2206,7 @@ const nouns = [
 	"window",
 	"wing",
 	"wire",
-	"worm"
+	"worm",
 ];
 
 function randomOf(ary) {
@@ -1477,7 +2219,7 @@ function randomOfFunky(basis, ary) {
 		const option = randomOf(ary);
 		options.push({
 			option: option,
-			score: funkyFactor(basis, option)
+			score: funkyFactor(basis, option),
 		});
 	}
 	options.sort((a, b) => {
@@ -1575,7 +2317,7 @@ export function provName(variant, prov) {
 }
 
 export function humanizeOrder(variant, parts, nextType = null) {
-	const types = parts.map(part => {
+	const types = parts.map((part) => {
 		switch (part) {
 			case "Support":
 			case "Convoy":

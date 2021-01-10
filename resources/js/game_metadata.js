@@ -8,6 +8,23 @@ export default class GameMetadata extends React.Component {
 	}
 	render() {
 		let cells = [];
+		if (this.props.game.Properties.Private) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<MaterialUI.Icon style={{ marginRight: "8px" }}>
+						{helpers.createIcon("\ue897")}
+					</MaterialUI.Icon>
+					<MaterialUI.Typography>Private game</MaterialUI.Typography>
+				</div>
+			);
+		}
 		cells.push(
 			<div
 				style={{ width: "100%", display: "flex", alignItems: "center" }}
@@ -413,6 +430,42 @@ export default class GameMetadata extends React.Component {
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
 						Maximum hater: {this.props.game.Properties.MaxHater}
+					</MaterialUI.Typography>
+				</div>
+			);
+		}
+		if (this.props.game.Properties.ChatLanguageISO639_1) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<span
+						style={{
+							marginRight: "8px",
+							width: "24px",
+							height: "24px",
+						}}
+					>
+						<span className="speech-bubble">
+							{this.props.game.Properties.ChatLanguageISO639_1}
+						</span>
+					</span>
+					<MaterialUI.Typography>
+						Chat language:{" "}
+						{
+							helpers.iso639_1Codes.find((el) => {
+								return (
+									el.code ==
+									this.props.game.Properties
+										.ChatLanguageISO639_1
+								);
+							}).name
+						}
 					</MaterialUI.Typography>
 				</div>
 			);

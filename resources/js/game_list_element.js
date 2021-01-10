@@ -30,11 +30,11 @@ export default class GameListElement extends React.Component {
 			game: this.props.game,
 			viewOpen: false,
 			expanded: false,
-			member: props.game.Properties.Members.find(e => {
+			member: props.game.Properties.Members.find((e) => {
 				return e.User.Email == Globals.user.Email;
-			})
+			}),
 		};
-		this.variant = Globals.variants.find(v => {
+		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.nationPreferencesDialog = null;
@@ -93,26 +93,26 @@ export default class GameListElement extends React.Component {
 				helpers.createRequest(link.URL, {
 					method: link.Method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						NationPreferences: preferences.join(",")
-					})
+						NationPreferences: preferences.join(","),
+					}),
 				})
 			)
-			.then(_ => {
+			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_list_element_join");
 				Globals.messaging.start();
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter(l => {
+						state.game.Links = state.game.Links.filter((l) => {
 							return l.Rel != "join";
 						});
 						return state;
 					},
-					_ => {
+					(_) => {
 						this.reloadGame();
 					}
 				);
@@ -122,18 +122,18 @@ export default class GameListElement extends React.Component {
 		helpers
 			.safeFetch(
 				helpers.createRequest(
-					this.state.game.Links.find(l => {
+					this.state.game.Links.find((l) => {
 						return l.Rel == "self";
 					}).URL
 				)
 			)
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				this.setState({
 					game: js,
-					member: js.Properties.Members.find(e => {
+					member: js.Properties.Members.find((e) => {
 						return e.User.Email == Globals.user.Email;
-					})
+					}),
 				});
 			});
 	}
@@ -142,22 +142,22 @@ export default class GameListElement extends React.Component {
 		helpers
 			.safeFetch(
 				helpers.createRequest(link.URL, {
-					method: link.Method
+					method: link.Method,
 				})
 			)
-			.then(resp => resp.json())
-			.then(_ => {
+			.then((resp) => resp.json())
+			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_list_element_leave");
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter(l => {
+						state.game.Links = state.game.Links.filter((l) => {
 							return l.Rel != "leave";
 						});
 						return state;
 					},
-					_ => {
+					(_) => {
 						if (this.state.game.Properties.Members.length > 1) {
 							this.reloadGame();
 						} else {
@@ -173,9 +173,9 @@ export default class GameListElement extends React.Component {
 			this.nationPreferencesDialog.setState({
 				open: true,
 				nations: this.variant.Properties.Nations,
-				onSelected: preferences => {
+				onSelected: (preferences) => {
 					this.joinGameWithPreferences(link, preferences);
-				}
+				},
 			});
 		} else {
 			this.joinGameWithPreferences(link, []);
@@ -199,7 +199,7 @@ export default class GameListElement extends React.Component {
 				{helpers.createIcon(codepoint, {
 					padding: "4px 1px 0px 1px",
 					color: color,
-					fontSize: "14px"
+					fontSize: "14px",
 				})}
 			</MaterialUI.Tooltip>
 		);
@@ -207,6 +207,27 @@ export default class GameListElement extends React.Component {
 	getIcons() {
 		let itemKey = 0;
 		let icons = [];
+		if (this.state.game.Properties.ChatLanguageISO639_1) {
+			icons.push(
+				<MaterialUI.Tooltip
+					key="header-lang-icon"
+					disableFocusListener
+					title={
+						"Chat language: " +
+						helpers.iso639_1Codes.find((el) => {
+							return (
+								el.code ==
+								this.state.game.Properties.ChatLanguageISO639_1
+							);
+						}).name
+					}
+				>
+					<span className="speech-bubble">
+						{this.state.game.Properties.ChatLanguageISO639_1}
+					</span>
+				</MaterialUI.Tooltip>
+			);
+		}
 		if (!this.state.game.Properties.SkipMuster) {
 			this.addIconWithTooltip(
 				icons,
@@ -353,7 +374,7 @@ export default class GameListElement extends React.Component {
 					style={{
 						marginRight: "16px",
 						minWidth: "100px",
-						marginBottom: "4px"
+						marginBottom: "4px",
 					}}
 					color="primary"
 					onClick={this.viewGame}
@@ -369,7 +390,7 @@ export default class GameListElement extends React.Component {
 						style={{
 							marginRight: "16px",
 							minWidth: "100px",
-							marginBottom: "4px"
+							marginBottom: "4px",
 						}}
 						color="primary"
 						onClick={this.renameGame}
@@ -380,7 +401,7 @@ export default class GameListElement extends React.Component {
 				);
 			}
 		}
-		this.state.game.Links.forEach(link => {
+		this.state.game.Links.forEach((link) => {
 			if (link.Rel == "join") {
 				if (
 					this.state.game.Properties.PhaseLengthMinutes < 60 * 12 ||
@@ -425,7 +446,7 @@ export default class GameListElement extends React.Component {
 						variant="outlined"
 						color="primary"
 						style={{ marginRight: "16px", minWidth: "100px" }}
-						onClick={_ => {
+						onClick={(_) => {
 							this.joinGame(link);
 						}}
 					>
@@ -441,9 +462,9 @@ export default class GameListElement extends React.Component {
 						style={{
 							marginRight: "16px",
 							minWidth: "100px",
-							marginBottom: "4px"
+							marginBottom: "4px",
 						}}
-						onClick={_ => {
+						onClick={(_) => {
 							this.leaveGame(link);
 						}}
 					>
@@ -458,7 +479,7 @@ export default class GameListElement extends React.Component {
 				style={{
 					dispay: "flex",
 					justifyContent: "space-evenly",
-					marginBottom: "8px"
+					marginBottom: "8px",
 				}}
 			>
 				{buttons}
@@ -472,10 +493,10 @@ export default class GameListElement extends React.Component {
 					flexDirection: "column",
 					width: "100%",
 
-					marginTop: "8px"
+					marginTop: "8px",
 				}}
 			>
-				{(_ => {
+				{((_) => {
 					if (this.state.game.Properties.Started) {
 						return (
 							<React.Fragment>
@@ -484,7 +505,7 @@ export default class GameListElement extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										justifyContent: "space-between",
 									}}
 								>
 									{this.state.member &&
@@ -496,14 +517,15 @@ export default class GameListElement extends React.Component {
 											}
 											color="primary"
 											style={{
-												maxWidth: "calc(100% - 70px)"
+												maxWidth: "calc(100% - 70px)",
 											}}
 										>
 											<MaterialUI.Typography
 												textroverflow="ellipsis"
 												noWrap
 												style={{
-													color: "rgba(40, 26, 26, 1)"
+													color:
+														"rgba(40, 26, 26, 1)",
 												}}
 											>
 												{helpers.gameDesc(
@@ -518,7 +540,7 @@ export default class GameListElement extends React.Component {
 											noWrap={true}
 											style={{
 												minWidth: "60px",
-												color: "rgba(40, 26, 26, 1)"
+												color: "rgba(40, 26, 26, 1)",
 											}}
 										>
 											{helpers.gameDesc(this.state.game)}
@@ -532,7 +554,7 @@ export default class GameListElement extends React.Component {
 											alignSelf: "center",
 											display: "flex",
 											alignItems: "center",
-											color: "#281A1A"
+											color: "#281A1A",
 										}}
 									>
 										{this.state.member != null &&
@@ -568,7 +590,7 @@ export default class GameListElement extends React.Component {
 											variant="body2"
 											style={{
 												paddingLeft: "2px",
-												color: "rgba(40, 26, 26, 1)"
+												color: "rgba(40, 26, 26, 1)",
 											}}
 										>
 											{this.state.game.Properties.Finished
@@ -639,7 +661,7 @@ export default class GameListElement extends React.Component {
 								this.state.game.Properties.Mustered ? (
 									""
 								) : this.state.game.Properties.Members.find(
-										m => {
+										(m) => {
 											return m.User.Id == Globals.user.Id;
 										}
 								  ).NewestPhaseState.ReadyToResolve ? (
@@ -653,10 +675,10 @@ export default class GameListElement extends React.Component {
 										style={{
 											marginRight: "16px",
 											minWidth: "100px",
-											marginBottom: "4px"
+											marginBottom: "4px",
 										}}
 										color="primary"
-										onClick={ev => {
+										onClick={(ev) => {
 											ev.stopPropagation();
 											helpers
 												.safeFetch(
@@ -673,14 +695,14 @@ export default class GameListElement extends React.Component {
 														{
 															headers: {
 																"Content-Type":
-																	"application/json"
+																	"application/json",
 															},
 															method: "PUT",
 															body: JSON.stringify(
 																{
-																	ReadyToResolve: true
+																	ReadyToResolve: true,
 																}
-															)
+															),
 														}
 													)
 												)
@@ -701,7 +723,7 @@ export default class GameListElement extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										justifyContent: "space-between",
 									}}
 								>
 									<MaterialUI.Typography
@@ -719,7 +741,7 @@ export default class GameListElement extends React.Component {
 										style={{
 											alignSelf: "center",
 											display: "flex",
-											alignItems: "center"
+											alignItems: "center",
 										}}
 									>
 										{helpers.createIcon("\ue7fb")}{" "}
@@ -743,7 +765,7 @@ export default class GameListElement extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										justifyContent: "space-between",
 									}}
 								>
 									<MaterialUI.Typography
@@ -752,7 +774,7 @@ export default class GameListElement extends React.Component {
 										display="inline"
 										variant="caption"
 										style={{
-											color: "rgba(40, 26, 26, 0.7)"
+											color: "rgba(40, 26, 26, 0.7)",
 										}}
 									>
 										{this.state.game.Properties.Variant}{" "}
@@ -785,13 +807,13 @@ export default class GameListElement extends React.Component {
 						bottom: 0,
 						top: 0,
 						left: 0,
-						background: "#ffffff"
+						background: "#ffffff",
 					}}
 				>
 					<Game
 						onChangeReady={this.reloadGame}
 						onJoinGame={this.reloadGame}
-						onLeaveGame={_ => {
+						onLeaveGame={(_) => {
 							if (this.state.game.Properties.Members.length > 1) {
 								this.reloadGame();
 							} else {
@@ -800,17 +822,17 @@ export default class GameListElement extends React.Component {
 							}
 						}}
 						unreadMessagesUpdate={this.reloadGame}
-						gamePromise={reload => {
+						gamePromise={(reload) => {
 							if (reload) {
 								return helpers
 									.safeFetch(
 										helpers.createRequest(
-											this.state.game.Links.find(l => {
+											this.state.game.Links.find((l) => {
 												return l.Rel == "self";
 											}).URL
 										)
 									)
-									.then(resp => resp.json());
+									.then((resp) => resp.json());
 							} else {
 								return new Promise((res, rej) => {
 									res(this.state.game);
@@ -845,7 +867,7 @@ export default class GameListElement extends React.Component {
 						border: "none",
 						boxShadow: "none",
 						padding: "0px",
-						margin: "0px"
+						margin: "0px",
 					}}
 				>
 					<MaterialUI.ExpansionPanelSummary
@@ -853,7 +875,7 @@ export default class GameListElement extends React.Component {
 							root: helpers.scopedClass("padding: 0px;"),
 							content: helpers.scopedClass(
 								"max-width: calc(100% - 32px);"
-							)
+							),
 						}}
 						expandIcon={helpers.createIcon("\ue5cf")}
 					>
@@ -861,7 +883,7 @@ export default class GameListElement extends React.Component {
 					</MaterialUI.ExpansionPanelSummary>
 					<MaterialUI.ExpansionPanelDetails
 						classes={{
-							root: helpers.scopedClass("padding: 0px;")
+							root: helpers.scopedClass("padding: 0px;"),
 						}}
 					>
 						{this.state.expanded ? (
@@ -874,12 +896,12 @@ export default class GameListElement extends React.Component {
 										flexWrap: "wrap",
 										maxWidth: "960px",
 										width: "100%",
-										marginBottom: "16px"
+										marginBottom: "16px",
 									}}
 								>
 									<div
 										style={{
-											maxWidth: "460px"
+											maxWidth: "460px",
 										}}
 									>
 										{buttonDiv}
@@ -895,7 +917,7 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.ExpansionPanel>
 				{this.state.viewOpen ? gameView : ""}
 				<NationPreferencesDialog
-					parentCB={c => {
+					parentCB={(c) => {
 						this.nationPreferencesDialog = c;
 					}}
 					onSelected={null}
@@ -904,7 +926,7 @@ export default class GameListElement extends React.Component {
 					<RenameGameDialog
 						onRename={this.reloadGame}
 						game={this.state.game}
-						parentCB={c => {
+						parentCB={(c) => {
 							this.renameGameDialog = c;
 						}}
 					/>
