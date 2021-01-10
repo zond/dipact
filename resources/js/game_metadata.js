@@ -529,7 +529,7 @@ export default class GameMetadata extends React.Component {
 					"Group"
 				);
 				allChannels[this.props.game.Properties.DisablePrivateChat].push(
-					"Private"
+					"Individual"
 				);
 				cells.push(
 					<div
@@ -566,7 +566,7 @@ export default class GameMetadata extends React.Component {
 						</MaterialUI.Icon>
 						<MaterialUI.Typography>
 							{" "}
-							{allChannels[false].join(" & ")} chat off
+							{allChannels[true].join(" & ")} chat off
 						</MaterialUI.Typography>
 					</div>
 				);
@@ -584,7 +584,7 @@ export default class GameMetadata extends React.Component {
 						</MaterialUI.Icon>
 						<MaterialUI.Typography>
 							{" "}
-							{allChannels[true].join(" & ")} chat on{" "}
+							{allChannels[false].join(" & ")} chat on{" "}
 						</MaterialUI.Typography>
 					</div>
 				);
