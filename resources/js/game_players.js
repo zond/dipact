@@ -15,7 +15,7 @@ export default class GamePlayers extends React.Component {
 			}, {}),
 			bans: Globals.bans,
 		};
-		this.member = this.props.game.Properties.Members.find((e) => {
+		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
 		if (this.props.parentCB) {

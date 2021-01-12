@@ -30,7 +30,7 @@ export default class GameListElement extends React.Component {
 			game: this.props.game,
 			viewOpen: false,
 			expanded: false,
-			member: props.game.Properties.Members.find((e) => {
+			member: (props.game.Properties.Members || []).find((e) => {
 				return e.User.Email == Globals.user.Email;
 			}),
 		};
@@ -131,7 +131,7 @@ export default class GameListElement extends React.Component {
 			.then((js) => {
 				this.setState({
 					game: js,
-					member: js.Properties.Members.find((e) => {
+					member: (js.Properties.Members || []).find((e) => {
 						return e.User.Email == Globals.user.Email;
 					}),
 				});
@@ -207,6 +207,14 @@ export default class GameListElement extends React.Component {
 	getIcons() {
 		let itemKey = 0;
 		let icons = [];
+		if (this.state.game.Properties.GameMasterEnabled) {
+			this.addIconWithTooltip(
+				icons,
+				"\ue90e",
+				"black",
+				"Game master present"
+			);
+		}
 		if (this.state.game.Properties.ChatLanguageISO639_1) {
 			icons.push(
 				<MaterialUI.Tooltip
@@ -660,11 +668,11 @@ export default class GameListElement extends React.Component {
 								{!this.state.member ||
 								this.state.game.Properties.Mustered ? (
 									""
-								) : this.state.game.Properties.Members.find(
-										(m) => {
-											return m.User.Id == Globals.user.Id;
-										}
-								  ).NewestPhaseState.ReadyToResolve ? (
+								) : (
+										this.state.game.Properties.Members || []
+								  ).find((m) => {
+										return m.User.Id == Globals.user.Id;
+								  }).NewestPhaseState.ReadyToResolve ? (
 									<MaterialUI.Typography>
 										Confirmed ready{" "}
 										{helpers.createIcon("\ue5ca")}

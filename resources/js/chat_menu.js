@@ -12,7 +12,7 @@ export default class ChatMenu extends React.Component {
 			activeChannel: null,
 			createMessageLink: null,
 		};
-		this.member = this.props.game.Properties.Members.find((e) => {
+		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
 		this.variant = Globals.variants.find((v) => {

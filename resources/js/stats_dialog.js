@@ -19,16 +19,16 @@ export default class StatsDialog extends React.Component {
 		this.state = {
 			userStats: null,
 			leaderboardDialogOpen: false,
-			gameState: this.props.gameState
+			gameState: this.props.gameState,
 		};
 		this.member = this.props.game
-			? this.props.game.Properties.Members.find(e => {
+			? (this.props.game.Properties.Members || []).find((e) => {
 					return e.User.Email == Globals.user.Email;
 			  })
 			: null;
 		this.makeRow = this.makeRow.bind(this);
 		this.nation = this.props.game
-			? this.props.game.Properties.Members.find(m => {
+			? (this.props.game.Properties.Members || []).find((m) => {
 					return m.User.Id == this.props.user.Id;
 			  }).Nation
 			: null;
@@ -46,12 +46,12 @@ export default class StatsDialog extends React.Component {
 			this.state.gameState.Properties.Muted.push(this.nation);
 		} else {
 			this.state.gameState.Properties.Muted = this.state.gameState.Properties.Muted.filter(
-				m => {
+				(m) => {
 					return m != this.nation;
 				}
 			);
 		}
-		let updateLink = this.state.gameState.Links.find(l => {
+		let updateLink = this.state.gameState.Links.find((l) => {
 			return l.Rel == "update";
 		});
 		helpers.incProgress();
@@ -59,14 +59,14 @@ export default class StatsDialog extends React.Component {
 			.safeFetch(
 				helpers.createRequest(updateLink.URL, {
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					method: updateLink.Method,
-					body: JSON.stringify(this.state.gameState.Properties)
+					body: JSON.stringify(this.state.gameState.Properties),
 				})
 			)
-			.then(res => res.json())
-			.then(js => {
+			.then((res) => res.json())
+			.then((js) => {
 				helpers.decProgress();
 				this.setState((state, props) => {
 					state = Object.assign({}, state);
@@ -80,19 +80,21 @@ export default class StatsDialog extends React.Component {
 		ev.preventDefault();
 		ev.stopPropagation();
 		if (Globals.bans[this.props.user.Id]) {
-			let unsignLink = Globals.bans[this.props.user.Id].Links.find(l => {
-				return l.Rel == "unsign";
-			});
+			let unsignLink = Globals.bans[this.props.user.Id].Links.find(
+				(l) => {
+					return l.Rel == "unsign";
+				}
+			);
 			if (unsignLink) {
 				helpers.incProgress();
 				helpers
 					.safeFetch(
 						helpers.createRequest(unsignLink.URL, {
-							method: unsignLink.Method
+							method: unsignLink.Method,
 						})
 					)
-					.then(res => res.json())
-					.then(js => {
+					.then((res) => res.json())
+					.then((js) => {
 						helpers.decProgress();
 						delete Globals.bans[this.props.user.Id];
 						this.forceUpdate();
@@ -108,15 +110,15 @@ export default class StatsDialog extends React.Component {
 					helpers.createRequest("/User/" + Globals.user.Id + "/Ban", {
 						method: "POST",
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
 						},
 						body: JSON.stringify({
-							UserIds: [Globals.user.Id, this.props.user.Id]
-						})
+							UserIds: [Globals.user.Id, this.props.user.Id],
+						}),
 					})
 				)
-				.then(res => res.json())
-				.then(js => {
+				.then((res) => res.json())
+				.then((js) => {
 					helpers.decProgress();
 					Globals.bans[this.props.user.Id] = js;
 					this.forceUpdate();
@@ -132,13 +134,13 @@ export default class StatsDialog extends React.Component {
 			.safeFetch(
 				helpers.createRequest("/User/" + this.props.user.Id + "/Stats")
 			)
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				helpers.decProgress();
 				this.setState({ userStats: js });
 				gtag("set", {
 					page_title: "StatsDialog",
-					page_location: location.href
+					page_location: location.href,
 				});
 				gtag("event", "page_view");
 			});
@@ -209,9 +211,9 @@ export default class StatsDialog extends React.Component {
 											"Ranking (position in server wide leaderboard)",
 											<MaterialUI.Button
 												variant="outlined"
-												onClick={_ => {
+												onClick={(_) => {
 													this.setState({
-														leaderboardDialogOpen: true
+														leaderboardDialogOpen: true,
 													});
 												}}
 											>
@@ -320,7 +322,7 @@ export default class StatsDialog extends React.Component {
 				</MaterialUI.Dialog>
 				{this.state.leaderboardDialogOpen ? (
 					<LeaderboardDialog
-						onClose={_ => {
+						onClose={(_) => {
 							this.setState({ leaderboardDialogOpen: false });
 						}}
 					/>

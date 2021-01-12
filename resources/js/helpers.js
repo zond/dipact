@@ -268,7 +268,7 @@ export function memoize(key, promiseFunc) {
 }
 
 export function gameDesc(game) {
-	let member = game.Properties.Members.find((member) => {
+	let member = (game.Properties.Members || []).find((member) => {
 		return member.User.Email == Globals.user.Email;
 	});
 	if (member && member.GameAlias) {

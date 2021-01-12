@@ -511,7 +511,7 @@ export default class DipMap extends React.Component {
 			this.debugCount("componentDidUpdate/loadSVGs");
 			this.setState(
 				(state, props) => {
-					const member = this.state.game.Properties.Members.find(
+					const member = (this.state.game.Properties.Members || []).find(
 						(e) => {
 							return e.User.Email == Globals.user.Email;
 						}

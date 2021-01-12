@@ -16,7 +16,7 @@ export default class ChatChannel extends React.Component {
 			);
 		}
 		this.state = { messages: [] };
-		this.member = this.props.game.Properties.Members.find((e) => {
+		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
 		this.variant = Globals.variants.find((v) => {
@@ -506,9 +506,11 @@ export default class ChatChannel extends React.Component {
 							);
 						})}
 						{this.props.createMessageLink &&
-						!this.props.channel.Properties.Members.find((m) => {
-							return m == helpers.DiplicitySender;
-						}) ? (
+						!(this.props.channel.Properties.Members || []).find(
+							(m) => {
+								return m == helpers.DiplicitySender;
+							}
+						) ? (
 							<div
 								style={{
 									display: "flex",

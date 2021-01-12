@@ -20,11 +20,11 @@ export default class NationAvatar extends React.Component {
 		super(props);
 		this.state = { dialogOpen: false };
 		this.member = this.props.game
-			? this.props.game.Properties.Members.find(e => {
+			? (this.props.game.Properties.Members || []).find((e) => {
 					return e.User.Email == Globals.user.Email;
 			  })
 			: null;
-		this.flagLink = this.props.variant.Links.find(l => {
+		this.flagLink = this.props.variant.Links.find((l) => {
 			return l.Rel == "flag-" + this.props.nation;
 		});
 		this.badger = this.badger.bind(this);
@@ -53,7 +53,7 @@ export default class NationAvatar extends React.Component {
 		if (this.props.game) {
 			return (
 				<div
-					onClick={ev => {
+					onClick={(ev) => {
 						if (ev) {
 							ev.stopPropagation();
 							ev.preventDefault();
@@ -111,7 +111,7 @@ export default class NationAvatar extends React.Component {
 					style={{
 						backgroundColor: bgColor,
 						color: color,
-						fontSize: fontSize
+						fontSize: fontSize,
 					}}
 				>
 					{abbr}
@@ -124,7 +124,7 @@ export default class NationAvatar extends React.Component {
 				{this.state.dialogOpen ? (
 					<StatsDialog
 						game={this.props.game}
-						onClose={ev => {
+						onClose={(ev) => {
 							if (ev) {
 								ev.stopPropagation();
 								ev.preventDefault();
@@ -132,9 +132,11 @@ export default class NationAvatar extends React.Component {
 							this.setState({ dialogOpen: false });
 						}}
 						user={
-							this.props.game.Properties.Members.find(m => {
-								return m.Nation == this.props.nation;
-							}).User
+							(this.props.game.Properties.Members || []).find(
+								(m) => {
+									return m.Nation == this.props.nation;
+								}
+							).User
 						}
 						gameState={this.props.gameState}
 						onNewGameState={this.props.onNewGameState}

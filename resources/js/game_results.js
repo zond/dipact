@@ -6,7 +6,7 @@ export default class GameResults extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { open: false, gameResult: null, trueSkills: null };
-		this.member = this.props.game.Properties.Members.find(e => {
+		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
 		if (this.props.parentCB) {
@@ -22,21 +22,21 @@ export default class GameResults extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "GameResults",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
 	}
 	componentDidMount() {
-		let gameResultLink = this.props.game.Links.find(l => {
+		let gameResultLink = this.props.game.Links.find((l) => {
 			return l.Rel == "game-result";
 		});
 		if (gameResultLink) {
 			helpers.incProgress();
 			helpers
 				.safeFetch(helpers.createRequest(gameResultLink.URL))
-				.then(res => res.json())
-				.then(gameResultJS => {
+				.then((res) => res.json())
+				.then((gameResultJS) => {
 					gameResultJS.Properties.Scores = gameResultJS.Properties.Scores.sort(
 						(a, b) => {
 							if (a.Score > b.Score) {
@@ -51,30 +51,30 @@ export default class GameResults extends React.Component {
 							return 0;
 						}
 					);
-					const trueSkillsLink = gameResultJS.Links.find(l => {
+					const trueSkillsLink = gameResultJS.Links.find((l) => {
 						return l.Rel == "true-skills";
 					});
 					if (trueSkillsLink) {
 						helpers
 							.safeFetch(
 								helpers.createRequest(
-									gameResultJS.Links.find(l => {
+									gameResultJS.Links.find((l) => {
 										return l.Rel == "true-skills";
 									}).URL
 								)
 							)
-							.then(res => res.json())
-							.then(trueSkillsJS => {
+							.then((res) => res.json())
+							.then((trueSkillsJS) => {
 								helpers.decProgress();
 								this.setState({
 									gameResult: gameResultJS,
-									trueSkills: trueSkillsJS
+									trueSkills: trueSkillsJS,
 								});
 							});
 					} else {
 						helpers.decProgress();
 						this.setState({
-							gameResult: gameResultJS
+							gameResult: gameResultJS,
 						});
 					}
 				});
@@ -90,7 +90,7 @@ export default class GameResults extends React.Component {
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;")
+					paper: helpers.scopedClass("margin: 2px; width: 100%;"),
 				}}
 				onClose={this.close}
 			>
@@ -101,15 +101,15 @@ export default class GameResults extends React.Component {
 							<MaterialUI.Typography>
 								The game was won by{" "}
 								{
-									this.props.game.Properties.Members.find(
-										m => {
-											return (
-												m.Nation ==
-												this.state.gameResult.Properties
-													.SoloWinnerMember
-											);
-										}
-									).User.Name
+									(
+										this.props.game.Properties.Members || []
+									).find((m) => {
+										return (
+											m.Nation ==
+											this.state.gameResult.Properties
+												.SoloWinnerMember
+										);
+									}).User.Name
 								}{" "}
 								playing{" "}
 								{
@@ -125,16 +125,16 @@ export default class GameResults extends React.Component {
 									.Score >
 								this.state.gameResult.Properties.Scores[1].Score
 									? " " +
-									  this.props.game.Properties.Members.find(
-											m => {
-												return (
-													m.Nation ==
-													this.state.gameResult
-														.Properties.Scores[0]
-														.Member
-												);
-											}
-									  ).User.Name +
+									  (
+											this.props.game.Properties
+												.Members || []
+									  ).find((m) => {
+											return (
+												m.Nation ==
+												this.state.gameResult.Properties
+													.Scores[0].Member
+											);
+									  }).User.Name +
 									  " earned the highest score as " +
 									  this.state.gameResult.Properties.Scores[0]
 											.Member +
@@ -156,10 +156,10 @@ export default class GameResults extends React.Component {
 					<MaterialUI.List>
 						{this.state.gameResult
 							? this.state.gameResult.Properties.Scores.map(
-									score => {
+									(score) => {
 										const trueSkill = this.state.trueSkills
 											? this.state.trueSkills.Properties.find(
-													l => {
+													(l) => {
 														return (
 															l.Properties
 																.Member ==
@@ -173,7 +173,7 @@ export default class GameResults extends React.Component {
 												key={"nation_" + score.Member}
 												style={{
 													padding: "0px",
-													margin: "0px"
+													margin: "0px",
 												}}
 											>
 												<MaterialUI.ExpansionPanel
@@ -182,14 +182,14 @@ export default class GameResults extends React.Component {
 														padding: "0px",
 														margin: "0px",
 														boxShadow: "none",
-														width: "100%"
+														width: "100%",
 													}}
 												>
 													<MaterialUI.ExpansionPanelSummary
 														style={{
 															padding: "0px",
 															margin: "0px",
-															boxShadow: "none"
+															boxShadow: "none",
 														}}
 														expandIcon={helpers.createIcon(
 															"\ue5cf"
@@ -209,7 +209,7 @@ export default class GameResults extends React.Component {
 																	"center",
 																width: "100%",
 																color:
-																	"rgba(40, 26, 26, 0.54)"
+																	"rgba(40, 26, 26, 0.54)",
 															}}
 														>
 															<NationAvatar
@@ -243,7 +243,7 @@ export default class GameResults extends React.Component {
 																	display:
 																		"flex",
 																	flexDirection:
-																		"column"
+																		"column",
 																}}
 															>
 																<MaterialUI.Typography
@@ -351,7 +351,7 @@ export default class GameResults extends React.Component {
 																	alignSelf:
 																		"flex-end",
 																	marginLeft:
-																		"auto"
+																		"auto",
 																}}
 															>
 																<MaterialUI.Typography
@@ -359,7 +359,7 @@ export default class GameResults extends React.Component {
 																	color="primary"
 																	style={{
 																		textAlign:
-																			"right"
+																			"right",
 																	}}
 																>
 																	{helpers.twoDecimals(
@@ -371,7 +371,7 @@ export default class GameResults extends React.Component {
 																	variant="caption"
 																	style={{
 																		textAlign:
-																			"right"
+																			"right",
 																	}}
 																>
 																	{score.SCs}{" "}
@@ -384,7 +384,7 @@ export default class GameResults extends React.Component {
 													<MaterialUI.ExpansionPanelDetails>
 														<div
 															style={{
-																width: "100%"
+																width: "100%",
 															}}
 														>
 															{score ? (
@@ -399,7 +399,7 @@ export default class GameResults extends React.Component {
 																		margin:
 																			"0px",
 																		width:
-																			"100%"
+																			"100%",
 																	}}
 																>
 																	<div>
@@ -407,7 +407,9 @@ export default class GameResults extends React.Component {
 																			"\n"
 																		)
 																			.filter(
-																				l => {
+																				(
+																					l
+																				) => {
 																					return (
 																						l.trim() !=
 																						""
@@ -415,7 +417,9 @@ export default class GameResults extends React.Component {
 																				}
 																			)
 																			.map(
-																				line => {
+																				(
+																					line
+																				) => {
 																					const parts = line.split(
 																						":"
 																					);
@@ -427,7 +431,7 @@ export default class GameResults extends React.Component {
 																								justifyContent:
 																									"space-between",
 																								color:
-																									"rgba(40, 26, 26,0.3)"
+																									"rgba(40, 26, 26,0.3)",
 																							}}
 																							key={
 																								line
@@ -463,7 +467,7 @@ export default class GameResults extends React.Component {
 																						margin:
 																							"0px 0px 16px 0px",
 																						width:
-																							"100%"
+																							"100%",
 																					}}
 																				>
 																					<MaterialUI.Typography variant="subtitle2">
@@ -489,7 +493,7 @@ export default class GameResults extends React.Component {
 																						width:
 																							"100%",
 																						color:
-																							"rgba(40, 26, 26,0.3)"
+																							"rgba(40, 26, 26,0.3)",
 																					}}
 																				>
 																					{trueSkill
@@ -527,7 +531,7 @@ export default class GameResults extends React.Component {
 																						width:
 																							"100%",
 																						color:
-																							"rgba(40, 26, 26,0.3)"
+																							"rgba(40, 26, 26,0.3)",
 																					}}
 																				>
 																					{trueSkill
@@ -570,7 +574,7 @@ export default class GameResults extends React.Component {
 																						width:
 																							"100%",
 																						borderTop:
-																							"1px solid black"
+																							"1px solid black",
 																					}}
 																				>
 																					<MaterialUI.Typography variant="subtitle2">
@@ -598,7 +602,7 @@ export default class GameResults extends React.Component {
 																					margin:
 																						"0px",
 																					width:
-																						"100%"
+																						"100%",
 																				}}
 																			>
 																				<div>

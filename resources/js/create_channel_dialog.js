@@ -9,12 +9,12 @@ export default class CreateChannelDialog extends React.Component {
 		this.close = this.close.bind(this);
 		this.toggleMember = this.toggleMember.bind(this);
 		this.createChannel = this.createChannel.bind(this);
-		this.member = this.props.game.Properties.Members.find(e => {
+		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
 		this.state = { open: false, members: {} };
 		this.state.members[this.member.Nation] = true;
-		this.variant = Globals.variants.find(v => {
+		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 	}
@@ -22,7 +22,7 @@ export default class CreateChannelDialog extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "CreateChannelDialog",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
@@ -40,7 +40,7 @@ export default class CreateChannelDialog extends React.Component {
 				this.props.game.Properties.ID +
 				"/Channel/" +
 				channel.Properties.Members.join(",") +
-				"/Messages"
+				"/Messages",
 		});
 		let nMembers = Object.keys(this.state.members).length;
 		if (
@@ -69,13 +69,13 @@ export default class CreateChannelDialog extends React.Component {
 				"Private chat is disabled for this game, you can't create a channel with two members."
 			);
 		} else {
-			this.close().then(_ => {
+			this.close().then((_) => {
 				this.props.createChannel(channel);
 			});
 		}
 	}
 	toggleMember(nation) {
-		return _ => {
+		return (_) => {
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
 				if (state.members[nation]) {
@@ -94,7 +94,7 @@ export default class CreateChannelDialog extends React.Component {
 						this.props.game.Properties.DisableGroupChat
 					) {
 						state.members = {};
-						this.variant.Properties.Nations.forEach(nation => {
+						this.variant.Properties.Nations.forEach((nation) => {
 							state.members[nation] = true;
 						});
 					} else {
@@ -125,7 +125,7 @@ export default class CreateChannelDialog extends React.Component {
 						Pick the participants of the new channel.
 					</MaterialUI.DialogContentText>
 					<MaterialUI.FormGroup>
-						{this.variant.Properties.Nations.map(n => {
+						{this.variant.Properties.Nations.map((n) => {
 							return (
 								<MaterialUI.FormControlLabel
 									key={n}

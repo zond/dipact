@@ -25,6 +25,25 @@ export default class GameMetadata extends React.Component {
 				</div>
 			);
 		}
+		if (this.props.game.Properties.Private) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<MaterialUI.Icon style={{ marginRight: "8px" }}>
+						{helpers.createIcon("\ue90e")}
+					</MaterialUI.Icon>
+					<MaterialUI.Typography>
+						Game master present
+					</MaterialUI.Typography>
+				</div>
+			);
+		}
 		cells.push(
 			<div
 				style={{ width: "100%", display: "flex", alignItems: "center" }}
@@ -602,7 +621,7 @@ export default class GameMetadata extends React.Component {
 				</MaterialUI.Typography>
 			);
 
-			this.props.game.Properties.Members.forEach((member) => {
+			(this.props.game.Properties.Members || []).forEach((member) => {
 				playerList.push(
 					<div
 						key={playerList.length}
