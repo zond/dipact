@@ -353,13 +353,32 @@ export default class GameListElement extends React.Component {
 	render() {
 		let itemKey = 0;
 		let buttons = [];
-		if (this.state.game.Properties.ActiveBans) {
+		if (
+			this.state.game.Properties.GameMasterEnabled &&
+			this.state.game.Properties.RequireGameMasterInvitation &&
+			!this.state.game.Links.find((l) => {
+				return l.Rel == "join";
+			})
+		) {
+			buttons.push(
+				<MaterialUI.Typography
+					key="uninvited-notice"
+					className={noticeClass}
+				>
+					You can't join because a game master invitation is required.
+				</MaterialUI.Typography>
+			);
+		}
+		if (
+			this.state.game.Properties.ActiveBans &&
+			this.state.game.Properties.ActiveBans.length > 0
+		) {
 			buttons.push(
 				<MaterialUI.Typography
 					key="banned-notice"
 					className={noticeClass}
 				>
-					You can't join becaues you banned or are banned by a player.
+					You can't join because you banned or are banned by a player.
 				</MaterialUI.Typography>
 			);
 		}
