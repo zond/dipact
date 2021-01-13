@@ -46,6 +46,7 @@ export default class GameListElement extends React.Component {
 		this.closeGame = this.closeGame.bind(this);
 		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
+		this.deleteGame = this.deleteGame.bind(this);
 		this.leaveGame = this.leaveGame.bind(this);
 		this.renameGame = this.renameGame.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
@@ -135,6 +136,31 @@ export default class GameListElement extends React.Component {
 						return e.User.Email == Globals.user.Email;
 					}),
 				});
+			});
+	}
+	deleteGame(link) {
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+				})
+			)
+			.then((resp) => resp.json())
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_delete_game");
+				this.setState(
+					(state, props) => {
+						state = Object.assign({}, state);
+						state.game.Links = [];
+						return state;
+					},
+					(_) => {
+						this.dead = true;
+						this.forceUpdate();
+					}
+				);
 			});
 	}
 	leaveGame(link) {
@@ -496,6 +522,24 @@ export default class GameListElement extends React.Component {
 						}}
 					>
 						Leave
+					</MaterialUI.Button>
+				);
+			} else if (link.Rel == "delete-game") {
+				buttons.push(
+					<MaterialUI.Button
+						key={itemKey++}
+						variant="outlined"
+						color="primary"
+						style={{
+							marginRight: "16px",
+							minWidth: "100px",
+							marginBottom: "4px",
+						}}
+						onClick={(_) => {
+							this.deleteGame(link);
+						}}
+					>
+						Delete
 					</MaterialUI.Button>
 				);
 			}
