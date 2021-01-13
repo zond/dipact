@@ -25,7 +25,7 @@ window.Globals = {
 		},
 		mode: "cors",
 	}),
-	user: { Properties: {} },
+	user: {},
 	userStats: { Properties: { TrueSkill: {} } },
 	userConfig: { Properties: { FCMTokens: [], MailConfig: {}, Colors: [] } },
 	gameMasterMode: !!localStorage.getItem("gameMasterMode"),

@@ -4,6 +4,7 @@ import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 import RenameGameDialog from '%{ cb "/js/rename_game_dialog.js" }%';
+import ManageInvitationsDialog from '%{ cb "/js/manage_invitations_dialog.js" }%';
 
 const warningClass = helpers.scopedClass("color: red;");
 const noticeClass = helpers.scopedClass("font-weight: bold !important;");
@@ -39,6 +40,7 @@ export default class GameListElement extends React.Component {
 		});
 		this.nationPreferencesDialog = null;
 		this.renameGameDialog = null;
+		this.manageInvitationsDialog = null;
 		this.valignClass = helpers.scopedClass(
 			"display: flex; align-items: center;"
 		);
@@ -49,6 +51,7 @@ export default class GameListElement extends React.Component {
 		this.deleteGame = this.deleteGame.bind(this);
 		this.leaveGame = this.leaveGame.bind(this);
 		this.renameGame = this.renameGame.bind(this);
+		this.manageInvitations = this.manageInvitations.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
@@ -60,6 +63,9 @@ export default class GameListElement extends React.Component {
 
 	renameGame() {
 		this.renameGameDialog.setState({ open: true });
+	}
+	manageInvitations() {
+		this.manageInvitationsDialog.setState({ open: true });
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -454,6 +460,7 @@ export default class GameListElement extends React.Component {
 				);
 			}
 		}
+		let hasInviteDialog = false;
 		this.state.game.Links.forEach((link) => {
 			if (link.Rel == "join") {
 				if (
@@ -542,8 +549,32 @@ export default class GameListElement extends React.Component {
 						Delete
 					</MaterialUI.Button>
 				);
+			} else if (
+				link.Rel == "invite-user" ||
+				link.Rel.indexOf("uninvite-") == 0
+			) {
+				hasInviteDialog = true;
 			}
 		});
+		if (hasInviteDialog) {
+			buttons.push(
+				<MaterialUI.Button
+					key={itemKey++}
+					variant="outlined"
+					color="primary"
+					style={{
+						marginRight: "16px",
+						minWidth: "100px",
+						marginBottom: "4px",
+					}}
+					onClick={(_) => {
+						this.manageInvitations();
+					}}
+				>
+					Invitations
+				</MaterialUI.Button>
+			);
+		}
 		const buttonDiv = (
 			<div
 				key={itemKey++}
@@ -999,6 +1030,17 @@ export default class GameListElement extends React.Component {
 						game={this.state.game}
 						parentCB={(c) => {
 							this.renameGameDialog = c;
+						}}
+					/>
+				) : (
+					""
+				)}
+				{this.state.game.Properties.GameMaster &&
+				this.state.game.Properties.GameMaster.Id == Globals.user.Id ? (
+					<ManageInvitationsDialog
+						game={this.state.game}
+						parentCB={(c) => {
+							this.manageInvitationsDialog = c;
 						}}
 					/>
 				) : (
