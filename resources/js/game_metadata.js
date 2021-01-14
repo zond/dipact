@@ -25,7 +25,7 @@ export default class GameMetadata extends React.Component {
 				</div>
 			);
 		}
-		if (this.props.game.Properties.Private) {
+		if (this.props.game.Properties.GameMasterEnabled) {
 			cells.push(
 				<div
 					style={{
