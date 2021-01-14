@@ -5,6 +5,7 @@ import Game from '%{ cb "/js/game.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 import RenameGameDialog from '%{ cb "/js/rename_game_dialog.js" }%';
 import ManageInvitationsDialog from '%{ cb "/js/manage_invitations_dialog.js" }%';
+import RescheduleDialog from '%{ cb "/js/reschedule_dialog.js" }%';
 
 const warningClass = helpers.scopedClass("color: red;");
 const noticeClass = helpers.scopedClass("font-weight: bold !important;");
@@ -41,6 +42,7 @@ export default class GameListElement extends React.Component {
 		this.nationPreferencesDialog = null;
 		this.renameGameDialog = null;
 		this.manageInvitationsDialog = null;
+		this.rescheduleDialog = null;
 		this.valignClass = helpers.scopedClass(
 			"display: flex; align-items: center;"
 		);
@@ -54,13 +56,41 @@ export default class GameListElement extends React.Component {
 		this.manageInvitations = this.manageInvitations.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
+		this.reschedule = this.reschedule.bind(this);
+		this.onRescheduleSubmit = this.onRescheduleSubmit.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.addIconWithTooltip = this.addIconWithTooltip.bind(this);
 		// Dead means that we left this game when we were the only member, so it's gone.
 		this.dead = false;
 	}
-
+	onRescheduleSubmit(minutes) {
+		const link = this.state.game.Links.find((link) => {
+			return link.Rel == "edit-newest-phase-deadline-at";
+		});
+		if (!link) return;
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						NextPhaseDeadlineInMinutes: Number.parseInt(minutes),
+					}),
+				})
+			)
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_reschedule");
+				this.reloadGame();
+			});
+	}
+	reschedule() {
+		this.rescheduleDialog.setState({ open: true });
+	}
 	renameGame() {
 		this.renameGameDialog.setState({ open: true });
 	}
@@ -512,6 +542,24 @@ export default class GameListElement extends React.Component {
 						}}
 					>
 						Join
+					</MaterialUI.Button>
+				);
+			} else if (link.Rel == "edit-newest-phase-deadline-at") {
+				buttons.push(
+					<MaterialUI.Button
+						key={itemKey++}
+						variant="outlined"
+						color="primary"
+						style={{
+							marginRight: "16px",
+							minWidth: "100px",
+							marginBottom: "4px",
+						}}
+						onClick={(_) => {
+							this.reschedule(link);
+						}}
+					>
+						Reschedule
 					</MaterialUI.Button>
 				);
 			} else if (link.Rel == "leave") {
@@ -1042,13 +1090,21 @@ export default class GameListElement extends React.Component {
 				)}
 				{this.state.game.Properties.GameMaster &&
 				this.state.game.Properties.GameMaster.Id == Globals.user.Id ? (
-					<ManageInvitationsDialog
-						game={this.state.game}
-						parentCB={(c) => {
-							this.manageInvitationsDialog = c;
-						}}
-						reloadGame={this.reloadGame}
-					/>
+					<React.Fragment>
+						<RescheduleDialog
+							parentCB={(c) => {
+								this.rescheduleDialog = c;
+							}}
+							onSubmit={this.onRescheduleSubmit}
+						/>
+						<ManageInvitationsDialog
+							game={this.state.game}
+							parentCB={(c) => {
+								this.manageInvitationsDialog = c;
+							}}
+							reloadGame={this.reloadGame}
+						/>
+					</React.Fragment>
 				) : (
 					""
 				)}
