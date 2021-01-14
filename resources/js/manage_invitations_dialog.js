@@ -9,7 +9,6 @@ export default class ManageInvitationsDialog extends React.Component {
 			email: "",
 			nation: "normal_allocation",
 		};
-		this.reloadGame = props.reloadGame;
 		this.variant = Globals.variants.find((variant) => {
 			return variant.Name == this.props.game.Properties.Variant;
 		});
@@ -37,7 +36,7 @@ export default class ManageInvitationsDialog extends React.Component {
 				.then((_) => {
 					helpers.decProgress();
 					gtag("event", "manage_invitations_dialog_uninvite_user");
-					this.reloadGame().then((game) => {
+					this.props.reloadGame().then((game) => {
 						this.setState({ game: game });
 					});
 				});
@@ -69,7 +68,7 @@ export default class ManageInvitationsDialog extends React.Component {
 			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "manage_invitations_dialog_invite_user");
-				this.reloadGame().then((game) => {
+				this.props.reloadGame().then((game) => {
 					this.setState({ game: game });
 				});
 			});

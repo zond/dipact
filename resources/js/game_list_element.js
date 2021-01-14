@@ -111,18 +111,7 @@ export default class GameListElement extends React.Component {
 				helpers.decProgress();
 				gtag("event", "game_list_element_join");
 				Globals.messaging.start();
-				this.setState(
-					(state, props) => {
-						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter((l) => {
-							return l.Rel != "join";
-						});
-						return state;
-					},
-					(_) => {
-						this.reloadGame();
-					}
-				);
+				this.reloadGame();
 			});
 	}
 	reloadGame() {
@@ -137,13 +126,17 @@ export default class GameListElement extends React.Component {
 				)
 				.then((resp) => resp.json())
 				.then((js) => {
-					this.setState({
-						game: js,
-						member: (js.Properties.Members || []).find((e) => {
-							return e.User.Email == Globals.user.Email;
-						}),
-					});
-					res(js);
+					this.setState(
+						{
+							game: js,
+							member: (js.Properties.Members || []).find((e) => {
+								return e.User.Email == Globals.user.Email;
+							}),
+						},
+						(_) => {
+							res(js);
+						}
+					);
 				});
 		});
 	}
@@ -193,7 +186,10 @@ export default class GameListElement extends React.Component {
 						return state;
 					},
 					(_) => {
-						if (this.state.game.Properties.Members.length > 1) {
+						if (
+							this.state.game.Properties.GameMasterEnabled ||
+							this.state.game.Properties.Members.length > 1
+						) {
 							this.reloadGame();
 						} else {
 							this.dead = true;
@@ -1012,7 +1008,11 @@ export default class GameListElement extends React.Component {
 										}}
 									>
 										{buttonDiv}
-										<GameMetadata game={this.state.game} />
+										<GameMetadata
+											game={this.state.game}
+											withKickButtons={true}
+											reloadGame={this.reloadGame}
+										/>
 									</div>
 								</div>
 								<MaterialUI.Divider />
