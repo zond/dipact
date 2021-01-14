@@ -381,27 +381,22 @@ export default class GameListElement extends React.Component {
 		}
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}
-
+	failureExplanations() {
+		return {
+			Hated: "Your 'hated' score is too high.",
+			Hater: "Your 'hater' score is too high.",
+			MaxRating: "Your rating is too high.",
+			MinRating: "Your rating is too low.",
+			MinReliability: "Your reliability score is too low.",
+			MinQuickness: "Your quickness score is too low.",
+			InvitationNeeded: "A game master invitation is required.",
+		};
+	}
 	render() {
 		let itemKey = 0;
 		let buttons = [];
 		if (
-			this.state.game.Properties.GameMasterEnabled &&
-			this.state.game.Properties.RequireGameMasterInvitation &&
-			!this.state.game.Links.find((l) => {
-				return l.Rel == "join";
-			})
-		) {
-			buttons.push(
-				<MaterialUI.Typography
-					key="uninvited-notice"
-					className={noticeClass}
-				>
-					You can't join because a game master invitation is required.
-				</MaterialUI.Typography>
-			);
-		}
-		if (
+			this.state.game.Properties.Open &&
 			this.state.game.Properties.ActiveBans &&
 			this.state.game.Properties.ActiveBans.length > 0
 		) {
@@ -414,14 +409,21 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.Typography>
 			);
 		}
-		if (this.state.game.Properties.FailedRequirements) {
+		if (
+			this.state.game.Properties.Open &&
+			this.state.game.Properties.FailedRequirements
+		) {
 			buttons.push(
 				<MaterialUI.Typography
 					key="requirement-notice"
 					className={noticeClass}
 				>
 					You can't join this game because:{" "}
-					{this.state.game.Properties.FailedRequirements.join(", ")}.
+					{this.state.game.Properties.FailedRequirements.map(
+						(req) => {
+							return this.failureExplanations()[req];
+						}
+					).join(" ")}
 				</MaterialUI.Typography>
 			);
 		}
