@@ -6,14 +6,73 @@ export default class ManageInvitationsDialog extends React.Component {
 		this.state = {
 			open: false,
 			game: this.props.game,
+			email: "",
+			nation: "normal_allocation",
 		};
+		this.reloadGame = props.reloadGame;
 		this.variant = Globals.variants.find((variant) => {
 			return variant.Name == this.props.game.Properties.Variant;
 		});
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
+		this.onInvite = this.onInvite.bind(this);
+		this.onUninvite = this.onUninvite.bind(this);
 		this.close = this.close.bind(this);
+	}
+	onUninvite(email) {
+		return (_) => {
+			if (!email) return;
+			const link = this.state.game.Links.find((l) => {
+				return l.Rel == "uninvite-" + email;
+			});
+			if (!link) return;
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest(link.URL, {
+						method: link.Method,
+					})
+				)
+				.then((_) => {
+					helpers.decProgress();
+					gtag("event", "manage_invitations_dialog_uninvite_user");
+					this.reloadGame().then((game) => {
+						this.setState({ game: game });
+					});
+				});
+		};
+	}
+	onInvite() {
+		if (!this.state.email) return;
+		const link = this.state.game.Links.find((l) => {
+			return l.Rel == "invite-user";
+		});
+		if (!link) return;
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						Email: this.state.email,
+						Nation:
+							this.state.nation == "normal_allocation"
+								? ""
+								: this.state.nation,
+					}),
+				})
+			)
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "manage_invitations_dialog_invite_user");
+				this.reloadGame().then((game) => {
+					this.setState({ game: game });
+				});
+			});
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
@@ -38,6 +97,8 @@ export default class ManageInvitationsDialog extends React.Component {
 				onEntered={helpers.genOnback(this.close)}
 				disableBackdropClick={false}
 				onClose={this.close}
+				fullWidth={true}
+				maxWidth="xl"
 			>
 				<MaterialUI.DialogTitle>
 					Manage invitations
@@ -46,18 +107,65 @@ export default class ManageInvitationsDialog extends React.Component {
 					{this.state.game.Properties.GameMasterInvitations &&
 					this.state.game.Properties.GameMasterInvitations.length >
 						0 ? (
-						<MaterialUI.Typography style={{ margin: "1em" }}>
-							Invited players
-						</MaterialUI.Typography>
+						<React.Fragment>
+							<MaterialUI.Typography style={{ margin: "1em" }}>
+								Invited players
+							</MaterialUI.Typography>
+							<MaterialUI.List>
+								{this.state.game.Properties.GameMasterInvitations.map(
+									(invitation) => {
+										return (
+											<MaterialUI.ListItem
+												key={invitation.Email}
+											>
+												<MaterialUI.Grid container>
+													<MaterialUI.Grid
+														key="data"
+														item
+														xs={10}
+													>
+														<MaterialUI.Typography>
+															{invitation.Email}
+															{invitation.Nation
+																? " as " +
+																  invitation.Nation
+																: ""}
+														</MaterialUI.Typography>
+													</MaterialUI.Grid>
+													<MaterialUI.Grid
+														key="button"
+														item
+														xs={2}
+													>
+														<MaterialUI.Button
+															color="primary"
+															onClick={this.onUninvite(
+																invitation.Email
+															)}
+														>
+															Uninvite
+														</MaterialUI.Button>
+													</MaterialUI.Grid>
+												</MaterialUI.Grid>
+											</MaterialUI.ListItem>
+										);
+									}
+								)}
+							</MaterialUI.List>
+						</React.Fragment>
 					) : (
 						<MaterialUI.Typography style={{ margin: "1em" }}>
 							Nobody invited yet
 						</MaterialUI.Typography>
 					)}
 					<MaterialUI.TextField
-						key="Desc"
+						key="Email"
+						id="manage-invitations-dialog-email"
 						label="Email"
 						margin="dense"
+						onChange={(ev) => {
+							this.setState({ email: ev.target.value });
+						}}
 						style={{
 							marginBottom: "8px",
 							flexGrow: "1",
@@ -75,7 +183,10 @@ export default class ManageInvitationsDialog extends React.Component {
 					<MaterialUI.Select
 						key="Nation"
 						labelId="nationlabel"
-						value="normal_allocation"
+						value={this.state.nation}
+						onChange={(ev) => {
+							this.setState({ nation: ev.target.value });
+						}}
 						style={{ marginBottom: "16px" }}
 					>
 						<MaterialUI.MenuItem
@@ -96,6 +207,15 @@ export default class ManageInvitationsDialog extends React.Component {
 						})}
 					</MaterialUI.Select>
 				</MaterialUI.DialogContent>
+				<MaterialUI.DialogActions
+					className={helpers.scopedClass(
+						"background-color: white; position: sticky; bottom: 0px;"
+					)}
+				>
+					<MaterialUI.Button onClick={this.onInvite} color="primary">
+						Invite
+					</MaterialUI.Button>
+				</MaterialUI.DialogActions>
 			</MaterialUI.Dialog>
 		);
 	}

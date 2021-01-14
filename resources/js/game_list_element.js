@@ -126,23 +126,26 @@ export default class GameListElement extends React.Component {
 			});
 	}
 	reloadGame() {
-		helpers
-			.safeFetch(
-				helpers.createRequest(
-					this.state.game.Links.find((l) => {
-						return l.Rel == "self";
-					}).URL
+		return new Promise((res, rej) => {
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						this.state.game.Links.find((l) => {
+							return l.Rel == "self";
+						}).URL
+					)
 				)
-			)
-			.then((resp) => resp.json())
-			.then((js) => {
-				this.setState({
-					game: js,
-					member: (js.Properties.Members || []).find((e) => {
-						return e.User.Email == Globals.user.Email;
-					}),
+				.then((resp) => resp.json())
+				.then((js) => {
+					this.setState({
+						game: js,
+						member: (js.Properties.Members || []).find((e) => {
+							return e.User.Email == Globals.user.Email;
+						}),
+					});
+					res(js);
 				});
-			});
+		});
 	}
 	deleteGame(link) {
 		helpers.incProgress();
@@ -410,7 +413,7 @@ export default class GameListElement extends React.Component {
 			);
 		}
 		if (
-			this.state.game.Properties.Open &&
+			!this.state.game.Properties.Closed &&
 			this.state.game.Properties.FailedRequirements
 		) {
 			buttons.push(
@@ -1044,6 +1047,7 @@ export default class GameListElement extends React.Component {
 						parentCB={(c) => {
 							this.manageInvitationsDialog = c;
 						}}
+						reloadGame={this.reloadGame}
 					/>
 				) : (
 					""
