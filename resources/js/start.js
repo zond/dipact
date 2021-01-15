@@ -62,7 +62,7 @@ export default class Start extends React.Component {
 								variant="h6"
 								style={{ paddingLeft: "16px" }}
 							>
-								Beta center
+								News
 							</MaterialUI.Typography>
 						</MaterialUI.Toolbar>
 					</MaterialUI.AppBar>
@@ -83,6 +83,33 @@ export default class Start extends React.Component {
 								height: "calc(100% - 158px)",
 							}}
 						>
+							<MaterialUI.Typography variant="h6" style={{}}>
+								Nexus Season 6 full press tournament
+							</MaterialUI.Typography>
+							<MaterialUI.Typography variant="body2">
+								Dear players, registrations for Nexus Season 6
+								full press tournament are active and they will
+								be open till January 31st.
+								<br />
+								The tournament will be held on multiple
+								platforms, as many as there are players
+								available to play in. Diplicity is one of the
+								allowed platforms and I hope that many of us may
+								want to test themselves in a competitive
+								tournament!
+								<br />
+								Feel free to join and subscribe: you are going
+								to have a great time!
+								<br />
+								To register, go to{" "}
+								<a href="https://discord.gg/aMTuNJT5JB">
+									https://discord.gg/aMTuNJT5JB
+								</a>
+								.
+							</MaterialUI.Typography>
+							<MaterialUI.Divider
+								style={{ margin: "8 0 12 0" }}
+							/>
 							<MaterialUI.Typography variant="h6" style={{}}>
 								Welcome to the new Diplicity!
 							</MaterialUI.Typography>
@@ -269,15 +296,15 @@ export default class Start extends React.Component {
 											fontWeight: "500",
 										}}
 									>
-										This app is in beta state
+										Registrations for Nexus Season 6 full
+										press tournament open
 									</MaterialUI.Typography>
 
 									<MaterialUI.Typography
 										variant="body2"
 										style={{ color: "rgb(97, 26, 21)" }}
 									>
-										For more info or to report a bug, touch
-										here
+										For more information, touch here
 									</MaterialUI.Typography>
 								</div>
 							</div>
