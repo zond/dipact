@@ -9,7 +9,7 @@ export default class Main extends ActivityContainer {
 		super(props);
 		this.state = {
 			activity: Login,
-			urls: {}
+			urls: {},
 		};
 		this.handleVariants = this.handleVariants.bind(this);
 		this.handleRoot = this.handleRoot.bind(this);
@@ -20,7 +20,7 @@ export default class Main extends ActivityContainer {
 	}
 	renderPath(path) {
 		// This is just to force everything to re-render.
-		this.setState({ activity: "div" }, _ => {
+		this.setState({ activity: "div" }, (_) => {
 			history.pushState("", "", path);
 			this.setActivity(MainMenu, { urls: this.state.urls });
 		});
@@ -47,25 +47,25 @@ export default class Main extends ActivityContainer {
 			variantA.Name > variantB.Name ? 1 : -1
 		);
 		var classicalIndex = variants.findIndex(
-			variant => variant.Name === "Classical"
+			(variant) => variant.Name === "Classical"
 		);
 		if (classicalIndex > 0) {
 			variants.unshift(variants.splice(classicalIndex, 1)[0]);
 		}
 
 		Globals.variants = variants;
-		Globals.variants.forEach(variant => {
+		Globals.variants.forEach((variant) => {
 			Globals.colorOverrides.variantCodes[
 				variant.Properties.Name.replace(helpers.overrideReg, "")
 			] = variant.Properties.Name;
 			variant.nationAbbreviations = {};
-			variant.Properties.Nations.forEach(nation => {
+			variant.Properties.Nations.forEach((nation) => {
 				Globals.colorOverrides.nationCodes[
 					nation.replace(helpers.overrideReg, "")
 				] = nation;
 				for (let idx = 0; idx < nation.length; idx++) {
 					let matchingNations = variant.Properties.Nations.filter(
-						otherNation => {
+						(otherNation) => {
 							return (
 								otherNation.indexOf(nation.slice(0, idx + 1)) ==
 								0
@@ -90,15 +90,15 @@ export default class Main extends ActivityContainer {
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
 
-			let loginLink = rootJS.Links.find(l => {
+			let loginLink = rootJS.Links.find((l) => {
 				return l.Rel == "login";
 			});
 			if (loginLink) {
 				Globals.loginURL = new URL(loginLink.URL);
 			}
 
-			let linkSetter = rel => {
-				let link = rootJS.Links.find(l => {
+			let linkSetter = (rel) => {
+				let link = rootJS.Links.find((l) => {
 					return l.Rel == rel;
 				});
 				if (link) {
@@ -143,17 +143,29 @@ export default class Main extends ActivityContainer {
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
 		if (Globals.user) {
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						rootJS.Links.find((l) => {
+							return l.Rel == "latest-forum-mail";
+						}).URL
+					)
+				)
+				.then((resp) => resp.json())
+				.then((js) => {
+					Globals.onNewForumMail(js);
+				});
 			helpers.incProgress();
 			helpers
 				.safeFetch(
 					helpers.createRequest(
-						rootJS.Links.find(l => {
+						rootJS.Links.find((l) => {
 							return l.Rel == "user-stats";
 						}).URL
 					)
 				)
-				.then(resp => resp.json())
-				.then(js => {
+				.then((resp) => resp.json())
+				.then((js) => {
 					helpers.decProgress();
 					Globals.userStats = js;
 					this.presentContent(rootJS);
@@ -162,32 +174,32 @@ export default class Main extends ActivityContainer {
 			helpers
 				.safeFetch(
 					helpers.createRequest(
-						rootJS.Links.find(l => {
+						rootJS.Links.find((l) => {
 							return l.Rel == "user-config";
 						}).URL
 					)
 				)
-				.then(resp => resp.json())
+				.then((resp) => resp.json())
 				.then(this.handleUserConfig);
 			helpers.incProgress();
 			helpers
 				.safeFetch(
 					helpers.createRequest(
-						rootJS.Links.find(l => {
+						rootJS.Links.find((l) => {
 							return l.Rel == "bans";
 						}).URL
 					)
 				)
-				.then(res => res.json())
-				.then(js => {
+				.then((res) => res.json())
+				.then((js) => {
 					helpers.decProgress();
-					js.Properties.forEach(ban => {
+					js.Properties.forEach((ban) => {
 						if (
 							ban.Properties.OwnerIds.indexOf(Globals.user.Id) !=
 							-1
 						) {
 							Globals.bans[
-								ban.Properties.UserIds.find(uid => {
+								ban.Properties.UserIds.find((uid) => {
 									return uid != Globals.user.Id;
 								})
 							] = ban;
@@ -206,15 +218,17 @@ export default class Main extends ActivityContainer {
 				.safeFetch(
 					helpers.createRequest("/Variants", { unauthed: true })
 				)
-				.then(resp => resp.json()),
-			helpers.safeFetch(Globals.serverRequest).then(resp => resp.json()),
+				.then((resp) => resp.json()),
+			helpers
+				.safeFetch(Globals.serverRequest)
+				.then((resp) => resp.json()),
 			helpers
 				.safeFetch(helpers.createRequest("/Users/Ratings/Histogram"))
-				.then(resp => resp.json())
-				.then(js => {
+				.then((resp) => resp.json())
+				.then((js) => {
 					Globals.userRatingHistogram = js;
-				})
-		]).then(values => {
+				}),
+		]).then((values) => {
 			helpers.decProgress();
 			this.handleVariants(values[0].Properties);
 			this.handleRoot(values[1]);
