@@ -236,7 +236,6 @@ export default class NewsDialog extends React.Component {
 					</MaterialUI.AppBar>
 					<div
 						style={{
-							height: "100%",
 							padding: "0x",
 							margin: "0px",
 							maxWidth: "940px",
@@ -248,7 +247,6 @@ export default class NewsDialog extends React.Component {
 							style={{
 								padding: "16px",
 								marginTop: "56px",
-								height: "calc(100% - 158px)",
 							}}
 						>
 							{this.state.newsItems.map((item, idx) => {
@@ -261,16 +259,16 @@ export default class NewsDialog extends React.Component {
 									</React.Fragment>
 								);
 							})}
-							<div
-								style={{
-									backgroundImage:
-										"url('../static/img/soldiers.svg'",
-									height: "72px",
-									top: "auto",
-									bottom: "0px",
-								}}
-							></div>
 						</div>
+						<div
+							style={{
+								backgroundImage:
+									"url('../static/img/soldiers.svg'",
+								height: "72px",
+								top: "auto",
+								bottom: "0px",
+							}}
+						></div>
 					</div>
 				</MaterialUI.Dialog>
 			);
