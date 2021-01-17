@@ -105,31 +105,6 @@ export default class NewsDialog extends React.Component {
 										</a>{" "}
 									</MaterialUI.Typography>
 								</div>
-								<div
-									style={{
-										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-									}}
-									onClick={(_) => {
-										this.closeDrawer;
-										this.errorsDialog.setState({
-											open: true,
-										});
-									}}
-								>
-									<MaterialUI.SvgIcon>
-										<path
-											fill="black"
-											d="M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z"
-										/>
-									</MaterialUI.SvgIcon>
-									<MaterialUI.Typography variant="caption">
-										<a style={{ color: "#281A1A" }}>
-											Error log
-										</a>
-									</MaterialUI.Typography>
-								</div>
 							</div>
 
 							<div
@@ -286,16 +261,16 @@ export default class NewsDialog extends React.Component {
 									</React.Fragment>
 								);
 							})}
+							<div
+								style={{
+									backgroundImage:
+										"url('../static/img/soldiers.svg'",
+									height: "72px",
+									top: "auto",
+									bottom: "0px",
+								}}
+							></div>
 						</div>
-						<div
-							style={{
-								backgroundImage:
-									"url('../static/img/soldiers.svg'",
-								height: "72px",
-								top: "auto",
-								bottom: "0px",
-							}}
-						></div>
 					</div>
 				</MaterialUI.Dialog>
 			);
