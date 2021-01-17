@@ -146,6 +146,18 @@ export default class Main extends ActivityContainer {
 	handleRoot(rootJS) {
 		Globals.user = rootJS.Properties.User;
 		if (Globals.user) {
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						rootJS.Links.find((l) => {
+							return l.Rel == "latest-forum-mail";
+						}).URL
+					)
+				)
+				.then((resp) => resp.json())
+				.then((js) => {
+					Globals.onNewForumMail(js);
+				});
 			helpers.incProgress();
 			helpers
 				.safeFetch(

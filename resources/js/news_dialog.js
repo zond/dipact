@@ -168,16 +168,58 @@ export default class NewsDialog extends React.Component {
 				},
 			],
 		};
+		this.setForumMail = this.setForumMail.bind(this);
 		this.close = this.close.bind(this);
 		this.updateInterval = null;
+		this.ff = this.ff.bind(this);
+		if (Globals.latestForumMail) {
+			setTimeout((_) => {
+				this.setForumMail(Globals.latestForumMail);
+			}, 50);
+		} else {
+			Globals.onNewForumMail = (fm) => {
+				this.setForumMail(fm);
+			};
+		}
+	}
+	setForumMail(fm) {
+		this.setState((state, props) => {
+			state = Object.assign({}, state);
+			state.newsItems.splice(1, 0, {
+				header: <span>Forum post: {fm.Properties.Subject}</span>,
+				content: (
+					<React.Fragment>
+						<MaterialUI.Typography variant="h6" style={{}}>
+							Latest from the forum
+						</MaterialUI.Typography>
+						<pre style={{ whiteSpace: "pre-wrap" }}>
+							{fm.Properties.Subject}
+							{"\n\n"}
+							{fm.Properties.Body}
+						</pre>
+						<MaterialUI.Typography variant="body2">
+							<a
+								href="https://groups.google.com/g/diplicity-talk"
+								target="_blank"
+							>
+								Visit the forum
+							</a>
+						</MaterialUI.Typography>
+					</React.Fragment>
+				),
+			});
+			return state;
+		});
+	}
+	ff(ev) {
+		if (ev) ev.stopPropagation();
+		this.setState({
+			activeItem:
+				(this.state.activeItem + 1) % this.state.newsItems.length,
+		});
 	}
 	componentDidMount() {
-		this.updateInterval = setInterval((_) => {
-			this.setState({
-				activeItem:
-					(this.state.activeItem + 1) % this.state.newsItems.length,
-			});
-		}, 10000);
+		this.updateInterval = setInterval(this.ff, 10000);
 	}
 	componentWillUnmount() {
 		if (this.updateInterval) {
@@ -259,7 +301,7 @@ export default class NewsDialog extends React.Component {
 			);
 		} else {
 			return (
-				<div style={{ height: "46px" }}>
+				<div style={{ height: "52px" }}>
 					<div
 						style={{
 							borderRadius: "3px",
@@ -274,14 +316,21 @@ export default class NewsDialog extends React.Component {
 							this.setState({ open: true });
 						}}
 					>
-						<div
-							style={{
-								float: "left",
-								marginRight: "8px",
-								color: "rgb(255, 152, 0)",
-							}}
-						>
-							{helpers.createIcon("\ue002")}
+						<div style={{ float: "left", marginRight: "8px" }}>
+							<div
+								style={{
+									color: "rgb(255, 152, 0)",
+								}}
+							>
+								{helpers.createIcon("\ue002")}
+							</div>
+							<MaterialUI.IconButton
+								onClick={this.ff}
+								size="small"
+								style={{ padding: "0px" }}
+							>
+								{helpers.createIcon("\ue044")}
+							</MaterialUI.IconButton>
 						</div>
 						<div>
 							<MaterialUI.Typography
@@ -290,6 +339,8 @@ export default class NewsDialog extends React.Component {
 									color: "rgb(97, 26, 21)",
 									fontWeight: "500",
 								}}
+								textroverflow="ellipsis"
+								noWrap
 							>
 								{
 									this.state.newsItems[this.state.activeItem]

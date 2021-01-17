@@ -26,6 +26,10 @@ window.Globals = {
 		mode: "cors",
 	}),
 	user: {},
+	onNewForumMail: (fm) => {
+		window.Globals.latestForumMail = fm;
+	},
+	latestForumMail: null,
 	userStats: { Properties: { TrueSkill: {} } },
 	userConfig: { Properties: { FCMTokens: [], MailConfig: {}, Colors: [] } },
 	gameMasterMode: !!localStorage.getItem("gameMasterMode"),
