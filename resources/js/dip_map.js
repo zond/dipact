@@ -511,11 +511,11 @@ export default class DipMap extends React.Component {
 			this.debugCount("componentDidUpdate/loadSVGs");
 			this.setState(
 				(state, props) => {
-					const member = (this.state.game.Properties.Members || []).find(
-						(e) => {
-							return e.User.Email == Globals.user.Email;
-						}
-					);
+					const member = (
+						this.state.game.Properties.Members || []
+					).find((e) => {
+						return e.User.Email == Globals.user.Email;
+					});
 					const variant = Globals.variants.find((v) => {
 						return (
 							v.Properties.Name ==
@@ -603,6 +603,20 @@ export default class DipMap extends React.Component {
 								);
 							});
 						});
+						const showSnapshot = (e) => {
+							document.getElementById("map").style.display =
+								"none";
+							document.getElementById(
+								"mapSnapshot"
+							).style.display = "flex";
+						};
+						const showSVG = (e) => {
+							document.getElementById("map").style.display =
+								"flex";
+							document.getElementById(
+								"mapSnapshot"
+							).style.display = "none";
+						};
 						const pz = new PZ({
 							pzid: "dip-map",
 							minScale: 0.5,
@@ -610,20 +624,10 @@ export default class DipMap extends React.Component {
 							maxTrans: 0.5,
 							el: document.getElementById("map-container"),
 							viewPort: document.getElementById("map-viewport"),
-							onZoomStart: (e) => {
-								document.getElementById("map").style.display =
-									"none";
-								document.getElementById(
-									"mapSnapshot"
-								).style.display = "flex";
-							},
-							onZoomEnd: (e) => {
-								document.getElementById("map").style.display =
-									"flex";
-								document.getElementById(
-									"mapSnapshot"
-								).style.display = "none";
-							},
+							onZoomStart: showSnapshot,
+							onZoomEnd: showSVG,
+							onPanStart: showSnapshot,
+							onPanEnd: showSVG,
 						});
 
 						let variantUnits = values[1];

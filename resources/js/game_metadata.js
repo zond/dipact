@@ -5,10 +5,42 @@ import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 export default class GameMetadata extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			game: this.props.game,
+		};
+		this.onKick = this.onKick.bind(this);
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (JSON.stringify(prevProps.game) != JSON.stringify(this.props.game)) {
+			this.setState({ game: this.props.game });
+		}
+	}
+	onKick(uid) {
+		return (_) => {
+			if (!uid) return;
+			const link = this.state.game.Links.find((l) => {
+				return l.Rel == "kick-" + uid;
+			});
+			if (!link) return;
+			helpers.incProgress();
+			helpers
+				.safeFetch(
+					helpers.createRequest(link.URL, {
+						method: link.Method,
+					})
+				)
+				.then((_) => {
+					helpers.decProgress();
+					gtag("event", "game_metadata_kick_user");
+					this.props.reloadGame().then((game) => {
+						this.setState({ game: game });
+					});
+				});
+		};
 	}
 	render() {
 		let cells = [];
-		if (this.props.game.Properties.Private) {
+		if (this.state.game.Properties.Private) {
 			cells.push(
 				<div
 					style={{
@@ -53,7 +85,7 @@ export default class GameMetadata extends React.Component {
 					{helpers.createIcon("\ue55b")}
 				</MaterialUI.Icon>
 				<MaterialUI.Typography>
-					Game variant: {this.props.game.Properties.Variant}
+					Game variant: {this.state.game.Properties.Variant}
 				</MaterialUI.Typography>
 			</div>
 		);
@@ -68,12 +100,12 @@ export default class GameMetadata extends React.Component {
 				<MaterialUI.Typography>
 					Phase deadline{" "}
 					{helpers.minutesToDuration(
-						this.props.game.Properties.PhaseLengthMinutes
+						this.state.game.Properties.PhaseLengthMinutes
 					)}
 				</MaterialUI.Typography>
 			</div>
 		);
-		if (!this.props.game.Properties.SkipMuster) {
+		if (!this.state.game.Properties.SkipMuster) {
 			cells.push(
 				<div
 					style={{
@@ -92,7 +124,7 @@ export default class GameMetadata extends React.Component {
 				</div>
 			);
 		}
-		if (this.props.game.Properties.NonMovementPhaseLengthMinutes) {
+		if (this.state.game.Properties.NonMovementPhaseLengthMinutes) {
 			cells.push(
 				<div
 					style={{
@@ -108,14 +140,14 @@ export default class GameMetadata extends React.Component {
 					<MaterialUI.Typography>
 						Non movement phase deadline{" "}
 						{helpers.minutesToDuration(
-							this.props.game.Properties
+							this.state.game.Properties
 								.NonMovementPhaseLengthMinutes
 						)}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.LastYear) {
+		if (this.state.game.Properties.LastYear) {
 			cells.push(
 				<div
 					style={{
@@ -129,7 +161,7 @@ export default class GameMetadata extends React.Component {
 						{helpers.createIcon("\ue88b")}
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
-						Ends after year: {this.props.game.Properties.LastYear}
+						Ends after year: {this.state.game.Properties.LastYear}
 					</MaterialUI.Typography>
 				</div>
 			);
@@ -166,12 +198,12 @@ export default class GameMetadata extends React.Component {
 				<MaterialUI.Typography>
 					Created:{" "}
 					{helpers.timeStrToDate(
-						this.props.game.Properties.CreatedAt
+						this.state.game.Properties.CreatedAt
 					)}{" "}
 				</MaterialUI.Typography>
 			</div>
 		);
-		if (this.props.game.Properties.Started) {
+		if (this.state.game.Properties.Started) {
 			cells.push(
 				<div
 					style={{
@@ -187,13 +219,13 @@ export default class GameMetadata extends React.Component {
 					<MaterialUI.Typography>
 						Started:{" "}
 						{helpers.timeStrToDate(
-							this.props.game.Properties.StartedAt
+							this.state.game.Properties.StartedAt
 						)}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.Finished) {
+		if (this.state.game.Properties.Finished) {
 			cells.push(
 				<div
 					style={{
@@ -230,7 +262,7 @@ export default class GameMetadata extends React.Component {
 					<MaterialUI.Typography>
 						Finished:{" "}
 						{helpers.timeStrToDate(
-							this.props.game.Properties.FinishedAt
+							this.state.game.Properties.FinishedAt
 						)}{" "}
 					</MaterialUI.Typography>
 				</div>
@@ -241,7 +273,7 @@ export default class GameMetadata extends React.Component {
 				style={{ width: "100%", display: "flex", alignItems: "center" }}
 				key={cells.length}
 			>
-				{this.props.game.Properties.NationAllocation == 1 ? (
+				{this.state.game.Properties.NationAllocation == 1 ? (
 					<MaterialUI.Icon style={{ marginRight: "8px" }}>
 						{helpers.createIcon("\ue065")}
 					</MaterialUI.Icon>
@@ -289,14 +321,14 @@ export default class GameMetadata extends React.Component {
 
 				<MaterialUI.Typography>
 					Nation selection:{" "}
-					{this.props.game.Properties.NationAllocation == 1
+					{this.state.game.Properties.NationAllocation == 1
 						? "Preferences"
 						: "Random"}{" "}
 				</MaterialUI.Typography>
 			</div>
 		);
 
-		if (this.props.game.Properties.MinRating) {
+		if (this.state.game.Properties.MinRating) {
 			cells.push(
 				<div
 					style={{
@@ -310,12 +342,12 @@ export default class GameMetadata extends React.Component {
 						{helpers.createIcon("\ue83a")}
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
-						Minimum rating: {this.props.game.Properties.MinRating}{" "}
+						Minimum rating: {this.state.game.Properties.MinRating}{" "}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.MaxRating) {
+		if (this.state.game.Properties.MaxRating) {
 			cells.push(
 				<div
 					style={{
@@ -329,12 +361,12 @@ export default class GameMetadata extends React.Component {
 						{helpers.createIcon("\ue83a")}
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
-						Maximum rating: {this.props.game.Properties.MaxRating}{" "}
+						Maximum rating: {this.state.game.Properties.MaxRating}{" "}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.MinReliability) {
+		if (this.state.game.Properties.MinReliability) {
 			cells.push(
 				<div
 					style={{
@@ -349,12 +381,12 @@ export default class GameMetadata extends React.Component {
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
 						Minimum reliability:{" "}
-						{this.props.game.Properties.MinReliability}{" "}
+						{this.state.game.Properties.MinReliability}{" "}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.MinQuickness) {
+		if (this.state.game.Properties.MinQuickness) {
 			cells.push(
 				<div
 					style={{
@@ -369,12 +401,12 @@ export default class GameMetadata extends React.Component {
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
 						Minimum quickness:{" "}
-						{this.props.game.Properties.MinQuickness}{" "}
+						{this.state.game.Properties.MinQuickness}{" "}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.MaxHated) {
+		if (this.state.game.Properties.MaxHated) {
 			cells.push(
 				<div
 					style={{
@@ -409,12 +441,12 @@ export default class GameMetadata extends React.Component {
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
 						Maximum hated:
-						{this.props.game.Properties.MaxHated}{" "}
+						{this.state.game.Properties.MaxHated}{" "}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.MaxHater) {
+		if (this.state.game.Properties.MaxHater) {
 			cells.push(
 				<div
 					style={{
@@ -448,12 +480,12 @@ export default class GameMetadata extends React.Component {
 						</MaterialUI.SvgIcon>
 					</MaterialUI.Icon>
 					<MaterialUI.Typography>
-						Maximum hater: {this.props.game.Properties.MaxHater}
+						Maximum hater: {this.state.game.Properties.MaxHater}
 					</MaterialUI.Typography>
 				</div>
 			);
 		}
-		if (this.props.game.Properties.ChatLanguageISO639_1) {
+		if (this.state.game.Properties.ChatLanguageISO639_1) {
 			cells.push(
 				<div
 					style={{
@@ -471,7 +503,7 @@ export default class GameMetadata extends React.Component {
 						}}
 					>
 						<span className="speech-bubble">
-							{this.props.game.Properties.ChatLanguageISO639_1}
+							{this.state.game.Properties.ChatLanguageISO639_1}
 						</span>
 					</span>
 					<MaterialUI.Typography>
@@ -480,7 +512,7 @@ export default class GameMetadata extends React.Component {
 							helpers.iso639_1Codes.find((el) => {
 								return (
 									el.code ==
-									this.props.game.Properties
+									this.state.game.Properties
 										.ChatLanguageISO639_1
 								);
 							}).name
@@ -490,14 +522,14 @@ export default class GameMetadata extends React.Component {
 			);
 		}
 		if (
-			this.props.game.Properties.DisableConferenceChat ||
-			this.props.game.Properties.DisableGroupChat ||
-			this.props.game.Properties.DisablePrivateChat
+			this.state.game.Properties.DisableConferenceChat ||
+			this.state.game.Properties.DisableGroupChat ||
+			this.state.game.Properties.DisablePrivateChat
 		) {
 			if (
-				this.props.game.Properties.DisableConferenceChat &&
-				this.props.game.Properties.DisableGroupChat &&
-				this.props.game.Properties.DisablePrivateChat
+				this.state.game.Properties.DisableConferenceChat &&
+				this.state.game.Properties.DisableGroupChat &&
+				this.state.game.Properties.DisablePrivateChat
 			) {
 				// Add two columns because this is required for formatting nicely.
 				cells.push(
@@ -542,12 +574,12 @@ export default class GameMetadata extends React.Component {
 				// Sort channel types by whether they're enabled or disabled.
 				let allChannels = { false: [], true: [] };
 				allChannels[
-					this.props.game.Properties.DisableConferenceChat
+					this.state.game.Properties.DisableConferenceChat
 				].push("Conference");
-				allChannels[this.props.game.Properties.DisableGroupChat].push(
+				allChannels[this.state.game.Properties.DisableGroupChat].push(
 					"Group"
 				);
-				allChannels[this.props.game.Properties.DisablePrivateChat].push(
+				allChannels[this.state.game.Properties.DisablePrivateChat].push(
 					"Individual"
 				);
 				cells.push(
@@ -621,7 +653,7 @@ export default class GameMetadata extends React.Component {
 				</MaterialUI.Typography>
 			);
 
-			(this.props.game.Properties.Members || []).forEach((member) => {
+			(this.state.game.Properties.Members || []).forEach((member) => {
 				playerList.push(
 					<div
 						key={playerList.length}
@@ -635,6 +667,22 @@ export default class GameMetadata extends React.Component {
 						<MaterialUI.Typography>
 							{member.User.GivenName} {member.User.FamilyName}
 						</MaterialUI.Typography>
+						{this.props.withKickButtons ? (
+							this.state.game.Links.find((link) => {
+								return link.Rel == "kick-" + member.User.Id;
+							}) ? (
+								<MaterialUI.IconButton
+									onClick={this.onKick(member.User.Id)}
+									style={{ margin: "0 0 0 auto" }}
+								>
+									{helpers.createIcon("\ue872")}
+								</MaterialUI.IconButton>
+							) : (
+								""
+							)
+						) : (
+							""
+						)}
 					</div>
 				);
 			});

@@ -4,6 +4,8 @@ import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 import RenameGameDialog from '%{ cb "/js/rename_game_dialog.js" }%';
+import ManageInvitationsDialog from '%{ cb "/js/manage_invitations_dialog.js" }%';
+import RescheduleDialog from '%{ cb "/js/reschedule_dialog.js" }%';
 
 const warningClass = helpers.scopedClass("color: red;");
 const noticeClass = helpers.scopedClass("font-weight: bold !important;");
@@ -39,6 +41,8 @@ export default class GameListElement extends React.Component {
 		});
 		this.nationPreferencesDialog = null;
 		this.renameGameDialog = null;
+		this.manageInvitationsDialog = null;
+		this.rescheduleDialog = null;
 		this.valignClass = helpers.scopedClass(
 			"display: flex; align-items: center;"
 		);
@@ -46,19 +50,52 @@ export default class GameListElement extends React.Component {
 		this.closeGame = this.closeGame.bind(this);
 		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
+		this.deleteGame = this.deleteGame.bind(this);
 		this.leaveGame = this.leaveGame.bind(this);
 		this.renameGame = this.renameGame.bind(this);
+		this.manageInvitations = this.manageInvitations.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
+		this.reschedule = this.reschedule.bind(this);
+		this.onRescheduleSubmit = this.onRescheduleSubmit.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.addIconWithTooltip = this.addIconWithTooltip.bind(this);
 		// Dead means that we left this game when we were the only member, so it's gone.
 		this.dead = false;
 	}
-
+	onRescheduleSubmit(minutes) {
+		const link = this.state.game.Links.find((link) => {
+			return link.Rel == "edit-newest-phase-deadline-at";
+		});
+		if (!link) return;
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						NextPhaseDeadlineInMinutes: Number.parseInt(minutes),
+					}),
+				})
+			)
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_reschedule");
+				this.reloadGame();
+			});
+	}
+	reschedule() {
+		this.rescheduleDialog.setState({ open: true });
+	}
 	renameGame() {
 		this.renameGameDialog.setState({ open: true });
+	}
+	manageInvitations() {
+		this.manageInvitationsDialog.setState({ open: true });
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -104,37 +141,58 @@ export default class GameListElement extends React.Component {
 				helpers.decProgress();
 				gtag("event", "game_list_element_join");
 				Globals.messaging.start();
-				this.setState(
-					(state, props) => {
-						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter((l) => {
-							return l.Rel != "join";
-						});
-						return state;
-					},
-					(_) => {
-						this.reloadGame();
-					}
-				);
+				this.reloadGame();
 			});
 	}
 	reloadGame() {
+		return new Promise((res, rej) => {
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						this.state.game.Links.find((l) => {
+							return l.Rel == "self";
+						}).URL
+					)
+				)
+				.then((resp) => resp.json())
+				.then((js) => {
+					this.setState(
+						{
+							game: js,
+							member: (js.Properties.Members || []).find((e) => {
+								return e.User.Email == Globals.user.Email;
+							}),
+						},
+						(_) => {
+							res(js);
+						}
+					);
+				});
+		});
+	}
+	deleteGame(link) {
+		helpers.incProgress();
 		helpers
 			.safeFetch(
-				helpers.createRequest(
-					this.state.game.Links.find((l) => {
-						return l.Rel == "self";
-					}).URL
-				)
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+				})
 			)
 			.then((resp) => resp.json())
-			.then((js) => {
-				this.setState({
-					game: js,
-					member: (js.Properties.Members || []).find((e) => {
-						return e.User.Email == Globals.user.Email;
-					}),
-				});
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_delete_game");
+				this.setState(
+					(state, props) => {
+						state = Object.assign({}, state);
+						state.game.Links = [];
+						return state;
+					},
+					(_) => {
+						this.dead = true;
+						this.forceUpdate();
+					}
+				);
 			});
 	}
 	leaveGame(link) {
@@ -158,7 +216,10 @@ export default class GameListElement extends React.Component {
 						return state;
 					},
 					(_) => {
-						if (this.state.game.Properties.Members.length > 1) {
+						if (
+							this.state.game.Properties.GameMasterEnabled ||
+							this.state.game.Properties.Members.length > 1
+						) {
 							this.reloadGame();
 						} else {
 							this.dead = true;
@@ -349,27 +410,22 @@ export default class GameListElement extends React.Component {
 		}
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}
-
+	failureExplanations() {
+		return {
+			Hated: "Your 'hated' score is too high.",
+			Hater: "Your 'hater' score is too high.",
+			MaxRating: "Your rating is too high.",
+			MinRating: "Your rating is too low.",
+			MinReliability: "Your reliability score is too low.",
+			MinQuickness: "Your quickness score is too low.",
+			InvitationNeeded: "A game master invitation is required.",
+		};
+	}
 	render() {
 		let itemKey = 0;
 		let buttons = [];
 		if (
-			this.state.game.Properties.GameMasterEnabled &&
-			this.state.game.Properties.RequireGameMasterInvitation &&
-			!this.state.game.Links.find((l) => {
-				return l.Rel == "join";
-			})
-		) {
-			buttons.push(
-				<MaterialUI.Typography
-					key="uninvited-notice"
-					className={noticeClass}
-				>
-					You can't join because a game master invitation is required.
-				</MaterialUI.Typography>
-			);
-		}
-		if (
+			this.state.game.Properties.Open &&
 			this.state.game.Properties.ActiveBans &&
 			this.state.game.Properties.ActiveBans.length > 0
 		) {
@@ -382,14 +438,21 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.Typography>
 			);
 		}
-		if (this.state.game.Properties.FailedRequirements) {
+		if (
+			!this.state.game.Properties.Closed &&
+			this.state.game.Properties.FailedRequirements
+		) {
 			buttons.push(
 				<MaterialUI.Typography
 					key="requirement-notice"
 					className={noticeClass}
 				>
 					You can't join this game because:{" "}
-					{this.state.game.Properties.FailedRequirements.join(", ")}.
+					{this.state.game.Properties.FailedRequirements.map(
+						(req) => {
+							return this.failureExplanations()[req];
+						}
+					).join(" ")}
 				</MaterialUI.Typography>
 			);
 		}
@@ -428,6 +491,7 @@ export default class GameListElement extends React.Component {
 				);
 			}
 		}
+		let hasInviteDialog = false;
 		this.state.game.Links.forEach((link) => {
 			if (link.Rel == "join") {
 				if (
@@ -480,6 +544,24 @@ export default class GameListElement extends React.Component {
 						Join
 					</MaterialUI.Button>
 				);
+			} else if (link.Rel == "edit-newest-phase-deadline-at") {
+				buttons.push(
+					<MaterialUI.Button
+						key={itemKey++}
+						variant="outlined"
+						color="primary"
+						style={{
+							marginRight: "16px",
+							minWidth: "100px",
+							marginBottom: "4px",
+						}}
+						onClick={(_) => {
+							this.reschedule(link);
+						}}
+					>
+						Reschedule
+					</MaterialUI.Button>
+				);
 			} else if (link.Rel == "leave") {
 				buttons.push(
 					<MaterialUI.Button
@@ -498,8 +580,50 @@ export default class GameListElement extends React.Component {
 						Leave
 					</MaterialUI.Button>
 				);
+			} else if (link.Rel == "delete-game") {
+				buttons.push(
+					<MaterialUI.Button
+						key={itemKey++}
+						variant="outlined"
+						color="primary"
+						style={{
+							marginRight: "16px",
+							minWidth: "100px",
+							marginBottom: "4px",
+						}}
+						onClick={(_) => {
+							this.deleteGame(link);
+						}}
+					>
+						Delete
+					</MaterialUI.Button>
+				);
+			} else if (
+				link.Rel == "invite-user" ||
+				link.Rel.indexOf("uninvite-") == 0
+			) {
+				hasInviteDialog = true;
 			}
 		});
+		if (hasInviteDialog) {
+			buttons.push(
+				<MaterialUI.Button
+					key={itemKey++}
+					variant="outlined"
+					color="primary"
+					style={{
+						marginRight: "16px",
+						minWidth: "100px",
+						marginBottom: "4px",
+					}}
+					onClick={(_) => {
+						this.manageInvitations();
+					}}
+				>
+					Invitations
+				</MaterialUI.Button>
+			);
+		}
 		const buttonDiv = (
 			<div
 				key={itemKey++}
@@ -932,7 +1056,11 @@ export default class GameListElement extends React.Component {
 										}}
 									>
 										{buttonDiv}
-										<GameMetadata game={this.state.game} />
+										<GameMetadata
+											game={this.state.game}
+											withKickButtons={true}
+											reloadGame={this.reloadGame}
+										/>
 									</div>
 								</div>
 								<MaterialUI.Divider />
@@ -957,6 +1085,26 @@ export default class GameListElement extends React.Component {
 							this.renameGameDialog = c;
 						}}
 					/>
+				) : (
+					""
+				)}
+				{this.state.game.Properties.GameMaster &&
+				this.state.game.Properties.GameMaster.Id == Globals.user.Id ? (
+					<React.Fragment>
+						<RescheduleDialog
+							parentCB={(c) => {
+								this.rescheduleDialog = c;
+							}}
+							onSubmit={this.onRescheduleSubmit}
+						/>
+						<ManageInvitationsDialog
+							game={this.state.game}
+							parentCB={(c) => {
+								this.manageInvitationsDialog = c;
+							}}
+							reloadGame={this.reloadGame}
+						/>
+					</React.Fragment>
 				) : (
 					""
 				)}

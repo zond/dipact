@@ -105,6 +105,9 @@ export default class Main extends ActivityContainer {
 					state.urls[rel] = new URL(link.URL);
 				}
 			};
+			linkSetter("mastered-started-games");
+			linkSetter("mastered-staging-games");
+			linkSetter("mastered-finished-games");
 			linkSetter("my-started-games");
 			linkSetter("my-staging-games");
 			linkSetter("my-finished-games");
