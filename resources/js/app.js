@@ -32,7 +32,6 @@ window.Globals = {
 	latestForumMail: null,
 	userStats: { Properties: { TrueSkill: {} } },
 	userConfig: { Properties: { FCMTokens: [], MailConfig: {}, Colors: [] } },
-	gameMasterMode: !!localStorage.getItem("gameMasterMode"),
 	token: null,
 	progressCount: 0,
 	progressDialog: null,

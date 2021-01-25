@@ -512,66 +512,61 @@ export default class CreateGameDialog extends React.Component {
 									style={{ marginBottom: "8px" }}
 								/>
 
-								{Globals.gameMasterMode ? (
-									<React.Fragment>
+								<React.Fragment>
+									<MaterialUI.FormControlLabel
+										control={
+											<MaterialUI.Checkbox
+												disabled={
+													!this.state
+														.newGameProperties
+														.Private
+												}
+												checked={
+													this.state
+														.newGameProperties[
+														"GameMasterEnabled"
+													]
+												}
+												onChange={this.newGamePropertyUpdater(
+													"GameMasterEnabled"
+												)}
+											/>
+										}
+										label="Game master of new game"
+										style={{ marginBottom: "8px" }}
+									/>
+									{this.state.newGameProperties.Private ? (
+										""
+									) : (
+										<MaterialUI.FormHelperText>
+											Game master only allowed in private
+											games (risk of abuse)
+										</MaterialUI.FormHelperText>
+									)}
+									{this.state.newGameProperties.Private &&
+									this.state.newGameProperties
+										.GameMasterEnabled ? (
 										<MaterialUI.FormControlLabel
 											control={
 												<MaterialUI.Checkbox
-													disabled={
-														!this.state
-															.newGameProperties
-															.Private
-													}
 													checked={
 														this.state
 															.newGameProperties[
-															"GameMasterEnabled"
+															"RequireGameMasterInvitation"
 														]
 													}
 													onChange={this.newGamePropertyUpdater(
-														"GameMasterEnabled"
+														"RequireGameMasterInvitation"
 													)}
 												/>
 											}
-											label="Game master of new game"
+											label="Require invitation to join"
 											style={{ marginBottom: "8px" }}
 										/>
-										{this.state.newGameProperties
-											.Private ? (
-											""
-										) : (
-											<MaterialUI.FormHelperText>
-												Game master only allowed in
-												private games (risk of abuse)
-											</MaterialUI.FormHelperText>
-										)}
-										{this.state.newGameProperties.Private &&
-										this.state.newGameProperties
-											.GameMasterEnabled ? (
-											<MaterialUI.FormControlLabel
-												control={
-													<MaterialUI.Checkbox
-														checked={
-															this.state
-																.newGameProperties[
-																"RequireGameMasterInvitation"
-															]
-														}
-														onChange={this.newGamePropertyUpdater(
-															"RequireGameMasterInvitation"
-														)}
-													/>
-												}
-												label="Require invitation to join"
-												style={{ marginBottom: "8px" }}
-											/>
-										) : (
-											""
-										)}
-									</React.Fragment>
-								) : (
-									""
-								)}
+									) : (
+										""
+									)}
+								</React.Fragment>
 
 								<MaterialUI.InputLabel
 									shrink

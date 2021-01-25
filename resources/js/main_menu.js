@@ -318,20 +318,19 @@ export default class MainMenu extends ActivityContainer {
 									<MaterialUI.ListItemText primary="Finished games" />
 								</MaterialUI.ListItem>
 
-								{Globals.gameMasterMode ? (
-									<React.Fragment>
-										<MaterialUI.Divider />
+								<React.Fragment>
+									<MaterialUI.Divider />
 
-										<MaterialUI.ListItem
-											style={{
-												padding: "24px 16px 8px 16px",
-												height: "40px",
-											}}
-										>
-											<MaterialUI.ListItemText
-												primary="Game mastered games"
-												disableTypography
-												className={helpers.scopedClass(`
+									<MaterialUI.ListItem
+										style={{
+											padding: "24px 16px 8px 16px",
+											height: "40px",
+										}}
+									>
+										<MaterialUI.ListItemText
+											primary="Game mastered games"
+											disableTypography
+											className={helpers.scopedClass(`
     color: rgba(40, 26, 26, 0.56);
     min-height: auto;
     min-width: auto;
@@ -339,38 +338,35 @@ export default class MainMenu extends ActivityContainer {
     margin: 0px 0px 2px;
 
               	`)}
-											/>
-										</MaterialUI.ListItem>
+										/>
+									</MaterialUI.ListItem>
 
-										<MaterialUI.ListItem
-											button
-											urlkey="mastered-staging-games"
-											label="Staging games"
-											onClick={this.renderGameList}
-										>
-											<MaterialUI.ListItemText primary="Staging games" />
-										</MaterialUI.ListItem>
-										<MaterialUI.ListItem
-											style={{ padding: "4px 16px" }}
-											button
-											urlkey="mastered-started-games"
-											label="Started games"
-											onClick={this.renderGameList}
-										>
-											<MaterialUI.ListItemText primary="Started games" />
-										</MaterialUI.ListItem>
-										<MaterialUI.ListItem
-											button
-											urlkey="mastered-finished-games"
-											label="Finished games"
-											onClick={this.renderGameList}
-										>
-											<MaterialUI.ListItemText primary="Finished games" />
-										</MaterialUI.ListItem>
-									</React.Fragment>
-								) : (
-									""
-								)}
+									<MaterialUI.ListItem
+										button
+										urlkey="mastered-staging-games"
+										label="Staging games"
+										onClick={this.renderGameList}
+									>
+										<MaterialUI.ListItemText primary="Staging games" />
+									</MaterialUI.ListItem>
+									<MaterialUI.ListItem
+										style={{ padding: "4px 16px" }}
+										button
+										urlkey="mastered-started-games"
+										label="Started games"
+										onClick={this.renderGameList}
+									>
+										<MaterialUI.ListItemText primary="Started games" />
+									</MaterialUI.ListItem>
+									<MaterialUI.ListItem
+										button
+										urlkey="mastered-finished-games"
+										label="Finished games"
+										onClick={this.renderGameList}
+									>
+										<MaterialUI.ListItemText primary="Finished games" />
+									</MaterialUI.ListItem>
+								</React.Fragment>
 								<MaterialUI.Divider />
 
 								<MaterialUI.ListItem

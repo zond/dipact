@@ -9,7 +9,6 @@ export default class SettingsDialog extends React.Component {
 			open: false,
 			userConfig: Globals.userConfig,
 			newColorOverrideVariant: "Classical",
-			gameMasterMode: Globals.gameMasterMode,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -664,57 +663,6 @@ export default class SettingsDialog extends React.Component {
 												}
 											)}
 									</div>
-								</div>
-								<MaterialUI.Typography
-									variant="subtitle2"
-									style={{
-										color: "rgba(40, 26, 26, 0.56)",
-										marginTop: "16px",
-										padding: "16px 0px",
-									}}
-								>
-									Miscellaneous
-								</MaterialUI.Typography>
-
-								<div
-									className={helpers.scopedClass(
-										"display: flex; flex-direction: column"
-									)}
-								>
-									<MaterialUI.FormControlLabel
-										style={{
-											width: "100%",
-											maxWidth: "920px",
-											paddingLeft: "0px",
-										}}
-										classes={{
-											root: helpers.scopedClass(
-												"padding-left:0px"
-											),
-										}}
-										control={
-											<MaterialUI.Switch
-												checked={
-													this.state.gameMasterMode
-												}
-												onChange={(ev) => {
-													localStorage.setItem(
-														"gameMasterMode",
-														ev.target.checked
-															? "true"
-															: ""
-													);
-													Globals.gameMasterMode =
-														ev.target.checked;
-													this.setState({
-														gameMasterMode:
-															ev.target.checked,
-													});
-												}}
-											/>
-										}
-										label="Game master features enabled"
-									/>
 								</div>
 							</div>
 						</div>
