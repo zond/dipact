@@ -204,10 +204,11 @@ export default class PZ {
 			trans.apply();
 		});
 		this.viewPort.addEventListener("mousedown", (mouseDownEvent) => {
+			mouseDownEvent.preventDefault();
 			let lastEvent = mouseDownEvent;
 			const listeners = {};
-			this.binaryPan.start();
 			listeners["mousemove"] = (mouseMoveEvent) => {
+				this.binaryPan.start();
 				const trans = new Transform(this.opts);
 				trans.transX += mouseMoveEvent.clientX - lastEvent.clientX;
 				trans.transY += mouseMoveEvent.clientY - lastEvent.clientY;
