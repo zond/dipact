@@ -204,7 +204,6 @@ export default class PZ {
 			trans.apply();
 		});
 		this.viewPort.addEventListener("mousedown", (mouseDownEvent) => {
-			mouseDownEvent.preventDefault();
 			let lastEvent = mouseDownEvent;
 			const listeners = {};
 			this.binaryPan.start();
