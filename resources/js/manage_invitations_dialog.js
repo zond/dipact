@@ -103,60 +103,57 @@ export default class ManageInvitationsDialog extends React.Component {
 					Manage invitations
 				</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
-					{this.state.game.Properties.GameMasterInvitations &&
-					this.state.game.Properties.GameMasterInvitations.length >
-						0 ? (
-						<React.Fragment>
-							<MaterialUI.Typography style={{ margin: "1em" }}>
-								Invited players
-							</MaterialUI.Typography>
-							<MaterialUI.List>
-								{this.state.game.Properties.GameMasterInvitations.map(
-									(invitation) => {
-										return (
-											<MaterialUI.ListItem
-												key={invitation.Email}
-											>
-												<MaterialUI.Grid container>
-													<MaterialUI.Grid
-														key="data"
-														item
-														xs={10}
-													>
-														<MaterialUI.Typography>
-															{invitation.Email}
-															{invitation.Nation
-																? " as " +
-																  invitation.Nation
-																: ""}
-														</MaterialUI.Typography>
-													</MaterialUI.Grid>
-													<MaterialUI.Grid
-														key="button"
-														item
-														xs={2}
-													>
-														<MaterialUI.Button
-															color="primary"
-															onClick={this.onUninvite(
-																invitation.Email
-															)}
-														>
-															Uninvite
-														</MaterialUI.Button>
-													</MaterialUI.Grid>
-												</MaterialUI.Grid>
-											</MaterialUI.ListItem>
-										);
-									}
-								)}
-							</MaterialUI.List>
-						</React.Fragment>
-					) : (
+					<React.Fragment>
 						<MaterialUI.Typography style={{ margin: "1em" }}>
-							Nobody invited yet
+							Invited players are able to join the game, even if
+							it requires game master invitation. If the game
+							master picks a country for the invitation, that
+							country will be assigned when the game starts. No
+							email or messages are sent to the player, use the
+							'Share game' link after opening the game to send
+							links to this game.
 						</MaterialUI.Typography>
-					)}
+						<MaterialUI.List>
+							{(
+								this.state.game.Properties
+									.GameMasterInvitations || []
+							).map((invitation) => {
+								return (
+									<MaterialUI.ListItem key={invitation.Email}>
+										<MaterialUI.Grid container>
+											<MaterialUI.Grid
+												key="data"
+												item
+												xs={10}
+											>
+												<MaterialUI.Typography>
+													{invitation.Email}
+													{invitation.Nation
+														? " as " +
+														  invitation.Nation
+														: ""}
+												</MaterialUI.Typography>
+											</MaterialUI.Grid>
+											<MaterialUI.Grid
+												key="button"
+												item
+												xs={2}
+											>
+												<MaterialUI.Button
+													color="primary"
+													onClick={this.onUninvite(
+														invitation.Email
+													)}
+												>
+													Uninvite
+												</MaterialUI.Button>
+											</MaterialUI.Grid>
+										</MaterialUI.Grid>
+									</MaterialUI.ListItem>
+								);
+							})}
+						</MaterialUI.List>
+					</React.Fragment>
 					<MaterialUI.TextField
 						key="Email"
 						id="manage-invitations-dialog-email"
