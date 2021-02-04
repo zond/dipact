@@ -140,6 +140,7 @@ export default class ManageInvitationsDialog extends React.Component {
 												xs={2}
 											>
 												<MaterialUI.IconButton
+													style={{ padding: "0" }}
 													onClick={this.onUninvite(
 														invitation.Email
 													)}
