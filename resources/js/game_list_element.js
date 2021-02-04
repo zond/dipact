@@ -418,7 +418,7 @@ export default class GameListElement extends React.Component {
 			MinRating: "Your rating is too low.",
 			MinReliability: "Your reliability score is too low.",
 			MinQuickness: "Your quickness score is too low.",
-			InvitationNeeded: "A game master invitation is required.",
+			InvitationNeeded: "A game master whitelisting is required.",
 		};
 	}
 	render() {
@@ -620,7 +620,7 @@ export default class GameListElement extends React.Component {
 						this.manageInvitations();
 					}}
 				>
-					Invitations
+					Whitelist
 				</MaterialUI.Button>
 			);
 		}
