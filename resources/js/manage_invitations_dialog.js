@@ -100,14 +100,14 @@ export default class ManageInvitationsDialog extends React.Component {
 				maxWidth="xl"
 			>
 				<MaterialUI.DialogTitle>
-					Manage invitations
+					Manage whitelist
 				</MaterialUI.DialogTitle>
 				<MaterialUI.DialogContent>
 					<React.Fragment>
 						<MaterialUI.Typography style={{ margin: "1em" }}>
-							Invited players are able to join the game, even if
-							it requires game master invitation. If the game
-							master picks a country for the invitation, that
+							Whitelisted players are able to join the game, even
+							if it requires game master whitelisting. If the game
+							master picks a country for the whitelisting, that
 							country will be assigned when the game starts. No
 							email or messages are sent to the player, use the
 							'Share game' link after opening the game to send
@@ -139,14 +139,15 @@ export default class ManageInvitationsDialog extends React.Component {
 												item
 												xs={2}
 											>
-												<MaterialUI.Button
-													color="primary"
+												<MaterialUI.IconButton
 													onClick={this.onUninvite(
 														invitation.Email
 													)}
 												>
-													Uninvite
-												</MaterialUI.Button>
+													{helpers.createIcon(
+														"\ue872"
+													)}
+												</MaterialUI.IconButton>
 											</MaterialUI.Grid>
 										</MaterialUI.Grid>
 									</MaterialUI.ListItem>

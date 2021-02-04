@@ -560,7 +560,7 @@ export default class CreateGameDialog extends React.Component {
 													)}
 												/>
 											}
-											label="Require invitation to join"
+											label="Require whitelisting to join"
 											style={{ marginBottom: "8px" }}
 										/>
 									) : (
