@@ -656,9 +656,7 @@ export default class Game extends React.Component {
 										gtag("event", "game_share");
 									}}
 								>
-									{this.state.game.Properties.Started
-										? "Share game"
-										: "Invite"}
+									Share game
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
 									key="download-map"
