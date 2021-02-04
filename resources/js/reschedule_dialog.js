@@ -12,7 +12,6 @@ export default class RescheduleDialog extends React.Component {
 		}
 		this.onSubmit = this.onSubmit.bind(this);
 		this.close = this.close.bind(this);
-		console.log(this.props.onSubmit);
 	}
 	onSubmit() {
 		this.props.onSubmit(this.state.minutes);
