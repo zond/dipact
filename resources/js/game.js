@@ -810,7 +810,10 @@ export default class Game extends React.Component {
 						</MaterialUI.Toolbar>
 						{!this.state.laboratoryMode ? (
 							<React.Fragment>
-								{!this.state.game.Properties.Started ? (
+								{!this.state.game.Properties.Started ||
+								this.state.game.Links.find((l) => {
+									return l.Rel == "join";
+								}) ? (
 									<MaterialUI.Toolbar
 										className={helpers.scopedClass(
 											"display: flex; justify-content: space-between; min-height: 53px;"
