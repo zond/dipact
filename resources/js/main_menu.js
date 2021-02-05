@@ -185,6 +185,12 @@ export default class MainMenu extends ActivityContainer {
 							open={!!this.state.menuAnchorEl}
 						>
 							<MaterialUI.MenuItem
+								key="email"
+								style={{ fontWeight: "bold" }}
+							>
+								{Globals.user.Email}
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
 								key="stats"
 								onClick={(_) => {
 									this.setState({
