@@ -105,13 +105,18 @@ export default class ManageInvitationsDialog extends React.Component {
 				<MaterialUI.DialogContent>
 					<React.Fragment>
 						<MaterialUI.Typography style={{ margin: "1em" }}>
-							Whitelisted players are able to join the game, even
-							if it requires game master whitelisting. If the game
-							master picks a country for the whitelisting, that
-							country will be assigned when the game starts. No
-							email or messages are sent to the player, use the
-							'Share game' link after opening the game to send
-							links to this game.
+							<span style={{ fontWeight: "bold" }}>
+								Email addresses must exactly match their login
+								email.
+							</span>{" "}
+							Login email can be seen in the top right menu with
+							the logout option. Whitelisted players are able to
+							join the game, even if it requires game master
+							whitelisting. If the game master picks a country for
+							the whitelisting, that country will be assigned when
+							the game starts. No email or messages are sent to
+							the player, use the 'Share game' link after opening
+							the game to send links to this game.
 						</MaterialUI.Typography>
 						<MaterialUI.List>
 							{(
