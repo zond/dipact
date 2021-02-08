@@ -23,8 +23,10 @@ export default class UserAvatar extends React.Component {
 			<React.Fragment>
 				<MaterialUI.IconButton
 					className={helpers.scopedClass("padding: 0px;")}
-					onClick={_ => {
-						this.setState({ dialogOpen: true });
+					onClick={(_) => {
+						if (this.props.user.Id) {
+							this.setState({ dialogOpen: true });
+						}
 					}}
 				>
 					<MaterialUI.Avatar
@@ -37,7 +39,7 @@ export default class UserAvatar extends React.Component {
 				{this.state.dialogOpen ? (
 					<StatsDialog
 						game={this.props.game}
-						onClose={ev => {
+						onClose={(ev) => {
 							if (ev) {
 								ev.stopPropagation();
 								ev.preventDefault();
