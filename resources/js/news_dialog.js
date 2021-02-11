@@ -144,24 +144,6 @@ export default class NewsDialog extends React.Component {
 
 							<div
 								style={{
-									marginTop: "32px",
-									textAlign: "center",
-								}}
-							>
-								<MaterialUI.Button
-									variant="contained"
-									color="primary"
-									onClick={(_) => {
-										this.setState({
-											newsDialogOpen: false,
-										});
-									}}
-								>
-									Show me the new app
-								</MaterialUI.Button>
-							</div>
-							<div
-								style={{
 									textAlign: "center",
 									marginTop: "8px",
 								}}
