@@ -8,6 +8,41 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
+					header: "Join the Nexus Cold War Tournament",
+					background: "/static/img/coldwar.png",
+					content: (
+						<React.Fragment>
+							<MaterialUI.Typography variant="h6" style={{}}>
+								Nexus Cold War Tournament
+							</MaterialUI.Typography>
+							<MaterialUI.Typography variant="body2">
+								Dear players, registrations for the third Nexus
+								Cold War Tournament are open until February
+								20th.
+								<br />
+								The tournament is starting on Feb 27th. At the
+								moment more than 40 people have already
+								registered for the competition, making this
+								tournament the largest Cold War tournament ever.
+								<br />
+								The Cold War map is a 1vs1 variant that allows
+								the players to show their tactic skills via the
+								simulation of a war between NATO and USSR on the
+								global stage. You are in time to register and
+								indicate Diplicity as your preferred platform:
+								go to Nexus, sign up and fight for the third
+								Cold War crown!
+								<br />
+								To register, go to{" "}
+								<a href="https://discord.gg/aMTuNJT5JB">
+									https://discord.gg/aMTuNJT5JB
+								</a>
+								.
+							</MaterialUI.Typography>
+						</React.Fragment>
+					),
+				},
+				{
 					header: "Nexus Season 6 tournament",
 					content: (
 						<React.Fragment>
@@ -194,7 +229,7 @@ export default class NewsDialog extends React.Component {
 		});
 	}
 	componentDidMount() {
-		this.updateInterval = setInterval(this.ff, 10000);
+		this.updateInterval = setInterval(this.ff, 1000000);
 	}
 	componentWillUnmount() {
 		if (this.updateInterval) {
@@ -282,8 +317,20 @@ export default class NewsDialog extends React.Component {
 							alignItems: "flex-start",
 							padding: "6px 8px",
 							margin: "8px 16px 0px 16px",
-							backgroundColor: "rgb(255, 244, 229)",
-							width: "100%",
+							backgroundColor: this.state.newsItems[
+								this.state.activeItem
+							].background
+								? null
+								: "rgb(255, 244, 229)",
+							backgroundSize: "cover",
+							backgroundImage: this.state.newsItems[
+								this.state.activeItem
+							].background
+								? "url(" +
+								  this.state.newsItems[this.state.activeItem]
+										.background +
+								  ")"
+								: null,
 						}}
 						onClick={(_) => {
 							this.setState({ open: true });
@@ -305,7 +352,7 @@ export default class NewsDialog extends React.Component {
 								{helpers.createIcon("\ue044")}
 							</MaterialUI.IconButton>
 						</div>
-						<div>
+						<div style={{ width: "calc(100% - 48px)" }}>
 							<MaterialUI.Typography
 								variant="body1"
 								style={{
