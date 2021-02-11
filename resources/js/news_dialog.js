@@ -229,7 +229,7 @@ export default class NewsDialog extends React.Component {
 		});
 	}
 	componentDidMount() {
-		this.updateInterval = setInterval(this.ff, 1000000);
+		this.updateInterval = setInterval(this.ff, 10000);
 	}
 	componentWillUnmount() {
 		if (this.updateInterval) {
