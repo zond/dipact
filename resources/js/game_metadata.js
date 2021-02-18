@@ -522,6 +522,77 @@ export default class GameMetadata extends React.Component {
 			);
 		}
 		if (
+			this.state.game.Properties.Private &&
+			this.state.game.Properties.GameMasterEnabled &&
+			this.state.game.Properties.RequireGameMasterInvitation
+		) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<span
+						style={{
+							marginRight: "8px",
+							width: "24px",
+							height: "24px",
+						}}
+					>
+						<MaterialUI.Icon style={{ marginRight: "8px" }}>
+							<img
+								width="24"
+								height="24"
+								src="/static/img/no_entry.svg"
+							/>
+						</MaterialUI.Icon>
+					</span>
+					<MaterialUI.Typography>
+						Whitelisting required
+					</MaterialUI.Typography>
+				</div>
+			);
+		}
+		if (
+			(this.state.game.Properties.Private &&
+				this.state.game.Properties.Anonymous) ||
+			(!this.state.game.Properties.Private &&
+				this.state.game.Properties.DisableConferenceChat &&
+				this.state.game.Properties.DisableGroupChat &&
+				this.state.game.Properties.DisablePrivateChat)
+		) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<span
+						style={{
+							marginRight: "8px",
+							width: "24px",
+							height: "24px",
+						}}
+					>
+						<MaterialUI.Icon style={{ marginRight: "8px" }}>
+							<img
+								width="24"
+								height="24"
+								src="/static/img/anon.svg"
+							/>
+						</MaterialUI.Icon>
+					</span>
+					<MaterialUI.Typography>Anonymous</MaterialUI.Typography>
+				</div>
+			);
+		}
+		if (
 			this.state.game.Properties.DisableConferenceChat ||
 			this.state.game.Properties.DisableGroupChat ||
 			this.state.game.Properties.DisablePrivateChat
