@@ -1017,20 +1017,22 @@ export default class DipMap extends React.Component {
 					if (state.phase.Properties.SCs) {
 						state.phase.Properties.SCs = state.phase.Properties.SCs.filter(
 							(sc) => {
-								return sc.Province != parts[1];
+								return sc.Province != parts[1].split("/")[0];
 							}
 						);
 						if (parts[3] != "Neutral") {
 							state.phase.Properties.SCs.push({
-								Province: parts[1],
+								Province: parts[1].split("/")[0],
 								Owner: parts[3],
 							});
 						}
 					} else {
-						delete (state.phase.Properties.SupplyCenters, parts[1]);
+						delete (state.phase.Properties.SupplyCenters,
+						parts[1].split("/")[0]);
 						if (parts[3] != "Neutral") {
-							state.phase.Properties.SupplyCenters[parts[1]] =
-								parts[3];
+							state.phase.Properties.SupplyCenters[
+								parts[1].split("/")[0]
+							] = parts[3];
 						}
 					}
 					return state;
