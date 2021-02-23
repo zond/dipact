@@ -43,7 +43,9 @@ export default class CreateChannelDialog extends React.Component {
 				"/Messages",
 		});
 		let nMembers = Object.keys(this.state.members).length;
-		if (
+		if (nMembers < 2) {
+			helpers.snackbar("A chat channel requires at least two members.");
+		} else if (
 			!this.props.game.Properties.Finished &&
 			this.props.game.Properties.DisableConferenceChat &&
 			nMembers == this.variant.Properties.Nations.length
