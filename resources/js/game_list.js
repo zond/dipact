@@ -6,7 +6,7 @@ export default class GameList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			games: this.props.predefinedList || []
+			games: this.props.predefinedList || [],
 		};
 		this.loadReq = this.loadReq.bind(this);
 		this.loadPropsURL = this.loadPropsURL.bind(this);
@@ -39,8 +39,11 @@ export default class GameList extends React.Component {
 		this.setState(
 			{
 				games: this.props.predefinedList || [
-					{ isProgress: true, Properties: { ID: "" + Math.random() } }
-				]
+					{
+						isProgress: true,
+						Properties: { ID: "" + Math.random() },
+					},
+				],
 			},
 			this.loadPropsURL
 		);
@@ -68,25 +71,25 @@ export default class GameList extends React.Component {
 		this.loading = true;
 		helpers
 			.safeFetch(req)
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				let games = js.Properties;
 				if (!this.props.contained) {
-					this.moreLink = js.Links.find(l => {
+					this.moreLink = js.Links.find((l) => {
 						return l.Rel == "next";
 					});
 				}
 				if (this.moreLink) {
 					games.push({
 						isProgress: true,
-						Properties: { ID: "" + Math.random() }
+						Properties: { ID: "" + Math.random() },
 					});
 				}
 				this.setState(
 					{
-						games: this.state.games.slice(0, -1).concat(games)
+						games: this.state.games.slice(0, -1).concat(games),
 					},
-					_ => {
+					(_) => {
 						this.loading = false;
 						if (
 							this.state.games.length > 0 &&
@@ -112,7 +115,7 @@ export default class GameList extends React.Component {
 						width: "100%",
 						textAlign: "center",
 						paddingTop: "calc(50% - 20px)",
-						paddingBottom: "calc(50% - 20px)"
+						paddingBottom: "calc(50% - 20px)",
 					}}
 				>
 					<MaterialUI.CircularProgress />
@@ -159,14 +162,14 @@ export default class GameList extends React.Component {
 					style={{
 						overflowY: "scroll",
 						height: "calc(100% - 60px)",
-						padding: "0px 16px"
+						padding: "0px 16px",
 					}}
 				>
 					<MaterialUI.Typography
 						variant="subtitle2"
 						style={{
 							color: "rgba(40, 26, 26, 0.56)",
-							padding: "16px 0px"
+							padding: "16px 0px",
 						}}
 					>
 						{this.props.label ? this.props.label : ""}

@@ -7,6 +7,7 @@ export default class ChatChannel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.newAfter = Number.MAX_SAFE_INTEGER;
+		this.renderBatchSize = 50;
 		if (
 			this.props.channel.Properties.NMessagesSince &&
 			this.props.channel.Properties.NMessagesSince.Since
@@ -15,7 +16,7 @@ export default class ChatChannel extends React.Component {
 				this.props.channel.Properties.NMessagesSince.Since
 			);
 		}
-		this.state = { messages: [] };
+		this.state = { messages: [], numToRender: this.renderBatchSize };
 		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
@@ -34,6 +35,19 @@ export default class ChatChannel extends React.Component {
 		this.scrollDown = this.scrollDown.bind(this);
 		this.pollNewMessages = this.pollNewMessages.bind(this);
 		this.autoExpandInput = this.autoExpandInput.bind(this);
+		this.maybeRenderMore = this.maybeRenderMore.bind(this);
+	}
+	maybeRenderMore() {
+		const scroller = document.getElementById("messages");
+		if (
+			scroller &&
+			scroller.scrollTop < 2 * scroller.clientHeight &&
+			this.state.numToRender < this.state.messages.length
+		) {
+			this.setState({
+				numToRender: this.state.numToRender + this.renderBatchSize,
+			});
+		}
 	}
 	autoExpandInput() {
 		const field = document.getElementById("chat-channel-input-field");
@@ -102,6 +116,10 @@ export default class ChatChannel extends React.Component {
 	componentDidMount() {
 		this.loadMessages().then(this.updateHistoryAndSubscription);
 		helpers.onback(this.props.close);
+		let scroller = document.getElementById("messages");
+		if (scroller) {
+			scroller.addEventListener("scroll", this.maybeRenderMore);
+		}
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		this.updateHistoryAndSubscription();
@@ -113,6 +131,10 @@ export default class ChatChannel extends React.Component {
 		this.abortController.abort();
 		helpers.unback(this.props.close);
 		this.updateHistoryAndSubscription(false);
+		let scroller = document.getElementById("messages");
+		if (scroller) {
+			scroller.removeEventListener("scroll", this.maybeRenderMore);
+		}
 	}
 	sendMessage() {
 		if (!this.props.createMessageLink) {
@@ -419,53 +441,57 @@ export default class ChatChannel extends React.Component {
 							overflowX: "hidden",
 						}}
 					>
-						{this.state.messages.map((message, idx) => {
-							const selfish =
-								this.member &&
-								this.member.Nation ===
-									message.Properties.Sender;
-							return (
-								<React.Fragment key={message.Properties.ID}>
-									{message.phase &&
-									(idx == 0 ||
-										message.phase.Properties.PhaseOrdinal !=
-											this.state.messages[idx - 1].phase
-												.Properties.PhaseOrdinal) ? (
-										<div
-											className={helpers.scopedClass(`
+						{this.state.messages
+							.slice(-this.state.numToRender)
+							.map((message, idx) => {
+								const selfish =
+									this.member &&
+									this.member.Nation ===
+										message.Properties.Sender;
+								return (
+									<React.Fragment key={message.Properties.ID}>
+										{message.phase &&
+										(idx == 0 ||
+											message.phase.Properties
+												.PhaseOrdinal !=
+												this.state.messages[idx - 1]
+													.phase.Properties
+													.PhaseOrdinal) ? (
+											<div
+												className={helpers.scopedClass(`
 							                             display: flex;
 							                             align-items : center;
                                                          justify-content: center;
 											`)}
-										>
-											<MaterialUI.Typography
-												color="primary"
-												display="block"
-												variant="subtitle2"
 											>
-												-------{" "}
-												{helpers.phaseName(
-													message.phase
-												)}{" "}
-												------
-											</MaterialUI.Typography>
-										</div>
-									) : (
-										""
-									)}
-									{message.Properties.CreatedAt &&
-									this.newAfter <
-										Date.parse(
-											message.Properties.CreatedAt
-										) &&
-									(idx == 0 ||
-										this.newAfter >=
+												<MaterialUI.Typography
+													color="primary"
+													display="block"
+													variant="subtitle2"
+												>
+													-------{" "}
+													{helpers.phaseName(
+														message.phase
+													)}{" "}
+													------
+												</MaterialUI.Typography>
+											</div>
+										) : (
+											""
+										)}
+										{message.Properties.CreatedAt &&
+										this.newAfter <
 											Date.parse(
-												this.state.messages[idx - 1]
-													.Properties.CreatedAt
-											)) ? (
-										<div
-											className={helpers.scopedClass(`
+												message.Properties.CreatedAt
+											) &&
+										(idx == 0 ||
+											this.newAfter >=
+												Date.parse(
+													this.state.messages[idx - 1]
+														.Properties.CreatedAt
+												)) ? (
+											<div
+												className={helpers.scopedClass(`
 												justify-content: center;
 												width: 100%;
 												max-width: 960px;
@@ -473,38 +499,38 @@ export default class ChatChannel extends React.Component {
 												background: repeating-linear-gradient( 45deg, rgba(255,0,0,.1), rgba(255,0,0,0.1) 10px, rgba(255,0,0,0) 10px, rgba(255,0,0,0) 20px, rgba(0,0,255,0.1) 20px, rgba(0,0,255,0.1) 30px, rgba(255,255,255,0) 30px, rgba(255,255,255,0) 40px)
 
 													`)}
-										>
-											<MaterialUI.Typography
-												variant="subtitle2"
-												style={{ color: "#b71c1c" }}
-												display="block"
 											>
-												New messages
-											</MaterialUI.Typography>
-										</div>
-									) : (
-										""
-									)}
-									<ChatMessage
-										game={this.props.game}
-										onNewGameState={
-											this.props.onNewGameState
-										}
-										gameState={this.props.gameState}
-										key={message.Properties.ID}
-										name={name}
-										undelivered={message.undelivered}
-										variant={this.variant}
-										nation={message.Properties.Sender}
-										text={message.Properties.Body}
-										time={helpers.timeStrToDateTime(
-											message.Properties.CreatedAt
+												<MaterialUI.Typography
+													variant="subtitle2"
+													style={{ color: "#b71c1c" }}
+													display="block"
+												>
+													New messages
+												</MaterialUI.Typography>
+											</div>
+										) : (
+											""
 										)}
-										sender={selfish ? "self" : ""}
-									/>
-								</React.Fragment>
-							);
-						})}
+										<ChatMessage
+											game={this.props.game}
+											onNewGameState={
+												this.props.onNewGameState
+											}
+											gameState={this.props.gameState}
+											key={message.Properties.ID}
+											name={name}
+											undelivered={message.undelivered}
+											variant={this.variant}
+											nation={message.Properties.Sender}
+											text={message.Properties.Body}
+											time={helpers.timeStrToDateTime(
+												message.Properties.CreatedAt
+											)}
+											sender={selfish ? "self" : ""}
+										/>
+									</React.Fragment>
+								);
+							})}
 						{this.props.createMessageLink &&
 						!(this.props.channel.Properties.Members || []).find(
 							(m) => {
