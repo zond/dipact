@@ -22,7 +22,6 @@ export default class StatsDialog extends React.Component {
 			gameState: this.props.gameState,
 		};
 		this.member = this.props.game
-
 			? (this.props.game.Properties.Members || []).find((e) => {
 					return e.User.Email == Globals.user.Email;
 			  })
@@ -148,10 +147,10 @@ export default class StatsDialog extends React.Component {
 	}
 	makeRow(label, value) {
 		return (
-			<div style={{ display: "flex", justifyContent: "space-between" }}>
-				<div>{label}</div>
-				<div>{value}</div>
-			</div>
+			<MaterialUI.TableRow>
+				<MaterialUI.TableCell>{label}</MaterialUI.TableCell>
+				<MaterialUI.TableCell>{value}</MaterialUI.TableCell>
+			</MaterialUI.TableRow>
 		);
 	}
 	render() {
@@ -165,29 +164,21 @@ export default class StatsDialog extends React.Component {
 				>
 					<MaterialUI.DialogTitle>
 						{this.props.user.Name}
-						{this.props.game ? " (" + this.nation + ")" : ""}
+						{this.props.game ? " playing " + this.nation : ""}
 					</MaterialUI.DialogTitle>
 					<MaterialUI.DialogContent>
-					
-						{this.props.user.Id == Globals.user.Id ? (
-							""
-						) : (
-							<MaterialUI.FormControlLabel
-								control={
-									<MaterialUI.Checkbox
-										checked={
-											!!Globals.bans[this.props.user.Id]
-										}
-										onClick={this.toggleBanned}
-									/>
-								}
-								label={
-									!!Globals.bans[this.props.user.Id]
-										? "Banned"
-										: "Ban"
-								}
-							/>
-						)}
+						<MaterialUI.FormControlLabel
+							control={
+								<MaterialUI.Checkbox
+									disabled={
+										this.props.user.Id == Globals.user.Id
+									}
+									checked={!!Globals.bans[this.props.user.Id]}
+									onClick={this.toggleBanned}
+								/>
+							}
+							label="Banned"
+						/>
 						{this.member ? (
 							<MaterialUI.FormControlLabel
 								control={
@@ -205,25 +196,14 @@ export default class StatsDialog extends React.Component {
 										onClick={this.toggleMuted}
 									/>
 								}
-								label={
-									(
-										this.state.gameState.Properties.Muted ||
-										[]
-									).indexOf(this.nation) != -1
-										? "Muted"
-										: "Mute"
-								}
+								label="Muted"
 							/>
 						) : (
 							""
 						)}
-						<MaterialUI.Typography variant="caption">Banned players to play another game with you</MaterialUI.Typography> 
 						{this.state.userStats ? (
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-								}}
+							<MaterialUI.TableContainer
+								component={MaterialUI.Paper}
 							>
 								<MaterialUI.Table>
 									<MaterialUI.TableBody>
@@ -301,71 +281,32 @@ export default class StatsDialog extends React.Component {
 										)}
 										{this.makeRow(
 											"Finished games",
-
 											this.state.userStats.Properties
-												.TrueSkill.Rating
-										) +
-										"%"
-								)}
-
-								{this.makeRow(
-									"Solo wins",
-									this.state.userStats.Properties.SoloGames
-								)}
-								{this.makeRow(
-									"Draws",
-									this.state.userStats.Properties.DIASGames
-								)}
-								{this.makeRow(
-									"Eliminations",
-									this.state.userStats.Properties
-										.EliminatedGames
-								)}
-
-								{this.makeRow(
-									"Reliability",
-									helpers.twoDecimals(
-										this.state.userStats.Properties
-											.Reliability
-									)
-								)}
-								{this.makeRow(
-									"Quickness",
-									helpers.twoDecimals(
-										this.state.userStats.Properties
-											.Quickness
-									)
-								)}
-								{this.makeRow(
-									"Hated",
-									helpers.twoDecimals(
-										this.state.userStats.Properties.Hated
-									)
-								)}
-								{this.makeRow(
-									"Hater",
-									helpers.twoDecimals(
-										this.state.userStats.Properties.Hater
-									)
-								)}
-								{this.makeRow(
-									"Joined games",
-									this.state.userStats.Properties.JoinedGames
-								)}
-								{this.makeRow(
-									"Started games",
-									this.state.userStats.Properties.StartedGames
-								)}
-								{this.makeRow(
-									"Finished games",
-									this.state.userStats.Properties
-										.FinishedGames
-								)}
-								{this.makeRow(
-									"Abandoned games",
-									this.state.userStats.Properties.DroppedGames
-								)}
-							</div>
+												.FinishedGames
+										)}
+										{this.makeRow(
+											"Abandoned games",
+											this.state.userStats.Properties
+												.DroppedGames
+										)}
+										{this.makeRow(
+											"Solo wins",
+											this.state.userStats.Properties
+												.SoloGames
+										)}
+										{this.makeRow(
+											"Draws",
+											this.state.userStats.Properties
+												.DIASGames
+										)}
+										{this.makeRow(
+											"Eliminations",
+											this.state.userStats.Properties
+												.EliminatedGames
+										)}
+									</MaterialUI.TableBody>
+								</MaterialUI.Table>
+							</MaterialUI.TableContainer>
 						) : (
 							""
 						)}
