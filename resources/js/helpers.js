@@ -1076,31 +1076,31 @@ export function minutesToDuration(m, short = false) {
 		} else if (m < 60 * 24) {
 			let h = Number.parseInt(m / 60);
 			let remainder = m - h * 60;
-			let rval = "" + h + "h";
 			if (remainder == 0) {
-				return rval;
-			} else if (short && h > 8) {
-				return ">" + rval;
+				return "" + h + "h";
+			} else if (short) {
+				return "<" + (h + 1) + "h";
 			}
-			return rval + " " + reduce(remainder);
+			return "" + h + "h " + reduce(remainder);
 		} else if (m < 60 * 24 * 7) {
 			let d = Number.parseInt(m / (60 * 24));
 			let remainder = m - d * 60 * 24;
 			let rval = "" + d + "d";
 			if (remainder == 0) {
-				return rval;
-			} else if (short && d > 1) {
-				return ">" + rval;
+				return "" + d + "d";
+			} else if (short) {
+				return "<" + (d + 1) + "d";
 			}
-			return rval + " " + reduce(remainder);
+			return "" + d + "d " + reduce(remainder);
 		} else {
 			let w = Number.parseInt(m / (60 * 24 * 7));
 			let remainder = m - w * 60 * 24 * 7;
-			let rval = "" + w + "w";
-			if (remainder == 0 || short) {
-				return rval;
+			if (remainder == 0) {
+				return "" + w + "w";
+			} else if (short) {
+				return "<" + (w + 1) + "w";
 			}
-			return rval + " " + reduce(remainder);
+			return "" + w + "w " + reduce(remainder);
 		}
 	};
 	return reduce(m);
