@@ -8,6 +8,7 @@ import Game from '%{ cb "/js/game.js" }%';
 import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
 import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
+import About from '%{ cb "/js/about.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -26,8 +27,8 @@ export default class MainMenu extends ActivityContainer {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
 				findOpenGame: this.renderOpenGames,
-				renderMyFinishedGames: this.renderMyFinishedGames
-			}
+				renderMyFinishedGames: this.renderMyFinishedGames,
+			},
 		};
 		this.findGameDialog = null;
 		this.settingsDialog = null;
@@ -36,32 +37,32 @@ export default class MainMenu extends ActivityContainer {
 			[
 				[
 					/^\/Game\/([^\/]+)/,
-					match => {
+					(match) => {
 						this.state.activity = Game;
 						this.state.activityProps = {
-							gamePromise: _ => {
+							gamePromise: (_) => {
 								return helpers
 									.safeFetch(
 										helpers.createRequest(
 											"/Game/" + match[1]
 										)
 									)
-									.then(resp => resp.json());
+									.then((resp) => resp.json());
 							},
-							close: _ => {
+							close: (_) => {
 								this.setActivity(Start, {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
 									renderMyFinishedGames: this
-										.renderMyFinishedGames
+										.renderMyFinishedGames,
 								});
-							}
+							},
 						};
-					}
-				]
+					},
+				],
 			],
-			_ => {
+			(_) => {
 				history.pushState("", "", "/");
 			}
 		);
@@ -69,14 +70,14 @@ export default class MainMenu extends ActivityContainer {
 	componentDidMount() {
 		gtag("set", {
 			page_title: "MainMenu",
-			page_location: location.href
+			page_location: location.href,
 		});
 		gtag("event", "page_view");
 	}
 	findGameByID() {
 		this.findGameDialog.setState({
 			open: true,
-			onFind: gameID => {
+			onFind: (gameID) => {
 				if (gameID == "") {
 					return;
 				}
@@ -86,16 +87,16 @@ export default class MainMenu extends ActivityContainer {
 				}
 				helpers
 					.safeFetch(helpers.createRequest("/Game/" + gameID))
-					.then(resp => {
+					.then((resp) => {
 						if (resp.status == 200) {
-							resp.json().then(js => {
+							resp.json().then((js) => {
 								this.setState({
 									activity: GameList,
 									activityProps: {
 										label: gameID,
 										key: "predefined-game-list",
-										predefinedList: [js]
-									}
+										predefinedList: [js],
+									},
 								});
 							});
 						} else {
@@ -104,7 +105,7 @@ export default class MainMenu extends ActivityContainer {
 							);
 						}
 					});
-			}
+			},
 		});
 	}
 	openDrawer() {
@@ -117,21 +118,21 @@ export default class MainMenu extends ActivityContainer {
 		this.setActivity(GameList, {
 			label: "My finished games",
 			key: "my-finished-games",
-			url: this.props.urls["my-finished-games"]
+			url: this.props.urls["my-finished-games"],
 		});
 	}
 	renderOpenGames() {
 		this.setActivity(GameList, {
 			key: "open-games",
 			label: "Open games",
-			url: this.props.urls["open-games"]
+			url: this.props.urls["open-games"],
 		});
 	}
 	renderGameList(ev) {
 		this.setActivity(GameList, {
 			label: ev.currentTarget.getAttribute("label"),
 			key: ev.currentTarget.getAttribute("urlkey"),
-			url: this.props.urls[ev.currentTarget.getAttribute("urlkey")]
+			url: this.props.urls[ev.currentTarget.getAttribute("urlkey")],
 		});
 	}
 	render() {
@@ -151,9 +152,9 @@ export default class MainMenu extends ActivityContainer {
 						></MaterialUI.Typography>
 						<MaterialUI.IconButton
 							edge="end"
-							onClick={ev => {
+							onClick={(ev) => {
 								this.setState({
-									menuAnchorEl: ev.currentTarget
+									menuAnchorEl: ev.currentTarget,
 								});
 							}}
 							color="secondary"
@@ -164,7 +165,7 @@ export default class MainMenu extends ActivityContainer {
 								style={{
 									width: "32px",
 									height: "32px",
-									border: "1px solid #FDE2B5"
+									border: "1px solid #FDE2B5",
 								}}
 							/>
 						</MaterialUI.IconButton>
@@ -172,23 +173,29 @@ export default class MainMenu extends ActivityContainer {
 							anchorEl={this.state.menuAnchorEl}
 							anchorOrigin={{
 								vertical: "top",
-								horizontal: "right"
+								horizontal: "right",
 							}}
 							transformOrigin={{
 								vertical: "top",
-								horizontal: "right"
+								horizontal: "right",
 							}}
-							onClose={_ => {
+							onClose={(_) => {
 								this.setState({ menuAnchorEl: null });
 							}}
 							open={!!this.state.menuAnchorEl}
 						>
 							<MaterialUI.MenuItem
+								key="email"
+								style={{ fontWeight: "bold" }}
+							>
+								{Globals.user.Email}
+							</MaterialUI.MenuItem>
+							<MaterialUI.MenuItem
 								key="stats"
-								onClick={_ => {
+								onClick={(_) => {
 									this.setState({
 										menuAnchorEl: null,
-										statsDialogOpen: true
+										statsDialogOpen: true,
 									});
 								}}
 							>
@@ -215,9 +222,17 @@ export default class MainMenu extends ActivityContainer {
 						>
 							<MaterialUI.List component="nav">
 								<MaterialUI.ListItem
+									button
+									onClick={(_) => {
+										this.setActivity(About);
+									}}
+								>
+									<MaterialUI.ListItemText primary="About" />
+								</MaterialUI.ListItem>
+								<MaterialUI.ListItem
 									style={{
 										padding: "24px 16px 8px 16px",
-										height: "40px"
+										height: "40px",
 									}}
 								>
 									<MaterialUI.ListItemText
@@ -236,13 +251,13 @@ export default class MainMenu extends ActivityContainer {
 
 								<MaterialUI.ListItem
 									button
-									onClick={_ => {
+									onClick={(_) => {
 										this.setActivity(Start, {
 											urls: this.props.urls,
 											findPrivateGame: this.findGameByID,
 											findOpenGame: this.renderOpenGames,
 											renderMyFinishedGames: this
-												.renderMyFinishedGames
+												.renderMyFinishedGames,
 										});
 									}}
 								>
@@ -251,48 +266,22 @@ export default class MainMenu extends ActivityContainer {
 
 								<MaterialUI.ListItem
 									button
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState({ menuAnchorEl: null });
 										this.settingsDialog.setState({
-											open: true
+											open: true,
 										});
 									}}
 								>
 									<MaterialUI.ListItemText primary="Settings" />
 								</MaterialUI.ListItem>
 
-								{/* TODO: make sure these are in the "view more"
-                <MaterialUI.ListItem
-                  button
-                  urlkey="my-started-games"
-                  label="My started games"
-                  onClick={this.renderGameList}
-                >
-                  <MaterialUI.ListItemText primary="My started games" />
-                </MaterialUI.ListItem>
-                <MaterialUI.ListItem
-                  button
-                  urlkey="my-staging-games"
-                  label="My staging games"
-                  onClick={this.renderGameList}
-                >
-                  <MaterialUI.ListItemText primary="My staging games" />
-                </MaterialUI.ListItem>
-                <MaterialUI.ListItem
-                  button
-                  urlkey="my-finished-games"
-                  label="My finished games"
-                  onClick={this.renderGameList}
-                >
-                  <MaterialUI.ListItemText primary="My finished games" />
-                </MaterialUI.ListItem>
-            */}
 								<MaterialUI.Divider />
 
 								<MaterialUI.ListItem
 									style={{
 										padding: "24px 16px 8px 16px",
-										height: "40px"
+										height: "40px",
 									}}
 								>
 									<MaterialUI.ListItemText
@@ -335,11 +324,61 @@ export default class MainMenu extends ActivityContainer {
 									<MaterialUI.ListItemText primary="Finished games" />
 								</MaterialUI.ListItem>
 
+								<React.Fragment>
+									<MaterialUI.Divider />
+
+									<MaterialUI.ListItem
+										style={{
+											padding: "24px 16px 8px 16px",
+											height: "40px",
+										}}
+									>
+										<MaterialUI.ListItemText
+											primary="Game mastered games"
+											disableTypography
+											className={helpers.scopedClass(`
+    color: rgba(40, 26, 26, 0.56);
+    min-height: auto;
+    min-width: auto;
+    font: 500 14px / 48px Cabin, Roboto, sans-serif;
+    margin: 0px 0px 2px;
+
+              	`)}
+										/>
+									</MaterialUI.ListItem>
+
+									<MaterialUI.ListItem
+										button
+										urlkey="mastered-staging-games"
+										label="Staging games"
+										onClick={this.renderGameList}
+									>
+										<MaterialUI.ListItemText primary="Staging games" />
+									</MaterialUI.ListItem>
+									<MaterialUI.ListItem
+										style={{ padding: "4px 16px" }}
+										button
+										urlkey="mastered-started-games"
+										label="Started games"
+										onClick={this.renderGameList}
+									>
+										<MaterialUI.ListItemText primary="Started games" />
+									</MaterialUI.ListItem>
+									<MaterialUI.ListItem
+										button
+										urlkey="mastered-finished-games"
+										label="Finished games"
+										onClick={this.renderGameList}
+									>
+										<MaterialUI.ListItemText primary="Finished games" />
+									</MaterialUI.ListItem>
+								</React.Fragment>
 								<MaterialUI.Divider />
+
 								<MaterialUI.ListItem
 									style={{
 										padding: "24px 16px 8px 16px",
-										height: "40px"
+										height: "40px",
 									}}
 								>
 									<MaterialUI.ListItemText
@@ -358,7 +397,7 @@ export default class MainMenu extends ActivityContainer {
 
 								<MaterialUI.ListItem
 									button
-									onClick={_ => {
+									onClick={(_) => {
 										open("https://discord.gg/bu3JxYc");
 									}}
 								>
@@ -368,9 +407,9 @@ export default class MainMenu extends ActivityContainer {
 								<MaterialUI.ListItem
 									style={{ padding: "4px 16px" }}
 									button
-									onClick={_ => {
+									onClick={(_) => {
 										open(
-											"https://groups.google.com/forum/#!forum/diplicity-talk"
+											"https://groups.google.com/g/diplicity-talk"
 										);
 									}}
 								>
@@ -379,7 +418,7 @@ export default class MainMenu extends ActivityContainer {
 
 								<MaterialUI.ListItem
 									button
-									onClick={_ => {
+									onClick={(_) => {
 										open(
 											"https://sites.google.com/corp/view/diplicity"
 										);
@@ -409,13 +448,13 @@ export default class MainMenu extends ActivityContainer {
 									width: "calc(100% - 16px)",
 									display: "Flex",
 									justifyContent: "space-around",
-									padding: "0px 8px"
+									padding: "0px 8px",
 								}}
 							>
 								<div
 									id="github"
 									style={{ padding: "8px" }}
-									onClick={_ => {
+									onClick={(_) => {
 										open("https://github.com/zond/dipact");
 									}}
 								>
@@ -429,10 +468,10 @@ export default class MainMenu extends ActivityContainer {
 								<div
 									id="errorlog"
 									style={{ padding: "8px" }}
-									onClick={_ => {
+									onClick={(_) => {
 										this.closeDrawer;
 										this.errorsDialog.setState({
-											open: true
+											open: true,
 										});
 									}}
 								>
@@ -443,20 +482,20 @@ export default class MainMenu extends ActivityContainer {
 					</MaterialUI.ClickAwayListener>
 				</MaterialUI.Drawer>
 				<FindGameDialog
-					parentCB={c => {
+					parentCB={(c) => {
 						this.findGameDialog = c;
 					}}
 					key="find-game-dialog"
 				/>
 				<SettingsDialog
 					key="settings-dialog"
-					parentCB={c => {
+					parentCB={(c) => {
 						this.settingsDialog = c;
 					}}
 				/>
 				<ErrorsDialog
 					key="errors-dialog"
-					parentCB={c => {
+					parentCB={(c) => {
 						this.errorsDialog = c;
 					}}
 				/>
@@ -464,7 +503,7 @@ export default class MainMenu extends ActivityContainer {
 					<StatsDialog
 						open={this.state.statsDialogOpen}
 						user={Globals.user}
-						onClose={_ => {
+						onClose={(_) => {
 							this.setState({ statsDialogOpen: false });
 						}}
 					/>

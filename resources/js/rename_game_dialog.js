@@ -5,9 +5,9 @@ export default class RenameGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
-			newName: this.props.game.Properties.Members.find(m => {
+			newName: (this.props.game.Properties.Members || []).find((m) => {
 				return m.User.Id == Globals.user.Id;
-			}).GameAlias
+			}).GameAlias,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -17,12 +17,15 @@ export default class RenameGameDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page_title": "RenameGameDialog", "page_location": location.href });
+			gtag("set", {
+				page_title: "RenameGameDialog",
+				page_location: location.href,
+			});
 			gtag("event", "page_view");
 		}
 	}
 	rename() {
-		const renameLink = this.props.game.Links.find(l => {
+		const renameLink = this.props.game.Links.find((l) => {
 			return l.Rel == "update-membership";
 		});
 		helpers.incProgress();
@@ -31,12 +34,12 @@ export default class RenameGameDialog extends React.Component {
 				helpers.createRequest(renameLink.URL, {
 					method: renameLink.Method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ GameAlias: this.state.newName })
+					body: JSON.stringify({ GameAlias: this.state.newName }),
 				})
 			)
-			.then(resp => {
+			.then((resp) => {
 				helpers.decProgress();
 				this.close();
 				this.props.onRename();
@@ -64,7 +67,7 @@ export default class RenameGameDialog extends React.Component {
 						margin="dense"
 						fullWidth
 						value={this.state.newName}
-						onChange={ev => {
+						onChange={(ev) => {
 							this.setState({ newName: ev.target.value });
 						}}
 					/>

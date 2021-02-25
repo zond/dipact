@@ -1,9 +1,11 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import GameMetadata from '%{ cb "/js/game_metadata.js" }%';
 import Game from '%{ cb "/js/game.js" }%';
-import UserAvatar from '%{ cb "/js/user_avatar.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 import RenameGameDialog from '%{ cb "/js/rename_game_dialog.js" }%';
+import ManageInvitationsDialog from '%{ cb "/js/manage_invitations_dialog.js" }%';
+import RescheduleDialog from '%{ cb "/js/reschedule_dialog.js" }%';
 
 const warningClass = helpers.scopedClass("color: red;");
 const noticeClass = helpers.scopedClass("font-weight: bold !important;");
@@ -30,15 +32,17 @@ export default class GameListElement extends React.Component {
 			game: this.props.game,
 			viewOpen: false,
 			expanded: false,
-			member: props.game.Properties.Members.find(e => {
+			member: (props.game.Properties.Members || []).find((e) => {
 				return e.User.Email == Globals.user.Email;
-			})
+			}),
 		};
-		this.variant = Globals.variants.find(v => {
+		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.nationPreferencesDialog = null;
 		this.renameGameDialog = null;
+		this.manageInvitationsDialog = null;
+		this.rescheduleDialog = null;
 		this.valignClass = helpers.scopedClass(
 			"display: flex; align-items: center;"
 		);
@@ -46,18 +50,52 @@ export default class GameListElement extends React.Component {
 		this.closeGame = this.closeGame.bind(this);
 		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
+		this.deleteGame = this.deleteGame.bind(this);
 		this.leaveGame = this.leaveGame.bind(this);
 		this.renameGame = this.renameGame.bind(this);
+		this.manageInvitations = this.manageInvitations.bind(this);
 		this.joinGameWithPreferences = this.joinGameWithPreferences.bind(this);
 		this.reloadGame = this.reloadGame.bind(this);
+		this.reschedule = this.reschedule.bind(this);
+		this.onRescheduleSubmit = this.onRescheduleSubmit.bind(this);
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
+		this.addIconWithTooltip = this.addIconWithTooltip.bind(this);
 		// Dead means that we left this game when we were the only member, so it's gone.
 		this.dead = false;
 	}
-
+	onRescheduleSubmit(minutes) {
+		const link = this.state.game.Links.find((link) => {
+			return link.Rel == "edit-newest-phase-deadline-at";
+		});
+		if (!link) return;
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						NextPhaseDeadlineInMinutes: Number.parseInt(minutes),
+					}),
+				})
+			)
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_reschedule");
+				this.reloadGame();
+			});
+	}
+	reschedule() {
+		this.rescheduleDialog.setState({ open: true });
+	}
 	renameGame() {
 		this.renameGameDialog.setState({ open: true });
+	}
+	manageInvitations() {
+		this.manageInvitationsDialog.setState({ open: true });
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -92,48 +130,69 @@ export default class GameListElement extends React.Component {
 				helpers.createRequest(link.URL, {
 					method: link.Method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						NationPreferences: preferences.join(",")
-					})
+						NationPreferences: preferences.join(","),
+					}),
 				})
 			)
-			.then(_ => {
+			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_list_element_join");
 				Globals.messaging.start();
-				this.setState(
-					(state, props) => {
-						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter(l => {
-							return l.Rel != "join";
-						});
-						return state;
-					},
-					_ => {
-						this.reloadGame();
-					}
-				);
+				this.reloadGame();
 			});
 	}
 	reloadGame() {
+		return new Promise((res, rej) => {
+			helpers
+				.safeFetch(
+					helpers.createRequest(
+						this.state.game.Links.find((l) => {
+							return l.Rel == "self";
+						}).URL
+					)
+				)
+				.then((resp) => resp.json())
+				.then((js) => {
+					this.setState(
+						{
+							game: js,
+							member: (js.Properties.Members || []).find((e) => {
+								return e.User.Email == Globals.user.Email;
+							}),
+						},
+						(_) => {
+							res(js);
+						}
+					);
+				});
+		});
+	}
+	deleteGame(link) {
+		helpers.incProgress();
 		helpers
 			.safeFetch(
-				helpers.createRequest(
-					this.state.game.Links.find(l => {
-						return l.Rel == "self";
-					}).URL
-				)
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+				})
 			)
-			.then(resp => resp.json())
-			.then(js => {
-				this.setState({
-					game: js,
-					member: js.Properties.Members.find(e => {
-						return e.User.Email == Globals.user.Email;
-					})
-				});
+			.then((resp) => resp.json())
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_delete_game");
+				this.setState(
+					(state, props) => {
+						state = Object.assign({}, state);
+						state.game.Links = [];
+						return state;
+					},
+					(_) => {
+						this.dead = true;
+						this.forceUpdate();
+					}
+				);
 			});
 	}
 	leaveGame(link) {
@@ -141,23 +200,26 @@ export default class GameListElement extends React.Component {
 		helpers
 			.safeFetch(
 				helpers.createRequest(link.URL, {
-					method: link.Method
+					method: link.Method,
 				})
 			)
-			.then(resp => resp.json())
-			.then(_ => {
+			.then((resp) => resp.json())
+			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_list_element_leave");
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter(l => {
+						state.game.Links = state.game.Links.filter((l) => {
 							return l.Rel != "leave";
 						});
 						return state;
 					},
-					_ => {
-						if (this.state.game.Properties.Members.length > 1) {
+					(_) => {
+						if (
+							this.state.game.Properties.GameMasterEnabled ||
+							this.state.game.Properties.Members.length > 1
+						) {
 							this.reloadGame();
 						} else {
 							this.dead = true;
@@ -172,9 +234,9 @@ export default class GameListElement extends React.Component {
 			this.nationPreferencesDialog.setState({
 				open: true,
 				nations: this.variant.Properties.Nations,
-				onSelected: preferences => {
+				onSelected: (preferences) => {
 					this.joinGameWithPreferences(link, preferences);
-				}
+				},
 			});
 		} else {
 			this.joinGameWithPreferences(link, []);
@@ -188,29 +250,82 @@ export default class GameListElement extends React.Component {
 		e.preventDefault();
 		this.setState({ viewOpen: true });
 	}
-	addIcon(ary, codepoint, color) {
+	addIconWithTooltip(ary, codepoint, color, tooltip) {
 		ary.push(
-			helpers.createIcon(codepoint, {
-				padding: "4px 1px 0px 1px",
-				color: color,
-				fontSize: "14px"
-			})
+			<MaterialUI.Tooltip
+				key={"" + codepoint + color + tooltip}
+				disableFocusListener
+				title={tooltip}
+			>
+				{helpers.createIcon(codepoint, {
+					padding: "4px 1px 0px 1px",
+					color: color,
+					fontSize: "14px",
+				})}
+			</MaterialUI.Tooltip>
 		);
 	}
 	getIcons() {
 		let itemKey = 0;
 		let icons = [];
+		if (this.state.game.Properties.GameMasterEnabled) {
+			this.addIconWithTooltip(
+				icons,
+				"\ue90e",
+				"black",
+				"Game master present"
+			);
+		}
+		if (this.state.game.Properties.ChatLanguageISO639_1) {
+			icons.push(
+				<MaterialUI.Tooltip
+					key="header-lang-icon"
+					disableFocusListener
+					title={
+						"Chat language: " +
+						helpers.iso639_1Codes.find((el) => {
+							return (
+								el.code ==
+								this.state.game.Properties.ChatLanguageISO639_1
+							);
+						}).name
+					}
+				>
+					<span className="speech-bubble">
+						{this.state.game.Properties.ChatLanguageISO639_1}
+					</span>
+				</MaterialUI.Tooltip>
+			);
+		}
+		if (!this.state.game.Properties.SkipMuster) {
+			this.addIconWithTooltip(
+				icons,
+				"\ue925",
+				"black",
+				"Mustering before start"
+			);
+		}
 		if (
 			this.state.game.Properties.MinQuickness ||
 			this.state.game.Properties.MinReliability
 		) {
-			this.addIcon(icons, "\ue425", "black");
+			this.addIconWithTooltip(
+				icons,
+				"\ue425",
+				"black",
+				"Minimum quickness or reliability requirement"
+			);
 		}
 		if (
 			this.state.game.Properties.MinRating ||
 			this.state.game.Properties.MaxRating
 		) {
-			this.addIcon(icons, "\ue83a", "black");
+			this.addIconWithTooltip(
+				icons,
+				"\ue83a",
+				"black",
+				"Minimum rating requirement"
+			);
 		}
 		if (
 			this.state.game.Properties.MaxHater ||
@@ -283,532 +398,61 @@ export default class GameListElement extends React.Component {
 			);
 		}
 		if (this.state.game.Properties.Private) {
-			this.addIcon(icons, "\ue897", "black");
+			this.addIconWithTooltip(icons, "\ue897", "black", "Private game");
 		}
 		if (this.state.game.Properties.NationAllocation == 1) {
-			this.addIcon(icons, "\ue065", "black");
+			this.addIconWithTooltip(
+				icons,
+				"\ue065",
+				"black",
+				"Preference based nation allocation"
+			);
 		}
 		return <MaterialUI.Box display="inline">{icons}</MaterialUI.Box>;
 	}
-
+	failureExplanations() {
+		return {
+			Hated: "Your 'hated' score is too high.",
+			Hater: "Your 'hater' score is too high.",
+			MaxRating: "Your rating is too high.",
+			MinRating: "Your rating is too low.",
+			MinReliability: "Your reliability score is too low.",
+			MinQuickness: "Your quickness score is too low.",
+			InvitationNeeded: "A game master whitelisting is required.",
+		};
+	}
 	render() {
-		let expandedGameCells = [];
-		expandedGameCells.push(
-			<div
-				style={{ width: "100%", display: "flex", alignItems: "center" }}
-			>
-				<MaterialUI.Icon style={{ marginRight: "8px" }}>
-					{helpers.createIcon("\ue55b")}
-				</MaterialUI.Icon>
-				<MaterialUI.Typography>
-					Game variant: {this.state.game.Properties.Variant}
-				</MaterialUI.Typography>
-			</div>
-		);
-		expandedGameCells.push(
-			<div
-				style={{ width: "100%", display: "flex", alignItems: "center" }}
-			>
-				<MaterialUI.Icon style={{ marginRight: "8px" }}>
-					{helpers.createIcon("\ue01b")}
-				</MaterialUI.Icon>
-				<MaterialUI.Typography>
-					Phase deadline{" "}
-					{helpers.minutesToDuration(
-						this.state.game.Properties.PhaseLengthMinutes
-					)}
-				</MaterialUI.Typography>
-			</div>
-		);
-		if (this.state.game.Properties.NonMovementPhaseLengthMinutes) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue01b")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Non movement phase deadline{" "}
-						{helpers.minutesToDuration(
-							this.state.game.Properties
-								.NonMovementPhaseLengthMinutes
-						)}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.LastYear) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue88b")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Ends after year: {this.state.game.Properties.LastYear}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		expandedGameCells.push(
-			<div
-				style={{ width: "100%", display: "flex", alignItems: "center" }}
-			>
-				<MaterialUI.Icon style={{ marginRight: "8px" }}>
-					<MaterialUI.SvgIcon>
-						<g
-							id="Artboard"
-							stroke="none"
-							strokeWidth="1"
-							fill="none"
-							fillRule="evenodd"
-						>
-							<g id="timelapse-24px">
-								<polygon
-									id="Path"
-									points="0 0 24 0 24 24 0 24"
-								></polygon>
-								<path
-									d="M12,6 C12.5719312,6 13.1251722,6.08002251 13.6491373,6.22948186 L12,12 Z M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M12,20 C7.58,20 4,16.42 4,12 C4,7.58 7.58,4 12,4 C16.42,4 20,7.58 20,12 C20,16.42 16.42,20 12,20 Z"
-									id="Shape"
-									fill="#000000"
-									fillRule="nonzero"
-								></path>
-							</g>
-						</g>
-					</MaterialUI.SvgIcon>
-				</MaterialUI.Icon>
-				<MaterialUI.Typography>
-					Created:{" "}
-					{helpers.timeStrToDate(
-						this.state.game.Properties.CreatedAt
-					)}{" "}
-				</MaterialUI.Typography>
-			</div>
-		);
-		if (this.state.game.Properties.Started) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue422")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Started:{" "}
-						{helpers.timeStrToDate(
-							this.state.game.Properties.StartedAt
-						)}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.Finished) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						<MaterialUI.SvgIcon>
-							<g
-								id="Artboard"
-								stroke="none"
-								strokeWidth="1"
-								fill="none"
-								fillRule="evenodd"
-							>
-								<g id="timelapse-24px">
-									<polygon
-										id="Path"
-										points="0 0 24 0 24 24 0 24"
-									></polygon>
-									<path
-										d="M12,6 C15.3137085,6 18,8.6862915 18,12 C18,15.3137085 15.3137085,18 12,18 C8.6862915,18 6,15.3137085 6,12 C6,9.25822274 7.83903025,6.94597402 10.3508627,6.22948186 L12,12 Z M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M12,20 C7.58,20 4,16.42 4,12 C4,7.58 7.58,4 12,4 C16.42,4 20,7.58 20,12 C20,16.42 16.42,20 12,20 Z"
-										id="Shape"
-										fill="#000000"
-										fillRule="nonzero"
-									></path>
-								</g>
-							</g>
-						</MaterialUI.SvgIcon>
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Finished:{" "}
-						{helpers.timeStrToDate(
-							this.state.game.Properties.FinishedAt
-						)}{" "}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		expandedGameCells.push(
-			<div
-				style={{ width: "100%", display: "flex", alignItems: "center" }}
-			>
-				{this.state.game.Properties.NationAllocation == 1 ? (
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue065")}
-					</MaterialUI.Icon>
-				) : (
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						<MaterialUI.SvgIcon>
-							<g
-								id="Artboard"
-								stroke="none"
-								strokeWidth="1"
-								fill="none"
-								fillRule="evenodd"
-							>
-								<g id="playlist_add_check-24px-(1)">
-									<rect
-										id="Rectangle"
-										x="0"
-										y="0"
-										width="24"
-										height="24"
-									></rect>
-									<path
-										d="M14,10 L2,10 L2,12 L14,12 L14,10 Z M14,6 L2,6 L2,8 L14,8 L14,6 Z M18.51,16.25 L21,18.75 L18.51,21.25 L18.51,19.5 L13,19.5 L13,18 L18.51,18 L18.51,16.25 Z M15.49,12 L15.49,13.75 L21,13.75 L21,15.25 L15.49,15.25 L15.49,17 L13,14.5 L15.49,12 Z M10,14 L10,16 L2,16 L2,14 L10,14 Z"
-										id="Shape"
-										fill="#000000"
-										fillRule="nonzero"
-									></path>
-								</g>
-								<g id="loop-24px">
-									<polygon
-										id="Path"
-										points="13 12 26 12 26 25 13 25"
-									></polygon>
-									<g id="transfer_within_a_station-24px">
-										<polygon
-											id="Path"
-											points="0 0 24 0 24 24 0 24"
-										></polygon>
-									</g>
-								</g>
-							</g>
-						</MaterialUI.SvgIcon>
-					</MaterialUI.Icon>
-				)}
-
-				<MaterialUI.Typography>
-					Nation selection:{" "}
-					{this.state.game.Properties.NationAllocation == 1
-						? "Preferences"
-						: "Random"}{" "}
-				</MaterialUI.Typography>
-			</div>
-		);
-
-		if (this.state.game.Properties.MinRating) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue83a")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Minimum rating: {this.state.game.Properties.MinRating}{" "}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.MaxRating) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue83a")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Maximum rating: {this.state.game.Properties.MaxRating}{" "}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.MinReliability) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue425")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Minimum reliability:{" "}
-						{this.state.game.Properties.MinReliability}{" "}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.MinQuickness) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						{helpers.createIcon("\ue425")}
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Minimum quickness:{" "}
-						{this.state.game.Properties.MinQuickness}{" "}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.MaxHated) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						<MaterialUI.SvgIcon>
-							<g
-								id="Artboard"
-								stroke="none"
-								strokeWidth="1"
-								fill="none"
-								fillRule="evenodd"
-							>
-								<g
-									id="emoticon-angry-outline"
-									transform="translate(1.000000, 1.000000)"
-									fill="#000000"
-									fillRule="nonzero"
-								>
-									<path
-										d="M1.05,0.08 L13.4993434,12.5296465 L13.509,12.519 L13.9296465,12.939697 L12.939697,13.9296465 L11.4291042,12.4206404 C10.184652,13.4375261 8.62132228,14 7,14 C5.14348457,14 3.36300718,13.2625021 2.05025253,11.9497475 C0.737497883,10.6369928 0,8.85651543 0,7 C0,5.31921341 0.592383418,3.77678538 1.57975754,2.57010863 L0.0703535444,1.06030304 L1.05,0.08 Z M2.5761358,3.566003 C1.83897141,4.51428911 1.4,5.70588092 1.4,7 C1.4,10.0927946 3.9072054,12.6 7,12.6 C8.29411908,12.6 9.48571089,12.1610286 10.433997,11.4238642 L9.305,10.295 L8.939,10.661 C8.624,10.15 7.875,9.8 7,9.8 C6.125,9.8 5.376,10.15 5.061,10.661 L4.067,9.667 C4.697,8.904 5.775,8.4 7,8.4 C7.14658996,8.4 7.29107491,8.40721717 7.43293907,8.42123168 L5.12607623,6.1169691 C4.95837689,6.23170489 4.75906667,6.3 4.55,6.3 C3.99,6.3 3.5,5.81 3.5,5.25 L3.5,4.49 L2.5761358,3.566003 Z M7,0 C8.85651543,0 10.6369928,0.737497883 11.9497475,2.05025253 C13.2625021,3.36300718 14,5.14348457 14,7 C14,8.14229525 13.7207968,9.25580388 13.2001824,10.2492879 L12.1507771,9.20127306 C12.4399256,8.52556954 12.6,7.78147846 12.6,7 C12.6,5.51478766 12.0100017,4.09040574 10.959798,3.04020203 C9.90959426,1.98999831 8.48521234,1.4 7,1.4 C6.21813639,1.4 5.47369701,1.56023219 4.79772792,1.84965051 L3.74828763,0.799495095 C4.71989309,0.288908589 5.82620744,0 7,0 Z M10.5,4.2 L10.5,5.25 C10.5,5.81 10.01,6.3 9.45,6.3 C8.89,6.3 8.4,5.81 8.4,5.25 L10.5,4.2 Z"
-										id="Combined-Shape"
-									></path>
-								</g>
-							</g>
-						</MaterialUI.SvgIcon>
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Maximum hated:
-						{this.state.game.Properties.MaxHated}{" "}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (this.state.game.Properties.MaxHater) {
-			expandedGameCells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<MaterialUI.Icon style={{ marginRight: "8px" }}>
-						<MaterialUI.SvgIcon>
-							<g
-								id="Artboard"
-								stroke="none"
-								strokeWidth="1"
-								fill="none"
-								fillRule="evenodd"
-							>
-								<g
-									id="emoticon-angry-outline"
-									transform="translate(1.000000, 1.000000)"
-									fill="#000000"
-									fillRule="nonzero"
-								>
-									<path
-										d="M1.05,0.08 L13.4993434,12.5296465 L13.509,12.519 L13.9296465,12.939697 L12.939697,13.9296465 L11.4291042,12.4206404 C10.184652,13.4375261 8.62132228,14 7,14 C5.14348457,14 3.36300718,13.2625021 2.05025253,11.9497475 C0.737497883,10.6369928 0,8.85651543 0,7 C0,5.31921341 0.592383418,3.77678538 1.57975754,2.57010863 L0.0703535444,1.06030304 L1.05,0.08 Z M2.5761358,3.566003 C1.83897141,4.51428911 1.4,5.70588092 1.4,7 C1.4,10.0927946 3.9072054,12.6 7,12.6 C8.29411908,12.6 9.48571089,12.1610286 10.433997,11.4238642 L9.305,10.295 L8.939,10.661 C8.624,10.15 7.875,9.8 7,9.8 C6.125,9.8 5.376,10.15 5.061,10.661 L4.067,9.667 C4.697,8.904 5.775,8.4 7,8.4 C7.14658996,8.4 7.29107491,8.40721717 7.43293907,8.42123168 L5.12607623,6.1169691 C4.95837689,6.23170489 4.75906667,6.3 4.55,6.3 C3.99,6.3 3.5,5.81 3.5,5.25 L3.5,4.49 L2.5761358,3.566003 Z M7,0 C8.85651543,0 10.6369928,0.737497883 11.9497475,2.05025253 C13.2625021,3.36300718 14,5.14348457 14,7 C14,8.14229525 13.7207968,9.25580388 13.2001824,10.2492879 L12.1507771,9.20127306 C12.4399256,8.52556954 12.6,7.78147846 12.6,7 C12.6,5.51478766 12.0100017,4.09040574 10.959798,3.04020203 C9.90959426,1.98999831 8.48521234,1.4 7,1.4 C6.21813639,1.4 5.47369701,1.56023219 4.79772792,1.84965051 L3.74828763,0.799495095 C4.71989309,0.288908589 5.82620744,0 7,0 Z M10.5,4.2 L10.5,5.25 C10.5,5.81 10.01,6.3 9.45,6.3 C8.89,6.3 8.4,5.81 8.4,5.25 L10.5,4.2 Z"
-										id="Combined-Shape"
-									></path>
-								</g>
-							</g>
-						</MaterialUI.SvgIcon>
-					</MaterialUI.Icon>
-					<MaterialUI.Typography>
-						Maximum hater: {this.state.game.Properties.MaxHater}
-					</MaterialUI.Typography>
-				</div>
-			);
-		}
-		if (
-			this.state.game.Properties.DisableConferenceChat ||
-			this.state.game.Properties.DisableGroupChat ||
-			this.state.game.Properties.DisablePrivateChat
-		) {
-			if (
-				this.state.game.Properties.DisableConferenceChat &&
-				this.state.game.Properties.DisableGroupChat &&
-				this.state.game.Properties.DisablePrivateChat
-			) {
-				// Add two columns because this is required for formatting nicely.
-				expandedGameCells.push(
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							alignItems: "center"
-						}}
-					>
-						<MaterialUI.Icon style={{ marginRight: "8px" }}>
-							<MaterialUI.SvgIcon>
-								<g
-									id="Artboard"
-									stroke="none"
-									strokeWidth="1"
-									fill="none"
-									fillRule="evenodd"
-								>
-									<g id="message-24px">
-										<polygon
-											id="Path"
-											points="0 0 24 0 24 24 0 24"
-										></polygon>
-										<path
-											d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
-											id="Combined-Shape"
-											fill="#000000"
-											fillRule="nonzero"
-										></path>
-									</g>
-								</g>
-							</MaterialUI.SvgIcon>
-						</MaterialUI.Icon>
-						<MaterialUI.Typography>
-							No chat (Gunboat)
-						</MaterialUI.Typography>
-					</div>
-				);
-			} else {
-				// Sort channel types by whether they're enabled or disabled.
-				let allChannels = { false: [], true: [] };
-				allChannels[
-					this.state.game.Properties.DisableConferenceChat
-				].push("Conference");
-				allChannels[this.state.game.Properties.DisableGroupChat].push(
-					"Group"
-				);
-				allChannels[this.state.game.Properties.DisablePrivateChat].push(
-					"Private"
-				);
-				expandedGameCells.push(
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							alignItems: "center"
-						}}
-					>
-						<MaterialUI.Icon style={{ marginRight: "8px" }}>
-							<MaterialUI.SvgIcon>
-								<g
-									id="Artboard"
-									stroke="none"
-									strokeWidth="1"
-									fill="none"
-									fillRule="evenodd"
-								>
-									<g id="message-24px">
-										<polygon
-											id="Path"
-											points="0 0 24 0 24 24 0 24"
-										></polygon>
-										<path
-											d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
-											id="Combined-Shape"
-											fill="#000000"
-											fillRule="nonzero"
-										></path>
-									</g>
-								</g>
-							</MaterialUI.SvgIcon>
-						</MaterialUI.Icon>
-						<MaterialUI.Typography>
-							{" "}
-							{allChannels[false].join(" & ")} chat off
-						</MaterialUI.Typography>
-					</div>
-				);
-				expandedGameCells.push(
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							alignItems: "center"
-						}}
-					>
-						<MaterialUI.Icon style={{ marginRight: "8px" }}>
-							{helpers.createIcon("\ue0c9")}
-						</MaterialUI.Icon>
-						<MaterialUI.Typography>
-							{" "}
-							{allChannels[true].join(" & ")} chat on{" "}
-						</MaterialUI.Typography>
-					</div>
-				);
-			}
-		}
-		let expandedGameItems = [];
 		let itemKey = 0;
-
 		let buttons = [];
-
-		if (this.state.game.Properties.ActiveBans) {
+		if (
+			this.state.game.Properties.Open &&
+			this.state.game.Properties.ActiveBans &&
+			this.state.game.Properties.ActiveBans.length > 0
+		) {
 			buttons.push(
 				<MaterialUI.Typography
 					key="banned-notice"
 					className={noticeClass}
 				>
-					You can't join becaues you banned or are banned by a player.
+					You can't join because you banned or are banned by a player.
 				</MaterialUI.Typography>
 			);
 		}
-		if (this.state.game.Properties.FailedRequirements) {
+		if (
+			!this.state.game.Properties.Closed &&
+			this.state.game.Properties.FailedRequirements
+		) {
 			buttons.push(
 				<MaterialUI.Typography
 					key="requirement-notice"
 					className={noticeClass}
 				>
 					You can't join this game because:{" "}
-					{this.state.game.Properties.FailedRequirements.join(", ")}.
+					{this.state.game.Properties.FailedRequirements.map(
+						(req) => {
+							return this.failureExplanations()[req];
+						}
+					).join(" ")}
 				</MaterialUI.Typography>
 			);
 		}
@@ -820,7 +464,7 @@ export default class GameListElement extends React.Component {
 					style={{
 						marginRight: "16px",
 						minWidth: "100px",
-						marginBottom: "4px"
+						marginBottom: "4px",
 					}}
 					color="primary"
 					onClick={this.viewGame}
@@ -836,7 +480,7 @@ export default class GameListElement extends React.Component {
 						style={{
 							marginRight: "16px",
 							minWidth: "100px",
-							marginBottom: "4px"
+							marginBottom: "4px",
 						}}
 						color="primary"
 						onClick={this.renameGame}
@@ -847,9 +491,17 @@ export default class GameListElement extends React.Component {
 				);
 			}
 		}
-		this.state.game.Links.forEach(link => {
+		let hasInviteDialog = false;
+		this.state.game.Links.forEach((link) => {
 			if (link.Rel == "join") {
-				if (this.state.game.Properties.PhaseLengthMinutes < 60 * 12) {
+				if (
+					this.state.game.Properties.PhaseLengthMinutes < 60 * 12 ||
+					(this.state.game.Properties.NonMovementPhaseLengthMinutes !=
+						0 &&
+						this.state.game.Properties
+							.NonMovementPhaseLengthMinutes <
+							60 * 12)
+				) {
 					buttons.unshift(
 						<MaterialUI.Typography
 							key="deadline-warning"
@@ -885,11 +537,29 @@ export default class GameListElement extends React.Component {
 						variant="outlined"
 						color="primary"
 						style={{ marginRight: "16px", minWidth: "100px" }}
-						onClick={_ => {
+						onClick={(_) => {
 							this.joinGame(link);
 						}}
 					>
 						Join
+					</MaterialUI.Button>
+				);
+			} else if (link.Rel == "edit-newest-phase-deadline-at") {
+				buttons.push(
+					<MaterialUI.Button
+						key={itemKey++}
+						variant="outlined"
+						color="primary"
+						style={{
+							marginRight: "16px",
+							minWidth: "100px",
+							marginBottom: "4px",
+						}}
+						onClick={(_) => {
+							this.reschedule(link);
+						}}
+					>
+						Reschedule
 					</MaterialUI.Button>
 				);
 			} else if (link.Rel == "leave") {
@@ -901,61 +571,71 @@ export default class GameListElement extends React.Component {
 						style={{
 							marginRight: "16px",
 							minWidth: "100px",
-							marginBottom: "4px"
+							marginBottom: "4px",
 						}}
-						onClick={_ => {
+						onClick={(_) => {
 							this.leaveGame(link);
 						}}
 					>
 						Leave
 					</MaterialUI.Button>
 				);
+			} else if (link.Rel == "delete-game") {
+				buttons.push(
+					<MaterialUI.Button
+						key={itemKey++}
+						variant="outlined"
+						color="primary"
+						style={{
+							marginRight: "16px",
+							minWidth: "100px",
+							marginBottom: "4px",
+						}}
+						onClick={(_) => {
+							this.deleteGame(link);
+						}}
+					>
+						Delete
+					</MaterialUI.Button>
+				);
+			} else if (
+				link.Rel == "invite-user" ||
+				link.Rel.indexOf("uninvite-") == 0
+			) {
+				hasInviteDialog = true;
 			}
 		});
-		expandedGameItems.push(
+		if (hasInviteDialog) {
+			buttons.push(
+				<MaterialUI.Button
+					key={itemKey++}
+					variant="outlined"
+					color="primary"
+					style={{
+						marginRight: "16px",
+						minWidth: "100px",
+						marginBottom: "4px",
+					}}
+					onClick={(_) => {
+						this.manageInvitations();
+					}}
+				>
+					Whitelist
+				</MaterialUI.Button>
+			);
+		}
+		const buttonDiv = (
 			<div
 				key={itemKey++}
 				style={{
 					dispay: "flex",
 					justifyContent: "space-evenly",
-					marginBottom: "8px"
+					marginBottom: "8px",
 				}}
 			>
 				{buttons}
 			</div>
 		);
-		expandedGameCells.forEach(cell =>
-			expandedGameItems.push(<div key={itemKey++}>{cell}</div>)
-		);
-
-		let playerList = [];
-		playerList.push(
-			<MaterialUI.Typography
-				key={itemKey++}
-				variant="subtitle2"
-				style={{ color: "rgba(40, 26, 26, 0.7)", marginTop: "4px" }}
-			>
-				Players:
-			</MaterialUI.Typography>
-		);
-
-		this.state.game.Properties.Members.forEach(member => {
-			playerList.push(
-				<div
-					key={itemKey++}
-					style={{
-						display: "flex",
-						alignItems: "center",
-						marginBottom: "4px"
-					}}
-				>
-					<UserAvatar user={member.User} />
-					<MaterialUI.Typography>
-						{member.User.GivenName} {member.User.FamilyName}
-					</MaterialUI.Typography>
-				</div>
-			);
-		});
 
 		let summary = (
 			<div
@@ -964,10 +644,10 @@ export default class GameListElement extends React.Component {
 					flexDirection: "column",
 					width: "100%",
 
-					marginTop: "8px"
+					marginTop: "8px",
 				}}
 			>
-				{(_ => {
+				{((_) => {
 					if (this.state.game.Properties.Started) {
 						return (
 							<React.Fragment>
@@ -976,7 +656,7 @@ export default class GameListElement extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										justifyContent: "space-between",
 									}}
 								>
 									{this.state.member &&
@@ -988,14 +668,15 @@ export default class GameListElement extends React.Component {
 											}
 											color="primary"
 											style={{
-												maxWidth: "calc(100% - 70px)"
+												maxWidth: "calc(100% - 70px)",
 											}}
 										>
 											<MaterialUI.Typography
 												textroverflow="ellipsis"
 												noWrap
 												style={{
-													color: "rgba(40, 26, 26, 1)"
+													color:
+														"rgba(40, 26, 26, 1)",
 												}}
 											>
 												{helpers.gameDesc(
@@ -1010,7 +691,7 @@ export default class GameListElement extends React.Component {
 											noWrap={true}
 											style={{
 												minWidth: "60px",
-												color: "rgba(40, 26, 26, 1)"
+												color: "rgba(40, 26, 26, 1)",
 											}}
 										>
 											{helpers.gameDesc(this.state.game)}
@@ -1024,7 +705,7 @@ export default class GameListElement extends React.Component {
 											alignSelf: "center",
 											display: "flex",
 											alignItems: "center",
-											color: "#281A1A"
+											color: "#281A1A",
 										}}
 									>
 										{this.state.member != null &&
@@ -1060,7 +741,7 @@ export default class GameListElement extends React.Component {
 											variant="body2"
 											style={{
 												paddingLeft: "2px",
-												color: "rgba(40, 26, 26, 1)"
+												color: "rgba(40, 26, 26, 1)",
 											}}
 										>
 											{this.state.game.Properties.Finished
@@ -1130,11 +811,11 @@ export default class GameListElement extends React.Component {
 								{!this.state.member ||
 								this.state.game.Properties.Mustered ? (
 									""
-								) : this.state.game.Properties.Members.find(
-										m => {
-											return m.User.Id == Globals.user.Id;
-										}
-								  ).NewestPhaseState.ReadyToResolve ? (
+								) : (
+										this.state.game.Properties.Members || []
+								  ).find((m) => {
+										return m.User.Id == Globals.user.Id;
+								  }).NewestPhaseState.ReadyToResolve ? (
 									<MaterialUI.Typography>
 										Confirmed ready{" "}
 										{helpers.createIcon("\ue5ca")}
@@ -1145,10 +826,10 @@ export default class GameListElement extends React.Component {
 										style={{
 											marginRight: "16px",
 											minWidth: "100px",
-											marginBottom: "4px"
+											marginBottom: "4px",
 										}}
 										color="primary"
-										onClick={ev => {
+										onClick={(ev) => {
 											ev.stopPropagation();
 											helpers
 												.safeFetch(
@@ -1165,14 +846,14 @@ export default class GameListElement extends React.Component {
 														{
 															headers: {
 																"Content-Type":
-																	"application/json"
+																	"application/json",
 															},
 															method: "PUT",
 															body: JSON.stringify(
 																{
-																	ReadyToResolve: true
+																	ReadyToResolve: true,
 																}
-															)
+															),
 														}
 													)
 												)
@@ -1193,7 +874,7 @@ export default class GameListElement extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										justifyContent: "space-between",
 									}}
 								>
 									<MaterialUI.Typography
@@ -1211,7 +892,7 @@ export default class GameListElement extends React.Component {
 										style={{
 											alignSelf: "center",
 											display: "flex",
-											alignItems: "center"
+											alignItems: "center",
 										}}
 									>
 										{helpers.createIcon("\ue7fb")}{" "}
@@ -1235,7 +916,7 @@ export default class GameListElement extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										justifyContent: "space-between",
 									}}
 								>
 									<MaterialUI.Typography
@@ -1244,7 +925,7 @@ export default class GameListElement extends React.Component {
 										display="inline"
 										variant="caption"
 										style={{
-											color: "rgba(40, 26, 26, 0.7)"
+											color: "rgba(40, 26, 26, 0.7)",
 										}}
 									>
 										{this.state.game.Properties.Variant}{" "}
@@ -1277,13 +958,13 @@ export default class GameListElement extends React.Component {
 						bottom: 0,
 						top: 0,
 						left: 0,
-						background: "#ffffff"
+						background: "#ffffff",
 					}}
 				>
 					<Game
 						onChangeReady={this.reloadGame}
 						onJoinGame={this.reloadGame}
-						onLeaveGame={_ => {
+						onLeaveGame={(_) => {
 							if (this.state.game.Properties.Members.length > 1) {
 								this.reloadGame();
 							} else {
@@ -1292,17 +973,17 @@ export default class GameListElement extends React.Component {
 							}
 						}}
 						unreadMessagesUpdate={this.reloadGame}
-						gamePromise={reload => {
+						gamePromise={(reload) => {
 							if (reload) {
 								return helpers
 									.safeFetch(
 										helpers.createRequest(
-											this.state.game.Links.find(l => {
+											this.state.game.Links.find((l) => {
 												return l.Rel == "self";
 											}).URL
 										)
 									)
-									.then(resp => resp.json());
+									.then((resp) => resp.json());
 							} else {
 								return new Promise((res, rej) => {
 									res(this.state.game);
@@ -1337,7 +1018,7 @@ export default class GameListElement extends React.Component {
 						border: "none",
 						boxShadow: "none",
 						padding: "0px",
-						margin: "0px"
+						margin: "0px",
 					}}
 				>
 					<MaterialUI.ExpansionPanelSummary
@@ -1345,7 +1026,7 @@ export default class GameListElement extends React.Component {
 							root: helpers.scopedClass("padding: 0px;"),
 							content: helpers.scopedClass(
 								"max-width: calc(100% - 32px);"
-							)
+							),
 						}}
 						expandIcon={helpers.createIcon("\ue5cf")}
 					>
@@ -1353,7 +1034,7 @@ export default class GameListElement extends React.Component {
 					</MaterialUI.ExpansionPanelSummary>
 					<MaterialUI.ExpansionPanelDetails
 						classes={{
-							root: helpers.scopedClass("padding: 0px;")
+							root: helpers.scopedClass("padding: 0px;"),
 						}}
 					>
 						{this.state.expanded ? (
@@ -1366,23 +1047,20 @@ export default class GameListElement extends React.Component {
 										flexWrap: "wrap",
 										maxWidth: "960px",
 										width: "100%",
-										marginBottom: "16px"
+										marginBottom: "16px",
 									}}
 								>
 									<div
 										style={{
-											maxWidth: "460px"
+											maxWidth: "460px",
 										}}
 									>
-										{expandedGameItems}
-									</div>
-									<div
-										style={{
-											width: "100%",
-											maxWidth: "460px"
-										}}
-									>
-										{playerList}
+										{buttonDiv}
+										<GameMetadata
+											game={this.state.game}
+											withKickButtons={true}
+											reloadGame={this.reloadGame}
+										/>
 									</div>
 								</div>
 								<MaterialUI.Divider />
@@ -1394,7 +1072,7 @@ export default class GameListElement extends React.Component {
 				</MaterialUI.ExpansionPanel>
 				{this.state.viewOpen ? gameView : ""}
 				<NationPreferencesDialog
-					parentCB={c => {
+					parentCB={(c) => {
 						this.nationPreferencesDialog = c;
 					}}
 					onSelected={null}
@@ -1403,10 +1081,30 @@ export default class GameListElement extends React.Component {
 					<RenameGameDialog
 						onRename={this.reloadGame}
 						game={this.state.game}
-						parentCB={c => {
+						parentCB={(c) => {
 							this.renameGameDialog = c;
 						}}
 					/>
+				) : (
+					""
+				)}
+				{this.state.game.Properties.GameMaster &&
+				this.state.game.Properties.GameMaster.Id == Globals.user.Id ? (
+					<React.Fragment>
+						<RescheduleDialog
+							parentCB={(c) => {
+								this.rescheduleDialog = c;
+							}}
+							onSubmit={this.onRescheduleSubmit}
+						/>
+						<ManageInvitationsDialog
+							game={this.state.game}
+							parentCB={(c) => {
+								this.manageInvitationsDialog = c;
+							}}
+							reloadGame={this.reloadGame}
+						/>
+					</React.Fragment>
 				) : (
 					""
 				)}

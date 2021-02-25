@@ -8,7 +8,7 @@ export default class SettingsDialog extends React.Component {
 		this.state = {
 			open: false,
 			userConfig: Globals.userConfig,
-			newColorOverrideVariant: "Classical"
+			newColorOverrideVariant: "Classical",
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -21,7 +21,7 @@ export default class SettingsDialog extends React.Component {
 		this.saveConfig = this.saveConfig.bind(this);
 	}
 	newColorDeleter(nation) {
-		return _ => {
+		return (_) => {
 			if (
 				Globals.colorOverrides.variants[
 					this.state.newColorOverrideVariant
@@ -35,7 +35,7 @@ export default class SettingsDialog extends React.Component {
 		};
 	}
 	newColorSetter(nation) {
-		return color => {
+		return (color) => {
 			const variant = this.state.newColorOverrideVariant;
 			if (!Globals.colorOverrides.variants[variant]) {
 				Globals.colorOverrides.variants[variant] = {};
@@ -51,7 +51,7 @@ export default class SettingsDialog extends React.Component {
 				state.userConfig.Properties.Colors =
 					Globals.colorOverrides.positions;
 				Object.keys(Globals.colorOverrides.nations || {}).forEach(
-					nation => {
+					(nation) => {
 						state.userConfig.Properties.Colors.push(
 							nation.replace(helpers.overrideReg, "") +
 								"/" +
@@ -60,10 +60,10 @@ export default class SettingsDialog extends React.Component {
 					}
 				);
 				Object.keys(Globals.colorOverrides.variants || {}).forEach(
-					variant => {
+					(variant) => {
 						Object.keys(
 							Globals.colorOverrides.variants[variant] || {}
-						).forEach(nation => {
+						).forEach((nation) => {
 							state.userConfig.Properties.Colors.push(
 								variant.replace(helpers.overrideReg, "") +
 									"/" +
@@ -94,7 +94,7 @@ export default class SettingsDialog extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "SettingsDialog",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
@@ -104,7 +104,7 @@ export default class SettingsDialog extends React.Component {
 			this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead ||
 				"0"
 		);
-		let updateLink = this.state.userConfig.Links.find(l => {
+		let updateLink = this.state.userConfig.Links.find((l) => {
 			return l.Rel == "update";
 		});
 		helpers.incProgress();
@@ -113,13 +113,13 @@ export default class SettingsDialog extends React.Component {
 				helpers.createRequest(updateLink.URL, {
 					method: updateLink.Method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(this.state.userConfig.Properties)
+					body: JSON.stringify(this.state.userConfig.Properties),
 				})
 			)
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				helpers.decProgress();
 				Globals.userConfig = js;
 				helpers.parseUserConfigColors();
@@ -145,7 +145,7 @@ export default class SettingsDialog extends React.Component {
 				}
 				return state;
 			},
-			_ => {}
+			(_) => {}
 		);
 	}
 	render() {
@@ -156,7 +156,7 @@ export default class SettingsDialog extends React.Component {
 				fullScreen
 				disableBackdropClick={false}
 				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;")
+					paper: helpers.scopedClass("margin: 2px; width: 100%;"),
 				}}
 				onClose={this.close}
 			>
@@ -188,14 +188,14 @@ export default class SettingsDialog extends React.Component {
 									padding: "0px 16px",
 									display: "flex",
 									flexDirection: "column",
-									maxWidth: "940px"
+									maxWidth: "940px",
 								}}
 							>
 								<MaterialUI.Typography
 									variant="subtitle2"
 									style={{
 										color: "rgba(40, 26, 26, 0.56)",
-										padding: "16px 0px"
+										padding: "16px 0px",
 									}}
 								>
 									Notifications
@@ -205,12 +205,12 @@ export default class SettingsDialog extends React.Component {
 										style={{
 											width: "100%",
 											maxWidth: "920px",
-											paddingLeft: "0px"
+											paddingLeft: "0px",
 										}}
 										classes={{
 											root: helpers.scopedClass(
 												"padding-left:0px"
-											)
+											),
 										}}
 										control={
 											<MaterialUI.Switch
@@ -223,13 +223,13 @@ export default class SettingsDialog extends React.Component {
 														.hasPermission ==
 													"false"
 												}
-												onChange={ev => {
+												onChange={(ev) => {
 													const wantedState =
 														ev.target.checked;
 													helpers.incProgress();
 													Globals.messaging
 														.start()
-														.then(js => {
+														.then((js) => {
 															helpers.decProgress();
 															let currentConfig = this
 																.state
@@ -249,7 +249,7 @@ export default class SettingsDialog extends React.Component {
 																	state.userConfig = currentConfig;
 																	return state;
 																},
-																_ => {
+																(_) => {
 																	if (
 																		Globals
 																			.messaging
@@ -273,11 +273,13 @@ export default class SettingsDialog extends React.Component {
 																					? Globals.messaging.uploadToken()
 																					: Globals.messaging.refreshToken();
 																			uploadPromise.then(
-																				js => {
+																				(
+																					js
+																				) => {
 																					helpers.decProgress();
 																					this.setState(
 																						{
-																							config: js
+																							config: js,
 																						}
 																					);
 																				}
@@ -306,16 +308,22 @@ export default class SettingsDialog extends React.Component {
 												window.Wrapper.startFCM) ? (
 												Globals.messaging
 													.tokenOnServer ? (
-													Globals.messaging
-														.tokenEnabled ? (
-														""
+													window.Wrapper &&
+													window.Wrapper
+														.notificationStatus ? (
+														window.Wrapper.notificationStatus() !=
+														"OK" ? (
+															window.Wrapper.notificationStatus()
+														) : (
+															""
+														)
 													) : (
 														""
 													)
 												) : (
 													<p
 														style={{
-															marginTop: "2px"
+															marginTop: "2px",
 														}}
 													>
 														<MaterialUI.Typography variant="caption">
@@ -371,7 +379,7 @@ export default class SettingsDialog extends React.Component {
 													.Properties.MailConfig
 													.Enabled
 											}
-											onChange={ev => {
+											onChange={(ev) => {
 												ev.persist();
 												this.setState(
 													(state, props) => {
@@ -410,7 +418,7 @@ export default class SettingsDialog extends React.Component {
 									fullWidth
 									style={{
 										marginTop: "1px",
-										maxWidth: "180px"
+										maxWidth: "180px",
 									}}
 									disabled={
 										!this.state.userConfig.Properties
@@ -439,7 +447,7 @@ export default class SettingsDialog extends React.Component {
 									style={{
 										color: "rgba(40, 26, 26, 0.56)",
 										marginTop: "16px",
-										padding: "16px 0px"
+										padding: "16px 0px",
 									}}
 								>
 									Custom nation colours
@@ -466,9 +474,9 @@ export default class SettingsDialog extends React.Component {
 												this.state
 													.newColorOverrideVariant
 											}
-											onChange={ev => {
+											onChange={(ev) => {
 												const variant = Globals.variants.find(
-													v => {
+													(v) => {
 														return (
 															v.Properties.Name ==
 															ev.target.value
@@ -489,11 +497,11 @@ export default class SettingsDialog extends React.Component {
 												this.setState({
 													newColorOverrideNation: nation,
 													newColorOverrideVariant:
-														ev.target.value
+														ev.target.value,
 												});
 											}}
 										>
-											{Globals.variants.map(variant => {
+											{Globals.variants.map((variant) => {
 												return (
 													<MaterialUI.MenuItem
 														key={
@@ -518,11 +526,11 @@ export default class SettingsDialog extends React.Component {
 									<div
 										style={{
 											display: "flex",
-											flexDirection: "column"
+											flexDirection: "column",
 										}}
 									>
 										{Globals.variants
-											.find(v => {
+											.find((v) => {
 												return (
 													v.Properties.Name ==
 													this.state
@@ -537,7 +545,7 @@ export default class SettingsDialog extends React.Component {
 																display: "flex",
 																height: "48px",
 																alignItems:
-																	"center"
+																	"center",
 															}}
 															key={nation}
 															value={nation}
@@ -553,7 +561,7 @@ export default class SettingsDialog extends React.Component {
 																	display:
 																		"flex",
 																	alignItems:
-																		"center"
+																		"center",
 																}}
 															>
 																<Color
@@ -640,7 +648,7 @@ export default class SettingsDialog extends React.Component {
 																	)}
 																	style={{
 																		color:
-																			"#281A1A"
+																			"#281A1A",
 																	}}
 																>
 																	{helpers.createIcon(
@@ -661,7 +669,7 @@ export default class SettingsDialog extends React.Component {
 						<MaterialUI.Button
 							style={{ color: "red" }}
 							variant="outlined"
-							onClick={_ => {
+							onClick={(_) => {
 								if (
 									document.getElementById("sure-about-reset")
 										.checked
@@ -675,8 +683,8 @@ export default class SettingsDialog extends React.Component {
 											state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
 											return state;
 										},
-										_ => {
-											this.saveConfig().then(_ => {
+										(_) => {
+											this.saveConfig().then((_) => {
 												location.reload();
 											});
 										}
@@ -690,11 +698,11 @@ export default class SettingsDialog extends React.Component {
 								classes={{
 									label: helpers.scopedClass(
 										"font-size: unset;"
-									)
+									),
 								}}
 								control={
 									<MaterialUI.Checkbox
-										onClick={ev => {
+										onClick={(ev) => {
 											ev.stopPropagation();
 										}}
 										style={{ padding: "0 0 0 18" }}

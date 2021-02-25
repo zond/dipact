@@ -22,13 +22,14 @@ export default class StatsDialog extends React.Component {
 			gameState: this.props.gameState,
 		};
 		this.member = this.props.game
-			? this.props.game.Properties.Members.find((e) => {
+
+			? (this.props.game.Properties.Members || []).find((e) => {
 					return e.User.Email == Globals.user.Email;
 			  })
 			: null;
 		this.makeRow = this.makeRow.bind(this);
 		this.nation = this.props.game
-			? this.props.game.Properties.Members.find((m) => {
+			? (this.props.game.Properties.Members || []).find((m) => {
 					return m.User.Id == this.props.user.Id;
 			  }).Nation
 			: null;
@@ -224,33 +225,83 @@ export default class StatsDialog extends React.Component {
 									flexDirection: "column",
 								}}
 							>
-								{this.makeRow(
-									"Ranking",
-									<MaterialUI.Button
-										variant="outlined"
-										onClick={(_) => {
-											this.setState({
-												leaderboardDialogOpen: true,
-											});
-										}}
-									>
-										{"#" +
-											(this.state.userStats.Properties
-												.TrueSkill.HigherRatedCount +
-												1)}
-									</MaterialUI.Button>
-								)}
-								{this.makeRow(
-									"TrueSkill rating",
-									helpers.twoDecimals(
-										this.state.userStats.Properties
-											.TrueSkill.Rating
-									)
-								)}
-								{this.makeRow(
-									"Rating percentile",
-									"" +
-										helpers.ratingPercentile(
+								<MaterialUI.Table>
+									<MaterialUI.TableBody>
+										{this.makeRow(
+											"Ranking (position in server wide leaderboard)",
+											<MaterialUI.Button
+												variant="outlined"
+												onClick={(_) => {
+													this.setState({
+														leaderboardDialogOpen: true,
+													});
+												}}
+											>
+												{"#" +
+													(this.state.userStats
+														.Properties.TrueSkill
+														.HigherRatedCount +
+														1)}
+											</MaterialUI.Button>
+										)}
+										{this.makeRow(
+											"TrueSkill rating (calculation based on win/loss history)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.TrueSkill.Rating
+											)
+										)}
+										{this.makeRow(
+											"Rating percentile (percentage of active players as good or better)",
+											"" +
+												helpers.ratingPercentile(
+													this.state.userStats
+														.Properties.TrueSkill
+														.Rating
+												) +
+												"%"
+										)}
+										{this.makeRow(
+											"Reliability (ratio of non NMR phases)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Reliability
+											)
+										)}
+										{this.makeRow(
+											"Quickness (ratio of committed phases)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Quickness
+											)
+										)}
+										{this.makeRow(
+											"Hated (ratio of games resulting in being banned)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Hated
+											)
+										)}
+										{this.makeRow(
+											"Hater (ratio of games resulting in banning someone)",
+											helpers.twoDecimals(
+												this.state.userStats.Properties
+													.Hater
+											)
+										)}
+										{this.makeRow(
+											"Joined games",
+											this.state.userStats.Properties
+												.JoinedGames
+										)}
+										{this.makeRow(
+											"Started games",
+											this.state.userStats.Properties
+												.StartedGames
+										)}
+										{this.makeRow(
+											"Finished games",
+
 											this.state.userStats.Properties
 												.TrueSkill.Rating
 										) +

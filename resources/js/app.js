@@ -21,11 +21,15 @@ window.Globals = {
 		headers: {
 			"X-Diplicity-API-Level": "8",
 			Accept: "application/json",
-			"X-Diplicity-Client-Name": "dipact@" + hrefURL.host
+			"X-Diplicity-Client-Name": "dipact@" + hrefURL.host,
 		},
-		mode: "cors"
+		mode: "cors",
 	}),
-	user: { Properties: {} },
+	user: {},
+	onNewForumMail: (fm) => {
+		window.Globals.latestForumMail = fm;
+	},
+	latestForumMail: null,
 	userStats: { Properties: { TrueSkill: {} } },
 	userConfig: { Properties: { FCMTokens: [], MailConfig: {}, Colors: [] } },
 	token: null,
@@ -35,7 +39,7 @@ window.Globals = {
 	variants: [],
 	memoizeCache: {},
 	messaging: Messaging,
-	contrastColors: (_ => {
+	contrastColors: ((_) => {
 		let m = dippyMap($("body"));
 		return m.contrasts;
 	})(),
@@ -44,14 +48,14 @@ window.Globals = {
 		variantCodes: {},
 		positions: [],
 		variants: {},
-		nations: {}
+		nations: {},
 	},
 	backListeners: [],
 	WrapperCallbacks: {},
 	bans: {},
 	loginURL: null,
 	userRatingHistogram: null,
-	fakeID: fakeID
+	fakeID: fakeID,
 };
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
@@ -63,7 +67,7 @@ ReactDOM.render(
 	document.getElementById("app")
 );
 
-addEventListener("error", ev => {
+addEventListener("error", (ev) => {
 	const oldErrorsJSON = localStorage.getItem("errors");
 	const oldErrors = oldErrorsJSON ? JSON.parse(oldErrorsJSON) : [];
 	const struct = {
@@ -72,7 +76,7 @@ addEventListener("error", ev => {
 		filename: ev.filename,
 		lineno: ev.lineno,
 		colno: ev.colno,
-		error: ev.error
+		error: ev.error,
 	};
 	oldErrors.push(struct);
 	while (oldErrors.length > 64) {
@@ -83,7 +87,7 @@ addEventListener("error", ev => {
 	return false;
 });
 
-addEventListener("popstate", ev => {
+addEventListener("popstate", (ev) => {
 	if (Globals.backListeners.length > 0) {
 		const listener = Globals.backListeners.shift();
 		listener();

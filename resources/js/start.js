@@ -2,6 +2,7 @@ import * as helpers from '%{ cb "/js/helpers.js" }%';
 import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import GameList from '%{ cb "/js/game_list.js" }%';
 import CreateGameDialog from '%{ cb "/js/create_game_dialog.js" }%';
+import NewsDialog from '%{ cb "/js/news_dialog.js" }%';
 
 const latestNews = 1;
 const latestNewsShownKey = "latestNewsShownKey";
@@ -22,7 +23,6 @@ export default class Start extends React.Component {
 		this.myFinishedGamesList = null;
 		this.errorsDialog = null;
 
-		this.newsDialog = this.newsDialog.bind(this);
 		this.hasPlayed = this.hasPlayed.bind(this);
 		localStorage.setItem(latestNewsShownKey, "" + latestNews);
 	}
@@ -36,252 +36,16 @@ export default class Start extends React.Component {
 		gtag("set", { page_title: "Start", page_location: location.href });
 		gtag("event", "page_view");
 	}
-	newsDialog() {
-		return (
-			<React.Fragment>
-				<MaterialUI.Dialog
-					open={this.state.newsDialogOpen}
-					fullScreen
-					onClose={(_) => {
-						this.setState({ newsDialogOpen: false });
-					}}
-				>
-					<MaterialUI.AppBar>
-						<MaterialUI.Toolbar>
-							<MaterialUI.IconButton
-								edge="start"
-								color="inherit"
-								onClick={(_) => {
-									this.setState({ newsDialogOpen: false });
-								}}
-								aria-label="close"
-							>
-								{helpers.createIcon("\ue5cd")}
-							</MaterialUI.IconButton>
-							<MaterialUI.Typography
-								variant="h6"
-								style={{ paddingLeft: "16px" }}
-							>
-								Beta center
-							</MaterialUI.Typography>
-						</MaterialUI.Toolbar>
-					</MaterialUI.AppBar>
-					<div
-						style={{
-							height: "100%",
-							padding: "0x",
-							margin: "0px",
-							maxWidth: "940px",
-							marginLeft: "auto",
-							marginRight: "auto",
-						}}
-					>
-						<div
-							style={{
-								padding: "16px",
-								marginTop: "56px",
-								height: "calc(100% - 158px)",
-							}}
-						>
-							<MaterialUI.Typography variant="h6" style={{}}>
-								Welcome to the new Diplicity!
-							</MaterialUI.Typography>
-							<MaterialUI.Typography variant="body2">
-								We redesigned our app and started using the new
-								version, which is still in Beta. This means
-								there may be some (small) bugs that we haven't
-								found on our own.
-								<br /> If you encounter an issue, please let us
-								know and we'll try to fix it ASAP.
-								<br />
-								<br />
-								Thanks!
-							</MaterialUI.Typography>
-
-							<div
-								style={{
-									marginTop: "32px",
-									display: "flex",
-									justifyContent: "space-evenly",
-								}}
-							>
-								<div
-									style={{
-										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-									}}
-								>
-									{helpers.createIcon("\ue0b7")}
-
-									<MaterialUI.Typography variant="caption">
-										<a
-											href="https://groups.google.com/forum/#!forum/diplicity-talk"
-											style={{
-												color: "#281A1A",
-												textDecoration: "none",
-											}}
-										>
-											Give feedback
-										</a>
-									</MaterialUI.Typography>
-								</div>
-								<div
-									style={{
-										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-									}}
-								>
-									{helpers.createIcon("\ue868")}
-									<MaterialUI.Typography variant="caption">
-										<a
-											href="mailto:diplicity-talk@googlegroups.com"
-											style={{
-												color: "#281A1A",
-												textDecoration: "none",
-											}}
-										>
-											Report a bug
-										</a>{" "}
-									</MaterialUI.Typography>
-								</div>
-								<div
-									style={{
-										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-									}}
-									onClick={(_) => {
-										this.closeDrawer;
-										this.errorsDialog.setState({
-											open: true,
-										});
-									}}
-								>
-									<MaterialUI.SvgIcon>
-										<path
-											fill="black"
-											d="M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z"
-										/>
-									</MaterialUI.SvgIcon>
-									<MaterialUI.Typography variant="caption">
-										<a style={{ color: "#281A1A" }}>
-											Error log
-										</a>
-									</MaterialUI.Typography>
-								</div>
-							</div>
-
-							<div
-								style={{
-									marginTop: "32px",
-									textAlign: "center",
-								}}
-							>
-								<MaterialUI.Button
-									variant="contained"
-									color="primary"
-									onClick={(_) => {
-										this.setState({
-											newsDialogOpen: false,
-										});
-									}}
-								>
-									Show me the new app
-								</MaterialUI.Button>
-							</div>
-							<div
-								style={{
-									textAlign: "center",
-									marginTop: "8px",
-								}}
-							>
-								<MaterialUI.Button
-									color="primary"
-									href="https://sites.google.com/view/diplicity/home/documentation/install-the-old-apk"
-								>
-									Install the old app
-								</MaterialUI.Button>
-							</div>
-						</div>
-						<div
-							style={{
-								backgroundImage:
-									"url('../static/img/soldiers.svg'",
-								height: "72px",
-								top: "auto",
-								bottom: "0px",
-							}}
-						></div>
-					</div>
-				</MaterialUI.Dialog>
-			</React.Fragment>
-		);
-	}
 	render() {
 		return (
 			<React.Fragment>
-				{this.newsDialog()}
 				{this.hasPlayed() ? (
 					<div
 						className={helpers.scopedClass(
 							"height: calc(100% - 114px); overflow-y: scroll;"
 						)}
 					>
-						{this.state.newsDialogOpen ? (
-							""
-						) : (
-							<div
-								style={{
-									minwidth: "150px",
-									borderRadius: "3px",
-									display: "flex",
-									alignItems: "flex-start",
-									padding: "6px 8px",
-									margin: "8px 16px 0px 16px",
-									backgroundColor: "rgb(255, 244, 229)",
-								}}
-								onClick={(_) => {
-									this.setState({ newsDialogOpen: true });
-								}}
-							>
-								<div
-									style={{
-										padding: "5px",
-										marginRight: "8px",
-										color: "rgb(255, 152, 0)",
-									}}
-								>
-									{helpers.createIcon("\ue002")}
-								</div>
-
-								<div
-									style={{
-										display: "flex",
-										flexDirection: "column",
-									}}
-								>
-									<MaterialUI.Typography
-										variant="body1"
-										style={{
-											color: "rgb(97, 26, 21)",
-											fontWeight: "500",
-										}}
-									>
-										This app is in beta state
-									</MaterialUI.Typography>
-
-									<MaterialUI.Typography
-										variant="body2"
-										style={{ color: "rgb(97, 26, 21)" }}
-									>
-										For more info or to report a bug, touch
-										here
-									</MaterialUI.Typography>
-								</div>
-							</div>
-						)}
+						<NewsDialog />
 						<MaterialUI.List>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>

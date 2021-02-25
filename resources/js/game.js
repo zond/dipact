@@ -1,11 +1,13 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
+import MetadataDialog from '%{ cb "/js/metadata_dialog.js" }%';
 import DipMap from '%{ cb "/js/dip_map.js" }%';
 import ChatMenu from '%{ cb "/js/chat_menu.js" }%';
 import OrderList from '%{ cb "/js/order_list.js" }%';
 import GamePlayers from '%{ cb "/js/game_players.js" }%';
 import GameResults from '%{ cb "/js/game_results.js" }%';
 import PreliminaryScores from '%{ cb "/js/preliminary_scores.js" }%';
+import MusteringPopup from '%{ cb "/js/mustering_popup.js" }%';
 import NationPreferencesDialog from '%{ cb "/js/nation_preferences_dialog.js" }%';
 
 export default class Game extends React.Component {
@@ -20,20 +22,22 @@ export default class Game extends React.Component {
 			corroboration: { Properties: {} },
 			variant: null,
 			member: null,
+			marginTop: 105,
 			unreadMessages: 0,
 			laboratoryMode: false,
 			labEditMode: false,
 			labPlayAs: "",
 			gameStates: [],
-			game: null
+			game: null,
 		};
 		this.renderedPhaseOrdinal = null;
 		this.debugCounters = {};
 		this.options = null;
-		this.GamePlayers = null;
+		this.gamePlayersDialog = null;
 		this.gameResults = null;
 		this.preliminaryScores = null;
 		this.nationPreferencesDialog = null;
+		this.metadataDialog = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.changePhase = this.changePhase.bind(this);
@@ -73,18 +77,18 @@ export default class Game extends React.Component {
 		return "";
 	}
 	leave() {
-		const link = this.state.game.Links.find(l => {
+		const link = this.state.game.Links.find((l) => {
 			return l.Rel == "leave";
 		});
 		helpers.incProgress();
 		helpers
 			.safeFetch(
 				helpers.createRequest(link.URL, {
-					method: link.Method
+					method: link.Method,
 				})
 			)
-			.then(resp => resp.json())
-			.then(_ => {
+			.then((resp) => resp.json())
+			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_leave");
 				if (this.props.onLeaveGame) {
@@ -93,12 +97,12 @@ export default class Game extends React.Component {
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter(l => {
+						state.game.Links = state.game.Links.filter((l) => {
 							return l.Rel != "leave";
 						});
 						return state;
 					},
-					_ => {
+					(_) => {
 						if (this.state.game.Properties.Members.length > 1) {
 							this.loadGame();
 						}
@@ -111,16 +115,16 @@ export default class Game extends React.Component {
 			this.nationPreferencesDialog.setState({
 				open: true,
 				nations: this.state.variant.Properties.Nations,
-				onSelected: preferences => {
+				onSelected: (preferences) => {
 					this.joinWithPreferences(preferences);
-				}
+				},
 			});
 		} else {
 			this.joinWithPreferences([]);
 		}
 	}
 	joinWithPreferences(preferences) {
-		const link = this.state.game.Links.find(l => {
+		const link = this.state.game.Links.find((l) => {
 			return l.Rel == "join";
 		});
 		helpers.incProgress();
@@ -129,26 +133,26 @@ export default class Game extends React.Component {
 				helpers.createRequest(link.URL, {
 					method: link.Method,
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						NationPreferences: preferences.join(",")
-					})
+						NationPreferences: preferences.join(","),
+					}),
 				})
 			)
-			.then(_ => {
+			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_join");
 				Globals.messaging.start();
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);
-						state.game.Links = state.game.Links.filter(l => {
+						state.game.Links = state.game.Links.filter((l) => {
 							return l.Rel != "join";
 						});
 						return state;
 					},
-					_ => {
+					(_) => {
 						this.loadGame();
 					}
 				);
@@ -160,7 +164,7 @@ export default class Game extends React.Component {
 	onNewGameState(gameState) {
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
-			state.gameStates = state.gameStates.map(gs => {
+			state.gameStates = state.gameStates.map((gs) => {
 				if (gs.Properties.Nation == gameState.Properties.Nation) {
 					gs.Properties = gameState.Properties;
 				}
@@ -177,7 +181,7 @@ export default class Game extends React.Component {
 						JSON.stringify({
 							activePhase: phase.Properties.PhaseOrdinal,
 							phases: this.state.phases
-								.map(p => {
+								.map((p) => {
 									if (
 										p.Properties.PhaseOrdinal ==
 										phase.Properties.PhaseOrdinal
@@ -187,13 +191,13 @@ export default class Game extends React.Component {
 										return p;
 									}
 								})
-								.filter(p => {
+								.filter((p) => {
 									return (
 										!p.Properties.GameID ||
 										p.Properties.PhaseOrdinal ==
 											phase.Properties.PhaseOrdinal
 									);
-								})
+								}),
 						}),
 						{ to: "string" }
 					)
@@ -204,7 +208,7 @@ export default class Game extends React.Component {
 	labPhaseResolve(resolvedPhase, newPhase) {
 		this.setState({
 			phases: this.state.phases
-				.map(oldPhase => {
+				.map((oldPhase) => {
 					if (
 						oldPhase.Properties.PhaseOrdinal ==
 						resolvedPhase.Properties.PhaseOrdinal
@@ -214,14 +218,14 @@ export default class Game extends React.Component {
 						return oldPhase;
 					}
 				})
-				.filter(oldPhase => {
+				.filter((oldPhase) => {
 					return (
 						oldPhase.Properties.PhaseOrdinal <
 						newPhase.Properties.PhaseOrdinal
 					);
 				})
 				.concat([newPhase]),
-			activePhase: newPhase
+			activePhase: newPhase,
 		});
 	}
 	setUnreadMessages(n) {
@@ -231,8 +235,8 @@ export default class Game extends React.Component {
 		}
 	}
 	phaseJumper(steps) {
-		return _ => {
-			let newPhase = this.state.phases.find(p => {
+		return (_) => {
+			let newPhase = this.state.phases.find((p) => {
 				return (
 					p.Properties.PhaseOrdinal ==
 					this.state.activePhase.Properties.PhaseOrdinal + steps
@@ -253,18 +257,18 @@ export default class Game extends React.Component {
 		}
 	}
 	componentDidMount() {
-		this.loadGame().then(_ => {
+		this.loadGame().then((_) => {
 			helpers.urlMatch(
 				[
 					[
 						/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
-						match => {
+						(match) => {
 							this.setState({ activeTab: "chat" });
-						}
+						},
 					],
 					[
 						/^\/Game\/([^\/]+)\/Lab\/(.+)$/,
-						match => {
+						(match) => {
 							const serializedState = JSON.parse(
 								pako.inflate(
 									atob(
@@ -273,35 +277,35 @@ export default class Game extends React.Component {
 										)
 									),
 									{
-										to: "string"
+										to: "string",
 									}
 								)
 							);
 							const newPhases = this.state.phases.slice();
-							serializedState.phases.forEach(phase => {
+							serializedState.phases.forEach((phase) => {
 								newPhases[
 									phase.Properties.PhaseOrdinal - 1
 								] = phase;
 							});
 							this.setState({
 								laboratoryMode: true,
-								activePhase: newPhases.find(phase => {
+								activePhase: newPhases.find((phase) => {
 									return (
 										phase.Properties.PhaseOrdinal ==
 										serializedState.activePhase
 									);
 								}),
-								phases: newPhases
+								phases: newPhases,
 							});
 							gtag("set", {
 								page_title: "Game",
-								page_location: location.href
+								page_location: location.href,
 							});
 							gtag("event", "page_view");
-						}
-					]
+						},
+					],
 				],
-				_ => {
+				(_) => {
 					history.pushState(
 						"",
 						"",
@@ -321,22 +325,22 @@ export default class Game extends React.Component {
 		if (payload.data.gameID != this.state.game.Properties.ID) {
 			return false;
 		}
-		this.loadGame().then(_ => {
+		this.loadGame().then((_) => {
 			helpers.snackbar("New phase");
 		});
 		return true;
 	}
 	loadGame() {
-		return this.props.gamePromise(!!this.state.game).then(game => {
+		return this.props.gamePromise(!!this.state.game).then((game) => {
 			const promises = [];
-			const gameStatesLink = game.Links.find(l => {
+			const gameStatesLink = game.Links.find((l) => {
 				return l.Rel == "game-states";
 			});
 			if (gameStatesLink) {
 				promises.push(
 					helpers
 						.safeFetch(helpers.createRequest(gameStatesLink.URL))
-						.then(res => res.json())
+						.then((res) => res.json())
 				);
 			}
 			if (game.Properties.Started) {
@@ -344,13 +348,13 @@ export default class Game extends React.Component {
 					helpers
 						.safeFetch(
 							helpers.createRequest(
-								game.Links.find(l => {
+								game.Links.find((l) => {
 									return l.Rel == "phases";
 								}).URL
 							)
 						)
-						.then(resp => resp.json())
-						.then(js => {
+						.then((resp) => resp.json())
+						.then((js) => {
 							return Promise.resolve(js.Properties);
 						})
 				);
@@ -358,24 +362,24 @@ export default class Game extends React.Component {
 				const variantStartPhase =
 					"/Variant/" + game.Properties.Variant + "/Start";
 				promises.push(
-					helpers.memoize(variantStartPhase, _ => {
+					helpers.memoize(variantStartPhase, (_) => {
 						return helpers
 							.safeFetch(helpers.createRequest(variantStartPhase))
-							.then(resp => resp.json())
-							.then(js => {
+							.then((resp) => resp.json())
+							.then((js) => {
 								js.Properties.PhaseOrdinal = 1;
 								return Promise.resolve([js]);
 							});
 					})
 				);
 			}
-			return Promise.all(promises).then(values => {
+			return Promise.all(promises).then((values) => {
 				const gameStates = gameStatesLink ? values[0].Properties : null;
 				const phases = gameStatesLink ? values[1] : values[0];
-				const member = game.Properties.Members.find(e => {
+				const member = (game.Properties.Members || []).find((e) => {
 					return e.User.Email == Globals.user.Email;
 				});
-				const variant = Globals.variants.find(v => {
+				const variant = Globals.variants.find((v) => {
 					return v.Properties.Name == game.Properties.Variant;
 				});
 				this.setState(
@@ -391,7 +395,7 @@ export default class Game extends React.Component {
 							? (member.NewestPhaseState.Messages || "")
 									.split(",")
 									.map(this.refinePhaseMessage)
-									.filter(m => {
+									.filter((m) => {
 										return !!m;
 									})
 							: [],
@@ -403,13 +407,18 @@ export default class Game extends React.Component {
 								!game.Properties.Mustered) &&
 							!member.NewestPhaseState.ReadyToResolve,
 						game: game,
+						marginTop: this.state.laboratoryMode
+							? 56
+							: game.Properties.Started
+							? 105
+							: 157,
 						phases: phases,
-						activePhase: phases[phases.length - 1]
+						activePhase: phases[phases.length - 1],
 					},
-					_ => {
+					(_) => {
 						if (this.state.game.Properties.Finished) {
 							this.gameResults.setState({
-								open: true
+								open: true,
 							});
 						}
 					}
@@ -423,9 +432,9 @@ export default class Game extends React.Component {
 	}
 	changePhase(ev) {
 		this.setState({
-			activePhase: this.state.phases.find(phase => {
+			activePhase: this.state.phases.find((phase) => {
 				return phase.Properties.PhaseOrdinal == ev.target.value;
-			})
+			}),
 		});
 	}
 	render() {
@@ -451,14 +460,14 @@ export default class Game extends React.Component {
 								</MaterialUI.IconButton>
 							) : (
 								<MaterialUI.IconButton
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
 												laboratoryMode: !this.state
-													.laboratoryMode
+													.laboratoryMode,
 											},
-											_ => {
+											(_) => {
 												if (
 													!this.state.laboratoryMode
 												) {
@@ -521,14 +530,14 @@ export default class Game extends React.Component {
 													minWidth: "0",
 													borderBottom:
 														"1px solid rgba(253, 226, 181, 0.7)",
-													color: "rgb(40, 26, 26)"
+													color: "rgb(40, 26, 26)",
 											  }
 											: {
 													width: "100%",
 													minWidth: "0",
 													borderBottom:
 														"1px solid rgba(253, 226, 181, 0.7)",
-													color: "#FDE2B5"
+													color: "#FDE2B5",
 											  }
 									}
 									key="phase-select"
@@ -541,7 +550,7 @@ export default class Game extends React.Component {
 										this.state.activePhase
 									)}
 								>
-									{this.state.phases.map(phase => {
+									{this.state.phases.map((phase) => {
 										return (
 											<MaterialUI.MenuItem
 												key={
@@ -549,7 +558,7 @@ export default class Game extends React.Component {
 														.PhaseOrdinal
 												}
 												style={{
-													textOverflow: "ellipsis"
+													textOverflow: "ellipsis",
 												}}
 												value={
 													phase.Properties
@@ -592,9 +601,9 @@ export default class Game extends React.Component {
 									edge="end"
 									key="more-icon"
 									color="secondary"
-									onClick={ev => {
+									onClick={(ev) => {
 										this.setState({
-											moreMenuAnchorEl: ev.currentTarget
+											moreMenuAnchorEl: ev.currentTarget,
 										});
 									}}
 								>
@@ -607,20 +616,20 @@ export default class Game extends React.Component {
 								anchorEl={this.state.moreMenuAnchorEl}
 								anchorOrigin={{
 									vertical: "top",
-									horizontal: "right"
+									horizontal: "right",
 								}}
 								transformOrigin={{
 									vertical: "top",
-									horizontal: "right"
+									horizontal: "right",
 								}}
-								onClose={_ => {
+								onClose={(_) => {
 									this.setState({ moreMenuAnchorEl: null });
 								}}
 								open={!!this.state.moreMenuAnchorEl}
 							>
 								<MaterialUI.MenuItem
 									key="game-id"
-									onClick={_ => {
+									onClick={(_) => {
 										const hrefURL = new URL(location.href);
 										helpers
 											.copyToClipboard(
@@ -632,30 +641,28 @@ export default class Game extends React.Component {
 														.ID
 											)
 											.then(
-												_ => {
+												(_) => {
 													this.setState({
-														moreMenuAnchorEl: null
+														moreMenuAnchorEl: null,
 													});
 													helpers.snackbar(
 														"Game URL copied to clipboard. Share it to other players."
 													);
 												},
-												err => {
+												(err) => {
 													console.log(err);
 												}
 											);
 										gtag("event", "game_share");
 									}}
 								>
-									{this.state.game.Properties.Started
-										? "Share game"
-										: "Invite"}
+									Share game
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
 									key="download-map"
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState({
-											moreMenuAnchorEl: null
+											moreMenuAnchorEl: null,
 										});
 										this.dip_map.downloadMap();
 										gtag("event", "download_map");
@@ -663,30 +670,38 @@ export default class Game extends React.Component {
 								>
 									Download map
 								</MaterialUI.MenuItem>
+								<MaterialUI.MenuItem
+									key="game-metadata"
+									onClick={(_) => {
+										this.setState({
+											moreMenuAnchorEl: null,
+										});
+										if (
+											this.state.game.Properties.Started
+										) {
+											this.gamePlayersDialog.setState({
+												open: true,
+											});
+										} else {
+											this.metadataDialog.setState({
+												open: true,
+											});
+										}
+									}}
+								>
+									Metadata
+								</MaterialUI.MenuItem>
 								{this.state.game.Properties.Started
 									? [
 											<MaterialUI.MenuItem
-												key="Players"
-												onClick={_ => {
-													this.setState({
-														moreMenuAnchorEl: null
-													});
-													this.GamePlayers.setState({
-														open: true
-													});
-												}}
-											>
-												Players
-											</MaterialUI.MenuItem>,
-											<MaterialUI.MenuItem
 												key="scores"
-												onClick={_ => {
+												onClick={(_) => {
 													this.setState({
-														moreMenuAnchorEl: null
+														moreMenuAnchorEl: null,
 													});
 													this.preliminaryScores.setState(
 														{
-															open: true
+															open: true,
 														}
 													);
 												}}
@@ -697,13 +712,13 @@ export default class Game extends React.Component {
 												.Finished ? (
 												<MaterialUI.MenuItem
 													key="results"
-													onClick={_ => {
+													onClick={(_) => {
 														this.setState({
-															moreMenuAnchorEl: null
+															moreMenuAnchorEl: null,
 														});
 														this.gameResults.setState(
 															{
-																open: true
+																open: true,
 															}
 														);
 													}}
@@ -712,19 +727,19 @@ export default class Game extends React.Component {
 												</MaterialUI.MenuItem>
 											) : (
 												""
-											)
+											),
 									  ]
 									: ""}
 								<MaterialUI.MenuItem
 									key="laboratory-mode"
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
 												laboratoryMode: !this.state
-													.laboratoryMode
+													.laboratoryMode,
 											},
-											_ => {
+											(_) => {
 												if (
 													!this.state.laboratoryMode
 												) {
@@ -745,16 +760,16 @@ export default class Game extends React.Component {
 								</MaterialUI.MenuItem>
 								<MaterialUI.MenuItem
 									key="debug-data"
-									onClick={_ => {
+									onClick={(_) => {
 										helpers
 											.copyToClipboard(
 												JSON.stringify(
 													this.debugCounters
 												)
 											)
-											.then(_ => {
+											.then((_) => {
 												this.setState({
-													moreMenuAnchorEl: null
+													moreMenuAnchorEl: null,
 												});
 												helpers.snackbar(
 													"Debug data copied to clipboard"
@@ -766,143 +781,177 @@ export default class Game extends React.Component {
 								</MaterialUI.MenuItem>
 							</MaterialUI.Menu>
 							{this.state.laboratoryMode ? (
-								<MaterialUI.IconButton
-									onClick={_ => {
-										this.dip_map.labShare();
-									}}
-									color="primary"
-									edge="end"
-									style={{ marginLeft: "auto" }}
-								>
-									{helpers.createIcon("\ue80d")}
-								</MaterialUI.IconButton>
+								<React.Fragment>
+									<MaterialUI.IconButton
+										onClick={(_) => {
+											this.dip_map.downloadMap();
+											gtag("event", "download_map");
+										}}
+										color="primary"
+										edge="end"
+										style={{ marginLeft: "auto" }}
+									>
+										{helpers.createIcon("\ue884")}
+									</MaterialUI.IconButton>
+									<MaterialUI.IconButton
+										onClick={(_) => {
+											this.dip_map.labShare();
+										}}
+										color="primary"
+										edge="end"
+										style={{ marginLeft: "auto" }}
+									>
+										{helpers.createIcon("\ue80d")}
+									</MaterialUI.IconButton>
+								</React.Fragment>
 							) : (
 								""
 							)}
 						</MaterialUI.Toolbar>
-						{!this.state.laboratoryMode &&
-						this.state.game.Properties.Started ? (
-							<MaterialUI.Tabs
-								key="tabs"
-								value={this.state.activeTab}
-								onChange={this.changeTab}
-								display="flex"
-								variant="fullWidth"
-							>
-								<MaterialUI.Tab
-									value="map"
-									icon={helpers.createIcon("\ue55b")}
-								/>
-								<MaterialUI.Tab
-									value="chat"
-									icon={
-										this.state.member &&
-										this.state.unreadMessages > 0 ? (
-											<MaterialUI.Badge
-												badgeContent={
-													this.state.unreadMessages
-												}
-											>
-												{helpers.createIcon("\ue0b7")}
-											</MaterialUI.Badge>
-										) : (
-											helpers.createIcon("\ue0b7")
-										)
-									}
-								/>
-								{this.state.game &&
-								this.state.member &&
-								!this.state.activePhase.Properties.Resolved ? (
-									this.state.member.NewestPhaseState
-										.OnProbation ||
-									!this.state.member.NewestPhaseState
-										.ReadyToResolve ? (
-										<MaterialUI.Tab
-											value="orders"
-											icon={
-												<MaterialUI.SvgIcon>
-													<path
-														d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M5,14 L3,14 L3,16 L5,16 L5,14 Z M15,14 L7,14 L7,16 L15,16 L15,14 Z M5,6 L3,6 L3,12 L5,12 L5,6 Z M15,10 L7,10 L7,12 L15,12 L15,10 Z M15,6 L7,6 L7,8 L15,8 L15,6 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z"
-														id="order_open"
-													></path>
-												</MaterialUI.SvgIcon>
-											}
-										/>
-									) : (
-										<MaterialUI.Tab
-											value="orders"
-											icon={
-												<MaterialUI.SvgIcon>
-													<path
-														d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M13.4347826,7 L7.70608696,12.7391304 L4.56521739,9.60869565 L3,11.173913 L7.70608696,15.8695652 L15,8.56521739 L13.4347826,7 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z"
-														id="order_confirmed"
-													></path>
-												</MaterialUI.SvgIcon>
-											}
-										/>
-									)
-								) : (
-									<MaterialUI.Tab
-										value="orders"
-										icon={helpers.createIcon("\ue616")}
-									/>
-								)}
-							</MaterialUI.Tabs>
-						) : !this.state.laboratoryMode ? (
-							<MaterialUI.Toolbar
-								className={helpers.scopedClass(
-									"display: flex; justify-content: space-between; min-height: 53px;"
-								)}
-							>
-								<div>
-									{this.state.game.Links.find(l => {
-										return l.Rel == "join";
-									}) ? (
-										<MaterialUI.Button
-											variant="outlined"
-											color="secondary"
-											key="join"
-											onClick={this.join}
-										>
-											Join
-										</MaterialUI.Button>
-									) : (
-										""
-									)}
-									{this.state.game.Links.find(l => {
-										return l.Rel == "leave";
-									}) ? (
-										<MaterialUI.Button
-											variant="outlined"
-											color="secondary"
-											key="leave"
-											onClick={this.leave}
-										>
-											Leave
-										</MaterialUI.Button>
-									) : (
-										""
-									)}
-								</div>
-								<div
-									style={{
-										display: "flex",
-										alignItems: "center"
-									}}
-								>
-									{helpers.createIcon("\ue7fb")}{" "}
-									<MaterialUI.Typography
-										variant="body2"
-										style={{ paddingLeft: "2px" }}
+						{!this.state.laboratoryMode ? (
+							<React.Fragment>
+								{!this.state.game.Properties.Started ||
+								this.state.game.Links.find((l) => {
+									return l.Rel == "join";
+								}) ? (
+									<MaterialUI.Toolbar
+										className={helpers.scopedClass(
+											"display: flex; justify-content: space-between; min-height: 53px;"
+										)}
 									>
-										{this.state.game.Properties.NMembers}/
-										{
-											this.state.variant.Properties
-												.Nations.length
-										}{" "}
-									</MaterialUI.Typography>
-								</div>
-							</MaterialUI.Toolbar>
+										<div>
+											{this.state.game.Links.find((l) => {
+												return l.Rel == "join";
+											}) ? (
+												<MaterialUI.Button
+													variant="outlined"
+													color="secondary"
+													key="join"
+													onClick={this.join}
+												>
+													Join
+												</MaterialUI.Button>
+											) : (
+												""
+											)}
+											{this.state.game.Links.find((l) => {
+												return l.Rel == "leave";
+											}) ? (
+												<MaterialUI.Button
+													variant="outlined"
+													color="secondary"
+													key="leave"
+													onClick={this.leave}
+												>
+													Leave
+												</MaterialUI.Button>
+											) : (
+												""
+											)}
+										</div>
+										<div
+											style={{
+												display: "flex",
+												alignItems: "center",
+											}}
+										>
+											{helpers.createIcon("\ue7fb")}{" "}
+											<MaterialUI.Typography
+												variant="body2"
+												style={{ paddingLeft: "2px" }}
+											>
+												{
+													this.state.game.Properties
+														.NMembers
+												}
+												/
+												{
+													this.state.variant
+														.Properties.Nations
+														.length
+												}{" "}
+											</MaterialUI.Typography>
+										</div>
+									</MaterialUI.Toolbar>
+								) : (
+									""
+								)}
+								<MaterialUI.Tabs
+									key="tabs"
+									value={this.state.activeTab}
+									onChange={this.changeTab}
+									display="flex"
+									variant="fullWidth"
+								>
+									<MaterialUI.Tab
+										value="map"
+										icon={helpers.createIcon("\ue55b")}
+									/>
+									<MaterialUI.Tab
+										value="chat"
+										icon={
+											this.state.member &&
+											this.state.unreadMessages > 0 ? (
+												<MaterialUI.Badge
+													badgeContent={
+														this.state
+															.unreadMessages
+													}
+												>
+													{helpers.createIcon(
+														"\ue0b7"
+													)}
+												</MaterialUI.Badge>
+											) : (
+												helpers.createIcon("\ue0b7")
+											)
+										}
+									/>
+									{this.state.game.Properties.Started ? (
+										this.state.member &&
+										!this.state.activePhase.Properties
+											.Resolved ? (
+											this.state.member.NewestPhaseState
+												.OnProbation ||
+											!this.state.member.NewestPhaseState
+												.ReadyToResolve ? (
+												<MaterialUI.Tab
+													value="orders"
+													icon={
+														<MaterialUI.SvgIcon>
+															<path
+																d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M5,14 L3,14 L3,16 L5,16 L5,14 Z M15,14 L7,14 L7,16 L15,16 L15,14 Z M5,6 L3,6 L3,12 L5,12 L5,6 Z M15,10 L7,10 L7,12 L15,12 L15,10 Z M15,6 L7,6 L7,8 L15,8 L15,6 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z"
+																id="order_open"
+															></path>
+														</MaterialUI.SvgIcon>
+													}
+												/>
+											) : (
+												<MaterialUI.Tab
+													value="orders"
+													icon={
+														<MaterialUI.SvgIcon>
+															<path
+																d="M9,0 C10.3,0 11.4,0.84 11.82,2 L11.82,2 L16,2 C17.1045695,2 18,2.8954305 18,4 L18,4 L18,18 C18,19.1045695 17.1045695,20 16,20 L16,20 L2,20 C0.8954305,20 0,19.1045695 0,18 L0,18 L0,4 C0,2.8954305 0.8954305,2 2,2 L2,2 L6.18,2 C6.6,0.84 7.7,0 9,0 Z M13.4347826,7 L7.70608696,12.7391304 L4.56521739,9.60869565 L3,11.173913 L7.70608696,15.8695652 L15,8.56521739 L13.4347826,7 Z M9,2 C8.44771525,2 8,2.44771525 8,3 C8,3.55228475 8.44771525,4 9,4 C9.55228475,4 10,3.55228475 10,3 C10,2.44771525 9.55228475,2 9,2 Z"
+																id="order_confirmed"
+															></path>
+														</MaterialUI.SvgIcon>
+													}
+												/>
+											)
+										) : (
+											<MaterialUI.Tab
+												value="orders"
+												icon={helpers.createIcon(
+													"\ue616"
+												)}
+											/>
+										)
+									) : (
+										""
+									)}
+								</MaterialUI.Tabs>
+							</React.Fragment>
 						) : (
 							<MaterialUI.Toolbar>
 								<MaterialUI.Typography
@@ -915,14 +964,14 @@ export default class Game extends React.Component {
 									key="edit-mode"
 									control={
 										<MaterialUI.Switch
-											onChange={ev => {
+											onChange={(ev) => {
 												this.setState({
 													labEditMode: !ev.target
-														.checked
+														.checked,
 												});
 												this.dip_map.setState({
 													labEditMode: !ev.target
-														.checked
+														.checked,
 												});
 											}}
 											color="primary"
@@ -940,12 +989,12 @@ export default class Game extends React.Component {
 									>
 										<MaterialUI.Select
 											value={this.state.labPlayAs}
-											onChange={ev => {
+											onChange={(ev) => {
 												this.setState({
-													labPlayAs: ev.target.value
+													labPlayAs: ev.target.value,
 												});
 												this.dip_map.setState({
-													labPlayAs: ev.target.value
+													labPlayAs: ev.target.value,
 												});
 											}}
 											style={{
@@ -953,11 +1002,11 @@ export default class Game extends React.Component {
 												minWidth: "0",
 												borderBottom:
 													"1px solid rgba(253, 226, 181, 0.7)",
-												color: "rgb(40, 26, 26)"
+												color: "rgb(40, 26, 26)",
 											}}
 										>
 											{this.state.variant.Properties.Nations.map(
-												nation => {
+												(nation) => {
 													return (
 														<MaterialUI.MenuItem
 															key={nation}
@@ -976,12 +1025,12 @@ export default class Game extends React.Component {
 
 								<MaterialUI.IconButton
 									edge="end"
-									onClick={ev => {
+									onClick={(ev) => {
 										this.dip_map.labResolve();
 									}}
 									style={{
 										marginLeft: "auto",
-										color: "rgb(40, 26, 26)"
+										color: "rgb(40, 26, 26)",
 									}}
 								>
 									{helpers.createIcon("\ue01f")}
@@ -995,28 +1044,39 @@ export default class Game extends React.Component {
 						style={
 							this.state.laboratoryMode
 								? {
-										marginTop: "56px",
-										height: "calc(100% - 56px)",
+										marginTop:
+											"" + this.state.marginTop + "px",
+										height:
+											"calc(100% - " +
+											this.state.marginTop +
+											"px)",
 										backgroundColor: "black",
 										display:
 											this.state.activeTab == "map"
 												? "block"
-												: "none"
+												: "none",
 								  }
 								: {
-										marginTop: "105px",
-										height: "calc(100% - 105px)",
+										marginTop:
+											"" + this.state.marginTop + "px",
+										height:
+											"calc(100% - " +
+											this.state.marginTop +
+											"px)",
 										backgroundColor: "black",
 										display:
 											this.state.activeTab == "map"
 												? "block"
-												: "none"
+												: "none",
 								  }
 						}
 					>
 						<DipMap
-							parentCB={c => {
+							parentCB={(c) => {
 								this.dip_map = c;
+							}}
+							onLeaveProbation={(_) => {
+								this.loadGame();
 							}}
 							debugCount={this.debugCount}
 							labPhaseResolve={this.labPhaseResolve}
@@ -1029,49 +1089,54 @@ export default class Game extends React.Component {
 							variant={this.state.variant}
 						/>
 					</div>
-					{this.state.game.Properties.Started ? (
-						<React.Fragment>
-							<div
-								key="chat-container"
-								style={{
-									marginTop: "105px",
-									height: "calc(100% - 105px)",
-									display:
-										this.state.activeTab == "chat"
-											? "block"
-											: "none"
-								}}
-							>
-								<ChatMenu
-									onNewGameState={this.onNewGameState}
-									gameState={
-										this.state.member &&
-										this.state.gameStates
-											? this.state.gameStates.find(gs => {
-													return (
-														gs.Properties.Nation ==
-														this.state.member.Nation
-													);
-											  })
-											: null
-									}
-									isActive={this.state.activeTab == "chat"}
-									unreadMessages={this.setUnreadMessages}
-									phases={this.state.phases}
-									game={this.state.game}
-									parent={this}
-								/>
-							</div>
+					<React.Fragment>
+						<div
+							key="chat-container"
+							style={{
+								marginTop: "" + this.state.marginTop + "px",
+								height:
+									"calc(100% - " +
+									this.state.marginTop +
+									"px)",
+								display:
+									this.state.activeTab == "chat"
+										? "block"
+										: "none",
+							}}
+						>
+							<ChatMenu
+								onNewGameState={this.onNewGameState}
+								gameState={
+									this.state.member && this.state.gameStates
+										? this.state.gameStates.find((gs) => {
+												return (
+													gs.Properties.Nation ==
+													this.state.member.Nation
+												);
+										  })
+										: null
+								}
+								isActive={this.state.activeTab == "chat"}
+								unreadMessages={this.setUnreadMessages}
+								phases={this.state.phases}
+								game={this.state.game}
+								parent={this}
+							/>
+						</div>
+						{this.state.game.Properties.Started ? (
 							<div
 								key="orders-container"
 								style={{
-									marginTop: "105px",
+									marginTop: "" + this.state.marginTop + "px",
 									overflowY: "scroll",
-									height: "calc(100% - 105px)",
+									height:
+										"calc(100% - " +
+										this.state.marginTop +
+										"px)",
 									display:
 										this.state.activeTab == "orders"
 											? "block"
-											: "none"
+											: "none",
 								}}
 							>
 								<OrderList
@@ -1079,7 +1144,7 @@ export default class Game extends React.Component {
 									member={this.state.member}
 									phase={this.state.activePhase}
 									corroboration={this.state.corroboration}
-									newPhaseStateHandler={phaseState => {
+									newPhaseStateHandler={(phaseState) => {
 										this.setState((state, props) => {
 											state = Object.assign({}, state);
 											state.member.NewestPhaseState =
@@ -1093,36 +1158,63 @@ export default class Game extends React.Component {
 									variant={this.state.variant}
 								/>
 							</div>
-							<GamePlayers
-								gameStates={this.state.gameStates}
-								game={this.state.game}
-								variant={this.state.variant}
-								onNewGameState={this.onNewGameState}
-								parentCB={c => {
-									this.GamePlayers = c;
+						) : (
+							""
+						)}
+						<GamePlayers
+							gameStates={this.state.gameStates}
+							game={this.state.game}
+							variant={this.state.variant}
+							onNewGameState={this.onNewGameState}
+							parentCB={(c) => {
+								this.gamePlayersDialog = c;
+							}}
+						/>
+						<PreliminaryScores
+							phases={this.state.phases}
+							variant={this.state.variant}
+							parentCB={(c) => {
+								this.preliminaryScores = c;
+							}}
+						/>
+					</React.Fragment>
+					{!this.state.game.Properties.Started ? (
+						<React.Fragment>
+							<NationPreferencesDialog
+								parentCB={(c) => {
+									this.nationPreferencesDialog = c;
 								}}
+								onSelected={null}
 							/>
-							<PreliminaryScores
-								phases={this.state.phases}
-								variant={this.state.variant}
-								parentCB={c => {
-									this.preliminaryScores = c;
+							<MetadataDialog
+								game={this.state.game}
+								parentCB={(c) => {
+									this.metadataDialog = c;
 								}}
 							/>
 						</React.Fragment>
 					) : (
-						<NationPreferencesDialog
-							parentCB={c => {
-								this.nationPreferencesDialog = c;
+						""
+					)}
+					{!this.state.member ||
+					!this.state.game.Properties.Started ||
+					this.state.game.Properties.Mustered ? (
+						""
+					) : (
+						<MusteringPopup
+							viewOrders={(_) => {
+								this.setState({
+									activeTab: "orders",
+									readyReminder: false,
+								});
 							}}
-							onSelected={null}
 						/>
 					)}
 					<GameResults
 						onNewGameState={this.onNewGameState}
 						gameState={
 							this.state.member && this.state.gameStates
-								? this.state.gameStates.find(gs => {
+								? this.state.gameStates.find((gs) => {
 										return (
 											gs.Properties.Nation ==
 											this.state.member.Nation
@@ -1132,18 +1224,18 @@ export default class Game extends React.Component {
 						}
 						game={this.state.game}
 						variant={this.state.variant}
-						parentCB={c => {
+						parentCB={(c) => {
 							this.gameResults = c;
 						}}
 					/>
 					<MaterialUI.Snackbar
 						anchorOrigin={{
 							vertical: "bottom",
-							horizontal: "center"
+							horizontal: "center",
 						}}
 						open={this.state.readyReminder}
 						autoHideDuration={30000}
-						onClose={_ => {
+						onClose={(_) => {
 							this.setState({ readyReminder: false });
 						}}
 						message={[
@@ -1152,9 +1244,9 @@ export default class Game extends React.Component {
 								{this.state.game.Properties.Mustered
 									? ""
 									: " For the game to start, all players have to confirm as ready to play."}
-							</MaterialUI.Typography>
+							</MaterialUI.Typography>,
 						].concat(
-							this.state.phaseMessages.map(m => {
+							this.state.phaseMessages.map((m) => {
 								return (
 									<MaterialUI.Typography key={m}>
 										{m}
@@ -1167,10 +1259,10 @@ export default class Game extends React.Component {
 								<MaterialUI.Button
 									color="secondary"
 									size="small"
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState({
 											activeTab: "orders",
-											readyReminder: false
+											readyReminder: false,
 										});
 									}}
 								>
@@ -1180,7 +1272,7 @@ export default class Game extends React.Component {
 									size="small"
 									aria-label="close"
 									color="inherit"
-									onClick={_ => {
+									onClick={(_) => {
 										this.setState({ readyReminder: false });
 									}}
 								>

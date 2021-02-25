@@ -10,18 +10,22 @@ export default class CreateGameDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
-			variant: Globals.variants.find(v => {
+			variant: Globals.variants.find((v) => {
 				return v.Properties.Name == "Classical";
 			}),
 			newGameProperties: {
 				Variant: "Classical",
 				NationAllocation: 0,
 				PhaseLengthMinutes: 1440,
+				GameMasterEnabled: false,
+				RequireGameMasterInvitation: false,
 				NonMovementPhaseLengthMinutes: 0,
 				Desc: helpers.randomGameName(),
 				Private: false,
 				Anonymous: false,
 				LastYear: 0,
+				// TODO(zond): Change this to false once the feature is better tested.
+				SkipMuster: true,
 				MinReliability: Math.min(
 					10,
 					Math.floor(Globals.userStats.Properties.Reliability)
@@ -33,7 +37,8 @@ export default class CreateGameDialog extends React.Component {
 				MaxHater: 0,
 				DisableConferenceChat: false,
 				DisableGroupChat: false,
-				DisablePrivateChat: false
+				DisablePrivateChat: false,
+				ChatLanguageISO639_1: "",
 			},
 			userStats: Globals.userStats,
 			samePhaseLength: true,
@@ -42,7 +47,7 @@ export default class CreateGameDialog extends React.Component {
 			phaseLengthUnit: 60 * 24,
 			phaseLengthMultiplier: 1,
 			checkboxedFloatFields: { MinReliability: true },
-			endEarly: false
+			endEarly: false,
 		};
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
@@ -81,7 +86,7 @@ export default class CreateGameDialog extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "CreateGameDialog",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
@@ -94,6 +99,12 @@ export default class CreateGameDialog extends React.Component {
 	}
 	createGame() {
 		const errs = [];
+		if (
+			this.state.newGameProperties.ChatLanguageISO639_1 ==
+			"players_choice"
+		) {
+			this.state.newGameProperties.ChatLanguageISO639_1 = "";
+		}
 		if (
 			this.state.newGameProperties.MinReliability != 0 &&
 			this.state.newGameProperties.MinReliability >
@@ -148,7 +159,7 @@ export default class CreateGameDialog extends React.Component {
 		}
 		if (errs.length > 0) {
 			helpers.snackbar(
-				errs.map(err => {
+				errs.map((err) => {
 					return <p key={err}>{err}</p>;
 				})
 			);
@@ -158,9 +169,9 @@ export default class CreateGameDialog extends React.Component {
 			this.nationPreferencesDialog.setState({
 				open: true,
 				nations: this.state.variant.Properties.Nations,
-				onSelected: preferences => {
+				onSelected: (preferences) => {
 					this.createGameWithPreferences(preferences);
-				}
+				},
 			});
 		} else {
 			this.createGameWithPreferences([]);
@@ -169,7 +180,7 @@ export default class CreateGameDialog extends React.Component {
 	createGameWithPreferences(preferences) {
 		const newGameProps = Object.assign({}, this.state.newGameProperties);
 		newGameProps.FirstMember = {
-			NationPreferences: preferences.join(",")
+			NationPreferences: preferences.join(","),
 		};
 		helpers.incProgress();
 		helpers
@@ -177,12 +188,12 @@ export default class CreateGameDialog extends React.Component {
 				helpers.createRequest("/Game", {
 					method: "POST",
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(newGameProps)
+					body: JSON.stringify(newGameProps),
 				})
 			)
-			.then(resp => {
+			.then((resp) => {
 				helpers.decProgress();
 				gtag("event", "create_game");
 				Globals.messaging.start();
@@ -190,7 +201,7 @@ export default class CreateGameDialog extends React.Component {
 			});
 	}
 	newGamePropertyUpdater(propertyName, opts = {}) {
-		return ev => {
+		return (ev) => {
 			ev.persist();
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
@@ -228,7 +239,7 @@ export default class CreateGameDialog extends React.Component {
 					}
 					state.newGameProperties[propertyName] = newValue;
 				}
-				state.variant = Globals.variants.find(v => {
+				state.variant = Globals.variants.find((v) => {
 					return v.Properties.Name == state.newGameProperties.Variant;
 				});
 				return state;
@@ -320,12 +331,12 @@ export default class CreateGameDialog extends React.Component {
 					style={{
 						display: "flex",
 						marginLeft: "-10px",
-						marginBottom: "12px"
+						marginBottom: "12px",
 					}}
 				>
 					<MaterialUI.Checkbox
 						checked={!!this.state.checkboxedFloatFields[name]}
-						onChange={ev => {
+						onChange={(ev) => {
 							const checked = ev.target.checked;
 							this.setState((state, props) => {
 								state = Object.assign({}, state);
@@ -340,7 +351,7 @@ export default class CreateGameDialog extends React.Component {
 					<div
 						style={{
 							display: "flex",
-							flexDirection: "column"
+							flexDirection: "column",
 						}}
 					>
 						<MaterialUI.Typography variant="body1">
@@ -349,7 +360,7 @@ export default class CreateGameDialog extends React.Component {
 						<MaterialUI.Typography
 							variant="caption"
 							style={{
-								color: "rgba(40,26,26,0.56)"
+								color: "rgba(40,26,26,0.56)",
 							}}
 						>
 							{opts.checkbox.caption}
@@ -362,7 +373,7 @@ export default class CreateGameDialog extends React.Component {
 						label={opts.textfield.label}
 						value={this.state.newGameProperties[name]}
 						onChange={this.newGamePropertyUpdater(name, {
-							float: true
+							float: true,
 						})}
 						error={maxError || minError}
 						helperText={
@@ -375,7 +386,7 @@ export default class CreateGameDialog extends React.Component {
 						style={{
 							marginLeft: "32px",
 							width: "calc(100% - 65px)",
-							marginBottom: "16px"
+							marginBottom: "16px",
 						}}
 					/>
 				) : (
@@ -436,20 +447,20 @@ export default class CreateGameDialog extends React.Component {
 							maxWidth: "920px",
 							marginTop: "72px",
 							marginLeft: "auto",
-							marginRight: "auto"
+							marginRight: "auto",
 						}}
 					>
 						<div
 							style={{
 								margin: "auto",
-								width: "calc(100% - 32px)"
+								width: "calc(100% - 32px)",
 							}}
 						>
 							<div
 								id="step1"
 								style={{
 									display: "flex",
-									flexDirection: "column"
+									flexDirection: "column",
 								}}
 							>
 								<div style={{ display: "flex" }}>
@@ -465,11 +476,11 @@ export default class CreateGameDialog extends React.Component {
 										)}
 										style={{
 											marginBottom: "8px",
-											flexGrow: "1"
+											flexGrow: "1",
 										}}
 									/>
 									<MaterialUI.IconButton
-										onClick={_ => {
+										onClick={(_) => {
 											this.setState((state, props) => {
 												state = Object.assign(
 													{},
@@ -487,6 +498,11 @@ export default class CreateGameDialog extends React.Component {
 								<MaterialUI.FormControlLabel
 									control={
 										<MaterialUI.Checkbox
+											checked={
+												this.state.newGameProperties[
+													"Private"
+												]
+											}
 											onChange={this.newGamePropertyUpdater(
 												"Private"
 											)}
@@ -496,7 +512,69 @@ export default class CreateGameDialog extends React.Component {
 									style={{ marginBottom: "8px" }}
 								/>
 
-								<MaterialUI.InputLabel shrink id="variantlabel">
+								<React.Fragment>
+									<MaterialUI.FormControlLabel
+										control={
+											<MaterialUI.Checkbox
+												disabled={
+													!this.state
+														.newGameProperties
+														.Private
+												}
+												checked={
+													this.state
+														.newGameProperties[
+														"GameMasterEnabled"
+													]
+												}
+												onChange={this.newGamePropertyUpdater(
+													"GameMasterEnabled"
+												)}
+											/>
+										}
+										label="Game master of new game"
+										style={{ marginBottom: "8px" }}
+									/>
+									{this.state.newGameProperties.Private ? (
+										""
+									) : (
+										<MaterialUI.FormHelperText>
+											Game master only allowed in private
+											games (risk of abuse)
+										</MaterialUI.FormHelperText>
+									)}
+									{this.state.newGameProperties.Private &&
+									this.state.newGameProperties
+										.GameMasterEnabled ? (
+										<MaterialUI.FormControlLabel
+											control={
+												<MaterialUI.Checkbox
+													checked={
+														this.state
+															.newGameProperties[
+															"RequireGameMasterInvitation"
+														]
+													}
+													onChange={this.newGamePropertyUpdater(
+														"RequireGameMasterInvitation"
+													)}
+												/>
+											}
+											label="Require whitelisting to join"
+											style={{ marginBottom: "8px" }}
+										/>
+									) : (
+										""
+									)}
+								</React.Fragment>
+
+								<MaterialUI.InputLabel
+									shrink
+									id="variantlabel"
+									style={{
+										marginTop: "16px",
+									}}
+								>
 									Variant
 								</MaterialUI.InputLabel>
 								<MaterialUI.Select
@@ -510,7 +588,7 @@ export default class CreateGameDialog extends React.Component {
 									)}
 									style={{ marginBottom: "16px" }}
 								>
-									{Globals.variants.map(variant => {
+									{Globals.variants.map((variant) => {
 										return (
 											<MaterialUI.MenuItem
 												key={variant.Properties.Name}
@@ -543,7 +621,7 @@ export default class CreateGameDialog extends React.Component {
 									src={this.state.variant.Links[3].URL}
 									style={{
 										paddingBottom: "4px",
-										maxHeight: "300px"
+										maxHeight: "300px",
 									}}
 								/>
 								<MaterialUI.Typography
@@ -570,7 +648,7 @@ export default class CreateGameDialog extends React.Component {
 								<MaterialUI.Typography
 									style={{
 										paddingBottom: "16px",
-										overflowWrap: "break-word"
+										overflowWrap: "break-word",
 									}}
 									variant="body1"
 								>
@@ -598,7 +676,7 @@ export default class CreateGameDialog extends React.Component {
 									style={{
 										flexDirection: "row",
 										flexWrap: "wrap",
-										width: "calc(100% - 32px)"
+										width: "calc(100% - 32px)",
 									}}
 								>
 									<MaterialUI.FormControlLabel
@@ -620,7 +698,7 @@ export default class CreateGameDialog extends React.Component {
 									variant="subtitle2"
 									style={{
 										marginTop: "16px",
-										marginBottom: "16px"
+										marginBottom: "16px",
 									}}
 								>
 									Game length
@@ -631,7 +709,7 @@ export default class CreateGameDialog extends React.Component {
 								id="step2"
 								style={{
 									display: "flex",
-									flexDirection: "column"
+									flexDirection: "column",
 								}}
 							>
 								<MaterialUI.Box
@@ -761,11 +839,34 @@ export default class CreateGameDialog extends React.Component {
 								)}
 
 								<MaterialUI.FormControlLabel
+									control={
+										<MaterialUI.Checkbox
+											checked={
+												this.state.newGameProperties[
+													"SkipMuster"
+												]
+											}
+											onChange={this.newGamePropertyUpdater(
+												"SkipMuster"
+											)}
+										/>
+									}
+									label="Skip mustering phase"
+									style={{ marginBottom: "8px" }}
+								/>
+								<MaterialUI.FormHelperText>
+									The initial mustering phase ejects all
+									non-ready players and and reverts the game
+									to the staging state unless all players
+									report ready within the deadline.
+								</MaterialUI.FormHelperText>
+
+								<MaterialUI.FormControlLabel
 									key="endEarly"
 									control={
 										<MaterialUI.Checkbox
 											name="end-game-early"
-											onChange={ev => {
+											onChange={(ev) => {
 												ev.persist();
 												this.setState(
 													(state, props) => {
@@ -831,7 +932,7 @@ export default class CreateGameDialog extends React.Component {
 											onChange={this.newGamePropertyUpdater(
 												"LastYear",
 												{
-													int: true
+													int: true,
 												}
 											)}
 										/>
@@ -845,7 +946,7 @@ export default class CreateGameDialog extends React.Component {
 									variant="subtitle2"
 									style={{
 										marginTop: "16px",
-										marginBottom: "16px"
+										marginBottom: "16px",
 									}}
 								>
 									Chat
@@ -863,16 +964,16 @@ export default class CreateGameDialog extends React.Component {
 										"DisableConferenceChat",
 										{
 											invert: true,
-											label: "Conference (all players)"
+											label: "Conference (all players)",
 										}
 									)}
 									{this.checkboxField("DisableGroupChat", {
 										invert: true,
-										label: "Group"
+										label: "Group",
 									})}
 									{this.checkboxField("DisablePrivateChat", {
 										invert: true,
-										label: "Individual"
+										label: "Individual",
 									})}
 									<MaterialUI.FormControlLabel
 										control={
@@ -927,7 +1028,7 @@ export default class CreateGameDialog extends React.Component {
 									variant="subtitle2"
 									style={{
 										marginTop: "16px",
-										marginBottom: "16px"
+										marginBottom: "16px",
 									}}
 								>
 									Player requirements
@@ -940,7 +1041,7 @@ export default class CreateGameDialog extends React.Component {
 										style={{
 											marginTop: "4px",
 											marginBottom: "8px",
-											color: "#f44336"
+											color: "#f44336",
 										}}
 									>
 										For private games we advise you to not
@@ -963,10 +1064,10 @@ export default class CreateGameDialog extends React.Component {
 										checkbox: {
 											label: "Reliability (important)",
 											caption:
-												"Find players that keep playing"
+												"Find players that keep playing",
 										},
 										textfield: {
-											label: "Minimum reliability score"
+											label: "Minimum reliability score",
 										},
 										max: {
 											value: this.state.userStats
@@ -977,9 +1078,9 @@ export default class CreateGameDialog extends React.Component {
 													this.state.userStats
 														.Properties.Reliability
 												) +
-												")"
+												")",
 										},
-										min: null
+										min: null,
 									}
 								)}
 								{this.limitedCheckboxedFloatField(
@@ -995,10 +1096,10 @@ export default class CreateGameDialog extends React.Component {
 										checkbox: {
 											label: "Quickness",
 											caption:
-												"Find players that confirm their orders before deadline"
+												"Find players that confirm their orders before deadline",
 										},
 										textfield: {
-											label: "Minimum quickness score"
+											label: "Minimum quickness score",
 										},
 										max: {
 											value: this.state.userStats
@@ -1009,9 +1110,9 @@ export default class CreateGameDialog extends React.Component {
 													this.state.userStats
 														.Properties.Quickness
 												) +
-												")"
+												")",
 										},
-										min: null
+										min: null,
 									}
 								)}
 
@@ -1020,10 +1121,10 @@ export default class CreateGameDialog extends React.Component {
 									checkbox: {
 										label: "Minimum rating",
 										caption:
-											"Find players that are challenging"
+											"Find players that are challenging",
 									},
 									textfield: {
-										label: "Minimum rating"
+										label: "Minimum rating",
 									},
 									helperText:
 										"Removes the least challenging " +
@@ -1042,9 +1143,9 @@ export default class CreateGameDialog extends React.Component {
 												this.state.userStats.Properties
 													.TrueSkill.Rating
 											) +
-											")"
+											")",
 									},
-									min: null
+									min: null,
 								})}
 
 								{this.limitedCheckboxedFloatField("MaxRating", {
@@ -1056,7 +1157,7 @@ export default class CreateGameDialog extends React.Component {
 									checkbox: {
 										label: "Maximum rating",
 										caption:
-											"Find players that aren't too challenging"
+											"Find players that aren't too challenging",
 									},
 									helperText:
 										"Removes the most challenging " +
@@ -1066,7 +1167,7 @@ export default class CreateGameDialog extends React.Component {
 										) +
 										"% of active players",
 									textfield: {
-										label: "Maximum rating"
+										label: "Maximum rating",
 									},
 									min: {
 										value: this.state.userStats.Properties
@@ -1078,10 +1179,53 @@ export default class CreateGameDialog extends React.Component {
 													.TrueSkill.Rating,
 												true
 											) +
-											")"
+											")",
 									},
-									max: null
+									max: null,
 								})}
+								<MaterialUI.InputLabel
+									shrink
+									id="chatLanguageLabel"
+								>
+									Chat language
+								</MaterialUI.InputLabel>
+								<MaterialUI.Select
+									key="ChatLanguageISO639_1"
+									labelId="chatLanguageLabel"
+									value={
+										this.state.newGameProperties[
+											"ChatLanguageISO639_1"
+										]
+											? this.state.newGameProperties[
+													"ChatLanguageISO639_1"
+											  ]
+											: "players_choice"
+									}
+									onChange={this.newGamePropertyUpdater(
+										"ChatLanguageISO639_1"
+									)}
+									style={{
+										marginBottom: "16px",
+										minWidth: "220px",
+									}}
+								>
+									<MaterialUI.MenuItem
+										key="players_choice"
+										value="players_choice"
+									>
+										Players choice
+									</MaterialUI.MenuItem>
+									{helpers.iso639_1Codes.map((lang) => {
+										return (
+											<MaterialUI.MenuItem
+												key={lang.name}
+												value={lang.code}
+											>
+												{lang.name}
+											</MaterialUI.MenuItem>
+										);
+									})}
+								</MaterialUI.Select>
 							</div>
 						</div>
 						<div style={{ padding: "16px", textAlign: "center" }}>
@@ -1096,7 +1240,7 @@ export default class CreateGameDialog extends React.Component {
 					</div>
 				</MaterialUI.Dialog>
 				<NationPreferencesDialog
-					parentCB={c => {
+					parentCB={(c) => {
 						this.nationPreferencesDialog = c;
 					}}
 					onSelected={null}

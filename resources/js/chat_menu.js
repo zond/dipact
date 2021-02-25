@@ -10,28 +10,19 @@ export default class ChatMenu extends React.Component {
 		this.state = {
 			channels: [],
 			activeChannel: null,
-			createMessageLink: null
+			createMessageLink: null,
 		};
-		this.member = this.props.game.Properties.Members.find(e => {
+		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email == Globals.user.Email;
 		});
-		this.variant = Globals.variants.find(v => {
+		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
 		});
 		this.openChannel = this.openChannel.bind(this);
 		this.loadChannels = this.loadChannels.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
-		this.isWarned = this.isWarned.bind(this);
-		this.markWarned = this.markWarned.bind(this);
-		this.warned = false;
 		this.createChannelDialog = null;
-	}
-	isWarned() {
-		return this.warned;
-	}
-	markWarned() {
-		this.warned = true;
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID != this.props.game.Properties.ID) {
@@ -41,7 +32,7 @@ export default class ChatMenu extends React.Component {
 		return false;
 	}
 	loadChannels(silent = false) {
-		let channelLink = this.props.game.Links.find(l => {
+		let channelLink = this.props.game.Links.find((l) => {
 			return l.Rel == "channels";
 		});
 		if (channelLink) {
@@ -50,8 +41,8 @@ export default class ChatMenu extends React.Component {
 			}
 			return helpers
 				.safeFetch(helpers.createRequest(channelLink.URL))
-				.then(resp => resp.json())
-				.then(js => {
+				.then((resp) => resp.json())
+				.then((js) => {
 					if (!silent) {
 						helpers.decProgress();
 					}
@@ -63,9 +54,9 @@ export default class ChatMenu extends React.Component {
 								helpers.urlMatch([
 									[
 										/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
-										match => {
+										(match) => {
 											let channel = js.Properties.find(
-												c => {
+												(c) => {
 													return (
 														c.Properties.Members.join(
 															","
@@ -79,8 +70,8 @@ export default class ChatMenu extends React.Component {
 											if (channel) {
 												state.activeChannel = channel;
 											}
-										}
-									]
+										},
+									],
 								]);
 
 								state.channels = js.Properties.sort(
@@ -120,12 +111,12 @@ export default class ChatMenu extends React.Component {
 										}
 									}
 								);
-								state.createMessageLink = js.Links.find(l => {
+								state.createMessageLink = js.Links.find((l) => {
 									return l.Rel == "message";
 								});
 								return state;
 							},
-							_ => {
+							(_) => {
 								this.props.unreadMessages(
 									this.state.channels.reduce(
 										(sum, channel) => {
@@ -160,13 +151,13 @@ export default class ChatMenu extends React.Component {
 			this.loadChannels(true);
 			gtag("set", {
 				page_title: "ChatMenu",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
 	}
 	componentDidMount() {
-		this.loadChannels().then(_ => {
+		this.loadChannels().then((_) => {
 			if (Globals.messaging.subscribe("message", this.messageHandler)) {
 				console.log("ChatMenu subscribing to `message` notifications.");
 			}
@@ -189,7 +180,7 @@ export default class ChatMenu extends React.Component {
 			<div
 				style={{
 					position: "relative",
-					height: "100%"
+					height: "100%",
 				}}
 			>
 				<MaterialUI.Slide
@@ -206,12 +197,10 @@ export default class ChatMenu extends React.Component {
 							right: 0,
 							background: "#ffffff",
 							position: "absolute",
-							zIndex: 1200
+							zIndex: 1200,
 						}}
 					>
 						<ChatChannel
-							isWarned={this.isWarned}
-							markWarned={this.markWarned}
 							onNewGameState={this.props.onNewGameState}
 							gameState={this.props.gameState}
 							game={this.props.game}
@@ -220,7 +209,7 @@ export default class ChatMenu extends React.Component {
 							createMessageLink={this.state.createMessageLink}
 							channel={this.state.activeChannel}
 							close={this.closeChannel}
-							loaded={_ => {
+							loaded={(_) => {
 								this.loadChannels(true);
 							}}
 							parent={this}
@@ -242,10 +231,10 @@ export default class ChatMenu extends React.Component {
 					style={{
 						overflowY: !!this.state.activeChannel
 							? "hidden"
-							: "scroll"
+							: "scroll",
 					}}
 				>
-					{this.state.channels.map(channel => {
+					{this.state.channels.map((channel) => {
 						return (
 							<MaterialUI.Button
 								style={{
@@ -255,9 +244,9 @@ export default class ChatMenu extends React.Component {
 									paddingBottom: "12px",
 									border: "none",
 									borderBottom: "1px solid rgb(40,26,26,0.1)",
-									borderRadius: "0px"
+									borderRadius: "0px",
 								}}
-								onClick={_ => {
+								onClick={(_) => {
 									this.openChannel(channel);
 								}}
 								key={channel.Properties.Members.join(",")}
@@ -297,7 +286,7 @@ export default class ChatMenu extends React.Component {
 												gameState={this.props.gameState}
 												variant={this.variant}
 												nations={channel.Properties.Members.filter(
-													n => {
+													(n) => {
 														return (
 															!this.member ||
 															n !=
@@ -325,7 +314,7 @@ export default class ChatMenu extends React.Component {
 										gameState={this.props.gameState}
 										variant={this.variant}
 										nations={channel.Properties.Members.filter(
-											n => {
+											(n) => {
 												return (
 													!this.member ||
 													n != this.member.Nation
@@ -354,7 +343,7 @@ export default class ChatMenu extends React.Component {
 												.length
 												? "Everyone"
 												: channel.Properties.Members.filter(
-														n => {
+														(n) => {
 															return (
 																!this.member ||
 																n !=
@@ -383,7 +372,7 @@ export default class ChatMenu extends React.Component {
 													.Sender ? (
 													<span
 														style={{
-															fontStyle: "italic"
+															fontStyle: "italic",
 														}}
 													>
 														You:{" "}
@@ -427,13 +416,13 @@ export default class ChatMenu extends React.Component {
 							style={{
 								display: !!this.state.activeChannel
 									? "none"
-									: "flex"
+									: "flex",
 							}}
 							color="secondary"
 							aria-label="edit"
-							onClick={_ => {
+							onClick={(_) => {
 								this.createChannelDialog.setState({
-									open: true
+									open: true,
 								});
 							}}
 						>
@@ -441,9 +430,9 @@ export default class ChatMenu extends React.Component {
 						</MaterialUI.Fab>
 						<CreateChannelDialog
 							game={this.props.game}
-							createChannel={channel => {
+							createChannel={(channel) => {
 								const newChannels = this.state.channels;
-								const oldChannel = newChannels.find(ch => {
+								const oldChannel = newChannels.find((ch) => {
 									return helpers.deepEqual(
 										channel.Properties.Members,
 										ch.Properties.Members
@@ -455,15 +444,15 @@ export default class ChatMenu extends React.Component {
 								const channelToUse = oldChannel || channel;
 								this.setState(
 									{
-										channels: newChannels
+										channels: newChannels,
 									},
-									_ => {
+									(_) => {
 										gtag("event", "create_chat_channel");
 										this.openChannel(channelToUse);
 									}
 								);
 							}}
-							parentCB={c => {
+							parentCB={(c) => {
 								this.createChannelDialog = c;
 							}}
 						/>
