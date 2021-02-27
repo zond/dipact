@@ -9,6 +9,7 @@ export default class SettingsDialog extends React.Component {
 			open: false,
 			userConfig: Globals.userConfig,
 			newColorOverrideVariant: "Classical",
+			resetSettingsChecked: false,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -184,7 +185,7 @@ export default class SettingsDialog extends React.Component {
 						<div>
 							<div
 								style={{
-									margin: "56px auto",
+									margin: "56px auto 16px auto",
 									padding: "0px 16px",
 									display: "flex",
 									flexDirection: "column",
@@ -665,10 +666,32 @@ export default class SettingsDialog extends React.Component {
 									</div>
 								</div>
 							</div>
-						</div>
+							</div>
+							<div style={{textAlign:"center", marginBottom: "56px"}}>
+								<MaterialUI.FormControlLabel
+								style={{ marginRight: 0, marginBottom: "8px",}}
+								classes={{
+									label: helpers.scopedClass(
+										"font-size: unset;"
+									),
+								}}
+								control={
+									<MaterialUI.Checkbox
+										onClick={(ev) => {
+											this.setState({resetSettingsChecked:true});
+											ev.stopPropagation();
+										}}
+										style={{ padding: "0 0 0 18" }}
+										id="sure-about-reset"
+									/>
+								}
+								label="I want to reset my settings"
+							/>
+
 						<MaterialUI.Button
-							style={{ color: "red" }}
-							variant="outlined"
+							style={{ margin:"auto"}}
+							variant="contained"
+							disabled={this.resetSettingsChecked}
 							onClick={(_) => {
 								if (
 									document.getElementById("sure-about-reset")
@@ -692,26 +715,10 @@ export default class SettingsDialog extends React.Component {
 								}
 							}}
 						>
-							Reset settings to default
-							<MaterialUI.FormControlLabel
-								style={{ marginRight: 0 }}
-								classes={{
-									label: helpers.scopedClass(
-										"font-size: unset;"
-									),
-								}}
-								control={
-									<MaterialUI.Checkbox
-										onClick={(ev) => {
-											ev.stopPropagation();
-										}}
-										style={{ padding: "0 0 0 18" }}
-										id="sure-about-reset"
-									/>
-								}
-								label="Yes I'm sure"
-							/>
-						</MaterialUI.Button>
+							Reset settings
+													</MaterialUI.Button>
+						
+						</div>
 					</React.Fragment>
 				) : (
 					""
