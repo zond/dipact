@@ -34,6 +34,7 @@ export default class DipMap extends React.Component {
 		this.snackbarIncompleteOrder = this.snackbarIncompleteOrder.bind(this);
 		this.loadCorroboratePromise = this.loadCorroboratePromise.bind(this);
 		this.filterOK = this.filterOK.bind(this);
+		this.currentNation = this.currentNation.bind(this);
 		this.debugCount = this.debugCount.bind(this);
 		this.infoClicked = this.infoClicked.bind(this);
 		this.setMapSubtitle = this.setMapSubtitle.bind(this);
@@ -48,6 +49,15 @@ export default class DipMap extends React.Component {
 		this.firstLoadFinished = false;
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
+		}
+	}
+	currentNation() {
+		if (this.state.laboratoryMode) {
+			return this.state.labPlayAs;
+		} else if (this.state.member) {
+			return this.state.member.Nation;
+		} else {
+			return "";
 		}
 	}
 	setMapSubtitle() {
@@ -977,6 +987,7 @@ export default class DipMap extends React.Component {
 				this.acceptEdits();
 			} else {
 				const variantPhase = this.makeVariantPhase();
+				variantPhase.Orders = {};
 				const optionsLink = this.state.variant.Links.find((l) => {
 					return l.Rel == this.state.labPlayAs + "-options";
 				});
@@ -1122,7 +1133,10 @@ export default class DipMap extends React.Component {
 				}
 				if (
 					(this.state.orders || []).filter((o) => {
-						return o.Parts[1] == parts[1];
+						return (
+							o.Parts[1] == parts[1] &&
+							o.Nation == this.currentNation()
+						);
 					}).length > Number.parseInt(parts[2])
 				) {
 					return false;
