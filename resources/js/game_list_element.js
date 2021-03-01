@@ -35,6 +35,8 @@ export default class GameListElement extends React.Component {
 			member: (props.game.Properties.Members || []).find((e) => {
 				return e.User.Email == Globals.user.Email;
 			}),
+			// Dead means that we left this game when we were the only member, or deleted it as the GM, so it's gone.
+			dead: false,
 		};
 		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name == this.props.game.Properties.Variant;
@@ -61,8 +63,6 @@ export default class GameListElement extends React.Component {
 		this.phaseMessageHandler = this.phaseMessageHandler.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
 		this.addIconWithTooltip = this.addIconWithTooltip.bind(this);
-		// Dead means that we left this game when we were the only member, so it's gone.
-		this.dead = false;
 	}
 	onRescheduleSubmit(minutes) {
 		const link = this.state.game.Links.find((link) => {
@@ -182,17 +182,12 @@ export default class GameListElement extends React.Component {
 			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_list_element_delete_game");
-				this.setState(
-					(state, props) => {
-						state = Object.assign({}, state);
-						state.game.Links = [];
-						return state;
-					},
-					(_) => {
-						this.dead = true;
-						this.forceUpdate();
-					}
-				);
+				this.setState((state, props) => {
+					state = Object.assign({}, state);
+					state.game.Links = [];
+					state.dead = true;
+					return state;
+				});
 			});
 	}
 	leaveGame(link) {
@@ -207,23 +202,27 @@ export default class GameListElement extends React.Component {
 			.then((_) => {
 				helpers.decProgress();
 				gtag("event", "game_list_element_leave");
+				let newDead = false;
+				if (
+					this.state.game.Properties.GameMasterEnabled ||
+					this.state.game.Properties.Members.length > 1
+				) {
+					newDead = false;
+				} else {
+					newDead = true;
+				}
 				this.setState(
 					(state, props) => {
 						state = Object.assign({}, state);
 						state.game.Links = state.game.Links.filter((l) => {
 							return l.Rel != "leave";
 						});
+						state.dead = newDead;
 						return state;
 					},
 					(_) => {
-						if (
-							this.state.game.Properties.GameMasterEnabled ||
-							this.state.game.Properties.Members.length > 1
-						) {
+						if (!newDead) {
 							this.reloadGame();
-						} else {
-							this.dead = true;
-							this.forceUpdate();
 						}
 					}
 				);
@@ -457,7 +456,7 @@ export default class GameListElement extends React.Component {
 			);
 		}
 
-		if (!this.dead) {
+		if (!this.state.dead) {
 			buttons.push(
 				<MaterialUI.Button
 					variant="outlined"
@@ -968,8 +967,7 @@ export default class GameListElement extends React.Component {
 							if (this.state.game.Properties.Members.length > 1) {
 								this.reloadGame();
 							} else {
-								this.dead = true;
-								this.forceUpdate();
+								this.setState({ dead: true });
 							}
 						}}
 						unreadMessagesUpdate={this.reloadGame}
@@ -1056,6 +1054,15 @@ export default class GameListElement extends React.Component {
 										}}
 									>
 										{buttonDiv}
+										{this.state.dead ? (
+											<MaterialUI.Typography
+												style={{ color: "red" }}
+											>
+												Deleted
+											</MaterialUI.Typography>
+										) : (
+											""
+										)}
 										<GameMetadata
 											game={this.state.game}
 											withKickButtons={true}
