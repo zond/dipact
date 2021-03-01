@@ -36,6 +36,10 @@ export default class ChatChannel extends React.Component {
 		this.pollNewMessages = this.pollNewMessages.bind(this);
 		this.autoExpandInput = this.autoExpandInput.bind(this);
 		this.maybeRenderMore = this.maybeRenderMore.bind(this);
+		this.messageSlice = this.messageSlice.bind(this);
+	}
+	messageSlice() {
+		return this.state.messages.slice(-this.state.numToRender);
 	}
 	maybeRenderMore() {
 		const scroller = document.getElementById("messages");
@@ -441,8 +445,7 @@ export default class ChatChannel extends React.Component {
 							overflowX: "hidden",
 						}}
 					>
-						{this.state.messages
-							.slice(-this.state.numToRender)
+						{this.messageSlice()
 							.map((message, idx) => {
 								const selfish =
 									this.member &&
@@ -454,7 +457,7 @@ export default class ChatChannel extends React.Component {
 										(idx == 0 ||
 											message.phase.Properties
 												.PhaseOrdinal !=
-												this.state.messages[idx - 1]
+												this.messageSlice()[idx - 1]
 													.phase.Properties
 													.PhaseOrdinal) ? (
 											<div
@@ -487,7 +490,7 @@ export default class ChatChannel extends React.Component {
 										(idx == 0 ||
 											this.newAfter >=
 												Date.parse(
-													this.state.messages[idx - 1]
+													this.messageSlice()[idx - 1]
 														.Properties.CreatedAt
 												)) ? (
 											<div
