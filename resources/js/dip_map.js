@@ -382,6 +382,7 @@ export default class DipMap extends React.Component {
 		if (
 			!this.state.game ||
 			this.props.game.Properties.ID != prevProps.game.Properties.ID ||
+			this.props.phase.Links != prevProps.phase.Links ||
 			!this.state.phase ||
 			this.props.phase.Properties.PhaseOrdinal !=
 				prevProps.phase.Properties.PhaseOrdinal ||
@@ -415,6 +416,7 @@ export default class DipMap extends React.Component {
 			this.state.laboratoryMode != prevState.laboratoryMode ||
 			!prevState.game ||
 			!prevState.phase ||
+			this.state.phase.Links != prevState.phase.Links ||
 			this.state.game.Properties.ID != prevState.game.Properties.ID ||
 			this.state.phase.Properties.PhaseOrdinal !=
 				prevState.phase.Properties.PhaseOrdinal
