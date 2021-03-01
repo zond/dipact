@@ -209,9 +209,9 @@ export default class CreateGameDialog extends React.Component {
 					if (propertyName == "Private") {
 						if (ev.target.checked) {
 							state.newGameProperties["MinReliability"] = 0;
-							state.checkboxedFloatFields[
+							delete state.checkboxedFloatFields[
 								"MinReliability"
-							] = true;
+							];
 						} else {
 							state.newGameProperties[
 								"MinReliability"
@@ -221,9 +221,9 @@ export default class CreateGameDialog extends React.Component {
 									this.state.userStats.Properties.Reliability
 								)
 							);
-							delete state.checkboxedFloatFields[
+							state.checkboxedFloatFields[
 								"MinReliability"
-							];
+							] = true;
 						}
 					}
 					state.newGameProperties[propertyName] = opts.invert
