@@ -350,7 +350,7 @@ export default class MainMenu extends ActivityContainer {
 									<MaterialUI.ListItem
 										button
 										urlkey="mastered-staging-games"
-										label="Staging games"
+										label="Staging games game mastered by me"
 										onClick={this.renderGameList}
 									>
 										<MaterialUI.ListItemText primary="Staging games" />
@@ -359,7 +359,7 @@ export default class MainMenu extends ActivityContainer {
 										style={{ padding: "4px 16px" }}
 										button
 										urlkey="mastered-started-games"
-										label="Started games"
+										label="Started games game mastered by me"
 										onClick={this.renderGameList}
 									>
 										<MaterialUI.ListItemText primary="Started games" />
@@ -367,7 +367,7 @@ export default class MainMenu extends ActivityContainer {
 									<MaterialUI.ListItem
 										button
 										urlkey="mastered-finished-games"
-										label="Finished games"
+										label="Finished games game mastered by me"
 										onClick={this.renderGameList}
 									>
 										<MaterialUI.ListItemText primary="Finished games" />
