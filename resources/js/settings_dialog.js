@@ -9,6 +9,7 @@ export default class SettingsDialog extends React.Component {
 			open: false,
 			userConfig: Globals.userConfig,
 			newColorOverrideVariant: "Classical",
+			resetSettingsChecked: false,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -184,7 +185,7 @@ export default class SettingsDialog extends React.Component {
 						<div>
 							<div
 								style={{
-									margin: "56px auto",
+									margin: "56px auto 16px auto",
 									padding: "0px 16px",
 									display: "flex",
 									flexDirection: "column",
@@ -666,52 +667,73 @@ export default class SettingsDialog extends React.Component {
 								</div>
 							</div>
 						</div>
-						<MaterialUI.Button
-							style={{ color: "red" }}
-							variant="outlined"
-							onClick={(_) => {
-								if (
-									document.getElementById("sure-about-reset")
-										.checked
-								) {
-									this.setState(
-										(state, props) => {
-											state = Object.assign({}, state);
-											state.userConfig.Properties.Colors = [];
-											state.userConfig.Properties.FCMTokens = [];
-											state.userConfig.Properties.MailConfig = {};
-											state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
-											return state;
-										},
-										(_) => {
-											this.saveConfig().then((_) => {
-												location.reload();
-											});
-										}
-									);
-								}
+						<div
+							style={{
+								textAlign: "center",
+								marginBottom: "56px",
 							}}
 						>
-							Reset settings to default
-							<MaterialUI.FormControlLabel
-								style={{ marginRight: 0 }}
-								classes={{
-									label: helpers.scopedClass(
-										"font-size: unset;"
-									),
+							<div>
+								<MaterialUI.FormControlLabel
+									style={{
+										marginRight: 0,
+										marginBottom: "8px",
+									}}
+									classes={{
+										label: helpers.scopedClass(
+											"font-size: unset;"
+										),
+									}}
+									control={
+										<MaterialUI.Checkbox
+											onClick={(ev) => {
+												this.setState({
+													resetSettingsChecked: !this
+														.state
+														.resetSettingsChecked,
+												});
+											}}
+											style={{ padding: "0 0 0 18" }}
+											id="sure-about-reset"
+										/>
+									}
+									label="I want to reset my settings"
+								/>
+							</div>
+							<MaterialUI.Button
+								style={{ margin: "auto" }}
+								variant="contained"
+								disabled={!this.state.resetSettingsChecked}
+								onClick={(_) => {
+									if (
+										document.getElementById(
+											"sure-about-reset"
+										).checked
+									) {
+										this.setState(
+											(state, props) => {
+												state = Object.assign(
+													{},
+													state
+												);
+												state.userConfig.Properties.Colors = [];
+												state.userConfig.Properties.FCMTokens = [];
+												state.userConfig.Properties.MailConfig = {};
+												state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
+												return state;
+											},
+											(_) => {
+												this.saveConfig().then((_) => {
+													location.reload();
+												});
+											}
+										);
+									}
 								}}
-								control={
-									<MaterialUI.Checkbox
-										onClick={(ev) => {
-											ev.stopPropagation();
-										}}
-										style={{ padding: "0 0 0 18" }}
-										id="sure-about-reset"
-									/>
-								}
-								label="Yes I'm sure"
-							/>
-						</MaterialUI.Button>
+							>
+								Reset settings
+							</MaterialUI.Button>
+						</div>
 					</React.Fragment>
 				) : (
 					""
