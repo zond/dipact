@@ -46,7 +46,9 @@ export default class Start extends React.Component {
 						)}
 					>
 						<NewsDialog />
-						<MaterialUI.List>
+						<MaterialUI.List
+							style={{ maxWidth: "940px", margin: "auto" }}
+						>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div

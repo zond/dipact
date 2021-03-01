@@ -160,6 +160,8 @@ export default class GameList extends React.Component {
 				<div
 					id="scroller"
 					style={{
+						maxWidth: "940px",
+						margin: "auto",
 						overflowY: "scroll",
 						height: "calc(100% - 60px)",
 						padding: "0px 16px",
