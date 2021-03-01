@@ -703,6 +703,7 @@ export default class SettingsDialog extends React.Component {
 							<MaterialUI.Button
 								style={{ margin: "auto" }}
 								variant="contained"
+								color="primary"
 								disabled={!this.state.resetSettingsChecked}
 								onClick={(_) => {
 									if (
