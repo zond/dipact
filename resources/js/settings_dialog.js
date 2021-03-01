@@ -666,58 +666,73 @@ export default class SettingsDialog extends React.Component {
 									</div>
 								</div>
 							</div>
-							</div>
-							<div style={{textAlign:"center", marginBottom: "56px"}}>
-								<MaterialUI.FormControlLabel
-								style={{ marginRight: 0, marginBottom: "8px",}}
-								classes={{
-									label: helpers.scopedClass(
-										"font-size: unset;"
-									),
-								}}
-								control={
-									<MaterialUI.Checkbox
-										onClick={(ev) => {
-											this.setState({resetSettingsChecked:true});
-											ev.stopPropagation();
-										}}
-										style={{ padding: "0 0 0 18" }}
-										id="sure-about-reset"
-									/>
-								}
-								label="I want to reset my settings"
-							/>
-
-						<MaterialUI.Button
-							style={{ margin:"auto"}}
-							variant="contained"
-							disabled={this.resetSettingsChecked}
-							onClick={(_) => {
-								if (
-									document.getElementById("sure-about-reset")
-										.checked
-								) {
-									this.setState(
-										(state, props) => {
-											state = Object.assign({}, state);
-											state.userConfig.Properties.Colors = [];
-											state.userConfig.Properties.FCMTokens = [];
-											state.userConfig.Properties.MailConfig = {};
-											state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
-											return state;
-										},
-										(_) => {
-											this.saveConfig().then((_) => {
-												location.reload();
-											});
-										}
-									);
-								}
+						</div>
+						<div
+							style={{
+								textAlign: "center",
+								marginBottom: "56px",
 							}}
 						>
-							Reset settings
-													</MaterialUI.Button>
-						
+							<div>
+								<MaterialUI.FormControlLabel
+									style={{
+										marginRight: 0,
+										marginBottom: "8px",
+									}}
+									classes={{
+										label: helpers.scopedClass(
+											"font-size: unset;"
+										),
+									}}
+									control={
+										<MaterialUI.Checkbox
+											onClick={(ev) => {
+												this.setState({
+													resetSettingsChecked: !this
+														.state
+														.resetSettingsChecked,
+												});
+											}}
+											style={{ padding: "0 0 0 18" }}
+											id="sure-about-reset"
+										/>
+									}
+									label="I want to reset my settings"
+								/>
+							</div>
+							<MaterialUI.Button
+								style={{ margin: "auto" }}
+								variant="contained"
+								disabled={!this.state.resetSettingsChecked}
+								onClick={(_) => {
+									if (
+										document.getElementById(
+											"sure-about-reset"
+										).checked
+									) {
+										this.setState(
+											(state, props) => {
+												state = Object.assign(
+													{},
+													state
+												);
+												state.userConfig.Properties.Colors = [];
+												state.userConfig.Properties.FCMTokens = [];
+												state.userConfig.Properties.MailConfig = {};
+												state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
+												return state;
+											},
+											(_) => {
+												this.saveConfig().then((_) => {
+													location.reload();
+												});
+											}
+										);
+									}
+								}}
+							>
+								Reset settings
+							</MaterialUI.Button>
 						</div>
 					</React.Fragment>
 				) : (
