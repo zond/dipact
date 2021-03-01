@@ -387,10 +387,11 @@ export default class Game extends React.Component {
 						gameStates: gameStates,
 						variant: variant,
 						member: member,
-						labPlayAs:
-							member && member.Nation
-								? member.Nation
-								: variant.Properties.Nations[0],
+						labPlayAs: this.state.labPlayAs
+							? this.state.labPlayAs
+							: member && member.Nation
+							? member.Nation
+							: variant.Properties.Nations[0],
 						phaseMessages: member
 							? (member.NewestPhaseState.Messages || "")
 									.split(",")
