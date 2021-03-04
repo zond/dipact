@@ -396,11 +396,15 @@ export default class DipMap extends React.Component {
 			!this.state.phase ||
 			this.props.phase.Properties.PhaseOrdinal !=
 				prevProps.phase.Properties.PhaseOrdinal ||
-			this.props.laboratoryMode != this.state.laboratoryMode
+			this.props.laboratoryMode != this.state.laboratoryMode ||
+			this.props.game.Started != prevProps.game.Started
 		) {
 			this.debugCount("componentDidUpdate/forwardProps");
 			this.setState({
 				game: this.props.game,
+				member: (this.props.game.Properties.Members || []).find((e) => {
+					return e.User.Email == Globals.user.Email;
+				}),
 				svgLoaded:
 					this.state.svgLoaded &&
 					this.props.game.Properties.ID ==
