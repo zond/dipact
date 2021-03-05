@@ -1078,7 +1078,7 @@ export function minutesToDuration(m, short = false) {
 			let remainder = m - h * 60;
 			if (remainder == 0) {
 				return "" + h + "h";
-			} else if (short) {
+			} else if (short && h > 2) {
 				return "<" + (h + 1) + "h";
 			}
 			return "" + h + "h " + reduce(remainder);
