@@ -116,7 +116,7 @@ export default class Login extends React.Component {
 										}}
 										control={
 											<MaterialUI.Checkbox
-												style={{ color: "white" }}
+												style={{ color: "#fde2b5" }}
 												checked={
 													this.state.stayLoggedIn
 												}

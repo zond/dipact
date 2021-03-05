@@ -463,12 +463,13 @@ export default class OrderList extends React.Component {
                               marginLeft: "auto",
                             }}
                           >
+
                             <MaterialUI.Button
                               color="primary"
                               variant="outlined"
                               style={{
                                 padding: "4px 8px",
-                                margin: "4px 0px",
+                                margin: "4px 16px 4px 8px",
                               }}
                               onClick={this.toggleDIAS(nation)}
                             >
@@ -499,6 +500,17 @@ export default class OrderList extends React.Component {
                                   }
                                 ></path>
                               </MaterialUI.SvgIcon>
+                            </MaterialUI.Button>
+                             <MaterialUI.Button
+                              color="primary"
+                              variant="outlined"
+                              style={{
+                                padding: "4px 8px",
+                                margin: "4px 0px",
+                              }}
+                              onClick={this.toggleDIAS(nation)}
+                            >
+                            Surrender
                             </MaterialUI.Button>
                           </div>
                         ) : (
