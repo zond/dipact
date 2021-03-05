@@ -490,6 +490,44 @@ export default class GameListElement extends React.Component {
 				);
 			}
 		}
+		if (!this.state.game.Properties.Closed) {
+			buttons.push(
+				<MaterialUI.Button
+					variant="outlined"
+					style={{
+						marginRight: "16px",
+						minWidth: "100px",
+						marginBottom: "4px",
+					}}
+					color="primary"
+					onClick={(_) => {
+						const hrefURL = new URL(location.href);
+						helpers
+							.copyToClipboard(
+								hrefURL.protocol +
+									"//" +
+									hrefURL.host +
+									"/Game/" +
+									this.state.game.Properties.ID
+							)
+							.then(
+								(_) => {
+									helpers.snackbar(
+										"Game URL copied to clipboard. Share it to other players."
+									);
+								},
+								(err) => {
+									console.log(err);
+								}
+							);
+						gtag("event", "game_share");
+					}}
+					key={itemKey++}
+				>
+					Share
+				</MaterialUI.Button>
+			);
+		}
 		let hasInviteDialog = false;
 		this.state.game.Links.forEach((link) => {
 			if (link.Rel == "join") {
