@@ -1,6 +1,12 @@
 import * as helpers from '%{ cb "/js/helpers.js" }%';
 
 export default class Login extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			stayLoggedIn: false,
+		};
+	}
 	componentDidMount() {
 		gtag("set", { page_title: "Login", page_location: location.href });
 		gtag("event", "page_view");
@@ -78,9 +84,15 @@ export default class Login extends React.Component {
 										color: "#757575",
 										width: "220px",
 										textTransform: "initial",
-										fontFamily: '"cabin", sans-serif'
+										fontFamily: '"cabin", sans-serif',
 									}}
-									onClick={helpers.login}
+									onClick={(_) => {
+										helpers.login(
+											this.state.stayLoggedIn
+												? 60 * 60 * 24 * 365 * 100
+												: 60 * 60 * 20
+										);
+									}}
 									startIcon={
 										<i>
 											<img
@@ -93,6 +105,32 @@ export default class Login extends React.Component {
 								>
 									Sign in with Google
 								</MaterialUI.Button>
+								{window.Wrapper ? (
+									""
+								) : (
+									<MaterialUI.FormControlLabel
+										classes={{
+											label: helpers.scopedClass(
+												"color: white;"
+											),
+										}}
+										control={
+											<MaterialUI.Checkbox
+												style={{ color: "white" }}
+												checked={
+													this.state.stayLoggedIn
+												}
+												onChange={(ev) => {
+													this.setState({
+														stayLoggedIn:
+															ev.target.checked,
+													});
+												}}
+											/>
+										}
+										label="Stay logged in"
+									/>
+								)}
 							</div>
 							<div
 								className={helpers.scopedClass(`

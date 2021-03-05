@@ -1223,7 +1223,7 @@ export function safeFetch(req, opts = {}) {
 	});
 }
 
-export function login() {
+export function login(tokenDuration = 60 * 60 * 20) {
 	if (window.Wrapper && window.Wrapper.getToken) {
 		Globals.WrapperCallbacks.getToken = (resp) => {
 			if (resp.error) {
@@ -1244,6 +1244,7 @@ export function login() {
 		hrefURL.searchParams.delete("token");
 		const loginURL = new URL(Globals.loginURL.toString());
 		loginURL.searchParams.set("redirect-to", hrefURL.toString());
+		loginURL.searchParams.set("token-duration", "" + tokenDuration);
 		location.href = loginURL;
 	} else {
 		location.reload();
