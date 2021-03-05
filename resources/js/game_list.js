@@ -12,6 +12,7 @@ export default class GameList extends React.Component {
 		this.loadPropsURL = this.loadPropsURL.bind(this);
 		this.maybeLoadMore = this.maybeLoadMore.bind(this);
 		this.reload = this.reload.bind(this);
+		this.refresh = this.refresh.bind(this);
 		this.loading = false;
 		this.moreLink = null;
 		if (this.props.parentCB) {
@@ -28,12 +29,15 @@ export default class GameList extends React.Component {
 		) {
 			const url = new URL(this.moreLink.URL);
 			url.searchParams.set("limit", this.props.limit || 64);
-			this.loadReq(helpers.createRequest(url));
+			this.loadReq(helpers.createRequest(url), false);
 		}
 	}
 	loadPropsURL() {
 		this.props.url.searchParams.set("limit", this.props.limit || "64");
 		this.loadReq(helpers.createRequest(this.props.url.toString()));
+	}
+	refresh() {
+		this.loadPropsURL();
 	}
 	reload() {
 		this.setState(
@@ -67,7 +71,7 @@ export default class GameList extends React.Component {
 			}
 		}
 	}
-	loadReq(req) {
+	loadReq(req, replace = true) {
 		this.loading = true;
 		helpers
 			.safeFetch(req)
@@ -85,9 +89,12 @@ export default class GameList extends React.Component {
 						Properties: { ID: "" + Math.random() },
 					});
 				}
+				if (!replace) {
+					games = this.state.games.slice(0, -1).concat(games);
+				}
 				this.setState(
 					{
-						games: this.state.games.slice(0, -1).concat(games),
+						games: games,
 					},
 					(_) => {
 						this.loading = false;
@@ -140,7 +147,16 @@ export default class GameList extends React.Component {
 				<div style={{ width: "100%" }}>
 					{this.state.games.map((game, idx) => {
 						return (
-							<React.Fragment key={game.Properties.ID}>
+							<React.Fragment
+								key={
+									game.Properties.ID +
+									game.Properties.Started +
+									game.Properties.Finished +
+									(game.Properties.NewestPhaseMeta || [
+										{ PhaseOrdinal: 0 },
+									])[0].PhaseOrdinal
+								}
+							>
 								{this.renderElement(game)}
 								{idx < this.state.games.length - 1 ? (
 									<MaterialUI.Divider

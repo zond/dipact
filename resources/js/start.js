@@ -85,8 +85,8 @@ export default class Start extends React.Component {
 												]
 											}
 											onPhaseMessage={(_) => {
-												this.myStartedGamesList.loadPropsURL();
-												this.myFinishedGamesList.loadPropsURL();
+												this.myStartedGamesList.refresh();
+												this.myFinishedGamesList.refresh();
 											}}
 											parentCB={(c) => {
 												this.myStartedGamesList = c;
