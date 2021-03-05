@@ -513,7 +513,7 @@ export default class GameListElement extends React.Component {
 							.then(
 								(_) => {
 									helpers.snackbar(
-										"Game URL copied to clipboard. Share it to other players."
+										"Game URL copied to clipboard. Share it to other players to let them join."
 									);
 								},
 								(err) => {
@@ -524,7 +524,7 @@ export default class GameListElement extends React.Component {
 					}}
 					key={itemKey++}
 				>
-					Share
+					Invite
 				</MaterialUI.Button>
 			);
 		}
