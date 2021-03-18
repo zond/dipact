@@ -57,6 +57,7 @@ export default class Game extends React.Component {
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
 		this.dip_map = null;
+		this.countdownInterval = null;
 	}
 	debugCount(tag) {
 		if (!this.debugCounters[tag]) {
@@ -249,6 +250,9 @@ export default class Game extends React.Component {
 		this.setState({ corroboration: corr });
 	}
 	componentWillUnmount() {
+		if (this.countdownInterval) {
+			clearInterval(this.countdownInterval);
+		}
 		helpers.unback(this.props.close);
 		this.dead = true;
 		history.pushState("", "", "/");
@@ -257,6 +261,21 @@ export default class Game extends React.Component {
 		}
 	}
 	componentDidMount() {
+		if (this.countdownInterval) {
+			clearInterval(this.countdownInterval);
+		}
+		this.countdownInterval = setInterval((_) => {
+			const els = document.getElementsByClassName("minute-countdown");
+			for (let i = 0; i < els.length; i++) {
+				const el = els[i];
+				const deadline = new Date(
+					parseFloat(el.getAttribute("dataat"))
+				);
+				const deltaMinutes =
+					((deadline.getTime() - new Date().getTime()) * 1e-3) / 60.0;
+				el.innerText = helpers.minutesToDuration(deltaMinutes, true);
+			}
+		}, 30000);
 		this.loadGame().then((_) => {
 			helpers.urlMatch(
 				[
@@ -567,6 +586,38 @@ export default class Game extends React.Component {
 												}
 											>
 												{helpers.phaseName(phase)}
+												{phase.Properties.Resolved ? (
+													""
+												) : (
+													<span
+														dataat={
+															new Date().getTime() +
+															phase.Properties
+																.NextDeadlineIn *
+																1e-6
+														}
+														className={
+															helpers.scopedClass(`
+                                                           position: relative;
+                                                           top: -6px;
+                                                           font-size: xx-small;
+                                                           left: -5px;
+                                                           z-index: 1;
+                                                           background-color: red;
+                                                           border-radius: 7px;
+                                                           padding: 0 2px 1px 2px;`) +
+															" minute-countdown"
+														}
+													>
+														{helpers.minutesToDuration(
+															(phase.Properties
+																.NextDeadlineIn *
+																1e-9) /
+																60.0,
+															true
+														)}
+													</span>
+												)}
 											</MaterialUI.MenuItem>
 										);
 									})}
