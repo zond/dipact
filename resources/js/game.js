@@ -586,7 +586,9 @@ export default class Game extends React.Component {
 												}
 											>
 												{helpers.phaseName(phase)}
-												{phase.Properties.Resolved ? (
+												{!this.state.game.Properties
+													.Started ||
+												phase.Properties.Resolved ? (
 													""
 												) : (
 													<span
