@@ -89,8 +89,7 @@ export default class OrderList extends React.Component {
 				return "No order";
 			case "InconsistencyMismatchedSupporter":
 			case "InconsistencyMismatchedConvoyer":
-				return (
-					"Doesn't match the order for " +
+				return tr("Doesn't match the order for {0}").format(
 					helpers.provName(this.props.variant, parts[1])
 				);
 			case "InconsistencyMismatchedConvoyee":
@@ -368,13 +367,16 @@ export default class OrderList extends React.Component {
 														variant="body1"
 														color="primary"
 													>
-														{nation}
 														{this.props.member &&
 														this.props.member
 															.Nation == nation &&
 														hasLink
-															? " (You)"
-															: ""}
+															? tr(
+																	"{0} (You)"
+															  ).format(
+																	tr(nation)
+															  )
+															: tr(nation)}
 													</MaterialUI.Typography>
 													<div>
 														{SCs} supply center
