@@ -9,6 +9,7 @@ import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
 import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
 import About from '%{ cb "/js/about.js" }%';
+import DonateDialog from '%{ cb "/js/donate_dialog.js" }%';
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -33,6 +34,7 @@ export default class MainMenu extends ActivityContainer {
 		this.findGameDialog = null;
 		this.settingsDialog = null;
 		this.errorsDialog = null;
+		this.donateDialog = null;
 		helpers.urlMatch(
 			[
 				[
@@ -428,20 +430,6 @@ export default class MainMenu extends ActivityContainer {
 								</MaterialUI.ListItem>
 
 								<MaterialUI.Divider />
-
-								{/* 
-                <MaterialUI.ListItem
-                  button
-                  onClick={(_) => {
-                    open("https://github.com/zond/dipact");
-                  }}
-                >
-
-                  <MaterialUI.ListItemText primary="Github source code" />
-                }
-                </MaterialUI.ListItem>
-
-            */}
 							</MaterialUI.List>
 							<div
 								style={{
@@ -469,13 +457,27 @@ export default class MainMenu extends ActivityContainer {
 									id="errorlog"
 									style={{ padding: "8px" }}
 									onClick={(_) => {
-										this.closeDrawer;
 										this.errorsDialog.setState({
 											open: true,
 										});
 									}}
 								>
 									{helpers.createIcon("\ue868")}
+								</div>
+								<div
+									id="donate"
+									style={{ padding: "8px" }}
+									onClick={(_) => {
+										this.donateDialog.setState({
+											open: true,
+										});
+									}}
+								>
+									<img
+										src="/static/img/donate.svg"
+										width="24"
+										height="24"
+									/>
 								</div>
 							</div>
 						</div>
@@ -486,6 +488,12 @@ export default class MainMenu extends ActivityContainer {
 						this.findGameDialog = c;
 					}}
 					key="find-game-dialog"
+				/>
+				<DonateDialog
+					key="donate-dialog"
+					parentCB={(c) => {
+						this.donateDialog = c;
+					}}
 				/>
 				<SettingsDialog
 					key="settings-dialog"
