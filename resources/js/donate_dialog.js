@@ -88,6 +88,10 @@ export default class DonateDialog extends React.Component {
 						your hands on ADA coins, see{" "}
 						<a href="https://www.google.com/search?q=buy+cardano+ada">
 							buy cardano ada
+						</a>{" "}
+						or contact the{" "}
+						<a href="https://groups.google.com/g/diplicity-talk">
+							forum
 						</a>
 						.
 					</p>
