@@ -50,7 +50,7 @@ export default class DonateDialog extends React.Component {
 				</MaterialUI.AppBar>
 				<div style={{ marginTop: 64, padding: 8 }}>
 					<p>
-						This is a free game. It's free to play, and the{" "}
+						This is a free game. It's free to play and the{" "}
 						<a href="https://github.com/zond/dipact">sourcecode</a>{" "}
 						is available for anyone that wants it.
 					</p>
@@ -60,7 +60,7 @@ export default class DonateDialog extends React.Component {
 						month to pay for CPU, storage, and bandwidth.
 					</p>
 					<p>
-						If you enjoy the game, and feel like contributing, it
+						If you enjoy the game and feel like contributing, it
 						would be greatly appreciated.
 					</p>
 					<p>
@@ -84,8 +84,8 @@ export default class DonateDialog extends React.Component {
 						.
 					</p>
 					<p>
-						If you want to contribute, but don't know how to get
-						your hands on ADA coins, see{" "}
+						If you want to contribute but don't know how to get your
+						hands on ADA coins, see{" "}
 						<a href="https://www.google.com/search?q=buy+cardano+ada">
 							buy cardano ada
 						</a>{" "}
