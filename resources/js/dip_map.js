@@ -65,7 +65,7 @@ export default class DipMap extends React.Component {
 		if (!svgEl) {
 			return;
 		}
-		let dipMapTitle = document.getElementById("dip-map-title");
+		const dipMapTitle = document.getElementById("dip-map-title");
 		if (!dipMapTitle) {
 			const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
 			const spacing = addToBottom * 0.12;
@@ -137,7 +137,7 @@ export default class DipMap extends React.Component {
 	}
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
-		let info = helpers.provName(this.props.variant, prov);
+		const info = helpers.provName(this.props.variant, prov);
 		if (this.state.phase.Properties.SupplyCenters) {
 			const owner = this.state.phase.Properties.SupplyCenters[prov];
 			if (owner) {
@@ -264,7 +264,7 @@ export default class DipMap extends React.Component {
 			}
 			const scale = opts.width ? opts.width / this.mapDims[0] : 1.0;
 			this.debugCount("getSVGData/mapDims");
-			let mapEl = document.getElementById("map");
+			const mapEl = document.getElementById("map");
 			const svg = mapEl.children[0].cloneNode(true);
 			svg.setAttribute("width", this.mapDims[0] * scale);
 			svg.setAttribute("height", this.mapDims[1] * scale);
@@ -273,29 +273,31 @@ export default class DipMap extends React.Component {
 			if (opts.force || svgHash != this.lastSerializedSVG) {
 				this.debugCount("getSVGData/differentHash");
 				this.lastSerializedSVG = svgHash;
-				let serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
-				let snapshotImage = document.createElement("img");
+				const serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
+				const snapshotImage = document.createElement("img");
 				snapshotImage.style.width = this.mapDims[0] * scale;
 				snapshotImage.style.height = this.mapDims[1] * scale;
 				snapshotImage.src =
 					"data:image/svg+xml;base64," + serializedSVG;
 				snapshotImage.addEventListener("load", (_) => {
 					this.debugCount("getSVGData/loadedSnapshot");
-					let snapshotCanvas = document.createElement("canvas");
-					snapshotCanvas.setAttribute(
-						"height",
-						this.mapDims[1] * scale
-					);
-					snapshotCanvas.setAttribute(
-						"width",
-						this.mapDims[0] * scale
-					);
-					snapshotCanvas.style.height = this.mapDims[1];
-					snapshotCanvas.style.width = this.mapDims[0];
-					snapshotCanvas
-						.getContext("2d")
-						.drawImage(snapshotImage, 0, 0);
-					res(snapshotCanvas.toDataURL("image/png"));
+					createImageBitmap(snapshotImage, 0, 0, snapshotImage.width, snapshotImage.height).then(bitmap => {
+						const snapshotCanvas = document.createElement("canvas");
+						snapshotCanvas.setAttribute(
+							"height",
+							this.mapDims[1] * scale
+						);
+						snapshotCanvas.setAttribute(
+							"width",
+							this.mapDims[0] * scale
+						);
+						snapshotCanvas.style.height = this.mapDims[1];
+						snapshotCanvas.style.width = this.mapDims[0];
+						snapshotCanvas
+							.getContext("bitmaprenderer")
+							.transferFromImageBitmap(bitmap);
+						res(snapshotCanvas.toDataURL("image/png"));
+					});
 				});
 			}
 		});
@@ -311,7 +313,7 @@ export default class DipMap extends React.Component {
 		}
 	}
 	createOrder(parts) {
-		let setOrderLink = this.state.phase.Links.find((l) => {
+		const setOrderLink = this.state.phase.Links.find((l) => {
 			return l.Rel == "create-and-corroborate";
 		});
 		if (setOrderLink) {
@@ -336,7 +338,7 @@ export default class DipMap extends React.Component {
 		}
 	}
 	deleteOrder(prov) {
-		let order = this.state.orders.find((o) => {
+		const order = this.state.orders.find((o) => {
 			return o.Parts[0].split("/")[0] == prov.split("/")[0];
 		});
 		if (order) {
@@ -361,7 +363,7 @@ export default class DipMap extends React.Component {
 		this.setState({ game: this.props.game, phase: this.props.phase });
 	}
 	loadCorroboratePromise() {
-		let corroborateLink = this.state.phase.Links.find((l) => {
+		const corroborateLink = this.state.phase.Links.find((l) => {
 			return l.Rel == "corroborate";
 		});
 		if (corroborateLink) {
@@ -421,7 +423,7 @@ export default class DipMap extends React.Component {
 			!this.mapDims[1]
 		) {
 			this.debugCount("componentDidUpdate/gotMapDims");
-			let mapEl = document.getElementById("map");
+			const mapEl = document.getElementById("map");
 			this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 			this.snapshotSVG();
 		}
@@ -472,12 +474,12 @@ export default class DipMap extends React.Component {
 				this.debugCount("componentDidUpdate/reRenderNormal");
 				// If we are NOT in laboratory mode, reload options AND orders.
 				if (this.state.phase.Links) {
-					let silent = this.firstLoadFinished;
+					const silent = this.firstLoadFinished;
 					if (!silent) {
 						helpers.incProgress();
 					}
-					let promises = [this.loadCorroboratePromise()];
-					let optionsLink = this.state.phase.Links.find((l) => {
+					const promises = [this.loadCorroboratePromise()];
+					const optionsLink = this.state.phase.Links.find((l) => {
 						return l.Rel == "options";
 					});
 					if (optionsLink) {
@@ -548,11 +550,11 @@ export default class DipMap extends React.Component {
 					return state;
 				},
 				(_) => {
-					let variantMapSVG =
+					const variantMapSVG =
 						"/Variant/" +
 						this.state.game.Properties.Variant +
 						"/Map.svg";
-					let promises = [
+					const promises = [
 						helpers.memoize(variantMapSVG, (_) => {
 							return helpers
 								.safeFetch(helpers.createRequest(variantMapSVG))
@@ -561,7 +563,7 @@ export default class DipMap extends React.Component {
 						Promise.all(
 							this.state.variant.Properties.UnitTypes.map(
 								(unitType) => {
-									let variantUnitSVG =
+									const variantUnitSVG =
 										"/Variant/" +
 										this.state.game.Properties.Variant +
 										"/Units/" +
@@ -590,8 +592,8 @@ export default class DipMap extends React.Component {
 						),
 					];
 					Promise.all(promises).then((values) => {
-						let mapSVG = values[0];
-						let mapEl = document.getElementById("map");
+						const mapSVG = values[0];
+						const mapEl = document.getElementById("map");
 						mapEl.innerHTML = mapSVG;
 						this.mapDims = [mapEl.clientWidth, mapEl.clientHeight];
 
@@ -604,7 +606,7 @@ export default class DipMap extends React.Component {
 									superProv
 								].Subs
 							).forEach((subProv) => {
-								let prov = superProv;
+								const prov = superProv;
 								if (subProv) {
 									prov = prov + "/" + subProv;
 								}
@@ -646,9 +648,9 @@ export default class DipMap extends React.Component {
 							onPanEnd: showSVG,
 						});
 
-						let variantUnits = values[1];
+						const variantUnits = values[1];
 						variantUnits.forEach((unitData) => {
-							let container = document.createElement("div");
+							const container = document.createElement("div");
 							container.setAttribute(
 								"id",
 								"unit" + unitData.name
@@ -695,7 +697,7 @@ export default class DipMap extends React.Component {
 				});
 			}
 			for (let prov in this.state.variant.Properties.Graph.Nodes) {
-				let node = this.state.variant.Properties.Graph.Nodes[prov];
+				const node = this.state.variant.Properties.Graph.Nodes[prov];
 				if (node.SC && SCs[prov]) {
 					const col = helpers.natCol(SCs[prov], this.state.variant);
 					if (helpers.brightnessByColor(col) < 0.5) {
@@ -732,7 +734,7 @@ export default class DipMap extends React.Component {
 				});
 			} else {
 				for (let prov in this.state.phase.Properties.Units) {
-					let unit = this.state.phase.Properties.Units[prov];
+					const unit = this.state.phase.Properties.Units[prov];
 					const superProv = prov.split("/")[0];
 					this.map.addUnit(
 						"unit" + unit.Type,
@@ -768,7 +770,7 @@ export default class DipMap extends React.Component {
 			} else {
 				for (let prov in this.state.phase.Properties.Dislodgeds) {
 					const superProv = prov.split("/")[0];
-					let unit = this.state.phase.Properties.Units[prov];
+					const unit = this.state.phase.Properties.Units[prov];
 					this.map.addUnit(
 						"unit" + unit.Type,
 						prov,
@@ -801,10 +803,10 @@ export default class DipMap extends React.Component {
 
 			if (this.state.phase.Properties.Orders) {
 				for (let nat in this.state.phase.Properties.Orders) {
-					let orders = this.state.phase.Properties.Orders[nat];
+					const orders = this.state.phase.Properties.Orders[nat];
 					for (let prov in orders) {
 						const superProv = prov.split("/")[0];
-						let order = orders[prov];
+						const order = orders[prov];
 						this.map.addOrder(
 							[prov] + order,
 							helpers.natCol(nat, this.state.variant),
@@ -1183,7 +1185,7 @@ export default class DipMap extends React.Component {
 				});
 			}
 		} else {
-			let type = null;
+			const type = null;
 			for (let option in options) {
 				if (type == null) {
 					type = options[option].Type;
@@ -1297,7 +1299,7 @@ export default class DipMap extends React.Component {
 					this.debugCount("addOptionsHandlers/openedOrderDialog");
 					break;
 				case "SrcProvince":
-					let srcProvince = Object.keys(options)[0];
+					const srcProvince = Object.keys(options)[0];
 					parts[0] = srcProvince;
 					this.addOptionHandlers(options[srcProvince].Next, parts);
 					this.debugCount("addOptionsHandlers/assignedSrcProvince");
