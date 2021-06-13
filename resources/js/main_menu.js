@@ -56,8 +56,8 @@ export default class MainMenu extends ActivityContainer {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
-									renderMyFinishedGames: this
-										.renderMyFinishedGames,
+									renderMyFinishedGames:
+										this.renderMyFinishedGames,
 								});
 							},
 						};
@@ -111,9 +111,11 @@ export default class MainMenu extends ActivityContainer {
 		});
 	}
 	openDrawer() {
+		console.log("open drawer");
 		this.setState({ drawerOpen: true });
 	}
 	closeDrawer() {
+		console.log("close drawer");
 		this.setState({ drawerOpen: false });
 	}
 	renderMyFinishedGames() {
@@ -216,7 +218,10 @@ export default class MainMenu extends ActivityContainer {
 				<div style={{ marginTop: "60px" }}>{this.renderActivity()}</div>
 				<MaterialUI.Drawer open={this.state.drawerOpen}>
 					<MaterialUI.ClickAwayListener
-						onClickAway={this.closeDrawer}
+						onClickAway={(_) => {
+							console.log("click away");
+							this.closeDrawer();
+						}}
 					>
 						<div
 							onClick={this.closeDrawer}
@@ -258,8 +263,8 @@ export default class MainMenu extends ActivityContainer {
 											urls: this.props.urls,
 											findPrivateGame: this.findGameByID,
 											findOpenGame: this.renderOpenGames,
-											renderMyFinishedGames: this
-												.renderMyFinishedGames,
+											renderMyFinishedGames:
+												this.renderMyFinishedGames,
 										});
 									}}
 								>
