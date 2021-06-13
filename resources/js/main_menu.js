@@ -20,6 +20,8 @@ export default class MainMenu extends ActivityContainer {
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
 		this.renderMyFinishedGames = this.renderMyFinishedGames.bind(this);
+		// Since onClickOutside in a webview seems to behave strangely.
+		this.drawerOpenedAt = 0;
 		this.state = {
 			drawerOpen: false,
 			activity: Start,
@@ -111,11 +113,10 @@ export default class MainMenu extends ActivityContainer {
 		});
 	}
 	openDrawer() {
-		console.log("open drawer");
+		this.drawerOpenedAt = new Date().getTime();
 		this.setState({ drawerOpen: true });
 	}
 	closeDrawer() {
-		console.log("close drawer");
 		this.setState({ drawerOpen: false });
 	}
 	renderMyFinishedGames() {
@@ -219,8 +220,12 @@ export default class MainMenu extends ActivityContainer {
 				<MaterialUI.Drawer open={this.state.drawerOpen}>
 					<MaterialUI.ClickAwayListener
 						onClickAway={(_) => {
-							console.log("click away");
-							this.closeDrawer();
+							if (
+								new Date().getTime() >
+								this.drawerOpenedAt + 100
+							) {
+								this.closeDrawer();
+							}
 						}}
 					>
 						<div
