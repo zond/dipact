@@ -8,7 +8,7 @@ import Game from '%{ cb "/js/game.js" }%';
 import SettingsDialog from '%{ cb "/js/settings_dialog.js" }%';
 import ErrorsDialog from '%{ cb "/js/errors_dialog.js" }%';
 import StatsDialog from '%{ cb "/js/stats_dialog.js" }%';
-import About from '%{ cb "/js/about.js" }%';
+import About from '%{ cb "/js/about/about.js" }%';
 import DonateDialog from '%{ cb "/js/donate_dialog.js" }%';
 
 export default class MainMenu extends ActivityContainer {

@@ -23,6 +23,7 @@ window.Globals = {
 			Accept: "application/json",
 			"X-Diplicity-Client-Name": "dipact@" + hrefURL.host,
 		},
+
 		mode: "cors",
 	}),
 	user: {},
