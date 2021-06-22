@@ -13,7 +13,7 @@ import (
 	"text/template"
 	"time"
 
-	babel "github.com/jvatic/goja-babel"
+	"github.com/jvatic/goja-babel"
 )
 
 var (
