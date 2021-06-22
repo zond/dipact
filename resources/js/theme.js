@@ -8,6 +8,22 @@ const theme = MaterialUI.createMuiTheme({
       'Roboto',
       'sans-serif',
     ].join(','),
+    h1: {
+      fontSize: '1.625rem',
+      fontWeight: 'bold',
+    },
+    h2: {
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+    },
+    h3: {
+      fontSize: '1.25rem',
+      fontWeight: 'bold',
+    },
+    h4: {
+      fontSize: '1rem',
+      fontWeight: 'bold',
+    }
   },
   palette: {
     primary: {

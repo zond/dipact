@@ -21,6 +21,7 @@ var (
 		"ReactJSURL":      "/static/js/react.production.min.js",
 		"ReactDOMJSURL":   "/static/js/react-dom.production.min.js",
 		"MaterialUIJSURL": "/static/js/material-ui.production.min.js",
+		"HTMLReactParser": "/static/js/html-react-parser.min.js",
 		"JQueryJSURL":     "/static/js/jquery-3.4.1.min.js",
 		"ChartJSURL":      "/static/js/Chart.min.js",
 		"IroJSURL":        "/static/js/iro.min.js",

@@ -88,6 +88,7 @@ func main() {
 				"ReactJSURL":      "/static/js/react.development.js",
 				"ReactDOMJSURL":   "/static/js/react-dom.development.js",
 				"MaterialUIJSURL": "/static/js/material-ui.development.js",
+				"HTMLReactParser": "/static/js/html-react-parser.min.js",
 				"JQueryJSURL":     "/static/js/jquery-3.4.1.js",
 				"ChartJSURL":      "/static/js/Chart.js",
 				"IroJSURL":        "/static/js/iro.js",

@@ -44,6 +44,10 @@ a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 3. Run `dev_appserver.py app.yaml`.
 4. Go to http://localhost:8080/.
 
+### Run the tests
+
+1. Run `yarn test` from the project root
+
 ### Deploying
 
 The [deploy script](https://github.com/zond/dipact/blob/master/.github/workflows/deploy.yml) causes
