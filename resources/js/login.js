@@ -69,8 +69,9 @@ export default class Login extends React.Component {
 							  
 							  `)}
 							>
-								A digital version of the classic game of
-								Diplomacy. Sign in to play.
+								{tr(
+									"A digital version of the classic game of Diplomacy. Sign in to play."
+								)}
 							</div>
 							<div
 								className={helpers.scopedClass(`
@@ -103,7 +104,7 @@ export default class Login extends React.Component {
 										</i>
 									}
 								>
-									Sign in with Google
+									{tr("Sign in with Google")}
 								</MaterialUI.Button>
 								{window.Wrapper ? (
 									""
@@ -128,7 +129,7 @@ export default class Login extends React.Component {
 												}}
 											/>
 										}
-										label="Stay logged in"
+										label={tr("Stay logged in")}
 									/>
 								)}
 							</div>

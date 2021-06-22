@@ -5,6 +5,7 @@ import ProgressDialog from '%{ cb "/js/progress_dialog.js" }%';
 import Snackbar from '%{ cb "/js/snackbar.js" }%';
 import Messaging from '%{ cb "/js/messaging.js" }%';
 import Theme from '%{ cb "/js/theme.js" }%';
+import Langs from "/static/js/langs.js";
 
 const hrefURL = new URL(location.href);
 
@@ -16,7 +17,31 @@ if (fakeID) {
 	serverURL.searchParams.set("fake-id", fakeID);
 }
 
+String.prototype.format = function () {
+	var formatted = this;
+	for (var i = 0; i < arguments.length; i++) {
+		var regexp = new RegExp("\\{" + i + "\\}", "gi");
+		formatted = formatted.replace(regexp, arguments[i]);
+	}
+	return formatted;
+};
+
+window.tr = (s) => {
+	const lang = Langs[window.Globals.lang] || Langs["en"];
+	if (lang[s]) {
+		return lang[s];
+	}
+	window.Globals.missingTranslations[s] = true;
+	return s;
+};
+
 window.Globals = {
+	missingTranslations: {},
+	lang: (
+		window.navigator.userLanguage ||
+		window.navigator.language ||
+		"en"
+	).split(/-/)[0],
 	serverRequest: new Request(serverURL, {
 		headers: {
 			"X-Diplicity-API-Level": "8",
