@@ -28,10 +28,8 @@ const About = () => {
                 <MaterialUI.Typography variant='h4'>{faq.header}</MaterialUI.Typography>
               </MaterialUI.AccordionSummary>
               <MaterialUI.AccordionDetails className={classes.accordionDetails}>
-                {faq.paragraphs.map((text) => (
-                  // Use first 10 chars of paragraph as key to keep React happy. This will produce a
-                  // console error if two paragraphs in the same FAQ start with the same first 10 chars
-                  <MaterialUI.Typography key={text.slice(0, 10)}>
+                {faq.paragraphs.map((text, index) => (
+                  <MaterialUI.Typography key={index}>
                     {window.HTMLReactParser(text)}
                   </MaterialUI.Typography>
                 ))}
