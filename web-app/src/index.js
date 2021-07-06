@@ -10,6 +10,7 @@ import Snackbar from './components/Snackbar';
 import { ThemeProvider } from "@material-ui/core";
 import theme from './theme';
 import Globals from './Globals';
+import '@fontsource/cabin';
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
