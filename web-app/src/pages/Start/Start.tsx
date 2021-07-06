@@ -15,7 +15,7 @@ import { ExpandMore } from "@material-ui/icons";
 import { ReactComponent as LogoDarkSVG } from "../../assets/img/logo_dark.svg";
 import NewsDialog from "../../components/NewsDialog";
 import useStyles from "./Start.styles";
-import { useGetVariantsQuery } from "../../store/service";
+import { useHasPlayed } from "../../hooks/selectors";
 
 const latestNewsShownKey = "latestNewsShown";
 const DIPLOMACY_RULES_LINK = "https://en.wikibooks.org/wiki/Diplomacy/Rules"; // TODO move to external links
@@ -31,44 +31,16 @@ const Start = (): React.ReactElement => {
   const [newGameFormOpen, setNewGameFormOpen] = useState(false);
 
   useRegisterPageView("Start");
-  const { data, error, isLoading } = useGetVariantsQuery(undefined);
 
   localStorage.setItem(latestNewsShownKey, "true");
 
-  const hasPlayed = false;
   const findOpenGame = (): void => console.log("Find open game");
   const findPrivateGame = (): void => console.log("Find private game");
   const renderMyFinishedGames = (): void =>
     console.log("Render my finished games");
-  //   constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       newGameFormOpen: false,
-  //       newsDialogOpen:
-  //         !localStorage.getItem(latestNewsShownKey) ||
-  //         Number.parseInt(localStorage.getItem(latestNewsShownKey)) < latestNews,
-  //     };
-  //     this.createGameDialog = null;
-  //     this.myStagingGamesList = null;
-  //     this.myStartedGamesList = null;
-  //     this.myFinishedGamesList = null;
-  //     this.errorsDialog = null;
-
-  //     this.hasPlayed = this.hasPlayed.bind(this);
-  //     localStorage.setItem(latestNewsShownKey, "" + latestNews);
-  //   }
-
-  //   hasPlayed() {
-  //     return (
-  //       Globals.userStats.Properties.JoinedGames ||
-  //       Globals.userStats.Properties.PrivateStats.JoinedGames
-  //     );
-  //   }
 
   const classes = useStyles();
-
-  console.log("Error: ", error, "Is Loading: ", isLoading);
-  console.log(data);
+  const hasPlayed = useHasPlayed();
 
   return (
     <>

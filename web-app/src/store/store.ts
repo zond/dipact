@@ -1,15 +1,17 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import createSagaMiddleware from "redux-saga";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import middleware from "./middleware";
 
+import reducer from "./reducer";
 import { diplicityService } from "./service";
 
-const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
-  reducer: {
-    [diplicityService.reducerPath]: diplicityService.reducer,
-  },
-  middleware: [...getDefaultMiddleware(), sagaMiddleware],
+  reducer,
+  middleware: [
+    ...getDefaultMiddleware()
+      .concat(diplicityService.middleware)
+      .concat(middleware),
+  ],
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
