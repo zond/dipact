@@ -76,8 +76,8 @@ export default class DonateDialog extends React.Component {
 					<p>
 						To contribute, send donations in the Cardano crypto
 						currency ADA to our{" "}
-						<a
-							href="#"
+						<button
+							type="button"
 							onClick={(ev) => {
 								ev.preventDefault();
 								ev.stopPropagation();
@@ -90,8 +90,7 @@ export default class DonateDialog extends React.Component {
 							}}
 						>
 							Cardano wallet
-						</a>
-						.
+						</button>
 					</p>
 					<p>
 						If you want to contribute but don't know how to get your

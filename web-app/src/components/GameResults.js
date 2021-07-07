@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
 import * as helpers from '../helpers';
-import { Button, List, ListItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, ExpansionPanelDetails, ExpansionPanel, ExpansionPanelSummary } from "@material-ui/core";
+import { Button, List, ListItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, AccordionDetails, Accordion, AccordionSummary } from "@material-ui/core";
 import gtag from 'ga-gtag';
 
 import { ExpandIcon } from '../icons';
@@ -182,7 +182,7 @@ export default class GameResults extends React.Component {
 													margin: "0px",
 												}}
 											>
-												<ExpansionPanel
+												<Accordion
 													square
 													style={{
 														padding: "0px",
@@ -191,7 +191,7 @@ export default class GameResults extends React.Component {
 														width: "100%",
 													}}
 												>
-													<ExpansionPanelSummary
+													<AccordionSummary
 														style={{
 															padding: "0px",
 															margin: "0px",
@@ -378,9 +378,9 @@ export default class GameResults extends React.Component {
 																</Typography>
 															</div>
 														</div>
-													</ExpansionPanelSummary>
+													</AccordionSummary>
 
-													<ExpansionPanelDetails>
+													<AccordionDetails>
 														<div
 															style={{
 																width: "100%",
@@ -621,8 +621,8 @@ export default class GameResults extends React.Component {
 																""
 															)}
 														</div>
-													</ExpansionPanelDetails>
-												</ExpansionPanel>
+													</AccordionDetails>
+												</Accordion>
 											</ListItem>
 										);
 									}

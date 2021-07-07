@@ -2,7 +2,7 @@
 import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
-import {SvgIcon, Divider, Typography, Tooltip, Box, Button, Badge, Zoom, ExpansionPanelSummary, ExpansionPanel, ExpansionPanelDetails } from "@material-ui/core";
+import {SvgIcon, Divider, Typography, Tooltip, Box, Button, Badge, Zoom, AccordionSummary, Accordion, AccordionDetails } from "@material-ui/core";
 
 import GameMetadata from './GameMetadata';
 import Game from './Game';
@@ -14,23 +14,30 @@ import RescheduleDialog from './RescheduleDialog';
 
 import { ConfirmedReadyIcon, ExpandIcon, MusteringIcon, NumMembersIcon, PrivateGameIcon, RatingIcon, ReliabilityIcon, StartedAtIcon } from '../icons';
 
-const warningClass = helpers.scopedClass("color: red;");
-const noticeClass = helpers.scopedClass("font-weight: bold !important;");
-const secondRowSummaryClass = helpers.scopedClass(`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-flex-wrap: wrap;`);
-const secondRowSummaryColorClass = helpers.scopedClass(
-	"color: rgba(40, 26, 26, 0.7);"
-);
-const summaryIconsAndPhaseClass = helpers.scopedClass(
-	"display: flex; justify-content: right;"
-);
-const summaryIconsClass = helpers.scopedClass("padding-right: 4px;");
-const sixteenBySixteenClass = helpers.scopedClass(
-	"height: 16px !important; width: 16px !important;"
-);
+const warningClass = {color: "red"};
+const noticeClass = {
+	fontWeight: "bold !important"
+};
+const secondRowSummaryClass = {
+	display: 'flex',
+	flexDirection: 'row',
+	justifyContent: 'space-between',
+	flexWrap: 'wrap',
+}
+const secondRowSummaryColorClass = {
+	color: "rgba(40, 26, 26, 0.7)"
+};
+const summaryIconsAndPhaseClass = {
+	display: 'flex',
+	justifyContent: 'right',
+}
+const summaryIconsClass = {
+	paddingRight: "4px"
+}
+const sixteenBySixteenClass = {
+	height: '16px !important',
+	width: '16px !important',
+}
 
 export default class GameListElement extends React.Component {
 	constructor(props) {
@@ -52,9 +59,6 @@ export default class GameListElement extends React.Component {
 		this.renameGameDialog = null;
 		this.manageInvitationsDialog = null;
 		this.rescheduleDialog = null;
-		this.valignClass = helpers.scopedClass(
-			"display: flex; align-items: center;"
-		);
 		this.viewGame = this.viewGame.bind(this);
 		this.closeGame = this.closeGame.bind(this);
 		this.getIcons = this.getIcons.bind(this);
@@ -343,7 +347,7 @@ export default class GameListElement extends React.Component {
 					disableFocusListener
 					title="Maximum hate requirement"
 				>
-					<SvgIcon className={sixteenBySixteenClass}>
+					<SvgIcon style={sixteenBySixteenClass}>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -378,7 +382,7 @@ export default class GameListElement extends React.Component {
 					disableFocusListener
 					title="Chat disabled"
 				>
-					<SvgIcon className={sixteenBySixteenClass}>
+					<SvgIcon style={sixteenBySixteenClass}>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -438,7 +442,7 @@ export default class GameListElement extends React.Component {
 			buttons.push(
 				<Typography
 					key="banned-notice"
-					className={noticeClass}
+					style={noticeClass}
 				>
 					You can't join because you banned or are banned by a player.
 				</Typography>
@@ -451,7 +455,7 @@ export default class GameListElement extends React.Component {
 			buttons.push(
 				<Typography
 					key="requirement-notice"
-					className={noticeClass}
+					style={noticeClass}
 				>
 					You can't join this game because:{" "}
 					{this.state.game.Properties.FailedRequirements.map(
@@ -549,7 +553,7 @@ export default class GameListElement extends React.Component {
 					buttons.unshift(
 						<Typography
 							key="deadline-warning"
-							className={warningClass}
+							style={warningClass}
 						>
 							WARNING: This game has short deadlines (less than 12
 							hours). If it starts while you're unavailable, you
@@ -566,7 +570,7 @@ export default class GameListElement extends React.Component {
 					buttons.unshift(
 						<Typography
 							key="reliability-warning"
-							className={warningClass}
+							style={warningClass}
 						>
 							WARNING: We advise you to join a different game,
 							because you have high reliability. Since this game
@@ -752,7 +756,7 @@ export default class GameListElement extends React.Component {
 											color: "#281A1A",
 										}}
 									>
-										{this.state.member !== null &&
+										{this.state.member &&
 										this.state.game.Properties.Started &&
 										!this.state.game.Properties.Finished ? (
 											this.state.member.NewestPhaseState
@@ -811,7 +815,7 @@ export default class GameListElement extends React.Component {
 								</div>
 								<div
 									key={itemKey++}
-									className={secondRowSummaryClass}
+									style={secondRowSummaryClass}
 								>
 									<Typography
 										textroverflow="ellipsis"
@@ -819,20 +823,20 @@ export default class GameListElement extends React.Component {
 										display="inline"
 										variant="caption"
 										id="variant"
-										className={secondRowSummaryColorClass}
+										style={secondRowSummaryColorClass}
 									>
 										{this.state.game.Properties.Variant}{" "}
 										{helpers.phaseLengthDisplay(
 											this.state.game.Properties
 										)}
 									</Typography>
-									<div className={summaryIconsAndPhaseClass}>
-										<div className={summaryIconsClass}>
+									<div style={summaryIconsAndPhaseClass}>
+										<div style={summaryIconsClass}>
 											{this.getIcons()}
 										</div>
 										<Typography
 											variant="caption"
-											className={
+											style={
 												secondRowSummaryColorClass
 											}
 										>
@@ -1051,7 +1055,7 @@ export default class GameListElement extends React.Component {
 		}
 		return (
 			<React.Fragment>
-				<ExpansionPanel
+				<Accordion
 					key="game-details"
 					onChange={(ev, exp) => {
 						this.setState({ expanded: exp });
@@ -1064,22 +1068,10 @@ export default class GameListElement extends React.Component {
 						margin: "0px",
 					}}
 				>
-					<ExpansionPanelSummary
-						classes={{
-							root: helpers.scopedClass("padding: 0px;"),
-							content: helpers.scopedClass(
-								"max-width: calc(100% - 32px);"
-							),
-						}}
-						expandIcon={<ExpandIcon />}
-					>
+					<AccordionSummary expandIcon={<ExpandIcon />}>
 						{summary}
-					</ExpansionPanelSummary>
-					<ExpansionPanelDetails
-						classes={{
-							root: helpers.scopedClass("padding: 0px;"),
-						}}
-					>
+					</AccordionSummary>
+					<AccordionDetails>
 						{this.state.expanded ? (
 							<div>
 								<div
@@ -1120,8 +1112,8 @@ export default class GameListElement extends React.Component {
 						) : (
 							""
 						)}
-					</ExpansionPanelDetails>
-				</ExpansionPanel>
+					</AccordionDetails>
+				</Accordion>
 				{this.state.viewOpen ? gameView : ""}
 				<NationPreferencesDialog
 					parentCB={(c) => {

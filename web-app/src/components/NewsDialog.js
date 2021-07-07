@@ -206,6 +206,7 @@ export default class NewsDialog extends React.Component {
 							<a
 								href="https://groups.google.com/g/diplicity-talk"
 								target="_blank"
+								rel="noreferrer"
 							>
 								Visit the forum
 							</a>

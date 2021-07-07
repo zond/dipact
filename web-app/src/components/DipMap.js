@@ -6,8 +6,8 @@ import $ from "jquery";
 import * as helpers from '../helpers';
 import Globals from '../Globals';
 import OrderDialog from './OrderDialog';
-import PZ from '../static/js/pz';
 import { dippyMap } from '../static/js/dippymap';
+import PZ from '../static/js/pz.js';
 
 export default class DipMap extends React.Component {
 	constructor(props) {
@@ -71,7 +71,7 @@ export default class DipMap extends React.Component {
 		if (!svgEl) {
 			return;
 		}
-		const dipMapTitle = document.getElementById("dip-map-title");
+		let dipMapTitle = document.getElementById("dip-map-title");
 		if (!dipMapTitle) {
 			const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
 			const spacing = addToBottom * 0.12;
@@ -612,7 +612,7 @@ export default class DipMap extends React.Component {
 									superProv
 								].Subs
 							).forEach((subProv) => {
-								const prov = superProv;
+								let prov = superProv;
 								if (subProv) {
 									prov = prov + "/" + subProv;
 								}
@@ -627,6 +627,7 @@ export default class DipMap extends React.Component {
 								);
 							});
 						});
+
 						const showSnapshot = (e) => {
 							document.getElementById("map").style.display =
 								"none";
@@ -641,7 +642,7 @@ export default class DipMap extends React.Component {
 								"mapSnapshot"
 							).style.display = "none";
 						};
-						const pz = new PZ({
+						new PZ({
 							pzid: "dip-map",
 							minScale: 0.5,
 							maxScale: 20,
@@ -694,7 +695,7 @@ export default class DipMap extends React.Component {
 			this.debugCount("updateMap/differentPhase");
 
 			this.phaseSpecialStrokes = {};
-			const SCs = {};
+			let SCs = {};
 			if (this.state.phase.Properties.SupplyCenters) {
 				SCs = this.state.phase.Properties.SupplyCenters;
 			} else {
@@ -1191,12 +1192,12 @@ export default class DipMap extends React.Component {
 				});
 			}
 		} else {
-			const type = null;
+			let type = null;
 			for (let option in options) {
 				if (type === null) {
 					type = options[option].Type;
 				} else if (type !== options[option].Type) {
-					throw "Can't use multiple types in the same level of options.";
+					throw Error("Can't use multiple types in the same level of options.");
 				}
 			}
 			this.snackbarIncompleteOrder(parts, type);
@@ -1310,6 +1311,8 @@ export default class DipMap extends React.Component {
 					this.addOptionHandlers(options[srcProvince].Next, parts);
 					this.debugCount("addOptionsHandlers/assignedSrcProvince");
 					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -1321,26 +1324,28 @@ export default class DipMap extends React.Component {
 			<React.Fragment>
 				<div
 					id="map-viewport"
-					className={helpers.scopedClass(
-						"height: 100%; overflow: hidden;"
-					)}
+					style={{
+						height: '100%',
+						overflow: 'hidden',
+					}}
 				>
 					<div id="map-container">
 						<div
-							className={helpers.scopedClass(
-								"display: flex; flex-wrap: wrap"
-							)}
+							style={{
+								display: 'flex',
+								flexWrap: 'wrap',
+							}}
 							key="map"
 							id="map"
 						></div>
 						<img
 							id="mapSnapshot"
 							key="mapSnapshot"
-							className={helpers.scopedClass(
-								"width: 100%; flex-wrap: wrap;"
-							)}
+							alt="Map snapshot"
 							style={{
-								display: "none",
+								width: '100%',
+								flexWrap: 'wrap',
+								display: 'none',
 							}}
 						/>
 					</div>

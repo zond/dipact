@@ -59,7 +59,7 @@ export default class ChatMenu extends React.Component {
 
 								helpers.urlMatch([
 									[
-										/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+										/^\/Game\/([^/]+)\/Channel\/([^/]+)\/Messages$/,
 										(match) => {
 											let channel = js.Properties.find(
 												(c) => {

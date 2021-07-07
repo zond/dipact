@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable no-restricted-globals */
 import React from 'react';
 import * as helpers from '../helpers';

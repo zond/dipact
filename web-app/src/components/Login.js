@@ -57,6 +57,7 @@ export default class Login extends React.Component {
 						>
 							<div>
 								<img
+									alt='Diplicity logo'
 									className={helpers.scopedClass(`
 									align-self: left;
 									width: 100%;
@@ -107,6 +108,7 @@ export default class Login extends React.Component {
 									startIcon={
 										<i>
 											<img
+												alt='Google icon'
 												src={googleIcon}
 											/>{" "}
 										</i>
@@ -147,7 +149,6 @@ export default class Login extends React.Component {
         
          `)}
 							>
-								<img src="../static/img/login_scrolldown.svg" />
 							</div>
 						</div>
 					</div>

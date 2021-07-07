@@ -6,7 +6,7 @@ export function processNotification(payload, href) {
 	);
 	const hrefURL = new URL(href);
 	payload.notification = {};
-	if (payload.data.type == "message") {
+	if (payload.data.type === "message") {
 		payload.notification.click_action =
 			hrefURL.protocol +
 			"//" +
@@ -21,7 +21,7 @@ export function processNotification(payload, href) {
 			" -> " +
 			payload.data.message.ChannelMembers.join(", ");
 		payload.notification.body = payload.data.message.Body;
-	} else if (payload.data.type == "phase") {
+	} else if (payload.data.type === "phase") {
 		payload.notification.click_action =
 			hrefURL.protocol +
 			"//" +

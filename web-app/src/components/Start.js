@@ -324,6 +324,7 @@ export default class Start extends React.Component {
 								}}
 							>
 								<img
+									alt='Diplity logo dark'
 									className={helpers.scopedClass(`
                   width: calc(100% - 48px);
                   max-width: 340px;

@@ -288,13 +288,13 @@ export default class Game extends React.Component {
 			helpers.urlMatch(
 				[
 					[
-						/^\/Game\/([^\/]+)\/Channel\/([^\/]+)\/Messages$/,
+						/^\/Game\/([^/]+)\/Channel\/([^/]+)\/Messages$/,
 						(match) => {
 							this.setState({ activeTab: "chat" });
 						},
 					],
 					[
-						/^\/Game\/([^\/]+)\/Lab\/(.+)$/,
+						/^\/Game\/([^/]+)\/Lab\/(.+)$/,
 						(match) => {
 							const serializedState = JSON.parse(
 								pako.inflate(
@@ -606,18 +606,16 @@ export default class Game extends React.Component {
 																.NextDeadlineIn *
 																1e-6
 														}
-														className={
-															helpers.scopedClass(`
-                                                           position: relative;
-                                                           top: -6px;
-                                                           font-size: xx-small;
-                                                           left: -5px;
-                                                           z-index: 1;
-                                                           background-color: red;
-                                                           border-radius: 7px;
-                                                           padding: 0 2px 1px 2px;`) +
-															" minute-countdown"
-														}
+														styles={{
+                                                           position: 'relative',
+                                                           top: '-6px',
+                                                           fontSize: 'xx-small',
+                                                           left: '-5px',
+                                                           zIndex: '1',
+                                                           backgroundColor: 'red',
+                                                           borderRadius: '7px',
+                                                           padding: '0 2px 1px 2px'
+														}}
 													>
 														{helpers.minutesToDuration(
 															(phase.Properties
@@ -877,9 +875,11 @@ export default class Game extends React.Component {
 									return l.Rel === "join";
 								}) ? (
 									<Toolbar
-										className={helpers.scopedClass(
-											"display: flex; justify-content: space-between; min-height: 53px;"
-										)}
+										styles={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											minHeight: '53px',
+										}}
 									>
 										<div>
 											{this.state.game.Links.find((l) => {
@@ -1042,9 +1042,9 @@ export default class Game extends React.Component {
 								{!this.state.labEditMode ? (
 									<FormControl
 										key="play-as"
-										className={helpers.scopedClass(
-											"flex-grow: 1;"
-										)}
+										style={{
+											flexGrow: 1,
+										}}
 									>
 										<Select
 											value={this.state.labPlayAs}

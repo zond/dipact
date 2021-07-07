@@ -1,5 +1,7 @@
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable no-restricted-globals */
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/messaging";
 import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
@@ -228,9 +230,9 @@ export default class SettingsDialog extends React.Component {
 											paddingLeft: "0px",
 										}}
 										classes={{
-											root: helpers.scopedClass(
-												"padding-left:0px"
-											),
+											root: {
+												paddingLeft: "0px"
+											}
 										}}
 										control={
 											<Switch
@@ -362,6 +364,7 @@ export default class SettingsDialog extends React.Component {
 														<a
 															href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8"
 															target="_blank"
+															rel="noreferrer"
 														>
 															Allow this sites
 															notifications in

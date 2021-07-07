@@ -1,22 +1,22 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/messaging";
 
 import Globals from '../../Globals';
 import { processNotification } from "./notification-helper";
 import * as helpers from '../../helpers';
 
+const config = {
+	apiKey: "AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
+	authDomain: "diplicity-engine.firebaseapp.com",
+	databaseURL: "https://diplicity-engine.firebaseio.com",
+	projectId: "diplicity-engine",
+	storageBucket: "diplicity-engine.appspot.com",
+	messagingSenderId: "635122585664",
+	appId: "1:635122585664:web:f87b8d8bd9023019a74fa5"
+};
+
 class Messaging {
 	constructor() {
-		let firebaseConfig = {
-			apiKey: "AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
-			authDomain: "diplicity-engine.firebaseapp.com",
-			databaseURL: "https://diplicity-engine.firebaseio.com",
-			projectId: "diplicity-engine",
-			storageBucket: "diplicity-engine.appspot.com",
-			messagingSenderId: "635122585664",
-			appId: "1:635122585664:web:f87b8d8bd9023019a74fa5"
-		};
-		firebase.initializeApp(firebaseConfig);
-
 		// The service worker registration that handles the FCM messages.
 		this.registration = null;
 		// The callbacks that listen to FCM messages from Diplicity.
@@ -57,6 +57,8 @@ class Messaging {
 		}
 		this.tokenApp = "dipact-v1@" + this.deviceID;
 
+		firebase.initializeApp(config);
+
 		this.refreshToken = this.refreshToken.bind(this);
 		this.onMessage = this.onMessage.bind(this);
 		this.subscribe = this.subscribe.bind(this);
@@ -73,6 +75,7 @@ class Messaging {
 			this.messaging = null;
 		}
 	}
+
 	handleSWMessage(ev) {
 		if (this.main && ev.data.clickedNotification) {
 			this.main.renderPath(ev.data.clickedNotification.action);
@@ -145,7 +148,7 @@ class Messaging {
 		}
 		let found = false;
 		for (let key in this.subscribers[type]) {
-			if (this.subscribers[type][key] == handler) {
+			if (this.subscribers[type][key] === handler) {
 				found = true;
 				break;
 			}
@@ -161,7 +164,7 @@ class Messaging {
 	unsubscribe(type, handler) {
 		if (this.subscribers[type]) {
 			for (let key in this.subscribers[type]) {
-				if (this.subscribers[type][key] == handler) {
+				if (this.subscribers[type][key] === handler) {
 					delete this.subscribers[type][key];
 					return true;
 				}
@@ -174,7 +177,7 @@ class Messaging {
 			Globals.userConfig.Properties.FCMTokens = [];
 		}
 		return Globals.userConfig.Properties.FCMTokens.find(t => {
-			return t.App == this.tokenApp;
+			return t.App === this.tokenApp;
 		});
 	}
 	setGlobalToken(newToken) {
@@ -185,7 +188,7 @@ class Messaging {
 		let foundToken = false;
 		Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.map(
 			t => {
-				if (t.App == this.tokenApp) {
+				if (t.App === this.tokenApp) {
 					foundToken = true;
 					return newToken;
 				}
@@ -199,11 +202,10 @@ class Messaging {
 	uploadToken() {
 		return new Promise((res, rej) => {
 			// eslint-disable-next-line no-restricted-globals
-			let hrefURL = new URL(location.href);
 			let wantedToken = {
 				Value: this.token,
 				// Only if we are explicitly asked to be disabled will be create new tokens that are disabled.
-				Disabled: this.targetState == "disabled",
+				Disabled: this.targetState === "disabled",
 				Note: "Created via dipact configuration on " + new Date(),
 				App: this.tokenApp,
 				MessageConfig: {
@@ -225,9 +227,9 @@ class Messaging {
 			let foundToken = this.findGlobalToken();
 			let updateServer = false;
 			if (foundToken) {
-				if (this.targetState == "enabled") {
+				if (this.targetState === "enabled") {
 					wantedToken.Disabled = false;
-				} else if (this.targetState == "disabled") {
+				} else if (this.targetState === "disabled") {
 					wantedToken.Disabled = true;
 				} else {
 					wantedToken.Disabled = foundToken.Disabled;
@@ -242,7 +244,7 @@ class Messaging {
 			// Clean up the old style FCM tokens.
 			Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
 				t => {
-					if (t.App.indexOf("dipact@") == 0) {
+					if (t.App.indexOf("dipact@") === 0) {
 						updateServer = true;
 						return false;
 					}
@@ -250,10 +252,10 @@ class Messaging {
 				}
 			);
 			// If we have a Wrapper/DeviceID ID, then clean up all Wrapper/Static tokens.
-			if (this.deviceID.indexOf("Wrapper/DeviceID") == 0) {
+			if (this.deviceID.indexOf("Wrapper/DeviceID") === 0) {
 				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
 					t => {
-						if (t.App.indexOf("Wrapper/Static") != -1) {
+						if (t.App.indexOf("Wrapper/Static") !== -1) {
 							updateServer = true;
 							return false;
 						}
@@ -262,10 +264,10 @@ class Messaging {
 				);
 			}
 			// If we have a Wrapper/* ID, then clean up all android-diplicity tokens.
-			if (this.deviceID.indexOf("Wrapper") == 0) {
+			if (this.deviceID.indexOf("Wrapper") === 0) {
 				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
 					t => {
-						if (t.App == "android-diplicity") {
+						if (t.App === "android-diplicity") {
 							updateServer = true;
 							return false;
 						}
@@ -276,7 +278,7 @@ class Messaging {
 			if (updateServer) {
 				this.setGlobalToken(wantedToken);
 				let updateLink = Globals.userConfig.Links.find(l => {
-					return l.Rel == "update";
+					return l.Rel === "update";
 				});
 				return helpers
 					.safeFetch(
@@ -293,7 +295,7 @@ class Messaging {
 						Globals.userConfig = js;
 						helpers.parseUserConfigColors();
 						foundToken = js.Properties.FCMTokens.find(t => {
-							return t.App == wantedToken.App;
+							return t.App === wantedToken.App;
 						});
 						if (foundToken.Disabled) {
 							this.tokenEnabled = false;
@@ -386,7 +388,7 @@ class Messaging {
 	}
 }
 
-const messaging = new Messaging();
+const _messaging = new Messaging();
 
-export default messaging;
+export default _messaging;
 

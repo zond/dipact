@@ -538,6 +538,7 @@ export default class GameMetadata extends React.Component {
 							<img
 								width="24"
 								height="24"
+								alt='No entry'
 								src="/static/img/no_entry.svg"
 							/>
 						</Icon>
@@ -574,6 +575,7 @@ export default class GameMetadata extends React.Component {
 					>
 						<Icon style={{ marginRight: "8px" }}>
 							<img
+								alt='Anonymous'
 								width="24"
 								height="24"
 								src="/static/img/anon.svg"

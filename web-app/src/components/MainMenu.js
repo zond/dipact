@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-import { AppBar, Avatar, ClickAwayListener, MenuItem, Drawer, Toolbar, IconButton, List, ListItem, ListItemText, Menu, SvgIcon, Divider, Typography } from "@material-ui/core";
+import { AppBar, Avatar, ClickAwayListener, MenuItem, Drawer, Toolbar, IconButton, List, ListItem, ListItemText, Menu, Divider, Typography } from "@material-ui/core";
 import { MenuIcon, GitHubIcon, DonateIcon, BugReportIcon } from "../icons";
 import gtag from 'ga-gtag';
 
@@ -44,7 +44,7 @@ export default class MainMenu extends ActivityContainer {
 		helpers.urlMatch(
 			[
 				[
-					/^\/Game\/([^\/]+)/,
+					/^\/Game\/([^/]+)/,
 					(match) => {
 						this.state.activity = Game;
 						this.state.activityProps = {
@@ -86,7 +86,7 @@ export default class MainMenu extends ActivityContainer {
 		this.findGameDialog.setState({
 			open: true,
 			onFind: (gameID) => {
-				if (gameID == "") {
+				if (gameID === "") {
 					return;
 				}
 				const match = /\/Game\/([^/]+)/.exec(gameID);
@@ -96,7 +96,7 @@ export default class MainMenu extends ActivityContainer {
 				helpers
 					.safeFetch(helpers.createRequest("/Game/" + gameID))
 					.then((resp) => {
-						if (resp.status == 200) {
+						if (resp.status === 200) {
 							resp.json().then((js) => {
 								this.setState({
 									activity: GameList,

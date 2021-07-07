@@ -107,7 +107,7 @@ export function snackbar(s, closesToIgnore = 0) {
  * @return {number} 32-bit positive integer hash
  */
 function murmurhash3_32_gc(key, seed) {
-	var remainder, bytes, h1, h1b, c1, c1b, c2, c2b, k1, i;
+	var remainder, bytes, h1, h1b, c1, c2, k1, i;
 
 	remainder = key.length & 3; // key.length % 4
 	bytes = key.length - remainder;
@@ -206,9 +206,7 @@ export function scopedClass(style) {
 
 // From https://gist.github.com/w3core/e3d9b5b6d69a3ba8671cc84714cca8a4
 export function brightnessByColor(color) {
-	var color = "" + color,
-		isHEX = color.indexOf("#") === 0,
-		isRGB = color.indexOf("rgb") === 0;
+	var isHEX = color.indexOf("#") === 0;
 	if (isHEX) {
 		var m = color
 			.substr(1)
@@ -217,13 +215,6 @@ export function brightnessByColor(color) {
 			var r = parseInt(m[0], 16),
 				g = parseInt(m[1], 16),
 				b = parseInt(m[2], 16);
-	}
-	if (isRGB) {
-		var m = color.match(/(\d+){3}/g);
-		if (m)
-			var r = m[0],
-				g = m[1],
-				b = m[2];
 	}
 	if (typeof r !== "undefined") return (r * 299 + g * 587 + b * 114) / 1000;
 }
@@ -1085,7 +1076,6 @@ export function minutesToDuration(m, short = false) {
 		} else if (m < 60 * 24 * 7) {
 			let d = Number.parseInt(m / (60 * 24));
 			let remainder = m - d * 60 * 24;
-			let rval = "" + d + "d";
 			if (remainder === 0) {
 				return "" + d + "d";
 			} else if (short) {
@@ -2327,6 +2317,7 @@ export function humanizeOrder(variant, parts, nextType = null) {
 			case "Build":
 			case "Move":
 				return "OrderType";
+			default:
 				break;
 		}
 		return "Province";

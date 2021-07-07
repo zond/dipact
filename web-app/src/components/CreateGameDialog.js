@@ -1,3 +1,4 @@
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable no-restricted-globals */
 import React from 'react';
 import * as helpers from '../helpers';
@@ -644,6 +645,7 @@ export default class CreateGameDialog extends React.Component {
 								</Typography>
 								<img
 									src={this.state.variant.Links[3].URL}
+									alt='Variant'
 									style={{
 										paddingBottom: "4px",
 										maxHeight: "300px",
