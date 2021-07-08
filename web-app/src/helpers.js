@@ -217,6 +217,7 @@ export function brightnessByColor(color) {
 				b = parseInt(m[2], 16);
 	}
 	if (typeof r !== "undefined") return (r * 299 + g * 587 + b * 114) / 1000;
+	return 0; // TODO fix typing on this method. R shouldn't be undefined
 }
 
 export function urlMatch(mappings, def) {

@@ -591,7 +591,7 @@ export default class SettingsDialog extends React.Component {
 																	className={helpers.scopedClass(
 																		"flex-grow: 0; margin-right: 4px;"
 																	)}
-																	value={
+																	initialValue={
 																		(Globals
 																			.colorOverrides
 																			.variants[
