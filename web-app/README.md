@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Docker
+
+You can run the application locally using Docker. This helps when some developers are using Windows and others are using Unix.
+
+### Prerequisites
+
+This set up uses [Docker][docker] and [Docker Compose][docker-compose] for local
+development. Follow the docs to get Docker and Docker Compose installed.
+
+### Running application locally using Docker
+
+To bring up the application, run `docker-compose up` from this directory. The first time you run this it will take a few minutes to come up but will come up more quickly after first build.
+
+The application will be available on `http://localhost:3001`
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -72,3 +87,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+[docker]: https://docs.docker.com/
+[docker-compose]: https://docs.docker.com/compose/
