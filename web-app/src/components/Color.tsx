@@ -7,7 +7,9 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
+	makeStyles,
 	TextField,
+	Theme,
 } from "@material-ui/core";
 import IroColorPicker from "./IroColorPicker";
 
@@ -17,23 +19,36 @@ type Color = {
 	onSelect: (value: string) => void; // Why would this be falsey?
 };
 
+interface StyleProps {
+	value: string;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => {
+	return {
+		root: {
+			display: "flex",
+			alignItems: "center ",
+		},
+		button: {
+			backgroundColor: ({ value }) => value,
+			color: ({ value }) =>
+				helpers.brightnessByColor(value) < 127 ? "white" : "black",
+			margin: theme.spacing(0, 1),
+		},
+		editIcon: {
+			color: theme.palette.primary.main,
+		},
+	};
+});
+
 const Color = ({
 	edited,
 	initialValue,
 	onSelect,
 }: Color): React.ReactElement => {
-	const [dialogOpen, setDialogOpen] = useState(false);
+	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(initialValue);
-
-	useEffect(() => {
-		if (dialogOpen) {
-			if (value.length === 7 || value.length === 4 || value.length === 9) {
-				if (/#[0-9a-fA-F]*/.exec(value)) {
-					// picker.setColors([value]);
-				}
-			}
-		}
-	}, [value]);
+	const classes = useStyles({ value });
 
 	useEffect(() => {
 		setValue(initialValue);
@@ -43,50 +58,38 @@ const Color = ({
 
 	const close = (): void => {
 		helpers.unback(close);
-		setDialogOpen(false);
+		setOpen(false);
 	};
 
 	const select = (): void => {
 		helpers.unback(close);
 		if (value.length === 7 || value.length === 4 || value.length === 9) {
 			if (/#[0-9a-fA-F]*/.exec(value)) {
-				setDialogOpen(false);
+				setOpen(false);
 				onSelect(value);
 			}
 		}
 	};
 	return (
-		<React.Fragment>
-			<div
-				onClick={() => setDialogOpen(true)}
-				style={{ display: "flex", alignItems: "center " }}
-			>
-				<Button
-					style={{
-						backgroundColor: value,
-						color: helpers.brightnessByColor(value) < 127 ? "white" : "black",
-						margin: "0px 8px",
-					}}
-				>
+		<>
+			<div className={classes.root}>
+				<Button onClick={() => setOpen(true)} className={classes.button}>
 					{value}
 				</Button>
-
-				{edited ? (
-					<div style={{ color: "#281A1A" }}>
+				{edited && (
+					<div className={classes.editIcon}>
 						<EditIcon />
 					</div>
-				) : (
-					""
 				)}
 			</div>
 			<Dialog
 				onEntered={helpers.genOnback(close)}
-				open={dialogOpen}
+				open={open}
 				disableBackdropClick={false}
 				onClose={close}
 			>
 				<DialogContent>
-					{dialogOpen && (
+					{open && (
 						<IroColorPicker
 							onColorChange={setValue}
 							width={208}
@@ -108,7 +111,7 @@ const Color = ({
 					</Button>
 				</DialogActions>
 			</Dialog>
-		</React.Fragment>
+		</>
 	);
 };
 

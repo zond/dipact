@@ -5,7 +5,7 @@ import { MenuIcon, GitHubIcon, DonateIcon, BugReportIcon } from "../icons";
 import gtag from 'ga-gtag';
 
 import * as helpers from '../helpers';
-import About from './About';
+import About from '../pages/About';
 import ActivityContainer from './ActivityContainer';
 import Globals from '../Globals';
 import DonateDialog from './DonateDialog';

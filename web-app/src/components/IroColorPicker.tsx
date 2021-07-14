@@ -17,15 +17,17 @@ const IroColorPicker = ({
 	useEffect(() => {
 		if (divEl.current) {
 			setColorPicker((iro.ColorPicker as any)(divEl.current, colorPickerProps));
-			colorPicker?.on("color:change", (color: string) => {
-				onColorChange(color);
-			});
+			colorPicker?.on("color:change", onColorChange);
 		}
 	}, []);
 
 	useEffect(() => {
 		const { color } = colorPickerProps;
 		if (colorPicker) {
+			console.log("HALLO");
+			console.log(colorPicker);
+			console.log(color);
+			console.log(colorPickerProps);
 			if (color) colorPicker.color.set(color);
 			colorPicker.setState(colorPickerProps);
 		}
