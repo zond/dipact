@@ -16,7 +16,7 @@ import IroColorPicker from "./IroColorPicker";
 type Color = {
 	edited: boolean;
 	initialValue: string;
-	onSelect: (value: string) => void; // Why would this be falsey?
+	onSelect: (value: string) => void;
 };
 
 interface StyleProps {
@@ -27,12 +27,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => {
 	return {
 		root: {
 			display: "flex",
-			alignItems: "center ",
+			alignItems: "center",
 		},
 		button: {
 			backgroundColor: ({ value }) => value,
-			color: ({ value }) =>
-				helpers.brightnessByColor(value) < 127 ? "white" : "black",
+			color: ({ value }) => theme.palette.getContrastText(value),
 			margin: theme.spacing(0, 1),
 		},
 		editIcon: {
@@ -53,8 +52,6 @@ const Color = ({
 	useEffect(() => {
 		setValue(initialValue);
 	}, [initialValue]);
-
-	// TODO register page view
 
 	const close = (): void => {
 		helpers.unback(close);

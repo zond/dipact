@@ -12,9 +12,14 @@ const Template: ComponentStory<typeof Component> = (args) => (
 	<Component {...args} />
 );
 
-export const Default = Template.bind({});
-Default.args = {
+const defaultArgs = {
 	edited: false,
 	initialValue: "#F44336",
-	onSelect: (value) => console.log(value),
+	onSelect: () => null,
 };
+
+export const Default = Template.bind({});
+Default.args = { ...defaultArgs };
+
+export const Edited = Template.bind({});
+Edited.args = { ...defaultArgs, edited: true };

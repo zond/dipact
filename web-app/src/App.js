@@ -4,6 +4,7 @@ import Login from './components/Login';
 import MainMenu from './components//MainMenu';
 import ActivityContainer from './components/ActivityContainer';
 import Globals from './Globals';
+import ReactGA from 'react-ga';
 
 export default class App extends ActivityContainer {
 	constructor(props) {
@@ -18,6 +19,12 @@ export default class App extends ActivityContainer {
 		this.renderPath = this.renderPath.bind(this);
 		this.presentContent = this.presentContent.bind(this);
 		Globals.messaging.main = this;
+		ReactGA.initialize('G-CZXEZSNBW4', {
+			custom_map: {
+				dimension1: "client",
+				dimension2: "api",
+        	},
+		});
 	}
 	renderPath(path) {
 		// This is just to force everything to re-render.

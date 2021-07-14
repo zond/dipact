@@ -14,5 +14,5 @@ const Template: ComponentStory<typeof Component> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-	onColorChange: (color) => console.log(color),
+	onColorChange: () => null,
 };
