@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import React, { useEffect, useState } from "react";
 import * as helpers from "../helpers";
 import { EditIcon } from "../icons";
