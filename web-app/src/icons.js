@@ -1,41 +1,39 @@
-export {
-	Add as CreateMessageIcon,
-	ArrowBack as GoBackIcon,
-	ArrowDownward as ArrowDownwardIcon,
-	ArrowUpward as ArrowUpwardIcon,
-	AvTimer as PhaseDeadlineIcon,
-	Cached as RandomGameNameIcon,
-    Check as ConfirmedReadyIcon,
-	Close as CloseIcon,
-	ChevronLeft as PreviousIcon,
-	ChevronRight as NextIcon,
-	Delete as KickIcon,
-	Delete as DeleteIcon,
-	Edit as EditIcon,
-	EventNote as EventIcon,
-    ExpandMore as ExpandIcon,
-	MicOff as MuteIcon,
-	GetApp as DownloadIcon,
-	Message as ChatIcon,
-	Gavel as GavelIcon,
-	Lock as PrivateGameIcon,
-	FastForward as FastForwardIcon,
-	SkipNext as SkipNextIcon,
-	Map as GameVariantIcon,
-	Map as MapIcon,
-	Menu as MenuIcon,
-	GitHub as GitHubIcon,
-	MonetizationOn as DonateIcon,
-	BugReport as BugReportIcon,
-	MoreVert as MoreIcon,
-	HourglassEmpty as EndsAfterThisYearIcon,	
-    People as NumMembersIcon,
-	PanTool as MusteringIcon,
-	Send as SendMessageIcon,
-	Share as ShareIcon,
-	PlaylistAddCheck as NationAllocationIcon,
-	StarBorder as RatingIcon,
-	Timelapse as StartedAtIcon,
-	Timer as ReliabilityIcon,
-	Warning as WarningIcon,
-} from '@material-ui/icons'
+export { default as CreateMessageIcon } from "@material-ui/icons/Add";
+export { default as GoBackIcon } from "@material-ui/icons/ArrowBack";
+export { default as ArrowDownwardIcon } from "@material-ui/icons/ArrowDownward";
+export { default as ArrowUpwardIcon } from "@material-ui/icons/ArrowUpward";
+export { default as PhaseDeadlineIcon } from "@material-ui/icons/AvTimer";
+export { default as BugReportIcon } from "@material-ui/icons/BugReport";
+export { default as RandomGameNameIcon } from "@material-ui/icons/Cached";
+export { default as ConfirmedReadyIcon } from "@material-ui/icons/Check";
+export { default as PreviousIcon } from "@material-ui/icons/ChevronLeft";
+export { default as NextIcon } from "@material-ui/icons/ChevronRight";
+export { default as CloseIcon } from "@material-ui/icons/Close";
+export { default as DeleteIcon } from "@material-ui/icons/Delete";
+export { default as KickIcon } from "@material-ui/icons/Delete";
+export { default as EditIcon } from "@material-ui/icons/Edit";
+export { default as EventIcon } from "@material-ui/icons/EventNote";
+export { default as ExpandIcon } from "@material-ui/icons/ExpandMore";
+export { default as FastForwardIcon } from "@material-ui/icons/FastForward";
+export { default as GavelIcon } from "@material-ui/icons/Gavel";
+export { default as DownloadIcon } from "@material-ui/icons/GetApp";
+export { default as GitHubIcon } from "@material-ui/icons/GitHub";
+export { default as EndsAfterThisYearIcon } from "@material-ui/icons/HourglassEmpty";
+export { default as PrivateGameIcon } from "@material-ui/icons/Lock";
+export { default as GameVariantIcon } from "@material-ui/icons/Map";
+export { default as MapIcon } from "@material-ui/icons/Map";
+export { default as MenuIcon } from "@material-ui/icons/Menu";
+export { default as ChatIcon } from "@material-ui/icons/Message";
+export { default as MuteIcon } from "@material-ui/icons/MicOff";
+export { default as DonateIcon } from "@material-ui/icons/MonetizationOn";
+export { default as MoreIcon } from "@material-ui/icons/MoreVert";
+export { default as MusteringIcon } from "@material-ui/icons/PanTool";
+export { default as NumMembersIcon } from "@material-ui/icons/People";
+export { default as NationAllocationIcon } from "@material-ui/icons/PlaylistAddCheck";
+export { default as SendMessageIcon } from "@material-ui/icons/Send";
+export { default as ShareIcon } from "@material-ui/icons/Share";
+export { default as SkipNextIcon } from "@material-ui/icons/SkipNext";
+export { default as RatingIcon } from "@material-ui/icons/StarBorder";
+export { default as StartedAtIcon } from "@material-ui/icons/Timelapse";
+export { default as ReliabilityIcon } from "@material-ui/icons/Timer";
+export { default as WarningIcon } from "@material-ui/icons/Warning";

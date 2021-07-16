@@ -1,5 +1,10 @@
 module.exports = {
   env: { browser: true, es6: true, node: true },
+  parser: "babel-eslint",
+  parserOptions: {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+  },
   settings: {
     react: {
       version: 'detect'

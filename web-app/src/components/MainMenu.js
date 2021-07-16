@@ -98,6 +98,7 @@ export default class MainMenu extends ActivityContainer {
 					.then((resp) => {
 						if (resp.status === 200) {
 							resp.json().then((js) => {
+								console.log('HERE: ', GameList);
 								this.setState({
 									activity: GameList,
 									activityProps: {

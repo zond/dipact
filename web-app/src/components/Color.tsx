@@ -6,10 +6,10 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	makeStyles,
 	TextField,
 	Theme,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import IroColorPicker from "./IroColorPicker";
 
 type Color = {
