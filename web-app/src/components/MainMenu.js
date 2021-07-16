@@ -11,13 +11,14 @@ import Globals from '../Globals';
 import DonateDialog from './DonateDialog';
 import ErrorsDialog from './ErrorsDialog';
 import StatsDialog from './StatsDialog';
-import SettingsDialog from './SettingsDialog';
+import Settings from '../pages/Settings';
 import FindGameDialog from './FindGameDialog';
 import Start from './Start';
 import GameList from './GameList';
 import Game from './Game';
+import { withRouter } from "react-router-dom";
 
-export default class MainMenu extends ActivityContainer {
+class MainMenu extends ActivityContainer {
 	constructor(props) {
 		super(props);
 		this.openDrawer = this.openDrawer.bind(this);
@@ -41,6 +42,7 @@ export default class MainMenu extends ActivityContainer {
 		this.settingsDialog = null;
 		this.errorsDialog = null;
 		this.donateDialog = null;
+		this.history = props.history;
 		helpers.urlMatch(
 			[
 				[
@@ -274,12 +276,7 @@ export default class MainMenu extends ActivityContainer {
 
 								<ListItem
 									button
-									onClick={(_) => {
-										this.setState({ menuAnchorEl: null });
-										this.settingsDialog.setState({
-											open: true,
-										});
-									}}
+									onClick={() => this.history.push('/settings')}
 								>
 									<ListItemText primary="Settings" />
 								</ListItem>
@@ -492,7 +489,7 @@ export default class MainMenu extends ActivityContainer {
 						this.donateDialog = c;
 					}}
 				/>
-				<SettingsDialog
+				<Settings
 					key="settings-dialog"
 					parentCB={(c) => {
 						this.settingsDialog = c;
@@ -519,3 +516,5 @@ export default class MainMenu extends ActivityContainer {
 		);
 	}
 }
+
+export default withRouter(MainMenu);

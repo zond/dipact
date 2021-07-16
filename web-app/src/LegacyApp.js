@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import * as helpers from './helpers';
 import Login from './components/Login';
-import MainMenu from './components//MainMenu';
+import Router from './pages/Router';
 import ActivityContainer from './components/ActivityContainer';
 import Globals from './Globals';
 import ReactGA from 'react-ga';
@@ -30,7 +30,7 @@ export default class App extends ActivityContainer {
 		// This is just to force everything to re-render.
 		this.setState({ activity: "div" }, (_) => {
 			history.pushState("", "", path);
-			this.setActivity(MainMenu, { urls: this.state.urls });
+			this.setActivity(Router, { urls: this.state.urls });
 		});
 	}
 	processToken() {
@@ -131,7 +131,7 @@ export default class App extends ActivityContainer {
 				) {
 					this.renderPath(window.Wrapper.pendingAction());
 				} else {
-					state.activity = MainMenu;
+					state.activity = Router;
 					state.activityProps = { urls: state.urls };
 				}
 			} else if (state.urls.login_url) {
