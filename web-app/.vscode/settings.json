@@ -1,0 +1,13 @@
+{
+  "eslint.packageManager": "yarn",
+  "eslint.validate": ["javascript", "javascriptreact"],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "[javascript]": { "editor.formatOnSave": false },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.format.enable": true
+}

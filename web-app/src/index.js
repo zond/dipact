@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ProgressDialog from './components/ProgressDialog';
 import Snackbar from './components/Snackbar';
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core/styles";
 import theme from './theme';
 import Globals from './Globals';
 import '@fontsource/cabin';
