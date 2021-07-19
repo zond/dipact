@@ -44,40 +44,39 @@ export default class Login extends React.Component {
 						}}
 					>
 						<div
-							className={helpers.scopedClass(`
-								  display: flex;
-								  align-items: flex-end;
-								  align-content: flex-end;
-								  justify-content: center;
-								  flex-wrap:wrap;
-								  height: calc(100% - 32px);
-								  max-width: 340px;
-								  padding: 16px;
-								  `)}
+							style={{
+								display: 'flex',
+								alignItems: 'flex-end',
+								alignContent: 'flex-end',
+								justifyContent: 'center',
+								flexWrap: 'wrap',
+								height: 'calc(100% - 32px)',
+								maxWidth: '340px',
+								padding: '16px',
+							}}
 						>
 							<div>
 								<img
 									alt='Diplicity logo'
-									className={helpers.scopedClass(`
-									align-self: left;
-									width: 100%;
-									max-width: 340px;
-									padding: 0px;
-									margin: 0px;
-									margin-bottom: 4px;
-									`)}
+									style={{
+										alignSelf: 'left',
+										width: '100%',
+										maxWidth: '340px',
+										padding: '0px',
+										margin: '0px',
+										marginBottom: '4px',
+									}}
 									src={logo}
 								/>
 							</div>
 							<div
-								className={helpers.scopedClass(`
-							  color: white;
-							  font-family: cabin;
-							  text-align: left;
-							  width: 100%;
-							  line-height: 1.4;
-							  
-							  `)}
+								style={{
+									color: 'white',
+									fontFamily: 'cabin',
+									textAlign: 'left',
+									width: '100%',
+									lineHeight: '1.4',
+								}}
 							>
 								<Typography>
 									A digital version of the classic game of
@@ -85,9 +84,9 @@ export default class Login extends React.Component {
 								</Typography>
 							</div>
 							<div
-								className={helpers.scopedClass(`
- 				margin-top: 24px;
-       			   `)}
+								style={{
+ 									marginTop: '24px',
+								}}
 							>
 								<Button
 									variant="contained"
@@ -121,9 +120,9 @@ export default class Login extends React.Component {
 								) : (
 									<FormControlLabel
 										classes={{
-											label: helpers.scopedClass(
-												"color: white;"
-											),
+											label: {
+												color: "white",
+											}
 										}}
 										control={
 											<Checkbox
@@ -144,10 +143,9 @@ export default class Login extends React.Component {
 								)}
 							</div>
 							<div
-								className={helpers.scopedClass(`
-                margin:  24px calc(50% - 40px); visibility:hidden;
-        
-         `)}
+								style={{
+                					margin:  "24px calc(50% - 40px); visibility:hidden",
+								}}
 							>
 							</div>
 						</div>
