@@ -1,0 +1,88 @@
+{
+  "Name": "user-stats",
+  "Properties": {
+    "UserId": "123456789",
+    "JoinedGames": 0,
+    "StartedGames": 0,
+    "FinishedGames": 0,
+    "SoloGames": 0,
+    "DIASGames": 0,
+    "EliminatedGames": 0,
+    "DroppedGames": 0,
+    "NMRPhases": 0,
+    "ActivePhases": 0,
+    "ReadyPhases": 0,
+    "Reliability": 0,
+    "Quickness": 0,
+    "OwnedBans": 0,
+    "SharedBans": 0,
+    "Hated": 0,
+    "Hater": 0,
+    "PrivateStats": {
+      "JoinedGames": 0,
+      "StartedGames": 0,
+      "FinishedGames": 0,
+      "SoloGames": 0,
+      "DIASGames": 0,
+      "EliminatedGames": 0,
+      "DroppedGames": 0,
+      "NMRPhases": 0,
+      "ActivePhases": 0,
+      "ReadyPhases": 0,
+      "Reliability": 0,
+      "Quickness": 0,
+      "OwnedBans": 0,
+      "SharedBans": 0,
+      "Hated": 0,
+      "Hater": 0
+    },
+    "TrueSkill": {
+      "GameID": null,
+      "UserId": "123456789",
+      "CreatedAt": "0001-01-01T00:00:00Z",
+      "Member": "",
+      "Mu": 25,
+      "Sigma": 8.333333333333334,
+      "Rating": 0,
+      "Previous": null,
+      "HigherRatedCount": 11395
+    },
+    "User": {
+      "Email": "",
+      "FamilyName": "",
+      "Gender": "",
+      "GivenName": "testuser123",
+      "Hd": "",
+      "Id": "123456789",
+      "Link": "",
+      "Locale": "en",
+      "Name": "Test User",
+      "Picture": "https://lh3.googleusercontent.com/a/AATXAJxchTrBS04WLlhkqxDzJiaFPuOlb73lHcivizs=s96-c",
+      "VerifiedEmail": true,
+      "ValidUntil": "2021-07-06T12:34:21.231228Z"
+    }
+  },
+  "Type": "UserStats",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/Stats",
+      "Method": "GET"
+    },
+    {
+      "Rel": "finished-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/123456789/Finished",
+      "Method": "GET"
+    },
+    {
+      "Rel": "staging-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/123456789/Staging",
+      "Method": "GET"
+    },
+    {
+      "Rel": "started-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/123456789/Started",
+      "Method": "GET"
+    }
+  ]
+}

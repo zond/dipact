@@ -1,0 +1,10 @@
+{
+  "Name": "ForumMail",
+  "Properties": {
+    "Secret": "",
+    "Subject": "Re: Chat gets too slow to use",
+    "Body": "Good to hear!"
+  },
+  "Type": "ForumMail",
+  "Links": null
+}

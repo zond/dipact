@@ -10,7 +10,12 @@ import Snackbar from './components/Snackbar';
 import { ThemeProvider } from "@material-ui/core";
 import theme from './theme';
 import Globals from './Globals';
+import worker from './mockService/browser';
 import '@fontsource/cabin';
+
+if (process.env.REACT_APP_USE_MOCK_SERVICE_WORKER === 'true') {
+  worker.start({ onUnhandledRequest: "bypass" });
+}
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
