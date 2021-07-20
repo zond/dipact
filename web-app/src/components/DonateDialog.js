@@ -6,11 +6,19 @@ import {
     IconButton,
     Typography
 } from '@material-ui/core';
+import { withStyles } from "@material-ui/core/styles";
 
 import { GoBackIcon } from '../icons'
 import * as helpers from '../helpers';
 
-export default class DonateDialog extends React.Component {
+const styles = theme => ({
+  paper: {
+	margin: '2px',
+	width: '100%',
+  }
+});
+
+class DonateDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -26,6 +34,7 @@ export default class DonateDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	render() {
+		const { classes } = this.props;
 		if (!this.state.open) {
 			return "";
 		}
@@ -36,7 +45,7 @@ export default class DonateDialog extends React.Component {
 				fullScreen
 				disableBackdropClick={false}
 				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;"),
+					paper: classes.paper,
 				}}
 				onClose={this.close}
 			>
@@ -110,3 +119,4 @@ export default class DonateDialog extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(DonateDialog);

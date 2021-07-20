@@ -24,7 +24,9 @@ export default class UserAvatar extends React.Component {
 		return (
 			<React.Fragment>
 				<IconButton
-					className={helpers.scopedClass("padding: 0px;")}
+					style={{
+						padding: '0px',
+					}}
 					onClick={(_) => {
 						if (this.props.user.Id) {
 							this.setState({ dialogOpen: true });

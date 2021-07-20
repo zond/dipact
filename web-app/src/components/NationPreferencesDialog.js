@@ -3,10 +3,19 @@ import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
 import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Paper, List, ListItem, Grid, IconButton } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 import { ArrowDownwardIcon, ArrowUpwardIcon  } from '../icons';
 
-export default class NationPreferencesDialog extends React.Component {
+const styles = (theme) => ({
+  dialogActions: {
+    backgroundColor: "white",
+    position: "sticky",
+    bottom: "0px",
+  },
+});
+
+class NationPreferencesDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -38,6 +47,7 @@ export default class NationPreferencesDialog extends React.Component {
 		this.state.onSelected(this.state.nations);
 	}
 	render() {
+		const { classes } = this.props;
 		return (
 			<Dialog
 				open={this.state.open}
@@ -128,9 +138,7 @@ export default class NationPreferencesDialog extends React.Component {
 						</List>
 					</Paper>
 					<DialogActions
-						className={helpers.scopedClass(
-							"background-color: white; position: sticky; bottom: 0px;"
-						)}
+						className={classes.dialogActions}
 					>
 						<Button
 							onClick={this.onSelected}
@@ -145,3 +153,4 @@ export default class NationPreferencesDialog extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(NationPreferencesDialog);

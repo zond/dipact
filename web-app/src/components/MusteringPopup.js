@@ -2,8 +2,21 @@ import React from 'react';
 
 import * as helpers from '../helpers';
 import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
-export default class MusteringPopup extends React.Component {
+const styles = (theme) => ({
+  dialogActions: {
+    backgroundColor: "white",
+    position: "sticky",
+    bottom: "0px",
+  },
+  paper: {
+    margin: "2px",
+    width: "100%",
+  },
+});
+
+class MusteringPopup extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { open: true };
@@ -14,6 +27,7 @@ export default class MusteringPopup extends React.Component {
 		this.setState({ open: false });
 	}
 	render() {
+		const { classes } = this.props;
 		if (!this.state.open) {
 			return "";
 		}
@@ -23,7 +37,7 @@ export default class MusteringPopup extends React.Component {
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;")
+					paper: classes.paper
 				}}
 				onClose={this.close}
 			>
@@ -37,9 +51,7 @@ export default class MusteringPopup extends React.Component {
 						being a staging game.
 					</Typography>
 					<DialogActions
-						className={helpers.scopedClass(
-							"background-color: white; position: sticky; bottom: 0px;"
-						)}
+						className={classes.dialogActions}
 					>
 						<Button
 							color="primary"
@@ -63,3 +75,5 @@ export default class MusteringPopup extends React.Component {
 		);
 	}
 }
+
+export default withStyles(styles, { withTheme: true })(MusteringPopup);

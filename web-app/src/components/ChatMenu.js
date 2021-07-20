@@ -231,10 +231,11 @@ export default class ChatMenu extends React.Component {
 				)}
 				<ButtonGroup
 					orientation="vertical"
-					className={helpers.scopedClass(
-						"width: 100%; height: 100%; transform: translateZ(0); -webkit-transform: translateZ(0);"
-					)}
 					style={{
+						width: "100%",
+						height: "100%",
+						transform: "translateZ(0)",
+						webkitTransform: "translateZ(0)",
 						overflowY: !!this.state.activeChannel
 							? "hidden"
 							: "scroll",
@@ -333,15 +334,24 @@ export default class ChatMenu extends React.Component {
 								{channel.Properties.NMessages &&
 								channel.Properties.LatestMessage ? (
 									<div
-										className={helpers.scopedClass(
-											"display: flex; flex-direction: column; align-items: flex-start; margin-left: 8px; min-width: 0;"
-										)}
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											alignItems: 'flex-start',
+											marginLeft: '8px',
+											minWidth: '0',
+										}}
 									>
 										<Typography
 											variant="body1"
-											className={helpers.scopedClass(
-												"text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
-											)}
+											style={{
+												textTransform: 'none',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												whiteSpace: 'nowrap',
+												width: '100%',
+												textAlign: 'left',
+											}}
 										>
 											{channel.Properties.Members
 												.length ===
@@ -368,9 +378,14 @@ export default class ChatMenu extends React.Component {
 										</Typography>
 										<Typography
 											variant="body2"
-											className={helpers.scopedClass(
-												"text-transform: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; text-align: left;"
-											)}
+											style={{
+												textTransform: 'none',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												whiteSpace: 'nowrap',
+												width: '100%',
+												textAlign: 'left',
+											}}
 										>
 											{this.member ? (
 												this.member.Nation ===
@@ -411,15 +426,13 @@ export default class ChatMenu extends React.Component {
 				{this.state.createMessageLink ? (
 					<React.Fragment>
 						<Fab
-							className={helpers.scopedClass(`
-								margin: 0px;
-								top: auto;
-								right: 20px;
-								bottom: 20px;
-								left: auto;
-								position: fixed;
-							`)}
 							style={{
+								margin: '0px',
+								top: 'auto',
+								right: '20px',
+								bottom: '20px',
+								left: 'auto',
+								position: 'fixed',
 								display: !!this.state.activeChannel
 									? "none"
 									: "flex",

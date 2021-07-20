@@ -4,10 +4,24 @@ import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
 import { Button, Switch, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 import { Chart } from 'chart.js'
 
-export default class PreliminaryScores extends React.Component {
+
+const styles = (theme) => ({
+  dialogActions: {
+    backgroundColor: "white",
+    position: "sticky",
+    bottom: "0px",
+  },
+  paper: {
+    margin: "2px",
+    width: "100%",
+  },
+});
+
+class PreliminaryScores extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { open: false, canvas: null, chart: null, show: "score" };
@@ -145,6 +159,7 @@ export default class PreliminaryScores extends React.Component {
 		}
 	}
 	render() {
+		const { classes } = this.props;
 		if (!this.state.open) {
 			return "";
 		}
@@ -154,7 +169,7 @@ export default class PreliminaryScores extends React.Component {
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;")
+					paper: classes.paper,
 				}}
 				onClose={this.close}
 			>
@@ -180,9 +195,7 @@ export default class PreliminaryScores extends React.Component {
 					Supply centers
 					<canvas id="score-chart" height="520" width="420"></canvas>
 					<DialogActions
-						className={helpers.scopedClass(
-							"background-color: white; position: sticky; bottom: -8px;"
-						)}
+						className={classes.dialogActions}
 					>
 						<Button onClick={this.close} color="primary">
 							Close
@@ -194,3 +207,4 @@ export default class PreliminaryScores extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(PreliminaryScores);
