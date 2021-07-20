@@ -177,16 +177,8 @@ export default class NewsDialog extends React.Component {
 		this.close = this.close.bind(this);
 		this.updateInterval = null;
 		this.ff = this.ff.bind(this);
-		if (Globals.latestForumMail) {
-			setTimeout((_) => {
-				this.setForumMail(Globals.latestForumMail);
-			}, 50);
-		} else {
-			Globals.onNewForumMail = (fm) => {
-				this.setForumMail(fm);
-			};
-		}
 	}
+
 	setForumMail(fm) {
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
@@ -226,6 +218,15 @@ export default class NewsDialog extends React.Component {
 	}
 	componentDidMount() {
 		this.updateInterval = setInterval(this.ff, 10000);
+		if (Globals.latestForumMail) {
+			setTimeout((_) => {
+				this.setForumMail(Globals.latestForumMail);
+			}, 50);
+		} else {
+			Globals.onNewForumMail = (fm) => {
+				this.setForumMail(fm);
+			};
+		}
 	}
 	componentWillUnmount() {
 		if (this.updateInterval) {

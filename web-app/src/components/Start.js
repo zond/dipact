@@ -46,7 +46,6 @@ export default class Start extends React.Component {
 		gtag("event", "page_view");
 	}
 	render() {
-		console.log(this.hasPlayed());
 		return (
 			<React.Fragment>
 				{this.hasPlayed() ? (
