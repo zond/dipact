@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, FormControlLabel, Checkbox } from '@material-ui/core'
 import gtag from 'ga-gtag';
 import { Typography } from '@material-ui/core';
+import { withStyles } from "@material-ui/core/styles";
 
 import * as helpers from '../helpers';
 import Globals from '../Globals';
@@ -10,7 +11,13 @@ import loginBackground from '../static/img/login_background.jpg'
 import logo from '../static/img/logo.svg'
 import googleIcon from '../static/img/google_icon.svg'
 
-export default class Login extends React.Component {
+const styles = theme => ({
+  label: {
+    color: "white",
+  }
+});
+
+class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,6 +29,8 @@ export default class Login extends React.Component {
 		gtag("event", "page_view");
 	}
 	render() {
+		const { classes } = this.props;
+
 		if (Globals.loginURL) {
 			return (
 				<div
@@ -120,9 +129,7 @@ export default class Login extends React.Component {
 								) : (
 									<FormControlLabel
 										classes={{
-											label: {
-												color: "white",
-											}
+											label: classes.label,
 										}}
 										control={
 											<Checkbox
@@ -157,3 +164,5 @@ export default class Login extends React.Component {
 		}
 	}
 }
+
+export default withStyles(styles, { withTheme: true })(Login);
