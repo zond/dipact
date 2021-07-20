@@ -19,10 +19,19 @@ import {
     List,
     IconButton
 } from '@material-ui/core';
+import { withStyles } from "@material-ui/core/styles";
 
 import { DeleteIcon } from '../icons';
 
-export default class ManageInvitationsDialog extends React.Component {
+const styles = (theme) => ({
+  dialogActions: {
+    backgroundColor: "white",
+    position: "sticky",
+    bottom: "0px",
+  },
+});
+
+class ManageInvitationsDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -109,6 +118,9 @@ export default class ManageInvitationsDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	render() {
+
+		const { classes } = this.props;
+
 		if (!this.state.open) {
 			return "";
 		}
@@ -231,9 +243,7 @@ export default class ManageInvitationsDialog extends React.Component {
 					</Select>
 				</DialogContent>
 				<DialogActions
-					className={helpers.scopedClass(
-						"background-color: white; position: sticky; bottom: 0px;"
-					)}
+					className={classes.dialogActions}
 				>
 					<Button onClick={this.onInvite} color="primary">
 						Invite
@@ -244,3 +254,4 @@ export default class ManageInvitationsDialog extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(ManageInvitationsDialog);

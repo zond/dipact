@@ -189,21 +189,6 @@ export function hash(s) {
 	return murmurhash3_32_gc(s, 0);
 }
 
-export function scopedClass(style) {
-	style = style
-		.replace(/\s+/g, " ")
-		.replace(/^\s*/g, "")
-		.replace(/\s*$/g, "");
-	let h = hash(style);
-	if (!document.getElementById("scoped-style-" + h)) {
-		let newStyle = document.createElement("style");
-		newStyle.setAttribute("id", "scoped-style-" + h);
-		newStyle.innerHTML = "\n.scoped-class-" + h + " {" + style + "}\n";
-		document.head.appendChild(newStyle);
-	}
-	return "scoped-class-" + h;
-}
-
 // From https://gist.github.com/w3core/e3d9b5b6d69a3ba8671cc84714cca8a4
 export function brightnessByColor(color) {
 	var isHEX = color.indexOf("#") === 0;

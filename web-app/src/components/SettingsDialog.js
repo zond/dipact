@@ -477,9 +477,10 @@ export default class SettingsDialog extends React.Component {
 								</Typography>
 
 								<div
-									className={helpers.scopedClass(
-										"display: flex; flex-direction: column"
-									)}
+									style={{
+										display: 'flex',
+										flexDirection: "column",
+									}}
 								>
 									<FormControl
 										style={{ marginBottom: "8px" }}
@@ -588,9 +589,10 @@ export default class SettingsDialog extends React.Component {
 																}}
 															>
 																<Color
-																	className={helpers.scopedClass(
-																		"flex-grow: 0; margin-right: 4px;"
-																	)}
+																	style={{
+																		flexGrow: '0',
+																		marginRight: "4px",
+																	}}
 																	value={
 																		(Globals
 																			.colorOverrides
@@ -698,11 +700,6 @@ export default class SettingsDialog extends React.Component {
 									style={{
 										marginRight: 0,
 										marginBottom: "8px",
-									}}
-									classes={{
-										label: helpers.scopedClass(
-											"font-size: unset;"
-										),
 									}}
 									control={
 										<Checkbox

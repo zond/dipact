@@ -16,37 +16,33 @@ export default class ChatMessage extends React.Component {
 	render() {
 		return (
 			<div
-				className={
-					this.selfish
-						? helpers.scopedClass(`
-				display: flex;
-				width: calc(100%-16px);
-				max-width: 960px;
-				background-color: #fff;
-				align-items: flex-start;
-				margin: 8px;
-				flex-direction: row-reverse;
-				`)
-						: helpers.scopedClass(`
-				display: flex;
-				width: calc(100%-16px);
-				max-width: 960px;
-				background-color: #fff;
-				align-items: flex-start;
-				margin: 8px;
-				flex-direction: row;
-				`)
+				style={
+					this.selfish ? {
+						display: 'flex',
+						width: 'calc(100%-16px)',
+						maxWidth: '960px',
+						backgroundColor: '#fff',
+						alignItems: 'flex-start',
+						margin: '8px',
+						flexDirection: 'row-reverse',
+					} : {
+						display: 'flex',
+						width: 'calc(100%-16px)',
+						maxWidth: '960px',
+						backgroundColor: '#fff',
+						alignItems: 'flex-start',
+						margin: '8px',
+						flexDirection: 'row',
+					}
 				}
 			>
 				<div
-					className={
-						this.selfish
-							? helpers.scopedClass(`
-						margin: 0px 0px 0px 8px;
-						`)
-							: helpers.scopedClass(`
-						margin: 0px 8px 0px 0px;
-						`)
+					style={
+						this.selfish ? {
+							margin: '0px 0px 0px 8px',
+						} : {
+							margin: '0px 8px 0px 0px',
+						}
 					}
 				>
 					<NationAvatar
@@ -58,54 +54,45 @@ export default class ChatMessage extends React.Component {
 					/>
 				</div>
 				<div
-					className={helpers.scopedClass(
-						`
-			border-radius: ` +
-							(this.selfish
-								? "12px 0px 12px 12px;"
-								: "0px 12px 12px 12px;") +
-							`
-			background-color: ` +
-							this.col +
-							`19;
-			display: flex;
-			max-width: calc(100% - 70px);
-			border: ` +
-							(this.brightness > 128
-								? `1px solid ` + this.col + `;`
-								: `none;`) +
-							`
-			flex-direction: column;
-			padding: 10px;
-						`
-					)}
+					style={{
+						borderRadius: this.selfish ? "12px 0px 12px 12px;" : "0px 12px 12px 12px;",
+						backgroundColor: this.col + '19',
+						display: 'flex',
+						maxWidth: 'calc(100% - 70px)',
+						border: this.brightness > 128 ? '1px solid ' + this.col : 'none',
+						flexDirection: 'column',
+						padding: '10px',
+					}}
 				>
 					<Typography
-						className={helpers.scopedClass(`
-		                                                font-weight: 700;
-		                                                font-size: 14px;
-		                                                align-self: flex-start;
-		                                                text-align: left;
-		                                                color: rgba(0, 0, 0, 0.7);`)}
+						style={{
+							fontWeight: '700',
+							fontSize: '14px',
+							alignSelf: 'flex-start',
+							textAlign: 'left',
+							color: 'rgba(0, 0, 0, 0.7)',
+						}}
 					>
 						{this.props.name} {this.props.nation}
 					</Typography>
 					<Typography
-						className={helpers.scopedClass(`
-		                                                align-self: flex-start;
-														white-space: pre-wrap;
-		                                                text-align: left;
-														max-width: 100%;
-		                                                font-size: 14px;`)}
+						style={{
+							alignSelf: 'flex-start',
+							whiteSpace: 'pre-wrap',
+							textAlign: 'left',
+							maxWidth: '100%',
+							fontSize: '14px',
+						}}
 					>
 						{helpers.linkify(this.props.text)}
 					</Typography>
 					<Typography
-						className={helpers.scopedClass(`
-		                                                font-size: 12px;
-		                                                display: table;
-		                                                align-self: flex-end;
-		                                                color: rgba(0, 0, 0, 0.3);`)}
+						style={{
+							alignSelf: 'flex-end',
+							fontSize: '12px',
+							dispaly: 'table',
+							color: 'rgba(0, 0, 0, 0.3)',
+						}}
 					>
 						{this.props.undelivered
 							? "Sending..."

@@ -3,12 +3,29 @@ import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
 import { Button, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, Typography, FormControlLabel } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 import UserAvatar from './UserAvatar';
 import GameMetadata from './GameMetadata';
 import Globals from '../Globals';
 
-export default class GamePlayers extends React.Component {
+const styles = (theme) => ({
+  dialogActions: {
+    backgroundColor: "white",
+    position: "sticky",
+    bottom: "-8px",
+  },
+  valignClass: {
+	display: 'flex',
+	alignItems: 'center',
+  },
+  paper: {
+    margin: "2px",
+    width: "100%",
+  },
+});
+
+class GamePlayers extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,9 +44,7 @@ export default class GamePlayers extends React.Component {
 		}
 		this.close = this.close.bind(this);
 		this.toggleMuted = this.toggleMuted.bind(this);
-		this.valignClass = helpers.scopedClass(
-			"display: flex; align-items: center;"
-		);
+		this.valignClass = props.classes.valignClass;
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
@@ -136,6 +151,7 @@ export default class GamePlayers extends React.Component {
 		this.setState({ open: false });
 	}
 	render() {
+		const { classes } = this.props;
 		if (this.state.open) {
 			return (
 				<Dialog
@@ -144,7 +160,7 @@ export default class GamePlayers extends React.Component {
 					className="find-game-dialog"
 					disableBackdropClick={false}
 					classes={{
-						paper: helpers.scopedClass("margin: 2px; width: 100%;"),
+						paper: classes.paper
 					}}
 					onClose={this.close}
 				>
@@ -332,9 +348,7 @@ export default class GamePlayers extends React.Component {
 							: ""}
 
 						<DialogActions
-							className={helpers.scopedClass(
-								"background-color: white; position: sticky; bottom: -8px;"
-							)}
+							className={classes.dialogActions}
 						>
 							<Button
 								onClick={this.close}
@@ -352,3 +366,4 @@ export default class GamePlayers extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(GamePlayers);
