@@ -25,8 +25,17 @@ import {
 import Color from './Color';
 import Globals from '../Globals';
 import { DeleteIcon, GoBackIcon } from "../icons";
+import { withStyles } from "@material-ui/core/styles";
 
-export default class SettingsDialog extends React.Component {
+const styles = theme => ({
+formControlLabel: {
+  root: {
+    color: "white",
+  }
+}
+});
+
+class SettingsDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -174,6 +183,7 @@ export default class SettingsDialog extends React.Component {
 		);
 	}
 	render() {
+		const { classes } = this.props;
 		return (
 			<Dialog
 				onEntered={helpers.genOnback(this.close)}
@@ -230,9 +240,7 @@ export default class SettingsDialog extends React.Component {
 											paddingLeft: "0px",
 										}}
 										classes={{
-											root: {
-												paddingLeft: "0px"
-											}
+											root: classes.formControlLabel
 										}}
 										control={
 											<Switch
@@ -763,3 +771,5 @@ export default class SettingsDialog extends React.Component {
 		);
 	}
 }
+
+export default withStyles(styles, { withTheme: true })(SettingsDialog);
