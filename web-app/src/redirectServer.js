@@ -5,7 +5,7 @@ const router = express.Router();
 const app = express();
 
 const indexRouter = router.post('/', function(req, res, next) {
-    res.redirect('http://localhost:3002');  // <- need to get actual url of react app
+    res.redirect('http://localhost:3005');  // <- need to get actual url of react app
 });
 
 app.use('/', indexRouter);
