@@ -11,6 +11,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "chart.js": "^3.4.0",
+    "express": "^4.17.1",
     "firebase": "^8.7.0",
     "ga-gtag": "^1.1.0",
     "jquery": "^3.6.0",
@@ -24,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-redirect-server": "node ./src/server.js"
   },
   "eslintConfig": {
     "extends": [
