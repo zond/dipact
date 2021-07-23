@@ -100,7 +100,7 @@ class Messaging {
 				return Promise.resolve({});
 			}
 			navigator.serviceWorker
-				.register("/static/js/firebase-messaging-sw.js")
+				.register("firebase-messaging-sw.js")
 				.then(registration => {
 					navigator.serviceWorker.addEventListener(
 						"message",

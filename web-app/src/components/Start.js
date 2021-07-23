@@ -3,7 +3,6 @@ import React from 'react';
 import gtag from 'ga-gtag';
 import { AppBar, Button, List, ListItem, ListSubheader, Slide, Toolbar, Typography } from '@material-ui/core'
 
-import * as helpers from '../helpers';
 import Globals from '../Globals';
 import ErrorsDialog from './ErrorsDialog';
 import GameList from './GameList';
@@ -51,9 +50,9 @@ export default class Start extends React.Component {
 			<React.Fragment>
 				{this.hasPlayed() ? (
 					<div
-						className={helpers.scopedClass(
-							"height: calc(100vh - 114px);"
-						)}
+						style={{
+							height: "calc(100vh - 114px)",
+						}}
 					>
 						<NewsDialog />
 						<List
@@ -325,12 +324,11 @@ export default class Start extends React.Component {
 							>
 								<img
 									alt='Diplity logo dark'
-									className={helpers.scopedClass(`
-                  width: calc(100% - 48px);
-                  max-width: 340px;
-                  margin: 24px;
-                  
-                  `)}
+									style={{
+										width: "calc(100% - 48px)",
+										maxWidth: "340px",
+										margin: "24px",
+									}}
 									src={LogoDarkSvgPath}
 								/>
 

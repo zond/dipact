@@ -12,7 +12,7 @@ import RenameGameDialog from './RenameGameDialog';
 import ManageInvitationsDialog from './ManageInvitationsDialog';
 import RescheduleDialog from './RescheduleDialog';
 
-import { ConfirmedReadyIcon, ExpandIcon, MusteringIcon, NumMembersIcon, PrivateGameIcon, RatingIcon, ReliabilityIcon, StartedAtIcon } from '../icons';
+import { ConfirmedReadyIcon, ExpandIcon, GavelIcon, MusteringIcon, NumMembersIcon, PrivateGameIcon, RatingIcon, ReliabilityIcon, StartedAtIcon } from '../icons';
 
 const warningClass = {color: "red"};
 const noticeClass = {
@@ -281,7 +281,7 @@ export default class GameListElement extends React.Component {
 		if (this.state.game.Properties.GameMasterEnabled) {
 			this.addIconWithTooltip(
 				icons,
-				"\ue90e",
+				GavelIcon,
 				"black",
 				"Game master present"
 			);
@@ -408,7 +408,7 @@ export default class GameListElement extends React.Component {
 			);
 		}
 		if (this.state.game.Properties.Private) {
-			this.addIconWithTooltip(icons, "\ue897", "black", "Private game");
+			this.addIconWithTooltip(icons, PrivateGameIcon, "black", "Private game");
 		}
 		if (this.state.game.Properties.NationAllocation === 1) {
 			this.addIconWithTooltip(
