@@ -489,12 +489,6 @@ class MainMenu extends ActivityContainer {
 						this.donateDialog = c;
 					}}
 				/>
-				<Settings
-					key="settings-dialog"
-					parentCB={(c) => {
-						this.settingsDialog = c;
-					}}
-				/>
 				<ErrorsDialog
 					key="errors-dialog"
 					parentCB={(c) => {

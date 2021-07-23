@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [newColorOverrideNation, setNewColorOverrideNation] = useState("");
 	const [newColorOverrideVariant, setNewColorOverrideVariant] =
 		useState(CLASSICAL);
 	const [resetSettingsChecked, setResetSettingsChecked] = useState(false);
@@ -235,31 +235,18 @@ const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 		// }
 	};
 
-	const onChangeVariantInput = () => {
-		// (ev) => {
-		// 											const variant = Globals.variants.find((v) => {
-		// 												return v.Properties.Name === ev.target.value;
-		// 											});
-		// 											let nation = this.state.newColorOverrideNation;
-		// 											if (variant.Properties.Nations.indexOf(nation) === -1) {
-		// 												nation = variant.Properties.Nations[0];
-		// 											}
-		// 											this.setState({
-		// 												newColorOverrideNation: nation,
-		// 												newColorOverrideVariant: ev.target.value,
-		// 											});
-		// 										}}
-		// 									>
-		// 										{Globals.variants.map((variant) => {
-		// 											return (
-		// 												<MenuItem
-		// 													key={variant.Properties.Name}
-		// 													value={variant.Properties.Name}
-		// 												>
-		// 													{variant.Properties.Name}
-		// 												</MenuItem>
-		// 											);
-		// 										})
+	const onChangeVariantInput = (): void => {
+		(e: React.ChangeEvent<HTMLSelectElement>) => {
+			const selectedVariant = variants.find((v) => v.Name === e.target.value);
+			if (selectedVariant === undefined)
+				throw new TypeError("Variant not found");
+			let nation = newColorOverrideNation;
+			if (!selectedVariant.Nations.includes(nation)) {
+				nation = selectedVariant.Nations[0];
+			}
+			setNewColorOverrideNation(nation);
+			setNewColorOverrideVariant(e.target.value);
+		};
 	};
 
 	return (
