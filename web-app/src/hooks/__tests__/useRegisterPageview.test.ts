@@ -1,12 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
 import useRegisterPageView from "../useRegisterPageview";
+import { mockFunction } from "../../utils/test";
 import { set, event } from "react-ga";
-
-function mockFunction<T extends (...args: any[]) => any>(
-	fn: T
-): jest.MockedFunction<T> {
-	return fn as jest.MockedFunction<T>;
-}
 
 // Mock ReactGA
 jest.mock("react-ga", () => ({

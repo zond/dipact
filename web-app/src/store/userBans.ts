@@ -13,10 +13,10 @@ const latestForumMailSlice = createSlice({
 			(state, { payload }) => {
 				const { userId } = payload;
 				if (userId) {
-					payload.Properties.filter((ban) =>
+					payload.Properties.filter(({ Properties: ban }) =>
 						ban.OwnerIds.includes(userId)
-					).forEach((ban) => {
-						const otherUser = ban.UserIds.find((uid) => uid != userId);
+					).forEach(({ Properties: ban }) => {
+						const otherUser = ban.UserIds.find((uid) => uid !== userId);
 						if (otherUser) {
 							state[otherUser] = ban;
 						}

@@ -2,13 +2,26 @@
 import React from 'react';
 import * as helpers from '../helpers';
 import { Button, List, ListItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, AccordionDetails, Accordion, AccordionSummary } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import gtag from 'ga-gtag';
 
 import { ExpandIcon } from '../icons';
 import NationAvatar from './NationAvatar';
 import Globals from '../Globals';
 
-export default class GameResults extends React.Component {
+const styles = (theme) => ({
+  dialogActions: {
+    backgroundColor: "white",
+    position: "sticky",
+    bottom: "0px",
+  },
+  paper: {
+    margin: "2px",
+    width: "100%",
+  },
+});
+
+class GameResults extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { open: false, gameResult: null, trueSkills: null };
@@ -87,6 +100,7 @@ export default class GameResults extends React.Component {
 		}
 	}
 	render() {
+		const { classes } = this.props;
 		if (!this.state.open) {
 			return "";
 		}
@@ -96,7 +110,7 @@ export default class GameResults extends React.Component {
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{
-					paper: helpers.scopedClass("margin: 2px; width: 100%;"),
+					paper: classes.paper
 				}}
 				onClose={this.close}
 			>
@@ -630,9 +644,7 @@ export default class GameResults extends React.Component {
 							: ""}
 					</List>
 					<DialogActions
-						className={helpers.scopedClass(
-							"background-color: white; position: sticky; bottom: 0px;"
-						)}
+						className={classes.dialogActions}
 					>
 						<Button onClick={this.close} color="primary">
 							Close
@@ -644,3 +656,4 @@ export default class GameResults extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(GameResults);

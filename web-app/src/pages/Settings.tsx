@@ -1,252 +1,185 @@
 /* eslint-disable no-restricted-globals */
-import firebase from "firebase/app";
 import "firebase/messaging";
-import React, { useState } from "react";
-import * as helpers from "../helpers";
+import React, { useEffect, useState } from "react";
 import {
-	InputLabel,
 	FormControlLabel,
-	Select,
 	AppBar,
-	MenuItem,
 	Toolbar,
 	IconButton,
 	Button,
-	Checkbox,
 	TextField,
 	Typography,
 	Switch,
-	FormControl,
 	makeStyles,
+	Container,
 } from "@material-ui/core";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import Color from "../components/Color";
 import Globals from "../Globals";
-import { DeleteIcon, GoBackIcon } from "../icons";
+import { GoBackIcon } from "../icons";
 import useRegisterPageView from "../hooks/useRegisterPageview";
-import {
-	useColorOverrides,
-	useSelectVariantByName,
-	useUserConfig,
-	useVariants,
-} from "../hooks/selectors";
+import { useColorOverrides, useMessaging } from "../hooks/selectors";
+import { useListVariantsQuery, useSubmitSettingsForm } from "../hooks/service";
+import { SettingsFormValues, SettingsFormSubmitValues } from "../store/types";
+import ResetSettingsDialog from "../components/ResetSettingsDialog";
+import NationColorPicker, { ColorMap } from "../components/NationColorPicker";
 
 const CLASSICAL = "Classical";
 
 const useStyles = makeStyles((theme) => {
 	return {
-		root: {
-			"& h6": {
-				paddingLeft: theme.spacing(2),
-			},
-		},
 		subtitle: {
-			margin: "56px auto 16px auto",
-			padding: theme.spacing(0, 2), // TODO remove hard coding
-			display: "flex",
-			flexDirection: "column",
-			maxWidth: "940px", // TODO remove hard coding
-		},
-		subtitle2: {
-			color: "rgba(40, 26, 26, 0.56)", // TODO remove hard coding
+			color: theme.palette.grey[400],
 			padding: theme.spacing(2, 0),
-		},
-		formControlLabel: {
-			width: "100%",
-			maxWidth: "920px", // TODO remove hard coding
-			paddingLeft: theme.spacing(0),
 		},
 		notificationWarning: {
 			marginTop: theme.spacing(0.25),
 		},
 		textField: {
-			marginTop: theme.spacing(0.125),
-			maxWidth: "180px", // TODO remove hard coding
+			maxWidth: theme.spacing(24),
 		},
 		variantSelect: {
 			display: "flex",
 			flexDirection: "column",
 		},
-		variantSelectFormControlLabel: {
-			marginBottom: theme.spacing(1),
-		},
 		nations: {
 			display: "flex",
 			height: theme.spacing(6),
 			alignItems: "center",
+			justifyContent: "space-between",
 			"& > div": {
-				marginLeft: "auto",
 				display: "flex",
 				alignItems: "center",
 			},
 		},
-		color: {
-			flexGrow: 0,
-			marginRight: theme.spacing(0.5),
-		},
-		delete: {
-			color: theme.palette.primary.main,
+		buttons: {
+			display: "flex",
+			justifyContent: "space-between",
 		},
 	};
 });
 
-const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
-	const [newColorOverrideNation, setNewColorOverrideNation] = useState("");
-	const [newColorOverrideVariant, setNewColorOverrideVariant] =
-		useState(CLASSICAL);
-	const [resetSettingsChecked, setResetSettingsChecked] = useState(false);
+const initialFormValues: SettingsFormValues = {
+	Colors: [],
+	enablePushNotifications: false,
+	enableEmailNotifications: false,
+	PhaseDeadlineWarningMinutesAhead: 60,
+	selectedVariant: "",
+};
 
-	// TODO make sure this only happens when opened
-	// TODO move dialog to upper level
+const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 	useRegisterPageView("SettingsDialog"); // NOTE rename?
-	const userConfig = useUserConfig();
-	const variants = useVariants();
-	const variant = useSelectVariantByName(newColorOverrideVariant);
+
+	const [resetSettingsDialogOpen, setResetSettingsDialogOpen] = useState(false);
+	const [formValues, setFormValues] =
+		useState<SettingsFormValues>(initialFormValues);
+
+	const [submitSettingsForm, queryStatus] = useSubmitSettingsForm("123456789");
+	const { userConfig, queryIsLoading, mutationIsLoading, isSuccess, isError } =
+		queryStatus;
+	const isLoading = queryIsLoading || mutationIsLoading;
+
+	const { data: variants } = useListVariantsQuery(undefined);
+
 	const colorOverrides = useColorOverrides();
 	const classes = useStyles();
+	const { hasPermission, tokenEnabled } = useMessaging();
 
-	const getColorOverrideForNation = (nation: string, index: number): string => {
-		const override = (colorOverrides.variants[newColorOverrideVariant] || {})[
-			nation
-		];
-		return override || Globals.contrastColors[index] || "";
-	};
+	// Set initial variant to Classical once variants are available
+	useEffect(() => {
+		if (variants?.find((variant) => variant.Name === CLASSICAL))
+			setFormValues((f) => ({ ...f, selectedVariant: CLASSICAL }));
+	}, [variants]);
 
-	const getColorOverrideEdited = (nation: string, index: number): boolean => {
-		const override = (colorOverrides.variants[newColorOverrideVariant] || {})[
-			nation
-		];
-		return !(override && Globals.contrastColors[index] !== override);
-	};
+	useEffect(() => {
+		if (isError || isSuccess) setResetSettingsDialogOpen(false);
+	}, [isSuccess, isError]);
+
+	// Set initial form values to userConfig once loaded
+	useEffect(() => {
+		if (!userConfig) return;
+		const { Colors, PhaseDeadlineWarningMinutesAhead, MailConfig } = userConfig;
+		const Enabled = MailConfig?.Enabled;
+		if (Colors) setFormValues((f) => ({ ...f, Colors }));
+		if (PhaseDeadlineWarningMinutesAhead)
+			setFormValues((f) => ({ ...f, PhaseDeadlineWarningMinutesAhead }));
+		// TODO push notifications
+		setFormValues((f) => ({
+			...f,
+			enableEmailNotifications: Enabled || false,
+		}));
+	}, [queryIsLoading, userConfig]);
+
+	useEffect(() => {
+		setFormValues((f) => ({ ...f, enablePushNotifications: tokenEnabled }));
+	}, [tokenEnabled]);
+
+	const getOverride = (nation: string) =>
+		(colorOverrides.variants[formValues.selectedVariant] || {})[nation];
+
+	const colorMap: ColorMap = {};
+	variants?.forEach((v) => {
+		const nations = v.Nations.map((nation, index) => {
+			const override = getOverride(nation);
+			return {
+				name: nation,
+				color: override || Globals.contrastColors[index],
+				edited: Boolean(override),
+			};
+		});
+		colorMap[v.Name] = nations;
+	});
 
 	const close = (): void => history.push("/");
 
-	// TODO action
-	const onTogglePushNotifications = () => null;
-
-	// TODO action
 	const setNewColor = () => null;
 
-	// TODO action
 	const deleteNewColor = () => null;
 
-	const onClickResetSettings = () => {
-		// onClick={(_) => {
-		// 	if (resetSettingsChecked) {
-		// 		this.setState(
-		// 			(state, props) => {
-		// 				state = Object.assign({}, state);
-		// 				state.userConfig.Properties.Colors = [];
-		// 				state.userConfig.Properties.FCMTokens = [];
-		// 				state.userConfig.Properties.MailConfig = {};
-		// 				state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
-		// 				return state;
-		// 			},
-		// 			(_) => {
-		// 				saveConfig().then((_) => {
-		// 					location.reload();
-		// 				});
-		// 			}
-		// 		);
-		// 	}
-		// }
+	const onClickResetSettings = () => setResetSettingsDialogOpen(true);
+
+	const onToggleCheckbox = (
+		e: React.ChangeEvent<{ checked: boolean; name: string }>
+	) => {
+		setFormValues({ ...formValues, [e.target.name]: e.target.checked });
 	};
 
-	const Wrapper = {
-		startFCM: true,
-		notificationStatus: () => null,
+	const onChangePhaseDeadline = (e: React.ChangeEvent<{ value: string }>) =>
+		setFormValues({
+			...formValues,
+			PhaseDeadlineWarningMinutesAhead: Number.parseInt(e.target.value),
+		});
+
+	const onChangeVariantInput = (
+		e: React.ChangeEvent<{ value: unknown }>
+	): void => {
+		setFormValues({
+			...formValues,
+			selectedVariant: e.target.value as string,
+		});
 	};
 
-	// TODO actio
-	const onToggleEmailNotifications = () => {
-		// ev.persist();
-		// this.setState((state, props) => {
-		// 	state = Object.assign({}, state);
-		// 	state.userConfig.Properties.MailConfig.Enabled = ev.target.checked;
-		// 	const hrefURL = new URL(location.href);
-		// 	state.userConfig.Properties.MailConfig.MessageConfig.TextBodyTemplate =
-		// 		'You received a new message on Diplicity:\n\n"{{message.Body}}"\n\n\nTo view the game, visit\n\n' +
-		// 		hrefURL.protocol +
-		// 		"//" +
-		// 		hrefURL.host +
-		// 		"/Game/{{game.ID.Encode}}\n\n\n\n\nTo turn off email notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
-		// 	state.userConfig.Properties.MailConfig.PhaseConfig.TextBodyTemplate =
-		// 		"{{game.Desc}} has changed state.\n\n\nTo view the game, visit\n " +
-		// 		hrefURL.protocol +
-		// 		"//" +
-		// 		hrefURL.host +
-		// 		"/Game/{{game.ID.Encode}}.\n\n\n\n\nTo turn off emails notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
-		// 	return state;
-		// }, this.saveConfig);
-	};
-
-	const updatePhaseDeadline = () => {
-		// updatePhaseDeadline(ev) {
-		// 	ev.persist();
-		// 	this.setState(
-		// 		(state, props) => {
-		// 			state = Object.assign({}, state);
-		// 			let newValue = ev.target.value;
-		// 			if (newValue !== "") {
-		// 				newValue = Number.parseInt(newValue);
-		// 			}
-		// 			state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = newValue;
-		// 			if (!state.userConfig.Properties.FCMTokens) {
-		// 				state.userConfig.Properties.FCMTokens = [];
-		// 			}
-		// 			return state;
-		// 		},
-		// 		(_) => {}
-		// 	);
-		// }
-	};
-
-	const saveConfig = () => {
-		// saveConfig() {
-		// 	this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = Number.parseInt(
-		// 		this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead ||
-		// 			"0"
-		// 	);
-		// 	let updateLink = this.state.userConfig.Links.find((l) => {
-		// 		return l.Rel === "update";
-		// 	});
-		// 	helpers.incProgress();
-		// 	return helpers
-		// 		.safeFetch(
-		// 			helpers.createRequest(updateLink.URL, {
-		// 				method: updateLink.Method,
-		// 				headers: {
-		// 					"Content-Type": "application/json",
-		// 				},
-		// 				body: JSON.stringify(this.state.userConfig.Properties),
-		// 			})
-		// 		)
-		// 		.then((resp) => resp.json())
-		// 		.then((js) => {
-		// 			helpers.decProgress();
-		// 			Globals.userConfig = js;
-		// 			helpers.parseUserConfigColors();
-		// 			this.setState((state, props) => {
-		// 				state = Object.assign({}, state);
-		// 				state.userConfig = js;
-		// 				return state;
-		// 			});
-		// 		});
-		// }
-	};
-
-	const onChangeVariantInput = (): void => {
-		(e: React.ChangeEvent<HTMLSelectElement>) => {
-			const selectedVariant = variants.find((v) => v.Name === e.target.value);
-			if (selectedVariant === undefined)
-				throw new TypeError("Variant not found");
-			let nation = newColorOverrideNation;
-			if (!selectedVariant.Nations.includes(nation)) {
-				nation = selectedVariant.Nations[0];
-			}
-			setNewColorOverrideNation(nation);
-			setNewColorOverrideVariant(e.target.value);
+	const getSubmitValuesFromForm = (
+		form: SettingsFormValues
+	): SettingsFormSubmitValues => {
+		const {
+			enableEmailNotifications,
+			enablePushNotifications,
+			PhaseDeadlineWarningMinutesAhead,
+		} = form;
+		return {
+			enableEmailNotifications,
+			enablePushNotifications,
+			PhaseDeadlineWarningMinutesAhead,
 		};
+	};
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		submitSettingsForm(getSubmitValuesFromForm(formValues));
+	};
+
+	const handleResetSettings = () => {
+		submitSettingsForm(getSubmitValuesFromForm(initialFormValues));
 	};
 
 	return (
@@ -265,210 +198,92 @@ const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 				</Toolbar>
 			</AppBar>
 
-			{userConfig ? (
-				<React.Fragment>
+			<Toolbar />
+
+			<Container>
+				<form onSubmit={handleSubmit}>
+					<Typography variant="subtitle2" className={classes.subtitle}>
+						Notifications
+					</Typography>
 					<div>
-						<div className={classes.subtitle}>
-							<Typography variant="subtitle2" className={classes.subtitle2}>
-								Notifications
-							</Typography>
-							<div>
-								<FormControlLabel
-									className={classes.formControlLabel}
-									control={
-										<Switch
-											checked={Globals.messaging.tokenEnabled}
-											disabled={Globals.messaging.hasPermission === "false"}
-											onChange={onTogglePushNotifications}
-										/>
-									}
-									label="Push notifications"
+						<FormControlLabel
+							label="Push notifications"
+							control={
+								<Switch
+									checked={formValues.enablePushNotifications}
+									disabled={hasPermission === "false"}
+									name="enablePushNotifications"
+									onChange={onToggleCheckbox}
 								/>
-								{firebase.messaging.isSupported() ||
-								(Wrapper && Wrapper.startFCM) ? (
-									Globals.messaging.started ? (
-										Globals.messaging.hasPermission === "true" ||
-										(Wrapper && Wrapper.startFCM) ? (
-											Globals.messaging.tokenOnServer ? (
-												Wrapper && Wrapper.notificationStatus ? (
-													Wrapper.notificationStatus() !== "OK" ? (
-														Wrapper.notificationStatus()
-													) : (
-														""
-													)
-												) : (
-													""
-												)
-											) : (
-												<p className={classes.notificationWarning}>
-													<Typography variant="caption">
-														Notifications disabled [Error: no token uploaded]
-													</Typography>
-												</p>
-											)
-										) : (
-											<p className={classes.notificationWarning}>
-												<Typography variant="caption">
-													No notification permission received.
-													<br />
-													<a
-														href="https://www.google.com/search?q=reset+browser+permission+notifications&rlz=1C5CHFA_enNL775NL775&oq=reset+browser+permission+notifications&aqs=chrome..69i57j69i60l2.3519j1j4&sourceid=chrome&ie=UTF-8"
-														target="_blank"
-														rel="noreferrer"
-													>
-														Allow this sites notifications in your browser
-														settings.
-													</a>
-												</Typography>
-											</p>
-										)
-									) : (
-										<p className={classes.notificationWarning}>
-											<Typography variant="caption">
-												Notifications disabled [Error: notification system did
-												not start]
-											</Typography>
-										</p>
-									)
-								) : (
-									<p className={classes.notificationWarning}>
-										<Typography variant="caption">
-											Notifications disabled [Error: Firebase Messaging not
-											supported on your browser]
-										</Typography>
-									</p>
-								)}
-							</div>
-
-							<FormControlLabel
-								control={
-									<Switch
-										checked={!!userConfig.MailConfig?.Enabled}
-										onChange={onToggleEmailNotifications}
-									/>
-								}
-								label="Email notifications"
-							/>
-							<TextField
-								inputProps={{ min: 0 }}
-								fullWidth
-								className={classes.textField}
-								disabled={
-									!userConfig.MailConfig?.Enabled &&
-									!Globals.messaging.tokenEnabled
-								}
-								type="number"
-								label="Phase deadline reminder"
-								helperText={
-									userConfig.MailConfig?.Enabled
-									// TODO
-									// messaging.tokenEnabled
-									// 	? "In minutes. 0 = off"
-									// 	: "Turn on notifications to receive alarms"
-								}
-								margin="dense"
-								value={userConfig.PhaseDeadlineWarningMinutesAhead}
-								onChange={updatePhaseDeadline}
-								onBlur={saveConfig}
-							/>
-							<Typography variant="subtitle2" className={classes.subtitle2}>
-								Custom nation colours
-							</Typography>
-
-							<div className={classes.variantSelect}>
-								<FormControl className={classes.formControlLabel}>
-									<InputLabel shrink id="variantinputlabel">
-										Variant
-									</InputLabel>
-									<Select
-										fullWidth
-										labelId="variantinputlabel"
-										value={newColorOverrideVariant}
-										onChange={onChangeVariantInput}
-									>
-										{variants.map((variant) => (
-											<MenuItem key={variant.Name} value={variant.Name}>
-												{variant.Name}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-
-								<div className={classes.variantSelect}>
-									{variant &&
-										variant.Nations.map((nation, index) => {
-											return (
-												<div className={classes.nations} key={nation}>
-													<Typography>{nation}</Typography>
-
-													<div className={classes.color}>
-														<Color
-															initialValue={getColorOverrideForNation(
-																nation,
-																index
-															)}
-															edited={getColorOverrideEdited(nation, index)}
-															onSelect={setNewColor}
-														/>
-													</div>
-
-													{getColorOverrideEdited(nation, index) ? (
-														<div
-															onClick={deleteNewColor}
-															className={classes.delete}
-														>
-															<DeleteIcon />
-														</div>
-													) : (
-														""
-													)}
-												</div>
-											);
-										})}
-								</div>
-							</div>
-						</div>
+							}
+						/>
 					</div>
-					<div
-						style={{
-							textAlign: "center",
-							marginBottom: "56px",
-						}}
-					>
-						<div>
-							<FormControlLabel
-								style={{
-									marginRight: 0,
-									marginBottom: "8px",
-								}}
-								classes={{
-									label: helpers.scopedClass("font-size: unset;"),
-								}}
-								control={
-									<Checkbox
-										onClick={() =>
-											setResetSettingsChecked(!resetSettingsChecked)
-										}
-										style={{ padding: "0 0 0 18" }}
-									/>
-								}
-								label="I want to reset my settings"
-							/>
-						</div>
+					<div>
+						<FormControlLabel
+							label="Email notifications"
+							control={
+								<Switch
+									checked={formValues.enableEmailNotifications}
+									name="enableEmailNotifications"
+									onChange={onToggleCheckbox}
+								/>
+							}
+						/>
+					</div>
+					<div>
+						<TextField
+							label="Phase deadline reminder"
+							inputProps={{ min: 0 }}
+							fullWidth
+							className={classes.textField}
+							disabled={!userConfig?.MailConfig?.Enabled && !tokenEnabled}
+							type="number"
+							helperText={
+								tokenEnabled
+									? "In minutes. 0 = off"
+									: "Turn on notifications to receive alarms"
+							}
+							margin="dense"
+							value={formValues.PhaseDeadlineWarningMinutesAhead}
+							onChange={onChangePhaseDeadline}
+						/>
+					</div>
+					<Typography variant="subtitle2" className={classes.subtitle}>
+						Custom nation colours
+					</Typography>
+					<NationColorPicker
+						isLoading={isLoading}
+						variant={formValues.selectedVariant}
+						onChangeVariant={onChangeVariantInput}
+						colorMap={colorMap}
+						setColor={setNewColor}
+						deleteColorOverride={deleteNewColor}
+					/>
+					<div className={classes.buttons}>
 						<Button
-							style={{ margin: "auto" }}
-							variant="contained"
-							color="primary"
-							disabled={!resetSettingsChecked}
+							variant="text"
 							onClick={onClickResetSettings}
+							disabled={isLoading}
 						>
 							Reset settings
 						</Button>
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+							disabled={isLoading}
+						>
+							Save Changes
+						</Button>
 					</div>
-				</React.Fragment>
-			) : (
-				""
-			)}
+					<ResetSettingsDialog
+						open={resetSettingsDialogOpen}
+						close={() => setResetSettingsDialogOpen(false)}
+						handleResetSettings={handleResetSettings}
+						isLoading={isLoading}
+					/>
+				</form>
+			</Container>
 		</>
 	);
 };

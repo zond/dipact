@@ -1,4 +1,9 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import {
+	configureStore,
+	getDefaultMiddleware,
+	ThunkAction,
+	Action,
+} from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import middleware from "./middleware";
 
@@ -22,3 +27,10 @@ setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	RootState,
+	unknown,
+	Action<string>
+>;

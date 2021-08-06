@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import IroColorPicker from "./IroColorPicker";
 
-type Color = {
+type ColorProps = {
 	edited: boolean;
 	initialValue: string;
 	onSelect: (value: string) => void;
@@ -43,7 +43,7 @@ const Color = ({
 	edited,
 	initialValue,
 	onSelect,
-}: Color): React.ReactElement => {
+}: ColorProps): React.ReactElement => {
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(initialValue);
 	const classes = useStyles({ value });

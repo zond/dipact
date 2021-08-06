@@ -5,8 +5,10 @@ import Router from './pages/Router';
 import ActivityContainer from './components/ActivityContainer';
 import Globals from './Globals';
 import ReactGA from 'react-ga';
+import { connect } from 'react-redux';
+import { actions as authActions } from './store/auth';
 
-export default class App extends ActivityContainer {
+class LegacyApp extends ActivityContainer {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -46,7 +48,9 @@ export default class App extends ActivityContainer {
 		}
 
 		if (foundToken) {
-			helpers.storeToken(foundToken);
+			const { login } = this.props;
+			login(foundToken);
+			Globals.serverRequest.headers.set("Authorization", "bearer " + foundToken);
 		}
 	}
 	handleVariants(variants) {
@@ -246,3 +250,9 @@ export default class App extends ActivityContainer {
 		});
 	}
 }
+
+const mapDispatch = {
+    login: authActions.login
+  }
+
+export default connect(null, mapDispatch)(LegacyApp);

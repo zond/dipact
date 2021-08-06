@@ -1,6 +1,9 @@
+/* eslint-disable no-restricted-globals */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import actions from "./actions";
+import * as actions from "./actions";
+import { selectToken } from "./selectors";
+import { RootState } from "./store";
 import {
 	UserRatingHistogramResponse,
 	ListVariantsResponse,
@@ -9,30 +12,36 @@ import {
 	UserConfigResponse,
 	UserBanResponse,
 	RootResponse,
+	Headers,
+	NewGame,
+	CreateGameResponse,
+	Variant,
+	UserConfig,
 } from "./types";
 import { addNationAbbreviationsToVariant, sortVariantResponse } from "./utils";
 
-const token =
-	"bBxdcplqeUmM_hsU7_PTdOvqTeqTB_rcN9XoHSrfjHTNzbT8jA8D2zBM7LBLXNyXaqpt-OnuekcRFznuVCdJIpXlj4iroFsM1s8FzqUaIuF6Qx4baBsUrxVJOQC8CsM-nR1jTJ_OW8EH1ziaKe4D8KzNeeqLinyrqXfhvrKE0aPTOaPnnP65LF3x6myerDlVjvlkVigw9yUo4UIgpCwbWsh9Ak9UfBE0oD5hPmy0Qg9jOQpqTb7AASW1NqUfiDpWL2BYTCV6mI0WsEZvDTP0uZOOXiERtYxVLKk6wL_b8Nrx26PcpeBOjpv1OsEkEDgt1Ow47emayPahId5MV4H5sxOCwUxuk3dIN3r_idtI7I4vhEsWSuMMmDkvCNEWKNgvxdClSZfyiZP7SWev4prMHY1RrzUw1Mk9XhbffRB3RYb9pu-szzqpnHXcSQlFtVK8x9yGXWfENLweevpXXVHFO4VRKO95X5nliVU9vuxnx7NaIpRbQFpLdfbo7rSByFk=";
+export enum TagType {
+	UserConfig = "UserConfig",
+}
 
 const hrefURL = new URL(location.href);
-const serviceURL =
-	localStorage.getItem("serverURL") || "https://diplicity-engine.appspot.com/";
+export const diplicityServiceURL = "https://diplicity-engine.appspot.com/";
+const serviceURL = localStorage.getItem("serverURL") || diplicityServiceURL;
 
-// Define a service using a base URL and expected endpoints
 export const diplicityService = createApi({
+	tagTypes: [TagType.UserConfig],
 	reducerPath: "diplicityService",
 	baseQuery: fetchBaseQuery({
 		baseUrl: serviceURL,
-		prepareHeaders: (headers) => {
-			// const token = (getState() as RootState).auth.token;
+		prepareHeaders: (headers, { getState }) => {
+			const token = selectToken(getState() as RootState);
 			// If we have a token set in state, let's assume that we should be passing it.
 			if (token) {
-				headers.set("authorization", `Bearer ${token}`);
+				headers.set(Headers.Authorization, `Bearer ${token}`);
 			}
-			headers.set("X-Diplicity-API-Level", "8");
-			headers.set("X-Diplicity-Client-Name", "dipact@" + hrefURL.host);
-			headers.set("Accept", "application/json");
+			headers.set(Headers.XDiplicityAPILevel, "8");
+			headers.set(Headers.XDiplicityClientName, "dipact@" + hrefURL.host);
+			headers.set(Headers.Accept, "application/json");
 			return headers;
 		},
 		mode: "cors",
@@ -40,17 +49,17 @@ export const diplicityService = createApi({
 	endpoints: (builder) => ({
 		getRoot: builder.query<RootResponse, undefined>({
 			query: () => "/",
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				const { data } = await queryFulfilled;
-				const user = data.Properties.User;
-				if (user?.Id) {
-					const endpoints = diplicityService.endpoints;
-					void dispatch(endpoints.getForumMail.initiate(undefined));
-					void dispatch(endpoints.getUserStats.initiate(user.Id));
-					void dispatch(endpoints.getUserConfig.initiate(user.Id));
-					void dispatch(endpoints.getUserBans.initiate(user.Id));
-				}
-			},
+			// async onQueryStarted(_, { dispatch, queryFulfilled }) {
+			// 	const { data } = await queryFulfilled;
+			// 	const user = data.Properties.User;
+			// 	if (user?.Id) {
+			// 		const endpoints = diplicityService.endpoints;
+			// 		void dispatch(endpoints.getForumMail.initiate(undefined));
+			// 		void dispatch(endpoints.getUserStats.initiate(user.Id));
+			// 		void dispatch(endpoints.getUserConfig.initiate(user.Id));
+			// 		void dispatch(endpoints.getUserBans.initiate(user.Id));
+			// 	}
+			// },
 		}),
 		getForumMail: builder.query<ForumMailResponse, undefined>({
 			query: () => "/ForumMail",
@@ -70,7 +79,7 @@ export const diplicityService = createApi({
 				return response;
 			},
 		}),
-		getUserConfig: builder.query<UserConfigResponse, string>({
+		getUserConfig: builder.query<UserConfig, string>({
 			query: (id) => `/User/${id}/UserConfig`,
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				const { meta } = await queryFulfilled;
@@ -78,6 +87,8 @@ export const diplicityService = createApi({
 					void dispatch(actions.parseUserConfigColors());
 				}
 			},
+			transformResponse: (response: UserConfigResponse) => response.Properties,
+			providesTags: [TagType.UserConfig],
 		}),
 		getUserStats: builder.query<UserStatsResponse, string>({
 			query: (id) => `/User/${id}/Stats`,
@@ -88,27 +99,35 @@ export const diplicityService = createApi({
 		>({
 			query: () => "/Users/Ratings/Histogram",
 		}),
-		getVariants: builder.query<ListVariantsResponse, undefined>({
+		listVariants: builder.query<Variant[], undefined>({
 			query: () => "/Variants",
 			transformResponse: (response: ListVariantsResponse) => {
 				// Sort variants and enhance each variant with nationAbbreviations
 				sortVariantResponse(response.Properties);
-				const variants = response.Properties.map((props) => props.Properties);
-				variants.forEach((variant) => addNationAbbreviationsToVariant(variant));
-				return response;
+				const transformedResponse = response.Properties.map(
+					(variant) => variant.Properties
+				).map((variant) => addNationAbbreviationsToVariant(variant));
+				return transformedResponse;
 			},
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				const { meta } = await queryFulfilled;
-				if (meta?.response.ok) {
-					void dispatch(actions.parseUserConfigColors());
-				}
-			},
+		}),
+		createGame: builder.mutation<CreateGameResponse, NewGame>({
+			query: (body) => ({
+				url: "/Game",
+				method: "POST",
+				body,
+			}),
+			// invalidatesTags: ["Post"],
+		}),
+		updateUserConfig: builder.mutation<
+			CreateGameResponse,
+			Partial<UserConfig> & Pick<UserConfig, "UserId">
+		>({
+			query: ({ UserId, ...patch }) => ({
+				url: `/User/${UserId}/UserConfig`,
+				method: "PUT",
+				body: { UserId, ...patch },
+			}),
+			invalidatesTags: [TagType.UserConfig],
 		}),
 	}),
 });
-
-export const {
-	useGetVariantsQuery,
-	useGetRootQuery,
-	useGetUserRatingHistogramQuery,
-} = diplicityService;

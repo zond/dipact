@@ -94,6 +94,25 @@ type TrueSkill = {
 	HigherRatedCount: number;
 };
 
+export type PrivateStats = {
+	JoinedGames: number;
+	StartedGames: number;
+	FinishedGames: number;
+	SoloGames: number;
+	DIASGames: number;
+	EliminatedGames: number;
+	DroppedGames: number;
+	NMRPhases: number;
+	ActivePhases: number;
+	ReadyPhases: number;
+	Reliability: number;
+	Quickness: number;
+	OwnedBans: number;
+	SharedBans: number;
+	Hated: number;
+	Hater: number;
+};
+
 export type UserStats = {
 	UserId?: string;
 	JoinedGames?: number;
@@ -112,24 +131,7 @@ export type UserStats = {
 	SharedBans?: number;
 	Hated?: number;
 	Hater?: number;
-	PrivateStats?: {
-		JoinedGames: number;
-		StartedGames: number;
-		FinishedGames: number;
-		SoloGames: number;
-		DIASGames: number;
-		EliminatedGames: number;
-		DroppedGames: number;
-		NMRPhases: number;
-		ActivePhases: number;
-		ReadyPhases: number;
-		Reliability: number;
-		Quickness: number;
-		OwnedBans: number;
-		SharedBans: number;
-		Hated: number;
-		Hater: number;
-	};
+	PrivateStats?: PrivateStats;
 	TrueSkill?: TrueSkill;
 	User?: User;
 };
@@ -142,7 +144,7 @@ type FCMTokenConfig = {
 	DontSendNotification: boolean;
 };
 
-type FCMToken = {
+export type FCMToken = {
 	Value: string;
 	Disabled: boolean;
 	Note: string;
@@ -170,10 +172,16 @@ export type UserConfig = {
 	UserId?: string;
 	FCMTokens?: FCMToken[];
 	MailConfig?: {
-		Enabled: boolean;
-		UnsubscribeConfig: {
+		Enabled?: boolean;
+		UnsubscribeConfig?: {
 			RedirectTemplate: string;
 			HTMLTemplate: string;
+		};
+		MessageConfig?: {
+			TextBodyTemplate: string;
+		};
+		PhaseConfig?: {
+			TextBodyTemplate: string;
 		};
 	};
 	MessageConfig?: TemplateConfig;
@@ -207,8 +215,12 @@ export type RootResponse = ApiResponse & {
 	};
 };
 
+export type BanResponse = ApiResponse & {
+	Properties: Ban;
+};
+
 export type UserBanResponse = ApiResponse & {
-	Properties: Ban[];
+	Properties: BanResponse[];
 	userId?: string;
 };
 
@@ -234,3 +246,123 @@ export type ListVariantsResponse = ApiResponse & {
 export type ForumMailResponse = ApiResponse & {
 	Properties: ForumMail;
 };
+
+export type Auth = {
+	token?: string;
+	isLoggedIn: boolean;
+};
+
+export enum Headers {
+	Authorization = "authorization",
+	Accept = "Accept",
+	XDiplicityAPILevel = "X-Diplicity-API-Level",
+	XDiplicityClientName = "X-Diplicity-Client-Name",
+}
+
+export type NewGame = {
+	Anonymous: boolean;
+	ChatLanguageISO639_1: string;
+	Desc: string;
+	DisableConferenceChat: boolean;
+	DisableGroupChat: boolean;
+	DisablePrivateChat: boolean;
+	GameMasterEnabled: boolean;
+	LastYear: number;
+	MaxHated: number;
+	MaxHater: number;
+	MaxRating: number;
+	MinQuickness: number;
+	MinRating: number;
+	MinReliability: number;
+	NationAllocation: number;
+	NonMovementPhaseLengthMinutes: number;
+	PhaseLengthMinutes: number;
+	Private: boolean;
+	RequireGameMasterInvitation: boolean;
+	SkipMuster: boolean;
+	Variant: string;
+};
+
+export type PhaseState = {
+	GameID: string;
+	PhaseOrdinal: number;
+	Nation: string;
+	ReadyToResolve: boolean;
+	WantsDIAS: boolean;
+	WantsConcede: boolean;
+	OnProbation: boolean;
+	NoOrders: boolean;
+	Eliminated: boolean;
+	Messages: "";
+	ZippedOptions: null;
+	Note: "";
+};
+
+export type Member = {
+	User: User;
+	Nation: string;
+	GameAlias: string;
+	NationPreferences: string;
+	UnreadMessages: number;
+	Replacable: boolean;
+	NewestPhaseState: PhaseState;
+};
+
+export type Game = NewGame & {
+	Closed: boolean;
+	Finished: boolean;
+	ID: string;
+	Mustered: boolean;
+	NoMerge: boolean;
+	Started: boolean;
+	GameMasterInvitations: null;
+	GameMaster: User;
+	NMembers: number;
+	Members: Member[];
+	StartETA: string;
+	NewestPhaseMeta: null;
+	ActiveBans: null;
+	FailedRequirements: null;
+	FirstMember: Member;
+	CreatedAt: string;
+	CreatedAgo: string;
+	StartedAt: string;
+	StartedAgo: string;
+	FinishedAt: string;
+	FinishedAgo: string;
+};
+
+export type CreateGameResponse = ApiResponse & {
+	Properties: Game;
+	userId?: string;
+};
+
+export type HasPermissionType = "unknown" | "true" | "false";
+export type TargetStateType = "undefined" | "enabled" | "disabled";
+
+export type Messaging = {
+	hasPermission: HasPermissionType;
+	hasToken: boolean;
+	globalToken?: FCMToken;
+	targetState: TargetStateType;
+	token: string | null;
+	tokenApp: string;
+	tokenEnabled: boolean;
+	tokenOnServer: boolean;
+};
+
+export type SettingsFormValues = Pick<
+	UserConfig,
+	"Colors" | "PhaseDeadlineWarningMinutesAhead"
+> & {
+	enablePushNotifications: boolean;
+	enableEmailNotifications: boolean;
+	selectedVariant: string;
+};
+
+export type SettingsFormSubmitValues = Pick<
+	SettingsFormValues,
+	| "enablePushNotifications"
+	| "enableEmailNotifications"
+	| "PhaseDeadlineWarningMinutesAhead"
+>;

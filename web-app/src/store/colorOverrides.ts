@@ -34,18 +34,15 @@ const colorOverridesSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addMatcher(
-			diplicityService.endpoints.getVariants.matchFulfilled,
-			(state, { payload }) => {
-				const variants = payload.Properties.map(
-					(variantResponse) => variantResponse.Properties
-				);
+			diplicityService.endpoints.listVariants.matchFulfilled,
+			(state, { payload: variants }) => {
 				variants.forEach((variant) => {
 					// Add variants to color overrides
 					const variantKey = variant.Name.replace(overrideReg, "");
 					state.variantCodes[variantKey] = variant.Name;
 
 					// Add nations to color overrides
-					variant.Nations.map((nation) => {
+					variant.Nations.forEach((nation) => {
 						const nationKey = nation.replace(overrideReg, "");
 						state.nationCodes[nationKey] = nation;
 					});

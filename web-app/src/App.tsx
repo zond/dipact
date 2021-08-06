@@ -5,13 +5,13 @@ import LegacyApp from "./LegacyApp";
 import {
 	useGetRootQuery,
 	useGetUserRatingHistogramQuery,
-	useGetVariantsQuery,
-} from "./store/service";
+	useListVariantsQuery,
+} from "./hooks/service";
 
 const App = (): React.ReactElement => {
 	useGetRootQuery(undefined);
 	useGetUserRatingHistogramQuery(undefined);
-	useGetVariantsQuery(undefined);
+	useListVariantsQuery(undefined);
 
 	useEffect(() => {
 		ReactGA.initialize("G-CZXEZSNBW4", {});

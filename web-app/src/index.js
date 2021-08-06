@@ -13,6 +13,11 @@ import theme from "./theme";
 import Globals from "./Globals";
 import "@fontsource/cabin";
 import { Provider } from "react-redux";
+import worker from './mockService/browser';
+
+if (process.env.REACT_APP_USE_MOCK_SERVICE_WORKER === 'true') {
+  worker.start({ onUnhandledRequest: "bypass" });
+}
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));

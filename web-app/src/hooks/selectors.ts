@@ -1,40 +1,18 @@
-import { RootState } from "../store/store";
-import { ColorOverrides, User, UserConfig, Variant } from "../store/types";
+import * as selectors from "../store/selectors";
+import { ColorOverrides, Messaging, User } from "../store/types";
+
 import { useAppSelector } from "./store";
 
-// TODO test
-export const useColorOverrides = (): ColorOverrides => {
-	return useAppSelector((state: RootState) => state.colorOverrides);
-};
+export const useColorOverrides = (): ColorOverrides =>
+	useAppSelector(selectors.selectColorOverrides);
 
-export const useHasPlayed = (): boolean => {
-	const joinedGames = useAppSelector(
-		(state: RootState) =>
-			state.userStats.JoinedGames || state.userStats.PrivateStats?.JoinedGames
-	);
-	return Boolean(joinedGames);
-};
+export const useHasPlayed = (): boolean =>
+	useAppSelector(selectors.selectHasPlayed);
 
-export const useUser = (): User => {
-	return useAppSelector((state: RootState) => state.user);
-};
+export const useMessaging = (): Messaging =>
+	useAppSelector(selectors.selectMessaging);
 
-export const useUserConfig = (): UserConfig => {
-	return useAppSelector((state: RootState) => state.userConfig);
-};
+export const useUser = (): User => useAppSelector(selectors.selectUser);
 
-// TODO test
-export const useSelectVariantByName = (
-	variantName: string
-): Variant | undefined => {
-	return useAppSelector((state: RootState) => {
-		return state.variants.entities.find(
-			(variant) => variant.Name === variantName
-		);
-	});
-};
-
-// TODO test
-export const useVariants = (): Variant[] => {
-	return useAppSelector((state: RootState) => state.variants.entities);
-};
+export const useUserId = (): string | undefined =>
+	useAppSelector(selectors.selectUserId);

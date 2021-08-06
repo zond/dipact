@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { useEffect } from "react";
 import ReactGA from "react-ga";
 
@@ -11,7 +12,7 @@ const useRegisterPageView = (pageTitle: string): void => {
 			category: GTAG_DEFAULT_CATEGORY,
 			action: PAGE_VIEW_ACTION,
 		});
-	}, []);
+	}, [pageTitle]);
 };
 
 export default useRegisterPageView;

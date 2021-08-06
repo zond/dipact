@@ -1,0 +1,60 @@
+{
+  "Name": "bans",
+  "Properties": [
+    {
+      "Name": "",
+      "Properties": {
+        "UserIds": [
+          "987654321",
+          "123456789"
+        ],
+        "OwnerIds": [
+          "123456789"
+        ],
+        "Users": [
+          {
+            "Email": "fakeemail@gmail.com",
+            "FamilyName": "Simpson",
+            "Gender": "",
+            "GivenName": "Homer",
+            "Hd": "",
+            "Id": "987654321",
+            "Link": "",
+            "Locale": "en",
+            "Name": "Homer Simpson",
+            "Picture": "",
+            "VerifiedEmail": true,
+            "ValidUntil": "2020-04-08T17:31:13.460279Z"
+          },
+          {
+            "Email": "fakeemail@gmail.com",
+            "FamilyName": "Simpson",
+            "Gender": "",
+            "GivenName": "Homer",
+            "Hd": "",
+            "Id": "123456789",
+            "Link": "",
+            "Locale": "en",
+            "Name": "Homer Simpson",
+            "Picture": "",
+            "VerifiedEmail": true,
+            "ValidUntil": "2020-04-08T19:23:28.118147Z"
+          }
+        ]
+      },
+      "Type": "Ban",
+      "Links": [
+        {
+          "Rel": "unsign",
+          "URL": "https://diplicity-engine.appspot.com/User/123456789/Ban/987654321",
+          "Method": "DELETE"
+        },
+        {
+          "Rel": "self",
+          "URL": "https://diplicity-engine.appspot.com/User/123456789/Ban/987654321",
+          "Method": "GET"
+        }
+      ]
+    }
+  ]
+}

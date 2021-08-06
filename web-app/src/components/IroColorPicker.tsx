@@ -3,7 +3,7 @@ import iro from "@jaames/iro";
 import { useEffect } from "react";
 import useRegisterPageView from "../hooks/useRegisterPageview";
 
-type IroColorPicker = {
+type IroColorPickerProps = {
 	onColorChange: (color: string) => void;
 	[key: string]: any;
 };
@@ -11,7 +11,7 @@ type IroColorPicker = {
 const IroColorPicker = ({
 	onColorChange,
 	...colorPickerProps
-}: IroColorPicker): React.ReactElement => {
+}: IroColorPickerProps): React.ReactElement => {
 	useRegisterPageView("Color");
 	const divEl = useRef(null);
 	useEffect(() => {
@@ -22,7 +22,7 @@ const IroColorPicker = ({
 		colorPicker.on("color:change", (color: iro.Color) =>
 			onColorChange(color.hexString)
 		);
-	}, []);
+	}, [colorPickerProps, onColorChange]);
 
 	return <div ref={divEl} />;
 };

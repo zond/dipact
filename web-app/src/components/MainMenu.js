@@ -11,7 +11,6 @@ import Globals from '../Globals';
 import DonateDialog from './DonateDialog';
 import ErrorsDialog from './ErrorsDialog';
 import StatsDialog from './StatsDialog';
-import Settings from '../pages/Settings';
 import FindGameDialog from './FindGameDialog';
 import Start from './Start';
 import GameList from './GameList';
@@ -248,14 +247,13 @@ class MainMenu extends ActivityContainer {
 									<ListItemText
 										primary="My Diplicity"
 										disableTypography
-										className={helpers.scopedClass(`
-    color: rgba(40, 26, 26, 0.56);
-    min-height: auto;
-    min-width: auto;
-    font: 500 14px / 48px Cabin, Roboto, sans-serif;
-    margin: 0px 0px 2px;
-
-              	`)}
+										style={{
+											color: 'rgba(40, 26, 26, 0.56)',
+											minHeight: 'auto',
+											minWidth: 'auto',
+											font: '500 14px / 48px Cabin, Roboto, sans-serif',
+											margin: '0px 0px 2px',
+										}}
 									/>
 								</ListItem>
 
@@ -292,14 +290,13 @@ class MainMenu extends ActivityContainer {
 									<ListItemText
 										primary="Public games"
 										disableTypography
-										className={helpers.scopedClass(`
-    color: rgba(40, 26, 26, 0.56);
-    min-height: auto;
-    min-width: auto;
-    font: 500 14px / 48px Cabin, Roboto, sans-serif;
-    margin: 0px 0px 2px;
-
-              	`)}
+										style={{
+											color: 'rgba(40, 26, 26, 0.56)',
+											minHeight: 'auto',
+											minWidth: 'auto',
+											font: '500 14px / 48px Cabin, Roboto, sans-serif',
+											margin: '0px 0px 2px',
+										}}
 									/>
 								</ListItem>
 
@@ -341,14 +338,13 @@ class MainMenu extends ActivityContainer {
 										<ListItemText
 											primary="Game mastered games"
 											disableTypography
-											className={helpers.scopedClass(`
-    color: rgba(40, 26, 26, 0.56);
-    min-height: auto;
-    min-width: auto;
-    font: 500 14px / 48px Cabin, Roboto, sans-serif;
-    margin: 0px 0px 2px;
-
-              	`)}
+											style={{
+												color: 'rgba(40, 26, 26, 0.56)',
+												minHeight: 'auto',
+												minWidth: 'auto',
+												font: '500 14px / 48px Cabin, Roboto, sans-serif',
+												margin: '0px 0px 2px',
+											}}
 										/>
 									</ListItem>
 
@@ -389,14 +385,13 @@ class MainMenu extends ActivityContainer {
 									<ListItemText
 										primary="Community"
 										disableTypography
-										className={helpers.scopedClass(`
-    color: rgba(40, 26, 26, 0.56);
-    min-height: auto;
-    min-width: auto;
-    font: 500 14px / 48px Cabin, Roboto, sans-serif;
-    margin: 0px 0px 2px;
-
-              	`)}
+										style={{
+											color: 'rgba(40, 26, 26, 0.56)',
+											minHeight: 'auto',
+											minWidth: 'auto',
+											font: '500 14px / 48px Cabin, Roboto, sans-serif',
+											margin: '0px 0px 2px',
+										}}
 									/>
 								</ListItem>
 

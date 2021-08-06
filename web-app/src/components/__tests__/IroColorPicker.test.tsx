@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Enzyme, { mount } from "enzyme";
+import { mount } from "enzyme";
 import IroColorPicker from "../IroColorPicker";
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
-
-Enzyme.configure({ adapter: new Adapter() });
 
 describe("IroColorPicker", () => {
 	test("Create component", () => {
