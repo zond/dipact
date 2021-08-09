@@ -8,6 +8,38 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
+					header: "CW4 - 2021 Nexus Cold War Tournament",
+					background: "/static/img/coldwar.png",
+					content: (
+						<React.Fragment>
+							<MaterialUI.Typography variant="h6" style={{}}>
+								2021 Nexus Cold War Tournament: CW4
+							</MaterialUI.Typography>
+							<MaterialUI.Typography variant="body2">
+								The largest online 1vs1 event is back: Nexus
+								announces that their Fourth Cold War Tournament
+								(CW4) will start soon!
+								<br />
+								The previous edition of this event involved 53
+								players to face each other for more than two
+								months last Spring. Now, it is time to run Cold
+								War games again and see who's the best tactitian
+								around!
+								<br />
+								Registration to CW4 will open on August 10th and
+								end on August 30th. The Tournament will start on
+								September 7th.
+								<br />
+								To get more info and register, go to{" "}
+								<a href="https://discord.gg/GTF4p8QQ4k">
+									https://discord.gg/GTF4p8QQ4k
+								</a>
+								.
+							</MaterialUI.Typography>
+						</React.Fragment>
+					),
+				},
+				{
 					header: "Join the Nexus Cold War Tournament",
 					background: "/static/img/coldwar.png",
 					content: (
