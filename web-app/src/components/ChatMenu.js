@@ -1,14 +1,21 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
-import { ButtonGroup, Button, Badge, Fab, Slide, Typography } from "@material-ui/core";
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
+import {
+	ButtonGroup,
+	Button,
+	Badge,
+	Fab,
+	Slide,
+	Typography,
+} from "@material-ui/core";
 
-import { CreateMessageIcon } from '../icons';
-import Globals from '../Globals';
-import CreateChannelDialog from './CreateChannelDialog';
-import ChatChannel from './ChatChannel';
-import NationAvatarGroup from './NationAvatarGroup';
+import { CreateMessageIcon } from "../icons";
+import Globals from "../Globals";
+import CreateChannelDialog from "./CreateChannelDialog";
+import ChatChannel from "./ChatChannel";
+import NationAvatarGroup from "./NationAvatarGroup";
 
 export default class ChatMenu extends React.Component {
 	constructor(props) {
@@ -225,9 +232,7 @@ export default class ChatMenu extends React.Component {
 				{this.state.channels && this.state.channels.length > 0 ? (
 					""
 				) : (
-					<Typography>
-						No chat channels currently.
-					</Typography>
+					<Typography>No chat channels currently.</Typography>
 				)}
 				<ButtonGroup
 					orientation="vertical"
@@ -235,7 +240,7 @@ export default class ChatMenu extends React.Component {
 						width: "100%",
 						height: "100%",
 						transform: "translateZ(0)",
-						webkitTransform: "translateZ(0)",
+						WebkitTransform: "translateZ(0)",
 						overflowY: !!this.state.activeChannel
 							? "hidden"
 							: "scroll",
@@ -335,22 +340,22 @@ export default class ChatMenu extends React.Component {
 								channel.Properties.LatestMessage ? (
 									<div
 										style={{
-											display: 'flex',
-											flexDirection: 'column',
-											alignItems: 'flex-start',
-											marginLeft: '8px',
-											minWidth: '0',
+											display: "flex",
+											flexDirection: "column",
+											alignItems: "flex-start",
+											marginLeft: "8px",
+											minWidth: "0",
 										}}
 									>
 										<Typography
 											variant="body1"
 											style={{
-												textTransform: 'none',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												whiteSpace: 'nowrap',
-												width: '100%',
-												textAlign: 'left',
+												textTransform: "none",
+												overflow: "hidden",
+												textOverflow: "ellipsis",
+												whiteSpace: "nowrap",
+												width: "100%",
+												textAlign: "left",
 											}}
 										>
 											{channel.Properties.Members
@@ -379,12 +384,12 @@ export default class ChatMenu extends React.Component {
 										<Typography
 											variant="body2"
 											style={{
-												textTransform: 'none',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												whiteSpace: 'nowrap',
-												width: '100%',
-												textAlign: 'left',
+												textTransform: "none",
+												overflow: "hidden",
+												textOverflow: "ellipsis",
+												whiteSpace: "nowrap",
+												width: "100%",
+												textAlign: "left",
 											}}
 										>
 											{this.member ? (
@@ -427,12 +432,12 @@ export default class ChatMenu extends React.Component {
 					<React.Fragment>
 						<Fab
 							style={{
-								margin: '0px',
-								top: 'auto',
-								right: '20px',
-								bottom: '20px',
-								left: 'auto',
-								position: 'fixed',
+								margin: "0px",
+								top: "auto",
+								right: "20px",
+								bottom: "20px",
+								left: "auto",
+								position: "fixed",
 								display: !!this.state.activeChannel
 									? "none"
 									: "flex",
@@ -483,4 +488,3 @@ export default class ChatMenu extends React.Component {
 		);
 	}
 }
-

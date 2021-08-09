@@ -1,9 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/messaging";
 
-import Globals from '../../Globals';
+import Globals from "../../Globals";
 import { processNotification } from "./notification-helper";
-import * as helpers from '../../helpers';
+import * as helpers from "../../helpers";
 
 const config = {
 	apiKey: "AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",
@@ -12,7 +12,7 @@ const config = {
 	projectId: "diplicity-engine",
 	storageBucket: "diplicity-engine.appspot.com",
 	messagingSenderId: "635122585664",
-	appId: "1:635122585664:web:f87b8d8bd9023019a74fa5"
+	appId: "1:635122585664:web:f87b8d8bd9023019a74fa5",
 };
 
 class Messaging {
@@ -100,8 +100,8 @@ class Messaging {
 				return Promise.resolve({});
 			}
 			navigator.serviceWorker
-				.register("firebase-messaging-sw.js")
-				.then(registration => {
+				.register("/firebase-messaging-sw.js")
+				.then((registration) => {
 					navigator.serviceWorker.addEventListener(
 						"message",
 						this.handleSWMessage
@@ -110,7 +110,7 @@ class Messaging {
 					this.messaging.useServiceWorker(this.registration);
 					this.messaging
 						.requestPermission()
-						.then(_ => {
+						.then((_) => {
 							console.log("Notification permission granted.");
 							this.hasPermission = "true";
 
@@ -127,7 +127,7 @@ class Messaging {
 							// subsequent calls to getToken will return from cache.
 							this.refreshToken().then(res);
 						})
-						.catch(err => {
+						.catch((err) => {
 							this.hasPermission = "false";
 							console.log(
 								"Unable to get permission to notify:",
@@ -154,9 +154,8 @@ class Messaging {
 			}
 		}
 		if (!found) {
-			this.subscribers[type][
-				Object.keys(this.subscribers[type]).length
-			] = handler;
+			this.subscribers[type][Object.keys(this.subscribers[type]).length] =
+				handler;
 			return true;
 		}
 		return false;
@@ -176,7 +175,7 @@ class Messaging {
 		if (!Globals.userConfig.Properties.FCMTokens) {
 			Globals.userConfig.Properties.FCMTokens = [];
 		}
-		return Globals.userConfig.Properties.FCMTokens.find(t => {
+		return Globals.userConfig.Properties.FCMTokens.find((t) => {
 			return t.App === this.tokenApp;
 		});
 	}
@@ -186,15 +185,14 @@ class Messaging {
 			return;
 		}
 		let foundToken = false;
-		Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.map(
-			t => {
+		Globals.userConfig.Properties.FCMTokens =
+			Globals.userConfig.Properties.FCMTokens.map((t) => {
 				if (t.App === this.tokenApp) {
 					foundToken = true;
 					return newToken;
 				}
 				return t;
-			}
-		);
+			});
 		if (!foundToken) {
 			Globals.userConfig.Properties.FCMTokens.push(newToken);
 		}
@@ -213,16 +211,16 @@ class Messaging {
 					TitleTemplate: "",
 					ClickActionTemplate: "",
 					DontSendNotification: true,
-					DontSendData: false
+					DontSendData: false,
 				},
 				PhaseConfig: {
 					BodyTemplate: "",
 					TitleTemplate: "",
 					ClickActionTemplate: "",
 					DontSendNotification: true,
-					DontSendData: false
+					DontSendData: false,
 				},
-				ReplaceToken: ""
+				ReplaceToken: "",
 			};
 			let foundToken = this.findGlobalToken();
 			let updateServer = false;
@@ -242,42 +240,39 @@ class Messaging {
 			}
 			// TODO(zond): Remove the cleaning stuff here after 2020-08-01.
 			// Clean up the old style FCM tokens.
-			Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
-				t => {
+			Globals.userConfig.Properties.FCMTokens =
+				Globals.userConfig.Properties.FCMTokens.filter((t) => {
 					if (t.App.indexOf("dipact@") === 0) {
 						updateServer = true;
 						return false;
 					}
 					return true;
-				}
-			);
+				});
 			// If we have a Wrapper/DeviceID ID, then clean up all Wrapper/Static tokens.
 			if (this.deviceID.indexOf("Wrapper/DeviceID") === 0) {
-				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
-					t => {
+				Globals.userConfig.Properties.FCMTokens =
+					Globals.userConfig.Properties.FCMTokens.filter((t) => {
 						if (t.App.indexOf("Wrapper/Static") !== -1) {
 							updateServer = true;
 							return false;
 						}
 						return true;
-					}
-				);
+					});
 			}
 			// If we have a Wrapper/* ID, then clean up all android-diplicity tokens.
 			if (this.deviceID.indexOf("Wrapper") === 0) {
-				Globals.userConfig.Properties.FCMTokens = Globals.userConfig.Properties.FCMTokens.filter(
-					t => {
+				Globals.userConfig.Properties.FCMTokens =
+					Globals.userConfig.Properties.FCMTokens.filter((t) => {
 						if (t.App === "android-diplicity") {
 							updateServer = true;
 							return false;
 						}
 						return true;
-					}
-				);
+					});
 			}
 			if (updateServer) {
 				this.setGlobalToken(wantedToken);
-				let updateLink = Globals.userConfig.Links.find(l => {
+				let updateLink = Globals.userConfig.Links.find((l) => {
 					return l.Rel === "update";
 				});
 				return helpers
@@ -286,15 +281,15 @@ class Messaging {
 							method: updateLink.Method,
 							body: JSON.stringify(Globals.userConfig.Properties),
 							headers: {
-								"Content-Type": "application/json"
-							}
+								"Content-Type": "application/json",
+							},
 						})
 					)
-					.then(resp => resp.json())
-					.then(js => {
+					.then((resp) => resp.json())
+					.then((js) => {
 						Globals.userConfig = js;
 						helpers.parseUserConfigColors();
-						foundToken = js.Properties.FCMTokens.find(t => {
+						foundToken = js.Properties.FCMTokens.find((t) => {
 							return t.App === wantedToken.App;
 						});
 						if (foundToken.Disabled) {
@@ -338,7 +333,7 @@ class Messaging {
 		return this.messaging
 			.getToken()
 			.then(this.onNewToken)
-			.catch(err => {
+			.catch((err) => {
 				console.log("Unable to retrieve FCM token:", err);
 			});
 	}
@@ -380,9 +375,9 @@ class Messaging {
 				actions: [
 					{
 						action: payload.notification.click_action,
-						title: "View"
-					}
-				]
+						title: "View",
+					},
+				],
 			});
 		}
 	}
@@ -391,4 +386,3 @@ class Messaging {
 const _messaging = new Messaging();
 
 export default _messaging;
-

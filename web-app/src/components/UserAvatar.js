@@ -1,8 +1,7 @@
-import React from 'react';
-import { IconButton, Avatar } from '@material-ui/core'
+import React from "react";
+import { IconButton, Avatar } from "@material-ui/core";
 
-import * as helpers from '../helpers';
-import StatsDialog from './StatsDialog';
+import StatsDialog from "./StatsDialog";
 
 /*
  * MUST HAVE:
@@ -25,7 +24,7 @@ export default class UserAvatar extends React.Component {
 			<React.Fragment>
 				<IconButton
 					style={{
-						padding: '0px',
+						padding: "0px",
 					}}
 					onClick={(_) => {
 						if (this.props.user.Id) {
@@ -60,4 +59,3 @@ export default class UserAvatar extends React.Component {
 		);
 	}
 }
-

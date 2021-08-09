@@ -1,9 +1,20 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import NationAvatar from './NationAvatar';
-import { AppBar, List, ListItem, ListItemText, ListSubheader, SvgIcon, Typography, Tooltip, Button, Checkbox } from "@material-ui/core";
-import gtag from 'ga-gtag';
+import React from "react";
+import * as helpers from "../helpers";
+import NationAvatar from "./NationAvatar";
+import {
+	AppBar,
+	List,
+	ListItem,
+	ListItemText,
+	ListSubheader,
+	SvgIcon,
+	Typography,
+	Tooltip,
+	Button,
+	Checkbox,
+} from "@material-ui/core";
+import gtag from "ga-gtag";
 
 export default class OrderList extends React.Component {
 	constructor(props) {
@@ -46,8 +57,8 @@ export default class OrderList extends React.Component {
 							helpers.provName(this.props.variant, parts[1])}
 					</div>
 				);
-            default:
-                return
+			default:
+				return;
 		}
 	}
 	buildMessage(nat) {
@@ -71,7 +82,8 @@ export default class OrderList extends React.Component {
 				}
 				if (parts[0] === "MustDisband") {
 					rval =
-						parts[1] + (parts[1] === "1" ? " disband" : " disbands");
+						parts[1] +
+						(parts[1] === "1" ? " disband" : " disbands");
 				}
 			});
 		} else {
@@ -82,7 +94,8 @@ export default class OrderList extends React.Component {
 				}
 				if (parts[0] === "OtherMustDisband" && parts[1] === nat) {
 					rval =
-						parts[2] + (parts[2] === "1" ? " disband" : " disbands");
+						parts[2] +
+						(parts[2] === "1" ? " disband" : " disbands");
 				}
 			});
 		}
@@ -113,8 +126,8 @@ export default class OrderList extends React.Component {
 					" orders, but have only given " +
 					parts[3]
 				);
-            default:
-                return ""
+			default:
+				return "";
 		}
 	}
 	toggleFunc(nation, gtagEvent, updater) {
@@ -170,8 +183,8 @@ export default class OrderList extends React.Component {
 	}
 	toggleReady(nation) {
 		return this.toggleFunc(nation, "ready", (phaseState) => {
-			phaseState.Properties.ReadyToResolve = !phaseState.Properties
-				.ReadyToResolve;
+			phaseState.Properties.ReadyToResolve =
+				!phaseState.Properties.ReadyToResolve;
 		});
 	}
 	loadPhaseStates() {
@@ -200,9 +213,8 @@ export default class OrderList extends React.Component {
 					state.phaseStates = {};
 					state = Object.assign({}, state);
 					js.Properties.forEach((phaseState) => {
-						state.phaseStates[
-							phaseState.Properties.Nation
-						] = phaseState;
+						state.phaseStates[phaseState.Properties.Nation] =
+							phaseState;
 					});
 					return state;
 				});
@@ -293,8 +305,6 @@ export default class OrderList extends React.Component {
 		}
 	}
 	render() {
-
-		const { classes } = this.props;
 		return (
 			<div>
 				<div style={{ maxWidth: "960px", margin: "auto" }}>
@@ -322,9 +332,8 @@ export default class OrderList extends React.Component {
 								}
 							})
 							.map((nation) => {
-								const phaseState = this.state.phaseStates[
-									nation
-								];
+								const phaseState =
+									this.state.phaseStates[nation];
 								const hasLink =
 									phaseState &&
 									phaseState.Links &&
@@ -346,8 +355,7 @@ export default class OrderList extends React.Component {
 													margin: "0px",
 													display: "flex",
 													flexWrap: "wrap",
-													color:
-														"rgba(40, 26, 26, 0.54)",
+													color: "rgba(40, 26, 26, 0.54)",
 												}}
 											>
 												{" "}
@@ -363,7 +371,10 @@ export default class OrderList extends React.Component {
 													}
 													game={this.props.game}
 													style={{
-														border: `1px solid ${helpers.natCol(nation, this.props.variant)}`,
+														border: `1px solid ${helpers.natCol(
+															nation,
+															this.props.variant
+														)}`,
 													}}
 												/>
 												<span
@@ -379,7 +390,8 @@ export default class OrderList extends React.Component {
 														{nation}
 														{this.props.member &&
 														this.props.member
-															.Nation === nation &&
+															.Nation ===
+															nation &&
 														hasLink
 															? " (You)"
 															: ""}
@@ -430,12 +442,15 @@ export default class OrderList extends React.Component {
 																	"center",
 															}}
 														>
-															<Tooltip
-																title="Confirmed their orders"
-															>
+															<Tooltip title="Confirmed their orders">
 																<SvgIcon
 																	style={{
-																		display: phaseState.Properties.ReadyToResolve ? 'inherit' : 'none'
+																		display:
+																			phaseState
+																				.Properties
+																				.ReadyToResolve
+																				? "inherit"
+																				: "none",
 																	}}
 																	color="primary"
 																>
@@ -455,32 +470,37 @@ export default class OrderList extends React.Component {
 																hasLink) ? (
 																""
 															) : (
-																<Tooltip
-																	title="Wants a draw"
-																>
+																<Tooltip title="Wants a draw">
 																	<SvgIcon
-																		style={{ display: 'none' }}
 																		color="primary"
 																		style={{
-																			paddingLeft: "8px",
-																			display: phaseState.Properties.WantsDIAS ? 'inherit' : 'none'
+																			paddingLeft:
+																				"8px",
+																			display:
+																				phaseState
+																					.Properties
+																					.WantsDIAS
+																					? "inherit"
+																					: "none",
 																		}}
 																	>
 																		<path d="M2.98188996,2.24133335 L3.88833335,3.148 L3.8,3.23743687 L20.7705627,20.2079996 L20.8593333,20.119 L21.3666663,20.6261097 L20.0261097,21.9666663 L14.4292636,16.3704135 C14.0775047,16.5664056 13.6995541,16.7212717 13.301866,16.8285576 L13,16.9 L13,19.08 C15.489899,19.4617845 15.9132657,21.2212572 15.9852522,21.8085585 L16,22 L8,22 L8.00876781,21.8621764 C8.05962111,21.354459 8.40542355,19.5936066 10.7568801,19.1228674 L11,19.08 L11,16.9 C9.11538462,16.5153846 7.61908284,15.0767751 7.15117205,13.224249 L7.1,13 L4,13 C2.95,13 2.0822314,12.1799587 2.00551277,11.1486946 L2,11 L2,4 L2.06033335,4 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M17,2 L17,4 L22,4 L22,11 C22,12.05 21.1799587,12.9177686 20.1486946,12.9944872 L20,13 L16.9,13 C16.852859,13.2309911 16.7898842,13.4561487 16.7122542,13.6742943 L6.99933335,3.962 L7,2 L17,2 Z M4.06033335,6 L4,6 L4,11 L7,11 L6.99933335,8.939 L4.06033335,6 Z M20,6 L17,6 L17,11 L20,11 L20,6 Z"></path>
 																	</SvgIcon>
 																</Tooltip>
 															)}
-															<Tooltip
-																title="Did not send orders"
-															>
+															<Tooltip title="Did not send orders">
 																<SvgIcon
 																	color="primary"
 																	style={{
 																		paddingLeft:
 																			"8px",
-																		color:
-																			"#b71c1c",
-																		display: phaseState.Properties.OnProbation ? 'inherit' : 'none'
+																		color: "#b71c1c",
+																		display:
+																			phaseState
+																				.Properties
+																				.OnProbation
+																				? "inherit"
+																				: "none",
 																	}}
 																>
 																	<path d="M2.98188996,2.24133335 L21.3666663,20.6261097 L20.0261097,21.9666663 L19.0573333,20.998 L19,21 L5,21 C3.95,21 3.0822314,20.1799587 3.00551277,19.1486946 L3,19 L3,5 L3.00233335,4.942 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M12,1 C13.235,1 14.2895,1.7581 14.75196,2.828465 L14.82,3 L19,3 C20.05,3 20.9177686,3.82004132 20.9944872,4.85130541 L21,5 L21,17.963 L16.037,13 L17,13 L17,11 L14.037,11 L12.037,9 L17,9 L17,7 L10.037,7 L6.037,3 L9.18,3 C9.579,1.898 10.5917,1.0848 11.80656,1.006235 L12,1 Z M13.0593333,15 L7,15 L7,17 L15.0593333,17 L13.0593333,15 Z M11.0593333,13 L9.06033335,11 L7,11 L7,13 L11.0593333,13 Z M12,3 C11.45,3 11,3.45 11,4 C11,4.55 11.45,5 12,5 C12.55,5 13,4.55 13,4 C13,3.45 12.55,3 12,3 Z"></path>
@@ -507,8 +527,7 @@ export default class OrderList extends React.Component {
 															style={{
 																padding:
 																	"4px 8px",
-																margin:
-																	"4px 0px",
+																margin: "4px 0px",
 															}}
 															onClick={this.toggleDIAS(
 																nation
@@ -586,8 +605,7 @@ export default class OrderList extends React.Component {
 																		return (
 																			<div
 																				style={{
-																					color:
-																						"#f44336",
+																					color: "#f44336",
 																					fontSize:
 																						"14px",
 																				}}
@@ -613,8 +631,7 @@ export default class OrderList extends React.Component {
 																			"right",
 																		fontSize:
 																			"14px",
-																		color:
-																			"#f44336",
+																		color: "#f44336",
 																	}}
 																>
 																	{this.presentResult(
@@ -647,8 +664,7 @@ export default class OrderList extends React.Component {
 																				incon.Province
 																			}
 																			style={{
-																				color:
-																					"#f44336",
+																				color: "#f44336",
 																			}}
 																		>
 																			<ListItemText>
@@ -681,8 +697,7 @@ export default class OrderList extends React.Component {
 																				","
 																			)}
 																			style={{
-																				color:
-																					"f44336",
+																				color: "f44336",
 																			}}
 																		>
 																			<ListItemText>
@@ -713,7 +728,7 @@ export default class OrderList extends React.Component {
 					<div
 						id="filler"
 						style={{
-          					minHeight: "calc(100% - 112px)",
+							minHeight: "calc(100% - 112px)",
 						}}
 					/>
 				</div>
@@ -723,12 +738,12 @@ export default class OrderList extends React.Component {
 				this.state.phaseStates[this.props.member.Nation] ? (
 					<AppBar
 						style={{
-        					padding: "16px 48px",
-    						position: "sticky",
-    						display: "flex",
-    						alignItems: "center",
-    						bottom: "0px",
-    						zIndex: 1201,
+							padding: "16px 48px",
+							position: "sticky",
+							display: "flex",
+							alignItems: "center",
+							bottom: "0px",
+							zIndex: 1201,
 						}}
 					>
 						<Button

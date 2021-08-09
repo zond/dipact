@@ -1,13 +1,13 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
+import React from "react";
+import gtag from "ga-gtag";
 import $ from "jquery";
 
-import * as helpers from '../helpers';
-import Globals from '../Globals';
-import OrderDialog from './OrderDialog';
-import { dippyMap } from '../static/js/dippymap';
-import PZ from '../static/js/pz.js';
+import * as helpers from "../helpers";
+import Globals from "../Globals";
+import OrderDialog from "./OrderDialog";
+import { dippyMap } from "../static/js/dippymap";
+import PZ from "../static/js/pz.js";
 
 export default class DipMap extends React.Component {
 	constructor(props) {
@@ -279,7 +279,9 @@ export default class DipMap extends React.Component {
 			if (opts.force || svgHash !== this.lastSerializedSVG) {
 				this.debugCount("getSVGData/differentHash");
 				this.lastSerializedSVG = svgHash;
-				const serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
+				const serializedSVG = btoa(
+					unescape(encodeURIComponent(svgXML))
+				);
 				const snapshotImage = document.createElement("img");
 				snapshotImage.style.width = this.mapDims[0] * scale;
 				snapshotImage.style.height = this.mapDims[1] * scale;
@@ -287,7 +289,13 @@ export default class DipMap extends React.Component {
 					"data:image/svg+xml;base64," + serializedSVG;
 				snapshotImage.addEventListener("load", (_) => {
 					this.debugCount("getSVGData/loadedSnapshot");
-					createImageBitmap(snapshotImage, 0, 0, snapshotImage.width, snapshotImage.height).then(bitmap => {
+					createImageBitmap(
+						snapshotImage,
+						0,
+						0,
+						snapshotImage.width,
+						snapshotImage.height
+					).then((bitmap) => {
 						const snapshotCanvas = document.createElement("canvas");
 						snapshotCanvas.setAttribute(
 							"height",
@@ -310,7 +318,7 @@ export default class DipMap extends React.Component {
 	}
 	snapshotSVG() {
 		const snapshotEl = document.getElementById("mapSnapshot");
-		if (snapshotEl) {
+		if (snapshotEl && this.mapDims[0] > 0 && this.mapDims[1] > 0) {
 			this.getSVGData().then((data) => {
 				if (data) {
 					snapshotEl.src = data;
@@ -940,9 +948,8 @@ export default class DipMap extends React.Component {
 		});
 		Object.keys(this.state.variant.Properties.Graph.Nodes).forEach(
 			(superProv) => {
-				const provData = this.state.variant.Properties.Graph.Nodes[
-					superProv
-				];
+				const provData =
+					this.state.variant.Properties.Graph.Nodes[superProv];
 				Object.keys(provData.Subs).forEach((subProv) => {
 					const name = superProv + (subProv ? "/" + subProv : "");
 					this.map.addClickListener(
@@ -1041,11 +1048,10 @@ export default class DipMap extends React.Component {
 					state = Object.assign({}, state);
 					state.phase = JSON.parse(JSON.stringify(state.phase));
 					if (state.phase.Properties.SCs) {
-						state.phase.Properties.SCs = state.phase.Properties.SCs.filter(
-							(sc) => {
+						state.phase.Properties.SCs =
+							state.phase.Properties.SCs.filter((sc) => {
 								return sc.Province !== parts[1].split("/")[0];
-							}
-						);
+							});
 						if (parts[3] !== "Neutral") {
 							state.phase.Properties.SCs.push({
 								Province: parts[1].split("/")[0],
@@ -1068,15 +1074,14 @@ export default class DipMap extends React.Component {
 					state = Object.assign({}, state);
 					state.phase = JSON.parse(JSON.stringify(state.phase));
 					if (state.phase.Properties.Units instanceof Array) {
-						state.phase.Properties.Units = state.phase.Properties.Units.filter(
-							(unit) => {
+						state.phase.Properties.Units =
+							state.phase.Properties.Units.filter((unit) => {
 								return (
 									unit.Province !== parts[1] &&
 									unit.Province.split("/")[0] !==
 										parts[1].split("/")[0]
 								);
-							}
-						);
+							});
 						if (parts[3] !== "None") {
 							const prov =
 								parts[4] === "Army"
@@ -1197,7 +1202,9 @@ export default class DipMap extends React.Component {
 				if (type === null) {
 					type = options[option].Type;
 				} else if (type !== options[option].Type) {
-					throw Error("Can't use multiple types in the same level of options.");
+					throw Error(
+						"Can't use multiple types in the same level of options."
+					);
 				}
 			}
 			this.snackbarIncompleteOrder(parts, type);
@@ -1283,9 +1290,8 @@ export default class DipMap extends React.Component {
 												helpers.decProgress();
 												this.setState(
 													{
-														orders:
-															corr.Properties
-																.Orders,
+														orders: corr.Properties
+															.Orders,
 													},
 													this.acceptOrders
 												);
@@ -1325,15 +1331,15 @@ export default class DipMap extends React.Component {
 				<div
 					id="map-viewport"
 					style={{
-						height: '100%',
-						overflow: 'hidden',
+						height: "100%",
+						overflow: "hidden",
 					}}
 				>
 					<div id="map-container">
 						<div
 							style={{
-								display: 'flex',
-								flexWrap: 'wrap',
+								display: "flex",
+								flexWrap: "wrap",
 							}}
 							key="map"
 							id="map"
@@ -1343,9 +1349,9 @@ export default class DipMap extends React.Component {
 							key="mapSnapshot"
 							alt="Map snapshot"
 							style={{
-								width: '100%',
-								flexWrap: 'wrap',
-								display: 'none',
+								width: "100%",
+								flexWrap: "wrap",
+								display: "none",
 							}}
 						/>
 					</div>
@@ -1365,4 +1371,3 @@ export default class DipMap extends React.Component {
 		);
 	}
 }
-
