@@ -24,7 +24,7 @@ const tokenTimeout = (req, res, ctx) => {
 	return res(ctx.status(401), ctx.text("token timed out"));
 };
 
-const mockServiceLatency = 5000; // TODO move to env
+const mockServiceLatency = 2000; // TODO move to env
 
 const resolvers = {
 	bans: {
@@ -62,7 +62,7 @@ const resolvers = {
 			return res(ctx.status(200), ctx.json(myStartedGamesSuccess));
 		},
 	},
-	getRoot: {
+	getUser: {
 		success: (req, res, ctx) => {
 			return res(ctx.status(200), ctx.json(rootSuccess));
 		},
@@ -106,7 +106,7 @@ const resolvers = {
 const variantsUrl = `${API_ROOT}Variants`;
 const createGameUrl = `${API_ROOT}Game`;
 const updateUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
-const getRootUrl = `${API_ROOT}`;
+const getUserUrl = `${API_ROOT}User`;
 
 export const handlers = {
 	createGame: {
@@ -114,10 +114,10 @@ export const handlers = {
 		internalServerError: rest.post(createGameUrl, internalServerError),
 		tokenTimeout: rest.post(createGameUrl, tokenTimeout),
 	},
-	getRoot: {
-		success: rest.get(getRootUrl, resolvers.getRoot.success),
-		internalServerError: rest.get(getRootUrl, internalServerError),
-		tokenTimeout: rest.get(getRootUrl, tokenTimeout),
+	getUser: {
+		success: rest.get(getUserUrl, resolvers.getUser.success),
+		internalServerError: rest.get(getUserUrl, internalServerError),
+		tokenTimeout: rest.get(getUserUrl, tokenTimeout),
 	},
 	updateUserConfig: {
 		success: rest.put(updateUserConfigUrl, resolvers.updateUserConfig.success),
@@ -162,5 +162,5 @@ export const handlersList = [
 
 	handlers.variants.success,
 	handlers.updateUserConfig.success,
-	handlers.getRoot.success,
+	handlers.getUser.success,
 ];

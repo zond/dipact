@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import {
+	ColorOverrides,
 	FCMToken,
 	Messaging,
-	SettingsFormSubmitValues,
 	UserConfig,
 	Variant,
 	VariantResponse,
@@ -130,38 +130,53 @@ const createNewToken = (
 	return newToken;
 };
 
-// TODO test
-// Takes existing userConfig and settings form submit values and produces
-// an updated userConfig object to sent to service
-export const getUpdatedUserConfig = (
-	userConfig: UserConfig,
-	formSubmitValues: SettingsFormSubmitValues,
-	messaging: Messaging
-): UserConfig => {
-	const { MailConfig } = userConfig;
-	const {
-		enableEmailNotifications,
-		enablePushNotifications,
-		PhaseDeadlineWarningMinutesAhead,
-	} = formSubmitValues;
-	const newToken = createNewToken(enablePushNotifications, messaging);
-	const existingTokens = userConfig.FCMTokens || [];
-	const updatedUserConfig: UserConfig = {
-		...userConfig,
-		PhaseDeadlineWarningMinutesAhead,
-		MailConfig: {
-			...MailConfig,
-			Enabled: enableEmailNotifications,
-			MessageConfig: {
-				...MailConfig?.MessageConfig,
-				TextBodyTemplate: messageConfigTemplate,
-			},
-			PhaseConfig: {
-				...MailConfig?.PhaseConfig,
-				TextBodyTemplate: phaseConfigTemplate,
-			},
-		},
-		FCMTokens: [...existingTokens, newToken],
-	};
-	return updatedUserConfig;
-};
+// // TODO test
+// // Takes existing userConfig and settings form submit values and produces
+// // an updated userConfig object to sent to service
+// export const getUpdatedUserConfig = (
+// 	userConfig: UserConfig,
+// 	formSubmitValues: SettingsFormSubmitValues,
+// 	messaging: Messaging,
+// 	colorOverrides: ColorOverrides
+// ): UserConfig => {
+// 	const { MailConfig } = userConfig;
+// 	const {
+// 		colorFormValues,
+// 		enableEmailNotifications,
+// 		enablePushNotifications,
+// 		phaseDeadline,
+// 	} = formSubmitValues;
+// 	const newToken = createNewToken(enablePushNotifications, messaging);
+// 	const existingTokens = userConfig.FCMTokens || [];
+// 	const Colors = colorOverrides.positions;
+// 	Object.keys(colorFormValues).forEach((variant) => {
+// 		Object.entries(colorFormValues[variant]).forEach(([nation, color]) => {
+// 			Colors.push(
+// 				variant.replace(overrideReg, "") +
+// 					"/" +
+// 					nation.replace(overrideReg, "") +
+// 					"/" +
+// 					color
+// 			);
+// 		});
+// 	});
+// 	const updatedUserConfig: UserConfig = {
+// 		...userConfig,
+// 		PhaseDeadlineWarningMinutesAhead: phaseDeadline,
+// 		Colors,
+// 		MailConfig: {
+// 			...MailConfig,
+// 			Enabled: enableEmailNotifications,
+// 			MessageConfig: {
+// 				...MailConfig?.MessageConfig,
+// 				TextBodyTemplate: messageConfigTemplate,
+// 			},
+// 			PhaseConfig: {
+// 				...MailConfig?.PhaseConfig,
+// 				TextBodyTemplate: phaseConfigTemplate,
+// 			},
+// 		},
+// 		FCMTokens: [...existingTokens, newToken],
+// 	};
+// 	return updatedUserConfig;
+// };

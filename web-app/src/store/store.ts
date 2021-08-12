@@ -5,10 +5,10 @@ import {
 	Action,
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import middleware from "./middleware";
 
 import reducer from "./reducer";
 import { diplicityService } from "./service";
+import middleware from "./middleware";
 
 export const store = configureStore({
 	reducer,

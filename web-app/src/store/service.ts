@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import * as actions from "./actions";
 import { selectToken } from "./selectors";
 import { RootState } from "./store";
 import {
@@ -48,18 +47,7 @@ export const diplicityService = createApi({
 	}),
 	endpoints: (builder) => ({
 		getRoot: builder.query<RootResponse, undefined>({
-			query: () => "/",
-			// async onQueryStarted(_, { dispatch, queryFulfilled }) {
-			// 	const { data } = await queryFulfilled;
-			// 	const user = data.Properties.User;
-			// 	if (user?.Id) {
-			// 		const endpoints = diplicityService.endpoints;
-			// 		void dispatch(endpoints.getForumMail.initiate(undefined));
-			// 		void dispatch(endpoints.getUserStats.initiate(user.Id));
-			// 		void dispatch(endpoints.getUserConfig.initiate(user.Id));
-			// 		void dispatch(endpoints.getUserBans.initiate(user.Id));
-			// 	}
-			// },
+			query: () => "/User",
 		}),
 		getForumMail: builder.query<ForumMailResponse, undefined>({
 			query: () => "/ForumMail",
@@ -81,12 +69,6 @@ export const diplicityService = createApi({
 		}),
 		getUserConfig: builder.query<UserConfig, string>({
 			query: (id) => `/User/${id}/UserConfig`,
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				const { meta } = await queryFulfilled;
-				if (meta?.response.ok) {
-					void dispatch(actions.parseUserConfigColors());
-				}
-			},
 			transformResponse: (response: UserConfigResponse) => response.Properties,
 			providesTags: [TagType.UserConfig],
 		}),
@@ -111,12 +93,11 @@ export const diplicityService = createApi({
 			},
 		}),
 		createGame: builder.mutation<CreateGameResponse, NewGame>({
-			query: (body) => ({
+			query: (data) => ({
 				url: "/Game",
 				method: "POST",
-				body,
+				body: JSON.stringify(data),
 			}),
-			// invalidatesTags: ["Post"],
 		}),
 		updateUserConfig: builder.mutation<
 			CreateGameResponse,

@@ -14,7 +14,7 @@ import {
 	Variant,
 	VariantResponse,
 } from "./types";
-import { TagType } from './service';
+import { TagType } from "./service";
 
 export const privateStats: PrivateStats = {
 	JoinedGames: 0,
@@ -90,7 +90,7 @@ export const initialState: RootState = {
 	diplicityService: {
 		queries: {},
 		mutations: {},
-		provided: {[TagType.UserConfig]: {}},
+		provided: { [TagType.UserConfig]: {} },
 		subscriptions: {},
 		config: {
 			refetchOnFocus: false,
@@ -103,9 +103,9 @@ export const initialState: RootState = {
 			keepUnusedDataFor: 60,
 		},
 	},
+	feedback: { ids: [], entities: {} },
 	latestForumMail: {},
 	messaging,
-	user: { loaded: false },
 	userBans: {},
 	userStats: {},
 };

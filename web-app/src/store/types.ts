@@ -351,18 +351,35 @@ export type Messaging = {
 	tokenOnServer: boolean;
 };
 
-export type SettingsFormValues = Pick<
-	UserConfig,
-	"Colors" | "PhaseDeadlineWarningMinutesAhead"
-> & {
+export interface ColorMap {
+	[key: string]: {
+		name: string;
+		color: string;
+		edited: boolean;
+	}[];
+}
+
+export interface SettingsFormValues {
+	colors: { [key: string]: { [key: string]: string } };
 	enablePushNotifications: boolean;
 	enableEmailNotifications: boolean;
-	selectedVariant: string;
-};
+	phaseDeadline: number;
+}
 
-export type SettingsFormSubmitValues = Pick<
-	SettingsFormValues,
-	| "enablePushNotifications"
-	| "enableEmailNotifications"
-	| "PhaseDeadlineWarningMinutesAhead"
->;
+export enum Severity {
+	Error = "error",
+	Warning = "warning",
+	Info = "info",
+	Success = "success",
+}
+
+export interface Feedback {
+    id: number,
+    severity: Severity,
+    message: string,
+}
+
+export interface MutationStatus {
+	isLoading: boolean;
+	isError: boolean;
+}

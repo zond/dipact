@@ -3,13 +3,12 @@ import ReactGA from "react-ga";
 
 import LegacyApp from "./LegacyApp";
 import {
-	useGetRootQuery,
 	useGetUserRatingHistogramQuery,
 	useListVariantsQuery,
 } from "./hooks/service";
+import FeedbackWrapper from "./components/FeedbackWrapper";
 
 const App = (): React.ReactElement => {
-	useGetRootQuery(undefined);
 	useGetUserRatingHistogramQuery(undefined);
 	useListVariantsQuery(undefined);
 
@@ -21,7 +20,11 @@ const App = (): React.ReactElement => {
 		});
 	}, []);
 
-	return <LegacyApp />;
+	return (
+		<FeedbackWrapper>
+			<LegacyApp />
+		</FeedbackWrapper>
+	)
 };
 
 export default App;
