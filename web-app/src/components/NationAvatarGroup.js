@@ -3,6 +3,7 @@ import React from "react";
 import NationAvatar from "./NationAvatar";
 import { Avatar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import UNLogoSvgPath from "../static/img/un_logo.svg";
 
 const styles = (theme) => ({
   groupContainer: {
@@ -91,7 +92,7 @@ class NationAvatarGroup extends React.Component {
               classes={{ root: classes.avatar1 }}
               key="Everyone"
               alt="Everyone"
-              src="/static/img/un_logo.svg"
+              src={UNLogoSvgPath}
             />
           </div>
         </div>

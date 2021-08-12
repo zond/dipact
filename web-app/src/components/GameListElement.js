@@ -3,6 +3,7 @@ import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
 import {SvgIcon, Divider, Typography, Tooltip, Box, Button, Badge, Zoom, AccordionSummary, Accordion, AccordionDetails } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
 import GameMetadata from './GameMetadata';
 import Game from './Game';
@@ -12,7 +13,7 @@ import RenameGameDialog from './RenameGameDialog';
 import ManageInvitationsDialog from './ManageInvitationsDialog';
 import RescheduleDialog from './RescheduleDialog';
 
-import { ConfirmedReadyIcon, ExpandIcon, GavelIcon, MusteringIcon, NumMembersIcon, PrivateGameIcon, RatingIcon, ReliabilityIcon, StartedAtIcon } from '../icons';
+import { ConfirmedReadyIcon, ExpandIcon, GavelIcon, MusteringIcon, NationAllocationIcon, NumMembersIcon, PrivateGameIcon, RatingIcon, ReliabilityIcon, StartedAtIcon } from '../icons';
 
 const warningClass = {color: "red"};
 const noticeClass = {
@@ -34,12 +35,25 @@ const summaryIconsAndPhaseClass = {
 const summaryIconsClass = {
 	paddingRight: "4px"
 }
-const sixteenBySixteenClass = {
+
+const styles = (theme) => ({
+  accordionSummary: {
+    root: {
+		padding: theme.spacing(0),
+	}
+  },
+  accordionDetails: {
+    root: {
+		padding: theme.spacing(0),
+	}
+  },
+  sixteenBySixteenClass: {
 	height: '16px !important',
 	width: '16px !important',
-}
+  }
+});
 
-export default class GameListElement extends React.Component {
+class GameListElement extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -301,7 +315,7 @@ export default class GameListElement extends React.Component {
 						}).name
 					}
 				>
-					<Typography variant={'body2'} className="speech-bubble">
+					<Typography variant={'body2'} className={`${this.props.classes.sixteenBySixteenClass} speech-bubble`} style={{ display: "inline" }}>
 						{this.state.game.Properties.ChatLanguageISO639_1}
 					</Typography>
 				</Tooltip>
@@ -347,7 +361,7 @@ export default class GameListElement extends React.Component {
 					disableFocusListener
 					title="Maximum hate requirement"
 				>
-					<SvgIcon style={sixteenBySixteenClass}>
+					<SvgIcon className={this.props.classes.sixteenBySixteenClass}>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -382,7 +396,7 @@ export default class GameListElement extends React.Component {
 					disableFocusListener
 					title="Chat disabled"
 				>
-					<SvgIcon style={sixteenBySixteenClass}>
+					<SvgIcon className={this.props.classes.sixteenBySixteenClass}>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -413,7 +427,7 @@ export default class GameListElement extends React.Component {
 		if (this.state.game.Properties.NationAllocation === 1) {
 			this.addIconWithTooltip(
 				icons,
-				PrivateGameIcon,
+				NationAllocationIcon,
 				"black",
 				"Preference based nation allocation"
 			);
@@ -432,6 +446,7 @@ export default class GameListElement extends React.Component {
 		};
 	}
 	render() {
+		const { classes } = this.props;
 		let itemKey = 0;
 		let buttons = [];
 		if (
@@ -864,7 +879,7 @@ export default class GameListElement extends React.Component {
 								  ).find((m) => {
 										return m.User.Id === Globals.user.Id;
 								  }).NewestPhaseState.ReadyToResolve ? (
-									<Typography>
+									<Typography className={this.props.classes.sixteenBySixteenClass}>
 										Confirmed ready{" "}
 										<ConfirmedReadyIcon />
 									</Typography>
@@ -1068,10 +1083,19 @@ export default class GameListElement extends React.Component {
 						margin: "0px",
 					}}
 				>
-					<AccordionSummary expandIcon={<ExpandIcon />}>
+					<AccordionSummary
+						classes={{
+							root: classes.accordionSummary.root,
+						}}
+						expandIcon={<ExpandIcon />}
+					>
 						{summary}
 					</AccordionSummary>
-					<AccordionDetails>
+					<AccordionDetails
+						classes={{
+							root: classes.accordionDetails.root,
+						}}
+					>
 						{this.state.expanded ? (
 							<div>
 								<div
@@ -1157,3 +1181,4 @@ export default class GameListElement extends React.Component {
 	}
 }
 
+export default withStyles(styles, { withTheme: true })(GameListElement);

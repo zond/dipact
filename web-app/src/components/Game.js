@@ -606,7 +606,7 @@ export default class Game extends React.Component {
 																.NextDeadlineIn *
 																1e-6
 														}
-														styles={{
+														style={{
                                                            position: 'relative',
                                                            top: '-6px',
                                                            fontSize: 'xx-small',
@@ -875,7 +875,7 @@ export default class Game extends React.Component {
 									return l.Rel === "join";
 								}) ? (
 									<Toolbar
-										styles={{
+										style={{
 											display: 'flex',
 											justifyContent: 'space-between',
 											minHeight: '53px',

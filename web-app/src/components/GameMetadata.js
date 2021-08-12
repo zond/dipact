@@ -15,6 +15,8 @@ import {
 	ReliabilityIcon,
 } from '../icons';
 import gtag from 'ga-gtag';
+import AnonymousSvgPath from "../static/img/anon.svg";
+import NoEntrySvgPath from "../static/img/no_entry.svg";
 
 import * as helpers from '../helpers';
 import UserAvatar from './UserAvatar';
@@ -539,7 +541,7 @@ export default class GameMetadata extends React.Component {
 								width="24"
 								height="24"
 								alt='No entry'
-								src="/static/img/no_entry.svg"
+								src={NoEntrySvgPath}
 							/>
 						</Icon>
 					</span>
@@ -578,7 +580,7 @@ export default class GameMetadata extends React.Component {
 								alt='Anonymous'
 								width="24"
 								height="24"
-								src="/static/img/anon.svg"
+								src={AnonymousSvgPath}
 							/>
 						</Icon>
 					</span>
