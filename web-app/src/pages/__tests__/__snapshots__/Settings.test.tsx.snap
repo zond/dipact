@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot tests IsLoading 1`] = `null`;
+
+exports[`Snapshot tests Loaded 1`] = `null`;
+
+exports[`Snapshot tests Not Loaded 1`] = `null`;
+
+exports[`Snapshot tests TokenEnabled 1`] = `null`;
+
+exports[`Snapshot tests Unedited 1`] = `null`;

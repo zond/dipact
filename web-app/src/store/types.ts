@@ -337,6 +337,10 @@ export type CreateGameResponse = ApiResponse & {
 	userId?: string;
 };
 
+export type UpdateUserConfigResponse = ApiResponse & {
+	Properties: UserConfig;
+};
+
 export type HasPermissionType = "unknown" | "true" | "false";
 export type TargetStateType = "undefined" | "enabled" | "disabled";
 

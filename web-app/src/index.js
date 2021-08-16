@@ -16,7 +16,7 @@ import { Provider } from "react-redux";
 import worker from './mockService/browser';
 
 if (process.env.REACT_APP_USE_MOCK_SERVICE_WORKER === 'true') {
-  worker.start();
+  worker.start({ onUnhandledRequest: "bypass" });
 }
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));

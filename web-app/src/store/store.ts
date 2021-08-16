@@ -13,7 +13,7 @@ import middleware from "./middleware";
 export const store = configureStore({
 	reducer,
 	middleware: [
-		...getDefaultMiddleware()
+		...getDefaultMiddleware({ serializableCheck: false })
 			.concat(diplicityService.middleware)
 			.concat(middleware),
 	],

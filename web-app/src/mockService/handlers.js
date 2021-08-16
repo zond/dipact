@@ -105,6 +105,7 @@ const resolvers = {
 
 const variantsUrl = `${API_ROOT}Variants`;
 const createGameUrl = `${API_ROOT}Game`;
+const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const updateUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const getUserUrl = `${API_ROOT}User`;
 
@@ -118,6 +119,11 @@ export const handlers = {
 		success: rest.get(getUserUrl, resolvers.getUser.success),
 		internalServerError: rest.get(getUserUrl, internalServerError),
 		tokenTimeout: rest.get(getUserUrl, tokenTimeout),
+	},
+	getUserConfig: {
+		success: rest.get(getUserConfigUrl, resolvers.userConfig.successZond),
+		internalServerError: rest.get(getUserConfigUrl, internalServerError),
+		tokenTimeout: rest.get(getUserConfigUrl, tokenTimeout),
 	},
 	updateUserConfig: {
 		success: rest.put(updateUserConfigUrl, resolvers.updateUserConfig.success),
@@ -149,12 +155,6 @@ export const handlersList = [
 	// myStartedGames
 	rest.get(`${API_ROOT}Games/My/Started`, resolvers.myStartedGames.success),
 
-	// userConfig
-	rest.get(
-		`${API_ROOT}User/:userId/UserConfig`,
-		resolvers.userConfig.successZond
-	),
-
 	// userStats
 	// rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successNoGames),
 	rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successZond),
@@ -162,5 +162,7 @@ export const handlersList = [
 
 	handlers.variants.success,
 	handlers.updateUserConfig.success,
+	handlers.updateUserConfig.success,
 	handlers.getUser.success,
+	handlers.getUserConfig.success,
 ];

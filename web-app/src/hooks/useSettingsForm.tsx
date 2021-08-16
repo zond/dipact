@@ -28,7 +28,11 @@ type ColorMap = {
 	[key: string]: { [key: string]: string };
 };
 
-const initialValues: SettingsFormValues = {
+type EditedColors = {
+	[key: string]: { [key: string]: boolean };
+};
+
+const preApiResponseValues: SettingsFormValues = {
 	colors: {},
 	enablePushNotifications: false,
 	enableEmailNotifications: false,
@@ -41,6 +45,9 @@ type DisabledFields = { [K in FieldNames]?: boolean };
 type HelpText = { [K in FieldNames]?: string };
 
 interface IUseSettingsForm {
+	edited: boolean;
+	editedColors: EditedColors;
+	resetColor: (variant: string, nation: string) => void;
 	values: SettingsFormValues;
 	handleChange: (e: React.ChangeEvent<any>) => void;
 	handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
@@ -55,17 +62,39 @@ interface IUseSettingsForm {
 }
 
 const getDefaultColors = (variants: Variant[] | undefined): ColorMap => {
-	// TODO use reduce instead
-	const colorMap: ColorMap = {};
-	variants?.forEach((v) => {
-		const nations: { [key: string]: string } = {};
-		v.Nations.forEach((nation, index) => {
-			nations[nation] = Globals.contrastColors[index];
-		});
-		colorMap[v.Name] = nations;
-	});
-	return colorMap;
+	if (!variants) return {};
+	return variants?.reduce((colorMap: ColorMap, variant) => {
+		colorMap[variant.Name] = variant.Nations.reduce(
+			(nations: { [key: string]: string }, nation: string, index) => {
+				nations[nation] = Globals.contrastColors[index];
+				return nations;
+			},
+			{}
+		);
+		return colorMap;
+	}, {});
 };
+
+const getEditedColors = (
+	initialValues: SettingsFormValues,
+	values: SettingsFormValues
+): EditedColors =>
+	Object.entries(values.colors).reduce(
+		(editedColors: EditedColors, [variantName, nations]) => {
+			editedColors[variantName] = Object.entries(nations).reduce(
+				(nat: { [key: string]: boolean }, [nationName, color]) => {
+					nat[nationName] =
+						initialValues.colors[variantName][nationName] !==
+						values.colors[variantName][nationName];
+					return nat;
+				},
+				{}
+			);
+			return editedColors;
+		},
+		{}
+	);
+
 const getInitialFormValues = (
 	colorOverrides: ColorOverrides,
 	userConfig: UserConfig,
@@ -85,7 +114,7 @@ const getInitialFormValues = (
 };
 
 const useSettingsForm = (userId: string): IUseSettingsForm => {
-	const [variant, setVariant] = useState(CLASSICAL);
+	const [variant, setVariant] = useState("");
 
 	const dispatch = useDispatch();
 	useGetRootQuery(undefined);
@@ -104,8 +133,16 @@ const useSettingsForm = (userId: string): IUseSettingsForm => {
 		dispatch(resetUserSettings());
 	};
 
-	const { values, handleChange, handleSubmit, resetForm } = useFormik({
+	const {
+		values,
+		handleChange,
+		handleSubmit,
+		resetForm,
 		initialValues,
+		setFieldValue,
+		dirty,
+	} = useFormik({
+		initialValues: preApiResponseValues,
 		onSubmit: (vals) => {
 			dispatch(submitSettingsForm(vals));
 		},
@@ -115,6 +152,7 @@ const useSettingsForm = (userId: string): IUseSettingsForm => {
 		if (userConfig) {
 			const vals = getInitialFormValues(colorOverrides, userConfig, variants);
 			resetForm({ values: { ...values, ...vals } });
+			setVariant(CLASSICAL);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userConfig, colorOverrides, variants, resetForm]);
@@ -139,7 +177,18 @@ const useSettingsForm = (userId: string): IUseSettingsForm => {
 			: "Turn on notifications to receive alarms",
 	};
 
+	const edited = dirty;
+	// TODO this should be in a useEffect to avoid recalculating every render
+	const editedColors = getEditedColors(initialValues, values);
+	const resetColor = (variant: string, nation: string) => {
+		const fieldName = `colors.${variant}.${nation}`;
+		setFieldValue(fieldName, initialValues.colors[variant][nation]);
+	};
+
 	return {
+		edited,
+		editedColors,
+		resetColor,
 		values,
 		handleChange,
 		handleSubmit,

@@ -177,7 +177,7 @@ describe("updateUserConfig", () => {
 			)
 			.then((action: any) => {
 				const { data } = action;
-				expect(data).toBeUndefined();
+				expect(data).toStrictEqual(userConfigResponse);
 			});
 	});
 	test("unsuccessful response", () => {

@@ -37,5 +37,7 @@ export {
 	StarBorder as RatingIcon,
 	Timelapse as StartedAtIcon,
 	Timer as ReliabilityIcon,
+	Replay as UndoIcon,
+	Error as ErrorIcon,
 	Warning as WarningIcon,
 } from '@material-ui/icons'

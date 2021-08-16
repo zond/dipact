@@ -13,13 +13,16 @@ import {
 	TextField,
 	Typography,
 	makeStyles,
+	IconButton,
+	Tooltip,
 } from "@material-ui/core";
-import { RouteComponentProps, withRouter } from "react-router-dom";
 import useRegisterPageView from "../hooks/useRegisterPageview";
 import ResetSettingsDialog from "../components/ResetSettingsDialog";
 import useSettingsForm from "../hooks/useSettingsForm";
 import NavBar from "../components/NavBar";
 import Loading from "../components/Loading";
+import { UndoIcon } from "../icons";
+import ErrorPage from "../components/ErrorPage";
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -52,11 +55,20 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
+interface SettingsProps {
+	useSettingsFormDI?: typeof useSettingsForm;
+}
+
+const Settings = ({
+	useSettingsFormDI = useSettingsForm,
+}: SettingsProps): React.ReactElement => {
 	const classes = useStyles();
 	useRegisterPageView("SettingsDialog"); // NOTE rename?
 	const userId = "123456789";
 	const {
+		edited,
+		editedColors,
+		resetColor,
 		values,
 		handleChange,
 		handleSubmit,
@@ -68,15 +80,16 @@ const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 		disabledFields,
 		helpText,
 		loaded,
-	} = useSettingsForm(userId);
+	} = useSettingsFormDI(userId);
 	const [resetSettingsDialogOpen, setResetSettingsDialogOpen] = useState(false);
 
 	const onClickResetSettings = () => setResetSettingsDialogOpen(true);
-
 	return (
 		<>
 			<NavBar title="Settings" />
-			{!loaded ? (
+			{isError ? (
+				<ErrorPage />
+			) : !loaded ? (
 				<Loading />
 			) : (
 				<Container className={classes.root}>
@@ -153,6 +166,15 @@ const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 											<div className={classes.nations} key={nation}>
 												<Typography>{nation}</Typography>
 												<div>
+													{editedColors[variant][nation] && (
+														<Tooltip title="Undo">
+															<IconButton
+																onClick={() => resetColor(variant, nation)}
+															>
+																<UndoIcon />
+															</IconButton>
+														</Tooltip>
+													)}
 													<input
 														type="color"
 														name={`colors.${variant}.${nation}`}
@@ -179,7 +201,7 @@ const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 									type="submit"
 									variant="contained"
 									color="primary"
-									disabled={isLoading}
+									disabled={isLoading || !edited}
 								>
 									Save Changes
 								</Button>
@@ -198,4 +220,4 @@ const Settings = ({ history }: RouteComponentProps): React.ReactElement => {
 	);
 };
 
-export default withRouter(Settings);
+export default Settings;

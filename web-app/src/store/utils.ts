@@ -1,9 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import {
-	ColorOverrides,
-	FCMToken,
-	Messaging,
-	UserConfig,
+	// FCMToken,
+	// Messaging,
 	Variant,
 	VariantResponse,
 } from "./types";
@@ -86,49 +84,49 @@ export const addNationAbbreviationsToVariant = (variant: Variant): Variant => {
 	return { ...variant, nationAbbreviations };
 };
 
-const hrefURL = new URL(location.href);
-const messageConfigTemplate =
-	'You received a new message on Diplicity:\n\n"{{message.Body}}"\n\n\nTo view the game, visit\n\n' +
-	hrefURL.protocol +
-	"//" +
-	hrefURL.host +
-	"/Game/{{game.ID.Encode}}\n\n\n\n\nTo turn off email notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
-const phaseConfigTemplate =
-	"{{game.Desc}} has changed state.\n\n\nTo view the game, visit\n " +
-	hrefURL.protocol +
-	"//" +
-	hrefURL.host +
-	"/Game/{{game.ID.Encode}}.\n\n\n\n\nTo turn off emails notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
+// const hrefURL = new URL(location.href);
+// const messageConfigTemplate =
+// 	'You received a new message on Diplicity:\n\n"{{message.Body}}"\n\n\nTo view the game, visit\n\n' +
+// 	hrefURL.protocol +
+// 	"//" +
+// 	hrefURL.host +
+// 	"/Game/{{game.ID.Encode}}\n\n\n\n\nTo turn off email notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
+// const phaseConfigTemplate =
+// 	"{{game.Desc}} has changed state.\n\n\nTo view the game, visit\n " +
+// 	hrefURL.protocol +
+// 	"//" +
+// 	hrefURL.host +
+// 	"/Game/{{game.ID.Encode}}.\n\n\n\n\nTo turn off emails notifications from Diplicity, visit:\n\n{{unsubscribeURL}}";
 
-const createNewToken = (
-	enablePushNotifications: boolean,
-	messaging: Messaging
-): FCMToken => {
-	const { token, tokenApp, globalToken } = messaging;
-	const newToken: FCMToken = {
-		Value: token || "",
-		Disabled: !enablePushNotifications,
-		Note:
-			globalToken?.Note || "Created via dipact configuration on " + new Date(),
-		App: tokenApp,
-		MessageConfig: {
-			BodyTemplate: "",
-			TitleTemplate: "",
-			ClickActionTemplate: "",
-			DontSendNotification: true,
-			DontSendData: false,
-		},
-		PhaseConfig: {
-			BodyTemplate: "",
-			TitleTemplate: "",
-			ClickActionTemplate: "",
-			DontSendNotification: true,
-			DontSendData: false,
-		},
-		ReplaceToken: "",
-	};
-	return newToken;
-};
+// const createNewToken = (
+// 	enablePushNotifications: boolean,
+// 	messaging: Messaging
+// ): FCMToken => {
+// 	const { token, tokenApp, globalToken } = messaging;
+// 	const newToken: FCMToken = {
+// 		Value: token || "",
+// 		Disabled: !enablePushNotifications,
+// 		Note:
+// 			globalToken?.Note || "Created via dipact configuration on " + new Date(),
+// 		App: tokenApp,
+// 		MessageConfig: {
+// 			BodyTemplate: "",
+// 			TitleTemplate: "",
+// 			ClickActionTemplate: "",
+// 			DontSendNotification: true,
+// 			DontSendData: false,
+// 		},
+// 		PhaseConfig: {
+// 			BodyTemplate: "",
+// 			TitleTemplate: "",
+// 			ClickActionTemplate: "",
+// 			DontSendNotification: true,
+// 			DontSendData: false,
+// 		},
+// 		ReplaceToken: "",
+// 	};
+// 	return newToken;
+// };
 
 // // TODO test
 // // Takes existing userConfig and settings form submit values and produces

@@ -16,6 +16,7 @@ import {
 	CreateGameResponse,
 	Variant,
 	UserConfig,
+	UpdateUserConfigResponse,
 } from "./types";
 import { addNationAbbreviationsToVariant, sortVariantResponse } from "./utils";
 
@@ -100,7 +101,7 @@ export const diplicityService = createApi({
 			}),
 		}),
 		updateUserConfig: builder.mutation<
-			CreateGameResponse,
+			UpdateUserConfigResponse,
 			Partial<UserConfig> & Pick<UserConfig, "UserId">
 		>({
 			query: ({ UserId, ...patch }) => ({
