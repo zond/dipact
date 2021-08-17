@@ -283,13 +283,33 @@ export default class DipMap extends React.Component {
 					"data:image/svg+xml;base64," + serializedSVG;
 				snapshotImage.addEventListener("load", (_) => {
 					this.debugCount("getSVGData/loadedSnapshot");
-					createImageBitmap(
-						snapshotImage,
-						0,
-						0,
-						snapshotImage.width,
-						snapshotImage.height
-					).then((bitmap) => {
+					if (createImageBitmap) {
+						createImageBitmap(
+							snapshotImage,
+							0,
+							0,
+							snapshotImage.width,
+							snapshotImage.height
+						).then((bitmap) => {
+							const snapshotCanvas =
+								document.createElement("canvas");
+							snapshotCanvas.setAttribute(
+								"height",
+								this.mapDims[1] * scale
+							);
+							snapshotCanvas.setAttribute(
+								"width",
+								this.mapDims[0] * scale
+							);
+							snapshotCanvas.style.height = this.mapDims[1];
+							snapshotCanvas.style.width = this.mapDims[0];
+							console.log("bitmap is", bitmap);
+							snapshotCanvas
+								.getContext("bitmaprenderer")
+								.transferFromImageBitmap(bitmap);
+							res(snapshotCanvas.toDataURL("image/png"));
+						});
+					} else {
 						const snapshotCanvas = document.createElement("canvas");
 						snapshotCanvas.setAttribute(
 							"height",
@@ -301,10 +321,11 @@ export default class DipMap extends React.Component {
 						);
 						snapshotCanvas.style.height = this.mapDims[1];
 						snapshotCanvas.style.width = this.mapDims[0];
-						console.log("bitmap is", bitmap);
-						snapshotCanvas.getContext("2d").drawImage(bitmap, 0, 0);
+						snapshotCanvas
+							.getContext("2d")
+							.drawImage(snapshotImage, 0, 0);
 						res(snapshotCanvas.toDataURL("image/png"));
-					});
+					}
 				});
 			}
 		});
