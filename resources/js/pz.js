@@ -1,7 +1,5 @@
 const matrixReg = /matrix3d\((.*)\)/;
 
-window.DEBUG_PZ = true;
-
 class Transform {
 	constructor(opts = {}) {
 		this.opts = opts;
@@ -126,9 +124,6 @@ class Transform {
 			"," +
 			this.transY +
 			",0,1)";
-		if (window.DEBUG_PZ) {
-			console.log("pz.js applied", this.el.style);
-		}
 	}
 	get origX() {
 		return this._origX;
@@ -186,9 +181,6 @@ export default class PZ {
 		this.viewPort = opts.viewPort;
 		this.zoomEndTimeout = null;
 		this.viewPort.addEventListener("dblclick", (dblClickEvent) => {
-			if (window.DEBUG_PZ) {
-				console.log("pz.js got dblclick", dblClickEvent);
-			}
 			const trans = new Transform(this.opts);
 			const rect = this.el.getBoundingClientRect();
 			trans.origX = (dblClickEvent.clientX - rect.left) / trans.scaleX;
@@ -199,9 +191,6 @@ export default class PZ {
 			trans.apply(0.5);
 		});
 		this.viewPort.addEventListener("wheel", (wheelEvent) => {
-			if (window.DEBUG_PZ) {
-				console.log("pz.js got wheel", wheelEvent);
-			}
 			wheelEvent.preventDefault();
 			const trans = new Transform(this.opts);
 			const rect = this.el.getBoundingClientRect();
@@ -215,16 +204,10 @@ export default class PZ {
 			trans.apply();
 		});
 		this.viewPort.addEventListener("mousedown", (mouseDownEvent) => {
-			if (window.DEBUG_PZ) {
-				console.log("pz.js got mousedown", mouseDownEvent);
-			}
 			mouseDownEvent.preventDefault();
 			let lastEvent = mouseDownEvent;
 			const listeners = {};
 			listeners["mousemove"] = (mouseMoveEvent) => {
-				if (window.DEBUG_PZ) {
-					console.log("pz.js got mousemove", mouseMoveEvent);
-				}
 				this.binaryPan.start();
 				const trans = new Transform(this.opts);
 				trans.transX += mouseMoveEvent.clientX - lastEvent.clientX;
@@ -233,9 +216,6 @@ export default class PZ {
 				trans.apply();
 			};
 			listeners["mouseup"] = (mouseUpEvent) => {
-				if (window.DEBUG_PZ) {
-					console.log("pz.js got mouseup", mouseUpEvent);
-				}
 				this.binaryPan.end();
 				for (const eventName in listeners) {
 					this.viewPort.removeEventListener(
@@ -245,14 +225,8 @@ export default class PZ {
 				}
 			};
 			listeners["mouseleave"] = (mouseLeaveEvent) => {
-				if (window.DEBUG_PZ) {
-					console.log("pz.js got mouseleave", mouseLeaveEvent);
-				}
 				const buttons = mouseLeaveEvent.buttons;
 				listeners["mouseenter"] = (mouseEnterEvent) => {
-					if (window.DEBUG_PZ) {
-						console.log("pz.js got mouseenter", mouseEnterEvent);
-					}
 					if (mouseEnterEvent.buttons != buttons) {
 						listeners["mouseup"](mouseEnterEvent);
 					}
@@ -275,9 +249,6 @@ export default class PZ {
 		this.touching = false;
 		this.lastSingleTouchStartAt = null;
 		this.viewPort.addEventListener("touchstart", (touchStartEvent) => {
-			if (window.DEBUG_PZ) {
-				console.log("pz.js got touchstart", touchStartEvent);
-			}
 			if (touchStartEvent.touches.length == 1) {
 				if (
 					this.lastSingleTouchStartAt &&
@@ -310,9 +281,6 @@ export default class PZ {
 			}
 			this.touching = true;
 			const touchMoveListener = (touchMoveEvent) => {
-				if (window.DEBUG_PZ) {
-					console.log("pz.js got touchmove", touchMoveEvent);
-				}
 				touchMoveEvent.preventDefault();
 				const movement = this.averageMovement(
 					touchMoveEvent.changedTouches
@@ -340,9 +308,6 @@ export default class PZ {
 				}
 			};
 			const touchEndListener = (touchEndEvent) => {
-				if (window.DEBUG_PZ) {
-					console.log("pz.js got touchend", touchEndEvent);
-				}
 				for (let i = 0; i < touchEndEvent.changedTouches.length; i++) {
 					delete this.touches[
 						touchEndEvent.changedTouches[i].identifier
