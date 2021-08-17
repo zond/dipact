@@ -302,9 +302,7 @@ export default class DipMap extends React.Component {
 						snapshotCanvas.style.height = this.mapDims[1];
 						snapshotCanvas.style.width = this.mapDims[0];
 						console.log("bitmap is", bitmap);
-						snapshotCanvas
-							.getContext("bitmaprenderer")
-							.transferFromImageBitmap(bitmap);
+						snapshotCanvas.getContext("2d").drawImage(bitmap, 0, 0);
 						res(snapshotCanvas.toDataURL("image/png"));
 					});
 				});
