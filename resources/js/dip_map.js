@@ -283,7 +283,7 @@ export default class DipMap extends React.Component {
 					"data:image/svg+xml;base64," + serializedSVG;
 				snapshotImage.addEventListener("load", (_) => {
 					this.debugCount("getSVGData/loadedSnapshot");
-					if (createImageBitmap) {
+					if ('createImageBitmap' in window) {
 						createImageBitmap(
 							snapshotImage,
 							0,
