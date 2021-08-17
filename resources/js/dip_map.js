@@ -273,7 +273,9 @@ export default class DipMap extends React.Component {
 			if (opts.force || svgHash != this.lastSerializedSVG) {
 				this.debugCount("getSVGData/differentHash");
 				this.lastSerializedSVG = svgHash;
-				const serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
+				const serializedSVG = btoa(
+					unescape(encodeURIComponent(svgXML))
+				);
 				const snapshotImage = document.createElement("img");
 				snapshotImage.style.width = this.mapDims[0] * scale;
 				snapshotImage.style.height = this.mapDims[1] * scale;
@@ -281,7 +283,13 @@ export default class DipMap extends React.Component {
 					"data:image/svg+xml;base64," + serializedSVG;
 				snapshotImage.addEventListener("load", (_) => {
 					this.debugCount("getSVGData/loadedSnapshot");
-					createImageBitmap(snapshotImage, 0, 0, snapshotImage.width, snapshotImage.height).then(bitmap => {
+					createImageBitmap(
+						snapshotImage,
+						0,
+						0,
+						snapshotImage.width,
+						snapshotImage.height
+					).then((bitmap) => {
 						const snapshotCanvas = document.createElement("canvas");
 						snapshotCanvas.setAttribute(
 							"height",
@@ -293,6 +301,7 @@ export default class DipMap extends React.Component {
 						);
 						snapshotCanvas.style.height = this.mapDims[1];
 						snapshotCanvas.style.width = this.mapDims[0];
+						console.log("bitmap is", bitmap);
 						snapshotCanvas
 							.getContext("bitmaprenderer")
 							.transferFromImageBitmap(bitmap);
@@ -933,9 +942,8 @@ export default class DipMap extends React.Component {
 		});
 		Object.keys(this.state.variant.Properties.Graph.Nodes).forEach(
 			(superProv) => {
-				const provData = this.state.variant.Properties.Graph.Nodes[
-					superProv
-				];
+				const provData =
+					this.state.variant.Properties.Graph.Nodes[superProv];
 				Object.keys(provData.Subs).forEach((subProv) => {
 					const name = superProv + (subProv ? "/" + subProv : "");
 					this.map.addClickListener(
@@ -1034,11 +1042,10 @@ export default class DipMap extends React.Component {
 					state = Object.assign({}, state);
 					state.phase = JSON.parse(JSON.stringify(state.phase));
 					if (state.phase.Properties.SCs) {
-						state.phase.Properties.SCs = state.phase.Properties.SCs.filter(
-							(sc) => {
+						state.phase.Properties.SCs =
+							state.phase.Properties.SCs.filter((sc) => {
 								return sc.Province != parts[1].split("/")[0];
-							}
-						);
+							});
 						if (parts[3] != "Neutral") {
 							state.phase.Properties.SCs.push({
 								Province: parts[1].split("/")[0],
@@ -1061,15 +1068,14 @@ export default class DipMap extends React.Component {
 					state = Object.assign({}, state);
 					state.phase = JSON.parse(JSON.stringify(state.phase));
 					if (state.phase.Properties.Units instanceof Array) {
-						state.phase.Properties.Units = state.phase.Properties.Units.filter(
-							(unit) => {
+						state.phase.Properties.Units =
+							state.phase.Properties.Units.filter((unit) => {
 								return (
 									unit.Province != parts[1] &&
 									unit.Province.split("/")[0] !=
 										parts[1].split("/")[0]
 								);
-							}
-						);
+							});
 						if (parts[3] != "None") {
 							const prov =
 								parts[4] == "Army"
@@ -1276,9 +1282,8 @@ export default class DipMap extends React.Component {
 												helpers.decProgress();
 												this.setState(
 													{
-														orders:
-															corr.Properties
-																.Orders,
+														orders: corr.Properties
+															.Orders,
 													},
 													this.acceptOrders
 												);

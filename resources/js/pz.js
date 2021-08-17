@@ -1,6 +1,6 @@
 const matrixReg = /matrix3d\((.*)\)/;
 
-window.DEBUG_PZ = false;
+window.DEBUG_PZ = true;
 
 class Transform {
 	constructor(opts = {}) {
