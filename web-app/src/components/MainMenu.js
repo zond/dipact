@@ -1,21 +1,35 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import { AppBar, Avatar, ClickAwayListener, MenuItem, Drawer, Toolbar, IconButton, List, ListItem, ListItemText, Menu, Divider, Typography } from "@material-ui/core";
+import React from "react";
+import {
+	AppBar,
+	Avatar,
+	ClickAwayListener,
+	MenuItem,
+	Drawer,
+	Toolbar,
+	IconButton,
+	List,
+	ListItem,
+	ListItemText,
+	Menu,
+	Divider,
+	Typography,
+} from "@material-ui/core";
 import { MenuIcon, GitHubIcon, DonateIcon, BugReportIcon } from "../icons";
-import gtag from 'ga-gtag';
+import gtag from "ga-gtag";
 
-import * as helpers from '../helpers';
-import About from './About';
-import ActivityContainer from './ActivityContainer';
-import Globals from '../Globals';
-import DonateDialog from './DonateDialog';
-import ErrorsDialog from './ErrorsDialog';
-import StatsDialog from './StatsDialog';
-import SettingsDialog from './SettingsDialog';
-import FindGameDialog from './FindGameDialog';
-import Start from './Start';
-import GameList from './GameList';
-import Game from './Game';
+import * as helpers from "../helpers";
+import About from "./About";
+import ActivityContainer from "./ActivityContainer";
+import Globals from "../Globals";
+import DonateDialog from "./DonateDialog";
+import ErrorsDialog from "./ErrorsDialog";
+import StatsDialog from "./StatsDialog";
+import SettingsDialog from "./SettingsDialog";
+import FindGameDialog from "./FindGameDialog";
+import Start from "./Start";
+import GameList from "./GameList";
+import Game from "./Game";
 
 export default class MainMenu extends ActivityContainer {
 	constructor(props) {
@@ -26,6 +40,8 @@ export default class MainMenu extends ActivityContainer {
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
 		this.renderMyFinishedGames = this.renderMyFinishedGames.bind(this);
+		// Since onClickOutside in a webview seems to behave strangely.
+		this.drawerOpenedAt = 0;
 		this.state = {
 			drawerOpen: false,
 			activity: Start,
@@ -62,8 +78,8 @@ export default class MainMenu extends ActivityContainer {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
-									renderMyFinishedGames: this
-										.renderMyFinishedGames,
+									renderMyFinishedGames:
+										this.renderMyFinishedGames,
 								});
 							},
 						};
@@ -117,6 +133,7 @@ export default class MainMenu extends ActivityContainer {
 		});
 	}
 	openDrawer() {
+		this.drawerOpenedAt = new Date().getTime();
 		this.setState({ drawerOpen: true });
 	}
 	closeDrawer() {
@@ -155,9 +172,7 @@ export default class MainMenu extends ActivityContainer {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography
-							style={{ flexGrow: 1 }}
-						></Typography>
+						<Typography style={{ flexGrow: 1 }}></Typography>
 						<IconButton
 							edge="end"
 							onClick={(ev) => {
@@ -210,10 +225,7 @@ export default class MainMenu extends ActivityContainer {
 								Player stats
 							</MenuItem>
 
-							<MenuItem
-								key="logout"
-								onClick={helpers.logout}
-							>
+							<MenuItem key="logout" onClick={helpers.logout}>
 								Logout
 							</MenuItem>
 						</Menu>
@@ -222,7 +234,14 @@ export default class MainMenu extends ActivityContainer {
 				<div style={{ marginTop: "60px" }}>{this.renderActivity()}</div>
 				<Drawer open={this.state.drawerOpen}>
 					<ClickAwayListener
-						onClickAway={this.closeDrawer}
+						onClickAway={(_) => {
+							if (
+								new Date().getTime() >
+								this.drawerOpenedAt + 100
+							) {
+								this.closeDrawer();
+							}
+						}}
 					>
 						<div
 							onClick={this.closeDrawer}
@@ -247,11 +266,11 @@ export default class MainMenu extends ActivityContainer {
 										primary="My Diplicity"
 										disableTypography
 										style={{
-											color: 'rgba(40, 26, 26, 0.56)',
-											minHeight: 'auto',
-											minWidth: 'auto',
-											font: '500 14px / 48px Cabin, Roboto, sans-serif',
-											margin: '0px 0px 2px',
+											color: "rgba(40, 26, 26, 0.56)",
+											minHeight: "auto",
+											minWidth: "auto",
+											font: "500 14px / 48px Cabin, Roboto, sans-serif",
+											margin: "0px 0px 2px",
 										}}
 									/>
 								</ListItem>
@@ -263,8 +282,8 @@ export default class MainMenu extends ActivityContainer {
 											urls: this.props.urls,
 											findPrivateGame: this.findGameByID,
 											findOpenGame: this.renderOpenGames,
-											renderMyFinishedGames: this
-												.renderMyFinishedGames,
+											renderMyFinishedGames:
+												this.renderMyFinishedGames,
 										});
 									}}
 								>
@@ -295,11 +314,11 @@ export default class MainMenu extends ActivityContainer {
 										primary="Public games"
 										disableTypography
 										style={{
-											color: 'rgba(40, 26, 26, 0.56)',
-											minHeight: 'auto',
-											minWidth: 'auto',
-											font: '500 14px / 48px Cabin, Roboto, sans-serif',
-											margin: '0px 0px 2px',
+											color: "rgba(40, 26, 26, 0.56)",
+											minHeight: "auto",
+											minWidth: "auto",
+											font: "500 14px / 48px Cabin, Roboto, sans-serif",
+											margin: "0px 0px 2px",
 										}}
 									/>
 								</ListItem>
@@ -343,11 +362,11 @@ export default class MainMenu extends ActivityContainer {
 											primary="Game mastered games"
 											disableTypography
 											style={{
-												color: 'rgba(40, 26, 26, 0.56)',
-												minHeight: 'auto',
-												minWidth: 'auto',
-												font: '500 14px / 48px Cabin, Roboto, sans-serif',
-												margin: '0px 0px 2px',
+												color: "rgba(40, 26, 26, 0.56)",
+												minHeight: "auto",
+												minWidth: "auto",
+												font: "500 14px / 48px Cabin, Roboto, sans-serif",
+												margin: "0px 0px 2px",
 											}}
 										/>
 									</ListItem>
@@ -390,11 +409,11 @@ export default class MainMenu extends ActivityContainer {
 										primary="Community"
 										disableTypography
 										style={{
-											color: 'rgba(40, 26, 26, 0.56)',
-											minHeight: 'auto',
-											minWidth: 'auto',
-											font: '500 14px / 48px Cabin, Roboto, sans-serif',
-											margin: '0px 0px 2px',
+											color: "rgba(40, 26, 26, 0.56)",
+											minHeight: "auto",
+											minWidth: "auto",
+											font: "500 14px / 48px Cabin, Roboto, sans-serif",
+											margin: "0px 0px 2px",
 										}}
 									/>
 								</ListItem>
