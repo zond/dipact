@@ -37,15 +37,15 @@ const summaryIconsClass = {
 }
 
 const styles = (theme) => ({
-  accordionSummary: {
-    root: {
-		padding: theme.spacing(0),
-	}
+  accordionSummaryRoot: {
+	padding: theme.spacing(0),
+  },
+  accordionSummaryContent: {
+	maxWidth: `calc(100% - ${theme.spacing(4)}px)`,
   },
   accordionDetails: {
-    root: {
-		padding: theme.spacing(0),
-	}
+	padding: theme.spacing(0),
+	maxWidth: `calc(100% - ${theme.spacing(4)})`,
   },
   sixteenBySixteenClass: {
 	height: '16px !important',
@@ -1084,17 +1084,13 @@ class GameListElement extends React.Component {
 					}}
 				>
 					<AccordionSummary
-						classes={{
-							root: classes.accordionSummary.root,
-						}}
+						classes={{ root: classes.accordionSummaryRoot, content: classes.accordionSummaryContent }}
 						expandIcon={<ExpandIcon />}
 					>
 						{summary}
 					</AccordionSummary>
 					<AccordionDetails
-						classes={{
-							root: classes.accordionDetails.root,
-						}}
+						className={classes.accordionDetails}
 					>
 						{this.state.expanded ? (
 							<div>
