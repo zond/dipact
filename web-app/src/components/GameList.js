@@ -183,6 +183,7 @@ export default class GameList extends React.Component {
 						maxWidth: "940px",
 						margin: "auto",
 						height: "calc(100% - 60px)",
+						overflowY: "scroll",
 						padding: "0px 16px",
 					}}
 				>

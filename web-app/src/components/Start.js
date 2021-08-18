@@ -52,6 +52,7 @@ export default class Start extends React.Component {
 					<div
 						style={{
 							height: "calc(100vh - 114px)",
+							overflowY: "scroll"
 						}}
 					>
 						<NewsDialog />
@@ -308,6 +309,7 @@ export default class Start extends React.Component {
 								flexDirection: "column",
 								justifyContent: "space-between",
 								height: "calc(100vh - 54px)",
+								overflowY: "scroll",
 								backgroundColor: "#FDE2B5",
 							}}
 						>
