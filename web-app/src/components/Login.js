@@ -1,20 +1,20 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import { Button, FormControlLabel, Checkbox } from '@material-ui/core'
-import gtag from 'ga-gtag';
-import { Typography } from '@material-ui/core';
+import React from "react";
+import { Button, FormControlLabel, Checkbox } from "@material-ui/core";
+import gtag from "ga-gtag";
+import { Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-import * as helpers from '../helpers';
-import Globals from '../Globals';
-import loginBackground from '../static/img/login_background.jpg'
-import logo from '../static/img/logo.svg'
-import googleIcon from '../static/img/google_icon.svg'
+import * as helpers from "../helpers";
+import Globals from "../Globals";
+import loginBackground from "../static/img/login_background.jpg";
+import logo from "../static/img/logo.svg";
+import googleIcon from "../static/img/google_icon.svg";
 
-const styles = theme => ({
-  label: {
-    color: "white",
-  }
+const styles = (theme) => ({
+	label: {
+		color: "white",
+	},
 });
 
 class Login extends React.Component {
@@ -36,55 +36,55 @@ class Login extends React.Component {
 				<div
 					style={{
 						background: `url("${loginBackground}") no-repeat bottom center fixed`,
-						backgroundSize: 'cover',
+						backgroundSize: "cover",
 						fontWeight: 400,
 						fontFamily: '"Cabin", sans-serif',
-						backgroundColor: '#fde2b5',
-						margin: '0px',
-						height: '100vh',
+						backgroundColor: "#fde2b5",
+						margin: "0px",
+						height: "100vh",
 					}}
 				>
 					<div
 						style={{
-							alignContent: 'center',
-       						maxWidth: '940px',
-        					height: 'calc(100% - 2px)',
-        					margin: 'auto',
+							alignContent: "center",
+							maxWidth: "940px",
+							height: "calc(100% - 2px)",
+							margin: "auto",
 						}}
 					>
 						<div
 							style={{
-								display: 'flex',
-								alignItems: 'flex-end',
-								alignContent: 'flex-end',
-								justifyContent: 'center',
-								flexWrap: 'wrap',
-								height: 'calc(100% - 32px)',
-								maxWidth: '340px',
-								padding: '16px',
+								display: "flex",
+								alignItems: "flex-end",
+								alignContent: "flex-end",
+								justifyContent: "center",
+								flexWrap: "wrap",
+								height: "calc(100% - 32px)",
+								maxWidth: "340px",
+								padding: "16px",
 							}}
 						>
 							<div>
 								<img
-									alt='Diplicity logo'
+									alt="Diplicity logo"
 									style={{
-										alignSelf: 'left',
-										width: '100%',
-										maxWidth: '340px',
-										padding: '0px',
-										margin: '0px',
-										marginBottom: '4px',
+										alignSelf: "left",
+										width: "100%",
+										maxWidth: "340px",
+										padding: "0px",
+										margin: "0px",
+										marginBottom: "4px",
 									}}
 									src={logo}
 								/>
 							</div>
 							<div
 								style={{
-									color: 'white',
-									fontFamily: 'cabin',
-									textAlign: 'left',
-									width: '100%',
-									lineHeight: '1.4',
+									color: "white",
+									fontFamily: "cabin",
+									textAlign: "left",
+									width: "100%",
+									lineHeight: "1.4",
 								}}
 							>
 								<Typography>
@@ -94,7 +94,7 @@ class Login extends React.Component {
 							</div>
 							<div
 								style={{
- 									marginTop: '24px',
+									marginTop: "24px",
 								}}
 							>
 								<Button
@@ -116,7 +116,7 @@ class Login extends React.Component {
 									startIcon={
 										<i>
 											<img
-												alt='Google icon'
+												alt="Google icon"
 												src={googleIcon}
 											/>{" "}
 										</i>
@@ -151,10 +151,10 @@ class Login extends React.Component {
 							</div>
 							<div
 								style={{
-                					margin:  "24px calc(50% - 40px); visibility:hidden",
+									margin: "24px calc(50% - 40px)",
+									visibility: "hidden",
 								}}
-							>
-							</div>
+							></div>
 						</div>
 					</div>
 				</div>
