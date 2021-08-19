@@ -24,7 +24,7 @@ window.Globals = {
 	}),
 	user: {},
 	onNewForumMail: (fm) => {
-		Globals.latestForumMail = fm;
+		window.Globals.latestForumMail = fm;
 	},
 	latestForumMail: null,
 	userStats: { Properties: { TrueSkill: {} } },
