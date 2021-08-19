@@ -21,4 +21,4 @@ jobs:
               working-directory: web-app
               run: docker-compose run sample yarn build
             - name: Copy release to Cloud Storage
-              run: gsutil -m rsync -R build gs://beta-dipact/
+              run: gsutil -m rsync -r -d -c build gs://beta-dipact/
