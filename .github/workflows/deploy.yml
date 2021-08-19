@@ -2,37 +2,29 @@ name: Deploy
 
 on:
     push:
-        branches: ["**"]
+        branches: ["beta"]
 
 jobs:
     build:
         runs-on: ubuntu-latest
         steps:
             - name: Set up GoogleCloudPlatform
-              uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+              uses: google-github-actions/setup-gcloud@master
               with:
                   service_account_key: ${{ secrets.GCP_SA_KEY }}
                   export_default_credentials: true
-            - name: Install App Engine Go
-              run: gcloud components install app-engine-go
             - name: Checkout code
               uses: actions/checkout@v2
-            - name: Cache Go modules
-              uses: actions/cache@v1
-              with:
-                  path: ~/go/pkg/mod
-                  key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-                  restore-keys: |
-                      ${{ runner.os }}-go-
-            - name: Pregenerate assets
-              run: go generate
             - name: Extract branch name
               run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
-            - name: Delete old app versions
-              run: "./.github/scripts/remove_old_gcloud_versions.sh dipact ${BRANCH_NAME} 10"
-            - name: Deploy default service
-              if: env.BRANCH_NAME == 'master'
-              run: gcloud --project dipact app deploy --stop-previous-version
-            - name: Deploy alternate service
-              if: env.BRANCH_NAME != 'master'
-              run: '( echo -e "service: ${BRANCH_NAME}\n$(cat app.yaml)" > app.yaml ) && gcloud --project dipact app deploy --stop-previous-version'
+            - name: Build release
+              working-directory: web-app
+              run: docker-compose run sample yarn build
+            - name: Copy release to Cloud Storage
+              working-directory: web-app
+              run: gsutil -m rsync -r -c build gs://beta-dipact/
+            - name: Make index.html no-cache
+              run: 'gsutil setmeta -h "Cache-Control: no-cache" gs://beta-dipact/index.html'
+            - name: Remove redundant files from Cloud Storage
+              working-directory: web-app
+              run: gsutil -m rsync -r -d -c build gs://beta-dipact/
