@@ -1,5 +1,4 @@
-import $ from "jquery";
-import Messaging from './static/js/messaging';
+import Messaging from "./static/js/messaging";
 
 import { dippyMap } from "./static/js/dippymap";
 
@@ -14,7 +13,7 @@ if (fakeID) {
 	serverURL.searchParams.set("fake-id", fakeID);
 }
 
-const Globals = {
+window.Globals = {
 	serverRequest: new Request(serverURL, {
 		headers: {
 			"X-Diplicity-API-Level": "8",
@@ -38,7 +37,7 @@ const Globals = {
 	memoizeCache: {},
 	messaging: Messaging,
 	contrastColors: ((_) => {
-		let m = dippyMap($("body"));
+		let m = dippyMap(document.getElementsByTagName("body")[0]);
 		return m.contrasts;
 	})(),
 	colorOverrides: {
@@ -56,4 +55,4 @@ const Globals = {
 	fakeID: fakeID,
 };
 
-export default Globals;
+export default window.Globals;
