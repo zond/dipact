@@ -1,3 +1,4 @@
+import $ from "jquery";
 import Messaging from "./static/js/messaging";
 
 import { dippyMap } from "./static/js/dippymap";
@@ -37,7 +38,7 @@ window.Globals = {
 	memoizeCache: {},
 	messaging: Messaging,
 	contrastColors: ((_) => {
-		let m = dippyMap(document.getElementsByTagName("body")[0]);
+		let m = dippyMap($("body"));
 		return m.contrasts;
 	})(),
 	colorOverrides: {
