@@ -23,3 +23,5 @@ jobs:
             - name: Copy release to Cloud Storage
               working-directory: web-app
               run: gsutil -m rsync -r -d -c build gs://beta-dipact/
+            - name: Make index.html no-cache
+              run: 'gsutil setmeta -h "Cache-Control: no-cache" gs://beta-dipact/index.html'
