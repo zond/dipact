@@ -31,10 +31,10 @@ export default class NewsDialog extends React.Component {
 					background: "/static/img/coldwar.png",
 					content: (
 						<React.Fragment>
-							<MaterialUI.Typography variant="h6" style={{}}>
+							<Typography variant="h6" style={{}}>
 								2021 Nexus Cold War Tournament: CW4
-							</MaterialUI.Typography>
-							<MaterialUI.Typography variant="body2">
+							</Typography>
+							<Typography variant="body2">
 								The largest online 1vs1 event is back: Nexus
 								announces that their Fourth Cold War Tournament
 								(CW4) will start soon!
@@ -54,7 +54,7 @@ export default class NewsDialog extends React.Component {
 									https://discord.gg/GTF4p8QQ4k
 								</a>
 								.
-							</MaterialUI.Typography>
+							</Typography>
 						</React.Fragment>
 					),
 				},
