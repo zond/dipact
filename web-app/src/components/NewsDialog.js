@@ -18,6 +18,7 @@ import {
 	SkipNextIcon,
 	WarningIcon,
 } from "../icons";
+import ColdWarPath from "../static/img/coldwar.png";
 
 export default class NewsDialog extends React.Component {
 	constructor(props) {
@@ -28,7 +29,7 @@ export default class NewsDialog extends React.Component {
 			newsItems: [
 				{
 					header: "CW4 - 2021 Nexus Cold War Tournament",
-					background: "/static/img/coldwar.png",
+					background: ColdWarPath,
 					content: (
 						<React.Fragment>
 							<Typography variant="h6" style={{}}>
@@ -60,7 +61,7 @@ export default class NewsDialog extends React.Component {
 				},
 				{
 					header: "Join the Nexus Cold War Tournament",
-					background: "/static/img/coldwar.png",
+					background: ColdWarPath,
 					content: (
 						<React.Fragment>
 							<Typography variant="h6" style={{}}>
