@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+    push:
+        branches: ["**"]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up GoogleCloudPlatform
+              uses: google-github-actions/setup-gcloud@master
+              with:
+                  service_account_key: ${{ secrets.GCP_SA_KEY }}
+                  export_default_credentials: true
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Extract branch name
+              run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> $GITHUB_ENV
+            - name: Build release
+              working-directory: web-app
+              run: |
+                  cd web-app && docker-compose run sample yarn build
