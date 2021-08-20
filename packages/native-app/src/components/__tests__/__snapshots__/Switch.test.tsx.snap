@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot tests False with label 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "row",
+    }
+  }
+>
+  <RCTSwitch
+    accessibilityRole="switch"
+    onChange={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onTintColor="#fef1da"
+    style={
+      Array [
+        Object {
+          "height": 31,
+          "width": 51,
+        },
+        Object {
+          "alignSelf": "flex-start",
+          "display": "flex",
+        },
+      ]
+    }
+    testID="switch"
+    thumbTintColor="#FFF"
+    tintColor="#AAA"
+    value={false}
+  />
+  <Text>
+    Click here
+  </Text>
+</View>
+`;
+
+exports[`Snapshot tests False without label 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "row",
+    }
+  }
+>
+  <RCTSwitch
+    accessibilityRole="switch"
+    onChange={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onTintColor="#fef1da"
+    style={
+      Array [
+        Object {
+          "height": 31,
+          "width": 51,
+        },
+        Object {
+          "alignSelf": "flex-start",
+          "display": "flex",
+        },
+      ]
+    }
+    testID="switch"
+    thumbTintColor="#FFF"
+    tintColor="#AAA"
+    value={false}
+  />
+  <Text />
+</View>
+`;
+
+exports[`Snapshot tests True with label 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "row",
+    }
+  }
+>
+  <RCTSwitch
+    accessibilityRole="switch"
+    onChange={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onTintColor="#fef1da"
+    style={
+      Array [
+        Object {
+          "height": 31,
+          "width": 51,
+        },
+        Object {
+          "alignSelf": "flex-start",
+          "display": "flex",
+        },
+      ]
+    }
+    testID="switch"
+    thumbTintColor="#FDE2B5"
+    tintColor="#AAA"
+    value={true}
+  />
+  <Text>
+    Click here
+  </Text>
+</View>
+`;
+
+exports[`Snapshot tests True without label 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "row",
+    }
+  }
+>
+  <RCTSwitch
+    accessibilityRole="switch"
+    onChange={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onTintColor="#fef1da"
+    style={
+      Array [
+        Object {
+          "height": 31,
+          "width": 51,
+        },
+        Object {
+          "alignSelf": "flex-start",
+          "display": "flex",
+        },
+      ]
+    }
+    testID="switch"
+    thumbTintColor="#FDE2B5"
+    tintColor="#AAA"
+    value={true}
+  />
+  <Text />
+</View>
+`;
