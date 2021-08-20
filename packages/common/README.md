@@ -1,11 +1,3 @@
-# `common`
+# Diplicity Common
 
-> TODO: description
-
-## Usage
-
-```
-const common = require('common');
-
-// TODO: DEMONSTRATE API
-```
+This package contains functionality that is shared between diplicty web and diplicity native apps.

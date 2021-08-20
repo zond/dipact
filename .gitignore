@@ -31,3 +31,5 @@ java/classes
 app/autotest
 app/localhost
 
+.idea
+node_modules
