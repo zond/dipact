@@ -17,9 +17,9 @@ import {
 } from "@material-ui/core";
 import { MenuIcon, GitHubIcon, DonateIcon, BugReportIcon } from "../icons";
 import gtag from "ga-gtag";
+import { withRouter } from "react-router-dom";
 
 import * as helpers from "../helpers";
-import About from "./About";
 import ActivityContainer from "./ActivityContainer";
 import Globals from "../Globals";
 import DonateDialog from "./DonateDialog";
@@ -30,8 +30,9 @@ import FindGameDialog from "./FindGameDialog";
 import Start from "./Start";
 import GameList from "./GameList";
 import Game from "./Game";
+import { RouteConfig } from "../pages/Router";
 
-export default class MainMenu extends ActivityContainer {
+class MainMenu extends ActivityContainer {
 	constructor(props) {
 		super(props);
 		this.openDrawer = this.openDrawer.bind(this);
@@ -57,6 +58,8 @@ export default class MainMenu extends ActivityContainer {
 		this.settingsDialog = null;
 		this.errorsDialog = null;
 		this.donateDialog = null;
+		this.history = props.history;
+
 		helpers.urlMatch(
 			[
 				[
@@ -250,9 +253,7 @@ export default class MainMenu extends ActivityContainer {
 							<List component="nav">
 								<ListItem
 									button
-									onClick={(_) => {
-										this.setActivity(About);
-									}}
+									onClick={() => this.history.push(RouteConfig.About)}
 								>
 									<ListItemText primary="About" />
 								</ListItem>
@@ -534,3 +535,5 @@ export default class MainMenu extends ActivityContainer {
 		);
 	}
 }
+
+export default withRouter(MainMenu);

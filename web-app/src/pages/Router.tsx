@@ -7,6 +7,10 @@ type RouteProps = {
 	urls: { [key: string]: string };
 };
 
+export const RouteConfig = {
+	About: '/about',
+}
+
 // Separated into two components to make testing routes easier
 export const Routes = (props: RouteProps): React.ReactElement => {
 	return (
@@ -14,7 +18,7 @@ export const Routes = (props: RouteProps): React.ReactElement => {
 			<Route exact path="/">
 				<MainMenu urls={props.urls} />
 			</Route>
-			<Route exact path="/about">
+			<Route exact path={RouteConfig.About}>
 				<About />
 			</Route>
 			<Redirect to="/" />
