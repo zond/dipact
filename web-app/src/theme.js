@@ -6,6 +6,9 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
     fontFamily: ["Cabin", "Roboto", "sans-serif"].join(","),
+    subtitle1: {
+      fontWeight: 700,
+    }
   },
   palette: {
     primary: {

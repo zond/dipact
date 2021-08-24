@@ -16,3 +16,16 @@ describe("About", () => {
 		mount(<About />);
 	});
 });
+
+describe("Snapshot tests", () => {
+	let container: HTMLDivElement;
+	beforeEach(() => {
+		// setup a DOM element as a render target
+		container = document.createElement("div");
+		document.body.appendChild(container);
+	});
+	test("Default", () => {
+		const rendered = ReactDOM.render(<About />, container)
+		expect(rendered).toMatchSnapshot();
+	});
+});
