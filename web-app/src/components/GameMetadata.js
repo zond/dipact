@@ -496,9 +496,29 @@ export default class GameMetadata extends React.Component {
 							height: "24px",
 						}}
 					>
-						<span className="speech-bubble">
+						<div
+						style={{
+							fontFamily: "cabin",
+							height: "24px",
+							width: "24px",
+							display: "inline-flex",
+							alignSelf: "flex-start",
+							backgroundImage:
+								'url(\'data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24" viewBox="0 0 24 24"><path fill="%23000000" d="M 20 2 H 4 c -1.1 0 -2 0.9 -2 2 v 18 l 4 -4 h 14 c 1.1 0 2 -0.9 2 -2 V 4 c 0 -1.1 -0.9 -2 -2 -2 Z"></path></svg>\')',
+						}}
+					>
+						<div
+							style={{
+								fontSize: "12px",
+								color: "#FDE2B5",
+								marginTop: "1px",
+								textAlign: "center",
+								width:"24px", 
+							}}
+						>
 							{this.state.game.Properties.ChatLanguageISO639_1}
-						</span>
+						</div>
+					</div>
 					</span>
 					<Typography>
 						Chat language:{" "}
