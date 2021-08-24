@@ -29,7 +29,6 @@ import SettingsDialog from "./SettingsDialog";
 import FindGameDialog from "./FindGameDialog";
 import Start from "./Start";
 import GameList from "./GameList";
-import Game from "./Game";
 import { RouteConfig } from "../pages/Router";
 
 class MainMenu extends ActivityContainer {
@@ -63,41 +62,41 @@ class MainMenu extends ActivityContainer {
 		this.donateDialog = null;
 		this.history = props.history;
 
-		helpers.urlMatch(
-			[
-				[
-					/^\/Game\/([^/]+)/,
-					(match) => {
-						this.state.activity = Game;
-						this.state.activityProps = {
-							gamePromise: (_) => {
-								return helpers
-									.safeFetch(
-										helpers.createRequest(
-											"/Game/" + match[1]
-										)
-									)
-									.then((resp) => resp.json());
-							},
-							close: (_) => {
-								this.setActivity(Start, {
-									urls: this.props.urls,
-									findPrivateGame: this.findGameByID,
-									findOpenGame: this.renderOpenGames,
-									renderMasteredFinishedGames:
-										this.renderMasteredFinishedGames,
-									renderMyFinishedGames:
-										this.renderMyFinishedGames,
-								});
-							},
-						};
-					},
-				],
-			],
-			(_) => {
-				history.pushState("", "", "/");
-			}
-		);
+		// helpers.urlMatch(
+		// 	[
+		// 		[
+		// 			/^\/Game\/([^/]+)/,
+		// 			(match) => {
+		// 				this.state.activity = Game;
+		// 				this.state.activityProps = {
+		// 					gamePromise: (_) => {
+		// 						return helpers
+		// 							.safeFetch(
+		// 								helpers.createRequest(
+		// 									"/Game/" + match[1]
+		// 								)
+		// 							)
+		// 							.then((resp) => resp.json());
+		// 					},
+		// 					close: (_) => {
+		// 						this.setActivity(Start, {
+		// 							urls: this.props.urls,
+		// 							findPrivateGame: this.findGameByID,
+		// 							findOpenGame: this.renderOpenGames,
+		// 							renderMasteredFinishedGames:
+		// 								this.renderMasteredFinishedGames,
+		// 							renderMyFinishedGames:
+		// 								this.renderMyFinishedGames,
+		// 						});
+		// 					},
+		// 				};
+		// 			},
+		// 		],
+		// 	],
+		// 	(_) => {
+		// 		history.pushState("", "", "/");
+		// 	}
+		// );
 	}
 	componentDidMount() {
 		gtag("set", {

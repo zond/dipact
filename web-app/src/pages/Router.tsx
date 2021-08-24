@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Game from "../components/Game";
 import MainMenu from "../components/MainMenu";
 import About from "./About";
 
@@ -9,6 +10,7 @@ type RouteProps = {
 
 export const RouteConfig = {
 	About: '/about',
+	Game: '/game/:id',
 }
 
 // Separated into two components to make testing routes easier
@@ -20,6 +22,9 @@ export const Routes = (props: RouteProps): React.ReactElement => {
 			</Route>
 			<Route exact path={RouteConfig.About}>
 				<About />
+			</Route>
+			<Route exact path={RouteConfig.Game}>
+				<Game />
 			</Route>
 			<Redirect to="/" />
 		</Switch>

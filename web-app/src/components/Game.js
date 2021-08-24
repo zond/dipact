@@ -6,6 +6,7 @@ import * as helpers from '../helpers';
 import MetadataDialog from './MetadataDialog';
 import gtag from 'ga-gtag';
 import { Snackbar, Button, FormControlLabel, FormControl, Box, Select, Tab, Tabs, Badge, AppBar, MenuItem, Toolbar, IconButton, Menu, SvgIcon, Typography, Switch } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 import DipMap from './DipMap';
 import ChatMenu from './ChatMenu';
@@ -19,7 +20,7 @@ import MusteringPopup from './MusteringPopup';
 import NationPreferencesDialog from './NationPreferencesDialog';
 import Globals from '../Globals';
 
-export default class Game extends React.Component {
+class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -62,6 +63,21 @@ export default class Game extends React.Component {
 		this.joinWithPreferences = this.joinWithPreferences.bind(this);
 		this.leave = this.leave.bind(this);
 		this.refinePhaseMessage = this.refinePhaseMessage.bind(this);
+
+		this.gamePromise = () => {
+			return helpers
+				.safeFetch(
+					helpers.createRequest(
+						"/Game/" + this.props.match.params.id
+					)
+				)
+			.then((resp) => resp.json());
+		}
+
+		this.close = () => {
+			this.props.history.push("/");
+		}
+
 		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
@@ -261,7 +277,7 @@ export default class Game extends React.Component {
 		if (this.countdownInterval) {
 			clearInterval(this.countdownInterval);
 		}
-		helpers.unback(this.props.close);
+		this.props.history.push("/");
 		this.dead = true;
 		history.pushState("", "", "/");
 		if (Globals.messaging.unsubscribe("phase", this.phaseMessageHandler)) {
@@ -346,7 +362,6 @@ export default class Game extends React.Component {
 				console.log("Game subscribing to `phase` notifications.");
 			}
 		});
-		helpers.onback(this.props.close);
 	}
 	phaseMessageHandler(payload) {
 		if (payload.data.gameID !== this.state.game.Properties.ID) {
@@ -358,7 +373,7 @@ export default class Game extends React.Component {
 		return true;
 	}
 	loadGame() {
-		return this.props.gamePromise(!!this.state.game).then((game) => {
+		return this.gamePromise(!!this.state.game).then((game) => {
 			const promises = [];
 			const gameStatesLink = game.Links.find((l) => {
 				return l.Rel === "game-states";
@@ -479,7 +494,7 @@ export default class Game extends React.Component {
 						<Toolbar>
 							{!this.state.laboratoryMode ? (
 								<IconButton
-									onClick={this.props.close}
+									onClick={this.close}
 									key="close"
 									edge="start"
 									color="secondary"
@@ -1347,3 +1362,5 @@ export default class Game extends React.Component {
 		}
 	}
 }
+
+export default withRouter(Game);

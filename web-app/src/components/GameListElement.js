@@ -4,6 +4,7 @@ import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
 import {SvgIcon, Divider, Typography, Tooltip, Box, Button, Badge, Zoom, AccordionSummary, Accordion, AccordionDetails } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 
 import GameMetadata from './GameMetadata';
 import Game from './Game';
@@ -74,7 +75,6 @@ class GameListElement extends React.Component {
 		this.manageInvitationsDialog = null;
 		this.rescheduleDialog = null;
 		this.viewGame = this.viewGame.bind(this);
-		this.closeGame = this.closeGame.bind(this);
 		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
 		this.deleteGame = this.deleteGame.bind(this);
@@ -266,13 +266,11 @@ class GameListElement extends React.Component {
 			this.joinGameWithPreferences(link, []);
 		}
 	}
-	closeGame() {
-		this.setState({ viewOpen: false });
-	}
 	viewGame(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		this.setState({ viewOpen: true });
+		this.props.history.push(`/Game/${this.state.game.Properties.ID}`)
+		// this.setState({ viewOpen: true });
 	}
 	addIconWithTooltip(ary, Icon, color, tooltip) {
 		ary.push(
@@ -1052,7 +1050,6 @@ class GameListElement extends React.Component {
 								});
 							}
 						}}
-						close={this.closeGame}
 					/>
 				</div>
 			</Zoom>
@@ -1177,4 +1174,4 @@ class GameListElement extends React.Component {
 	}
 }
 
-export default withStyles(styles, { withTheme: true })(GameListElement);
+export default withStyles(styles, { withTheme: true })(withRouter(GameListElement));
