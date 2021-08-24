@@ -10,7 +10,8 @@ type RouteProps = {
 
 export const RouteConfig = {
 	About: '/about',
-	Game: '/game/:id',
+	Game: '/game/:gameId',
+	GameChatChannel: '/game/:gameId/Channel/:channelId/Messages',
 }
 
 // Separated into two components to make testing routes easier
@@ -25,6 +26,9 @@ export const Routes = (props: RouteProps): React.ReactElement => {
 			</Route>
 			<Route exact path={RouteConfig.Game}>
 				<Game />
+			</Route>
+			<Route exact path={RouteConfig.GameChatChannel}>
+				<Game chatOpen />
 			</Route>
 			<Redirect to="/" />
 		</Switch>

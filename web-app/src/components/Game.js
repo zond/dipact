@@ -6,7 +6,8 @@ import * as helpers from '../helpers';
 import MetadataDialog from './MetadataDialog';
 import gtag from 'ga-gtag';
 import { Snackbar, Button, FormControlLabel, FormControl, Box, Select, Tab, Tabs, Badge, AppBar, MenuItem, Toolbar, IconButton, Menu, SvgIcon, Typography, Switch } from "@material-ui/core";
-import { withRouter } from "react-router-dom";
+import { generatePath, withRouter } from 'react-router-dom';
+import { RouteConfig } from '../pages/Router';
 
 import DipMap from './DipMap';
 import ChatMenu from './ChatMenu';
@@ -68,7 +69,7 @@ class Game extends React.Component {
 			return helpers
 				.safeFetch(
 					helpers.createRequest(
-						"/Game/" + this.props.match.params.id
+						"/Game/" + this.props.match.params.gameId
 					)
 				)
 			.then((resp) => resp.json());
@@ -284,10 +285,27 @@ class Game extends React.Component {
 			console.log("Game unsubscribing from `phase` notifications.");
 		}
 	}
+
+
+	componentDidUpdate(prevProps, prevState) {
+		let params = new URLSearchParams(this.props.location.search);
+		const tab = params.get("tab");
+		if (tab && tab !== this.state.activeTab) {
+			this.setState({ activeTab: tab });
+		}
+	}
+
 	componentDidMount() {
+
+		// Set intial tab to chat if chatChannel
+		if (this.props.match.channelId) {
+			this.changeTab("chat");
+		}
+
 		if (this.countdownInterval) {
 			clearInterval(this.countdownInterval);
 		}
+
 		this.countdownInterval = setInterval((_) => {
 			const els = document.getElementsByClassName("minute-countdown");
 			for (let i = 0; i < els.length; i++) {
@@ -303,12 +321,6 @@ class Game extends React.Component {
 		this.loadGame().then((_) => {
 			helpers.urlMatch(
 				[
-					[
-						/^\/Game\/([^/]+)\/Channel\/([^/]+)\/Messages$/,
-						(match) => {
-							this.setState({ activeTab: "chat" });
-						},
-					],
 					[
 						/^\/Game\/([^/]+)\/Lab\/(.+)$/,
 						(match) => {
@@ -348,13 +360,6 @@ class Game extends React.Component {
 						},
 					],
 				],
-				(_) => {
-					history.pushState(
-						"",
-						"",
-						"/Game/" + this.state.game.Properties.ID
-					);
-				}
 			);
 			if (
 				Globals.messaging.subscribe("phase", this.phaseMessageHandler)
@@ -470,8 +475,11 @@ class Game extends React.Component {
 			});
 		});
 	}
-	changeTab(ev, newValue) {
-		this.setState({ activeTab: newValue });
+	changeTab(e, value) {
+		const chatMenuPath = generatePath(RouteConfig.Game, {
+			gameId: this.state.game.Properties.ID,
+		});
+		this.props.history.push(chatMenuPath + `?tab=${value}`);
 	}
 	changePhase(ev) {
 		this.setState({
@@ -1190,7 +1198,7 @@ class Game extends React.Component {
 										  })
 										: null
 								}
-								isActive={this.state.activeTab === "chat"}
+								isActive={this.props.chatOpen}
 								unreadMessages={this.setUnreadMessages}
 								phases={this.state.phases}
 								game={this.state.game}

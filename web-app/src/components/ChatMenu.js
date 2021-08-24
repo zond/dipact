@@ -16,8 +16,10 @@ import Globals from "../Globals";
 import CreateChannelDialog from "./CreateChannelDialog";
 import ChatChannel from "./ChatChannel";
 import NationAvatarGroup from "./NationAvatarGroup";
+import { generatePath, withRouter } from 'react-router-dom';
+import { RouteConfig } from '../pages/Router';
 
-export default class ChatMenu extends React.Component {
+class ChatMenu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -64,28 +66,14 @@ export default class ChatMenu extends React.Component {
 							(state, props) => {
 								state = Object.assign({}, state);
 
-								helpers.urlMatch([
-									[
-										/^\/Game\/([^/]+)\/Channel\/([^/]+)\/Messages$/,
-										(match) => {
-											let channel = js.Properties.find(
-												(c) => {
-													return (
-														c.Properties.Members.join(
-															","
-														) ===
-														decodeURIComponent(
-															match[2]
-														)
-													);
-												}
-											);
-											if (channel) {
-												state.activeChannel = channel;
-											}
-										},
-									],
-								]);
+								const { channelId } = this.props.match.params;
+								if (channelId) {
+									const decodedChannelId = decodeURI(this.props.match.params.channelId);
+									const activeChannel = js.Properties.find(
+										(c) => c.Properties.Members.join(",") === decodedChannelId
+									);
+									this.setState({ activeChannel })
+								}
 
 								state.channels = js.Properties.sort(
 									(c1, c2) => {
@@ -168,6 +156,16 @@ export default class ChatMenu extends React.Component {
 			});
 			gtag("event", "page_view");
 		}
+		const { channelId } = this.props.match.params;
+		if (prevProps.match.params.channelId !== this.props.match.params.channelId) {
+			if (channelId && this.state.channels) {
+				const decodedChannelId = decodeURI(this.props.match.params.channelId);
+				const activeChannel = this.state.channels.find(
+					(c) => c.Properties.Members.join(",") === decodedChannelId
+				);
+				this.setState({ activeChannel })
+			}
+		}
 	}
 	componentDidMount() {
 		this.loadChannels().then((_) => {
@@ -182,9 +180,17 @@ export default class ChatMenu extends React.Component {
 		}
 	}
 	openChannel(channel) {
-		this.setState({ activeChannel: channel });
+		const channelPath = generatePath(RouteConfig.GameChatChannel, {
+			gameId: this.props.game.Properties.ID,
+			channelId: channel.Properties.Members.join(","),
+		});
+		this.props.history.push(channelPath)
 	}
 	closeChannel() {
+		const gamePath = generatePath(RouteConfig.Game, {
+			gameId: this.props.game.Properties.ID,
+		});
+		this.props.history.push(gamePath + `?tab=chat`)
 		this.setState({ activeChannel: null });
 	}
 
@@ -488,3 +494,5 @@ export default class ChatMenu extends React.Component {
 		);
 	}
 }
+
+export default withRouter(ChatMenu);
