@@ -146,7 +146,7 @@ export default class Start extends React.Component {
 												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
-											Ongoing mastered games
+											Ongoing games mastered by me
 										</ListSubheader>
 									</div>
 									<ListItem
@@ -263,7 +263,7 @@ export default class Start extends React.Component {
 												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
-											Forming mastered games
+											Forming games mastered by me
 										</ListSubheader>
 									</div>
 
@@ -383,7 +383,7 @@ export default class Start extends React.Component {
 												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
-											Finished mastered games
+											Finished games mastered by me
 										</ListSubheader>
 										<Button
 											onClick={
