@@ -33,9 +33,10 @@ class MusteringPopup extends React.Component {
 		}
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
 				open={this.state.open}
-				disableBackdropClick={false}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				classes={{
 					paper: classes.paper
 				}}

@@ -1,18 +1,30 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
-import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Paper, List, ListItem, Grid, IconButton } from "@material-ui/core";
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
+import {
+	Button,
+	Typography,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	Paper,
+	List,
+	ListItem,
+	Grid,
+	IconButton,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-import { ArrowDownwardIcon, ArrowUpwardIcon  } from '../icons';
+import { ArrowDownwardIcon, ArrowUpwardIcon } from "../icons";
 
 const styles = (theme) => ({
-  dialogActions: {
-    backgroundColor: "white",
-    position: "sticky",
-    bottom: "0px",
-  },
+	dialogActions: {
+		backgroundColor: "white",
+		position: "sticky",
+		bottom: "0px",
+	},
 });
 
 class NationPreferencesDialog extends React.Component {
@@ -21,7 +33,7 @@ class NationPreferencesDialog extends React.Component {
 		this.state = {
 			open: false,
 			onSelected: null,
-			nations: []
+			nations: [],
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -33,7 +45,7 @@ class NationPreferencesDialog extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "NationPreferencesDialog",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
@@ -51,13 +63,12 @@ class NationPreferencesDialog extends React.Component {
 		return (
 			<Dialog
 				open={this.state.open}
-				onEntered={helpers.genOnback(this.close)}
-				disableBackdropClick={false}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				onClose={this.close}
 			>
-				<DialogTitle>
-					Nation preferences
-				</DialogTitle>
+				<DialogTitle>Nation preferences</DialogTitle>
 				<DialogContent style={{ paddingBottom: "0px" }}>
 					<Typography style={{ margin: "1em" }}>
 						Sort the possible nations in order of preference.
@@ -68,11 +79,7 @@ class NationPreferencesDialog extends React.Component {
 								return (
 									<ListItem key={nation}>
 										<Grid container>
-											<Grid
-												key={nation}
-												item
-												xs={10}
-											>
+											<Grid key={nation} item xs={10}>
 												<Typography>
 													{nation}
 												</Typography>
@@ -83,13 +90,14 @@ class NationPreferencesDialog extends React.Component {
 												xs={1}
 											>
 												<IconButton
-													onClick={_ => {
+													onClick={(_) => {
 														if (
 															idx + 1 <
 															this.state.nations
 																.length
 														) {
-															let nations = this.state.nations.slice();
+															let nations =
+																this.state.nations.slice();
 															let tmp =
 																nations[
 																	idx + 1
@@ -98,7 +106,8 @@ class NationPreferencesDialog extends React.Component {
 																nations[idx];
 															nations[idx] = tmp;
 															this.setState({
-																nations: nations
+																nations:
+																	nations,
 															});
 														}
 													}}
@@ -112,9 +121,10 @@ class NationPreferencesDialog extends React.Component {
 												xs={1}
 											>
 												<IconButton
-													onClick={_ => {
+													onClick={(_) => {
 														if (idx > 0) {
-															let nations = this.state.nations.slice();
+															let nations =
+																this.state.nations.slice();
 															let tmp =
 																nations[
 																	idx - 1
@@ -123,7 +133,8 @@ class NationPreferencesDialog extends React.Component {
 																nations[idx];
 															nations[idx] = tmp;
 															this.setState({
-																nations: nations
+																nations:
+																	nations,
 															});
 														}
 													}}
@@ -137,13 +148,8 @@ class NationPreferencesDialog extends React.Component {
 							})}
 						</List>
 					</Paper>
-					<DialogActions
-						className={classes.dialogActions}
-					>
-						<Button
-							onClick={this.onSelected}
-							color="primary"
-						>
+					<DialogActions className={classes.dialogActions}>
+						<Button onClick={this.onSelected} color="primary">
 							Join
 						</Button>
 					</DialogActions>

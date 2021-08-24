@@ -725,8 +725,7 @@ export const iso639_1Codes = [
 	},
 	{
 		code: "cu",
-		name:
-			"Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
+		name: "Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
 	},
 	{
 		code: "om",

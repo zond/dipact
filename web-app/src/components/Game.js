@@ -1,25 +1,55 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import pako from 'pako'
+import React from "react";
+import pako from "pako";
 
-import * as helpers from '../helpers';
-import MetadataDialog from './MetadataDialog';
-import gtag from 'ga-gtag';
-import { Snackbar, Button, FormControlLabel, FormControl, Box, Select, Tab, Tabs, Badge, AppBar, MenuItem, Toolbar, IconButton, Menu, SvgIcon, Typography, Switch } from "@material-ui/core";
-import { generatePath, withRouter } from 'react-router-dom';
-import { RouteConfig } from '../pages/Router';
+import * as helpers from "../helpers";
+import MetadataDialog from "./MetadataDialog";
+import gtag from "ga-gtag";
+import {
+	Snackbar,
+	Button,
+	FormControlLabel,
+	FormControl,
+	Box,
+	Select,
+	Tab,
+	Tabs,
+	Badge,
+	AppBar,
+	MenuItem,
+	Toolbar,
+	IconButton,
+	Menu,
+	SvgIcon,
+	Typography,
+	Switch,
+} from "@material-ui/core";
+import { generatePath, withRouter } from "react-router-dom";
+import { RouteConfig } from "../pages/Router";
 
-import DipMap from './DipMap';
-import ChatMenu from './ChatMenu';
+import DipMap from "./DipMap";
+import ChatMenu from "./ChatMenu";
 
-import { ChatIcon, CloseIcon, DownloadIcon, EventIcon, FastForwardIcon, MapIcon, MoreIcon, NextIcon, NumMembersIcon, PreviousIcon, ShareIcon } from '../icons';
-import OrderList from './OrderList';
-import GamePlayers from './GamePlayers';
-import GameResults from './GameResults';
-import PreliminaryScores from './PreliminaryScores';
-import MusteringPopup from './MusteringPopup';
-import NationPreferencesDialog from './NationPreferencesDialog';
-import Globals from '../Globals';
+import {
+	ChatIcon,
+	CloseIcon,
+	DownloadIcon,
+	EventIcon,
+	FastForwardIcon,
+	MapIcon,
+	MoreIcon,
+	NextIcon,
+	NumMembersIcon,
+	PreviousIcon,
+	ShareIcon,
+} from "../icons";
+import OrderList from "./OrderList";
+import GamePlayers from "./GamePlayers";
+import GameResults from "./GameResults";
+import PreliminaryScores from "./PreliminaryScores";
+import MusteringPopup from "./MusteringPopup";
+import NationPreferencesDialog from "./NationPreferencesDialog";
+import Globals from "../Globals";
 
 class Game extends React.Component {
 	constructor(props) {
@@ -72,18 +102,19 @@ class Game extends React.Component {
 						"/Game/" + this.props.match.params.gameId
 					)
 				)
-			.then((resp) => resp.json());
-		}
+				.then((resp) => resp.json());
+		};
 
-		this.close = () => {
-			this.props.history.push("/");
-		}
+		this.close = this.close.bind(this);
 
 		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
 		this.dip_map = null;
 		this.countdownInterval = null;
+	}
+	close() {
+		this.props.history.push("/");
 	}
 	debugCount(tag) {
 		if (!this.debugCounters[tag]) {
@@ -98,8 +129,8 @@ class Game extends React.Component {
 				return "You must disband " + parts[1] + " units this phase.";
 			case "MayBuild":
 				return "You may build " + parts[1] + " units this phase.";
-            default:
-                return "";
+			default:
+				return "";
 		}
 	}
 	leave() {
@@ -200,36 +231,30 @@ class Game extends React.Component {
 		});
 	}
 	serializePhaseState(phase) {
-		return encodeURIComponent(
-			encodeURIComponent(
-				btoa(
-					pako.deflate(
-						JSON.stringify({
-							activePhase: phase.Properties.PhaseOrdinal,
-							phases: this.state.phases
-								.map((p) => {
-									if (
-										p.Properties.PhaseOrdinal ===
-										phase.Properties.PhaseOrdinal
-									) {
-										return phase;
-									} else {
-										return p;
-									}
-								})
-								.filter((p) => {
-									return (
-										!p.Properties.GameID ||
-										p.Properties.PhaseOrdinal ===
-											phase.Properties.PhaseOrdinal
-									);
-								}),
-						}),
-						{ to: "string" }
-					)
-				)
-			)
-		);
+		const toDeflate = JSON.stringify({
+			activePhase: phase.Properties.PhaseOrdinal,
+			phases: this.state.phases
+				.map((p) => {
+					if (
+						p.Properties.PhaseOrdinal ===
+						phase.Properties.PhaseOrdinal
+					) {
+						return phase;
+					} else {
+						return p;
+					}
+				})
+				.filter((p) => {
+					return (
+						!p.Properties.GameID ||
+						p.Properties.PhaseOrdinal ===
+							phase.Properties.PhaseOrdinal
+					);
+				}),
+		});
+		const deflated = pako.deflate(toDeflate, { to: "string" });
+		const base64 = btoa(deflated);
+		return encodeURIComponent(encodeURIComponent(base64));
 	}
 	labPhaseResolve(resolvedPhase, newPhase) {
 		this.setState({
@@ -286,17 +311,14 @@ class Game extends React.Component {
 		}
 	}
 
-
 	componentDidUpdate(prevProps, prevState) {
-		let params = new URLSearchParams(this.props.location.search);
-		const tab = params.get("tab");
+		const tab = this.props.match.params.tab;
 		if (tab && tab !== this.state.activeTab) {
 			this.setState({ activeTab: tab });
 		}
 	}
 
 	componentDidMount() {
-
 		// Set intial tab to chat if chatChannel
 		if (this.props.match.channelId) {
 			this.changeTab("chat");
@@ -320,24 +342,20 @@ class Game extends React.Component {
 		}, 30000);
 		this.loadGame().then((_) => {
 			if (this.props.laboratoryMode) {
-				const { labOptions } = this.props.match;
-				const serializedState = JSON.parse(
-					pako.inflate(
-						atob(
-							decodeURIComponent(
-								decodeURIComponent(labOptions)
-							)
-						),
-						{
-							to: "string",
-						}
-					)
+				const labOptions = this.props.match.params.labOptions;
+				const base64 = decodeURIComponent(
+					decodeURIComponent(labOptions)
 				);
+				const bytes = atob(base64)
+					.split(",")
+					.map((v) => parseInt(v));
+				const inflated = pako.inflate(new Uint8Array(bytes), {
+					to: "string",
+				});
+				const serializedState = JSON.parse(inflated);
 				const newPhases = this.state.phases.slice();
 				serializedState.phases.forEach((phase) => {
-					newPhases[
-						phase.Properties.PhaseOrdinal - 1
-					] = phase;
+					newPhases[phase.Properties.PhaseOrdinal - 1] = phase;
 				});
 				this.setState({
 					laboratoryMode: true,
@@ -470,10 +488,11 @@ class Game extends React.Component {
 		});
 	}
 	changeTab(e, value) {
-		const chatMenuPath = generatePath(RouteConfig.Game, {
+		const newPath = generatePath(RouteConfig.GameTab, {
 			gameId: this.state.game.Properties.ID,
+			tab: value,
 		});
-		this.props.history.push(chatMenuPath + `?tab=${value}`);
+		this.props.history.push(newPath);
 	}
 	changePhase(ev) {
 		this.setState({
@@ -509,8 +528,8 @@ class Game extends React.Component {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
-												laboratoryMode: !this.state
-													.laboratoryMode,
+												laboratoryMode:
+													!this.state.laboratoryMode,
 											},
 											(_) => {
 												if (
@@ -613,6 +632,7 @@ class Game extends React.Component {
 												{helpers.phaseName(phase)}
 												{!this.state.game.Properties
 													.Started ||
+												this.state.laboratoryMode ||
 												phase.Properties.Resolved ? (
 													""
 												) : (
@@ -624,14 +644,18 @@ class Game extends React.Component {
 																1e-6
 														}
 														style={{
-                                                           position: 'relative',
-                                                           top: '-6px',
-                                                           fontSize: 'xx-small',
-                                                           left: '-5px',
-                                                           zIndex: '1',
-                                                           backgroundColor: 'red',
-                                                           borderRadius: '7px',
-                                                           padding: '0 2px 1px 2px'
+															position:
+																"relative",
+															top: "-6px",
+															fontSize:
+																"xx-small",
+															left: "-5px",
+															zIndex: "1",
+															backgroundColor:
+																"red",
+															borderRadius: "7px",
+															padding:
+																"0 2px 1px 2px",
 														}}
 													>
 														{helpers.minutesToDuration(
@@ -648,10 +672,7 @@ class Game extends React.Component {
 									})}
 								</Select>
 							) : !this.state.laboratoryMode ? (
-								<Box
-									key="curr-spacer"
-									width="100%"
-								></Box>
+								<Box key="curr-spacer" width="100%"></Box>
 							) : (
 								""
 							)}
@@ -791,7 +812,8 @@ class Game extends React.Component {
 													key="results"
 													onClick={(_) => {
 														this.setState({
-															moreMenuAnchorEl: null,
+															moreMenuAnchorEl:
+																null,
 														});
 														this.gameResults.setState(
 															{
@@ -813,8 +835,8 @@ class Game extends React.Component {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
-												laboratoryMode: !this.state
-													.laboratoryMode,
+												laboratoryMode:
+													!this.state.laboratoryMode,
 											},
 											(_) => {
 												if (
@@ -893,9 +915,9 @@ class Game extends React.Component {
 								}) ? (
 									<Toolbar
 										style={{
-											display: 'flex',
-											justifyContent: 'space-between',
-											minHeight: '53px',
+											display: "flex",
+											justifyContent: "space-between",
+											minHeight: "53px",
 										}}
 									>
 										<div>
@@ -934,8 +956,7 @@ class Game extends React.Component {
 												alignItems: "center",
 											}}
 										>
-											<NumMembersIcon />
-											{" "}
+											<NumMembersIcon />{" "}
 											<Typography
 												variant="body2"
 												style={{ paddingLeft: "2px" }}
@@ -963,10 +984,7 @@ class Game extends React.Component {
 									display="flex"
 									variant="fullWidth"
 								>
-									<Tab
-										value="map"
-										icon={<MapIcon />}
-									/>
+									<Tab value="map" icon={<MapIcon />} />
 									<Tab
 										value="chat"
 										icon={
@@ -1042,12 +1060,12 @@ class Game extends React.Component {
 										<Switch
 											onChange={(ev) => {
 												this.setState({
-													labEditMode: !ev.target
-														.checked,
+													labEditMode:
+														!ev.target.checked,
 												});
 												this.dip_map.setState({
-													labEditMode: !ev.target
-														.checked,
+													labEditMode:
+														!ev.target.checked,
 												});
 											}}
 											color="primary"
@@ -1323,11 +1341,7 @@ class Game extends React.Component {
 							</Typography>,
 						].concat(
 							this.state.phaseMessages.map((m) => {
-								return (
-									<Typography key={m}>
-										{m}
-									</Typography>
-								);
+								return <Typography key={m}>{m}</Typography>;
 							})
 						)}
 						action={

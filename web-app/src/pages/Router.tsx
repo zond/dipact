@@ -10,9 +10,10 @@ type RouteProps = {
 
 export const RouteConfig = {
 	About: '/about',
+	GameTab: '/game/:gameId/:tab',
 	Game: '/game/:gameId',
-	GameChatChannel: '/game/:gameId/Channel/:channelId/Messages',
-	GameLabratoryMode: '/game/:gameId/Lab/:labOptions',
+	GameChatChannel: '/game/:gameId/channel/:channelId/messages',
+	GameLaboratoryMode: '/game/:gameId/lab/:labOptions',
 }
 
 // Separated into two components to make testing routes easier
@@ -28,11 +29,14 @@ export const Routes = (props: RouteProps): React.ReactElement => {
 			<Route exact path={RouteConfig.Game}>
 				<Game />
 			</Route>
+			<Route exact path={RouteConfig.GameTab}>
+				<Game />
+			</Route>
 			<Route exact path={RouteConfig.GameChatChannel}>
 				<Game chatOpen />
 			</Route>
-			<Route exact path={RouteConfig.GameLabratoryMode}>
-				<Game labratoryMode />
+			<Route exact path={RouteConfig.GameLaboratoryMode}>
+				<Game laboratoryMode />
 			</Route>
 			<Redirect to="/" />
 		</Switch>

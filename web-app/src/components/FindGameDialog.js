@@ -1,16 +1,24 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@material-ui/core'
+import React from "react";
+import gtag from "ga-gtag";
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	TextField,
+} from "@material-ui/core";
 
-import * as helpers from '../helpers';
+import * as helpers from "../helpers";
 
 export default class FindGameDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			open: false,
-			onFind: null
+			onFind: null,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -22,7 +30,7 @@ export default class FindGameDialog extends React.Component {
 		if (!prevState.open && this.state.open) {
 			gtag("set", {
 				page_title: "FindGameDialog",
-				page_location: location.href
+				page_location: location.href,
 			});
 			gtag("event", "page_view");
 		}
@@ -32,21 +40,23 @@ export default class FindGameDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	onFind() {
-		const gameID = document.getElementById("find-game-by-id-input-field")
-			.value;
+		const gameID = document.getElementById(
+			"find-game-by-id-input-field"
+		).value;
 		helpers.unback(this.close);
 		gtag("event", "find_game");
-		this.setState({ open: false }, _ => {
+		this.setState({ open: false }, (_) => {
 			this.state.onFind(gameID);
 		});
 	}
 	render() {
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={this.state.open}
 				className="find-game-dialog"
-				disableBackdropClick={false}
 				onClose={this.close}
 			>
 				<DialogTitle>Find game</DialogTitle>
@@ -67,10 +77,7 @@ export default class FindGameDialog extends React.Component {
 						<Button onClick={this.close} color="primary">
 							Cancel
 						</Button>
-						<Button
-							onClick={this.onFind}
-							color="primary"
-						>
+						<Button onClick={this.onFind} color="primary">
 							Find
 						</Button>
 					</DialogActions>
@@ -79,4 +86,3 @@ export default class FindGameDialog extends React.Component {
 		);
 	}
 }
-

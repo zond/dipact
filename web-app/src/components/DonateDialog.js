@@ -40,10 +40,11 @@ class DonateDialog extends React.Component {
 		}
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={this.state.open}
 				fullScreen
-				disableBackdropClick={false}
 				classes={{
 					paper: classes.paper,
 				}}

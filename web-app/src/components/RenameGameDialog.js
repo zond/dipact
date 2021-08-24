@@ -1,16 +1,16 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import Globals from '../Globals';
-import gtag from 'ga-gtag';
+import React from "react";
+import * as helpers from "../helpers";
+import Globals from "../Globals";
+import gtag from "ga-gtag";
 import {
-    Dialog,
-    Button,
-    TextField,
-    DialogContent,
-    DialogActions,
-    DialogTitle
-} from '@material-ui/core';
+	Dialog,
+	Button,
+	TextField,
+	DialogContent,
+	DialogActions,
+	DialogTitle,
+} from "@material-ui/core";
 
 export default class RenameGameDialog extends React.Component {
 	constructor(props) {
@@ -65,8 +65,9 @@ export default class RenameGameDialog extends React.Component {
 		return (
 			<Dialog
 				open={this.state.open}
-				onEntered={helpers.genOnback(this.close)}
-				disableBackdropClick={false}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				onClose={this.close}
 			>
 				<DialogTitle>
@@ -87,10 +88,7 @@ export default class RenameGameDialog extends React.Component {
 						<Button onClick={this.close} color="primary">
 							Cancel
 						</Button>
-						<Button
-							onClick={this.rename}
-							color="primary"
-						>
+						<Button onClick={this.rename} color="primary">
 							Rename
 						</Button>
 					</DialogActions>
@@ -99,4 +97,3 @@ export default class RenameGameDialog extends React.Component {
 		);
 	}
 }
-

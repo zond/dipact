@@ -122,9 +122,10 @@ export default class CreateChannelDialog extends React.Component {
 	render() {
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={this.state.open}
-				disableBackdropClick={false}
 				onClose={this.close}
 			>
 				<DialogTitle>Create channel</DialogTitle>

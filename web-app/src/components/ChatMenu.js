@@ -16,8 +16,8 @@ import Globals from "../Globals";
 import CreateChannelDialog from "./CreateChannelDialog";
 import ChatChannel from "./ChatChannel";
 import NationAvatarGroup from "./NationAvatarGroup";
-import { generatePath, withRouter } from 'react-router-dom';
-import { RouteConfig } from '../pages/Router';
+import { generatePath, withRouter } from "react-router-dom";
+import { RouteConfig } from "../pages/Router";
 
 class ChatMenu extends React.Component {
 	constructor(props) {
@@ -68,11 +68,15 @@ class ChatMenu extends React.Component {
 
 								const { channelId } = this.props.match.params;
 								if (channelId) {
-									const decodedChannelId = decodeURI(this.props.match.params.channelId);
-									const activeChannel = js.Properties.find(
-										(c) => c.Properties.Members.join(",") === decodedChannelId
+									const decodedChannelId = decodeURI(
+										this.props.match.params.channelId
 									);
-									this.setState({ activeChannel })
+									const activeChannel = js.Properties.find(
+										(c) =>
+											c.Properties.Members.join(",") ===
+											decodedChannelId
+									);
+									state.activeChannel = activeChannel;
 								}
 
 								state.channels = js.Properties.sort(
@@ -157,13 +161,18 @@ class ChatMenu extends React.Component {
 			gtag("event", "page_view");
 		}
 		const { channelId } = this.props.match.params;
-		if (prevProps.match.params.channelId !== this.props.match.params.channelId) {
+		if (
+			prevProps.match.params.channelId !==
+			this.props.match.params.channelId
+		) {
 			if (channelId && this.state.channels) {
-				const decodedChannelId = decodeURI(this.props.match.params.channelId);
+				const decodedChannelId = decodeURI(
+					this.props.match.params.channelId
+				);
 				const activeChannel = this.state.channels.find(
 					(c) => c.Properties.Members.join(",") === decodedChannelId
 				);
-				this.setState({ activeChannel })
+				this.setState({ activeChannel: activeChannel });
 			}
 		}
 	}
@@ -184,13 +193,14 @@ class ChatMenu extends React.Component {
 			gameId: this.props.game.Properties.ID,
 			channelId: channel.Properties.Members.join(","),
 		});
-		this.props.history.push(channelPath)
+		this.props.history.push(channelPath);
 	}
 	closeChannel() {
-		const gamePath = generatePath(RouteConfig.Game, {
+		const gamePath = generatePath(RouteConfig.GameTab, {
 			gameId: this.props.game.Properties.ID,
+			tab: "chat",
 		});
-		this.props.history.push(gamePath + `?tab=chat`)
+		this.props.history.push(gamePath);
 		this.setState({ activeChannel: null });
 	}
 
