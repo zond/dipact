@@ -204,22 +204,6 @@ export function brightnessByColor(color) {
 	if (typeof r !== "undefined") return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
-export function urlMatch(mappings, def) {
-	for (let i = 0; i < mappings.length; i++) {
-		let hrefURL = new URL(location.href);
-		let match = mappings[i][0].exec(hrefURL.pathname);
-		if (match) {
-			if (mappings[i][1]) {
-				mappings[i][1](match);
-			}
-			return;
-		}
-	}
-	if (def) {
-		def();
-	}
-}
-
 export function phaseName(phase) {
 	return (
 		phase.Properties.Season +

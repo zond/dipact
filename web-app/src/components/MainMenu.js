@@ -61,42 +61,6 @@ class MainMenu extends ActivityContainer {
 		this.errorsDialog = null;
 		this.donateDialog = null;
 		this.history = props.history;
-
-		// helpers.urlMatch(
-		// 	[
-		// 		[
-		// 			/^\/Game\/([^/]+)/,
-		// 			(match) => {
-		// 				this.state.activity = Game;
-		// 				this.state.activityProps = {
-		// 					gamePromise: (_) => {
-		// 						return helpers
-		// 							.safeFetch(
-		// 								helpers.createRequest(
-		// 									"/Game/" + match[1]
-		// 								)
-		// 							)
-		// 							.then((resp) => resp.json());
-		// 					},
-		// 					close: (_) => {
-		// 						this.setActivity(Start, {
-		// 							urls: this.props.urls,
-		// 							findPrivateGame: this.findGameByID,
-		// 							findOpenGame: this.renderOpenGames,
-		// 							renderMasteredFinishedGames:
-		// 								this.renderMasteredFinishedGames,
-		// 							renderMyFinishedGames:
-		// 								this.renderMyFinishedGames,
-		// 						});
-		// 					},
-		// 				};
-		// 			},
-		// 		],
-		// 	],
-		// 	(_) => {
-		// 		history.pushState("", "", "/");
-		// 	}
-		// );
 	}
 	componentDidMount() {
 		gtag("set", {

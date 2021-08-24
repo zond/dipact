@@ -319,48 +319,42 @@ class Game extends React.Component {
 			}
 		}, 30000);
 		this.loadGame().then((_) => {
-			helpers.urlMatch(
-				[
-					[
-						/^\/Game\/([^/]+)\/Lab\/(.+)$/,
-						(match) => {
-							const serializedState = JSON.parse(
-								pako.inflate(
-									atob(
-										decodeURIComponent(
-											decodeURIComponent(match[2])
-										)
-									),
-									{
-										to: "string",
-									}
-								)
-							);
-							const newPhases = this.state.phases.slice();
-							serializedState.phases.forEach((phase) => {
-								newPhases[
-									phase.Properties.PhaseOrdinal - 1
-								] = phase;
-							});
-							this.setState({
-								laboratoryMode: true,
-								activePhase: newPhases.find((phase) => {
-									return (
-										phase.Properties.PhaseOrdinal ===
-										serializedState.activePhase
-									);
-								}),
-								phases: newPhases,
-							});
-							gtag("set", {
-								page_title: "Game",
-								page_location: location.href,
-							});
-							gtag("event", "page_view");
-						},
-					],
-				],
-			);
+			if (this.props.laboratoryMode) {
+				const { labOptions } = this.props.match;
+				const serializedState = JSON.parse(
+					pako.inflate(
+						atob(
+							decodeURIComponent(
+								decodeURIComponent(labOptions)
+							)
+						),
+						{
+							to: "string",
+						}
+					)
+				);
+				const newPhases = this.state.phases.slice();
+				serializedState.phases.forEach((phase) => {
+					newPhases[
+						phase.Properties.PhaseOrdinal - 1
+					] = phase;
+				});
+				this.setState({
+					laboratoryMode: true,
+					activePhase: newPhases.find((phase) => {
+						return (
+							phase.Properties.PhaseOrdinal ===
+							serializedState.activePhase
+						);
+					}),
+					phases: newPhases,
+				});
+				gtag("set", {
+					page_title: "Game",
+					page_location: location.href,
+				});
+				gtag("event", "page_view");
+			}
 			if (
 				Globals.messaging.subscribe("phase", this.phaseMessageHandler)
 			) {

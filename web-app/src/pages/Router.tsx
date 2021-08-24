@@ -12,6 +12,7 @@ export const RouteConfig = {
 	About: '/about',
 	Game: '/game/:gameId',
 	GameChatChannel: '/game/:gameId/Channel/:channelId/Messages',
+	GameLabratoryMode: '/game/:gameId/Lab/:labOptions',
 }
 
 // Separated into two components to make testing routes easier
@@ -29,6 +30,9 @@ export const Routes = (props: RouteProps): React.ReactElement => {
 			</Route>
 			<Route exact path={RouteConfig.GameChatChannel}>
 				<Game chatOpen />
+			</Route>
+			<Route exact path={RouteConfig.GameLabratoryMode}>
+				<Game labratoryMode />
 			</Route>
 			<Redirect to="/" />
 		</Switch>
