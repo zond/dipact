@@ -1,15 +1,24 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
-import { AppBar, Button, List, ListItem, ListSubheader, Slide, Toolbar, Typography } from '@material-ui/core'
+import React from "react";
+import gtag from "ga-gtag";
+import {
+	AppBar,
+	Button,
+	List,
+	ListItem,
+	ListSubheader,
+	Slide,
+	Toolbar,
+	Typography,
+} from "@material-ui/core";
 
-import Globals from '../Globals';
-import ErrorsDialog from './ErrorsDialog';
-import GameList from './GameList';
-import CreateGameDialog from './CreateGameDialog';
-import NewsDialog from './NewsDialog';
+import Globals from "../Globals";
+import ErrorsDialog from "./ErrorsDialog";
+import GameList from "./GameList";
+import CreateGameDialog from "./CreateGameDialog";
+import NewsDialog from "./NewsDialog";
 
-import { ExpandIcon } from '../icons';
+import { ExpandIcon } from "../icons";
 import LogoDarkSvgPath from "../static/img/logo_dark.svg";
 import SoldiersSvgPath from "../static/img/soldiers.svg";
 
@@ -52,13 +61,11 @@ export default class Start extends React.Component {
 					<div
 						style={{
 							height: "calc(100vh - 114px)",
-							overflowY: "scroll"
+							overflowY: "scroll",
 						}}
 					>
 						<NewsDialog />
-						<List
-							style={{ maxWidth: "940px", margin: "auto" }}
-						>
+						<List style={{ maxWidth: "940px", margin: "auto" }}>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
@@ -237,24 +244,24 @@ export default class Start extends React.Component {
 							color="primary"
 							style={{ top: "auto", bottom: 0 }}
 						>
-							<Toolbar
-								style={{ justifyContent: "space-around" }}
-							>
+							<Toolbar style={{ justifyContent: "space-around" }}>
 								<Button
 									key="new-game"
 									onClick={(_) => {
 										this.setState({
-											newGameFormOpen: !this.state
-												.newGameFormOpen,
+											newGameFormOpen:
+												!this.state.newGameFormOpen,
 										});
 									}}
 									variant="contained"
 									color="secondary"
 								>
 									New game
-									{this.state.newGameFormOpen
-										? <ExpandIcon />
-										: ""}
+									{this.state.newGameFormOpen ? (
+										<ExpandIcon />
+									) : (
+										""
+									)}
 								</Button>
 							</Toolbar>
 							<Slide
@@ -263,9 +270,7 @@ export default class Start extends React.Component {
 								direction="up"
 								in={this.state.newGameFormOpen}
 							>
-								<Toolbar
-									style={{ flexDirection: "column" }}
-								>
+								<Toolbar style={{ flexDirection: "column" }}>
 									<Button
 										style={{ margin: 4 }}
 										variant="outlined"
@@ -325,7 +330,7 @@ export default class Start extends React.Component {
 								}}
 							>
 								<img
-									alt='Diplity logo dark'
+									alt="Diplity logo dark"
 									style={{
 										width: "calc(100% - 48px)",
 										maxWidth: "340px",
@@ -363,7 +368,7 @@ export default class Start extends React.Component {
 							<div id="bottom">
 								<div
 									style={{
-      									backgroundImage: `url(${SoldiersSvgPath})`,
+										backgroundImage: `url(${SoldiersSvgPath})`,
 										height: "72px",
 									}}
 								></div>
