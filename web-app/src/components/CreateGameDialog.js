@@ -562,6 +562,11 @@ export default class CreateGameDialog extends React.Component {
 										label="Game master of new game"
 										style={{ marginBottom: "8px" }}
 									/>
+									<FormHelperText>
+										A game master can pause or start games
+										as well as control who joins and as what
+										nation.
+									</FormHelperText>
 									{this.state.newGameProperties.Private ? (
 										""
 									) : (
