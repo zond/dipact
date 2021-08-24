@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 
 export default class About extends React.Component {
 	render() {
@@ -25,6 +25,7 @@ export default class About extends React.Component {
 						<a
 							href="https://en.wikipedia.org/wiki/Diplomacy_(game)"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Diplomacy
 						</a>{" "}
@@ -32,6 +33,7 @@ export default class About extends React.Component {
 						<a
 							href="https://en.wikipedia.org/wiki/Allan_B._Calhamer"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Allan Calhamer
 						</a>
@@ -72,32 +74,36 @@ export default class About extends React.Component {
 						next turn starts, until one player controls enough of
 						the board to be the winner.
 					</Typography>
-					<Typography
-						variant={"body2"}
-						style={{ marginBottom: "32px" }}
-					>
-						<box style={{ fontWeight: "700", display: "block" }}>
+					<Box style={{ fontWeight: "700", display: "block" }}>
+						<Typography
+							variant={"body2"}
+							style={{ marginBottom: "32px" }}
+						>
 							{" "}
 							This is why Diplicity games take a long time.
 							'Playing' is mostly chatting with others. Turns
 							usually take a day or more.
-						</box>{" "}
-					</Typography>
+						</Typography>
+					</Box>{" "}
 					<Typography variant={"h5"} style={{ marginBottom: "8px" }}>
 						Diplicity
 					</Typography>
-
 					<Typography variant={"body2"}>
 						Diplicity is an open-source project that allows your to
 						play Diplomacy online via both an{" "}
 						<a
 							href="https://play.google.com/store/apps/details?id=se.oort.diplicity"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Android app
 						</a>{" "}
 						or{" "}
-						<a href="http://www.diplicity.com" target="_blank">
+						<a
+							href="http://www.diplicity.com"
+							target="_blank"
+							rel="noreferrer"
+						>
 							www.diplicity.com
 						</a>
 						.
@@ -106,7 +112,6 @@ export default class About extends React.Component {
 						(Both are made by hobbyists who built this for free, in
 						their spare time).
 					</Typography>
-
 					<Typography
 						variant={"subtitle1"}
 						style={{ fontWeight: "700" }}
@@ -133,24 +138,26 @@ export default class About extends React.Component {
 						You can always invite others to speed this up using the
 						share game link.
 					</Typography>
-
 					<Typography
 						variant={"subtitle1"}
 						style={{ fontWeight: "700" }}
 					>
 						Finding good matches
 					</Typography>
-					<Typography variant={"body2"} paragraph>
+					<Typography variant={"body2"} paragraph component={"span"}>
 						To raise the quality of games, the system tracks a lot
 						of stats and allows games to only allow players with
 						certain stats. The most important is the{" "}
-						<Typography
-							variant={"body2"}
-							color="error"
-							style={{ display: "inline", fontColor: "red" }}
-						>
-							Reliability statistic
-						</Typography>{" "}
+					</Typography>
+					<Typography
+						component={"span"}
+						variant={"body2"}
+						color="error"
+						style={{ display: "inline", fontColor: "red" }}
+					>
+						Reliability statistic
+					</Typography>{" "}
+					<Typography variant={"body2"} component={"span"} paragraph>
 						(explained below).
 					</Typography>
 					<Typography
@@ -188,7 +195,6 @@ export default class About extends React.Component {
 						some random orders each turn is enough \ to make a huge
 						positive difference to the game.
 					</Typography>
-
 					<Typography
 						variant={"subtitle1"}
 						style={{ fontWeight: "700" }}
@@ -207,11 +213,9 @@ export default class About extends React.Component {
 						If you do not want this, you can create a new, private
 						game and play it with friends.
 					</Typography>
-
 					<Typography variant={"h5"} style={{ marginBottom: "8px" }}>
 						Diplicity Development
 					</Typography>
-
 					<Typography variant={"body2"}>
 						This app actually consists of multiple open source
 						projects:
@@ -220,6 +224,7 @@ export default class About extends React.Component {
 						<a
 							href="https://github.com/zond/dipact"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Dipact
 						</a>
@@ -229,35 +234,40 @@ export default class About extends React.Component {
 						<a
 							href="https://github.com/zond/diplicity"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Diplicity
 						</a>
 						, a Diplomacy game service that uses
 					</Typography>
 					<Typography variant={"body2"} paragraph>
-						<a href="https://github.com/zond/godip" target="_blank">
+						<a
+							href="https://github.com/zond/godip"
+							target="_blank"
+							rel="noreferrer"
+						>
 							Godip
 						</a>
 						, a Diplomacy judge service.
 					</Typography>
-
 					<Typography variant={"body2"} paragraph>
 						A free instance of the Diplicity server is hosted at{" "}
 						<a
 							href="https://diplicity-engine.appspot.com/"
 							target="_blank"
+							rel="noreferrer"
 						>
 							https://diplicity-engine.appspot.com
 						</a>
 						, where you can find a simple and free RESTful JSON API
 						to interact with Diplomacy games.
 					</Typography>
-
 					<Typography variant={"body2"} paragraph>
 						We are currently focusing our efforts on{" "}
 						<a
 							href="https://github.com/zond/dipact"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Dipact
 						</a>
@@ -269,18 +279,19 @@ export default class About extends React.Component {
 						<a
 							href="https://discord.com/channels/565625522407604254/697344626859704340"
 							target="_blank"
+							rel="noreferrer"
 						>
 							Discord server
 						</a>
 						.
 					</Typography>
-
 					<Typography variant={"body2"}>
 						You can find the old version of the Android app
 						("Droidippy") at{" "}
 						<a
 							href="https://github.com/zond/android-diplicity/releases"
 							target="_blank"
+							rel="noreferrer"
 						>
 							https://github.com/zond/android-diplicity/releases
 						</a>
