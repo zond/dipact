@@ -350,8 +350,8 @@ class GameListElement extends React.Component {
 								fontSize: "10px",
 								color: "#FDE2B5",
 								marginTop: "0px",
-								padding: "0px 0px 0px 3px",
-								align: "center",
+								textAlign: "center",
+								width:"16px", 
 							}}
 						>
 							{this.state.game.Properties.ChatLanguageISO639_1}
