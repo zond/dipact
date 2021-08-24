@@ -510,7 +510,7 @@ export default class GameMetadata extends React.Component {
 						<div
 							style={{
 								fontSize: "12px",
-								color: "#FDE2B5",
+								color: "#FFF",
 								marginTop: "1px",
 								textAlign: "center",
 								width:"24px", 

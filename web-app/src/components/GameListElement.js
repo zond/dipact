@@ -348,7 +348,7 @@ class GameListElement extends React.Component {
 						<div
 							style={{
 								fontSize: "10px",
-								color: "#FDE2B5",
+								color: "#FFF",
 								marginTop: "0px",
 								textAlign: "center",
 								width:"16px", 
