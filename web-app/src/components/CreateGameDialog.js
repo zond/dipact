@@ -216,11 +216,12 @@ export default class CreateGameDialog extends React.Component {
 					body: JSON.stringify(newGameProps),
 				})
 			)
-			.then((resp) => {
+			.then((resp) => resp.json())
+			.then((json) => {
 				helpers.decProgress();
 				gtag("event", "create_game");
 				Globals.messaging.start();
-				this.close().then(this.props.gameCreated);
+				this.close().then(this.props.gameCreated(json));
 			});
 	}
 	newGamePropertyUpdater(propertyName, opts = {}) {

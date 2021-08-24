@@ -40,6 +40,8 @@ export default class MainMenu extends ActivityContainer {
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
 		this.renderMyFinishedGames = this.renderMyFinishedGames.bind(this);
+		this.renderMasterdeFinishedGames =
+			this.renderMasteredFinishedGames.bind(this);
 		// Since onClickOutside in a webview seems to behave strangely.
 		this.drawerOpenedAt = 0;
 		this.state = {
@@ -50,6 +52,7 @@ export default class MainMenu extends ActivityContainer {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
 				findOpenGame: this.renderOpenGames,
+				renderMasteredFinishedGames: this.renderMasteredFinishedGames,
 				renderMyFinishedGames: this.renderMyFinishedGames,
 			},
 		};
@@ -78,6 +81,8 @@ export default class MainMenu extends ActivityContainer {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
+									renderMasteredFinishedGames:
+										this.renderMasteredFinishedGames,
 									renderMyFinishedGames:
 										this.renderMyFinishedGames,
 								});
@@ -138,6 +143,13 @@ export default class MainMenu extends ActivityContainer {
 	}
 	closeDrawer() {
 		this.setState({ drawerOpen: false });
+	}
+	renderMasteredFinishedGames() {
+		this.setActivity(GameList, {
+			label: "Finished game mastered games",
+			key: "mastered-finished-games",
+			url: this.props.urls["mastered-finished-games"],
+		});
 	}
 	renderMyFinishedGames() {
 		this.setActivity(GameList, {
