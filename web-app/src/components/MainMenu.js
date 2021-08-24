@@ -41,6 +41,8 @@ class MainMenu extends ActivityContainer {
 		this.findGameByID = this.findGameByID.bind(this);
 		this.renderOpenGames = this.renderOpenGames.bind(this);
 		this.renderMyFinishedGames = this.renderMyFinishedGames.bind(this);
+		this.renderMasteredFinishedGames =
+			this.renderMasteredFinishedGames.bind(this);
 		// Since onClickOutside in a webview seems to behave strangely.
 		this.drawerOpenedAt = 0;
 		this.state = {
@@ -51,6 +53,7 @@ class MainMenu extends ActivityContainer {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
 				findOpenGame: this.renderOpenGames,
+				renderMasteredFinishedGames: this.renderMasteredFinishedGames,
 				renderMyFinishedGames: this.renderMyFinishedGames,
 			},
 		};
@@ -81,6 +84,8 @@ class MainMenu extends ActivityContainer {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
+									renderMasteredFinishedGames:
+										this.renderMasteredFinishedGames,
 									renderMyFinishedGames:
 										this.renderMyFinishedGames,
 								});
@@ -141,6 +146,13 @@ class MainMenu extends ActivityContainer {
 	}
 	closeDrawer() {
 		this.setState({ drawerOpen: false });
+	}
+	renderMasteredFinishedGames() {
+		this.setActivity(GameList, {
+			label: "Finished game mastered games",
+			key: "mastered-finished-games",
+			url: this.props.urls["mastered-finished-games"],
+		});
 	}
 	renderMyFinishedGames() {
 		this.setActivity(GameList, {
@@ -350,54 +362,6 @@ class MainMenu extends ActivityContainer {
 									<ListItemText primary="Finished games" />
 								</ListItem>
 
-								<React.Fragment>
-									<Divider />
-
-									<ListItem
-										style={{
-											padding: "24px 16px 8px 16px",
-											height: "40px",
-										}}
-									>
-										<ListItemText
-											primary="Game mastered games"
-											disableTypography
-											style={{
-												color: "rgba(40, 26, 26, 0.56)",
-												minHeight: "auto",
-												minWidth: "auto",
-												font: "500 14px / 48px Cabin, Roboto, sans-serif",
-												margin: "0px 0px 2px",
-											}}
-										/>
-									</ListItem>
-
-									<ListItem
-										button
-										urlkey="mastered-staging-games"
-										label="Staging games game mastered by me"
-										onClick={this.renderGameList}
-									>
-										<ListItemText primary="Staging games" />
-									</ListItem>
-									<ListItem
-										style={{ padding: "4px 16px" }}
-										button
-										urlkey="mastered-started-games"
-										label="Started games game mastered by me"
-										onClick={this.renderGameList}
-									>
-										<ListItemText primary="Started games" />
-									</ListItem>
-									<ListItem
-										button
-										urlkey="mastered-finished-games"
-										label="Finished games game mastered by me"
-										onClick={this.renderGameList}
-									>
-										<ListItemText primary="Finished games" />
-									</ListItem>
-								</React.Fragment>
 								<Divider />
 
 								<ListItem

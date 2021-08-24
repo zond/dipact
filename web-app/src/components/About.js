@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
+import { Box, Typography } from "@material-ui/core";
 
 export default class About extends React.Component {
-
 	render() {
 		return (
 			<div
@@ -9,145 +9,296 @@ export default class About extends React.Component {
 				style={{
 					overflowY: "scroll",
 					height: "calc(100% - 60px)",
-					padding: "12px",
+					padding: "16px",
+					display: "flex",
+					justifyContent: "center",
 				}}
 			>
-				<h2>Diplomacy</h2>
-				<p>
-					<a href="https://en.wikipedia.org/wiki/Diplomacy_(game)">
+				<div style={{ maxWidth: "520px", height: "100%" }}>
+					<Typography variant={"h5"} style={{ marginBottom: "8px" }}>
 						Diplomacy
-					</a>{" "}
-					is a game invented in the 50's by{" "}
-					<a href="https://en.wikipedia.org/wiki/Allan_B._Calhamer">
-						Allan Calhamer
-					</a>
-					.
-				</p>
-				<p>
-					It bears a visual resemblance to{" "}
-					<a href="https://en.wikipedia.org/wiki/Risk_(game)">Risk</a>
-					, in that it describes a territorial conflict using a map
-					with player controlled regions and military units. However,
-					unlike Risk, there's no element of chance. Discounting the
-					initial distribution of territories and units, all outcomes
-					are deterministic.
-				</p>
-				<p>
-					The{" "}
-					<a href="https://en.wikibooks.org/wiki/Diplomacy/Rules">
-						rules
-					</a>{" "}
-					are designed to be simple, and make it almost impossible to
-					make headway without combining forces with the other
-					players, while at the same time enforcing a{" "}
-					<a href="https://en.wikipedia.org/wiki/Zero-sum_game">
-						zero sum game
-					</a>
-					.
-				</p>
-				<p>
-					This means that using diplomacy to convince the other
-					players that the best way for them to win is to work with
-					you, while at the same time making sure that you end up on
-					top when the benefits of the alliance start to wane, is the
-					most successful method of winning the game.
-				</p>
-				<h2>Diplicity</h2>
-				<p>
-					<a href="https://github.com/zond/diplicity">Diplicity</a> is
-					technically an open source project providing a Diplomacy
-					service using the judge powers of{" "}
-					<a href="https://github.com/zond/godip">godip</a>, another
-					open source project.
-				</p>
-				<p>
-					To provide maximum utility, a free server is hosted at{" "}
-					<a href="https://diplicity-engine.appspot.com/">
-						https://diplicity-engine.appspot.com
-					</a>
-					, where you can find a simple and free to use{" "}
-					<a href="https://en.wikipedia.org/wiki/Representational_state_transfer">
-						RESTful
-					</a>{" "}
-					<a href="https://en.wikipedia.org/wiki/JSON">JSON</a> API to
-					interact with Diplomacy games.
-				</p>
-				<p>
-					To enable humans to play the game, a few user interfaces to
-					diplicity have been created, such as an{" "}
-					<a href="https://play.google.com/store/apps/details?id=se.oort.diplicity">
-						Android app
-					</a>{" "}
-					(find the old version at{" "}
-					<a href="https://github.com/zond/android-diplicity/releases">
-						https://github.com/zond/android-diplicity/releases
-					</a>
-					), with a web app version at{" "}
-					<a href="https://diplicity.com">https://diplicity.com</a>.
-				</p>
-				<p>
-					You are currently using the web app (potentially wrapped in
-					a native application) to view this information.
-				</p>
-				<h2>This application</h2>
-				<p>
-					This application is a web app created to make it simple to
-					play Diplomacy using the diplicity service.
-				</p>
-				<h3>Account information</h3>
-				<p>
-					To minimize abuse and simplify usage, it uses your Google
-					account information to identify you and will use your Google
-					account name and avatar to refer to you when you interact
-					with other players. To change your displayed name or avatar,
-					change it in your Google account, and it will update (for
-					new games you join) the next time you log in.
-				</p>
-				<h3>Start playing</h3>
-				<p>
-					To play a game, you either create one yourself or join one
-					already created. There are two categories of games, private
-					and public. The public ones are listed in the Open games
-					list, while the private ones require the creator to share a
-					link for others to find them.
-				</p>
-				<h3>Player statistics</h3>
-				<p>
-					To raise the quality of games and to let people play with
-					others of similiar persuasion the system tracks a lot of
-					stats for each player, and allows game creators to limit the
-					players able to join the game to players having stats in
-					defined intervals.
-				</p>
-				<h4>Reliability</h4>
-				<p>
-					The most important of these is the Reliability statistic.
-					Since a Diplomacy game where some players stop playing
-					quickly becomes unbalanced, boring, and pointless, it is
-					important to keep interacting with the game even when there
-					isn't a chance of winning anymore, or when the other players
-					have proven to be assholes, or when you just don't feel like
-					it anymore. Just providing some random orders and submitting
-					them is enough to make a huge positive difference.
-				</p>
-				<p>
-					The reliability statistic is designed to reward active
-					players by letting them join games with other active
-					players. It works by calculating the number of active game
-					phases divided by the number of inactive game phases, so
-					that it represents the average number of phases between
-					missing the deadline.
-				</p>
-				<p>
-					When creating and joining games, it's recommended to (if
-					possible when taking your own reliability into account)
-					create and join games with a minimum reliability
-					requirement of at least 10. This is helped by the minimum
-					reliability of created games defaulting to your own
-					reliability, or 10 if it's higher than 10.
-				</p>
+					</Typography>
+					<Typography
+						variant={"body2"}
+						style={{ marginBottom: "8px" }}
+					>
+						<a
+							href="https://en.wikipedia.org/wiki/Diplomacy_(game)"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Diplomacy
+						</a>{" "}
+						is a game invented in the 50's by{" "}
+						<a
+							href="https://en.wikipedia.org/wiki/Allan_B._Calhamer"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Allan Calhamer
+						</a>
+						.
+					</Typography>
+					<Typography
+						variant={"body2"}
+						style={{ marginBottom: "8px" }}
+					>
+						It looks like Risk, with a war map and units, but unlike
+						Risk has no element of chance. All units have equal
+						strength; the only way to win is to convince other
+						players to help you (and ultimately betray them). This
+						real, human connection is more important than the
+						tactical aspect.
+					</Typography>
+					<Typography
+						variant={"body2"}
+						style={{ marginBottom: "8px" }}
+					>
+						During a turn, players play in parallel; firstly, during
+						a fixed time, players just talk to each other (in groups
+						or private); making alliances, agreements, pass
+						information. During this phase they submit secret orders
+						for their units, according to the{" "}
+						<a href="https://en.wikibooks.org/wiki/Diplomacy/Rules">
+							Diplomacy rules
+						</a>
+						.
+					</Typography>
+					<Typography
+						variant={"body2"}
+						style={{ marginBottom: "8px" }}
+					>
+						After the time ends, all orders are revealed
+						simultaneously, showing who supported or betrayed who.
+						Battles are resolved, units build or destroyed, and the
+						next turn starts, until one player controls enough of
+						the board to be the winner.
+					</Typography>
+					<Box style={{ fontWeight: "700", display: "block" }}>
+						<Typography
+							variant={"body2"}
+							style={{ marginBottom: "32px" }}
+						>
+							{" "}
+							This is why Diplicity games take a long time.
+							'Playing' is mostly chatting with others. Turns
+							usually take a day or more.
+						</Typography>
+					</Box>{" "}
+					<Typography variant={"h5"} style={{ marginBottom: "8px" }}>
+						Diplicity
+					</Typography>
+					<Typography variant={"body2"}>
+						Diplicity is an open-source project that allows your to
+						play Diplomacy online via both an{" "}
+						<a
+							href="https://play.google.com/store/apps/details?id=se.oort.diplicity"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Android app
+						</a>{" "}
+						or{" "}
+						<a
+							href="http://www.diplicity.com"
+							target="_blank"
+							rel="noreferrer"
+						>
+							www.diplicity.com
+						</a>
+						.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						(Both are made by hobbyists who built this for free, in
+						their spare time).
+					</Typography>
+					<Typography
+						variant={"subtitle1"}
+						style={{ fontWeight: "700" }}
+					>
+						How to start playing
+					</Typography>
+					<Typography variant={"body2"}>
+						You either create a new game or join one already created
+						(we suggest an almost full one).
+					</Typography>
+					<Typography variant={"body2"}>
+						<i>Public games </i>are listed in the Open games list
+						for anyone to join.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						<i>Private</i> games are unlisted and require members to
+						share a link for others to join.
+					</Typography>
+					<Typography variant={"body2"}>
+						Games will only start when full; this can sometimes take
+						a long time.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						You can always invite others to speed this up using the
+						share game link.
+					</Typography>
+					<Typography
+						variant={"subtitle1"}
+						style={{ fontWeight: "700" }}
+					>
+						Finding good matches
+					</Typography>
+					<Typography variant={"body2"} paragraph component={"span"}>
+						To raise the quality of games, the system tracks a lot
+						of stats and allows games to only allow players with
+						certain stats. The most important is the{" "}
+					</Typography>
+					<Typography
+						component={"span"}
+						variant={"body2"}
+						color="error"
+						style={{ display: "inline", fontColor: "red" }}
+					>
+						Reliability statistic
+					</Typography>{" "}
+					<Typography variant={"body2"} component={"span"} paragraph>
+						(explained below).
+					</Typography>
+					<Typography
+						variant={"subtitle2"}
+						style={{ fontWeight: "700" }}
+					>
+						Reliability
+					</Typography>
+					<Typography variant={"body2"}>
+						Diplomacy is a game where players who stop responding
+						make it unbalanced, boring, and no fun for anyone.
+						Reliability awards active players by letting them join
+						other active players.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						We recommend creating and joining games with a minimum
+						reliability requirement of at least 10 (or as high as
+						your reliability allows).
+					</Typography>
+					<Typography
+						variant={"subtitle2"}
+						style={{ fontWeight: "700" }}
+					>
+						Raising Reliability
+					</Typography>
+					<Typography variant={"body2"}>
+						Your first game might have some players who don't
+						respond.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						Even when losing, other players are assholes, or you
+						don't feel like playing anymore, it's important to keep
+						sending orders. This will raise your reliability so your
+						next games can be of higher quality. Even submitting
+						some random orders each turn is enough \ to make a huge
+						positive difference to the game.
+					</Typography>
+					<Typography
+						variant={"subtitle1"}
+						style={{ fontWeight: "700" }}
+					>
+						Using Google Account Info
+					</Typography>
+					<Typography variant={"body2"}>
+						We use your account name and avatar to refer to you when
+						you interact with other players. After a public game
+						ends,this info (together with your message history)
+						becomes accessible to all Diplicity players.
+						Unfortunately, we had to do this to reduce verbal abuse
+						and keep the atmosphere friendly.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						If you do not want this, you can create a new, private
+						game and play it with friends.
+					</Typography>
+					<Typography variant={"h5"} style={{ marginBottom: "8px" }}>
+						Diplicity Development
+					</Typography>
+					<Typography variant={"body2"}>
+						This app actually consists of multiple open source
+						projects:
+					</Typography>
+					<Typography variant={"body2"}>
+						<a
+							href="https://github.com/zond/dipact"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Dipact
+						</a>
+						, this user interface app that uses
+					</Typography>
+					<Typography variant={"body2"}>
+						<a
+							href="https://github.com/zond/diplicity"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Diplicity
+						</a>
+						, a Diplomacy game service that uses
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						<a
+							href="https://github.com/zond/godip"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Godip
+						</a>
+						, a Diplomacy judge service.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						A free instance of the Diplicity server is hosted at{" "}
+						<a
+							href="https://diplicity-engine.appspot.com/"
+							target="_blank"
+							rel="noreferrer"
+						>
+							https://diplicity-engine.appspot.com
+						</a>
+						, where you can find a simple and free RESTful JSON API
+						to interact with Diplomacy games.
+					</Typography>
+					<Typography variant={"body2"} paragraph>
+						We are currently focusing our efforts on{" "}
+						<a
+							href="https://github.com/zond/dipact"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Dipact
+						</a>
+						, and are always happy with people who want to help (by
+						developing, translating, designing, creating variants or
+						otherwise). The project is run on a 'we make it because
+						we like to make it' basis. If you want to contribute, we
+						welcome you on our{" "}
+						<a
+							href="https://discord.com/channels/565625522407604254/697344626859704340"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Discord server
+						</a>
+						.
+					</Typography>
+					<Typography variant={"body2"}>
+						You can find the old version of the Android app
+						("Droidippy") at{" "}
+						<a
+							href="https://github.com/zond/android-diplicity/releases"
+							target="_blank"
+							rel="noreferrer"
+						>
+							https://github.com/zond/android-diplicity/releases
+						</a>
+						.
+					</Typography>
+				</div>
 			</div>
 		);
 	}
 }
-

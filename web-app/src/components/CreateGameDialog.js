@@ -1,32 +1,32 @@
 /* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
 import {
-    InputLabel,
-    RadioGroup,
-    Radio,
-    FormGroup,
-    FormControlLabel,
-    Box,
-    Select,
-    FormHelperText,
-    Dialog,
-    AppBar,
-    MenuItem,
-    Toolbar,
-    IconButton,
-    Button,
-    Checkbox,
-    TextField,
-    Typography
-} from '@material-ui/core';
+	InputLabel,
+	RadioGroup,
+	Radio,
+	FormGroup,
+	FormControlLabel,
+	Box,
+	Select,
+	FormHelperText,
+	Dialog,
+	AppBar,
+	MenuItem,
+	Toolbar,
+	IconButton,
+	Button,
+	Checkbox,
+	TextField,
+	Typography,
+} from "@material-ui/core";
 
-import { CloseIcon, RandomGameNameIcon } from '../icons'
+import { CloseIcon, RandomGameNameIcon } from "../icons";
 
-import NationPreferencesDialog from './NationPreferencesDialog';
-import Globals from '../Globals';
+import NationPreferencesDialog from "./NationPreferencesDialog";
+import Globals from "../Globals";
 
 const intReg = /^[0-9]+$/;
 const floatReg = /^[0-9]+(\.[0-9]+)?$/;
@@ -77,16 +77,13 @@ export default class CreateGameDialog extends React.Component {
 		};
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
-		this.createGameWithPreferences = this.createGameWithPreferences.bind(
-			this
-		);
+		this.createGameWithPreferences =
+			this.createGameWithPreferences.bind(this);
 		this.setPhaseLength = this.setPhaseLength.bind(this);
-		this.limitedCheckboxedFloatField = this.limitedCheckboxedFloatField.bind(
-			this
-		);
-		this.setNonMovementPhaseLength = this.setNonMovementPhaseLength.bind(
-			this
-		);
+		this.limitedCheckboxedFloatField =
+			this.limitedCheckboxedFloatField.bind(this);
+		this.setNonMovementPhaseLength =
+			this.setNonMovementPhaseLength.bind(this);
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
 		this.checkboxField = this.checkboxField.bind(this);
 		if (this.props.parentCB) {
@@ -219,11 +216,12 @@ export default class CreateGameDialog extends React.Component {
 					body: JSON.stringify(newGameProps),
 				})
 			)
-			.then((resp) => {
+			.then((resp) => resp.json())
+			.then((json) => {
 				helpers.decProgress();
 				gtag("event", "create_game");
 				Globals.messaging.start();
-				this.close().then(this.props.gameCreated);
+				this.close().then(this.props.gameCreated(json));
 			});
 	}
 	newGamePropertyUpdater(propertyName, opts = {}) {
@@ -239,14 +237,14 @@ export default class CreateGameDialog extends React.Component {
 								"MinReliability"
 							];
 						} else {
-							state.newGameProperties[
-								"MinReliability"
-							] = Math.min(
-								10,
-								Math.floor(
-									this.state.userStats.Properties.Reliability
-								)
-							);
+							state.newGameProperties["MinReliability"] =
+								Math.min(
+									10,
+									Math.floor(
+										this.state.userStats.Properties
+											.Reliability
+									)
+								);
 							state.checkboxedFloatFields[
 								"MinReliability"
 							] = true;
@@ -266,7 +264,9 @@ export default class CreateGameDialog extends React.Component {
 					state.newGameProperties[propertyName] = newValue;
 				}
 				state.variant = Globals.variants.find((v) => {
-					return v.Properties.Name === state.newGameProperties.Variant;
+					return (
+						v.Properties.Name === state.newGameProperties.Variant
+					);
 				});
 				return state;
 			});
@@ -512,7 +512,8 @@ export default class CreateGameDialog extends React.Component {
 													{},
 													state
 												);
-												state.newGameProperties.Desc = helpers.randomGameName();
+												state.newGameProperties.Desc =
+													helpers.randomGameName();
 												return state;
 											});
 										}}
@@ -561,6 +562,11 @@ export default class CreateGameDialog extends React.Component {
 										label="Game master of new game"
 										style={{ marginBottom: "8px" }}
 									/>
+									<FormHelperText>
+										A game master can pause or start games
+										as well as control who joins and as what
+										nation.
+									</FormHelperText>
 									{this.state.newGameProperties.Private ? (
 										""
 									) : (
@@ -645,7 +651,7 @@ export default class CreateGameDialog extends React.Component {
 								</Typography>
 								<img
 									src={this.state.variant.Links[3].URL}
-									alt='Variant'
+									alt="Variant"
 									style={{
 										paddingBottom: "4px",
 										maxHeight: "300px",
@@ -739,10 +745,7 @@ export default class CreateGameDialog extends React.Component {
 									flexDirection: "column",
 								}}
 							>
-								<Box
-									display="flex"
-									key="PhaseLengthMinutes"
-								>
+								<Box display="flex" key="PhaseLengthMinutes">
 									<TextField
 										name="phase-length-multiplier"
 										label="Phase length"
@@ -763,19 +766,13 @@ export default class CreateGameDialog extends React.Component {
 												? "Minute"
 												: "Minutes"}
 										</MenuItem>
-										<MenuItem
-											key={60}
-											value={60}
-										>
+										<MenuItem key={60} value={60}>
 											{this.state
 												.phaseLengthMultiplier === 1
 												? "Hour"
 												: "Hours"}
 										</MenuItem>
-										<MenuItem
-											key={60 * 24}
-											value={60 * 24}
-										>
+										<MenuItem key={60 * 24} value={60 * 24}>
 											{this.state
 												.phaseLengthMultiplier === 1
 												? "Day"
@@ -831,20 +828,14 @@ export default class CreateGameDialog extends React.Component {
 												this.setNonMovementPhaseLength
 											}
 										>
-											<MenuItem
-												key={1}
-												value={1}
-											>
+											<MenuItem key={1} value={1}>
 												{this.state
 													.nonMovementPhaseLengthMultiplier ===
 												1
 													? "Minute"
 													: "Minutes"}
 											</MenuItem>
-											<MenuItem
-												key={60}
-												value={60}
-											>
+											<MenuItem key={60} value={60}>
 												{this.state
 													.nonMovementPhaseLengthMultiplier ===
 												1
@@ -903,13 +894,15 @@ export default class CreateGameDialog extends React.Component {
 														);
 														state.endEarly =
 															ev.target.checked;
-														state.newGameProperties.LastYear = ev
-															.target.checked
-															? this.state.variant
-																	.Properties
-																	.Start
-																	.Year + 7
-															: 0;
+														state.newGameProperties.LastYear =
+															ev.target.checked
+																? this.state
+																		.variant
+																		.Properties
+																		.Start
+																		.Year +
+																  7
+																: 0;
 														return state;
 													}
 												);
@@ -1210,10 +1203,7 @@ export default class CreateGameDialog extends React.Component {
 									},
 									max: null,
 								})}
-								<InputLabel
-									shrink
-									id="chatLanguageLabel"
-								>
+								<InputLabel shrink id="chatLanguageLabel">
 									Chat language
 								</InputLabel>
 								<Select

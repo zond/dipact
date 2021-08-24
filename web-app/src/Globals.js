@@ -1,5 +1,5 @@
 import $ from "jquery";
-import Messaging from './static/js/messaging';
+import Messaging from "./static/js/messaging";
 
 import { dippyMap } from "./static/js/dippymap";
 
@@ -14,7 +14,7 @@ if (fakeID) {
 	serverURL.searchParams.set("fake-id", fakeID);
 }
 
-const Globals = {
+window.Globals = {
 	serverRequest: new Request(serverURL, {
 		headers: {
 			"X-Diplicity-API-Level": "8",
@@ -25,7 +25,7 @@ const Globals = {
 	}),
 	user: {},
 	onNewForumMail: (fm) => {
-		Globals.latestForumMail = fm;
+		window.Globals.latestForumMail = fm;
 	},
 	latestForumMail: null,
 	userStats: { Properties: { TrueSkill: {} } },
@@ -56,4 +56,4 @@ const Globals = {
 	fakeID: fakeID,
 };
 
-export default Globals;
+export default window.Globals;

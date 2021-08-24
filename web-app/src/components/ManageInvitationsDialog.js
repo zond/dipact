@@ -1,34 +1,34 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import Globals from '../Globals';
-import gtag from 'ga-gtag';
+import React from "react";
+import * as helpers from "../helpers";
+import Globals from "../Globals";
+import gtag from "ga-gtag";
 import {
-    Dialog,
-    Button,
-    TextField,
-    DialogContent,
-    DialogActions,
-    DialogTitle,
-    Grid,
-    Typography,
-    ListItem,
-    MenuItem,
-    Select,
-    InputLabel,
-    List,
-    IconButton
-} from '@material-ui/core';
+	Dialog,
+	Button,
+	TextField,
+	DialogContent,
+	DialogActions,
+	DialogTitle,
+	Grid,
+	Typography,
+	ListItem,
+	MenuItem,
+	Select,
+	InputLabel,
+	List,
+	IconButton,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-import { DeleteIcon } from '../icons';
+import { DeleteIcon } from "../icons";
 
 const styles = (theme) => ({
-  dialogActions: {
-    backgroundColor: "white",
-    position: "sticky",
-    bottom: "0px",
-  },
+	dialogActions: {
+		backgroundColor: "white",
+		position: "sticky",
+		bottom: "0px",
+	},
 });
 
 class ManageInvitationsDialog extends React.Component {
@@ -74,7 +74,10 @@ class ManageInvitationsDialog extends React.Component {
 		};
 	}
 	onInvite() {
-		if (!this.state.email) return;
+		if (!this.state.email) {
+			helpers.snackbar("Email address is empty.");
+			return;
+		}
 		const link = this.state.game.Links.find((l) => {
 			return l.Rel === "invite-user";
 		});
@@ -118,7 +121,6 @@ class ManageInvitationsDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	render() {
-
 		const { classes } = this.props;
 
 		if (!this.state.open) {
@@ -133,9 +135,7 @@ class ManageInvitationsDialog extends React.Component {
 				fullWidth={true}
 				maxWidth="xl"
 			>
-				<DialogTitle>
-					Manage whitelist
-				</DialogTitle>
+				<DialogTitle>Manage whitelist</DialogTitle>
 				<DialogContent>
 					<React.Fragment>
 						<Typography style={{ margin: "1em" }}>
@@ -160,11 +160,7 @@ class ManageInvitationsDialog extends React.Component {
 								return (
 									<ListItem key={invitation.Email}>
 										<Grid container>
-											<Grid
-												key="data"
-												item
-												xs={10}
-											>
+											<Grid key="data" item xs={10}>
 												<Typography>
 													{invitation.Email}
 													{invitation.Nation
@@ -173,11 +169,7 @@ class ManageInvitationsDialog extends React.Component {
 														: ""}
 												</Typography>
 											</Grid>
-											<Grid
-												key="button"
-												item
-												xs={2}
-											>
+											<Grid key="button" item xs={2}>
 												<IconButton
 													style={{ padding: "0" }}
 													onClick={this.onUninvite(
@@ -228,25 +220,20 @@ class ManageInvitationsDialog extends React.Component {
 							key="normal_allocation"
 							value="normal_allocation"
 						>
-							Normal allocation
+							Default allocation for game
 						</MenuItem>
 						{this.variant.Properties.Nations.map((nation) => {
 							return (
-								<MenuItem
-									key={nation}
-									value={nation}
-								>
+								<MenuItem key={nation} value={nation}>
 									{nation}
 								</MenuItem>
 							);
 						})}
 					</Select>
 				</DialogContent>
-				<DialogActions
-					className={classes.dialogActions}
-				>
+				<DialogActions className={classes.dialogActions}>
 					<Button onClick={this.onInvite} color="primary">
-						Invite
+						Add to whitelist
 					</Button>
 				</DialogActions>
 			</Dialog>
