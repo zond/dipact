@@ -344,7 +344,7 @@ export default class NewsDialog extends React.Component {
 			);
 		} else {
 			return (
-				<div style={{ height: "52px" }}>
+				<div style={{ height: "52px", marginBottom: "6px" }}>
 					<div
 						style={{
 							borderRadius: "3px",
