@@ -1,57 +1,80 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
-import {SvgIcon, Divider, Typography, Tooltip, Box, Button, Badge, Zoom, AccordionSummary, Accordion, AccordionDetails } from "@material-ui/core";
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
+import {
+	SvgIcon,
+	Divider,
+	Typography,
+	Tooltip,
+	Box,
+	Button,
+	Badge,
+	Zoom,
+	AccordionSummary,
+	Accordion,
+	AccordionDetails,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
-import GameMetadata from './GameMetadata';
-import Game from './Game';
-import Globals from '../Globals';
-import NationPreferencesDialog from './NationPreferencesDialog';
-import RenameGameDialog from './RenameGameDialog';
-import ManageInvitationsDialog from './ManageInvitationsDialog';
-import RescheduleDialog from './RescheduleDialog';
+import GameMetadata from "./GameMetadata";
+import Game from "./Game";
+import Globals from "../Globals";
+import NationPreferencesDialog from "./NationPreferencesDialog";
+import RenameGameDialog from "./RenameGameDialog";
+import ManageInvitationsDialog from "./ManageInvitationsDialog";
+import RescheduleDialog from "./RescheduleDialog";
 
-import { ConfirmedReadyIcon, ExpandIcon, GavelIcon, MusteringIcon, NationAllocationIcon, NumMembersIcon, PrivateGameIcon, RatingIcon, ReliabilityIcon, StartedAtIcon } from '../icons';
+import {
+	ConfirmedReadyIcon,
+	ExpandIcon,
+	GavelIcon,
+	MusteringIcon,
+	NationAllocationIcon,
+	NumMembersIcon,
+	PrivateGameIcon,
+	RatingIcon,
+	ReliabilityIcon,
+	StartedAtIcon,
+} from "../icons";
 
-const warningClass = {color: "red"};
+const warningClass = { color: "red" };
 const noticeClass = {
-	fontWeight: "bold !important"
+	fontWeight: "bold !important",
 };
 const secondRowSummaryClass = {
-	display: 'flex',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
-	flexWrap: 'wrap',
-}
+	display: "flex",
+	flexDirection: "row",
+	justifyContent: "space-between",
+	flexWrap: "wrap",
+};
 const secondRowSummaryColorClass = {
-	color: "rgba(40, 26, 26, 0.7)"
+	color: "rgba(40, 26, 26, 0.7)",
 };
 const summaryIconsAndPhaseClass = {
-	display: 'flex',
-	justifyContent: 'right',
-}
+	display: "flex",
+	justifyContent: "right",
+};
 const summaryIconsClass = {
-	paddingRight: "4px"
-}
+	paddingRight: "4px",
+};
 
 const styles = (theme) => ({
-  accordionSummaryRoot: {
-	padding: theme.spacing(0),
-  },
-  accordionSummaryContent: {
-	maxWidth: `calc(100% - ${theme.spacing(4)}px)`,
-  },
-  accordionDetails: {
-	padding: theme.spacing(0),
-	maxWidth: `calc(100% - ${theme.spacing(4)})`,
-  },
-  sixteenBySixteenClass: {
-	height: '16px !important',
-	width: '16px !important',
-  }
+	accordionSummaryRoot: {
+		padding: theme.spacing(0),
+	},
+	accordionSummaryContent: {
+		maxWidth: `calc(100% - ${theme.spacing(4)}px)`,
+	},
+	accordionDetails: {
+		padding: theme.spacing(0),
+		maxWidth: `calc(100% - ${theme.spacing(4)})`,
+	},
+	sixteenBySixteenClass: {
+		height: "16px !important",
+		width: "16px !important",
+	},
 });
 
 class GameListElement extends React.Component {
@@ -279,11 +302,13 @@ class GameListElement extends React.Component {
 				disableFocusListener
 				title={tooltip}
 			>
-				<Icon style={{
-					padding: "4px 1px 0px 1px",
-					color: color,
-					fontSize: "14px",
-				}} />
+				<Icon
+					style={{
+						padding: "4px 1px 0px 1px",
+						color: color,
+						fontSize: "14px",
+					}}
+				/>
 			</Tooltip>
 		);
 	}
@@ -313,9 +338,36 @@ class GameListElement extends React.Component {
 						}).name
 					}
 				>
+					<div
+						style={{
+							fontFamily: "cabin",
+							height: "16px",
+							width: "16px",
+							display: "inline-flex",
+							alignSelf: "flex-start",
+							position: "relative",
+							top: "-5px",
+							backgroundImage:
+								'url(\'data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18" viewBox="0 0 24 24"><path fill="%23000000" d="M 20 2 H 4 c -1.1 0 -2 0.9 -2 2 v 18 l 4 -4 h 14 c 1.1 0 2 -0.9 2 -2 V 4 c 0 -1.1 -0.9 -2 -2 -2 Z"></path></svg>\')',
+						}}
+					>
+						<div
+							style={{
+								fontSize: "10px",
+								color: "#FFF",
+								marginTop: "0px",
+								textAlign: "center",
+								width: "16px",
+							}}
+						>
+							{this.state.game.Properties.ChatLanguageISO639_1}
+						</div>
+					</div>
+					{/*}
 					<Typography variant={'body2'} className={`${this.props.classes.sixteenBySixteenClass} speech-bubble`} style={{ display: "inline" }}>
 						{this.state.game.Properties.ChatLanguageISO639_1}
 					</Typography>
+				*/}
 				</Tooltip>
 			);
 		}
@@ -359,7 +411,9 @@ class GameListElement extends React.Component {
 					disableFocusListener
 					title="Maximum hate requirement"
 				>
-					<SvgIcon className={this.props.classes.sixteenBySixteenClass}>
+					<SvgIcon
+						className={this.props.classes.sixteenBySixteenClass}
+					>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -394,7 +448,9 @@ class GameListElement extends React.Component {
 					disableFocusListener
 					title="Chat disabled"
 				>
-					<SvgIcon className={this.props.classes.sixteenBySixteenClass}>
+					<SvgIcon
+						className={this.props.classes.sixteenBySixteenClass}
+					>
 						<g
 							id="Artboard"
 							stroke="none"
@@ -420,7 +476,12 @@ class GameListElement extends React.Component {
 			);
 		}
 		if (this.state.game.Properties.Private) {
-			this.addIconWithTooltip(icons, PrivateGameIcon, "black", "Private game");
+			this.addIconWithTooltip(
+				icons,
+				PrivateGameIcon,
+				"black",
+				"Private game"
+			);
 		}
 		if (this.state.game.Properties.NationAllocation === 1) {
 			this.addIconWithTooltip(
@@ -453,10 +514,7 @@ class GameListElement extends React.Component {
 			this.state.game.Properties.ActiveBans.length > 0
 		) {
 			buttons.push(
-				<Typography
-					key="banned-notice"
-					style={noticeClass}
-				>
+				<Typography key="banned-notice" style={noticeClass}>
 					You can't join because you banned or are banned by a player.
 				</Typography>
 			);
@@ -466,10 +524,7 @@ class GameListElement extends React.Component {
 			this.state.game.Properties.FailedRequirements
 		) {
 			buttons.push(
-				<Typography
-					key="requirement-notice"
-					style={noticeClass}
-				>
+				<Typography key="requirement-notice" style={noticeClass}>
 					You can't join this game because:{" "}
 					{this.state.game.Properties.FailedRequirements.map(
 						(req) => {
@@ -557,17 +612,14 @@ class GameListElement extends React.Component {
 			if (link.Rel === "join") {
 				if (
 					this.state.game.Properties.PhaseLengthMinutes < 60 * 12 ||
-					(this.state.game.Properties.NonMovementPhaseLengthMinutes !==
-						0 &&
+					(this.state.game.Properties
+						.NonMovementPhaseLengthMinutes !== 0 &&
 						this.state.game.Properties
 							.NonMovementPhaseLengthMinutes <
 							60 * 12)
 				) {
 					buttons.unshift(
-						<Typography
-							key="deadline-warning"
-							style={warningClass}
-						>
+						<Typography key="deadline-warning" style={warningClass}>
 							WARNING: This game has short deadlines (less than 12
 							hours). If it starts while you're unavailable, you
 							might miss parts of the game greatly impacting your
@@ -736,8 +788,7 @@ class GameListElement extends React.Component {
 												textroverflow="ellipsis"
 												noWrap
 												style={{
-													color:
-														"rgba(40, 26, 26, 1)",
+													color: "rgba(40, 26, 26, 1)",
 												}}
 											>
 												{helpers.gameDesc(
@@ -849,9 +900,7 @@ class GameListElement extends React.Component {
 										</div>
 										<Typography
 											variant="caption"
-											style={
-												secondRowSummaryColorClass
-											}
+											style={secondRowSummaryColorClass}
 										>
 											{
 												this.state.game.Properties
@@ -877,9 +926,13 @@ class GameListElement extends React.Component {
 								  ).find((m) => {
 										return m.User.Id === Globals.user.Id;
 								  }).NewestPhaseState.ReadyToResolve ? (
-									<Typography className={this.props.classes.sixteenBySixteenClass}>
-										Confirmed ready{" "}
-										<ConfirmedReadyIcon />
+									<Typography
+										className={
+											this.props.classes
+												.sixteenBySixteenClass
+										}
+									>
+										Confirmed ready <ConfirmedReadyIcon />
 									</Typography>
 								) : (
 									<Button
@@ -1006,11 +1059,7 @@ class GameListElement extends React.Component {
 		);
 
 		let gameView = (
-			<Zoom
-				in={this.state.viewOpen}
-				mountOnEnter
-				unmountOnExit
-			>
+			<Zoom in={this.state.viewOpen} mountOnEnter unmountOnExit>
 				<div
 					style={{
 						position: "fixed",
@@ -1081,14 +1130,15 @@ class GameListElement extends React.Component {
 					}}
 				>
 					<AccordionSummary
-						classes={{ root: classes.accordionSummaryRoot, content: classes.accordionSummaryContent }}
+						classes={{
+							root: classes.accordionSummaryRoot,
+							content: classes.accordionSummaryContent,
+						}}
 						expandIcon={<ExpandIcon />}
 					>
 						{summary}
 					</AccordionSummary>
-					<AccordionDetails
-						className={classes.accordionDetails}
-					>
+					<AccordionDetails className={classes.accordionDetails}>
 						{this.state.expanded ? (
 							<div>
 								<div

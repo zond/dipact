@@ -1,5 +1,5 @@
-import React from 'react';
-import { Icon, IconButton, Typography, SvgIcon } from '@material-ui/core'
+import React from "react";
+import { Icon, IconButton, Typography, SvgIcon } from "@material-ui/core";
 import {
 	PhaseDeadlineIcon,
 	KickIcon,
@@ -7,20 +7,19 @@ import {
 	GavelIcon,
 	PrivateGameIcon,
 	GameVariantIcon,
-	EndsAfterThisYearIcon,	
+	EndsAfterThisYearIcon,
 	MusteringIcon,
 	NationAllocationIcon,
 	RatingIcon,
 	StartedAtIcon,
 	ReliabilityIcon,
-} from '../icons';
-import gtag from 'ga-gtag';
+} from "../icons";
+import gtag from "ga-gtag";
 import AnonymousSvgPath from "../static/img/anon.svg";
 import NoEntrySvgPath from "../static/img/no_entry.svg";
 
-import * as helpers from '../helpers';
-import UserAvatar from './UserAvatar';
-
+import * as helpers from "../helpers";
+import UserAvatar from "./UserAvatar";
 
 export default class GameMetadata extends React.Component {
 	constructor(props) {
@@ -31,7 +30,9 @@ export default class GameMetadata extends React.Component {
 		this.onKick = this.onKick.bind(this);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (JSON.stringify(prevProps.game) !== JSON.stringify(this.props.game)) {
+		if (
+			JSON.stringify(prevProps.game) !== JSON.stringify(this.props.game)
+		) {
 			this.setState({ game: this.props.game });
 		}
 	}
@@ -60,6 +61,66 @@ export default class GameMetadata extends React.Component {
 	}
 	render() {
 		let cells = [];
+		if (this.state.game.Properties.ChatLanguageISO639_1) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<span
+						style={{
+							marginRight: "8px",
+							width: "24px",
+							height: "24px",
+						}}
+					>
+						<div
+							style={{
+								fontFamily: "cabin",
+								height: "24px",
+								width: "24px",
+								display: "inline-flex",
+								alignSelf: "flex-start",
+								backgroundImage:
+									'url(\'data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24" viewBox="0 0 24 24"><path fill="%23000000" d="M 20 2 H 4 c -1.1 0 -2 0.9 -2 2 v 18 l 4 -4 h 14 c 1.1 0 2 -0.9 2 -2 V 4 c 0 -1.1 -0.9 -2 -2 -2 Z"></path></svg>\')',
+							}}
+						>
+							<div
+								style={{
+									fontSize: "12px",
+									color: "#FFF",
+									marginTop: "1px",
+									textAlign: "center",
+									width: "24px",
+								}}
+							>
+								{
+									this.state.game.Properties
+										.ChatLanguageISO639_1
+								}{" "}
+								aaa
+							</div>
+						</div>
+					</span>
+					<Typography>
+						Chat language:{" "}
+						{
+							helpers.iso639_1Codes.find((el) => {
+								return (
+									el.code ===
+									this.state.game.Properties
+										.ChatLanguageISO639_1
+								);
+							}).name
+						}
+					</Typography>
+				</div>
+			);
+		}
 		if (this.state.game.Properties.Private) {
 			cells.push(
 				<div
@@ -70,7 +131,7 @@ export default class GameMetadata extends React.Component {
 					}}
 					key={cells.length}
 				>
-					<PrivateGameIcon style={{ marginRight: "8px" }}/>
+					<PrivateGameIcon style={{ marginRight: "8px" }} />
 					<Typography>Private game</Typography>
 				</div>
 			);
@@ -85,10 +146,8 @@ export default class GameMetadata extends React.Component {
 					}}
 					key={cells.length}
 				>
-					<GavelIcon style={{ marginRight: "8px" }}/>
-					<Typography>
-						Game master present
-					</Typography>
+					<GavelIcon style={{ marginRight: "8px" }} />
+					<Typography>Game master present</Typography>
 				</div>
 			);
 		}
@@ -97,7 +156,7 @@ export default class GameMetadata extends React.Component {
 				style={{ width: "100%", display: "flex", alignItems: "center" }}
 				key={cells.length}
 			>
-				<GameVariantIcon style={{ marginRight: "8px" }}/>
+				<GameVariantIcon style={{ marginRight: "8px" }} />
 				<Typography>
 					Game variant: {this.state.game.Properties.Variant}
 				</Typography>
@@ -128,9 +187,7 @@ export default class GameMetadata extends React.Component {
 					key={cells.length}
 				>
 					<MusteringIcon style={{ marginRight: "8px" }} />
-					<Typography>
-						Mustering before start
-					</Typography>
+					<Typography>Mustering before start</Typography>
 				</div>
 			);
 		}
@@ -165,7 +222,7 @@ export default class GameMetadata extends React.Component {
 					}}
 					key={cells.length}
 				>
-					<EndsAfterThisYearIcon  style={{ marginRight: "8px" }} />
+					<EndsAfterThisYearIcon style={{ marginRight: "8px" }} />
 					<Typography>
 						Ends after year: {this.state.game.Properties.LastYear}
 					</Typography>
@@ -479,42 +536,7 @@ export default class GameMetadata extends React.Component {
 				</div>
 			);
 		}
-		if (this.state.game.Properties.ChatLanguageISO639_1) {
-			cells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center",
-					}}
-					key={cells.length}
-				>
-					<span
-						style={{
-							marginRight: "8px",
-							width: "24px",
-							height: "24px",
-						}}
-					>
-						<span className="speech-bubble">
-							{this.state.game.Properties.ChatLanguageISO639_1}
-						</span>
-					</span>
-					<Typography>
-						Chat language:{" "}
-						{
-							helpers.iso639_1Codes.find((el) => {
-								return (
-									el.code ===
-									this.state.game.Properties
-										.ChatLanguageISO639_1
-								);
-							}).name
-						}
-					</Typography>
-				</div>
-			);
-		}
+
 		if (
 			this.state.game.Properties.Private &&
 			this.state.game.Properties.GameMasterEnabled &&
@@ -540,14 +562,12 @@ export default class GameMetadata extends React.Component {
 							<img
 								width="24"
 								height="24"
-								alt='No entry'
+								alt="No entry"
 								src={NoEntrySvgPath}
 							/>
 						</Icon>
 					</span>
-					<Typography>
-						Whitelisting required
-					</Typography>
+					<Typography>Whitelisting required</Typography>
 				</div>
 			);
 		}
@@ -577,7 +597,7 @@ export default class GameMetadata extends React.Component {
 					>
 						<Icon style={{ marginRight: "8px" }}>
 							<img
-								alt='Anonymous'
+								alt="Anonymous"
 								width="24"
 								height="24"
 								src={AnonymousSvgPath}
@@ -632,9 +652,7 @@ export default class GameMetadata extends React.Component {
 								</g>
 							</SvgIcon>
 						</Icon>
-						<Typography>
-							No chat (Gunboat)
-						</Typography>
+						<Typography>No chat (Gunboat)</Typography>
 					</div>
 				);
 			} else {
@@ -697,7 +715,7 @@ export default class GameMetadata extends React.Component {
 						}}
 						key={cells.length}
 					>
-						<ChatIcon  style={{ marginRight: "8px" }} />
+						<ChatIcon style={{ marginRight: "8px" }} />
 						<Typography>
 							{" "}
 							{allChannels[false].join(" & ")} chat on{" "}
@@ -768,4 +786,3 @@ export default class GameMetadata extends React.Component {
 		return cells;
 	}
 }
-

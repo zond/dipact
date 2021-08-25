@@ -565,12 +565,13 @@ export default class CreateGameDialog extends React.Component {
 									/>
 
 									{this.state.newGameProperties.Private ? (
-									<FormHelperText>
-										As game master, you can pause/resume games
-										and control who joins (and as what nation). 
-										If you want to play yourself, you 
-										need to join as a player after creating your game.
-									</FormHelperText>
+										<FormHelperText>
+											As game master, you can pause/resume
+											games and control who joins (and as
+											what nation). If you want to play
+											yourself, you need to join as a
+											player after creating your game.
+										</FormHelperText>
 									) : (
 										<FormHelperText>
 											Game master only allowed in private
@@ -707,7 +708,9 @@ export default class CreateGameDialog extends React.Component {
 									)}
 									onChange={this.newGamePropertyUpdater(
 										"NationAllocation",
-										{ int: true }
+										{
+											int: true,
+										}
 									)}
 									style={{
 										flexDirection: "row",
@@ -1040,13 +1043,67 @@ export default class CreateGameDialog extends React.Component {
 								{this.state.newGameProperties["Private"] ? (
 									""
 								) : (
-									<FormHelperText>
+									<FormHelperText
+										style={{ marginBottom: "12px" }}
+									>
 										Anonymous only allowed in private games
 										(risk of abuse)
 									</FormHelperText>
 								)}
 							</div>
 							<div>
+								<InputLabel shrink id="chatLanguageLabel">
+									Chat language
+								</InputLabel>
+
+								<Select
+									key="ChatLanguageISO639_1"
+									labelId="chatLanguageLabel"
+									disabled={
+										this.state.newGameProperties[
+											"DisableConferenceChat"
+										] &&
+										this.state.newGameProperties[
+											"DisableGroupChat"
+										] &&
+										this.state.newGameProperties[
+											"DisablePrivateChat"
+										]
+									}
+									value={
+										this.state.newGameProperties[
+											"ChatLanguageISO639_1"
+										]
+											? this.state.newGameProperties[
+													"ChatLanguageISO639_1"
+											  ]
+											: "players_choice"
+									}
+									onChange={this.newGamePropertyUpdater(
+										"ChatLanguageISO639_1"
+									)}
+									style={{
+										marginBottom: "16px",
+										minWidth: "220px",
+									}}
+								>
+									<MenuItem
+										key="players_choice"
+										value="players_choice"
+									>
+										Players choice
+									</MenuItem>
+									{helpers.iso639_1Codes.map((lang) => {
+										return (
+											<MenuItem
+												key={lang.name}
+												value={lang.code}
+											>
+												{lang.name}
+											</MenuItem>
+										);
+									})}
+								</Select>
 								<Typography
 									variant="subtitle2"
 									style={{
@@ -1206,46 +1263,6 @@ export default class CreateGameDialog extends React.Component {
 									},
 									max: null,
 								})}
-								<InputLabel shrink id="chatLanguageLabel">
-									Chat language
-								</InputLabel>
-								<Select
-									key="ChatLanguageISO639_1"
-									labelId="chatLanguageLabel"
-									value={
-										this.state.newGameProperties[
-											"ChatLanguageISO639_1"
-										]
-											? this.state.newGameProperties[
-													"ChatLanguageISO639_1"
-											  ]
-											: "players_choice"
-									}
-									onChange={this.newGamePropertyUpdater(
-										"ChatLanguageISO639_1"
-									)}
-									style={{
-										marginBottom: "16px",
-										minWidth: "220px",
-									}}
-								>
-									<MenuItem
-										key="players_choice"
-										value="players_choice"
-									>
-										Players choice
-									</MenuItem>
-									{helpers.iso639_1Codes.map((lang) => {
-										return (
-											<MenuItem
-												key={lang.name}
-												value={lang.code}
-											>
-												{lang.name}
-											</MenuItem>
-										);
-									})}
-								</Select>
 							</div>
 						</div>
 						<div style={{ padding: "16px", textAlign: "center" }}>
