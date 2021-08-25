@@ -1,15 +1,24 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
-import { AppBar, Button, List, ListItem, ListSubheader, Slide, Toolbar, Typography } from '@material-ui/core'
+import React from "react";
+import gtag from "ga-gtag";
+import {
+	AppBar,
+	Button,
+	List,
+	ListItem,
+	ListSubheader,
+	Slide,
+	Toolbar,
+	Typography,
+} from "@material-ui/core";
 
-import Globals from '../Globals';
-import ErrorsDialog from './ErrorsDialog';
-import GameList from './GameList';
-import CreateGameDialog from './CreateGameDialog';
-import NewsDialog from './NewsDialog';
+import Globals from "../Globals";
+import ErrorsDialog from "./ErrorsDialog";
+import GameList from "./GameList";
+import CreateGameDialog from "./CreateGameDialog";
+import NewsDialog from "./NewsDialog";
 
-import { ExpandIcon } from '../icons';
+import { ExpandIcon } from "../icons";
 import LogoDarkSvgPath from "../static/img/logo_dark.svg";
 import SoldiersSvgPath from "../static/img/soldiers.svg";
 
@@ -30,6 +39,9 @@ export default class Start extends React.Component {
 		this.myStagingGamesList = null;
 		this.myStartedGamesList = null;
 		this.myFinishedGamesList = null;
+		this.masteredStagingGamesList = null;
+		this.masteredStartedGamesList = null;
+		this.masteredFinishedGamesList = null;
 		this.errorsDialog = null;
 
 		this.hasPlayed = this.hasPlayed.bind(this);
@@ -52,13 +64,11 @@ export default class Start extends React.Component {
 					<div
 						style={{
 							height: "calc(100vh - 114px)",
-							overflowY: "scroll"
+							overflowY: "scroll",
 						}}
 					>
 						<NewsDialog />
-						<List
-							style={{ maxWidth: "940px", margin: "auto" }}
-						>
+						<List style={{ maxWidth: "940px", margin: "auto" }}>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
@@ -109,6 +119,66 @@ export default class Start extends React.Component {
 											onEmpty={(_) => {
 												document.getElementById(
 													"my-started-container"
+												).style.display = "none";
+											}}
+										/>
+									</ListItem>
+								</ul>
+							</li>
+							<li
+								key="mastered-started"
+								id="mastered-started-container"
+							>
+								<ul style={{ paddingInlineStart: 0 }}>
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+											paddingRight: "8px",
+										}}
+									>
+										<ListSubheader
+											style={{
+												backgroundColor: "white",
+												zIndex: "2",
+												marginBottom: "2px",
+												height: "44px",
+												color: "rgba(40, 26, 26, 0.56)",
+											}}
+										>
+											Ongoing games mastered by me
+										</ListSubheader>
+									</div>
+									<ListItem
+										style={{
+											padding: "0px 16px 4px 16px",
+											width: "100%",
+										}}
+									>
+										<GameList
+											limit={128}
+											contained={true}
+											url={
+												this.props.urls[
+													"mastered-started-games"
+												]
+											}
+											onPhaseMessage={(_) => {
+												this.masteredStartedGamesList.refresh();
+												this.masteredFinishedGamesList.refresh();
+											}}
+											parentCB={(c) => {
+												this.masteredStartedGamesList =
+													c;
+											}}
+											onFilled={(_) => {
+												document.getElementById(
+													"mastered-started-container"
+												).style.display = "block";
+											}}
+											onEmpty={(_) => {
+												document.getElementById(
+													"mastered-started-container"
 												).style.display = "none";
 											}}
 										/>
@@ -166,6 +236,67 @@ export default class Start extends React.Component {
 											url={
 												this.props.urls[
 													"my-staging-games"
+												]
+											}
+										/>
+									</ListItem>
+								</ul>
+							</li>
+							<li
+								key="mastered-staging"
+								id="mastered-staging-container"
+							>
+								<ul style={{ paddingInlineStart: 0 }}>
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+											paddingRight: "8px",
+										}}
+									>
+										<ListSubheader
+											style={{
+												backgroundColor: "white",
+												zIndex: "2",
+												marginBottom: "2px",
+												height: "44px",
+												color: "rgba(40, 26, 26, 0.56)",
+											}}
+										>
+											Forming games mastered by me
+										</ListSubheader>
+									</div>
+
+									<ListItem
+										style={{
+											padding: "0px 16px",
+										}}
+									>
+										<GameList
+											limit={128}
+											contained={true}
+											onPhaseMessage={(_) => {
+												this.masteredStartedGamesList.reload();
+												this.masteredStagingGamesList.reload();
+											}}
+											onFilled={(_) => {
+												document.getElementById(
+													"mastered-staging-container"
+												).style.display = "block";
+											}}
+											withDetails={true}
+											onEmpty={(_) => {
+												document.getElementById(
+													"mastered-staging-container"
+												).style.display = "none";
+											}}
+											parentCB={(c) => {
+												this.masteredStagingGamesList =
+													c;
+											}}
+											url={
+												this.props.urls[
+													"mastered-staging-games"
 												]
 											}
 										/>
@@ -231,30 +362,94 @@ export default class Start extends React.Component {
 									</ListItem>
 								</ul>
 							</li>
+							<li
+								key="mastered-finished"
+								id="mastered-finished-container"
+							>
+								<ul style={{ paddingInlineStart: 0 }}>
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+											paddingRight: "8px",
+										}}
+									>
+										<ListSubheader
+											style={{
+												backgroundColor: "white",
+												zIndex: "2",
+												marginBottom: "2px",
+												height: "44px",
+												color: "rgba(40, 26, 26, 0.56)",
+											}}
+										>
+											Finished games mastered by me
+										</ListSubheader>
+										<Button
+											onClick={
+												this.props
+													.renderMasteredFinishedGames
+											}
+										>
+											View all
+										</Button>
+									</div>
+
+									<ListItem
+										style={{
+											padding: "0px 16px 4px 16px",
+										}}
+									>
+										<GameList
+											contained={true}
+											parentCB={(c) => {
+												this.masteredFinishedGamesList =
+													c;
+											}}
+											onFilled={(_) => {
+												document.getElementById(
+													"mastered-finished-container"
+												).style.display = "block";
+											}}
+											onEmpty={(_) => {
+												document.getElementById(
+													"mastered-finished-container"
+												).style.display = "none";
+											}}
+											url={
+												this.props.urls[
+													"mastered-finished-games"
+												]
+											}
+											limit={8}
+										/>
+									</ListItem>
+								</ul>
+							</li>
 						</List>
 						<AppBar
 							position="fixed"
 							color="primary"
 							style={{ top: "auto", bottom: 0 }}
 						>
-							<Toolbar
-								style={{ justifyContent: "space-around" }}
-							>
+							<Toolbar style={{ justifyContent: "space-around" }}>
 								<Button
 									key="new-game"
 									onClick={(_) => {
 										this.setState({
-											newGameFormOpen: !this.state
-												.newGameFormOpen,
+											newGameFormOpen:
+												!this.state.newGameFormOpen,
 										});
 									}}
 									variant="contained"
 									color="secondary"
 								>
 									New game
-									{this.state.newGameFormOpen
-										? <ExpandIcon />
-										: ""}
+									{this.state.newGameFormOpen ? (
+										<ExpandIcon />
+									) : (
+										""
+									)}
 								</Button>
 							</Toolbar>
 							<Slide
@@ -263,9 +458,7 @@ export default class Start extends React.Component {
 								direction="up"
 								in={this.state.newGameFormOpen}
 							>
-								<Toolbar
-									style={{ flexDirection: "column" }}
-								>
+								<Toolbar style={{ flexDirection: "column" }}>
 									<Button
 										style={{ margin: 4 }}
 										variant="outlined"
@@ -325,7 +518,7 @@ export default class Start extends React.Component {
 								}}
 							>
 								<img
-									alt='Diplity logo dark'
+									alt="Diplity logo dark"
 									style={{
 										width: "calc(100% - 48px)",
 										maxWidth: "340px",
@@ -363,7 +556,7 @@ export default class Start extends React.Component {
 							<div id="bottom">
 								<div
 									style={{
-      									backgroundImage: `url(${SoldiersSvgPath})`,
+										backgroundImage: `url(${SoldiersSvgPath})`,
 										height: "72px",
 									}}
 								></div>
@@ -421,8 +614,12 @@ export default class Start extends React.Component {
 					</React.Fragment>
 				)}
 				<CreateGameDialog
-					gameCreated={(_) => {
-						this.myStagingGamesList.reload();
+					gameCreated={(game) => {
+						if (game.Properties.GameMasterEnabled) {
+							this.masteredStagingGamesList.reload();
+						} else {
+							this.myStagingGamesList.reload();
+						}
 					}}
 					parentCB={(c) => {
 						this.createGameDialog = c;

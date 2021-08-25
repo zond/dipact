@@ -77,11 +77,13 @@ export default class CreateGameDialog extends React.Component {
 		};
 		this.close = this.close.bind(this);
 		this.createGame = this.createGame.bind(this);
-		this.createGameWithPreferences = this.createGameWithPreferences.bind(this);
+		this.createGameWithPreferences =
+			this.createGameWithPreferences.bind(this);
 		this.setPhaseLength = this.setPhaseLength.bind(this);
 		this.limitedCheckboxedFloatField =
 			this.limitedCheckboxedFloatField.bind(this);
-		this.setNonMovementPhaseLength = this.setNonMovementPhaseLength.bind(this);
+		this.setNonMovementPhaseLength =
+			this.setNonMovementPhaseLength.bind(this);
 		this.newGamePropertyUpdater = this.newGamePropertyUpdater.bind(this);
 		this.checkboxField = this.checkboxField.bind(this);
 		if (this.props.parentCB) {
@@ -91,7 +93,8 @@ export default class CreateGameDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
-			JSON.stringify(Globals.userStats) !== JSON.stringify(this.state.userStats)
+			JSON.stringify(Globals.userStats) !==
+			JSON.stringify(this.state.userStats)
 		) {
 			this.setState((state, props) => {
 				state = Object.assign({}, state);
@@ -120,7 +123,8 @@ export default class CreateGameDialog extends React.Component {
 	createGame() {
 		const errs = [];
 		if (
-			this.state.newGameProperties.ChatLanguageISO639_1 === "players_choice"
+			this.state.newGameProperties.ChatLanguageISO639_1 ===
+			"players_choice"
 		) {
 			this.state.newGameProperties.ChatLanguageISO639_1 = "";
 		}
@@ -131,7 +135,9 @@ export default class CreateGameDialog extends React.Component {
 		) {
 			errs.push(
 				"You can't create a game with higher minimum reliability than your own (" +
-					helpers.twoDecimals(this.state.userStats.Properties.Reliability) +
+					helpers.twoDecimals(
+						this.state.userStats.Properties.Reliability
+					) +
 					")!"
 			);
 		}
@@ -142,7 +148,9 @@ export default class CreateGameDialog extends React.Component {
 		) {
 			errs.push(
 				"You can't create a game with higher minimum quickness than your own (" +
-					helpers.twoDecimals(this.state.userStats.Properties.Quickness) +
+					helpers.twoDecimals(
+						this.state.userStats.Properties.Quickness
+					) +
 					")!"
 			);
 		}
@@ -208,11 +216,12 @@ export default class CreateGameDialog extends React.Component {
 					body: JSON.stringify(newGameProps),
 				})
 			)
-			.then((resp) => {
+			.then((resp) => resp.json())
+			.then((json) => {
 				helpers.decProgress();
 				gtag("event", "create_game");
 				Globals.messaging.start();
-				this.close().then(this.props.gameCreated);
+				this.close().then(this.props.gameCreated(json));
 			});
 	}
 	newGamePropertyUpdater(propertyName, opts = {}) {
@@ -224,13 +233,21 @@ export default class CreateGameDialog extends React.Component {
 					if (propertyName === "Private") {
 						if (ev.target.checked) {
 							state.newGameProperties["MinReliability"] = 0;
-							delete state.checkboxedFloatFields["MinReliability"];
+							delete state.checkboxedFloatFields[
+								"MinReliability"
+							];
 						} else {
-							state.newGameProperties["MinReliability"] = Math.min(
-								10,
-								Math.floor(this.state.userStats.Properties.Reliability)
-							);
-							state.checkboxedFloatFields["MinReliability"] = true;
+							state.newGameProperties["MinReliability"] =
+								Math.min(
+									10,
+									Math.floor(
+										this.state.userStats.Properties
+											.Reliability
+									)
+								);
+							state.checkboxedFloatFields[
+								"MinReliability"
+							] = true;
 						}
 					}
 					state.newGameProperties[propertyName] = opts.invert
@@ -247,7 +264,9 @@ export default class CreateGameDialog extends React.Component {
 					state.newGameProperties[propertyName] = newValue;
 				}
 				state.variant = Globals.variants.find((v) => {
-					return v.Properties.Name === state.newGameProperties.Variant;
+					return (
+						v.Properties.Name === state.newGameProperties.Variant
+					);
 				});
 				return state;
 			});
@@ -265,14 +284,18 @@ export default class CreateGameDialog extends React.Component {
 				state.newGameProperties["NonMovementPhaseLengthMinutes"] =
 					state.nonMovementPhaseLengthUnit *
 					state.nonMovementPhaseLengthMultiplier;
-			} else if (ev.target.name === "non-movement-phase-length-multiplier") {
+			} else if (
+				ev.target.name === "non-movement-phase-length-multiplier"
+			) {
 				state.nonMovementPhaseLengthMultiplier = val;
 				state.newGameProperties["NonMovementPhaseLengthMinutes"] =
 					state.nonMovementPhaseLengthUnit *
 					state.nonMovementPhaseLengthMultiplier;
 			} else if (ev.target.name === "same-phase-length") {
 				if (ev.target.checked) {
-					state.newGameProperties["NonMovementPhaseLengthMinutes"] = 0;
+					state.newGameProperties[
+						"NonMovementPhaseLengthMinutes"
+					] = 0;
 					state.samePhaseLength = false;
 				} else {
 					state.newGameProperties["NonMovementPhaseLengthMinutes"] =
@@ -344,7 +367,9 @@ export default class CreateGameDialog extends React.Component {
 							this.setState((state, props) => {
 								state = Object.assign({}, state);
 								state.checkboxedFloatFields[name] = checked;
-								state.newGameProperties[name] = checked ? opts.defaultValue : 0;
+								state.newGameProperties[name] = checked
+									? opts.defaultValue
+									: 0;
 								return state;
 							});
 						}}
@@ -355,7 +380,9 @@ export default class CreateGameDialog extends React.Component {
 							flexDirection: "column",
 						}}
 					>
-						<Typography variant="body1">{opts.checkbox.label}</Typography>
+						<Typography variant="body1">
+							{opts.checkbox.label}
+						</Typography>
 						<Typography
 							variant="caption"
 							style={{
@@ -432,7 +459,10 @@ export default class CreateGameDialog extends React.Component {
 							>
 								<CloseIcon />
 							</IconButton>
-							<Typography variant="h6" style={{ paddingLeft: "16px" }}>
+							<Typography
+								variant="h6"
+								style={{ paddingLeft: "16px" }}
+							>
 								Create new game
 							</Typography>
 						</Toolbar>
@@ -464,8 +494,12 @@ export default class CreateGameDialog extends React.Component {
 										key="Desc"
 										label="Name"
 										margin="dense"
-										value={this.state.newGameProperties["Desc"]}
-										onChange={this.newGamePropertyUpdater("Desc")}
+										value={
+											this.state.newGameProperties["Desc"]
+										}
+										onChange={this.newGamePropertyUpdater(
+											"Desc"
+										)}
 										style={{
 											marginBottom: "8px",
 											flexGrow: "1",
@@ -474,8 +508,12 @@ export default class CreateGameDialog extends React.Component {
 									<IconButton
 										onClick={(_) => {
 											this.setState((state, props) => {
-												state = Object.assign({}, state);
-												state.newGameProperties.Desc = helpers.randomGameName();
+												state = Object.assign(
+													{},
+													state
+												);
+												state.newGameProperties.Desc =
+													helpers.randomGameName();
 												return state;
 											});
 										}}
@@ -487,8 +525,14 @@ export default class CreateGameDialog extends React.Component {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={this.state.newGameProperties["Private"]}
-											onChange={this.newGamePropertyUpdater("Private")}
+											checked={
+												this.state.newGameProperties[
+													"Private"
+												]
+											}
+											onChange={this.newGamePropertyUpdater(
+												"Private"
+											)}
 										/>
 									}
 									label="Private game"
@@ -499,9 +543,16 @@ export default class CreateGameDialog extends React.Component {
 									<FormControlLabel
 										control={
 											<Checkbox
-												disabled={!this.state.newGameProperties.Private}
+												disabled={
+													!this.state
+														.newGameProperties
+														.Private
+												}
 												checked={
-													this.state.newGameProperties["GameMasterEnabled"]
+													this.state
+														.newGameProperties[
+														"GameMasterEnabled"
+													]
 												}
 												onChange={this.newGamePropertyUpdater(
 													"GameMasterEnabled"
@@ -511,20 +562,31 @@ export default class CreateGameDialog extends React.Component {
 										label="Game master of new game"
 										style={{ marginBottom: "8px" }}
 									/>
+
 									{this.state.newGameProperties.Private ? (
-										""
+										<FormHelperText>
+											As game master, you can pause/resume
+											games and control who joins (and as
+											what nation). If you want to play
+											yourself, you need to join as a
+											player after creating your game.
+										</FormHelperText>
 									) : (
 										<FormHelperText>
-											Game master only allowed in private games (risk of abuse)
+											Game master only allowed in private
+											games (risk of abuse)
 										</FormHelperText>
 									)}
+
 									{this.state.newGameProperties.Private &&
-									this.state.newGameProperties.GameMasterEnabled ? (
+									this.state.newGameProperties
+										.GameMasterEnabled ? (
 										<FormControlLabel
 											control={
 												<Checkbox
 													checked={
-														this.state.newGameProperties[
+														this.state
+															.newGameProperties[
 															"RequireGameMasterInvitation"
 														]
 													}
@@ -553,8 +615,12 @@ export default class CreateGameDialog extends React.Component {
 								<Select
 									key="Variant"
 									labelId="variantlabel"
-									value={this.state.newGameProperties["Variant"]}
-									onChange={this.newGamePropertyUpdater("Variant")}
+									value={
+										this.state.newGameProperties["Variant"]
+									}
+									onChange={this.newGamePropertyUpdater(
+										"Variant"
+									)}
 									style={{ marginBottom: "16px" }}
 								>
 									{Globals.variants.map((variant) => {
@@ -564,7 +630,11 @@ export default class CreateGameDialog extends React.Component {
 												value={variant.Properties.Name}
 											>
 												{variant.Properties.Name} {" ("}
-												{variant.Properties.Nations.length} players)
+												{
+													variant.Properties.Nations
+														.length
+												}{" "}
+												players)
 											</MenuItem>
 										);
 									})}
@@ -575,7 +645,12 @@ export default class CreateGameDialog extends React.Component {
 									variant="body2"
 									fontStyle="italic"
 								>
-									<i>{this.state.variant.Properties.Description}</i>
+									<i>
+										{
+											this.state.variant.Properties
+												.Description
+										}
+									</i>
 								</Typography>
 								<img
 									src={this.state.variant.Links[3].URL}
@@ -585,11 +660,19 @@ export default class CreateGameDialog extends React.Component {
 										maxHeight: "300px",
 									}}
 								/>
-								<Typography variant="body2" style={{ paddingBottom: "4px" }}>
-									Start year: {this.state.variant.Properties.Start.Year}
+								<Typography
+									variant="body2"
+									style={{ paddingBottom: "4px" }}
+								>
+									Start year:{" "}
+									{this.state.variant.Properties.Start.Year}
 								</Typography>
-								<Typography variant="body2" style={{ paddingBottom: "16px" }}>
-									Original author: {this.state.variant.Properties.CreatedBy}
+								<Typography
+									variant="body2"
+									style={{ paddingBottom: "16px" }}
+								>
+									Original author:{" "}
+									{this.state.variant.Properties.CreatedBy}
 								</Typography>
 
 								<Typography
@@ -618,11 +701,16 @@ export default class CreateGameDialog extends React.Component {
 								<RadioGroup
 									key="NationAllocation"
 									value={parseInt(
-										this.state.newGameProperties["NationAllocation"]
+										this.state.newGameProperties[
+											"NationAllocation"
+										]
 									)}
-									onChange={this.newGamePropertyUpdater("NationAllocation", {
-										int: true,
-									})}
+									onChange={this.newGamePropertyUpdater(
+										"NationAllocation",
+										{
+											int: true,
+										}
+									)}
 									style={{
 										flexDirection: "row",
 										flexWrap: "wrap",
@@ -678,17 +766,22 @@ export default class CreateGameDialog extends React.Component {
 										onChange={this.setPhaseLength}
 									>
 										<MenuItem key={1} value={1}>
-											{this.state.phaseLengthMultiplier === 1
+											{this.state
+												.phaseLengthMultiplier === 1
 												? "Minute"
 												: "Minutes"}
 										</MenuItem>
 										<MenuItem key={60} value={60}>
-											{this.state.phaseLengthMultiplier === 1
+											{this.state
+												.phaseLengthMultiplier === 1
 												? "Hour"
 												: "Hours"}
 										</MenuItem>
 										<MenuItem key={60 * 24} value={60 * 24}>
-											{this.state.phaseLengthMultiplier === 1 ? "Day" : "Days"}
+											{this.state
+												.phaseLengthMultiplier === 1
+												? "Day"
+												: "Days"}
 										</MenuItem>
 									</Select>
 								</Box>
@@ -698,8 +791,12 @@ export default class CreateGameDialog extends React.Component {
 									control={
 										<Checkbox
 											name="same-phase-length"
-											checked={!this.state.samePhaseLength}
-											onChange={this.setNonMovementPhaseLength}
+											checked={
+												!this.state.samePhaseLength
+											}
+											onChange={
+												this.setNonMovementPhaseLength
+											}
 										/>
 									}
 									label="Shorter adjustment phases"
@@ -717,27 +814,46 @@ export default class CreateGameDialog extends React.Component {
 											label="Adjustment phase length"
 											type="number"
 											inputProps={{ min: 1 }}
-											value={this.state.nonMovementPhaseLengthMultiplier}
-											onChange={this.setNonMovementPhaseLength}
+											value={
+												this.state
+													.nonMovementPhaseLengthMultiplier
+											}
+											onChange={
+												this.setNonMovementPhaseLength
+											}
 											style={{ minWidth: "170px" }}
 										/>
 										<Select
 											name="non-movement-phase-length-unit"
-											value={this.state.nonMovementPhaseLengthUnit}
-											onChange={this.setNonMovementPhaseLength}
+											value={
+												this.state
+													.nonMovementPhaseLengthUnit
+											}
+											onChange={
+												this.setNonMovementPhaseLength
+											}
 										>
 											<MenuItem key={1} value={1}>
-												{this.state.nonMovementPhaseLengthMultiplier === 1
+												{this.state
+													.nonMovementPhaseLengthMultiplier ===
+												1
 													? "Minute"
 													: "Minutes"}
 											</MenuItem>
 											<MenuItem key={60} value={60}>
-												{this.state.nonMovementPhaseLengthMultiplier === 1
+												{this.state
+													.nonMovementPhaseLengthMultiplier ===
+												1
 													? "Hour"
 													: "Hours"}
 											</MenuItem>
-											<MenuItem key={60 * 24} value={60 * 24}>
-												{this.state.nonMovementPhaseLengthMultiplier === 1
+											<MenuItem
+												key={60 * 24}
+												value={60 * 24}
+											>
+												{this.state
+													.nonMovementPhaseLengthMultiplier ===
+												1
 													? "Day"
 													: "Days"}
 											</MenuItem>
@@ -748,16 +864,23 @@ export default class CreateGameDialog extends React.Component {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={this.state.newGameProperties["SkipMuster"]}
-											onChange={this.newGamePropertyUpdater("SkipMuster")}
+											checked={
+												this.state.newGameProperties[
+													"SkipMuster"
+												]
+											}
+											onChange={this.newGamePropertyUpdater(
+												"SkipMuster"
+											)}
 										/>
 									}
 									label="Skip mustering phase"
 									style={{ marginBottom: "8px" }}
 								/>
 								<FormHelperText>
-									The initial mustering phase ejects all non-ready players and
-									and reverts the game to the staging state unless all players
+									The initial mustering phase ejects all
+									non-ready players and and reverts the game
+									to the staging state unless all players
 									report ready within the deadline.
 								</FormHelperText>
 
@@ -768,14 +891,26 @@ export default class CreateGameDialog extends React.Component {
 											name="end-game-early"
 											onChange={(ev) => {
 												ev.persist();
-												this.setState((state, props) => {
-													state = Object.assign({}, state);
-													state.endEarly = ev.target.checked;
-													state.newGameProperties.LastYear = ev.target.checked
-														? this.state.variant.Properties.Start.Year + 7
-														: 0;
-													return state;
-												});
+												this.setState(
+													(state, props) => {
+														state = Object.assign(
+															{},
+															state
+														);
+														state.endEarly =
+															ev.target.checked;
+														state.newGameProperties.LastYear =
+															ev.target.checked
+																? this.state
+																		.variant
+																		.Properties
+																		.Start
+																		.Year +
+																  7
+																: 0;
+														return state;
+													}
+												);
 											}}
 											checked={this.state.endEarly}
 										/>
@@ -792,26 +927,39 @@ export default class CreateGameDialog extends React.Component {
 											type="number"
 											style={{ minWidth: "240px" }}
 											error={
-												this.state.newGameProperties.LastYear <
-												this.state.variant.Properties.Start.Year + 1
+												this.state.newGameProperties
+													.LastYear <
+												this.state.variant.Properties
+													.Start.Year +
+													1
 													? true
 													: false
 											}
 											helperText={
-												this.state.newGameProperties.LastYear <
-												this.state.variant.Properties.Start.Year + 1
+												this.state.newGameProperties
+													.LastYear <
+												this.state.variant.Properties
+													.Start.Year +
+													1
 													? "Must be after the start year"
 													: ""
 											}
 											label={
 												"End after year (game starts " +
-												this.state.variant.Properties.Start.Year +
+												this.state.variant.Properties
+													.Start.Year +
 												")"
 											}
-											value={this.state.newGameProperties.LastYear}
-											onChange={this.newGamePropertyUpdater("LastYear", {
-												int: true,
-											})}
+											value={
+												this.state.newGameProperties
+													.LastYear
+											}
+											onChange={this.newGamePropertyUpdater(
+												"LastYear",
+												{
+													int: true,
+												}
+											)}
 										/>
 									</Box>
 								) : (
@@ -837,10 +985,13 @@ export default class CreateGameDialog extends React.Component {
 									Allow chats:
 								</Typography>
 								<FormGroup>
-									{this.checkboxField("DisableConferenceChat", {
-										invert: true,
-										label: "Conference (all players)",
-									})}
+									{this.checkboxField(
+										"DisableConferenceChat",
+										{
+											invert: true,
+											label: "Conference (all players)",
+										}
+									)}
 									{this.checkboxField("DisableGroupChat", {
 										invert: true,
 										label: "Group",
@@ -852,19 +1003,37 @@ export default class CreateGameDialog extends React.Component {
 									<FormControlLabel
 										control={
 											<Checkbox
-												disabled={!this.state.newGameProperties["Private"]}
+												disabled={
+													!this.state
+														.newGameProperties[
+														"Private"
+													]
+												}
 												checked={
-													this.state.newGameProperties["Private"]
-														? this.state.newGameProperties["Anonymous"]
-														: this.state.newGameProperties[
+													this.state
+														.newGameProperties[
+														"Private"
+													]
+														? this.state
+																.newGameProperties[
+																"Anonymous"
+														  ]
+														: this.state
+																.newGameProperties[
 																"DisableConferenceChat"
 														  ] &&
-														  this.state.newGameProperties[
+														  this.state
+																.newGameProperties[
 																"DisableGroupChat"
 														  ] &&
-														  this.state.newGameProperties["DisablePrivateChat"]
+														  this.state
+																.newGameProperties[
+																"DisablePrivateChat"
+														  ]
 												}
-												onChange={this.newGamePropertyUpdater("Anonymous")}
+												onChange={this.newGamePropertyUpdater(
+													"Anonymous"
+												)}
 											/>
 										}
 										label="Anonymous"
@@ -873,52 +1042,62 @@ export default class CreateGameDialog extends React.Component {
 								{this.state.newGameProperties["Private"] ? (
 									""
 								) : (
-									<FormHelperText style={{marginBottom: "12px"}}>
-										Anonymous only allowed in private games (risk of abuse)
+									<FormHelperText
+										style={{ marginBottom: "12px" }}
+									>
+										Anonymous only allowed in private games
+										(risk of abuse)
 									</FormHelperText>
 								)}
 							</div>
 							<div>
-															<InputLabel shrink id="chatLanguageLabel">
+								<InputLabel shrink id="chatLanguageLabel">
 									Chat language
 								</InputLabel>
-{/* Zond: the below works for non-private,but should disable IF private and all are disabled, but somehow it doesn't work... Can you take a look?
-I actually think it's because "anonymous" is checked by default when private is off - it should be greyed out but not checked (now it looks like Anonymous is forced open) */}
 
 								<Select
 									key="ChatLanguageISO639_1"
 									labelId="chatLanguageLabel"
 									disabled={
-										!this.state.newGameProperties["Private"] &&
-										this.state.newGameProperties["DisableConferenceChat"] &&
-										this.state.newGameProperties["DisableGroupChat"] &&
-										this.state.newGameProperties["DisablePrivateChat"]
-											? 
-										this.state.newGameProperties["Private"] &&
-										this.state.newGameProperties["DisableConferenceChat"] &&
-										this.state.newGameProperties["DisableGroupChat"] &&
-										this.state.newGameProperties["DisablePrivateChat"] &&
-										!this.state.newGameProperties["Anonymous"] ?
-											false : true
-											: false
+										this.state.newGameProperties[
+											"DisableConferenceChat"
+										] &&
+										this.state.newGameProperties[
+											"DisableGroupChat"
+										] &&
+										this.state.newGameProperties[
+											"DisablePrivateChat"
+										]
 									}
 									value={
-										this.state.newGameProperties["ChatLanguageISO639_1"]
-											? this.state.newGameProperties["ChatLanguageISO639_1"]
+										this.state.newGameProperties[
+											"ChatLanguageISO639_1"
+										]
+											? this.state.newGameProperties[
+													"ChatLanguageISO639_1"
+											  ]
 											: "players_choice"
 									}
-									onChange={this.newGamePropertyUpdater("ChatLanguageISO639_1")}
+									onChange={this.newGamePropertyUpdater(
+										"ChatLanguageISO639_1"
+									)}
 									style={{
 										marginBottom: "16px",
 										minWidth: "220px",
 									}}
 								>
-									<MenuItem key="players_choice" value="players_choice">
+									<MenuItem
+										key="players_choice"
+										value="players_choice"
+									>
 										Players choice
 									</MenuItem>
 									{helpers.iso639_1Codes.map((lang) => {
 										return (
-											<MenuItem key={lang.name} value={lang.code}>
+											<MenuItem
+												key={lang.name}
+												value={lang.code}
+											>
 												{lang.name}
 											</MenuItem>
 										);
@@ -944,65 +1123,84 @@ I actually think it's because "anonymous" is checked by default when private is 
 											color: "#f44336",
 										}}
 									>
-										For private games we advise you to not add requirements, so
-										your friends can all join your game.
+										For private games we advise you to not
+										add requirements, so your friends can
+										all join your game.
 									</Typography>
 								) : (
 									""
 								)}
-								{this.limitedCheckboxedFloatField("MinReliability", {
-									defaultValue: Math.min(
-										10,
-										Math.floor(Globals.userStats.Properties.Reliability)
-									),
-									checkbox: {
-										label: "Reliability (important)",
-										caption: "Find players that keep playing",
-									},
-									textfield: {
-										label: "Minimum reliability score",
-									},
-									max: {
-										value: this.state.userStats.Properties.Reliability,
-										helperText:
-											"Can't be higher than your own reliability (" +
-											helpers.twoDecimals(
-												this.state.userStats.Properties.Reliability
-											) +
-											")",
-									},
-									min: null,
-								})}
-								{this.limitedCheckboxedFloatField("MinQuickness", {
-									defaultValue: Math.min(
-										10,
-										Math.floor(Globals.userStats.Properties.Quickness)
-									),
-									checkbox: {
-										label: "Quickness",
-										caption:
-											"Find players that confirm their orders before deadline",
-									},
-									textfield: {
-										label: "Minimum quickness score",
-									},
-									max: {
-										value: this.state.userStats.Properties.Quickness,
-										helperText:
-											"Can't be higher than your own quickness (" +
-											helpers.twoDecimals(
-												this.state.userStats.Properties.Quickness
-											) +
-											")",
-									},
-									min: null,
-								})}
+								{this.limitedCheckboxedFloatField(
+									"MinReliability",
+									{
+										defaultValue: Math.min(
+											10,
+											Math.floor(
+												Globals.userStats.Properties
+													.Reliability
+											)
+										),
+										checkbox: {
+											label: "Reliability (important)",
+											caption:
+												"Find players that keep playing",
+										},
+										textfield: {
+											label: "Minimum reliability score",
+										},
+										max: {
+											value: this.state.userStats
+												.Properties.Reliability,
+											helperText:
+												"Can't be higher than your own reliability (" +
+												helpers.twoDecimals(
+													this.state.userStats
+														.Properties.Reliability
+												) +
+												")",
+										},
+										min: null,
+									}
+								)}
+								{this.limitedCheckboxedFloatField(
+									"MinQuickness",
+									{
+										defaultValue: Math.min(
+											10,
+											Math.floor(
+												Globals.userStats.Properties
+													.Quickness
+											)
+										),
+										checkbox: {
+											label: "Quickness",
+											caption:
+												"Find players that confirm their orders before deadline",
+										},
+										textfield: {
+											label: "Minimum quickness score",
+										},
+										max: {
+											value: this.state.userStats
+												.Properties.Quickness,
+											helperText:
+												"Can't be higher than your own quickness (" +
+												helpers.twoDecimals(
+													this.state.userStats
+														.Properties.Quickness
+												) +
+												")",
+										},
+										min: null,
+									}
+								)}
 
 								{this.limitedCheckboxedFloatField("MinRating", {
 									defaultValue: 0,
 									checkbox: {
 										label: "Minimum rating",
-										caption: "Find players that are challenging",
+										caption:
+											"Find players that are challenging",
 									},
 									textfield: {
 										label: "Minimum rating",
@@ -1011,15 +1209,18 @@ I actually think it's because "anonymous" is checked by default when private is 
 										"Removes the least challenging " +
 										(100 -
 											helpers.ratingPercentile(
-												this.state.newGameProperties.MinRating
+												this.state.newGameProperties
+													.MinRating
 											)) +
 										"% of active players",
 									max: {
-										value: this.state.userStats.Properties.TrueSkill.Rating,
+										value: this.state.userStats.Properties
+											.TrueSkill.Rating,
 										helperText:
 											"Can't be higher than your own rating (" +
 											helpers.twoDecimals(
-												this.state.userStats.Properties.TrueSkill.Rating
+												this.state.userStats.Properties
+													.TrueSkill.Rating
 											) +
 											")",
 									},
@@ -1028,35 +1229,39 @@ I actually think it's because "anonymous" is checked by default when private is 
 
 								{this.limitedCheckboxedFloatField("MaxRating", {
 									defaultValue: helpers.twoDecimals(
-										this.state.userStats.Properties.TrueSkill.Rating,
+										this.state.userStats.Properties
+											.TrueSkill.Rating,
 										true
 									),
 									checkbox: {
 										label: "Maximum rating",
-										caption: "Find players that aren't too challenging",
+										caption:
+											"Find players that aren't too challenging",
 									},
 									helperText:
 										"Removes the most challenging " +
 										helpers.ratingPercentile(
-											this.state.newGameProperties.MaxRating
+											this.state.newGameProperties
+												.MaxRating
 										) +
 										"% of active players",
 									textfield: {
 										label: "Maximum rating",
 									},
 									min: {
-										value: this.state.userStats.Properties.TrueSkill.Rating,
+										value: this.state.userStats.Properties
+											.TrueSkill.Rating,
 										helperText:
 											"Can't be lower than your own rating (" +
 											helpers.twoDecimals(
-												this.state.userStats.Properties.TrueSkill.Rating,
+												this.state.userStats.Properties
+													.TrueSkill.Rating,
 												true
 											) +
 											")",
 									},
 									max: null,
 								})}
-
 							</div>
 						</div>
 						<div style={{ padding: "16px", textAlign: "center" }}>
