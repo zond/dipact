@@ -1,31 +1,45 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react'
-import gtag from 'ga-gtag';
-import { Button, Checkbox, DialogActions, FormGroup, FormControlLabel, Dialog, DialogTitle, DialogContent, DialogContentText } from "@material-ui/core";
-import Globals from '../Globals';
+import React from "react";
+import gtag from "ga-gtag";
+import {
+	Button,
+	Checkbox,
+	DialogActions,
+	FormGroup,
+	FormControlLabel,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogContentText,
+} from "@material-ui/core";
+import { generatePath, withRouter } from "react-router-dom";
+import Globals from "../Globals";
+import { RouteConfig } from "../pages/Router";
 
-import * as helpers from '../helpers';
+import * as helpers from "../helpers";
 
-export default class CreateChannelDialog extends React.Component {
+class CreateChannelDialog extends React.Component {
 	constructor(props) {
 		super(props);
-		if (this.props.parentCB) {
-			this.props.parentCB(this);
-		}
 		this.close = this.close.bind(this);
 		this.toggleMember = this.toggleMember.bind(this);
 		this.createChannel = this.createChannel.bind(this);
 		this.member = (this.props.game.Properties.Members || []).find((e) => {
 			return e.User.Email === Globals.user.Email;
 		});
-		this.state = { open: false, members: {} };
+		this.state = { members: {} };
 		this.state.members[this.member.Nation] = true;
 		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name === this.props.game.Properties.Variant;
 		});
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (!prevState.open && this.state.open) {
+		if (
+			new URLSearchParams(this.props.location.search).get("dialog") ===
+				"create-channel" &&
+			new URLSearchParams(prevProps.location.search).get("dialog") !==
+				"create-channel"
+		) {
 			gtag("set", {
 				page_title: "CreateChannelDialog",
 				page_location: location.href,
@@ -114,10 +128,12 @@ export default class CreateChannelDialog extends React.Component {
 		};
 	}
 	close() {
-		helpers.unback(this.close);
-		return new Promise((res, rej) => {
-			this.setState({ open: false }, res);
+		const newPath = generatePath(RouteConfig.GameTab, {
+			gameId: this.props.game.Properties.ID,
+			tab: "chat",
 		});
+		this.props.history.push(newPath);
+		return Promise.resolve();
 	}
 	render() {
 		return (
@@ -125,7 +141,11 @@ export default class CreateChannelDialog extends React.Component {
 				TransitionProps={{
 					onEnter: helpers.genOnback(this.close),
 				}}
-				open={this.state.open}
+				open={
+					new URLSearchParams(this.props.location.search).get(
+						"dialog"
+					) === "create-channel"
+				}
 				onClose={this.close}
 			>
 				<DialogTitle>Create channel</DialogTitle>
@@ -155,10 +175,7 @@ export default class CreateChannelDialog extends React.Component {
 					<Button onClick={this.close} color="primary">
 						Cancel
 					</Button>
-					<Button
-						onClick={this.createChannel}
-						color="primary"
-					>
+					<Button onClick={this.createChannel} color="primary">
 						Create
 					</Button>
 				</DialogActions>
@@ -167,3 +184,4 @@ export default class CreateChannelDialog extends React.Component {
 	}
 }
 
+export default withRouter(CreateChannelDialog);

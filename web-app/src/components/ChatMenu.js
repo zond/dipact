@@ -37,7 +37,6 @@ class ChatMenu extends React.Component {
 		this.loadChannels = this.loadChannels.bind(this);
 		this.closeChannel = this.closeChannel.bind(this);
 		this.messageHandler = this.messageHandler.bind(this);
-		this.createChannelDialog = null;
 	}
 	messageHandler(payload) {
 		if (payload.data.message.GameID !== this.props.game.Properties.ID) {
@@ -461,9 +460,16 @@ class ChatMenu extends React.Component {
 							color="secondary"
 							aria-label="edit"
 							onClick={(_) => {
-								this.createChannelDialog.setState({
-									open: true,
-								});
+								const newPath = generatePath(
+									RouteConfig.GameTab,
+									{
+										gameId: this.props.game.Properties.ID,
+										tab: "chat",
+									}
+								);
+								this.props.history.push(
+									newPath + "?dialog=create-channel"
+								);
 							}}
 						>
 							<CreateMessageIcon />
@@ -491,9 +497,6 @@ class ChatMenu extends React.Component {
 										this.openChannel(channelToUse);
 									}
 								);
-							}}
-							parentCB={(c) => {
-								this.createChannelDialog = c;
 							}}
 						/>
 					</React.Fragment>
