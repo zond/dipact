@@ -563,19 +563,21 @@ export default class CreateGameDialog extends React.Component {
 										label="Game master of new game"
 										style={{ marginBottom: "8px" }}
 									/>
-									<FormHelperText>
-										A game master can pause or start games
-										as well as control who joins and as what
-										nation.
-									</FormHelperText>
+
 									{this.state.newGameProperties.Private ? (
-										""
+									<FormHelperText>
+										As game master, you can pause/resume games
+										and control who joins (and as what nation). 
+										If you want to play yourself, you 
+										need to join as a player after creating your game.
+									</FormHelperText>
 									) : (
 										<FormHelperText>
 											Game master only allowed in private
 											games (risk of abuse)
 										</FormHelperText>
 									)}
+
 									{this.state.newGameProperties.Private &&
 									this.state.newGameProperties
 										.GameMasterEnabled ? (
