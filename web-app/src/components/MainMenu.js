@@ -407,7 +407,7 @@ export default class MainMenu extends ActivityContainer {
 									button
 									onClick={(_) => {
 										open(
-											"https://sites.google.com/corp/view/diplicity"
+											"https://diplicity.notion.site/diplicity/Diplicity-FAQ-7b4e0a119eb54c69b80b411f14d43bb9"
 										);
 									}}
 								>

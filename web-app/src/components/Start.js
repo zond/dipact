@@ -547,7 +547,7 @@ export default class Start extends React.Component {
 									color="primary"
 									variant="outlined"
 									key="find-open"
-									href="https://en.wikibooks.org/wiki/Diplomacy/Rules"
+									href="https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983"
 									target="_blank"
 								>
 									Read the rules
