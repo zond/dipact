@@ -168,7 +168,7 @@ class GameResults extends React.Component {
 
 					<Typography variant="caption">
 						Points below are based on the{" "}
-						<a href="http://windycityweasels.org/tribute-scoring-system/">
+						<a href="http://windycityweasels.org/tribute-scoring-system/" target="_blank">
 							Tribute
 						</a>{" "}
 						system.

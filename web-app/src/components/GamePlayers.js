@@ -164,7 +164,7 @@ class GamePlayers extends React.Component {
 					}}
 					onClose={this.close}
 				>
-					<DialogTitle>Metadata</DialogTitle>
+					<DialogTitle>Game info</DialogTitle>
 					<DialogContent>
 						<Typography
 							variant="subtitle2"
