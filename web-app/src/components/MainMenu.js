@@ -261,14 +261,6 @@ export default class MainMenu extends ActivityContainer {
 						>
 							<List component="nav">
 								<ListItem
-									button
-									onClick={(_) => {
-										this.setActivity(About);
-									}}
-								>
-									<ListItemText primary="About" />
-								</ListItem>
-								<ListItem
 									style={{
 										padding: "24px 16px 8px 16px",
 										height: "40px",
@@ -341,7 +333,7 @@ export default class MainMenu extends ActivityContainer {
 									label="Open games"
 									onClick={this.renderGameList}
 								>
-									<ListItemText primary="Open games" />
+									<ListItemText primary="Open to join" />
 								</ListItem>
 								<ListItem
 									style={{ padding: "4px 16px" }}
@@ -350,7 +342,7 @@ export default class MainMenu extends ActivityContainer {
 									label="Started games"
 									onClick={this.renderGameList}
 								>
-									<ListItemText primary="Started games" />
+									<ListItemText primary="Started" />
 								</ListItem>
 								<ListItem
 									button
@@ -358,7 +350,7 @@ export default class MainMenu extends ActivityContainer {
 									label="Finished games"
 									onClick={this.renderGameList}
 								>
-									<ListItemText primary="Finished games" />
+									<ListItemText primary="Finished" />
 								</ListItem>
 
 								<Divider />
@@ -402,7 +394,7 @@ export default class MainMenu extends ActivityContainer {
 								>
 									<ListItemText primary="Forum" />
 								</ListItem>
-
+								<Divider />
 								<ListItem
 									button
 									onClick={(_) => {
@@ -411,10 +403,16 @@ export default class MainMenu extends ActivityContainer {
 										);
 									}}
 								>
-									<ListItemText primary="Help" />
+									<ListItemText primary="FAQ" />
 								</ListItem>
-
-								<Divider />
+								<ListItem
+									button
+									onClick={(_) => {
+										this.setActivity(About);
+									}}
+								>
+									<ListItemText primary="About" />
+								</ListItem>
 							</List>
 							<div
 								style={{
