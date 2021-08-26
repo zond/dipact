@@ -27,7 +27,7 @@ export default class MetadataDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<DialogTitle>Game metadata</DialogTitle>
+				<DialogTitle>Game info</DialogTitle>
 				<DialogContent style={{ paddingBottom: "0px" }}>
 					<GameMetadata game={this.props.game} />
 				</DialogContent>

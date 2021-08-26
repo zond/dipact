@@ -5,7 +5,7 @@ import pako from 'pako'
 import * as helpers from '../helpers';
 import MetadataDialog from './MetadataDialog';
 import gtag from 'ga-gtag';
-import { Snackbar, Button, FormControlLabel, FormControl, Box, Select, Tab, Tabs, Badge, AppBar, MenuItem, Toolbar, IconButton, Menu, SvgIcon, Typography, Switch } from "@material-ui/core";
+import { Divider, Snackbar, Button, FormControlLabel, FormControl, Box, Select, Tab, Tabs, Badge, AppBar, MenuItem, Toolbar, IconButton, Menu, SvgIcon, Typography, Switch } from "@material-ui/core";
 
 import DipMap from './DipMap';
 import ChatMenu from './ChatMenu';
@@ -688,48 +688,14 @@ export default class Game extends React.Component {
 								open={!!this.state.moreMenuAnchorEl}
 							>
 								<MenuItem
-									key="game-id"
-									onClick={(_) => {
-										const hrefURL = new URL(location.href);
-										helpers
-											.copyToClipboard(
-												hrefURL.protocol +
-													"//" +
-													hrefURL.host +
-													"/Game/" +
-													this.state.game.Properties
-														.ID
-											)
-											.then(
-												(_) => {
-													this.setState({
-														moreMenuAnchorEl: null,
-													});
-													helpers.snackbar(
-														"Game URL copied to clipboard. Share it to other players."
-													);
-												},
-												(err) => {
-													console.log(err);
-												}
-											);
-										gtag("event", "game_share");
-									}}
-								>
-									Share game
+													key="How to play"
+													onClick={(_) => {
+														window.open("https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983", "_blank")
+													}}
+												>
+													How to play
 								</MenuItem>
-								<MenuItem
-									key="download-map"
-									onClick={(_) => {
-										this.setState({
-											moreMenuAnchorEl: null,
-										});
-										this.dip_map.downloadMap();
-										gtag("event", "download_map");
-									}}
-								>
-									Download map
-								</MenuItem>
+								<Divider />
 								<MenuItem
 									key="game-metadata"
 									onClick={(_) => {
@@ -749,7 +715,7 @@ export default class Game extends React.Component {
 										}
 									}}
 								>
-									Metadata
+									Game info
 								</MenuItem>
 								{this.state.game.Properties.Started
 									? [
@@ -790,6 +756,58 @@ export default class Game extends React.Component {
 											),
 									  ]
 									: ""}
+								<Divider />
+								<MenuItem
+									key="game-id"
+									onClick={(_) => {
+										const hrefURL = new URL(location.href);
+										helpers
+											.copyToClipboard(
+												hrefURL.protocol +
+													"//" +
+													hrefURL.host +
+													"/Game/" +
+													this.state.game.Properties
+														.ID
+											)
+											.then(
+												(_) => {
+													this.setState({
+														moreMenuAnchorEl: null,
+													});
+													
+													if (this.state.game.Properties.Started) {
+														helpers.snackbar(
+															"Game URL copied to clipboard. Share it to show the game."
+														)} else {
+														{
+														helpers.snackbar(
+															"Game URL copied to clipboard. Share it to invite other players."
+														)}
+													};
+												},
+												(err) => {
+													console.log(err);
+												}
+											);
+										gtag("event", "game_share");
+									}}
+								>
+									{this.state.game.Properties.Started ? ("Share game") : ("Invite players")}
+								</MenuItem>
+
+								<MenuItem
+									key="download-map"
+									onClick={(_) => {
+										this.setState({
+											moreMenuAnchorEl: null,
+										});
+										this.dip_map.downloadMap();
+										gtag("event", "download_map");
+									}}
+								>
+									Download map
+								</MenuItem>
 								<MenuItem
 									key="laboratory-mode"
 									onClick={(_) => {
@@ -818,6 +836,7 @@ export default class Game extends React.Component {
 										? "Turn off sandbox mode"
 										: "Sandbox mode"}
 								</MenuItem>
+								<Divider />								
 								<MenuItem
 									key="debug-data"
 									onClick={(_) => {
