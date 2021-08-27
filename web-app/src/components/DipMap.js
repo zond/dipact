@@ -745,6 +745,51 @@ export default class DipMap extends React.Component {
 					this.debugCount("updateMap/hidProvince");
 				}
 			}
+
+			for (let prov in this.state.variant.Properties.Graph.Nodes) {
+				const node = this.state.variant.Properties.Graph.Nodes[prov];
+				if (!node.SC && node.Subs[""].Flags.Land) {
+					console.log("node");
+					console.log(node);
+					const borderarray = [];
+					for (let edge in node.Subs[""].Edges) {
+						const edgenode = this.state.variant.Properties.Graph.Nodes[edge];
+						if (typeof edgenode !== "undefined") {
+							if (edgenode.SC) {
+								borderarray.push(SCs[edgenode.Name]);
+								//this now pushes the ORIGINAL owner, not the current owner
+								
+							}
+						}
+					}
+					console.log(borderarray);
+
+
+					let shoulddraw = true;
+					for (let i = 0; i < borderarray.length; i++) {
+						if (
+							borderarray[i] !== borderarray[0] ||
+							borderarray[i] == "Neutral"
+						) {
+							shoulddraw = false;
+							break;
+						}
+					}
+					console.log("shoulddraw");
+					console.log(shoulddraw);
+
+					if (shoulddraw) {
+						const col = helpers.natCol(borderarray[0], this.state.variant);
+						this.map.colorProvince(prov, col);
+					} else {
+						this.map.hideProvince(prov);
+					}
+				}
+			}
+
+
+
+
 			this.map.showProvinces();
 			this.debugCount("updateMap/renderedProvinces");
 
