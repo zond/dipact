@@ -26,6 +26,12 @@ export function linkify(s) {
 	return parts;
 }
 
+export function routerPropsQueryBool(name) {
+	return (props) => {
+		return Boolean(new URLSearchParams(props.location.search).get(name));
+	};
+}
+
 export function ratingPercentile(rating) {
 	let totalCount = 0;
 	let belowCount = 0;

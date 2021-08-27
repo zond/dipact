@@ -468,7 +468,7 @@ class ChatMenu extends React.Component {
 									}
 								);
 								this.props.history.push(
-									newPath + "?dialog=create-channel"
+									newPath + "?create-channel-dialog=1"
 								);
 							}}
 						>

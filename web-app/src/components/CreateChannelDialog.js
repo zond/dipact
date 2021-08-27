@@ -18,6 +18,8 @@ import { RouteConfig } from "../pages/Router";
 
 import * as helpers from "../helpers";
 
+const isOpen = helpers.routerPropsQueryBool("create-channel-dialog");
+
 class CreateChannelDialog extends React.Component {
 	constructor(props) {
 		super(props);
@@ -34,12 +36,7 @@ class CreateChannelDialog extends React.Component {
 		});
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (
-			new URLSearchParams(this.props.location.search).get("dialog") ===
-				"create-channel" &&
-			new URLSearchParams(prevProps.location.search).get("dialog") !==
-				"create-channel"
-		) {
+		if (isOpen(this.props) && !isOpen(prevProps)) {
 			gtag("set", {
 				page_title: "CreateChannelDialog",
 				page_location: location.href,
@@ -141,11 +138,7 @@ class CreateChannelDialog extends React.Component {
 				TransitionProps={{
 					onEnter: helpers.genOnback(this.close),
 				}}
-				open={
-					new URLSearchParams(this.props.location.search).get(
-						"dialog"
-					) === "create-channel"
-				}
+				open={isOpen(this.props)}
 				onClose={this.close}
 			>
 				<DialogTitle>Create channel</DialogTitle>
