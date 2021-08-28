@@ -10,7 +10,7 @@ import { Divider, Snackbar, Button, FormControlLabel, FormControl, Box, Select, 
 import DipMap from './DipMap';
 import ChatMenu from './ChatMenu';
 
-import { ChatIcon, CloseIcon, DownloadIcon, EventIcon, FastForwardIcon, MapIcon, MoreIcon, NextIcon, NumMembersIcon, PreviousIcon, ShareIcon } from '../icons';
+import { ChatIcon, CloseIcon, DownloadIcon, EventIcon, FastForwardIcon, MapIcon, MoreIcon, NextIcon, NumMembersIcon, PreviousIcon, ShareIcon, SettingsIcon } from '../icons';
 import OrderList from './OrderList';
 import GamePlayers from './GamePlayers';
 import GameResults from './GameResults';
@@ -667,7 +667,7 @@ export default class Game extends React.Component {
 										});
 									}}
 								>
-									<MoreIcon />
+									<SettingsIcon />
 								</IconButton>
 							) : (
 								""
@@ -715,7 +715,7 @@ export default class Game extends React.Component {
 										}
 									}}
 								>
-									Game info
+									Game & player info
 								</MenuItem>
 								{this.state.game.Properties.Started
 									? [
