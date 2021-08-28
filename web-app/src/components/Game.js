@@ -688,15 +688,6 @@ export default class Game extends React.Component {
 								open={!!this.state.moreMenuAnchorEl}
 							>
 								<MenuItem
-													key="How to play"
-													onClick={(_) => {
-														window.open("https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983", "_blank")
-													}}
-												>
-													How to play
-								</MenuItem>
-								<Divider />
-								<MenuItem
 									key="game-metadata"
 									onClick={(_) => {
 										this.setState({
@@ -836,7 +827,15 @@ export default class Game extends React.Component {
 										? "Turn off sandbox mode"
 										: "Sandbox mode"}
 								</MenuItem>
-								<Divider />								
+								<Divider />	
+								<MenuItem
+													key="How to play"
+													onClick={(_) => {
+														window.open("https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983", "_blank")
+													}}
+												>
+													How to play
+								</MenuItem>
 								<MenuItem
 									key="debug-data"
 									onClick={(_) => {
