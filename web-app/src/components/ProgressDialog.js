@@ -7,11 +7,12 @@ export default class ProgressDialog extends React.Component {
 		super(props);
 		this.state = { open: false };
 		Globals.progressDialog = this;
+
 	}
 	render() {
 		return (
 			<Dialog open={this.state.open}>
-				<CircularProgress style={{ padding: "20px" }} />
+				<CircularProgress style={{ margin: "20px", }} />
 			</Dialog>
 		);
 	}
