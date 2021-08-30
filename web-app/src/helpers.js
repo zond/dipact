@@ -26,10 +26,25 @@ export function linkify(s) {
 	return parts;
 }
 
-export function routerPropsQueryBool(name) {
+export function cmpPropsQueryParam(name, wanted) {
 	return (props) => {
-		return Boolean(new URLSearchParams(props.location.search).get(name));
+		return (
+			"" + new URLSearchParams(props.location.search).get(name) ===
+			"" + wanted
+		);
 	};
+}
+
+export function pushPropsLocationWithoutParam(props, name) {
+	const params = new URLSearchParams(props.location.search);
+	params.delete(name);
+	props.history.push({ search: params.toString() });
+}
+
+export function pushPropsLocationWithParam(props, name, value) {
+	const params = new URLSearchParams(props.location.search);
+	params.set(name, value);
+	props.history.push({ search: params.toString() });
 }
 
 export function ratingPercentile(rating) {

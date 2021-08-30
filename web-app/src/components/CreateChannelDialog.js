@@ -12,13 +12,10 @@ import {
 	DialogContent,
 	DialogContentText,
 } from "@material-ui/core";
-import { generatePath, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Globals from "../Globals";
-import { RouteConfig } from "../pages/Router";
 
 import * as helpers from "../helpers";
-
-const isOpen = helpers.routerPropsQueryBool("create-channel-dialog");
 
 class CreateChannelDialog extends React.Component {
 	constructor(props) {
@@ -34,9 +31,10 @@ class CreateChannelDialog extends React.Component {
 		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name === this.props.game.Properties.Variant;
 		});
+		this.isOpen = helpers.cmpPropsQueryParam("create-channel-dialog", 1);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (isOpen(this.props) && !isOpen(prevProps)) {
+		if (this.isOpen(this.props) && !this.isOpen(prevProps)) {
 			gtag("set", {
 				page_title: "CreateChannelDialog",
 				page_location: location.href,
@@ -125,22 +123,18 @@ class CreateChannelDialog extends React.Component {
 		};
 	}
 	close() {
-		const newPath = generatePath(RouteConfig.GameTab, {
-			gameId: this.props.game.Properties.ID,
-			tab: "chat",
-		});
-		this.props.history.push(newPath);
+		helpers.pushPropsLocationWithoutParam(
+			this.props,
+			"create-channel-dialog"
+		);
 		return Promise.resolve();
 	}
 	render() {
+		if (!this.isOpen(this.props)) {
+			return "";
+		}
 		return (
-			<Dialog
-				TransitionProps={{
-					onEnter: helpers.genOnback(this.close),
-				}}
-				open={isOpen(this.props)}
-				onClose={this.close}
-			>
+			<Dialog open={!!this.isOpen(this.props)} onClose={this.close}>
 				<DialogTitle>Create channel</DialogTitle>
 				<DialogContent>
 					<DialogContentText>

@@ -15,6 +15,7 @@ import {
 	Grid,
 	IconButton,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 
 import { ArrowDownwardIcon, ArrowUpwardIcon } from "../icons";
@@ -31,18 +32,20 @@ class NationPreferencesDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			open: false,
-			onSelected: null,
-			nations: [],
+			nations: this.props.nations,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
 		this.onSelected = this.onSelected.bind(this);
 		this.close = this.close.bind(this);
+		this.isOpen = helpers.cmpPropsQueryParam(
+			"nation-preferences-dialog",
+			this.props.gameID
+		);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (!prevState.open && this.state.open) {
+		if (this.isOpen(this.props) && !this.isOpen(prevProps)) {
 			gtag("set", {
 				page_title: "NationPreferencesDialog",
 				page_location: location.href,
@@ -51,18 +54,25 @@ class NationPreferencesDialog extends React.Component {
 		}
 	}
 	close() {
-		helpers.unback(this.close);
-		this.setState({ open: false });
+		helpers.pushPropsLocationWithoutParam(
+			this.props,
+			"nation-preferences-dialog"
+		);
+		return Promise.resolve();
 	}
 	onSelected(ev) {
-		this.setState({ open: false });
-		this.state.onSelected(this.state.nations);
+		this.close().then(() => {
+			this.props.onSelected(this.state.nations);
+		});
 	}
 	render() {
 		const { classes } = this.props;
+		if (!this.isOpen(this.props)) {
+			return "";
+		}
 		return (
 			<Dialog
-				open={this.state.open}
+				open={!!this.isOpen(this.props)}
 				TransitionProps={{
 					onEnter: helpers.genOnback(this.close),
 				}}
@@ -159,4 +169,6 @@ class NationPreferencesDialog extends React.Component {
 	}
 }
 
-export default withStyles(styles, { withTheme: true })(NationPreferencesDialog);
+export default withRouter(
+	withStyles(styles, { withTheme: true })(NationPreferencesDialog)
+);

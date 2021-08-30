@@ -77,7 +77,6 @@ class Game extends React.Component {
 		this.gamePlayersDialog = null;
 		this.gameResults = null;
 		this.preliminaryScores = null;
-		this.nationPreferencesDialog = null;
 		this.metadataDialog = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.debugCount = this.debugCount.bind(this);
@@ -169,13 +168,11 @@ class Game extends React.Component {
 	}
 	join() {
 		if (this.state.game.Properties.NationAllocation === 1) {
-			this.nationPreferencesDialog.setState({
-				open: true,
-				nations: this.state.variant.Properties.Nations,
-				onSelected: (preferences) => {
-					this.joinWithPreferences(preferences);
-				},
-			});
+			helpers.pushPropsLocationWithParam(
+				this.props,
+				"nation-preferences-dialog",
+				this.state.game.Properties.ID
+			);
 		} else {
 			this.joinWithPreferences([]);
 		}
@@ -1275,10 +1272,11 @@ class Game extends React.Component {
 					{!this.state.game.Properties.Started ? (
 						<React.Fragment>
 							<NationPreferencesDialog
-								parentCB={(c) => {
-									this.nationPreferencesDialog = c;
+								gameID={this.state.game.Properties.ID}
+								nations={this.state.variant.Properties.Nations}
+								onSelected={(preferences) => {
+									this.joinWithPreferences(preferences);
 								}}
-								onSelected={null}
 							/>
 							<MetadataDialog
 								game={this.state.game}
