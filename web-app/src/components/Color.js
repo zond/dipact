@@ -1,10 +1,16 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
-import * as helpers from '../helpers';
-import iro from '@jaames/iro';
-import { EditIcon } from '../icons'
-import { Button, Dialog, DialogActions, DialogContent, TextField } from "@material-ui/core";
+import React from "react";
+import gtag from "ga-gtag";
+import * as helpers from "../helpers";
+import iro from "@jaames/iro";
+import { EditIcon } from "../icons";
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	TextField,
+} from "@material-ui/core";
 
 export default class Color extends React.Component {
 	constructor(props) {
@@ -23,7 +29,7 @@ export default class Color extends React.Component {
 		const val = this.state.value;
 		if (val.length === 7 || val.length === 4 || val.length === 9) {
 			if (/#[0-9a-fA-F]*/.exec(val)) {
-				this.setState({ dialogOpen: false, picker: null }, _ => {
+				this.setState({ dialogOpen: false, picker: null }, (_) => {
 					if (this.props.onSelect) {
 						this.props.onSelect(this.state.value);
 					}
@@ -56,16 +62,16 @@ export default class Color extends React.Component {
 					{
 						picker: new iro.ColorPicker(container, {
 							color: this.state.value,
-							width: 208
-						})
+							width: 208,
+						}),
 					},
-					_ => {
-						this.state.picker.on("color:change", color => {
+					(_) => {
+						this.state.picker.on("color:change", (color) => {
 							this.setState({ value: color.hexString });
 						});
 						gtag("set", {
 							page_title: "Color",
-							page_location: location.href
+							page_location: location.href,
 						});
 						gtag("event", "page_view");
 					}
@@ -77,7 +83,7 @@ export default class Color extends React.Component {
 		return (
 			<React.Fragment>
 				<div
-					onClick={_ => {
+					onClick={(_) => {
 						this.setState({ dialogOpen: true });
 					}}
 					style={{ display: "flex", alignItems: "center " }}
@@ -90,7 +96,7 @@ export default class Color extends React.Component {
 								127
 									? "white"
 									: "black",
-							margin: "0px 8px"
+							margin: "0px 8px",
 						}}
 					>
 						{this.state.value}
@@ -105,9 +111,10 @@ export default class Color extends React.Component {
 					)}
 				</div>
 				<Dialog
-					onEntered={helpers.genOnback(this.close)}
+					TransitionProps={{
+						onEnter: helpers.genOnback(this.close),
+					}}
 					open={this.state.dialogOpen}
-					disableBackdropClick={false}
 					onClose={this.close}
 				>
 					<DialogContent>
@@ -118,18 +125,15 @@ export default class Color extends React.Component {
 							margin="dense"
 							fullWidth
 							value={this.state.value}
-							onChange={ev => {
+							onChange={(ev) => {
 								this.setState({
-									value: ev.target.value
+									value: ev.target.value,
 								});
 							}}
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button
-							onClick={this.select}
-							color="primary"
-						>
+						<Button onClick={this.select} color="primary">
 							Select
 						</Button>
 					</DialogActions>
@@ -138,4 +142,3 @@ export default class Color extends React.Component {
 		);
 	}
 }
-

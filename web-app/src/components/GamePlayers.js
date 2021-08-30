@@ -155,10 +155,11 @@ class GamePlayers extends React.Component {
 		if (this.state.open) {
 			return (
 				<Dialog
-					onEntered={helpers.genOnback(this.close)}
+					TransitionProps={{
+						onEnter: helpers.genOnback(this.close),
+					}}
 					open={this.state.open}
 					className="find-game-dialog"
-					disableBackdropClick={false}
 					classes={{
 						paper: classes.paper
 					}}

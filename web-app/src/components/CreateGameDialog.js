@@ -22,6 +22,7 @@ import {
 	TextField,
 	Typography,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 import { CloseIcon, RandomGameNameIcon } from "../icons";
 
@@ -31,7 +32,7 @@ import Globals from "../Globals";
 const intReg = /^[0-9]+$/;
 const floatReg = /^[0-9]+(\.[0-9]+)?$/;
 
-export default class CreateGameDialog extends React.Component {
+class CreateGameDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -89,7 +90,6 @@ export default class CreateGameDialog extends React.Component {
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
-		this.nationPreferencesDialog = null;
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
@@ -189,13 +189,11 @@ export default class CreateGameDialog extends React.Component {
 			return;
 		}
 		if (this.state.newGameProperties.NationAllocation === 1) {
-			this.nationPreferencesDialog.setState({
-				open: true,
-				nations: this.state.variant.Properties.Nations,
-				onSelected: (preferences) => {
-					this.createGameWithPreferences(preferences);
-				},
-			});
+			helpers.pushPropsLocationWithParam(
+				this.props,
+				"nation-preferences-dialog",
+				-1
+			);
 		} else {
 			this.createGameWithPreferences([]);
 		}
@@ -443,9 +441,10 @@ export default class CreateGameDialog extends React.Component {
 		return (
 			<React.Fragment>
 				<Dialog
-					onEntered={helpers.genOnback(this.close)}
+					TransitionProps={{
+						onEnter: helpers.genOnback(this.close),
+					}}
 					open={this.state.open}
-					disableBackdropClick={false}
 					onClose={this.close}
 					fullScreen
 				>
@@ -562,19 +561,22 @@ export default class CreateGameDialog extends React.Component {
 										label="Game master of new game"
 										style={{ marginBottom: "8px" }}
 									/>
-									<FormHelperText>
-										A game master can pause or start games
-										as well as control who joins and as what
-										nation.
-									</FormHelperText>
+
 									{this.state.newGameProperties.Private ? (
-										""
+										<FormHelperText>
+											As game master, you can pause/resume
+											games and control who joins (and as
+											what nation). If you want to play
+											yourself, you need to join as a
+											player after creating your game.
+										</FormHelperText>
 									) : (
 										<FormHelperText>
 											Game master only allowed in private
 											games (risk of abuse)
 										</FormHelperText>
 									)}
+
 									{this.state.newGameProperties.Private &&
 									this.state.newGameProperties
 										.GameMasterEnabled ? (
@@ -704,7 +706,9 @@ export default class CreateGameDialog extends React.Component {
 									)}
 									onChange={this.newGamePropertyUpdater(
 										"NationAllocation",
-										{ int: true }
+										{
+											int: true,
+										}
 									)}
 									style={{
 										flexDirection: "row",
@@ -1037,13 +1041,67 @@ export default class CreateGameDialog extends React.Component {
 								{this.state.newGameProperties["Private"] ? (
 									""
 								) : (
-									<FormHelperText>
+									<FormHelperText
+										style={{ marginBottom: "12px" }}
+									>
 										Anonymous only allowed in private games
 										(risk of abuse)
 									</FormHelperText>
 								)}
 							</div>
 							<div>
+								<InputLabel shrink id="chatLanguageLabel">
+									Chat language
+								</InputLabel>
+
+								<Select
+									key="ChatLanguageISO639_1"
+									labelId="chatLanguageLabel"
+									disabled={
+										this.state.newGameProperties[
+											"DisableConferenceChat"
+										] &&
+										this.state.newGameProperties[
+											"DisableGroupChat"
+										] &&
+										this.state.newGameProperties[
+											"DisablePrivateChat"
+										]
+									}
+									value={
+										this.state.newGameProperties[
+											"ChatLanguageISO639_1"
+										]
+											? this.state.newGameProperties[
+													"ChatLanguageISO639_1"
+											  ]
+											: "players_choice"
+									}
+									onChange={this.newGamePropertyUpdater(
+										"ChatLanguageISO639_1"
+									)}
+									style={{
+										marginBottom: "16px",
+										minWidth: "220px",
+									}}
+								>
+									<MenuItem
+										key="players_choice"
+										value="players_choice"
+									>
+										Players choice
+									</MenuItem>
+									{helpers.iso639_1Codes.map((lang) => {
+										return (
+											<MenuItem
+												key={lang.name}
+												value={lang.code}
+											>
+												{lang.name}
+											</MenuItem>
+										);
+									})}
+								</Select>
 								<Typography
 									variant="subtitle2"
 									style={{
@@ -1203,46 +1261,6 @@ export default class CreateGameDialog extends React.Component {
 									},
 									max: null,
 								})}
-								<InputLabel shrink id="chatLanguageLabel">
-									Chat language
-								</InputLabel>
-								<Select
-									key="ChatLanguageISO639_1"
-									labelId="chatLanguageLabel"
-									value={
-										this.state.newGameProperties[
-											"ChatLanguageISO639_1"
-										]
-											? this.state.newGameProperties[
-													"ChatLanguageISO639_1"
-											  ]
-											: "players_choice"
-									}
-									onChange={this.newGamePropertyUpdater(
-										"ChatLanguageISO639_1"
-									)}
-									style={{
-										marginBottom: "16px",
-										minWidth: "220px",
-									}}
-								>
-									<MenuItem
-										key="players_choice"
-										value="players_choice"
-									>
-										Players choice
-									</MenuItem>
-									{helpers.iso639_1Codes.map((lang) => {
-										return (
-											<MenuItem
-												key={lang.name}
-												value={lang.code}
-											>
-												{lang.name}
-											</MenuItem>
-										);
-									})}
-								</Select>
 							</div>
 						</div>
 						<div style={{ padding: "16px", textAlign: "center" }}>
@@ -1257,12 +1275,15 @@ export default class CreateGameDialog extends React.Component {
 					</div>
 				</Dialog>
 				<NationPreferencesDialog
-					parentCB={(c) => {
-						this.nationPreferencesDialog = c;
+					gameID="-1"
+					nations={this.state.variant.Properties.Nations}
+					onSelected={(preferences) => {
+						this.createGameWithPreferences(preferences);
 					}}
-					onSelected={null}
 				/>
 			</React.Fragment>
 		);
 	}
 }
+
+export default withRouter(CreateGameDialog);

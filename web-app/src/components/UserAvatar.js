@@ -1,7 +1,7 @@
 import React from "react";
 import { IconButton, Avatar } from "@material-ui/core";
 
-import StatsDialog from "./StatsDialog";
+import { withStatsDialog } from "./StatsDialogWrapper";
 
 /*
  * MUST HAVE:
@@ -14,11 +14,8 @@ import StatsDialog from "./StatsDialog";
  * - onNewGameState: A callback to run with the new game state if it gets changed (due to muting the user in the game).
  *                   Forwarded to the stats dialog.
  */
-export default class UserAvatar extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { dialogOpen: false };
-	}
+// TODO functional component
+class UserAvatar extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
@@ -26,9 +23,10 @@ export default class UserAvatar extends React.Component {
 					style={{
 						padding: "0px",
 					}}
-					onClick={(_) => {
+					onClick={() => {
+						// TODO move out of component
 						if (this.props.user.Id) {
-							this.setState({ dialogOpen: true });
+							this.props.statsDialogOptions.open(this.props.user, this.props.game, this.props.gameState, this.props.onNewGameState);
 						}
 					}}
 				>
@@ -38,24 +36,9 @@ export default class UserAvatar extends React.Component {
 						style={{ marginRight: "16px" }}
 					/>
 				</IconButton>
-				{this.state.dialogOpen ? (
-					<StatsDialog
-						game={this.props.game}
-						onClose={(ev) => {
-							if (ev) {
-								ev.stopPropagation();
-								ev.preventDefault();
-							}
-							this.setState({ dialogOpen: false });
-						}}
-						user={this.props.user}
-						gameState={this.props.gameState}
-						onNewGameState={this.props.onNewGameState}
-					/>
-				) : (
-					""
-				)}
 			</React.Fragment>
 		);
 	}
 }
+
+export default withStatsDialog(UserAvatar);

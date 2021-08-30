@@ -38,6 +38,27 @@ export const getNationAvatarProps = (nation, variant, gameState) => {
 	return { color, link, nationAbbreviation, muted }
 }
 
+export function cmpPropsQueryParam(name, wanted) {
+	return (props) => {
+		return (
+			"" + new URLSearchParams(props.location.search).get(name) ===
+			"" + wanted
+		);
+	};
+}
+
+export function pushPropsLocationWithoutParam(props, name) {
+	const params = new URLSearchParams(props.location.search);
+	params.delete(name);
+	props.history.push({ search: params.toString() });
+}
+
+export function pushPropsLocationWithParam(props, name, value) {
+	const params = new URLSearchParams(props.location.search);
+	params.set(name, value);
+	props.history.push({ search: params.toString() });
+}
+
 export function ratingPercentile(rating) {
 	let totalCount = 0;
 	let belowCount = 0;
@@ -737,8 +758,7 @@ export const iso639_1Codes = [
 	},
 	{
 		code: "cu",
-		name:
-			"Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
+		name: "Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
 	},
 	{
 		code: "om",

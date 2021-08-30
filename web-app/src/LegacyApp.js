@@ -1,9 +1,9 @@
 /* eslint-disable no-restricted-globals */
-import * as helpers from './helpers';
-import Login from './components/Login';
-import Router from './pages/Router';
-import ActivityContainer from './components/ActivityContainer';
-import Globals from './Globals';
+import * as helpers from "./helpers";
+import Login from "./components/Login";
+import Router from "./pages/Router";
+import ActivityContainer from "./components/ActivityContainer";
+import Globals from "./Globals";
 
 export default class App extends ActivityContainer {
 	constructor(props) {
@@ -68,8 +68,9 @@ export default class App extends ActivityContainer {
 					let matchingNations = variant.Properties.Nations.filter(
 						(otherNation) => {
 							return (
-								otherNation.indexOf(nation.slice(0, idx + 1)) ===
-								0
+								otherNation.indexOf(
+									nation.slice(0, idx + 1)
+								) === 0
 							);
 						}
 					).length;
@@ -83,7 +84,10 @@ export default class App extends ActivityContainer {
 				}
 			});
 		});
-		if (Globals.userConfig.Properties.Colors && Globals.userConfig.Properties.Colors.length > 0) {
+		if (
+			Globals.userConfig.Properties.Colors &&
+			Globals.userConfig.Properties.Colors.length > 0
+		) {
 			helpers.parseUserConfigColors();
 		}
 	}

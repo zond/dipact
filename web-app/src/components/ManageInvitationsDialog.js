@@ -129,8 +129,9 @@ class ManageInvitationsDialog extends React.Component {
 		return (
 			<Dialog
 				open={this.state.open}
-				onEntered={helpers.genOnback(this.close)}
-				disableBackdropClick={false}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				onClose={this.close}
 				fullWidth={true}
 				maxWidth="xl"

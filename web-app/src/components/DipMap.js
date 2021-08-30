@@ -216,16 +216,17 @@ export default class DipMap extends React.Component {
 	labShare() {
 		const hrefURL = new URL(location.href);
 		const variantPhase = this.makeVariantPhase();
+		const serializedPhase = this.props.serializePhaseState({
+			Properties: variantPhase,
+		});
 		const url =
 			hrefURL.protocol +
 			"//" +
 			hrefURL.host +
-			"/Game/" +
+			"/game/" +
 			this.state.game.Properties.ID +
-			"/Lab/" +
-			this.props.serializePhaseState({
-				Properties: variantPhase,
-			});
+			"/lab/" +
+			serializedPhase;
 		fetch(
 			new Request(
 				"https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyDxQpMuCYlu95_oG7FUCLFIYIIfvKz-4D8",

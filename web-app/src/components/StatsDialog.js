@@ -1,12 +1,26 @@
 /* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
 
-import LeaderboardDialog from './LeaderboardDialog';
-import Globals from '../Globals';
-import { TableRow, TableCell, DialogActions, Dialog, DialogContent, Table, Paper, DialogTitle, FormControlLabel, Checkbox, Button, TableBody, TableContainer } from '@material-ui/core';
+import LeaderboardDialog from "./LeaderboardDialog";
+import Globals from "../Globals";
+import {
+	TableRow,
+	TableCell,
+	DialogActions,
+	Dialog,
+	DialogContent,
+	Table,
+	Paper,
+	DialogTitle,
+	FormControlLabel,
+	Checkbox,
+	Button,
+	TableBody,
+	TableContainer,
+} from "@material-ui/core";
 
 /*
  * MUST HAVE:
@@ -51,11 +65,10 @@ export default class StatsDialog extends React.Component {
 		if (this.state.gameState.Properties.Muted.indexOf(this.nation) === -1) {
 			this.state.gameState.Properties.Muted.push(this.nation);
 		} else {
-			this.state.gameState.Properties.Muted = this.state.gameState.Properties.Muted.filter(
-				(m) => {
+			this.state.gameState.Properties.Muted =
+				this.state.gameState.Properties.Muted.filter((m) => {
 					return m !== this.nation;
-				}
-			);
+				});
 		}
 		let updateLink = this.state.gameState.Links.find((l) => {
 			return l.Rel === "update";
@@ -163,8 +176,9 @@ export default class StatsDialog extends React.Component {
 		return (
 			<React.Fragment>
 				<Dialog
-					onEntered={helpers.genOnback(this.props.onClose)}
-					disableBackdropClick={false}
+					TransitionProps={{
+						onEnter: helpers.genOnback(this.close),
+					}}
 					open={true}
 					onClose={this.onClose}
 				>
@@ -208,9 +222,7 @@ export default class StatsDialog extends React.Component {
 							""
 						)}
 						{this.state.userStats ? (
-							<TableContainer
-								component={Paper}
-							>
+							<TableContainer component={Paper}>
 								<Table>
 									<TableBody>
 										{this.makeRow(
@@ -318,10 +330,7 @@ export default class StatsDialog extends React.Component {
 						)}
 					</DialogContent>
 					<DialogActions>
-						<Button
-							onClick={this.onClose}
-							color="primary"
-						>
+						<Button onClick={this.onClose} color="primary">
 							Close
 						</Button>
 					</DialogActions>
@@ -339,4 +348,3 @@ export default class StatsDialog extends React.Component {
 		);
 	}
 }
-
