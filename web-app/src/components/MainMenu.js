@@ -24,11 +24,11 @@ import ActivityContainer from "./ActivityContainer";
 import Globals from "../Globals";
 import DonateDialog from "./DonateDialog";
 import ErrorsDialog from "./ErrorsDialog";
-import StatsDialog from "./StatsDialog";
 import SettingsDialog from "./SettingsDialog";
 import FindGameDialog from "./FindGameDialog";
 import Start from "./Start";
 import GameList from "./GameList";
+import { withStatsDialog } from "./StatsDialogWrapper";
 import { RouteConfig } from "../pages/Router";
 
 class MainMenu extends ActivityContainer {
@@ -47,7 +47,6 @@ class MainMenu extends ActivityContainer {
 		this.state = {
 			drawerOpen: false,
 			activity: Start,
-			statsDialogOpen: false,
 			activityProps: {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
@@ -194,9 +193,9 @@ class MainMenu extends ActivityContainer {
 							<MenuItem
 								key="stats"
 								onClick={(_) => {
+									this.props.statsDialogOptions.open(Globals.user);
 									this.setState({
 										menuAnchorEl: null,
-										statsDialogOpen: true,
 									});
 								}}
 							>
@@ -447,20 +446,9 @@ class MainMenu extends ActivityContainer {
 						this.errorsDialog = c;
 					}}
 				/>
-				{this.state.statsDialogOpen ? (
-					<StatsDialog
-						open={this.state.statsDialogOpen}
-						user={Globals.user}
-						onClose={(_) => {
-							this.setState({ statsDialogOpen: false });
-						}}
-					/>
-				) : (
-					""
-				)}
 			</React.Fragment>
 		);
 	}
 }
 
-export default withRouter(MainMenu);
+export default withStatsDialog(withRouter(MainMenu));
