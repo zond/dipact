@@ -1,0 +1,568 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots components/ChatMessage Long 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row-reverse",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 0px 0px 8px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "12px 0px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      
+       
+      France
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      07:11:49 01/08/2021
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Medium 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row-reverse",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 0px 0px 8px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "12px 0px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      
+       
+      France
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      07:11:49 01/08/2021
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage No Name 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row-reverse",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 0px 0px 8px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "12px 0px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      
+       
+      France
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      07:11:49 01/08/2021
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Not Delivered 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row-reverse",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 0px 0px 8px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "12px 0px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      
+       
+      France
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      Sending...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Not Self 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 8px 0px 0px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "0px 12px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      Other player
+       
+      Germany
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      07:11:49 01/08/2021
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Short 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row-reverse",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 0px 0px 8px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "12px 0px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      
+       
+      France
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      Hello there
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      07:11:49 01/08/2021
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Username 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "flex-start",
+      "backgroundColor": "#fff",
+      "display": "flex",
+      "flexDirection": "row",
+      "margin": "8px",
+      "maxWidth": "960px",
+      "width": "calc(100%-16px)",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "margin": "0px 8px 0px 0px",
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "backgroundColor": "#1ea7fd19",
+        "border": "1px solid #1ea7fd",
+        "borderRadius": "0px 12px 12px 12px",
+        "display": "flex",
+        "flexDirection": "column",
+        "maxWidth": "calc(100% - 70px)",
+        "padding": "10px",
+      }
+    }
+  >
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "color": "rgba(0, 0, 0, 0.7)",
+          "fontSize": "14px",
+          "fontWeight": 700,
+          "textAlign": "left",
+        }
+      }
+    >
+      Diplicity
+       
+      
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-start",
+          "fontSize": "14px",
+          "maxWidth": "100%",
+          "textAlign": "left",
+          "whiteSpace": "pre-wrap",
+        }
+      }
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      style={
+        Object {
+          "alignSelf": "flex-end",
+          "color": "rgba(0, 0, 0, 0.3)",
+          "display": "table",
+          "fontSize": "12px",
+        }
+      }
+    >
+      07:11:49 01/08/2021
+    </p>
+  </div>
+</div>
+`;

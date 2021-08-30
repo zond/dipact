@@ -18,6 +18,7 @@ import ChatChannel from "./ChatChannel";
 import NationAvatarGroup from "./NationAvatarGroup";
 import { generatePath, withRouter } from 'react-router-dom';
 import { RouteConfig } from '../pages/Router';
+import NationAvatar from "./NationAvatar";
 
 class ChatMenu extends React.Component {
 	constructor(props) {
@@ -253,6 +254,31 @@ class ChatMenu extends React.Component {
 					}}
 				>
 					{this.state.channels.map((channel) => {
+
+						const withMessagesSince = (component) => {
+							<Badge
+								badgeContent={
+									channel.Properties.NMessagesSince
+										.NMessages
+								}
+								overlap="circle"
+								color="primary"
+							>{component}</Badge>
+						}
+
+						const showMessagesSinceBadge = this.member &&
+								channel.Properties.NMessagesSince &&
+								channel.Properties.NMessagesSince.NMessages > 0
+
+						const avatars = channel.Properties.Members.map((nation) => {
+    						const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(
+								nation,
+								this.variant,
+								this.props.gameState
+							);
+							return <NationAvatar key={nation} color={color} link={link} nationAbbreviation={nationAbbreviation} muted={muted} />
+						});
+						const nationAvatarGroup = <NationAvatarGroup avatars={avatars} />;
 						return (
 							<Button
 								style={{
@@ -269,78 +295,7 @@ class ChatMenu extends React.Component {
 								}}
 								key={channel.Properties.Members.join(",")}
 							>
-								{this.member &&
-								channel.Properties.NMessagesSince &&
-								channel.Properties.NMessagesSince.NMessages >
-									0 ? (
-									<Badge
-										badgeContent={
-											channel.Properties.NMessagesSince
-												.NMessages
-										}
-										overlap="circle"
-										color="primary"
-									>
-										{this.variant.Properties.Nations
-											.length ===
-										channel.Properties.Members.length ? (
-											<NationAvatarGroup
-												game={this.props.game}
-												newGameState={
-													this.props.newGameState
-												}
-												gameState={this.props.gameState}
-												variant={this.variant}
-												nations={
-													channel.Properties.Members
-												}
-											/>
-										) : (
-											<NationAvatarGroup
-												game={this.props.game}
-												newGameState={
-													this.props.newGameState
-												}
-												gameState={this.props.gameState}
-												variant={this.variant}
-												nations={channel.Properties.Members.filter(
-													(n) => {
-														return (
-															!this.member ||
-															n !==
-																this.member
-																	.Nation
-														);
-													}
-												)}
-											/>
-										)}
-									</Badge>
-								) : this.variant.Properties.Nations.length ===
-								  channel.Properties.Members.length ? (
-									<NationAvatarGroup
-										game={this.props.game}
-										newGameState={this.props.newGameState}
-										gameState={this.props.gameState}
-										variant={this.variant}
-										nations={channel.Properties.Members}
-									/>
-								) : (
-									<NationAvatarGroup
-										game={this.props.game}
-										newGameState={this.props.newGameState}
-										gameState={this.props.gameState}
-										variant={this.variant}
-										nations={channel.Properties.Members.filter(
-											(n) => {
-												return (
-													!this.member ||
-													n !== this.member.Nation
-												);
-											}
-										)}
-									/>
-								)}
+								{showMessagesSinceBadge ? withMessagesSince(nationAvatarGroup) : nationAvatarGroup}
 
 								{channel.Properties.NMessages &&
 								channel.Properties.LatestMessage ? (

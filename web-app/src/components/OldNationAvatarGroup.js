@@ -1,6 +1,7 @@
 import React from "react";
 
 import NationAvatar from "./NationAvatar";
+import * as helpers from "../helpers";
 import { Avatar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import UNLogoSvgPath from "../static/img/un_logo.svg";
@@ -67,15 +68,14 @@ class NationAvatarGroup extends React.Component {
     this.natAv = this.natAv.bind(this);
   }
   natAv(nation, className) {
+    const { color, link, nationAbbreviation } = helpers.getNationAvatarProps(nation, this.props.variant);
     return (
       <NationAvatar
         key={nation}
-        gameState={this.props.gameState}
-        onNewGameState={this.props.onNewGameState}
-        game={this.props.game}
+        color={color}
+        nationAbbreviation={nationAbbreviation}
+        link={link}
         nation={nation}
-        variant={this.props.variant}
-        classes={{ root: className }}
       />
     );
   }

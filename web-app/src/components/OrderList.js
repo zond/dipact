@@ -345,6 +345,9 @@ export default class OrderList extends React.Component {
 								).filter((sc) => {
 									return sc.Owner === nation;
 								}).length;
+
+    							const { color, link, nationAbbreviation } = helpers.getNationAvatarProps(nation, this.props.variant);
+
 								return (
 									<li key={"nation_" + nation}>
 										<ul style={{ paddingLeft: "0px" }}>
@@ -361,15 +364,9 @@ export default class OrderList extends React.Component {
 												{" "}
 												<NationAvatar
 													nation={nation}
-													variant={this.props.variant}
-													gameState={
-														this.props.gameState
-													}
-													onNewGameState={
-														this.props
-															.onNewGameState
-													}
-													game={this.props.game}
+													color={color}
+													nationAbbreviation={nationAbbreviation}
+													link={link}
 													style={{
 														border: `1px solid ${helpers.natCol(
 															nation,

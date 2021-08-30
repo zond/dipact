@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import gtag from 'ga-gtag';
 
 import { ExpandIcon } from '../icons';
-import NationAvatar from './NationAvatar';
+import NationAvatar, { withMuted } from './NationAvatar';
 import Globals from '../Globals';
 
 const styles = (theme) => ({
@@ -188,6 +188,17 @@ class GameResults extends React.Component {
 													}
 											  )
 											: null;
+
+    									const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(score.Member, this.props.variant, this.props.gameState);
+										const avatar = (
+											<NationAvatar
+												nation={score.Member}
+												color={color}
+												link={link}
+												nationAbbreviation={nationAbbreviation}
+											/>)
+										const wrappedAvatar = muted ? withMuted(avatar) : avatar;
+
 										return (
 											<ListItem
 												key={"nation_" + score.Member}
@@ -230,27 +241,7 @@ class GameResults extends React.Component {
 																	"rgba(40, 26, 26, 0.54)",
 															}}
 														>
-															<NationAvatar
-																game={
-																	this.props
-																		.game
-																}
-																gameState={
-																	this.props
-																		.gameState
-																}
-																newGameState={
-																	this.props
-																		.newGameState
-																}
-																nation={
-																	score.Member
-																}
-																variant={
-																	this.props
-																		.variant
-																}
-															/>
+															{wrappedAvatar}
 															<div
 																style={{
 																	marginLeft:

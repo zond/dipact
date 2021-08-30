@@ -9,6 +9,9 @@ import { ExpandIcon, SendMessageIcon } from '../icons';
 import ChatMessage from './ChatMessage';
 import NationAvatarGroup from './NationAvatarGroup';
 import { withRouter } from 'react-router-dom';
+import NationAvatar, { withMuted } from './NationAvatar';
+import ChatPhaseDivider from './ChatPhaseDivider';
+import ChatNewMessagesBanner from './ChatNewMessagesBanner';
 
 class ChatChannel extends React.Component {
 	constructor(props) {
@@ -315,6 +318,15 @@ class ChatChannel extends React.Component {
 		}
 	}
 	render() {
+		const avatars = this.props.channel.Properties.Members.map((nation) => {
+			const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(
+				nation,
+				this.variant,
+				this.props.gameState
+			);
+			return <NationAvatar key={nation} color={color} link={link} nationAbbreviation={nationAbbreviation} muted={muted} />
+		});
+		const nationAvatarGroup = <NationAvatarGroup avatars={avatars} />;
 		if (this.props.channel) {
 			return (
 				<React.Fragment>
@@ -333,34 +345,7 @@ class ChatChannel extends React.Component {
 							}}
 						>
 							<span style={{ display: "flex" }}>
-								{this.variant.Properties.Nations.length ===
-								this.props.channel.Properties.Members.length ? (
-									<NationAvatarGroup
-										game={this.props.game}
-										newGameState={this.props.newGameState}
-										gameState={this.props.gameState}
-										variant={this.variant}
-										nations={
-											this.props.channel.Properties
-												.Members
-										}
-									/>
-								) : (
-									<NationAvatarGroup
-										game={this.props.game}
-										newGameState={this.props.newGameState}
-										gameState={this.props.gameState}
-										variant={this.variant}
-										nations={this.props.channel.Properties.Members.filter(
-											(n) => {
-												return (
-													!this.member ||
-													n !== this.member.Nation
-												);
-											}
-										)}
-									/>
-								)}
+								{nationAvatarGroup}
 							</span>
 
 							{this.props.channel.Properties.Members.length >
@@ -438,10 +423,15 @@ class ChatChannel extends React.Component {
 					>
 						{this.messageSlice()
 							.map((message, idx) => {
-								const selfish =
-									this.member &&
-									this.member.Nation ===
-										message.Properties.Sender;
+
+								const { Properties, undelivered } = message;
+								const  { ID, Sender, Body, CreatedAt, } = Properties;
+								const selfish = this.member && this.member.Nation === Sender;
+    							const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(Sender, this.variant, this.props.gameState);
+
+								const avatar = (<NationAvatar color={color} nation={Sender} link={link} nationAbbreviation={nationAbbreviation} />);
+								const wrappedAvatar = muted ? withMuted(avatar) : avatar;
+
 								return (
 									<React.Fragment key={message.Properties.ID}>
 										{message.phase &&
@@ -458,17 +448,7 @@ class ChatChannel extends React.Component {
 													justifyContent: 'center',
 												}}
 											>
-												<Typography
-													color="primary"
-													display="block"
-													variant="subtitle2"
-												>
-													-------{" "}
-													{helpers.phaseName(
-														message.phase
-													)}{" "}
-													------
-												</Typography>
+												<ChatPhaseDivider phase={message.phase.Name} />
 											</div>
 										) : (
 											""
@@ -483,43 +463,19 @@ class ChatChannel extends React.Component {
 												Date.parse(
 													this.messageSlice()[idx - 1]
 														.Properties.CreatedAt
-												)) ? (
-											<div
-												style={{
-													justifyContent: 'center',
-													width: '100%',
-													maxWidth: '960px',
-													display: 'flex',
-													background: 'repeating-linear-gradient( 45deg, rgba(255,0,0,.1), rgba(255,0,0,0.1) 10px, rgba(255,0,0,0) 10px, rgba(255,0,0,0) 20px, rgba(0,0,255,0.1) 20px, rgba(0,0,255,0.1) 30px, rgba(255,255,255,0) 30px, rgba(255,255,255,0) 40px)',
-												}}
-											>
-												<Typography
-													variant="subtitle2"
-													style={{ color: "#b71c1c" }}
-													display="block"
-												>
-													New messages
-												</Typography>
-											</div>
-										) : (
-											""
+												)) && (
+											<ChatNewMessagesBanner />
 										)}
 										<ChatMessage
-											game={this.props.game}
-											onNewGameState={
-												this.props.onNewGameState
-											}
-											gameState={this.props.gameState}
-											key={message.Properties.ID}
+											key={ID}
 											name={name}
-											undelivered={message.undelivered}
-											variant={this.variant}
-											nation={message.Properties.Sender}
-											text={message.Properties.Body}
-											time={helpers.timeStrToDateTime(
-												message.Properties.CreatedAt
-											)}
-											sender={selfish ? "self" : ""}
+											undelivered={undelivered}
+											color={color}
+											nation={Sender}
+											text={Body}
+											time={helpers.timeStrToDateTime(CreatedAt)}
+											selfish={selfish}
+											avatar={wrappedAvatar}
 										/>
 									</React.Fragment>
 								);

@@ -7,6 +7,7 @@ const colorReg = /^#([0-9a-fA-F]{3,3}|[0-9a-fA-F]{6,6}|[0-9a-fA-F]{8,8})$/;
 const linkReg = /^([^]*?)((mailto:|https?:\/\/)[^\s]*[^.\s])([^]*)$/m;
 
 export const DiplicitySender = "Diplicity";
+export const OttoURL = "https://diplicity-engine.appspot.com/img/otto.png";
 
 export function linkify(s) {
 	const parts = [];
@@ -24,6 +25,17 @@ export function linkify(s) {
 	}
 	parts.push(remainder);
 	return parts;
+}
+
+export const getNationAvatarProps = (nation, variant, gameState) => {
+    const color = natCol(nation, variant);
+		const nationAbbreviation = variant.nationAbbreviations[nation] || "";
+		const linkObject = variant.Links.find((l) => {
+			return l.Rel === "flag-" + nation;
+		});
+    const link = nation === DiplicitySender ? OttoURL : linkObject ? linkObject.URL : undefined;
+	const muted = gameState && (gameState.Properties.Muted || []).indexOf(nation) !== -1;
+	return { color, link, nationAbbreviation, muted }
 }
 
 export function ratingPercentile(rating) {
@@ -1086,6 +1098,9 @@ export function natCol(nation, variant) {
 	if (pos === -1) {
 		if (nation === "Neutral") {
 			return "#d0d0d0";
+		}
+		if (nation === "Diplicity") {
+			return "#000000";
 		}
 		// Recognise this as the color of bugs.
 		return "#ff00ff";
