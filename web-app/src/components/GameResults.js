@@ -1,24 +1,36 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import { Button, List, ListItem, Typography, Dialog, DialogTitle, DialogContent, DialogActions, AccordionDetails, Accordion, AccordionSummary } from "@material-ui/core";
+import React from "react";
+import * as helpers from "../helpers";
+import {
+	Button,
+	List,
+	ListItem,
+	Typography,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	AccordionDetails,
+	Accordion,
+	AccordionSummary,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import gtag from 'ga-gtag';
+import gtag from "ga-gtag";
 
-import { ExpandIcon } from '../icons';
-import NationAvatar from './NationAvatar';
-import Globals from '../Globals';
+import { ExpandIcon } from "../icons";
+import NationAvatar from "./NationAvatar";
+import Globals from "../Globals";
 
 const styles = (theme) => ({
-  dialogActions: {
-    backgroundColor: "white",
-    position: "sticky",
-    bottom: "0px",
-  },
-  paper: {
-    margin: "2px",
-    width: "100%",
-  },
+	dialogActions: {
+		backgroundColor: "white",
+		position: "sticky",
+		bottom: "0px",
+	},
+	paper: {
+		margin: "2px",
+		width: "100%",
+	},
 });
 
 class GameResults extends React.Component {
@@ -56,8 +68,8 @@ class GameResults extends React.Component {
 				.safeFetch(helpers.createRequest(gameResultLink.URL))
 				.then((res) => res.json())
 				.then((gameResultJS) => {
-					gameResultJS.Properties.Scores = gameResultJS.Properties.Scores.sort(
-						(a, b) => {
+					gameResultJS.Properties.Scores =
+						gameResultJS.Properties.Scores.sort((a, b) => {
 							if (a.Score > b.Score) {
 								return -1;
 							} else if (a.Score < b.Score) {
@@ -68,8 +80,7 @@ class GameResults extends React.Component {
 								return 1;
 							}
 							return 0;
-						}
-					);
+						});
 					const trueSkillsLink = gameResultJS.Links.find((l) => {
 						return l.Rel === "true-skills";
 					});
@@ -110,7 +121,7 @@ class GameResults extends React.Component {
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{
-					paper: classes.paper
+					paper: classes.paper,
 				}}
 				onClose={this.close}
 			>
@@ -168,7 +179,11 @@ class GameResults extends React.Component {
 
 					<Typography variant="caption">
 						Points below are based on the{" "}
-						<a href="http://windycityweasels.org/tribute-scoring-system/" target="_blank">
+						<a
+							href="http://windycityweasels.org/tribute-scoring-system/"
+							target="_blank"
+							rel="noreferrer"
+						>
 							Tribute
 						</a>{" "}
 						system.
@@ -211,7 +226,9 @@ class GameResults extends React.Component {
 															margin: "0px",
 															boxShadow: "none",
 														}}
-														expandIcon={<ExpandIcon />}
+														expandIcon={
+															<ExpandIcon />
+														}
 													>
 														<div
 															style={{
@@ -226,8 +243,7 @@ class GameResults extends React.Component {
 																alignItems:
 																	"center",
 																width: "100%",
-																color:
-																	"rgba(40, 26, 26, 0.54)",
+																color: "rgba(40, 26, 26, 0.54)",
 															}}
 														>
 															<NationAvatar
@@ -409,10 +425,8 @@ class GameResults extends React.Component {
 																			"column",
 																		padding:
 																			"0px",
-																		margin:
-																			"0px",
-																		width:
-																			"100%",
+																		margin: "0px",
+																		width: "100%",
 																	}}
 																>
 																	<div>
@@ -433,9 +447,10 @@ class GameResults extends React.Component {
 																				(
 																					line
 																				) => {
-																					const parts = line.split(
-																						":"
-																					);
+																					const parts =
+																						line.split(
+																							":"
+																						);
 																					return (
 																						<div
 																							style={{
@@ -443,8 +458,7 @@ class GameResults extends React.Component {
 																									"flex",
 																								justifyContent:
 																									"space-between",
-																								color:
-																									"rgba(40, 26, 26,0.3)",
+																								color: "rgba(40, 26, 26,0.3)",
 																							}}
 																							key={
 																								line
@@ -477,10 +491,8 @@ class GameResults extends React.Component {
 																							"space-between",
 																						padding:
 																							"0px",
-																						margin:
-																							"0px 0px 16px 0px",
-																						width:
-																							"100%",
+																						margin: "0px 0px 16px 0px",
+																						width: "100%",
 																					}}
 																				>
 																					<Typography variant="subtitle2">
@@ -501,12 +513,9 @@ class GameResults extends React.Component {
 																							"space-between",
 																						padding:
 																							"0px",
-																						margin:
-																							"0px",
-																						width:
-																							"100%",
-																						color:
-																							"rgba(40, 26, 26,0.3)",
+																						margin: "0px",
+																						width: "100%",
+																						color: "rgba(40, 26, 26,0.3)",
 																					}}
 																				>
 																					{trueSkill
@@ -539,12 +548,9 @@ class GameResults extends React.Component {
 																							"space-between",
 																						padding:
 																							"0px",
-																						margin:
-																							"0px",
-																						width:
-																							"100%",
-																						color:
-																							"rgba(40, 26, 26,0.3)",
+																						margin: "0px",
+																						width: "100%",
+																						color: "rgba(40, 26, 26,0.3)",
 																					}}
 																				>
 																					{trueSkill
@@ -582,10 +588,8 @@ class GameResults extends React.Component {
 																							"space-between",
 																						padding:
 																							"0px",
-																						margin:
-																							"0px",
-																						width:
-																							"100%",
+																						margin: "0px",
+																						width: "100%",
 																						borderTop:
 																							"1px solid black",
 																					}}
@@ -612,10 +616,8 @@ class GameResults extends React.Component {
 																						"space-between",
 																					padding:
 																						"0px",
-																					margin:
-																						"0px",
-																					width:
-																						"100%",
+																					margin: "0px",
+																					width: "100%",
 																				}}
 																			>
 																				<div>
@@ -643,9 +645,7 @@ class GameResults extends React.Component {
 							  )
 							: ""}
 					</List>
-					<DialogActions
-						className={classes.dialogActions}
-					>
+					<DialogActions className={classes.dialogActions}>
 						<Button onClick={this.close} color="primary">
 							Close
 						</Button>
