@@ -1241,15 +1241,16 @@ export default class Game extends React.Component {
 								key="orders-container"
 								style={{
 									marginTop: "" + this.state.marginTop + "px",
-									overflowY: "scroll",
 									height:
 										"calc(100% - " +
 										this.state.marginTop +
 										"px)",
 									display:
 										this.state.activeTab === "orders"
-											? "block"
+											? "flex"
 											: "none",
+									flexDirection: "column",
+    								justifyContent: "space-between",
 								}}
 							>
 								<OrderList
