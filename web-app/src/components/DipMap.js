@@ -874,6 +874,20 @@ export default class DipMap extends React.Component {
 						}
 					}
 
+					let countNeutral = 0;
+					for (let i = 0; i < borderprovs.length; i++) {
+						if (
+							typeof borderprovs[i] == "undefined"
+						) {
+						countNeutral ++;
+						}
+					}
+					console.log(countNeutral + " + " + borderprovs.length);
+					if (countNeutral == borderprovs.length) {
+						shoulddraw = false;
+					}
+
+
 					//if all equal, draw the colour.
 					if (shoulddraw) {
 						const col = helpers.natCol(borderprovs[0], this.state.variant);
@@ -907,10 +921,8 @@ export default class DipMap extends React.Component {
 										break;
 									}
 								}
-
 								//Check if we should STILL draw it or not.
 								if (shouldeventuallydraw) {
-									console.log("were running");
 									const col = helpers.natCol(
 										startingprovs[i].favours,
 										this.state.variant
