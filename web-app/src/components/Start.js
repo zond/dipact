@@ -63,12 +63,15 @@ export default class Start extends React.Component {
 				{this.hasPlayed() ? (
 					<div
 						style={{
-							height: "calc(100vh - 114px)",
+							height: "calc(100vh - 60px)",
 							overflowY: "scroll",
 						}}
 					>
+						<div>
+
+						</div>
 						<NewsDialog />
-						<List style={{ maxWidth: "940px", margin: "auto" }}>
+						<List style={{ maxWidth: "940px", margin: "auto", marginBottom: "64px" }}>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div

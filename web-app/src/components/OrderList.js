@@ -13,6 +13,7 @@ import {
 	Tooltip,
 	Button,
 	Checkbox,
+	Container,
 } from "@material-ui/core";
 import gtag from "ga-gtag";
 
@@ -306,8 +307,8 @@ export default class OrderList extends React.Component {
 	}
 	render() {
 		return (
-			<div>
-				<div style={{ maxWidth: "960px", margin: "auto" }}>
+			<>
+				<Container maxWidth="md" style={{ overflowY: "scroll" }}>
 					<List>
 						{this.props.variant.Properties.Nations.slice()
 							.sort((n1, n2) => {
@@ -725,13 +726,7 @@ export default class OrderList extends React.Component {
 								);
 							})}
 					</List>
-					<div
-						id="filler"
-						style={{
-							minHeight: "calc(100% - 112px)",
-						}}
-					/>
-				</div>
+				</Container>
 				{this.props.phase &&
 				!this.props.phase.Properties.Resolved &&
 				this.props.member &&
@@ -778,7 +773,7 @@ export default class OrderList extends React.Component {
 				) : (
 					""
 				)}
-			</div>
+			</>
 		);
 	}
 }
