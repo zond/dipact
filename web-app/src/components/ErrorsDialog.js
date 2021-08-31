@@ -9,6 +9,7 @@ import {
   DialogTitle,
   List,
   ListItem,
+  Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -67,8 +68,13 @@ class ErrorsDialog extends React.Component {
         disableBackdropClick={false}
         onClose={this.close}
       >
-        <DialogTitle>JavaScript errors</DialogTitle>
+        <DialogTitle>Bug report info</DialogTitle>
         <DialogContent>
+        <Typography>
+        If you find a bug, please report it on <a href="https://discord.com/invite/bu3JxYc" target="_blank">Chat</a> or <a href="https://groups.google.com/g/diplicity-talk" target="_blank">the Forum</a>.
+        <br />
+        Below are error codes you can report to the developers. Click on one to copy it to Clipboard.
+        </Typography >
           {this.state.errors.length > 0 ? (
             <List>
               {this.state.errors.map((el, idx) => {

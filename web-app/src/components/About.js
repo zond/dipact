@@ -43,6 +43,12 @@ export default class About extends React.Component {
 						variant={"body2"}
 						style={{ marginBottom: "8px" }}
 					>
+					<a href="https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983" target="_blank">Here you can find an introduction on how to play.</a>
+					</Typography>
+					<Typography
+						variant={"body2"}
+						style={{ marginBottom: "8px" }}
+					>
 						It looks like Risk, with a war map and units, but unlike
 						Risk has no element of chance. All units have equal
 						strength; the only way to win is to convince other
@@ -58,11 +64,7 @@ export default class About extends React.Component {
 						a fixed time, players just talk to each other (in groups
 						or private); making alliances, agreements, pass
 						information. During this phase they submit secret orders
-						for their units, according to the{" "}
-						<a href="https://en.wikibooks.org/wiki/Diplomacy/Rules">
-							Diplomacy rules
-						</a>
-						.
+						for their units.
 					</Typography>
 					<Typography
 						variant={"body2"}
