@@ -304,7 +304,7 @@ class MainMenu extends ActivityContainer {
 									label="Open games"
 									onClick={this.renderGameList}
 								>
-									<ListItemText primary="Open games" />
+									<ListItemText primary="Open to join" />
 								</ListItem>
 								<ListItem
 									style={{ padding: "4px 16px" }}
@@ -313,7 +313,7 @@ class MainMenu extends ActivityContainer {
 									label="Started games"
 									onClick={this.renderGameList}
 								>
-									<ListItemText primary="Started games" />
+									<ListItemText primary="Started" />
 								</ListItem>
 								<ListItem
 									button
@@ -321,7 +321,7 @@ class MainMenu extends ActivityContainer {
 									label="Finished games"
 									onClick={this.renderGameList}
 								>
-									<ListItemText primary="Finished games" />
+									<ListItemText primary="Finished" />
 								</ListItem>
 
 								<Divider />
@@ -365,19 +365,25 @@ class MainMenu extends ActivityContainer {
 								>
 									<ListItemText primary="Forum" />
 								</ListItem>
-
+								<Divider />
 								<ListItem
 									button
 									onClick={(_) => {
 										open(
-											"https://sites.google.com/corp/view/diplicity"
+											"https://diplicity.notion.site/diplicity/Diplicity-FAQ-7b4e0a119eb54c69b80b411f14d43bb9"
 										);
 									}}
 								>
-									<ListItemText primary="Help" />
+									<ListItemText primary="FAQ" />
 								</ListItem>
-
-								<Divider />
+								<ListItem
+									button
+									onClick={(_) => {
+										this.setActivity(About);
+									}}
+								>
+									<ListItemText primary="About" />
+								</ListItem>
 							</List>
 							<div
 								style={{

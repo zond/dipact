@@ -6,6 +6,7 @@ import * as helpers from "../helpers";
 import MetadataDialog from "./MetadataDialog";
 import gtag from "ga-gtag";
 import {
+	Divider,
 	Snackbar,
 	Button,
 	FormControlLabel,
@@ -37,11 +38,11 @@ import {
 	EventIcon,
 	FastForwardIcon,
 	MapIcon,
-	MoreIcon,
 	NextIcon,
 	NumMembersIcon,
 	PreviousIcon,
 	ShareIcon,
+	SettingsIcon,
 } from "../icons";
 import OrderList from "./OrderList";
 import GamePlayers from "./GamePlayers";
@@ -702,7 +703,7 @@ class Game extends React.Component {
 										});
 									}}
 								>
-									<MoreIcon />
+									<SettingsIcon />
 								</IconButton>
 							) : (
 								""
@@ -723,49 +724,6 @@ class Game extends React.Component {
 								open={!!this.state.moreMenuAnchorEl}
 							>
 								<MenuItem
-									key="game-id"
-									onClick={(_) => {
-										const hrefURL = new URL(location.href);
-										helpers
-											.copyToClipboard(
-												hrefURL.protocol +
-													"//" +
-													hrefURL.host +
-													"/Game/" +
-													this.state.game.Properties
-														.ID
-											)
-											.then(
-												(_) => {
-													this.setState({
-														moreMenuAnchorEl: null,
-													});
-													helpers.snackbar(
-														"Game URL copied to clipboard. Share it to other players."
-													);
-												},
-												(err) => {
-													console.log(err);
-												}
-											);
-										gtag("event", "game_share");
-									}}
-								>
-									Share game
-								</MenuItem>
-								<MenuItem
-									key="download-map"
-									onClick={(_) => {
-										this.setState({
-											moreMenuAnchorEl: null,
-										});
-										this.dip_map.downloadMap();
-										gtag("event", "download_map");
-									}}
-								>
-									Download map
-								</MenuItem>
-								<MenuItem
 									key="game-metadata"
 									onClick={(_) => {
 										this.setState({
@@ -784,7 +742,7 @@ class Game extends React.Component {
 										}
 									}}
 								>
-									Metadata
+									Game & player info
 								</MenuItem>
 								{this.state.game.Properties.Started
 									? [
@@ -826,6 +784,63 @@ class Game extends React.Component {
 											),
 									  ]
 									: ""}
+								<Divider />
+								<MenuItem
+									key="game-id"
+									onClick={(_) => {
+										const hrefURL = new URL(location.href);
+										helpers
+											.copyToClipboard(
+												hrefURL.protocol +
+													"//" +
+													hrefURL.host +
+													"/Game/" +
+													this.state.game.Properties
+														.ID
+											)
+											.then(
+												(_) => {
+													this.setState({
+														moreMenuAnchorEl: null,
+													});
+
+													if (
+														this.state.game
+															.Properties.Started
+													) {
+														helpers.snackbar(
+															"Game URL copied to clipboard. Share it to show the game."
+														);
+													} else {
+														helpers.snackbar(
+															"Game URL copied to clipboard. Share it to invite other players."
+														);
+													}
+												},
+												(err) => {
+													console.log(err);
+												}
+											);
+										gtag("event", "game_share");
+									}}
+								>
+									{this.state.game.Properties.Started
+										? "Share game"
+										: "Invite players"}
+								</MenuItem>
+
+								<MenuItem
+									key="download-map"
+									onClick={(_) => {
+										this.setState({
+											moreMenuAnchorEl: null,
+										});
+										this.dip_map.downloadMap();
+										gtag("event", "download_map");
+									}}
+								>
+									Download map
+								</MenuItem>
 								<MenuItem
 									key="laboratory-mode"
 									onClick={(_) => {
@@ -853,6 +868,18 @@ class Game extends React.Component {
 									{this.state.laboratoryMode
 										? "Turn off sandbox mode"
 										: "Sandbox mode"}
+								</MenuItem>
+								<Divider />
+								<MenuItem
+									key="How to play"
+									onClick={(_) => {
+										window.open(
+											"https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983",
+											"_blank"
+										);
+									}}
+								>
+									How to play
 								</MenuItem>
 								<MenuItem
 									key="debug-data"
@@ -1219,15 +1246,16 @@ class Game extends React.Component {
 								key="orders-container"
 								style={{
 									marginTop: "" + this.state.marginTop + "px",
-									overflowY: "scroll",
 									height:
 										"calc(100% - " +
 										this.state.marginTop +
 										"px)",
 									display:
 										this.state.activeTab === "orders"
-											? "block"
+											? "flex"
 											: "none",
+									flexDirection: "column",
+    								justifyContent: "space-between",
 								}}
 							>
 								<OrderList
