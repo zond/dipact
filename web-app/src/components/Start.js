@@ -63,7 +63,7 @@ export default class Start extends React.Component {
 				{this.hasPlayed() ? (
 					<div
 						style={{
-							height: "calc(100vh - 114px)",
+							height: "calc(100vh - 60px)",
 							overflowY: "scroll",
 						}}
 					>
