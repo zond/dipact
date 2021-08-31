@@ -77,12 +77,14 @@ export default class NewsDialog extends React.Component {
 				content: (
 					<React.Fragment>
 						<Typography variant="h6" style={{}}>
-							Latest from the forum
+							Latest forum post
 						</Typography>
 						<pre style={{ whiteSpace: "pre-wrap" }}>
+						<Typography variant="body2">
 							{fm.Properties.Subject}
 							{"\n\n"}
 							{fm.Properties.Body}
+						</Typography>
 						</pre>
 						<Typography variant="body2" style={{ margin: "0px 0px 12px 0px" }}>
 							<a
