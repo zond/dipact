@@ -276,7 +276,6 @@ export default class DipMap extends React.Component {
 			svg.setAttribute("height", this.mapDims[1] * scale);
 			const svgXML = this.svgSerializer.serializeToString(svg);
 			const svgHash = helpers.hash(svgXML);
-			console.log(svgXML, svgHash);
 			if (opts.force || svgHash !== this.lastSerializedSVG) {
 				this.debugCount("getSVGData/differentHash");
 				this.lastSerializedSVG = svgHash;
@@ -337,9 +336,7 @@ export default class DipMap extends React.Component {
 		});
 	}
 	snapshotSVG() {
-		console.log('IN HERE');
 		const snapshotEl = document.getElementById("mapSnapshot");
-		console.log(snapshotEl, this.mapDims);
 		if (snapshotEl && this.mapDims[0] > 0 && this.mapDims[1] > 0) {
 			this.getSVGData().then((data) => {
 				if (data) {
