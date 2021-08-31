@@ -63,12 +63,15 @@ export default class Start extends React.Component {
 				{this.hasPlayed() ? (
 					<div
 						style={{
-							height: "calc(100vh - 114px)",
+							height: "calc(100vh - 60px)",
 							overflowY: "scroll",
 						}}
 					>
+						<div>
+
+						</div>
 						<NewsDialog />
-						<List style={{ maxWidth: "940px", margin: "auto" }}>
+						<List style={{ maxWidth: "940px", margin: "auto", marginBottom: "64px" }}>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
@@ -547,7 +550,7 @@ export default class Start extends React.Component {
 									color="primary"
 									variant="outlined"
 									key="find-open"
-									href="https://en.wikibooks.org/wiki/Diplomacy/Rules"
+									href="https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983"
 									target="_blank"
 								>
 									Read the rules

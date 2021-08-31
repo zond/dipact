@@ -501,7 +501,7 @@ class GameListElement extends React.Component {
 			MinRating: "Your rating is too low.",
 			MinReliability: "Your reliability score is too low.",
 			MinQuickness: "Your quickness score is too low.",
-			InvitationNeeded: "A game master whitelisting is required.",
+			InvitationNeeded: "The Game Master needs to whitelist you.",
 		};
 	}
 	render() {
@@ -603,7 +603,7 @@ class GameListElement extends React.Component {
 					}}
 					key={itemKey++}
 				>
-					Share
+					Invite
 				</Button>
 			);
 		}

@@ -13,10 +13,10 @@ import {
 	RatingIcon,
 	StartedAtIcon,
 	ReliabilityIcon,
+	WhitelistIcon,
 } from "../icons";
 import gtag from "ga-gtag";
 import AnonymousSvgPath from "../static/img/anon.svg";
-import NoEntrySvgPath from "../static/img/no_entry.svg";
 
 import * as helpers from "../helpers";
 import UserAvatar from "./UserAvatar";
@@ -147,7 +147,26 @@ export default class GameMetadata extends React.Component {
 					key={cells.length}
 				>
 					<GavelIcon style={{ marginRight: "8px" }} />
-					<Typography>Game master present</Typography>
+					<Typography>Managed by Game Master</Typography>
+				</div>
+			);
+		}
+		if (
+			this.state.game.Properties.Private &&
+			this.state.game.Properties.GameMasterEnabled &&
+			this.state.game.Properties.RequireGameMasterInvitation
+		) {
+			cells.push(
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+					}}
+					key={cells.length}
+				>
+					<WhitelistIcon style={{ marginRight: "8px" }} />
+					<Typography>Whitelist only (set by Game Master)</Typography>
 				</div>
 			);
 		}
@@ -537,40 +556,7 @@ export default class GameMetadata extends React.Component {
 			);
 		}
 
-		if (
-			this.state.game.Properties.Private &&
-			this.state.game.Properties.GameMasterEnabled &&
-			this.state.game.Properties.RequireGameMasterInvitation
-		) {
-			cells.push(
-				<div
-					style={{
-						width: "100%",
-						display: "flex",
-						alignItems: "center",
-					}}
-					key={cells.length}
-				>
-					<span
-						style={{
-							marginRight: "8px",
-							width: "24px",
-							height: "24px",
-						}}
-					>
-						<Icon style={{ marginRight: "8px" }}>
-							<img
-								width="24"
-								height="24"
-								alt="No entry"
-								src={NoEntrySvgPath}
-							/>
-						</Icon>
-					</span>
-					<Typography>Whitelisting required</Typography>
-				</div>
-			);
-		}
+
 		if (
 			(this.state.game.Properties.Private &&
 				this.state.game.Properties.Anonymous) ||
