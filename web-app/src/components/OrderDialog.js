@@ -1,9 +1,9 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
+import React from "react";
+import gtag from "ga-gtag";
 import { Dialog, ButtonGroup, Button } from "@material-ui/core";
 
-import * as helpers from '../helpers';
+import * as helpers from "../helpers";
 
 export default class OrderDialog extends React.Component {
 	constructor(props) {
@@ -12,7 +12,7 @@ export default class OrderDialog extends React.Component {
 			open: false,
 			options: [],
 			onClick: null,
-			onClose: null
+			onClose: null,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -22,13 +22,16 @@ export default class OrderDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
-			gtag("set", { "page_title": "OrderDialog", "page_location": location.href });
+			gtag("set", {
+				page_title: "OrderDialog",
+				page_location: location.href,
+			});
 			gtag("event", "page_view");
 		}
 	}
 	onClick(ev) {
 		const option = ev.currentTarget.getAttribute("xoption");
-		this.setState({ open: false }, _ => {
+		this.setState({ open: false }, (_) => {
 			if (this.state.onClick) {
 				this.state.onClick(option);
 			}
@@ -36,7 +39,7 @@ export default class OrderDialog extends React.Component {
 	}
 	close() {
 		helpers.unback(this.close);
-		this.setState({ open: false }, _ => {
+		this.setState({ open: false }, (_) => {
 			if (this.state.onClose) {
 				this.state.onClose();
 			}
@@ -45,13 +48,14 @@ export default class OrderDialog extends React.Component {
 	render() {
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={this.state.open}
-				disableBackdropClick={false}
 				onClose={this.close}
 			>
 				<ButtonGroup orientation="vertical">
-					{this.state.options.map(option => {
+					{this.state.options.map((option) => {
 						return (
 							<Button
 								key={option}
@@ -67,4 +71,3 @@ export default class OrderDialog extends React.Component {
 		);
 	}
 }
-

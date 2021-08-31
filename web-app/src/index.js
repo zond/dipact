@@ -1,26 +1,26 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import gtag from 'ga-gtag';
-import './index.css';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import ProgressDialog from './components/ProgressDialog';
-import Snackbar from './components/Snackbar';
+import React from "react";
+import gtag from "ga-gtag";
+import "./index.css";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import ProgressDialog from "./components/ProgressDialog";
+import Snackbar from "./components/Snackbar";
 import { ThemeProvider } from "@material-ui/core";
-import theme from './theme';
-import Globals from './Globals';
-import '@fontsource/cabin';
+import theme from "./theme";
+import Globals from "./Globals";
+import "@fontsource/cabin";
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
 ReactDOM.render(
-  <React.StrictMode>
-	<ThemeProvider theme={theme}>
-    <App />
-	</ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

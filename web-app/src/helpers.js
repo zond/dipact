@@ -26,6 +26,48 @@ export function linkify(s) {
 	return parts;
 }
 
+export function cmpPropsQueryParam(name, wanted) {
+	return (props) => {
+		return (
+			"" + new URLSearchParams(props.location.search).get(name) ===
+			"" + wanted
+		);
+	};
+}
+
+export function pushPropsLocationWithoutParam(props, name) {
+	const params = new URLSearchParams(props.location.search);
+	params.delete(name);
+	props.history.push({ search: params.toString() });
+}
+
+export function pushPropsLocationWithParam(props, name, value) {
+	const params = new URLSearchParams(props.location.search);
+	params.set(name, value);
+	props.history.push({ search: params.toString() });
+}
+
+export function cmpPropsQueryParam(name, wanted) {
+	return (props) => {
+		return (
+			"" + new URLSearchParams(props.location.search).get(name) ===
+			"" + wanted
+		);
+	};
+}
+
+export function pushPropsLocationWithoutParam(props, name) {
+	const params = new URLSearchParams(props.location.search);
+	params.delete(name);
+	props.history.push({ search: params.toString() });
+}
+
+export function pushPropsLocationWithParam(props, name, value) {
+	const params = new URLSearchParams(props.location.search);
+	params.set(name, value);
+	props.history.push({ search: params.toString() });
+}
+
 export function ratingPercentile(rating) {
 	let totalCount = 0;
 	let belowCount = 0;
@@ -202,22 +244,6 @@ export function brightnessByColor(color) {
 				b = parseInt(m[2], 16);
 	}
 	if (typeof r !== "undefined") return (r * 299 + g * 587 + b * 114) / 1000;
-}
-
-export function urlMatch(mappings, def) {
-	for (let i = 0; i < mappings.length; i++) {
-		let hrefURL = new URL(location.href);
-		let match = mappings[i][0].exec(hrefURL.pathname);
-		if (match) {
-			if (mappings[i][1]) {
-				mappings[i][1](match);
-			}
-			return;
-		}
-	}
-	if (def) {
-		def();
-	}
 }
 
 export function phaseName(phase) {
@@ -741,8 +767,7 @@ export const iso639_1Codes = [
 	},
 	{
 		code: "cu",
-		name:
-			"Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
+		name: "Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic",
 	},
 	{
 		code: "om",

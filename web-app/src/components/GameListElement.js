@@ -16,6 +16,7 @@ import {
 	AccordionDetails,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 
 import GameMetadata from "./GameMetadata";
 import Game from "./Game";
@@ -92,12 +93,10 @@ class GameListElement extends React.Component {
 		this.variant = Globals.variants.find((v) => {
 			return v.Properties.Name === this.props.game.Properties.Variant;
 		});
-		this.nationPreferencesDialog = null;
 		this.renameGameDialog = null;
 		this.manageInvitationsDialog = null;
 		this.rescheduleDialog = null;
 		this.viewGame = this.viewGame.bind(this);
-		this.closeGame = this.closeGame.bind(this);
 		this.getIcons = this.getIcons.bind(this);
 		this.joinGame = this.joinGame.bind(this);
 		this.deleteGame = this.deleteGame.bind(this);
@@ -171,7 +170,10 @@ class GameListElement extends React.Component {
 		Globals.messaging.subscribe("phase", this.phaseMessageHandler);
 		Globals.messaging.subscribe("message", this.messageHandler);
 	}
-	joinGameWithPreferences(link, preferences) {
+	joinGameWithPreferences(preferences) {
+		const link = this.state.game.Links.find((link) => {
+			return link.Rel === "join";
+		});
 		helpers.incProgress();
 		helpers
 			.safeFetch(
@@ -276,26 +278,22 @@ class GameListElement extends React.Component {
 				);
 			});
 	}
-	joinGame(link) {
+	joinGame() {
 		if (this.state.game.Properties.NationAllocation === 1) {
-			this.nationPreferencesDialog.setState({
-				open: true,
-				nations: this.variant.Properties.Nations,
-				onSelected: (preferences) => {
-					this.joinGameWithPreferences(link, preferences);
-				},
-			});
+			helpers.pushPropsLocationWithParam(
+				this.props,
+				"nation-preferences-dialog",
+				this.state.game.Properties.ID
+			);
 		} else {
-			this.joinGameWithPreferences(link, []);
+			this.joinGameWithPreferences([]);
 		}
-	}
-	closeGame() {
-		this.setState({ viewOpen: false });
 	}
 	viewGame(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		this.setState({ viewOpen: true });
+		this.props.history.push(`/Game/${this.state.game.Properties.ID}`);
+		// this.setState({ viewOpen: true });
 	}
 	addIconWithTooltip(ary, Icon, color, tooltip) {
 		ary.push(
@@ -653,7 +651,7 @@ class GameListElement extends React.Component {
 						color="primary"
 						style={{ marginRight: "16px", minWidth: "100px" }}
 						onClick={(_) => {
-							this.joinGame(link);
+							this.joinGame();
 						}}
 					>
 						Join
@@ -1101,7 +1099,6 @@ class GameListElement extends React.Component {
 								});
 							}
 						}}
-						close={this.closeGame}
 					/>
 				</div>
 			</Zoom>
@@ -1186,10 +1183,11 @@ class GameListElement extends React.Component {
 				</Accordion>
 				{this.state.viewOpen ? gameView : ""}
 				<NationPreferencesDialog
-					parentCB={(c) => {
-						this.nationPreferencesDialog = c;
+					nations={this.variant.Properties.Nations}
+					gameID={this.state.game.Properties.ID}
+					onSelected={(preferences) => {
+						this.joinGameWithPreferences(preferences);
 					}}
-					onSelected={null}
 				/>
 				{this.state.member ? (
 					<RenameGameDialog
@@ -1227,4 +1225,6 @@ class GameListElement extends React.Component {
 	}
 }
 
-export default withStyles(styles, { withTheme: true })(GameListElement);
+export default withStyles(styles, { withTheme: true })(
+	withRouter(GameListElement)
+);

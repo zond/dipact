@@ -8,8 +8,9 @@ import gtag from 'ga-gtag';
 import { ExpandIcon, SendMessageIcon } from '../icons';
 import ChatMessage from './ChatMessage';
 import NationAvatarGroup from './NationAvatarGroup';
+import { withRouter } from 'react-router-dom';
 
-export default class ChatChannel extends React.Component {
+class ChatChannel extends React.Component {
 	constructor(props) {
 		super(props);
 		this.newAfter = Number.MAX_SAFE_INTEGER;
@@ -89,15 +90,6 @@ export default class ChatChannel extends React.Component {
 		isActive = this.props.isActive && this.props.channel
 	) {
 		if (isActive) {
-			history.pushState(
-				"",
-				"",
-				"/Game/" +
-					this.props.game.Properties.ID +
-					"/Channel/" +
-					this.props.channel.Properties.Members.join(",") +
-					"/Messages"
-			);
 			if (Globals.messaging.subscribe("message", this.messageHandler)) {
 				console.log(
 					"ChatChannel subscribing to `message` notifications."
@@ -109,13 +101,6 @@ export default class ChatChannel extends React.Component {
 			});
 			gtag("event", "page_view");
 		} else {
-			if (!this.props.parent.props.parent.dead) {
-				history.pushState(
-					"",
-					"",
-					"/Game/" + this.props.game.Properties.ID
-				);
-			}
 			if (Globals.messaging.unsubscribe("message", this.messageHandler)) {
 				console.log(
 					"ChatChannel unsubscribing from `message` notifications."
@@ -601,3 +586,4 @@ export default class ChatChannel extends React.Component {
 	}
 }
 
+export default withRouter(ChatChannel);

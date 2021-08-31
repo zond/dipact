@@ -74,7 +74,7 @@ export default class About extends React.Component {
 						next turn starts, until one player controls enough of
 						the board to be the winner.
 					</Typography>
-					<Box style={{ fontWeight: "700", display: "block" }}>
+					<Box style={{ fontWeight: 700, display: "block" }}>
 						<Typography
 							variant={"body2"}
 							style={{ marginBottom: "32px" }}
@@ -114,7 +114,7 @@ export default class About extends React.Component {
 					</Typography>
 					<Typography
 						variant={"subtitle1"}
-						style={{ fontWeight: "700" }}
+						style={{ fontWeight: 700 }}
 					>
 						How to start playing
 					</Typography>
@@ -140,7 +140,7 @@ export default class About extends React.Component {
 					</Typography>
 					<Typography
 						variant={"subtitle1"}
-						style={{ fontWeight: "700" }}
+						style={{ fontWeight: 700 }}
 					>
 						Finding good matches
 					</Typography>
@@ -153,7 +153,7 @@ export default class About extends React.Component {
 						component={"span"}
 						variant={"body2"}
 						color="error"
-						style={{ display: "inline", fontColor: "red" }}
+						style={{ display: "inline", color: "red" }}
 					>
 						Reliability statistic
 					</Typography>{" "}
@@ -162,7 +162,7 @@ export default class About extends React.Component {
 					</Typography>
 					<Typography
 						variant={"subtitle2"}
-						style={{ fontWeight: "700" }}
+						style={{ fontWeight: 700 }}
 					>
 						Reliability
 					</Typography>
@@ -179,7 +179,7 @@ export default class About extends React.Component {
 					</Typography>
 					<Typography
 						variant={"subtitle2"}
-						style={{ fontWeight: "700" }}
+						style={{ fontWeight: 700 }}
 					>
 						Raising Reliability
 					</Typography>
@@ -197,7 +197,7 @@ export default class About extends React.Component {
 					</Typography>
 					<Typography
 						variant={"subtitle1"}
-						style={{ fontWeight: "700" }}
+						style={{ fontWeight: 700 }}
 					>
 						Using Google Account Info
 					</Typography>
@@ -302,3 +302,4 @@ export default class About extends React.Component {
 		);
 	}
 }
+

@@ -1,16 +1,28 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
-import { Button, TableRow, TableCell, Dialog, DialogTitle, DialogContent, TableContainer, Table, Paper, TableBody, DialogActions } from "@material-ui/core";
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
+import {
+	Button,
+	TableRow,
+	TableCell,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	TableContainer,
+	Table,
+	Paper,
+	TableBody,
+	DialogActions,
+} from "@material-ui/core";
 
-import UserAvatar from './UserAvatar';
+import UserAvatar from "./UserAvatar";
 
 export default class LeaderboardDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			userStats: []
+			userStats: [],
 		};
 		this.makeRow = this.makeRow.bind(this);
 		this.onClose = helpers.genUnbackClose(this.props.onClose);
@@ -30,19 +42,23 @@ export default class LeaderboardDialog extends React.Component {
 		helpers.incProgress();
 		helpers
 			.safeFetch(helpers.createRequest("/Users/TopRated"))
-			.then(resp => resp.json())
-			.then(js => {
+			.then((resp) => resp.json())
+			.then((js) => {
 				helpers.decProgress();
 				this.setState({ userStats: js.Properties });
-				gtag("set", { "page_title": "LeaderboardDialog", "page_location": location.href });
+				gtag("set", {
+					page_title: "LeaderboardDialog",
+					page_location: location.href,
+				});
 				gtag("event", "page_view");
 			});
 	}
 	render() {
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.props.onClose)}
-				disableBackdropClick={false}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={true}
 				onClose={this.onClose}
 			>
@@ -70,4 +86,3 @@ export default class LeaderboardDialog extends React.Component {
 		);
 	}
 }
-

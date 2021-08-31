@@ -177,9 +177,10 @@ class PreliminaryScores extends React.Component {
 		}
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={this.state.open}
-				disableBackdropClick={false}
 				classes={{
 					paper: classes.paper,
 				}}

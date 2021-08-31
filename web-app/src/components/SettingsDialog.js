@@ -2,37 +2,37 @@
 /* eslint-disable no-restricted-globals */
 import firebase from "firebase/app";
 import "firebase/messaging";
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
 import {
-    InputLabel,
-    FormControlLabel,
-    Select,
-    Dialog,
-    AppBar,
-    MenuItem,
-    Toolbar,
-    IconButton,
-    Button,
-    Checkbox,
-    TextField,
-    Typography,
-    Switch,
-    FormControl,
-} from '@material-ui/core';
+	InputLabel,
+	FormControlLabel,
+	Select,
+	Dialog,
+	AppBar,
+	MenuItem,
+	Toolbar,
+	IconButton,
+	Button,
+	Checkbox,
+	TextField,
+	Typography,
+	Switch,
+	FormControl,
+} from "@material-ui/core";
 
-import Color from './Color';
-import Globals from '../Globals';
+import Color from "./Color";
+import Globals from "../Globals";
 import { DeleteIcon, GoBackIcon } from "../icons";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
-formControlLabel: {
-  root: {
-    color: "white",
-  }
-}
+const styles = (theme) => ({
+	formControlLabel: {
+		root: {
+			color: "white",
+		},
+	},
 });
 
 class SettingsDialog extends React.Component {
@@ -134,10 +134,11 @@ class SettingsDialog extends React.Component {
 		}
 	}
 	saveConfig() {
-		this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = Number.parseInt(
-			this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead ||
-				"0"
-		);
+		this.state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead =
+			Number.parseInt(
+				this.state.userConfig.Properties
+					.PhaseDeadlineWarningMinutesAhead || "0"
+			);
 		let updateLink = this.state.userConfig.Links.find((l) => {
 			return l.Rel === "update";
 		});
@@ -173,7 +174,8 @@ class SettingsDialog extends React.Component {
 				if (newValue !== "") {
 					newValue = Number.parseInt(newValue);
 				}
-				state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = newValue;
+				state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead =
+					newValue;
 				if (!state.userConfig.Properties.FCMTokens) {
 					state.userConfig.Properties.FCMTokens = [];
 				}
@@ -186,10 +188,11 @@ class SettingsDialog extends React.Component {
 		const { classes } = this.props;
 		return (
 			<Dialog
-				onEntered={helpers.genOnback(this.close)}
+				TransitionProps={{
+					onEnter: helpers.genOnback(this.close),
+				}}
 				open={this.state.open}
 				fullScreen
-				disableBackdropClick={false}
 				onClose={this.close}
 			>
 				<AppBar>
@@ -240,7 +243,7 @@ class SettingsDialog extends React.Component {
 											paddingLeft: "0px",
 										}}
 										classes={{
-											root: classes.formControlLabel
+											root: classes.formControlLabel,
 										}}
 										control={
 											<Switch
@@ -261,22 +264,25 @@ class SettingsDialog extends React.Component {
 														.start()
 														.then((js) => {
 															helpers.decProgress();
-															let currentConfig = this
-																.state
-																.userConfig;
+															let currentConfig =
+																this.state
+																	.userConfig;
 															if (js) {
-																currentConfig = js;
+																currentConfig =
+																	js;
 															}
 															this.setState(
 																(
 																	state,
 																	props
 																) => {
-																	state = Object.assign(
-																		{},
-																		state
-																	);
-																	state.userConfig = currentConfig;
+																	state =
+																		Object.assign(
+																			{},
+																			state
+																		);
+																	state.userConfig =
+																		currentConfig;
 																	return state;
 																},
 																(_) => {
@@ -291,9 +297,10 @@ class SettingsDialog extends React.Component {
 																				.tokenEnabled !==
 																			wantedState
 																		) {
-																			Globals.messaging.targetState = wantedState
-																				? "enabled"
-																				: "disabled";
+																			Globals.messaging.targetState =
+																				wantedState
+																					? "enabled"
+																					: "disabled";
 																			helpers.incProgress();
 																			const uploadPromise =
 																				window.Wrapper &&
@@ -486,7 +493,7 @@ class SettingsDialog extends React.Component {
 
 								<div
 									style={{
-										display: 'flex',
+										display: "flex",
 										flexDirection: "column",
 									}}
 								>
@@ -507,16 +514,19 @@ class SettingsDialog extends React.Component {
 													.newColorOverrideVariant
 											}
 											onChange={(ev) => {
-												const variant = Globals.variants.find(
-													(v) => {
-														return (
-															v.Properties.Name ===
-															ev.target.value
-														);
-													}
-												);
-												let nation = this.state
-													.newColorOverrideNation;
+												const variant =
+													Globals.variants.find(
+														(v) => {
+															return (
+																v.Properties
+																	.Name ===
+																ev.target.value
+															);
+														}
+													);
+												let nation =
+													this.state
+														.newColorOverrideNation;
 												if (
 													variant.Properties.Nations.indexOf(
 														nation
@@ -527,7 +537,8 @@ class SettingsDialog extends React.Component {
 															.Nations[0];
 												}
 												this.setState({
-													newColorOverrideNation: nation,
+													newColorOverrideNation:
+														nation,
 													newColorOverrideVariant:
 														ev.target.value,
 												});
@@ -598,8 +609,10 @@ class SettingsDialog extends React.Component {
 															>
 																<Color
 																	style={{
-																		flexGrow: '0',
-																		marginRight: "4px",
+																		flexGrow:
+																			"0",
+																		marginRight:
+																			"4px",
 																	}}
 																	value={
 																		(Globals
@@ -680,8 +693,7 @@ class SettingsDialog extends React.Component {
 																		nation
 																	)}
 																	style={{
-																		color:
-																			"#281A1A",
+																		color: "#281A1A",
 																	}}
 																>
 																	<DeleteIcon />
@@ -713,9 +725,9 @@ class SettingsDialog extends React.Component {
 										<Checkbox
 											onClick={(ev) => {
 												this.setState({
-													resetSettingsChecked: !this
-														.state
-														.resetSettingsChecked,
+													resetSettingsChecked:
+														!this.state
+															.resetSettingsChecked,
 												});
 											}}
 											style={{ padding: "0 0 0 18" }}
@@ -742,9 +754,12 @@ class SettingsDialog extends React.Component {
 													{},
 													state
 												);
-												state.userConfig.Properties.Colors = [];
-												state.userConfig.Properties.FCMTokens = [];
-												state.userConfig.Properties.MailConfig = {};
+												state.userConfig.Properties.Colors =
+													[];
+												state.userConfig.Properties.FCMTokens =
+													[];
+												state.userConfig.Properties.MailConfig =
+													{};
 												state.userConfig.Properties.PhaseDeadlineWarningMinutesAhead = 0;
 												return state;
 											},

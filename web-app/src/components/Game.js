@@ -25,6 +25,8 @@ import {
 	Typography,
 	Switch,
 } from "@material-ui/core";
+import { generatePath, withRouter } from "react-router-dom";
+import { RouteConfig } from "../pages/Router";
 
 import DipMap from "./DipMap";
 import ChatMenu from "./ChatMenu";
@@ -50,7 +52,7 @@ import MusteringPopup from "./MusteringPopup";
 import NationPreferencesDialog from "./NationPreferencesDialog";
 import Globals from "../Globals";
 
-export default class Game extends React.Component {
+class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -76,7 +78,6 @@ export default class Game extends React.Component {
 		this.gamePlayersDialog = null;
 		this.gameResults = null;
 		this.preliminaryScores = null;
-		this.nationPreferencesDialog = null;
 		this.metadataDialog = null;
 		this.changeTab = this.changeTab.bind(this);
 		this.debugCount = this.debugCount.bind(this);
@@ -93,11 +94,27 @@ export default class Game extends React.Component {
 		this.joinWithPreferences = this.joinWithPreferences.bind(this);
 		this.leave = this.leave.bind(this);
 		this.refinePhaseMessage = this.refinePhaseMessage.bind(this);
+
+		this.gamePromise = () => {
+			return helpers
+				.safeFetch(
+					helpers.createRequest(
+						"/Game/" + this.props.match.params.gameId
+					)
+				)
+				.then((resp) => resp.json());
+		};
+
+		this.close = this.close.bind(this);
+
 		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
 		this.dip_map = null;
 		this.countdownInterval = null;
+	}
+	close() {
+		this.props.history.push("/");
 	}
 	debugCount(tag) {
 		if (!this.debugCounters[tag]) {
@@ -152,13 +169,11 @@ export default class Game extends React.Component {
 	}
 	join() {
 		if (this.state.game.Properties.NationAllocation === 1) {
-			this.nationPreferencesDialog.setState({
-				open: true,
-				nations: this.state.variant.Properties.Nations,
-				onSelected: (preferences) => {
-					this.joinWithPreferences(preferences);
-				},
-			});
+			helpers.pushPropsLocationWithParam(
+				this.props,
+				"nation-preferences-dialog",
+				this.state.game.Properties.ID
+			);
 		} else {
 			this.joinWithPreferences([]);
 		}
@@ -214,36 +229,30 @@ export default class Game extends React.Component {
 		});
 	}
 	serializePhaseState(phase) {
-		return encodeURIComponent(
-			encodeURIComponent(
-				btoa(
-					pako.deflate(
-						JSON.stringify({
-							activePhase: phase.Properties.PhaseOrdinal,
-							phases: this.state.phases
-								.map((p) => {
-									if (
-										p.Properties.PhaseOrdinal ===
-										phase.Properties.PhaseOrdinal
-									) {
-										return phase;
-									} else {
-										return p;
-									}
-								})
-								.filter((p) => {
-									return (
-										!p.Properties.GameID ||
-										p.Properties.PhaseOrdinal ===
-											phase.Properties.PhaseOrdinal
-									);
-								}),
-						}),
-						{ to: "string" }
-					)
-				)
-			)
-		);
+		const toDeflate = JSON.stringify({
+			activePhase: phase.Properties.PhaseOrdinal,
+			phases: this.state.phases
+				.map((p) => {
+					if (
+						p.Properties.PhaseOrdinal ===
+						phase.Properties.PhaseOrdinal
+					) {
+						return phase;
+					} else {
+						return p;
+					}
+				})
+				.filter((p) => {
+					return (
+						!p.Properties.GameID ||
+						p.Properties.PhaseOrdinal ===
+							phase.Properties.PhaseOrdinal
+					);
+				}),
+		});
+		const deflated = pako.deflate(toDeflate, { to: "string" });
+		const base64 = btoa(deflated);
+		return encodeURIComponent(encodeURIComponent(base64));
 	}
 	labPhaseResolve(resolvedPhase, newPhase) {
 		this.setState({
@@ -292,17 +301,31 @@ export default class Game extends React.Component {
 		if (this.countdownInterval) {
 			clearInterval(this.countdownInterval);
 		}
-		helpers.unback(this.props.close);
+		this.props.history.push("/");
 		this.dead = true;
 		history.pushState("", "", "/");
 		if (Globals.messaging.unsubscribe("phase", this.phaseMessageHandler)) {
 			console.log("Game unsubscribing from `phase` notifications.");
 		}
 	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const tab = this.props.match.params.tab;
+		if (tab && tab !== this.state.activeTab) {
+			this.setState({ activeTab: tab });
+		}
+	}
+
 	componentDidMount() {
+		// Set intial tab to chat if chatChannel
+		if (this.props.match.channelId) {
+			this.changeTab("chat");
+		}
+
 		if (this.countdownInterval) {
 			clearInterval(this.countdownInterval);
 		}
+
 		this.countdownInterval = setInterval((_) => {
 			const els = document.getElementsByClassName("minute-countdown");
 			for (let i = 0; i < els.length; i++) {
@@ -316,67 +339,44 @@ export default class Game extends React.Component {
 			}
 		}, 30000);
 		this.loadGame().then((_) => {
-			helpers.urlMatch(
-				[
-					[
-						/^\/Game\/([^/]+)\/Channel\/([^/]+)\/Messages$/,
-						(match) => {
-							this.setState({ activeTab: "chat" });
-						},
-					],
-					[
-						/^\/Game\/([^/]+)\/Lab\/(.+)$/,
-						(match) => {
-							const serializedState = JSON.parse(
-								pako.inflate(
-									atob(
-										decodeURIComponent(
-											decodeURIComponent(match[2])
-										)
-									),
-									{
-										to: "string",
-									}
-								)
-							);
-							const newPhases = this.state.phases.slice();
-							serializedState.phases.forEach((phase) => {
-								newPhases[phase.Properties.PhaseOrdinal - 1] =
-									phase;
-							});
-							this.setState({
-								laboratoryMode: true,
-								activePhase: newPhases.find((phase) => {
-									return (
-										phase.Properties.PhaseOrdinal ===
-										serializedState.activePhase
-									);
-								}),
-								phases: newPhases,
-							});
-							gtag("set", {
-								page_title: "Game",
-								page_location: location.href,
-							});
-							gtag("event", "page_view");
-						},
-					],
-				],
-				(_) => {
-					history.pushState(
-						"",
-						"",
-						"/Game/" + this.state.game.Properties.ID
-					);
-				}
-			);
+			if (this.props.laboratoryMode) {
+				const labOptions = this.props.match.params.labOptions;
+				const base64 = decodeURIComponent(
+					decodeURIComponent(labOptions)
+				);
+				const bytes = atob(base64)
+					.split(",")
+					.map((v) => parseInt(v));
+				const inflated = pako.inflate(new Uint8Array(bytes), {
+					to: "string",
+				});
+				const serializedState = JSON.parse(inflated);
+				const newPhases = this.state.phases.slice();
+				serializedState.phases.forEach((phase) => {
+					newPhases[phase.Properties.PhaseOrdinal - 1] = phase;
+				});
+				this.setState({
+					laboratoryMode: true,
+					activePhase: newPhases.find((phase) => {
+						return (
+							phase.Properties.PhaseOrdinal ===
+							serializedState.activePhase
+						);
+					}),
+					phases: newPhases,
+				});
+				gtag("set", {
+					page_title: "Game",
+					page_location: location.href,
+				});
+				gtag("event", "page_view");
+			}
 			if (
 				Globals.messaging.subscribe("phase", this.phaseMessageHandler)
 			) {
 				console.log("Game subscribing to `phase` notifications.");
 			}
 		});
-		helpers.onback(this.props.close);
 	}
 	phaseMessageHandler(payload) {
 		if (payload.data.gameID !== this.state.game.Properties.ID) {
@@ -388,7 +388,7 @@ export default class Game extends React.Component {
 		return true;
 	}
 	loadGame() {
-		return this.props.gamePromise(!!this.state.game).then((game) => {
+		return this.gamePromise(!!this.state.game).then((game) => {
 			const promises = [];
 			const gameStatesLink = game.Links.find((l) => {
 				return l.Rel === "game-states";
@@ -485,8 +485,12 @@ export default class Game extends React.Component {
 			});
 		});
 	}
-	changeTab(ev, newValue) {
-		this.setState({ activeTab: newValue });
+	changeTab(e, value) {
+		const newPath = generatePath(RouteConfig.GameTab, {
+			gameId: this.state.game.Properties.ID,
+			tab: value,
+		});
+		this.props.history.push(newPath);
 	}
 	changePhase(ev) {
 		this.setState({
@@ -509,7 +513,7 @@ export default class Game extends React.Component {
 						<Toolbar>
 							{!this.state.laboratoryMode ? (
 								<IconButton
-									onClick={this.props.close}
+									onClick={this.close}
 									key="close"
 									edge="start"
 									color="secondary"
@@ -626,6 +630,7 @@ export default class Game extends React.Component {
 												{helpers.phaseName(phase)}
 												{!this.state.game.Properties
 													.Started ||
+												this.state.laboratoryMode ||
 												phase.Properties.Resolved ? (
 													""
 												) : (
@@ -1229,7 +1234,7 @@ export default class Game extends React.Component {
 										  })
 										: null
 								}
-								isActive={this.state.activeTab === "chat"}
+								isActive={this.props.chatOpen}
 								unreadMessages={this.setUnreadMessages}
 								phases={this.state.phases}
 								game={this.state.game}
@@ -1241,15 +1246,16 @@ export default class Game extends React.Component {
 								key="orders-container"
 								style={{
 									marginTop: "" + this.state.marginTop + "px",
-									overflowY: "scroll",
 									height:
 										"calc(100% - " +
 										this.state.marginTop +
 										"px)",
 									display:
 										this.state.activeTab === "orders"
-											? "block"
+											? "flex"
 											: "none",
+									flexDirection: "column",
+    								justifyContent: "space-between",
 								}}
 							>
 								<OrderList
@@ -1294,10 +1300,11 @@ export default class Game extends React.Component {
 					{!this.state.game.Properties.Started ? (
 						<React.Fragment>
 							<NationPreferencesDialog
-								parentCB={(c) => {
-									this.nationPreferencesDialog = c;
+								gameID={this.state.game.Properties.ID}
+								nations={this.state.variant.Properties.Nations}
+								onSelected={(preferences) => {
+									this.joinWithPreferences(preferences);
 								}}
-								onSelected={null}
 							/>
 							<MetadataDialog
 								game={this.state.game}
@@ -1397,3 +1404,5 @@ export default class Game extends React.Component {
 		}
 	}
 }
+
+export default withRouter(Game);

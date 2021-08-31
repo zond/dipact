@@ -22,6 +22,7 @@ import {
 	TextField,
 	Typography,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 import { CloseIcon, RandomGameNameIcon } from "../icons";
 
@@ -31,7 +32,7 @@ import Globals from "../Globals";
 const intReg = /^[0-9]+$/;
 const floatReg = /^[0-9]+(\.[0-9]+)?$/;
 
-export default class CreateGameDialog extends React.Component {
+class CreateGameDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -89,7 +90,6 @@ export default class CreateGameDialog extends React.Component {
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
 		}
-		this.nationPreferencesDialog = null;
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (
@@ -189,13 +189,11 @@ export default class CreateGameDialog extends React.Component {
 			return;
 		}
 		if (this.state.newGameProperties.NationAllocation === 1) {
-			this.nationPreferencesDialog.setState({
-				open: true,
-				nations: this.state.variant.Properties.Nations,
-				onSelected: (preferences) => {
-					this.createGameWithPreferences(preferences);
-				},
-			});
+			helpers.pushPropsLocationWithParam(
+				this.props,
+				"nation-preferences-dialog",
+				-1
+			);
 		} else {
 			this.createGameWithPreferences([]);
 		}
@@ -443,9 +441,10 @@ export default class CreateGameDialog extends React.Component {
 		return (
 			<React.Fragment>
 				<Dialog
-					onEntered={helpers.genOnback(this.close)}
+					TransitionProps={{
+						onEnter: helpers.genOnback(this.close),
+					}}
 					open={this.state.open}
-					disableBackdropClick={false}
 					onClose={this.close}
 					fullScreen
 				>
@@ -1276,12 +1275,15 @@ export default class CreateGameDialog extends React.Component {
 					</div>
 				</Dialog>
 				<NationPreferencesDialog
-					parentCB={(c) => {
-						this.nationPreferencesDialog = c;
+					gameID="-1"
+					nations={this.state.variant.Properties.Nations}
+					onSelected={(preferences) => {
+						this.createGameWithPreferences(preferences);
 					}}
-					onSelected={null}
 				/>
 			</React.Fragment>
 		);
 	}
 }
+
+export default withRouter(CreateGameDialog);

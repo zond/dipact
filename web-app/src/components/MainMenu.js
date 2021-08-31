@@ -17,21 +17,21 @@ import {
 } from "@material-ui/core";
 import { MenuIcon, GitHubIcon, DonateIcon, BugReportIcon } from "../icons";
 import gtag from "ga-gtag";
+import { withRouter } from "react-router-dom";
 
 import * as helpers from "../helpers";
-import About from "./About";
 import ActivityContainer from "./ActivityContainer";
 import Globals from "../Globals";
 import DonateDialog from "./DonateDialog";
 import ErrorsDialog from "./ErrorsDialog";
-import StatsDialog from "./StatsDialog";
 import SettingsDialog from "./SettingsDialog";
 import FindGameDialog from "./FindGameDialog";
 import Start from "./Start";
 import GameList from "./GameList";
-import Game from "./Game";
+import { withStatsDialog } from "./StatsDialogWrapper";
+import { RouteConfig } from "../pages/Router";
 
-export default class MainMenu extends ActivityContainer {
+class MainMenu extends ActivityContainer {
 	constructor(props) {
 		super(props);
 		this.openDrawer = this.openDrawer.bind(this);
@@ -47,7 +47,6 @@ export default class MainMenu extends ActivityContainer {
 		this.state = {
 			drawerOpen: false,
 			activity: Start,
-			statsDialogOpen: false,
 			activityProps: {
 				urls: this.props.urls,
 				findPrivateGame: this.findGameByID,
@@ -60,41 +59,7 @@ export default class MainMenu extends ActivityContainer {
 		this.settingsDialog = null;
 		this.errorsDialog = null;
 		this.donateDialog = null;
-		helpers.urlMatch(
-			[
-				[
-					/^\/Game\/([^/]+)/,
-					(match) => {
-						this.state.activity = Game;
-						this.state.activityProps = {
-							gamePromise: (_) => {
-								return helpers
-									.safeFetch(
-										helpers.createRequest(
-											"/Game/" + match[1]
-										)
-									)
-									.then((resp) => resp.json());
-							},
-							close: (_) => {
-								this.setActivity(Start, {
-									urls: this.props.urls,
-									findPrivateGame: this.findGameByID,
-									findOpenGame: this.renderOpenGames,
-									renderMasteredFinishedGames:
-										this.renderMasteredFinishedGames,
-									renderMyFinishedGames:
-										this.renderMyFinishedGames,
-								});
-							},
-						};
-					},
-				],
-			],
-			(_) => {
-				history.pushState("", "", "/");
-			}
-		);
+		this.history = props.history;
 	}
 	componentDidMount() {
 		gtag("set", {
@@ -228,9 +193,9 @@ export default class MainMenu extends ActivityContainer {
 							<MenuItem
 								key="stats"
 								onClick={(_) => {
+									this.props.statsDialogOptions.open(Globals.user);
 									this.setState({
 										menuAnchorEl: null,
-										statsDialogOpen: true,
 									});
 								}}
 							>
@@ -260,6 +225,12 @@ export default class MainMenu extends ActivityContainer {
 							style={{ width: "220px" }}
 						>
 							<List component="nav">
+								<ListItem
+									button
+									onClick={() => this.history.push(RouteConfig.About)}
+								>
+									<ListItemText primary="About" />
+								</ListItem>
 								<ListItem
 									style={{
 										padding: "24px 16px 8px 16px",
@@ -481,18 +452,9 @@ export default class MainMenu extends ActivityContainer {
 						this.errorsDialog = c;
 					}}
 				/>
-				{this.state.statsDialogOpen ? (
-					<StatsDialog
-						open={this.state.statsDialogOpen}
-						user={Globals.user}
-						onClose={(_) => {
-							this.setState({ statsDialogOpen: false });
-						}}
-					/>
-				) : (
-					""
-				)}
 			</React.Fragment>
 		);
 	}
 }
+
+export default withStatsDialog(withRouter(MainMenu));
