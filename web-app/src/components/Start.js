@@ -67,8 +67,11 @@ export default class Start extends React.Component {
 							overflowY: "scroll",
 						}}
 					>
+						<div>
+
+						</div>
 						<NewsDialog />
-						<List style={{ maxWidth: "940px", margin: "auto" }}>
+						<List style={{ maxWidth: "940px", margin: "auto", marginBottom: "64px" }}>
 							<li key="started" id="my-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
