@@ -326,7 +326,6 @@ class ChatChannel extends React.Component {
 			);
 			return <NationAvatar key={nation} color={color} link={link} nationAbbreviation={nationAbbreviation} muted={muted} />
 		});
-		const nationAvatarGroup = <NationAvatarGroup avatars={avatars} />;
 		if (this.props.channel) {
 			return (
 				<React.Fragment>
@@ -345,7 +344,7 @@ class ChatChannel extends React.Component {
 							}}
 						>
 							<span style={{ display: "flex" }}>
-								{nationAvatarGroup}
+								<NationAvatarGroup avatars={avatars} />
 							</span>
 
 							{this.props.channel.Properties.Members.length >
