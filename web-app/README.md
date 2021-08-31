@@ -16,6 +16,7 @@ development. Follow the docs to get Docker and Docker Compose installed.
 To bring up the application, run `docker-compose up` from this directory. The first time you run this it will take a few minutes to come up but will come up more quickly after first build.
 
 The application will be available on `http://localhost:3001`
+Storybook will be available on `http://localhost:6001`
 
 ## Available Scripts
 

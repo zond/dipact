@@ -1,568 +1,1094 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots components/ChatMessage Long 1`] = `
+exports[`Storyshots components/ChatMessage Dark Color 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row-reverse",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-43 makeStyles-root-48"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 0px 0px 8px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "12px 0px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-44 makeStyles-messageContainer-49"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-45 MuiTypography-subtitle2"
     >
       
        
       France
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-46 MuiTypography-body1"
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <span
+      className="MuiTypography-root makeStyles-status-47 MuiTypography-caption"
+    >
+      07:11:49 01/08/2021
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Long 1`] = `
+<div
+  className="makeStyles-root-15 makeStyles-root-20"
+>
+  <div />
+  <div
+    className="makeStyles-messageContainer-16 makeStyles-messageContainer-21"
+  >
+    <h6
+      className="MuiTypography-root makeStyles-name-17 MuiTypography-subtitle2"
+    >
+      
+       
+      France
+    </h6>
+    <p
+      className="MuiTypography-root makeStyles-text-18 MuiTypography-body1"
     >
       This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-19 MuiTypography-caption"
     >
       07:11:49 01/08/2021
-    </p>
+    </span>
   </div>
 </div>
 `;
 
 exports[`Storyshots components/ChatMessage Medium 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row-reverse",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-8 makeStyles-root-13"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 0px 0px 8px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "12px 0px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-9 makeStyles-messageContainer-14"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-10 MuiTypography-subtitle2"
     >
       
        
       France
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-11 MuiTypography-body1"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-12 MuiTypography-caption"
     >
       07:11:49 01/08/2021
-    </p>
+    </span>
   </div>
 </div>
 `;
 
 exports[`Storyshots components/ChatMessage No Name 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row-reverse",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-22 makeStyles-root-27"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 0px 0px 8px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "12px 0px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-23 makeStyles-messageContainer-28"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-24 MuiTypography-subtitle2"
     >
       
        
       France
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-25 MuiTypography-body1"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-26 MuiTypography-caption"
     >
       07:11:49 01/08/2021
-    </p>
+    </span>
   </div>
 </div>
 `;
 
 exports[`Storyshots components/ChatMessage Not Delivered 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row-reverse",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-36 makeStyles-root-41"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 0px 0px 8px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "12px 0px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-37 makeStyles-messageContainer-42"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-38 MuiTypography-subtitle2"
     >
       
        
       France
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-39 MuiTypography-body1"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-40 MuiTypography-caption"
     >
       Sending...
-    </p>
+    </span>
   </div>
 </div>
 `;
 
 exports[`Storyshots components/ChatMessage Not Self 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-29 makeStyles-root-34"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 8px 0px 0px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "0px 12px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-30 makeStyles-messageContainer-35"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-31 MuiTypography-subtitle2"
     >
-      Other player
+      
        
       Germany
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-32 MuiTypography-body1"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-33 MuiTypography-caption"
     >
       07:11:49 01/08/2021
-    </p>
+    </span>
   </div>
 </div>
 `;
 
 exports[`Storyshots components/ChatMessage Short 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row-reverse",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-1 makeStyles-root-6"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 0px 0px 8px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "12px 0px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-2 makeStyles-messageContainer-7"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-3 MuiTypography-subtitle2"
     >
       
        
       France
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-4 MuiTypography-body1"
     >
       Hello there
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-5 MuiTypography-caption"
     >
       07:11:49 01/08/2021
-    </p>
+    </span>
   </div>
 </div>
 `;
 
 exports[`Storyshots components/ChatMessage Username 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "flex-start",
-      "backgroundColor": "#fff",
-      "display": "flex",
-      "flexDirection": "row",
-      "margin": "8px",
-      "maxWidth": "960px",
-      "width": "calc(100%-16px)",
-    }
-  }
+  className="makeStyles-root-77 makeStyles-root-82"
 >
+  <div />
   <div
-    style={
-      Object {
-        "margin": "0px 8px 0px 0px",
-      }
-    }
-  />
-  <div
-    style={
-      Object {
-        "backgroundColor": "#1ea7fd19",
-        "border": "1px solid #1ea7fd",
-        "borderRadius": "0px 12px 12px 12px",
-        "display": "flex",
-        "flexDirection": "column",
-        "maxWidth": "calc(100% - 70px)",
-        "padding": "10px",
-      }
-    }
+    className="makeStyles-messageContainer-78 makeStyles-messageContainer-83"
   >
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "color": "rgba(0, 0, 0, 0.7)",
-          "fontSize": "14px",
-          "fontWeight": 700,
-          "textAlign": "left",
-        }
-      }
+    <h6
+      className="MuiTypography-root makeStyles-name-79 MuiTypography-subtitle2"
     >
       Diplicity
        
       
-    </p>
+    </h6>
     <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-start",
-          "fontSize": "14px",
-          "maxWidth": "100%",
-          "textAlign": "left",
-          "whiteSpace": "pre-wrap",
-        }
-      }
+      className="MuiTypography-root makeStyles-text-80 MuiTypography-body1"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
-    <p
-      className="MuiTypography-root MuiTypography-body1"
-      style={
-        Object {
-          "alignSelf": "flex-end",
-          "color": "rgba(0, 0, 0, 0.3)",
-          "display": "table",
-          "fontSize": "12px",
-        }
-      }
+    <span
+      className="MuiTypography-root makeStyles-status-81 MuiTypography-caption"
     >
       07:11:49 01/08/2021
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage With Avatar France 1`] = `
+<div
+  className="makeStyles-root-50 makeStyles-root-55"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-57 makeStyles-avatar-58"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div
+    className="makeStyles-messageContainer-51 makeStyles-messageContainer-56"
+  >
+    <h6
+      className="MuiTypography-root makeStyles-name-52 MuiTypography-subtitle2"
+    >
+      
+       
+      France
+    </h6>
+    <p
+      className="MuiTypography-root makeStyles-text-53 MuiTypography-body1"
+    >
+      Hello there. This is a message of medium length. Don't you agree?
     </p>
+    <span
+      className="MuiTypography-root makeStyles-status-54 MuiTypography-caption"
+    >
+      07:11:49 01/08/2021
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage With Avatar France Other 1`] = `
+<div
+  className="makeStyles-root-59 makeStyles-root-64"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-66 makeStyles-avatar-67"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div
+    className="makeStyles-messageContainer-60 makeStyles-messageContainer-65"
+  >
+    <h6
+      className="MuiTypography-root makeStyles-name-61 MuiTypography-subtitle2"
+    >
+      
+       
+      France
+    </h6>
+    <p
+      className="MuiTypography-root makeStyles-text-62 MuiTypography-body1"
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <span
+      className="MuiTypography-root makeStyles-status-63 MuiTypography-caption"
+    >
+      07:11:49 01/08/2021
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage With Avatar Otto 1`] = `
+<div
+  className="makeStyles-root-68 makeStyles-root-73"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-75 makeStyles-avatar-76"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div
+    className="makeStyles-messageContainer-69 makeStyles-messageContainer-74"
+  >
+    <h6
+      className="MuiTypography-root makeStyles-name-70 MuiTypography-subtitle2"
+    >
+      
+       
+      France
+    </h6>
+    <p
+      className="MuiTypography-root makeStyles-text-71 MuiTypography-body1"
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <span
+      className="MuiTypography-root makeStyles-status-72 MuiTypography-caption"
+    >
+      07:11:49 01/08/2021
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatNewMessagesBanner Default 1`] = `
+<div
+  className="makeStyles-root-84"
+>
+  <h6
+    className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-displayBlock"
+  >
+    New messages
+  </h6>
+</div>
+`;
+
+exports[`Storyshots components/ChatPhaseDivider Default 1`] = `
+<h6
+  className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorPrimary MuiTypography-displayBlock"
+>
+  ------ Fall 1903, Movement ------
+</h6>
+`;
+
+exports[`Storyshots components/NationAvatar England 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-91 makeStyles-avatar-92"
+>
+  <img
+    alt="England"
+    className="MuiAvatar-img"
+    src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+  />
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar France 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-85 makeStyles-avatar-86"
+>
+  <img
+    alt="France"
+    className="MuiAvatar-img"
+    src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+  />
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar Germany 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-90"
+>
+  <img
+    alt="Germany"
+    className="MuiAvatar-img"
+    src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+  />
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar Muted 1`] = `
+<span
+  className="MuiBadge-root"
+>
+  <div
+    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-103 makeStyles-avatar-104 MuiAvatar-colorDefault"
+  >
+    Fra
+  </div>
+  <span
+    className="MuiBadge-badge MuiBadge-anchorOriginTopRightCircular"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"
+      />
+    </svg>
+  </span>
+</span>
+`;
+
+exports[`Storyshots components/NationAvatar No Link Dark Color 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-99 makeStyles-avatar-100 MuiAvatar-colorDefault"
+>
+  Fra
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar No Link Long Abbreviation 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-95 makeStyles-avatar-96 MuiAvatar-colorDefault"
+>
+  Russ
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar No Link Short Abbreviation 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-97 makeStyles-avatar-98 MuiAvatar-colorDefault"
+>
+  Fra
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar Otto 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-101 makeStyles-avatar-102"
+>
+  <img
+    alt="Diplicity"
+    className="MuiAvatar-img"
+    src="https://diplicity-engine.appspot.com/img/otto.png"
+  />
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar Russia 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-87 makeStyles-avatar-88"
+>
+  <img
+    alt="Russia"
+    className="MuiAvatar-img"
+    src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+  />
+</div>
+`;
+
+exports[`Storyshots components/NationAvatar Turkey 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-93 makeStyles-avatar-94"
+>
+  <img
+    alt="Turkey"
+    className="MuiAvatar-img"
+    src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+  />
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
+<div
+  className="makeStyles-root-154 makeStyles-root-155"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-157"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-158"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-159"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-160"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-161"
+    >
+      <img
+        alt="Turkey"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-162"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-163"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-156 makeStyles-avatar-164"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
+<div
+  className="makeStyles-root-127 makeStyles-root-128"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-129 makeStyles-avatar-130"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-129 makeStyles-avatar-131"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-129 makeStyles-avatar-132"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-129 makeStyles-avatar-133"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-129 makeStyles-avatar-134"
+    >
+      <img
+        alt="Turkey"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
+<div
+  className="makeStyles-root-120 makeStyles-root-121"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-122 makeStyles-avatar-123"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-122 makeStyles-avatar-124"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-122 makeStyles-avatar-125"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-122 makeStyles-avatar-126"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
+<div
+  className="makeStyles-root-165 makeStyles-root-166"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-168"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-169"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-170"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-171"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-172"
+    >
+      <img
+        alt="Turkey"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-173"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-174"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-175"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-167 makeStyles-avatar-176"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup One Avatar 1`] = `
+<div
+  className="makeStyles-root-105 makeStyles-root-106"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-107 makeStyles-avatar-108"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
+<div
+  className="makeStyles-root-144 makeStyles-root-145"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-147"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-148"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-149"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-150"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-151"
+    >
+      <img
+        alt="Turkey"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-152"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-153"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
+<div
+  className="makeStyles-root-135 makeStyles-root-136"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-137 makeStyles-avatar-138"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-137 makeStyles-avatar-139"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-137 makeStyles-avatar-140"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-137 makeStyles-avatar-141"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-137 makeStyles-avatar-142"
+    >
+      <img
+        alt="Turkey"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-137 makeStyles-avatar-143"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
+<div
+  className="makeStyles-root-177 makeStyles-root-178"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-180"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-181"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-182"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-183"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-184"
+    >
+      <img
+        alt="Turkey"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-185"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-186"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-187"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-188"
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
+<div
+  className="makeStyles-root-114 makeStyles-root-115"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-116 makeStyles-avatar-117"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+  </div>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-116 makeStyles-avatar-118"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-116 makeStyles-avatar-119"
+    >
+      <img
+        alt="Germany"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/NationAvatarGroup Two Avatars 1`] = `
+<div
+  className="makeStyles-root-109 makeStyles-root-110"
+>
+  <div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-111 makeStyles-avatar-112"
+    >
+      <img
+        alt="France"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+      />
+    </div>
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-111 makeStyles-avatar-113"
+    >
+      <img
+        alt="Russia"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
+      />
+    </div>
   </div>
 </div>
 `;

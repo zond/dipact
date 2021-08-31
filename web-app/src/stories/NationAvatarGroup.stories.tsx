@@ -15,11 +15,11 @@ const Template: ComponentStory<typeof Component> = (args) => (
 );
 
 type NationAvatarProps = React.ComponentProps<typeof NationAvatar>;
-const RussiaAvatarArgs = AvatarStories.Russia.args as NationAvatarProps;
-const FranceAvatarArgs = AvatarStories.France.args as NationAvatarProps;
-const GermanyAvatarArgs = AvatarStories.Germany.args as NationAvatarProps;
-const EnglandAvatarArgs = AvatarStories.England.args as NationAvatarProps;
-const TurkeyAvatarArgs = AvatarStories.Turkey.args as NationAvatarProps;
+const RussiaAvatarArgs = { ...AvatarStories.Russia.args, key: AvatarStories.Russia.args?.nation } as NationAvatarProps;
+const FranceAvatarArgs = { ...AvatarStories.France.args, key: AvatarStories.France.args?.nation } as NationAvatarProps;
+const GermanyAvatarArgs = { ...AvatarStories.Germany.args, key: AvatarStories.Germany.args?.nation } as NationAvatarProps;
+const EnglandAvatarArgs = { ...AvatarStories.England.args, key: AvatarStories.England.args?.nation } as NationAvatarProps;
+const TurkeyAvatarArgs = { ...AvatarStories.Turkey.args, key: AvatarStories.Turkey.args?.nation } as NationAvatarProps;
 
 export const OneAvatar = Template.bind({});
 OneAvatar.args = {
@@ -72,7 +72,7 @@ SixAvatars.args = {
     <AvatarStories.Germany {...GermanyAvatarArgs} />,
     <AvatarStories.England {...EnglandAvatarArgs} />,
     <AvatarStories.Turkey {...TurkeyAvatarArgs} />,
-    <AvatarStories.France {...FranceAvatarArgs} />,
+    <AvatarStories.France {...FranceAvatarArgs} key={"france2"} />,
   ],
 };
 
@@ -84,8 +84,8 @@ SevenAvatars.args = {
     <AvatarStories.Germany {...GermanyAvatarArgs} />,
     <AvatarStories.England {...EnglandAvatarArgs} />,
     <AvatarStories.Turkey {...TurkeyAvatarArgs} />,
-    <AvatarStories.France {...FranceAvatarArgs} />,
-    <AvatarStories.Russia {...RussiaAvatarArgs} />,
+    <AvatarStories.France {...FranceAvatarArgs} key={"france2"} />,
+    <AvatarStories.Russia {...RussiaAvatarArgs} key={"russia2"} />,
   ],
 };
 
@@ -97,9 +97,9 @@ EightAvatars.args = {
     <AvatarStories.Germany {...GermanyAvatarArgs} />,
     <AvatarStories.England {...EnglandAvatarArgs} />,
     <AvatarStories.Turkey {...TurkeyAvatarArgs} />,
-    <AvatarStories.France {...FranceAvatarArgs} />,
-    <AvatarStories.Russia {...RussiaAvatarArgs} />,
-    <AvatarStories.Germany {...GermanyAvatarArgs} />,
+    <AvatarStories.France {...FranceAvatarArgs} key={"france2"} />,
+    <AvatarStories.Russia {...RussiaAvatarArgs} key={"russia2"} />,
+    <AvatarStories.Germany {...GermanyAvatarArgs} key={"germany2"} />,
   ],
 };
 
@@ -111,10 +111,10 @@ NineAvatars.args = {
     <AvatarStories.Germany {...GermanyAvatarArgs} />,
     <AvatarStories.England {...EnglandAvatarArgs} />,
     <AvatarStories.Turkey {...TurkeyAvatarArgs} />,
-    <AvatarStories.France {...FranceAvatarArgs} />,
-    <AvatarStories.Russia {...RussiaAvatarArgs} />,
-    <AvatarStories.Germany {...GermanyAvatarArgs} />,
-    <AvatarStories.England {...EnglandAvatarArgs} />,
+    <AvatarStories.France {...FranceAvatarArgs} key={"france2"} />,
+    <AvatarStories.Russia {...RussiaAvatarArgs} key={"russia2"} />,
+    <AvatarStories.Germany {...GermanyAvatarArgs} key={"germany2"} />,
+    <AvatarStories.England {...EnglandAvatarArgs} key={"england2"} />,
   ],
 };
 
@@ -126,10 +126,10 @@ TenAvatars.args = {
     <AvatarStories.Germany {...GermanyAvatarArgs} />,
     <AvatarStories.England {...EnglandAvatarArgs} />,
     <AvatarStories.Turkey {...TurkeyAvatarArgs} />,
-    <AvatarStories.France {...FranceAvatarArgs} />,
-    <AvatarStories.Russia {...RussiaAvatarArgs} />,
-    <AvatarStories.Germany {...GermanyAvatarArgs} />,
-    <AvatarStories.England {...EnglandAvatarArgs} />,
-    <AvatarStories.Turkey {...TurkeyAvatarArgs} />,
+    <AvatarStories.France {...FranceAvatarArgs} key={"france2"} />,
+    <AvatarStories.Russia {...RussiaAvatarArgs} key={"russia2"} />,
+    <AvatarStories.Germany {...GermanyAvatarArgs} key={"germany2"} />,
+    <AvatarStories.England {...EnglandAvatarArgs} key={"england2"} />,
+    <AvatarStories.Turkey {...TurkeyAvatarArgs} key={"turkey2"} />,
   ],
 };

@@ -33,24 +33,28 @@ France.args = {
 export const Russia = Template.bind({});
 Russia.args = {
   ...defaultArgs,
+  nation: "Russia",
   link: "https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg",
 };
 
 export const Germany = Template.bind({});
 Germany.args = {
   ...defaultArgs,
+  nation: "Germany",
   link: "https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg",
 };
 
 export const England = Template.bind({});
 England.args = {
   ...defaultArgs,
+  nation: "England",
   link: "https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg",
 };
 
 export const Turkey = Template.bind({});
 Turkey.args = {
   ...defaultArgs,
+  nation: "Turkey",
   link: "https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg",
 };
 
