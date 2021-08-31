@@ -308,7 +308,7 @@ export default class OrderList extends React.Component {
 	render() {
 		return (
 			<>
-				<Container maxWidth="md">
+				<Container maxWidth="md" style={{ overflowY: "scroll" }}>
 					<List>
 						{this.props.variant.Properties.Nations.slice()
 							.sort((n1, n2) => {
