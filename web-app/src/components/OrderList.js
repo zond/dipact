@@ -726,12 +726,6 @@ export default class OrderList extends React.Component {
 								);
 							})}
 					</List>
-					<div
-						id="filler"
-						style={{
-							minHeight: "calc(100% - 112px)",
-						}}
-					/>
 				</Container>
 				{this.props.phase &&
 				!this.props.phase.Properties.Resolved &&
