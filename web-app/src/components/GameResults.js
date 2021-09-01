@@ -17,15 +17,9 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import gtag from "ga-gtag";
 
-<<<<<<< HEAD
 import { ExpandIcon } from '../icons';
 import NationAvatar, { withMuted } from './NationAvatar';
 import Globals from '../Globals';
-=======
-import { ExpandIcon } from "../icons";
-import NationAvatar from "./NationAvatar";
-import Globals from "../Globals";
->>>>>>> d14c80c1d411a6fc051c3b8d16a62de662032f9c
 
 const styles = (theme) => ({
 	dialogActions: {
@@ -211,13 +205,11 @@ class GameResults extends React.Component {
 											  )
 											: null;
 
-    									const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(score.Member, this.props.variant, this.props.gameState);
+    									const { muted } = helpers.getNationAvatarProps(score.Member, this.props.variant, this.props.gameState);
 										const avatar = (
 											<NationAvatar
 												nation={score.Member}
-												color={color}
-												link={link}
-												nationAbbreviation={nationAbbreviation}
+												variant={this.props.variant.Name}
 											/>)
 										const wrappedAvatar = muted ? withMuted(avatar) : avatar;
 

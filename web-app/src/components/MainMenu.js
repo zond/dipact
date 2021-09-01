@@ -376,14 +376,6 @@ class MainMenu extends ActivityContainer {
 								>
 									<ListItemText primary="FAQ" />
 								</ListItem>
-								<ListItem
-									button
-									onClick={(_) => {
-										this.setActivity(About);
-									}}
-								>
-									<ListItemText primary="About" />
-								</ListItem>
 							</List>
 							<div
 								style={{

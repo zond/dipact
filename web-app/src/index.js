@@ -8,6 +8,8 @@ import reportWebVitals from "./reportWebVitals";
 import ProgressDialog from "./components/ProgressDialog";
 import Snackbar from "./components/Snackbar";
 import { ThemeProvider } from "@material-ui/core";
+import { Provider } from "react-redux";
+import { store } from "./store";
 import theme from "./theme";
 import Globals from "./Globals";
 import "@fontsource/cabin";
@@ -16,9 +18,11 @@ ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
 ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
 ReactDOM.render(
 	<React.StrictMode>
-		<ThemeProvider theme={theme}>
-			<App />
-		</ThemeProvider>
+		<Provider store={store}>
+			<ThemeProvider theme={theme}>
+				<App />
+			</ThemeProvider>
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );

@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import * as AvatarStories from './NationAvatar.stories';
 import Component from "../components/ChatMessage";
-import NationAvatar from "../components/NationAvatar";
+import { NationAvatar } from "../components/NationAvatar";
 
 export default {
   title: "components/ChatMessage",

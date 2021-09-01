@@ -1,8 +1,8 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component, { withMuted } from "../components/NationAvatar";
-import NationAvatar from "../components/NationAvatar";
+import { NationAvatar as Component, withMuted } from "../components/NationAvatar";
+import { NationAvatar } from "../components/NationAvatar";
 
 export default {
   title: "components/NationAvatar",

@@ -280,12 +280,7 @@ class ChatMenu extends React.Component {
 								channel.Properties.NMessagesSince.NMessages > 0
 
 						const avatars = channel.Properties.Members.map((nation) => {
-    						const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(
-								nation,
-								this.variant,
-								this.props.gameState
-							);
-							return <NationAvatar key={nation} color={color} link={link} nationAbbreviation={nationAbbreviation} muted={muted} />
+							return <NationAvatar key={nation} nation={nation} variant={this.variant.Name} />
 						});
 						const nationAvatarGroup = <NationAvatarGroup avatars={avatars} />;
 						return (
