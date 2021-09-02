@@ -17,6 +17,10 @@ import {
 	Variant,
 	UserConfig,
 	UpdateUserConfigResponse,
+	Message,
+	Game,
+	GameResponse,
+	ListMessagesResponse,
 } from "./types";
 import { addNationAbbreviationsToVariant, sortVariantResponse } from "./utils";
 
@@ -91,6 +95,19 @@ export const diplicityService = createApi({
 					(variant) => ({ ...variant.Properties, Links: variant.Links })
 				).map((variant) => addNationAbbreviationsToVariant(variant));
 				return transformedResponse;
+			},
+		}),
+		// TODO test
+		listMessages: builder.query<Message[], { gameId: string, channelId: string }>({
+			query: ({ gameId, channelId }) => `/Game/${gameId}/Channel/${channelId}/Messages`,
+			transformResponse: (response: ListMessagesResponse) => {
+				return response.Properties.map((messageResponse) => messageResponse.Properties);
+		}}),
+		// TODO test
+		getGame: builder.query<Game, string>({
+			query: (id) => `/Game/${id}`,
+			transformResponse: (response: GameResponse) => {
+				return response.Properties;
 			},
 		}),
 		createGame: builder.mutation<CreateGameResponse, NewGame>({

@@ -145,6 +145,24 @@ type FCMTokenConfig = {
 	DontSendNotification: boolean;
 };
 
+export type Message = {
+	ID: string,
+	GameID: string,
+	ChannelMembers: string[],
+	Sender: string,
+	Body: string,
+	CreatedAt: string,
+	Age: number,
+}
+
+export type MessageResponse = ApiResponse & {
+	Properties: Message;
+}
+
+export type ListMessagesResponse = ApiResponse & {
+	Properties: MessageResponse[];
+};
+
 export type FCMToken = {
 	Value: string;
 	Disabled: boolean;
@@ -332,6 +350,10 @@ export type Game = NewGame & {
 	FinishedAt: string;
 	FinishedAgo: string;
 };
+
+export type GameResponse = ApiResponse & {
+	Properties: Game;
+}
 
 export type CreateGameResponse = ApiResponse & {
 	Properties: Game;
