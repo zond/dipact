@@ -1,0 +1,53 @@
+{
+  "Name": "messages",
+  "Properties": [
+    {
+      "Name": "Diplicity",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQwsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIRQXVzdHJpYSxEaXBsaWNpdHkMCxIHTWVzc2FnZRiAgIDfxprOCww",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Austria",
+          "Diplicity"
+        ],
+        "Sender": "Diplicity",
+        "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+        "CreatedAt": "2021-07-31T11:32:12.836819Z",
+        "Age": 2851818737089057
+      },
+      "Type": "Message",
+      "Links": null
+    },
+    {
+      "Name": "Diplicity",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQwsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIRQXVzdHJpYSxEaXBsaWNpdHkMCxIHTWVzc2FnZRiAgIDfxpquCAw",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Austria",
+          "Diplicity"
+        ],
+        "Sender": "Diplicity",
+        "Body": "Please note that all messages become public after the game ends.",
+        "CreatedAt": "2021-07-31T11:32:11.836819Z",
+        "Age": 2851819737089686
+      },
+      "Type": "Message",
+      "Links": null
+    }
+  ],
+  "Desc": [
+    [
+      "Limiting messages",
+      "Messages normally contain all messages for the chosen channel, but if you provide a `since` query parameter they will only contain new messages since that time."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Austria,Diplicity/Messages",
+      "Method": "GET"
+    }
+  ]
+}

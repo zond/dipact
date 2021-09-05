@@ -1,0 +1,41 @@
+{
+  "Name": "UserRatingHistogram",
+  "Properties": {
+    "FirstBucketRating": 0,
+    "Counts": [
+      219,
+      1,
+      1,
+      0,
+      0,
+      3,
+      0,
+      4,
+      6,
+      3,
+      4,
+      14,
+      12,
+      7,
+      5,
+      3,
+      4,
+      3,
+      8,
+      6,
+      12,
+      11,
+      24,
+      15,
+      23,
+      15,
+      10,
+      2,
+      2,
+      0,
+      1
+    ]
+  },
+  "Type": "UserRatingHistogram",
+  "Links": null
+}

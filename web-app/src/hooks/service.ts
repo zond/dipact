@@ -6,7 +6,9 @@ export const {
 	useGetGameQuery,
 	useGetUserConfigQuery,
 	useGetUserRatingHistogramQuery,
+	useListChannelsQuery,
 	useListMessagesQuery,
+	useListPhasesQuery,
 	useListVariantsQuery,
 	useUpdateUserConfigMutation,
 } = diplicityService;

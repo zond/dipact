@@ -1,4 +1,4 @@
-import Globals from "../Globals";
+import { getNationAbbreviation, getNationColor, getNationFlagLink } from "../utils/general";
 import { diplicityService } from "./service";
 import { RootState } from "./store";
 import {
@@ -9,9 +9,6 @@ import {
 	UserConfig,
 	Variant,
 } from "./types";
-
-const DiplicitySender = "Diplicity";
-const OttoURL = "https://diplicity-engine.appspot.com/img/otto.png";
 
 export const selectColorOverrides = (state: RootState): ColorOverrides =>
 	state.colorOverrides;
@@ -27,52 +24,26 @@ export const selectMessaging = (state: RootState): Messaging => state.messaging;
 export const selectToken = (state: RootState): string | undefined =>
 	state.auth.token;
 
-// TODO test
-export const selectVariant = (state: RootState, variantName: string): Variant | null | undefined => {
-	return diplicityService.endpoints.listVariants.select(undefined)(state).data?.find((variant) => variant.Name === variantName);
+export const selectVariant = (state: RootState, variantName: string): Variant | null => {
+	return diplicityService.endpoints.listVariants.select(undefined)(state).data?.find((variant) => variant.Name === variantName) || null;
 };
 
-// TODO test
-export const selectNationColor = (state: RootState, variantName: string, nationName: string): string => {
-	const colorOverrides = Globals.colorOverrides as ColorOverrides;
-	const variantColorOverrides = colorOverrides.variants[variantName];
-	if (variantColorOverrides) {
-		const nationColorOverride = variantColorOverrides[nationName];
-		if (nationColorOverride) return nationColorOverride
-	}
+export const selectNationColor = (state: RootState, variantName: string, nation: string): string => {
 	const variant = selectVariant(state, variantName);
-	const nationColors = variant?.NationColors;
-	const nationColor = nationColors ? nationColors[nationName]: null;
-	if (nationColor) return nationColor
-	const nationNotInVariant = !variant?.Nations.includes(nationName);
-	if (nationNotInVariant) {
-		if (nationName === "Neutral") {
-			return "#d0d0d0";
-		}
-		if (nationName === "Diplicity") {
-			return "#000000";
-		}
-		throw Error(`Cannot find nation color for ${nationName} in variant ${variantName}`);
-	}
-	const index = variant?.Nations.indexOf(nationName);
-	if (typeof index !== "undefined") return Globals.contrastColors[index];
-	throw Error(`Cannot find nation color for ${nationName} in variant ${variantName}`);
+	if (!variant) throw Error(`Could not find variant called ${variantName}`);
+	return getNationColor(variant, nation);
 }
 
-// TODO test
-export const selectNationAbbreviation = (state: RootState, variantName: string, nationName: string): string => {
+export const selectNationAbbreviation = (state: RootState, variantName: string, nation: string): string => {
 	const variant = selectVariant(state, variantName);
-	const nationAbbreviations = variant?.nationAbbreviations;
-	if (!nationAbbreviations) return "";
-	return nationAbbreviations[nationName] || "";
+	if (!variant) throw Error(`Could not find variant called ${variantName}`);
+	return getNationAbbreviation(variant, nation);
 }
 
-// TODO test
-export const selectNationFlagLink = (state: RootState, variantName: string, nationName: string): string | undefined => {
+export const selectNationFlagLink = (state: RootState, variantName: string, nation: string): string | undefined => {
 	const variant = selectVariant(state, variantName);
-	const links = variant?.Links;
-	const linkObject = links ? links.find((link) => link.Rel === `flag-${nationName}`) : null;
-    return nationName === DiplicitySender ? OttoURL : linkObject ? linkObject.URL : undefined;
+	if (!variant) throw Error(`Could not find variant called ${variantName}`);
+	return getNationFlagLink(variant, nation);
 }
 
 export const selectUser = (state: RootState): User | null | undefined => {

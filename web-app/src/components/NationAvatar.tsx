@@ -2,18 +2,13 @@ import React from "react";
 import { Avatar, Badge, makeStyles, Theme } from "@material-ui/core";
 
 import { MuteIcon } from "../icons";
-import {
-  useSelectNationColor,
-  useSelectNationAbbreviation,
-  useSelectNationFlagLink,
-} from "../hooks/selectors";
 
 interface NationAvatarProps {
   color: string;
   link?: string;
   nation: string;
   nationAbbreviation: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 type StyleProps = Pick<NationAvatarProps, "color" | "nationAbbreviation">;
@@ -33,7 +28,7 @@ export const withMuted = (WrappedComponent: React.ReactElement) => (
   </Badge>
 );
 
-export const NationAvatar = ({
+const NationAvatar = ({
   color,
   link,
   nation,
@@ -54,32 +49,4 @@ export const NationAvatar = ({
   );
 };
 
-interface NationContainerProps {
-  nation: string;
-  variant: string;
-  onClick: () => void;
-}
-
-const NationAvatarContainer = ({
-  nation,
-  variant,
-  onClick,
-}: NationContainerProps) => {
-  const color = useSelectNationColor(variant, nation);
-  const nationAbbreviation = useSelectNationAbbreviation(variant, nation);
-  const link = useSelectNationFlagLink(variant, nation);
-
-  // TODO add muted when gamestate in store
-
-  return (
-    <NationAvatar
-      nation={nation}
-      color={color}
-      nationAbbreviation={nationAbbreviation}
-      link={link}
-      onClick={onClick}
-    />
-  );
-};
-
-export default NationAvatarContainer;
+export default NationAvatar;

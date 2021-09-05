@@ -1,7 +1,7 @@
 import { feedbackSelectors } from "../store/feedback";
 import * as selectors from "../store/selectors";
 import { RootState } from "../store/store";
-import { ColorOverrides, Feedback, Messaging, MutationStatus, User } from "../store/types";
+import { ColorOverrides, Feedback, Messaging, MutationStatus, User, Variant } from "../store/types";
 
 import { useAppSelector } from "./store";
 
@@ -25,6 +25,9 @@ export const useUserId = (): string | undefined =>
 
 export const useUpdateUserConfigStatus = (): MutationStatus =>
 	useAppSelector(selectors.selectUpdateUserConfigStatus);
+
+export const useSelectVariant = (variant: string): Variant | null =>
+	useAppSelector((state: RootState) => selectors.selectVariant(state, variant));
 
 export const useSelectNationColor = (variant: string, nation: string): string =>
 	useAppSelector((state: RootState) => selectors.selectNationColor(state, variant, nation));

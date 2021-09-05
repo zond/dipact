@@ -1,0 +1,512 @@
+{
+  "Name": "channels",
+  "Properties": [
+    {
+      "Name": "Austria,Diplicity",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Austria",
+          "Diplicity"
+        ],
+        "NMessages": 2,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Austria",
+            "Diplicity"
+          ],
+          "Sender": "Diplicity",
+          "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+          "CreatedAt": "2021-07-31T11:32:12.836819Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "2021-07-31T11:32:12.836819Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Austria,Diplicity/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Austria,England,France,Germany,Italy,Russia,Turkey",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Austria",
+          "England",
+          "France",
+          "Germany",
+          "Italy",
+          "Russia",
+          "Turkey"
+        ],
+        "NMessages": 12,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Austria",
+            "England",
+            "France",
+            "Germany",
+            "Italy",
+            "Russia",
+            "Turkey"
+          ],
+          "Sender": "England",
+          "Body": "Done",
+          "CreatedAt": "2021-08-01T06:23:40.72649Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "2021-08-01T06:23:40.72649Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Austria,England,France,Germany,Italy,Russia,Turkey/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Austria,England,Russia",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Austria",
+          "England",
+          "Russia"
+        ],
+        "NMessages": 22,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Austria",
+            "England",
+            "Russia"
+          ],
+          "Sender": "England",
+          "Body": "Ok",
+          "CreatedAt": "2021-07-31T15:08:52.292887Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "2021-07-31T15:08:52.292887Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Austria,England,Russia/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Austria,Russia",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Austria",
+          "Russia"
+        ],
+        "NMessages": 3,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Austria",
+            "Russia"
+          ],
+          "Sender": "Austria",
+          "Body": "Yep Rumania is all yours",
+          "CreatedAt": "2021-07-29T13:50:21.099982Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "2021-07-29T13:50:21.099982Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Austria,Russia/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Diplicity,Germany",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Diplicity",
+          "Germany"
+        ],
+        "NMessages": 2,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Diplicity",
+            "Germany"
+          ],
+          "Sender": "Diplicity",
+          "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 30 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+          "CreatedAt": "2021-07-30T11:32:07.6436Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Diplicity,Germany/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Diplicity,Italy",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Diplicity",
+          "Italy"
+        ],
+        "NMessages": 3,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Diplicity",
+            "Italy"
+          ],
+          "Sender": "Diplicity",
+          "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+          "CreatedAt": "2021-07-31T11:32:07.837222Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Diplicity,Italy/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Diplicity,Turkey",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Diplicity",
+          "Turkey"
+        ],
+        "NMessages": 2,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Diplicity",
+            "Turkey"
+          ],
+          "Sender": "Diplicity",
+          "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 30 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+          "CreatedAt": "2021-07-30T11:32:11.651235Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Diplicity,Turkey/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "England,France",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "England",
+          "France"
+        ],
+        "NMessages": 22,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "England",
+            "France"
+          ],
+          "Sender": "France",
+          "Body": "Told you he'd steal it",
+          "CreatedAt": "2021-08-01T13:22:57.248858Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/England,France/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "England,Russia",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "England",
+          "Russia"
+        ],
+        "NMessages": 21,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "England",
+            "Russia"
+          ],
+          "Sender": "Russia",
+          "Body": "Yes lol just about to tell you that",
+          "CreatedAt": "2021-07-31T19:03:57.723323Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/England,Russia/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "France,Italy",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "France",
+          "Italy"
+        ],
+        "NMessages": 2,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "France",
+            "Italy"
+          ],
+          "Sender": "France",
+          "Body": "Greetings, I would like to propose a dmz in Piedmont.",
+          "CreatedAt": "2021-07-29T13:46:36.212476Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/France,Italy/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "France,Russia",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "France",
+          "Russia"
+        ],
+        "NMessages": 4,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "France",
+            "Russia"
+          ],
+          "Sender": "Russia",
+          "Body": "Sounds good",
+          "CreatedAt": "2021-07-29T14:47:35.381278Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/France,Russia/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Italy,Russia",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Italy",
+          "Russia"
+        ],
+        "NMessages": 2,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Italy",
+            "Russia"
+          ],
+          "Sender": "Russia",
+          "Body": "Alliance to Destroy austria?",
+          "CreatedAt": "2021-07-29T14:06:56.722288Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Italy,Russia/Messages",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Russia,Turkey",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Members": [
+          "Russia",
+          "Turkey"
+        ],
+        "NMessages": 2,
+        "LatestMessage": {
+          "ID": null,
+          "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+          "ChannelMembers": [
+            "Russia",
+            "Turkey"
+          ],
+          "Sender": "Russia",
+          "Body": "Alliance?  Crush the Austrians?",
+          "CreatedAt": "2021-07-29T14:04:09.476204Z",
+          "Age": 0
+        },
+        "NMessagesSince": {
+          "Since": "0001-01-01T00:00:00Z",
+          "NMessages": 0
+        }
+      },
+      "Type": "Channel",
+      "Links": [
+        {
+          "Rel": "messages",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Russia,Turkey/Messages",
+          "Method": "GET"
+        }
+      ]
+    }
+  ],
+  "Desc": [
+    [
+      "Lazy channels",
+      "Channels are created lazily when messages are created for previously non existing channels.",
+      "This means that you can write messages to combinations of nations not currently represented by a channel listed here, and the channel will simply be created for you."
+    ],
+    [
+      "Counters",
+      "Channels tell you how many messages they have, and how many new since you last loaded messages from them."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channels",
+      "Method": "GET"
+    },
+    {
+      "Rel": "message",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Messages",
+      "Method": "POST",
+      "JSONSchema": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "ChannelMembers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ChannelMembers"
+          }
+        }
+      }
+    }
+  ]
+}

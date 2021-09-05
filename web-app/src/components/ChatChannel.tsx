@@ -1,27 +1,14 @@
-/* eslint-disable no-restricted-globals */
 import React from "react";
 import { Button, ButtonGroup } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 import { ExpandIcon } from "../icons";
 import NationAvatarGroup from "./NationAvatarGroup";
-import {
-  RouteComponentProps,
-  useParams,
-  withRouter,
-} from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 import NationAvatar from "./NationAvatar";
 import ChatMessageInput from "./ChatMessageInput";
 import ChatMessagesList from "./ChatMessagesList";
-import { useGetGameQuery, useListMessagesQuery } from "../hooks/service";
-
-interface StyleProps {
-  selfish: boolean;
-  bright: boolean;
-  color: string;
-}
-
-interface ChatMessageProps extends RouteComponentProps {}
+import { useGetGameQuery } from "../hooks/service";
 
 interface ChatChannelUrlParams {
   gameId: string;
@@ -57,24 +44,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderBatchSize = 50;
-
-const ChatChannel = ({}: ChatMessageProps): React.ReactElement => {
+const ChatChannel = (): React.ReactElement => {
   const classes = useStyles();
 
   const { gameId, channelId } = useParams<ChatChannelUrlParams>();
+  const { data: game, isLoading } = useGetGameQuery(gameId);
   const members = channelId.split(",");
 
-  const { isLoading, data: game } = useGetGameQuery(gameId);
-  const { isLoading: messagesLoading, data: messages } = useListMessagesQuery({
-    gameId,
-    channelId,
-  });
-
-  const variantName = game?.Variant;
-
-  if (isLoading) return <div>Loading...</div>;
-  if (!messages) return <div>Loading...</div>;
+  if (isLoading) return <></>;
 
   const close = () => {};
 
@@ -83,8 +60,7 @@ const ChatChannel = ({}: ChatMessageProps): React.ReactElement => {
       <NationAvatar
         key={nation}
         nation={nation}
-        variant={variantName as string}
-        onClick={() => {}}
+        variant={game?.Variant || ""}
       />
     );
   });
@@ -92,31 +68,23 @@ const ChatChannel = ({}: ChatMessageProps): React.ReactElement => {
   const channelTitle = members.length === 7 ? "Everyone" : members.join(", ");
 
   return (
-    <div>
+    <>
       <ButtonGroup orientation="vertical" className={classes.buttonGroup}>
         <Button onClick={close} className={classes.closeButton}>
-          <span style={{ display: "flex" }}>
-            <NationAvatarGroup avatars={avatars} />
-          </span>
+          <NationAvatarGroup avatars={avatars} />
           <span className={classes.channelTitle}>{channelTitle}</span>
           <ExpandIcon />
         </Button>
       </ButtonGroup>
       <div className={classes.messagesContainer}>
         <div>
-          <ChatMessagesList
-            messages={messages}
-            userNation={""}
-            newAfter={1}
-            variant={variantName as string}
-            gameState={{}}
-          />
+          <ChatMessagesList gameId={gameId} channelId={channelId} />
         </div>
         <div>
           <ChatMessageInput onSendMessage={(message) => {}} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

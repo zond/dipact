@@ -21,6 +21,12 @@ import {
 	Game,
 	GameResponse,
 	ListMessagesResponse,
+	ListPhaseStatesResponse,
+	PhaseState,
+	ListPhasesResponse,
+	Phase,
+	Channel,
+	ListChannelsResponse,
 } from "./types";
 import { addNationAbbreviationsToVariant, sortVariantResponse } from "./utils";
 
@@ -102,6 +108,21 @@ export const diplicityService = createApi({
 			query: ({ gameId, channelId }) => `/Game/${gameId}/Channel/${channelId}/Messages`,
 			transformResponse: (response: ListMessagesResponse) => {
 				return response.Properties.map((messageResponse) => messageResponse.Properties);
+		}}),
+		listPhases: builder.query<Phase[], string>({
+			query: (gameId) => `/Game/${gameId}/Phases`,
+			transformResponse: (response: ListPhasesResponse) => {
+				return response.Properties.map((phaseResponse) => phaseResponse.Properties);
+		}}),
+		listPhaseStates: builder.query<PhaseState[], { gameId: string, phaseId: string }>({
+			query: ({ gameId, phaseId }) => `/Game/${gameId}/Phase/${phaseId}/PhaseStates`,
+			transformResponse: (response: ListPhaseStatesResponse) => {
+				return response.Properties.map((phaseStateResponse) => phaseStateResponse.Properties);
+		}}),
+		listChannels: builder.query<Channel[], string>({
+			query: (gameId) => `/Game/${gameId}/Channels`,
+			transformResponse: (response: ListChannelsResponse) => {
+				return response.Properties.map((channelResponse) => channelResponse.Properties);
 		}}),
 		// TODO test
 		getGame: builder.query<Game, string>({

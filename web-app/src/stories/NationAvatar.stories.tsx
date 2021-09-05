@@ -1,8 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { NationAvatar as Component, withMuted } from "../components/NationAvatar";
-import { NationAvatar } from "../components/NationAvatar";
+import Component, { withMuted } from "../components/NationAvatar";
 
 export default {
   title: "components/NationAvatar",
@@ -14,7 +13,7 @@ const Template: ComponentStory<typeof Component> = (args) => (
   <Component {...args} />
 );
 
-type Args = Omit<React.ComponentProps<typeof NationAvatar>, "onClick">;
+type Args = Omit<React.ComponentProps<typeof Component>, "onClick">;
 
 const defaultArgs: Args = {
   nation: "France",

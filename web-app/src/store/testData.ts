@@ -2,10 +2,12 @@ import { RootState } from "./store";
 import {
 	CreateGameResponse,
 	Game,
+	GameResponse,
 	ListVariantsResponse,
 	Member,
 	Messaging,
 	NewGame,
+	Phase,
 	PhaseState,
 	PrivateStats,
 	User,
@@ -165,6 +167,33 @@ export const userConfigResponse: UserConfigResponse = {
 	Links: [],
 };
 
+export const phase: Phase = {
+  PhaseOrdinal: 1,
+  Season: "Spring",
+  Year: 1900,
+  Type: "Movement",
+  Resolved: true,
+  CreatedAt: "2021-07-29T09:42:00.045036651Z",
+  CreatedAgo: 1,
+  ResolvedAt: "2021-07-29T09:42:00.045036651Z",
+  ResolvedAgo: 1,
+  DeadlineAt: "",
+  NextDeadlineIn: 1,
+  UnitsJSON: "",
+  SCsJSON: "",
+  GameID: "",
+  Units: [],
+  SCs: [],
+  Dislodgeds: null,
+  Dislodgers: null,
+  ForceDisbands: null,
+  Bounces: null,
+  Resolutions: null,
+  Host: "",
+  SoloSCCount: 0,
+  PreliminaryScores: [],
+};
+
 export const phaseState: PhaseState = {
 	GameID: "",
 	PhaseOrdinal: 0,
@@ -216,6 +245,13 @@ export const game: Game = {
 };
 
 export const createGameResponse: CreateGameResponse = {
+	Name: game.Desc,
+	Properties: game,
+	Type: "Game",
+	Links: [],
+};
+
+export const getGameResponse: GameResponse = {
 	Name: game.Desc,
 	Properties: game,
 	Type: "Game",

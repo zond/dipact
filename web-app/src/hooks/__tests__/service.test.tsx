@@ -2,7 +2,7 @@ import React from "react";
 import { act, renderHook } from "@testing-library/react-hooks";
 import {
 	useCreateGameMutation,
-	useGetRootQuery,
+	useListMessagesQuery,
 	useListVariantsQuery,
 	useUpdateUserConfigMutation,
 } from "../service";
@@ -80,6 +80,60 @@ describe("useListVariantsQuery", () => {
 		server.use(handlers.variants.tokenTimeout);
 		const { result, waitForNextUpdate } = renderHook(
 			() => useListVariantsQuery(undefined),
+			{ wrapper }
+		);
+		const initialResponse = result.current;
+		expect(initialResponse.data).toBeUndefined();
+		expect(initialResponse.isLoading).toBe(true);
+
+		await waitForNextUpdate({ timeout: updateTimeout });
+
+		const nextResponse = result.current;
+		expect(nextResponse.data).toBeUndefined();
+		expect(nextResponse.isLoading).toBe(false);
+		expect(nextResponse.isError).toBe(true);
+	});
+});
+describe("useListMessagesQuery", () => {
+	it("Success", async () => {
+		server.use(handlers.messages.success);
+		const { result, waitForNextUpdate } = renderHook(
+			() => useListMessagesQuery({ gameId: "123", channelId: "456" }),
+			{ wrapper }
+		);
+		const initialResponse = result.current;
+		expect(initialResponse.data).toBeUndefined();
+		expect(initialResponse.isLoading).toBe(true);
+		await waitForNextUpdate({ timeout: updateTimeout });
+
+		const nextResponse = result.current;
+		expect(nextResponse.data).not.toBeUndefined();
+		expect(nextResponse.isLoading).toBe(false);
+		expect(nextResponse.isSuccess).toBe(true);
+	});
+
+	it("Internal Server Error", async () => {
+		server.use(handlers.messages.internalServerError);
+		const { result, waitForNextUpdate } = renderHook(
+			() => useListMessagesQuery({ gameId: "123", channelId: "456" }),
+			{ wrapper }
+		);
+		const initialResponse = result.current;
+		expect(initialResponse.data).toBeUndefined();
+		expect(initialResponse.isLoading).toBe(true);
+
+		await waitForNextUpdate({ timeout: updateTimeout });
+
+		const nextResponse = result.current;
+		expect(nextResponse.data).toBeUndefined();
+		expect(nextResponse.isLoading).toBe(false);
+		expect(nextResponse.isError).toBe(true);
+	});
+
+	it("Token timeout", async () => {
+		server.use(handlers.messages.internalServerError);
+		const { result, waitForNextUpdate } = renderHook(
+			() => useListMessagesQuery({ gameId: "123", channelId: "456" }),
 			{ wrapper }
 		);
 		const initialResponse = result.current;
