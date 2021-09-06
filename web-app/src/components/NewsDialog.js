@@ -28,35 +28,23 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
-					header: "2021 Nexus Cold War Tournament",
-					subheader: "Register now for competitive 1v1 games",
-					background: ColdWarPath,
+					header: "2021/9/6: Release update",
+					subheader: "A new North Sea Wars map",
 					icon: false,
 					content: (
 						<React.Fragment>
 							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px"}}>
-								2021 Nexus Cold War Tournament: CW4
+								New map: North Sea Wars
 							</Typography>
 							<Typography variant="body2" style={{ margin: "0px 0px 16px 0px" }}>
-								The largest online 1vs1 event is back: Nexus
-								announces that their Fourth Cold War Tournament
-								(CW4) will start soon!
-								<br /><br />
-								The previous edition of this event involved 53
-								players to face each other for more than two
-								months last Spring. Now, it is time to run Cold
-								War games again and see who's the best tactitian
-								around!
-								<br /><br />
-								Registration to CW4 will open on August 10th and
-								end on August 30th. The Tournament will start on
-								September 7th.
-								<br /><br />
-								To get more info and register, go to{" "}
-								<a href="https://discord.gg/GTF4p8QQ4k">
-									https://discord.gg/GTF4p8QQ4k
-								</a>
-								.
+								In line with updating all maps to a newer look,
+								we released a new version of the North Sea Wars
+								map. It's not a new variant, but a reskin:
+								<br />
+								<img src="https://diplicity-engine.appspot.com/Variant/North%20Sea%20Wars/Map.svg" style={{maxWidth: "400px"}} />
+								<br />
+								This might be a nice opportunity to start a new
+								game on this map!
 							</Typography>
 						</React.Fragment>
 					),
