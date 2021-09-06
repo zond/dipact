@@ -1,23 +1,54 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import pako from 'pako'
+import React from "react";
+import pako from "pako";
 
-import * as helpers from '../helpers';
-import MetadataDialog from './MetadataDialog';
-import gtag from 'ga-gtag';
-import { Divider, Snackbar, Button, FormControlLabel, FormControl, Box, Select, Tab, Tabs, Badge, AppBar, MenuItem, Toolbar, IconButton, Menu, SvgIcon, Typography, Switch } from "@material-ui/core";
+import * as helpers from "../helpers";
+import MetadataDialog from "./MetadataDialog";
+import gtag from "ga-gtag";
+import {
+	Divider,
+	Snackbar,
+	Button,
+	FormControlLabel,
+	FormControl,
+	Box,
+	Select,
+	Tab,
+	Tabs,
+	Badge,
+	AppBar,
+	MenuItem,
+	Toolbar,
+	IconButton,
+	Menu,
+	SvgIcon,
+	Typography,
+	Switch,
+} from "@material-ui/core";
 
-import DipMap from './DipMap';
-import ChatMenu from './ChatMenu';
+import DipMap from "./DipMap";
+import ChatMenu from "./ChatMenu";
 
-import { ChatIcon, CloseIcon, DownloadIcon, EventIcon, FastForwardIcon, MapIcon, MoreIcon, NextIcon, NumMembersIcon, PreviousIcon, ShareIcon } from '../icons';
-import OrderList from './OrderList';
-import GamePlayers from './GamePlayers';
-import GameResults from './GameResults';
-import PreliminaryScores from './PreliminaryScores';
-import MusteringPopup from './MusteringPopup';
-import NationPreferencesDialog from './NationPreferencesDialog';
-import Globals from '../Globals';
+import {
+	ChatIcon,
+	CloseIcon,
+	DownloadIcon,
+	EventIcon,
+	FastForwardIcon,
+	MapIcon,
+	NextIcon,
+	NumMembersIcon,
+	PreviousIcon,
+	ShareIcon,
+	SettingsIcon,
+} from "../icons";
+import OrderList from "./OrderList";
+import GamePlayers from "./GamePlayers";
+import GameResults from "./GameResults";
+import PreliminaryScores from "./PreliminaryScores";
+import MusteringPopup from "./MusteringPopup";
+import NationPreferencesDialog from "./NationPreferencesDialog";
+import Globals from "../Globals";
 
 export default class Game extends React.Component {
 	constructor(props) {
@@ -81,8 +112,8 @@ export default class Game extends React.Component {
 				return "You must disband " + parts[1] + " units this phase.";
 			case "MayBuild":
 				return "You may build " + parts[1] + " units this phase.";
-            default:
-                return "";
+			default:
+				return "";
 		}
 	}
 	leave() {
@@ -310,9 +341,8 @@ export default class Game extends React.Component {
 							);
 							const newPhases = this.state.phases.slice();
 							serializedState.phases.forEach((phase) => {
-								newPhases[
-									phase.Properties.PhaseOrdinal - 1
-								] = phase;
+								newPhases[phase.Properties.PhaseOrdinal - 1] =
+									phase;
 							});
 							this.setState({
 								laboratoryMode: true,
@@ -492,8 +522,8 @@ export default class Game extends React.Component {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
-												laboratoryMode: !this.state
-													.laboratoryMode,
+												laboratoryMode:
+													!this.state.laboratoryMode,
 											},
 											(_) => {
 												if (
@@ -607,14 +637,18 @@ export default class Game extends React.Component {
 																1e-6
 														}
 														style={{
-                                                           position: 'relative',
-                                                           top: '-6px',
-                                                           fontSize: 'xx-small',
-                                                           left: '-5px',
-                                                           zIndex: '1',
-                                                           backgroundColor: 'red',
-                                                           borderRadius: '7px',
-                                                           padding: '0 2px 1px 2px'
+															position:
+																"relative",
+															top: "-6px",
+															fontSize:
+																"xx-small",
+															left: "-5px",
+															zIndex: "1",
+															backgroundColor:
+																"red",
+															borderRadius: "7px",
+															padding:
+																"0 2px 1px 2px",
 														}}
 													>
 														{helpers.minutesToDuration(
@@ -631,10 +665,7 @@ export default class Game extends React.Component {
 									})}
 								</Select>
 							) : !this.state.laboratoryMode ? (
-								<Box
-									key="curr-spacer"
-									width="100%"
-								></Box>
+								<Box key="curr-spacer" width="100%"></Box>
 							) : (
 								""
 							)}
@@ -667,7 +698,7 @@ export default class Game extends React.Component {
 										});
 									}}
 								>
-									<MoreIcon />
+									<SettingsIcon />
 								</IconButton>
 							) : (
 								""
@@ -688,15 +719,6 @@ export default class Game extends React.Component {
 								open={!!this.state.moreMenuAnchorEl}
 							>
 								<MenuItem
-													key="How to play"
-													onClick={(_) => {
-														window.open("https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983", "_blank")
-													}}
-												>
-													How to play
-								</MenuItem>
-								<Divider />
-								<MenuItem
 									key="game-metadata"
 									onClick={(_) => {
 										this.setState({
@@ -715,7 +737,7 @@ export default class Game extends React.Component {
 										}
 									}}
 								>
-									Game info
+									Game & player info
 								</MenuItem>
 								{this.state.game.Properties.Started
 									? [
@@ -740,7 +762,8 @@ export default class Game extends React.Component {
 													key="results"
 													onClick={(_) => {
 														this.setState({
-															moreMenuAnchorEl: null,
+															moreMenuAnchorEl:
+																null,
 														});
 														this.gameResults.setState(
 															{
@@ -775,16 +798,19 @@ export default class Game extends React.Component {
 													this.setState({
 														moreMenuAnchorEl: null,
 													});
-													
-													if (this.state.game.Properties.Started) {
+
+													if (
+														this.state.game
+															.Properties.Started
+													) {
 														helpers.snackbar(
 															"Game URL copied to clipboard. Share it to show the game."
-														)} else {
-														{
+														);
+													} else {
 														helpers.snackbar(
 															"Game URL copied to clipboard. Share it to invite other players."
-														)}
-													};
+														);
+													}
 												},
 												(err) => {
 													console.log(err);
@@ -793,7 +819,9 @@ export default class Game extends React.Component {
 										gtag("event", "game_share");
 									}}
 								>
-									{this.state.game.Properties.Started ? ("Share game") : ("Invite players")}
+									{this.state.game.Properties.Started
+										? "Share game"
+										: "Invite players"}
 								</MenuItem>
 
 								<MenuItem
@@ -814,8 +842,8 @@ export default class Game extends React.Component {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
-												laboratoryMode: !this.state
-													.laboratoryMode,
+												laboratoryMode:
+													!this.state.laboratoryMode,
 											},
 											(_) => {
 												if (
@@ -836,7 +864,18 @@ export default class Game extends React.Component {
 										? "Turn off sandbox mode"
 										: "Sandbox mode"}
 								</MenuItem>
-								<Divider />								
+								<Divider />
+								<MenuItem
+									key="How to play"
+									onClick={(_) => {
+										window.open(
+											"https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983",
+											"_blank"
+										);
+									}}
+								>
+									How to play
+								</MenuItem>
 								<MenuItem
 									key="debug-data"
 									onClick={(_) => {
@@ -895,9 +934,9 @@ export default class Game extends React.Component {
 								}) ? (
 									<Toolbar
 										style={{
-											display: 'flex',
-											justifyContent: 'space-between',
-											minHeight: '53px',
+											display: "flex",
+											justifyContent: "space-between",
+											minHeight: "53px",
 										}}
 									>
 										<div>
@@ -936,8 +975,7 @@ export default class Game extends React.Component {
 												alignItems: "center",
 											}}
 										>
-											<NumMembersIcon />
-											{" "}
+											<NumMembersIcon />{" "}
 											<Typography
 												variant="body2"
 												style={{ paddingLeft: "2px" }}
@@ -965,10 +1003,7 @@ export default class Game extends React.Component {
 									display="flex"
 									variant="fullWidth"
 								>
-									<Tab
-										value="map"
-										icon={<MapIcon />}
-									/>
+									<Tab value="map" icon={<MapIcon />} />
 									<Tab
 										value="chat"
 										icon={
@@ -1044,12 +1079,12 @@ export default class Game extends React.Component {
 										<Switch
 											onChange={(ev) => {
 												this.setState({
-													labEditMode: !ev.target
-														.checked,
+													labEditMode:
+														!ev.target.checked,
 												});
 												this.dip_map.setState({
-													labEditMode: !ev.target
-														.checked,
+													labEditMode:
+														!ev.target.checked,
 												});
 											}}
 											color="primary"
@@ -1206,15 +1241,16 @@ export default class Game extends React.Component {
 								key="orders-container"
 								style={{
 									marginTop: "" + this.state.marginTop + "px",
-									overflowY: "scroll",
 									height:
 										"calc(100% - " +
 										this.state.marginTop +
 										"px)",
 									display:
 										this.state.activeTab === "orders"
-											? "block"
+											? "flex"
 											: "none",
+									flexDirection: "column",
+    								justifyContent: "space-between",
 								}}
 							>
 								<OrderList
@@ -1325,11 +1361,7 @@ export default class Game extends React.Component {
 							</Typography>,
 						].concat(
 							this.state.phaseMessages.map((m) => {
-								return (
-									<Typography key={m}>
-										{m}
-									</Typography>
-								);
+								return <Typography key={m}>{m}</Typography>;
 							})
 						)}
 						action={

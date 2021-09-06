@@ -38,4 +38,6 @@ export {
 	Timelapse as StartedAtIcon,
 	Timer as ReliabilityIcon,
 	Warning as WarningIcon,
+	Settings as SettingsIcon,
+	Block as WhitelistIcon,
 } from '@material-ui/icons'
