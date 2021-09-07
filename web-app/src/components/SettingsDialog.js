@@ -478,12 +478,44 @@ class SettingsDialog extends React.Component {
 									style={{
 										color: "rgba(40, 26, 26, 0.56)",
 										marginTop: "16px",
-										padding: "16px 0px",
+										padding: "16px 0px 0px 0px",
 									}}
 								>
-									Custom nation colours
+									Nation colours
 								</Typography>
-
+								<div width="100%">
+									<FormControlLabel
+										style={{
+											width: "100%",
+											maxWidth: "920px",
+											paddingLeft: "0px",
+										}}
+										classes={{
+											root: classes.formControlLabel
+										}}
+										control={
+											<Switch
+// TODO: Add switch logic here
+//												checked={{}}											
+//												onChange={}
+											/>
+										}
+										label="Colour non-SC provinces"
+									/>
+									<Typography variant="caption" style={{color: "rgba(0,0,0,0.56)"}}>
+									Colour provinces without supply centers based on the ownership of the supply centers around it.
+									</Typography>
+								</div>
+								<Typography
+									variant="subtitle2"
+									style={{
+										color: "rgba(40, 26, 26, 0.56)",
+										marginTop: "8px",
+										padding: "16px 0px 8px 0px",
+									}}
+								>
+									Custom colours
+								</Typography>
 								<div
 									style={{
 										display: 'flex',
@@ -497,7 +529,7 @@ class SettingsDialog extends React.Component {
 											shrink
 											id="variantinputlabel"
 										>
-											Variant
+											Variant 
 										</InputLabel>
 										<Select
 											fullWidth
