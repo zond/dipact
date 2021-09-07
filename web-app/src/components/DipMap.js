@@ -746,106 +746,6 @@ export default class DipMap extends React.Component {
 				}
 			}
 
-			// Here we hardcode the "special provinces" that need to be coloured for the start of the game.
-			//TODO: does this currently support "neutral?"
-			const startingprovs = [];
-
-			startingprovs.push({
-				name: "gas",
-				favours: "France",
-				influencedby: {
-					bre: "France",
-					par: "France",
-					mar: "France",
-					spa: "Neutral",
-				},
-			});
-			startingprovs.push({
-				name: "bur",
-				favours: "France",
-				influencedby: { mar: "France", par: "France", mun: "Germany" },
-			});
-			startingprovs.push({
-				name: "bur",
-				favours: "France",
-				influencedby: {
-					mar: "France",
-					par: "France",
-					mun: "Germany",
-					bel: "Neutral",
-				}, // belgium neutral
-			});
-			startingprovs.push({
-				name: "pic",
-				favours: "France",
-				influencedby: { par: "France", bre: "France", bel: "Neutral" }, // belgium neutral
-			});
-			startingprovs.push({
-				name: "tyr",
-				favours: "Austria",
-				influencedby: {
-					mun: "Germany",
-					ven: "Italy",
-					tri: "Austria",
-					vie: "Austria",
-				},
-			});
-			startingprovs.push({
-				name: "boh",
-				favours: "Austria",
-				influencedby: { mun: "Germany", vie: "Austria" },
-			});
-			startingprovs.push({
-				name: "gal",
-				favours: "Austria",
-				influencedby: {
-					bud: "Austria",
-					vie: "Austria",
-					war: "Russia",
-					rum: "Neutral",
-				}, //and rumania
-			});
-			startingprovs.push({
-				name: "ukr",
-				favours: "Russia",
-				influencedby: {
-					war: "Russia",
-					mos: "Russia",
-					stp: "Russia",
-					rum: "Neutral",
-				},
-			});
-			startingprovs.push({
-				name: "fin",
-				favours: "Russia",
-				influencedby: { stp: "Russia", swe: "Neutral", nwy: "Neutral" },
-			});
-
-			startingprovs.push({
-				name: "ruh",
-				favours: "Germany",
-				influencedby: {
-					kie: "Germany",
-					mun: "Germany",
-					bel: "Neutral",
-					hol: "Neutral",
-				}, //and belgium and holland
-			});
-			startingprovs.push({
-				name: "sil",
-				favours: "Germany",
-				influencedby: { ber: "Germany", mun: "Germany", war: "Russia" },
-			});
-			startingprovs.push({
-				name: "pru",
-				favours: "Germany",
-				influencedby: { ber: "Germany", war: "Russia" },
-			});
-			startingprovs.push({
-				name: "arm",
-				favours: "Turkey",
-				influencedby: { ank: "Turkey", smy: "Turkey", sev: "Russia" },
-			});
 
 			//Here we check each non-SC and non-Sea territory. If all surrounding SCs are of the same power and none is "Neutral", colour them that power.
 			//Get all nodes, disqualify Sea and SC, and per node collect the edges in an array.
@@ -882,7 +782,6 @@ export default class DipMap extends React.Component {
 						countNeutral ++;
 						}
 					}
-					console.log(countNeutral + " + " + borderprovs.length);
 					if (countNeutral == borderprovs.length) {
 						shoulddraw = false;
 					}
@@ -894,44 +793,57 @@ export default class DipMap extends React.Component {
 						this.map.colorProvince(prov, col);
 					}
 
+
 					//if by the default rule we don't draw it, check if "special" rules apply.
 					else {
-						for (let i = 0; i < startingprovs.length; i++) {
-							//if prov is a starting prov
+					
+						//Need to escape if starting provinces have not been defined
+						if (this.props.variant.Properties.ExtraDominanceRules != null) {
 
-							if (prov == startingprovs[i].name) {
-								//get all influencedby for this prov as an array of prov + owner objects
-								let shouldeventuallydraw = true;
-								for (const influencedprov in startingprovs[i].influencedby) {
-									// check if no SC owner, change to neutral.
-									let tempSC;
-									if (typeof SCs[influencedprov] === "undefined") {
-										tempSC = "Neutral";
-									} else {
-										tempSC = SCs[influencedprov];
-									}
-									// check if all SCs follow the starting province rule.
-									// If not because they're not neutral, check the neutral one is owned by the favouring country (should have no effect)
-									// If one is owned by someone else than defined (neutral not being the favouring country), don't draw
-									if (
-										startingprovs[i].influencedby[influencedprov] != tempSC &&
-										tempSC != startingprovs[i].favours
-									) {
-										shouldeventuallydraw = false;
-										break;
-									}
-								}
-								//Check if we should STILL draw it or not.
+
+						//if prov is startingprovince
+
+						if (prov in this.props.variant.Properties.ExtraDominanceRules) {
+
+						//Cycle through all startingprovince dependencies
+						let shouldeventuallydraw = true;
+						for (const influencedprov of Object.entries(this.props.variant.Properties.ExtraDominanceRules[prov].Dependencies)) {
+
+							//Check if no SC owner, change to neutral
+  							let tempSC;
+  							if (typeof SCs[influencedprov[0]] === "undefined") {
+								tempSC = "Neutral";
+							} else {
+								tempSC = SCs[influencedprov[0]];
+							}
+
+							// check if all SCs follow the starting province rule.
+							// If not because they're not neutral, check the neutral one is owned by the favouring country (should have no effect)
+							// If one is owned by someone else than defined (neutral not being the favouring country), don't draw
+							if (
+							influencedprov[1] != tempSC 
+							&&	tempSC != this.props.variant.Properties.ExtraDominanceRules[prov].Nation
+							) {
+								shouldeventuallydraw = false;
+								break;
+							}
+						}
+							
+							//Check if we should STILL draw it or not.
 								if (shouldeventuallydraw) {
 									const col = helpers.natCol(
-										startingprovs[i].favours,
+										this.props.variant.Properties.ExtraDominanceRules[prov].Nation,
 										this.state.variant
 									);
 									this.map.colorProvince(prov, col);
 								} else {
 									this.map.hideProvince(prov);
 								}
-							}
+
+
+						} 
+
+
 						}
 					}
 				}
