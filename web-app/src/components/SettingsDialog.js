@@ -192,6 +192,7 @@ class SettingsDialog extends React.Component {
 	render() {
 		const { classes } = this.props;
 		const maxScreenWidth = "940px";
+//TODO I added a switchChecked here, I think we might remove it. 
 		let switchChecked = JSON.parse(localStorage.getItem("colourNonSCs"));
 		return (
 			<Dialog
@@ -417,6 +418,7 @@ class SettingsDialog extends React.Component {
 										control={
 											<Switch
 												checked={switchChecked}
+//TODO here the state is being saved, but it won't update the switchChecked.
 												onChange={(ev) => {
 													if (switchChecked) {
 														localStorage.setItem(
