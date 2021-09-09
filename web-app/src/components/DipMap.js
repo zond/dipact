@@ -682,7 +682,7 @@ export default class DipMap extends React.Component {
 			//Don't do any map colouring if feature is turned off.
 			console.log(JSON.stringify(localStorage.getItem("colourNonSCs")));
 
-			if (JSON.parse(localStorage.getItem('colourNonSCs')) == true) {
+			if (JSON.parse(localStorage.getItem('colourNonSCs')) === true) {
 				//Here we check each non-SC and non-Sea territory. If all surrounding SCs are of the same power and none is "Neutral", colour them that power.
 				//Get all nodes, disqualify Sea and SC, and per node collect the edges in an array.
 
@@ -699,26 +699,14 @@ export default class DipMap extends React.Component {
 							}
 						}
 
-						//check if all members of array are equal/not neutral.
-
-						/*					const firstProv = borderProvs[0];
-					let shouldDraw = borderProvs.every((prov) => prov !== firstProv || prov === "Neutral");
-*/
-						let shouldDraw = true;
-						for (let i = 0; i < borderProvs.length; i++) {
-							if (
-								borderProvs[i] !== borderProvs[0] ||
-								borderProvs[i] == "Neutral"
-							) {
-								shouldDraw = false;
-								break;
-							}
-						}
+						// check if all members of array are equal/not neutral.
+						const firstProv = borderProvs[0];
+						let shouldDraw = !borderProvs.every((prov) => prov !== firstProv || prov === "Neutral");
 
 						const countNeutral = borderProvs.filter(
 							(prov) => prov === "undefined"
 						).length;
-						if (countNeutral == borderProvs.length) {
+						if (countNeutral === borderProvs.length) {
 							shouldDraw = false;
 						}
 

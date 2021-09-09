@@ -6,6 +6,7 @@ import React from "react";
 import * as helpers from "../helpers";
 import gtag from "ga-gtag";
 import {
+	alpha,
 	InputLabel,
 	FormControlLabel,
 	Select,
@@ -46,9 +47,11 @@ const styles = (theme) => ({
 		color: theme.primary,
 	},
 	caption: {
-		color: theme.palette.grey[500],
+		color: alpha(theme.palette.text.primary, .5),
+		display: "block",
 	},
 });
+
 
 class SettingsDialog extends React.Component {
 	constructor(props) {
@@ -58,6 +61,7 @@ class SettingsDialog extends React.Component {
 			userConfig: Globals.userConfig,
 			newColorOverrideVariant: "Classical",
 			resetSettingsChecked: false,
+			colourNonSCs: false,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -68,6 +72,14 @@ class SettingsDialog extends React.Component {
 		this.newColorDeleter = this.newColorDeleter.bind(this);
 		this.generateNewUserColors = this.generateNewUserColors.bind(this);
 		this.saveConfig = this.saveConfig.bind(this);
+		this.handleChangeColourNonSCs = this.handleChangeColourNonSCs.bind(this);
+	}
+
+	handleChangeColourNonSCs(e) {
+		const value = e.currentTarget.checked;
+		console.log(value);
+		localStorage.setItem("colourNonSCs", value.toString());
+		this.setState({ colourNonSCs: value });
 	}
 
 	newColorDeleter(nation) {
@@ -126,6 +138,10 @@ class SettingsDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		const colourNonSCs = localStorage.getItem("colourNonSCs");
+		if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
+			this.setState({ colourNonSCs: true })
+		}
 		if (
 			JSON.stringify(Globals.userConfig) !==
 			JSON.stringify(this.state.userConfig)
@@ -192,8 +208,6 @@ class SettingsDialog extends React.Component {
 	render() {
 		const { classes } = this.props;
 		const maxScreenWidth = "940px";
-//TODO I added a switchChecked here, I think we might remove it. 
-		let switchChecked = JSON.parse(localStorage.getItem("colourNonSCs"));
 		return (
 			<Dialog
 				onEntered={helpers.genOnback(this.close)}
@@ -225,7 +239,7 @@ class SettingsDialog extends React.Component {
 								<Typography variant="subtitle2" className={classes.subtitle2}>
 									Notifications
 								</Typography>
-								<div width="100%">
+								<div>
 									<FormControlLabel
 										style={{
 											width: "100%",
@@ -410,41 +424,21 @@ class SettingsDialog extends React.Component {
 								<Typography variant="subtitle2" className={classes.subtitle2}>
 									Map colours
 								</Typography>
-								<div width="100%">
+								<div>
 									<FormControlLabel
 										classes={{
 											root: classes.formControlLabel,
 										}}
 										control={
 											<Switch
-												checked={switchChecked}
-//TODO here the state is being saved, but it won't update the switchChecked.
-												onChange={(ev) => {
-													if (switchChecked) {
-														localStorage.setItem(
-															"colourNonSCs",
-															JSON.stringify(false)
-														);
-														switchChecked = false;
-														console.log("switchChecked " + switchChecked);
-													} else
-														localStorage.setItem(
-															"colourNonSCs",
-															JSON.stringify(true)
-														);
-													switchChecked = true;
-													console.log("switchChecked " + switchChecked);
-												}}
-												// TODO: Add switch logic here
-												//												checked={{}}
-												//												onChange={}
+												checked={this.state.colourNonSCs}
+												onChange={this.handleChangeColourNonSCs}
 											/>
 										}
 										label="Colour non-SC provinces"
 									/>
 									<Typography
 										variant="caption"
-										style={{ display: "block" }}
 										className={classes.caption}
 									>
 										Colour provinces without supply centers based on the
