@@ -1,29 +1,20 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { ChatMenu } from "../components/Chat";
+import ChatChannel from "../components/Chat/ChatChannel";
 import Game from "../components/Game";
-import MainMenu from "../components/MainMenu";
+import LegacyApp from "../LegacyApp";
 import About from "./About";
-
-type RouteProps = {
-	urls: { [key: string]: string };
-};
-
-export const RouteConfig = {
-	About: '/about',
-	GameTab: '/game/:gameId/:tab',
-	Game: '/game/:gameId',
-	GameChatChannel: '/game/:gameId/channel/:channelId/messages',
-	GameLaboratoryMode: '/game/:gameId/lab/:labOptions',
-}
+import { RouteConfig } from "./RouteConfig";
 
 // Separated into two components to make testing routes easier
-export const Routes = (props: RouteProps): React.ReactElement => {
+export const Routes = (): React.ReactElement => {
 	return (
 		<Switch>
-			<Route exact path="/">
-				<MainMenu urls={props.urls} />
-			</Route>
-			<Route exact path={RouteConfig.About}>
+			{/* <Route exact path="/">
+        		<LegacyApp />
+			</Route> */}
+			{/* <Route exact path={RouteConfig.About}>
 				<About />
 			</Route>
 			<Route exact path={RouteConfig.Game}>
@@ -31,22 +22,25 @@ export const Routes = (props: RouteProps): React.ReactElement => {
 			</Route>
 			<Route exact path={RouteConfig.GameTab}>
 				<Game />
+			</Route> */}
+			<Route exact path={RouteConfig.GameChat}>
+				<ChatMenu />
 			</Route>
 			<Route exact path={RouteConfig.GameChatChannel}>
-				<Game chatOpen />
+				<ChatChannel />
 			</Route>
-			<Route exact path={RouteConfig.GameLaboratoryMode}>
+			{/* <Route exact path={RouteConfig.GameLaboratoryMode}>
 				<Game laboratoryMode />
-			</Route>
-			<Redirect to="/" />
+			</Route> */}
+			{/* <Redirect to="/" /> */}
 		</Switch>
 	);
 };
 
-const Router = (props: RouteProps): React.ReactElement => {
+const Router = (): React.ReactElement => {
 	return (
 		<BrowserRouter>
-			<Routes urls={props.urls} />
+			<Routes />
 		</BrowserRouter>
 	);
 };

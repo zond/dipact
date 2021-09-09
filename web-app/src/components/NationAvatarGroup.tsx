@@ -74,7 +74,7 @@ const NationAvatarGroup = ({
     const avatar = avatars[count];
     count += 1;
     return avatar;
-  }
+  };
 
   return (
     <div className={classes.root}>

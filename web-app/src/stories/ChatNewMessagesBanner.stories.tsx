@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component from "../components/ChatNewMessagesBanner";
+import Component from "../components/Chat/ChatNewMessagesBanner";
 
 export default {
   title: "components/ChatNewMessagesBanner",

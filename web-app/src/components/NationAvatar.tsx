@@ -1,6 +1,8 @@
 import React from "react";
 import { Avatar, Badge, makeStyles, Theme } from "@material-ui/core";
 
+import { EVERYONE } from "../hooks/utils";
+import UNFlagLink from "../static/img/un_logo.svg";
 import { MuteIcon } from "../icons";
 
 interface NationAvatarProps {
@@ -10,6 +12,13 @@ interface NationAvatarProps {
   nationAbbreviation: string;
   onClick?: () => void;
 }
+
+export const getEveryoneAvatarProps = (): NationAvatarProps => ({
+  nation: EVERYONE,
+  color: "#FFFFFF",
+  link: UNFlagLink,
+  nationAbbreviation: "",
+});
 
 type StyleProps = Pick<NationAvatarProps, "color" | "nationAbbreviation">;
 

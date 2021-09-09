@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import Component from "../components/ChatCreateChannelDialog";
+import Component from "../components/Chat/ChatCreateChannelDialog";
 import { ChatCreateChannelDialogStub as Stub } from "../hooks/useChatCreateChannelDialog";
 
 export default {

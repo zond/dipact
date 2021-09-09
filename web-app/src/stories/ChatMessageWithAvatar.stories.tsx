@@ -3,8 +3,8 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import * as ChatMessageStories from "./ChatMessage.stories";
 import * as NationAvatarStories from "./NationAvatar.stories";
-import Component from "../components/ChatMessageWithAvatar";
-import ChatMessage from "../components/ChatMessage";
+import Component from "../components/Chat/ChatMessageWithAvatar";
+import ChatMessage from "../components/Chat/ChatMessage";
 import NationAvatar from "../components/NationAvatar";
 
 export default {

@@ -1,5 +1,218 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots components/ChatChannelPreview Default 1`] = `
+<button
+  style={
+    Object {
+      "background": "none",
+      "border": "none",
+      "display": "flex",
+      "width": "600px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-6 makeStyles-root-7"
+  >
+    <div>
+      <div
+        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-8 makeStyles-avatar-9"
+      >
+        <img
+          alt="England"
+          className="MuiAvatar-img"
+          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-8 makeStyles-avatar-10"
+      >
+        <img
+          alt="France"
+          className="MuiAvatar-img"
+          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+        />
+      </div>
+      <div
+        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-8 makeStyles-avatar-11"
+      >
+        <img
+          alt="Germany"
+          className="MuiAvatar-img"
+          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="makeStyles-messagePreviewContainer-1"
+  >
+    <p
+      className="MuiTypography-root makeStyles-messagePreviewTitle-2 MuiTypography-body1"
+    >
+      England, France, Germany (3)
+    </p>
+    <p
+      className="MuiTypography-root makeStyles-messagePreviewText-3 MuiTypography-body2"
+    >
+      <p
+        className="MuiTypography-root makeStyles-messagePreviewLabel-4 makeStyles-messagePreviewLabel-5 MuiTypography-body2"
+      >
+        England: 
+      </p>
+      Hello fellow players.
+    </p>
+  </div>
+</button>
+`;
+
+exports[`Storyshots components/ChatChannelPreview Messages Since 1`] = `
+<button
+  style={
+    Object {
+      "background": "none",
+      "border": "none",
+      "display": "flex",
+      "width": "600px",
+    }
+  }
+>
+  <span
+    className="MuiBadge-root"
+  >
+    <div
+      className="makeStyles-root-28 makeStyles-root-29"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-30 makeStyles-avatar-31"
+        >
+          <img
+            alt="England"
+            className="MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-30 makeStyles-avatar-32"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-30 makeStyles-avatar-33"
+        >
+          <img
+            alt="Germany"
+            className="MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+          />
+        </div>
+      </div>
+    </div>
+    <span
+      className="MuiBadge-badge MuiBadge-anchorOriginTopRightCircle MuiBadge-colorPrimary"
+    >
+      2
+    </span>
+  </span>
+  <div
+    className="makeStyles-messagePreviewContainer-23"
+  >
+    <p
+      className="MuiTypography-root makeStyles-messagePreviewTitle-24 MuiTypography-body1"
+    >
+      England, France, Germany (3)
+    </p>
+    <p
+      className="MuiTypography-root makeStyles-messagePreviewText-25 MuiTypography-body2"
+    >
+      <p
+        className="MuiTypography-root makeStyles-messagePreviewLabel-26 makeStyles-messagePreviewLabel-27 MuiTypography-body2"
+      >
+        You: 
+      </p>
+      Hello fellow players.
+    </p>
+  </div>
+</button>
+`;
+
+exports[`Storyshots components/ChatChannelPreview User Is Sender 1`] = `
+<button
+  style={
+    Object {
+      "background": "none",
+      "border": "none",
+      "display": "flex",
+      "width": "600px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-17 makeStyles-root-18"
+  >
+    <div>
+      <div
+        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-19 makeStyles-avatar-20"
+      >
+        <img
+          alt="England"
+          className="MuiAvatar-img"
+          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-19 makeStyles-avatar-21"
+      >
+        <img
+          alt="France"
+          className="MuiAvatar-img"
+          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+        />
+      </div>
+      <div
+        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-19 makeStyles-avatar-22"
+      >
+        <img
+          alt="Germany"
+          className="MuiAvatar-img"
+          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="makeStyles-messagePreviewContainer-12"
+  >
+    <p
+      className="MuiTypography-root makeStyles-messagePreviewTitle-13 MuiTypography-body1"
+    >
+      England, France, Germany (3)
+    </p>
+    <p
+      className="MuiTypography-root makeStyles-messagePreviewText-14 MuiTypography-body2"
+    >
+      <p
+        className="MuiTypography-root makeStyles-messagePreviewLabel-15 makeStyles-messagePreviewLabel-16 MuiTypography-body2"
+      >
+        You: 
+      </p>
+      Hello fellow players.
+    </p>
+  </div>
+</button>
+`;
+
 exports[`Storyshots components/ChatMessage Dark Color 1`] = `
 <div
   className="makeStyles-root-43 makeStyles-root-48"
@@ -174,6 +387,30 @@ exports[`Storyshots components/ChatMessage Not Self 1`] = `
 </div>
 `;
 
+exports[`Storyshots components/ChatMessage Selfish 1`] = `
+<div
+  className="makeStyles-root-42 makeStyles-root-51"
+>
+  <h6
+    className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+  >
+    
+     
+    England
+  </h6>
+  <p
+    className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+  >
+    Hello there. This is a message of medium length. Don't you agree?
+  </p>
+  <span
+    className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+  >
+    12:32:12 31/7/2021
+  </span>
+</div>
+`;
+
 exports[`Storyshots components/ChatMessage Short 1`] = `
 <div
   className="makeStyles-root-1 makeStyles-root-6"
@@ -200,6 +437,30 @@ exports[`Storyshots components/ChatMessage Short 1`] = `
       07:11:49 01/08/2021
     </span>
   </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Undelivered 1`] = `
+<div
+  className="makeStyles-root-42 makeStyles-root-49"
+>
+  <h6
+    className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+  >
+    
+     
+    England
+  </h6>
+  <p
+    className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+  >
+    Hello there. This is a message of medium length. Don't you agree?
+  </p>
+  <span
+    className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+  >
+    Sending...
+  </span>
 </div>
 `;
 
@@ -541,6 +802,335 @@ exports[`Storyshots components/ChatMessageInput Wide 1`] = `
     </span>
   </div>
 </div>
+`;
+
+exports[`Storyshots components/ChatMessageWithAvatar France 1`] = `
+<div
+  className="makeStyles-root-95 makeStyles-root-96"
+>
+  <div
+    className="makeStyles-root-42 makeStyles-root-97"
+  >
+    <h6
+      className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+    >
+      
+       
+      England
+    </h6>
+    <p
+      className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <span
+      className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+    >
+      12:32:12 31/7/2021
+    </span>
+  </div>
+  <div
+    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-98 makeStyles-avatar-99"
+  >
+    <img
+      alt="France"
+      className="MuiAvatar-img"
+      src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessageWithAvatar Selfish 1`] = `
+<div
+  className="makeStyles-root-100 makeStyles-root-101"
+>
+  <div
+    className="makeStyles-root-42 makeStyles-root-102"
+  >
+    <h6
+      className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+    >
+      
+       
+      England
+    </h6>
+    <p
+      className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+    >
+      Hello there. This is a message of medium length. Don't you agree?
+    </p>
+    <span
+      className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+    >
+      12:32:12 31/7/2021
+    </span>
+  </div>
+  <div
+    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-103 makeStyles-avatar-104"
+  >
+    <img
+      alt="France"
+      className="MuiAvatar-img"
+      src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessagesList Loading 1`] = `
+<div
+  className="makeStyles-root-69 makeStyles-root-70"
+>
+  <div
+    className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+    role="progressbar"
+    style={
+      Object {
+        "height": 40,
+        "width": 40,
+      }
+    }
+  >
+    <svg
+      className="MuiCircularProgress-svg"
+      viewBox="22 22 44 44"
+    >
+      <circle
+        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+        cx={44}
+        cy={44}
+        fill="none"
+        r={20.2}
+        strokeWidth={3.6}
+        style={Object {}}
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessagesList Multiple Messages 1`] = `
+Array [
+  <div
+    className="makeStyles-phaseDividerContainer-79"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorPrimary MuiTypography-displayBlock"
+    >
+      ------ Spring 1900, Movement ------
+    </h6>
+  </div>,
+  <div
+    className="makeStyles-root-80"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-displayBlock"
+    >
+      New messages
+    </h6>
+  </div>,
+  <div
+    className="makeStyles-root-81 makeStyles-root-82"
+  >
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-84"
+      onClick={[Function]}
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="makeStyles-root-42 makeStyles-root-85"
+    >
+      <h6
+        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      >
+        
+         
+        England
+      </h6>
+      <p
+        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      >
+        Hello there. This is a message of medium length. Don't you agree?
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      >
+        12:32:12 31/7/2021
+      </span>
+    </div>
+  </div>,
+  <div
+    className="makeStyles-root-81 makeStyles-root-86"
+  >
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-87"
+      onClick={[Function]}
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="makeStyles-root-42 makeStyles-root-88"
+    >
+      <h6
+        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      >
+        
+         
+        England
+      </h6>
+      <p
+        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      >
+        Short message
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      >
+        12:32:12 31/7/2021
+      </span>
+    </div>
+  </div>,
+  <div
+    className="makeStyles-root-81 makeStyles-root-89"
+  >
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-90"
+      onClick={[Function]}
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="makeStyles-root-42 makeStyles-root-91"
+    >
+      <h6
+        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      >
+        
+         
+        England
+      </h6>
+      <p
+        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      >
+        Hello there. This is a message of medium length. Don't you agree?
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      >
+        12:32:12 31/7/2021
+      </span>
+    </div>
+  </div>,
+  <div
+    className="makeStyles-root-81 makeStyles-root-92"
+  >
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-93"
+      onClick={[Function]}
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="makeStyles-root-42 makeStyles-root-94"
+    >
+      <h6
+        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      >
+        
+         
+        England
+      </h6>
+      <p
+        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      >
+        Hello there. This is a message of medium length. Don't you agree?
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      >
+        Sending...
+      </span>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots components/ChatMessagesList No Messages 1`] = `null`;
+
+exports[`Storyshots components/ChatMessagesList One Message 1`] = `
+Array [
+  <div
+    className="makeStyles-phaseDividerContainer-72"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorPrimary MuiTypography-displayBlock"
+    >
+      ------ Spring 1900, Movement ------
+    </h6>
+  </div>,
+  <div
+    className="makeStyles-root-73"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-displayBlock"
+    >
+      New messages
+    </h6>
+  </div>,
+  <div
+    className="makeStyles-root-74 makeStyles-root-75"
+  >
+    <div
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-76 makeStyles-avatar-77"
+      onClick={[Function]}
+    >
+      <img
+        alt="England"
+        className="MuiAvatar-img"
+        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+      />
+    </div>
+    <div
+      className="makeStyles-root-42 makeStyles-root-78"
+    >
+      <h6
+        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      >
+        
+         
+        England
+      </h6>
+      <p
+        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      >
+        Hello there. This is a message of medium length. Don't you agree?
+      </p>
+      <span
+        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      >
+        12:32:12 31/7/2021
+      </span>
+    </div>
+  </div>,
+]
 `;
 
 exports[`Storyshots components/ChatNewMessagesBanner Default 1`] = `

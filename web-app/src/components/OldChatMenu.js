@@ -17,7 +17,7 @@ import CreateChannelDialog from "./CreateChannelDialog";
 import ChatChannel from "./ChatChannel";
 import NationAvatarGroup from "./NationAvatarGroup";
 import { generatePath, withRouter } from 'react-router-dom';
-import { RouteConfig } from '../pages/Router';
+import { RouteConfig } from "../pages/RouteConfig";
 import NationAvatar from "./NationAvatar";
 
 class ChatMenu extends React.Component {

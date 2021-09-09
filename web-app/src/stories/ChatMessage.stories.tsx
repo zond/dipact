@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component from "../components/ChatMessage";
+import Component from "../components/Chat/ChatMessage";
 import { Message } from "../hooks/useChatMessagesList";
 import { Phase } from "../store/types";
 import { phase } from "../store/testData";
@@ -29,9 +29,11 @@ const defaultMessage: Message = {
   Age: 1,
   phase: { ...defaultPhase },
   undelivered: false,
-  color: "#000000",
+  color: "#80DEEA",
   variant: "Classical",
   selfish: false,
+  nationAbbreviation: "Eng",
+  link: "https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg",
 }
 
 const defaultArgs = {
@@ -61,12 +63,13 @@ Long.args = {
     Body: "This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
   }
 };
-export const UnDelivered = Template.bind({});
-UnDelivered.args = {
+export const Undelivered = Template.bind({});
+Undelivered.args = {
   ...defaultArgs,
   message: { 
     ...defaultMessage,
     undelivered: true,
+    selfish: true,
   },
 };
 
@@ -89,51 +92,3 @@ Selfish.args = {
 };
 
 // Long.decorators = [getChatMessageStubDecorator({ color: "#000000"})];
-
-// export const NoName = Template.bind({});
-// NoName.args = {
-//   ...defaultArgs,
-//   name: "",
-// };
-
-// export const NotSelf = Template.bind({});
-// NotSelf.args = {
-//   ...defaultArgs,
-//   selfish: false,
-//   nation: "Germany",
-// };
-
-
-
-
-// type NationAvatarProps = React.ComponentProps<typeof NationAvatar>
-// const FranceAvatarArgs = AvatarStories.France.args as NationAvatarProps;
-// const OttoAvatarArgs = AvatarStories.France.args as NationAvatarProps;
-
-// export const WithAvatarFrance = Template.bind({});
-// WithAvatarFrance.args = {
-//   ...defaultArgs,
-//   avatar: <AvatarStories.France {...FranceAvatarArgs} />
-// };
-
-// export const WithAvatarFranceOther = Template.bind({});
-// WithAvatarFranceOther.args = {
-//   ...defaultArgs,
-//   selfish: false,
-//   avatar: <AvatarStories.France {...FranceAvatarArgs} />
-// };
-
-// export const WithAvatarOtto = Template.bind({});
-// WithAvatarOtto.args = {
-//   ...defaultArgs,
-//   selfish: false,
-//   avatar: <AvatarStories.Otto {...OttoAvatarArgs} />
-// };
-
-// export const Username = Template.bind({});
-// Username.args = {
-//   ...defaultArgs,
-//   name: "Diplicity",
-//   selfish: false,
-//   nation: "",
-// };

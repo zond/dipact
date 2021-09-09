@@ -26,10 +26,10 @@ import {
 	Switch,
 } from "@material-ui/core";
 import { generatePath, withRouter } from "react-router-dom";
-import { RouteConfig } from "../pages/Router";
+import { RouteConfig } from "../pages/RouteConfig";
 
 import DipMap from "./DipMap";
-import ChatMenu from "./ChatMenu";
+import { ChatMenu } from "./Chat";
 
 import {
 	ChatIcon,
@@ -1189,7 +1189,7 @@ class Game extends React.Component {
 								  }
 						}
 					>
-						<DipMap
+						{/* <DipMap
 							parentCB={(c) => {
 								this.dip_map = c;
 							}}
@@ -1205,7 +1205,7 @@ class Game extends React.Component {
 							phase={this.state.activePhase}
 							corroborateSubscriber={this.receiveCorroboration}
 							variant={this.state.variant}
-						/>
+						/> */}
 					</div>
 					<React.Fragment>
 						<div

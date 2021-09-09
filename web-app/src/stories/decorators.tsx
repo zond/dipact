@@ -1,12 +1,11 @@
 import { StoryFnReactReturnType } from "@storybook/react/dist/ts3.9/client/preview/types";
 
-import { IUseChatMessage } from "../hooks/useChatMessage";
-import { ChatMessageStub } from "../hooks/useChatMessage";
+import { IUseChatMessagesList, ChatMessagesListStub } from "../hooks/useChatMessagesList";
 
-export const getChatMessageStubDecorator = (values: IUseChatMessage) => {
+export const getChatMessagesListDecorator = (values: IUseChatMessagesList) => {
   return (Story: () => StoryFnReactReturnType) => (
-    <ChatMessageStub.Provider value={() => values}>
+    <ChatMessagesListStub.Provider value={() => values}>
       <Story />
-    </ChatMessageStub.Provider>
+    </ChatMessagesListStub.Provider>
   );
 };

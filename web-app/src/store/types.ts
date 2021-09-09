@@ -228,10 +228,12 @@ type ApiResponse = {
   Links: Link[] | null;
 };
 
+export type Root = {
+  User: User | null;
+}
+
 export type RootResponse = ApiResponse & {
-  Properties: {
-    User: User | null;
-  };
+  Properties: Root;
 };
 
 export type BanResponse = ApiResponse & {
@@ -479,7 +481,7 @@ export type Channel = {
  Members: string[],
  NMessages: number,
  LatestMessage: Message,
- NMessagesSince: {
+ NMessagesSince?: {
    Since: string,
    NMessages: number,
  },

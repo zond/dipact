@@ -29,7 +29,7 @@ import FindGameDialog from "./FindGameDialog";
 import Start from "./Start";
 import GameList from "./GameList";
 import { withStatsDialog } from "./StatsDialogWrapper";
-import { RouteConfig } from "../pages/Router";
+import { RouteConfig } from "../pages/RouteConfig";
 
 class MainMenu extends ActivityContainer {
 	constructor(props) {

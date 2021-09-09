@@ -205,11 +205,13 @@ class GameResults extends React.Component {
 											  )
 											: null;
 
-    									const { muted } = helpers.getNationAvatarProps(score.Member, this.props.variant, this.props.gameState);
+    									const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(score.Member, this.props.variant, this.props.gameState);
 										const avatar = (
 											<NationAvatar
 												nation={score.Member}
-												variant={this.props.variant.Name}
+												color={color}
+												link={link}
+												nationAbbreviation={nationAbbreviation}
 											/>)
 										const wrappedAvatar = muted ? withMuted(avatar) : avatar;
 

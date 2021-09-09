@@ -361,7 +361,7 @@ export default class OrderList extends React.Component {
 												}}
 											>
 												{" "}
-												<NationAvatar
+												{/* <NationAvatar
 													nation={nation}
 													variant={this.props.variant.Name}
 													style={{
@@ -370,7 +370,7 @@ export default class OrderList extends React.Component {
 															this.props.variant
 														)}`,
 													}}
-												/>
+												/> */}
 												<span
 													style={{
 														lineHeight: "1.2em",

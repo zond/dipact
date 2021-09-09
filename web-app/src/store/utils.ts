@@ -1,5 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import {
+	Channel,
+	ChannelResponse,
 	// FCMToken,
 	// Messaging,
 	Variant,
@@ -70,6 +72,21 @@ export const sortVariantResponse = (
 		if (variantA.Name === "Classical") return -1;
 		if (variantB.Name === "Classical") return 1;
 		return variantA.Name > variantB.Name ? 1 : -1;
+	});
+};
+
+// TODO test
+// Order the by latest message created date.
+export const sortListChannels = (
+	channels: Channel[],
+): Channel[] => {
+	return [...channels].sort((channelA, channelB) => {
+		if (channelA.LatestMessage) {
+			const d1 = Date.parse(channelA.LatestMessage.CreatedAt);
+			const d2 = Date.parse(channelB.LatestMessage.CreatedAt);
+			return d1 > d2 ? -1 : d2 > d1 ? 1 : 0;
+		}
+		return 0;
 	});
 };
 

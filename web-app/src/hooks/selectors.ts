@@ -1,7 +1,7 @@
 import { feedbackSelectors } from "../store/feedback";
 import * as selectors from "../store/selectors";
 import { RootState } from "../store/store";
-import { ColorOverrides, Feedback, Messaging, MutationStatus, User, Variant } from "../store/types";
+import { Channel, ColorOverrides, Feedback, Messaging, MutationStatus, User, Variant } from "../store/types";
 
 import { useAppSelector } from "./store";
 
@@ -37,3 +37,6 @@ export const useSelectNationAbbreviation = (variant: string, nation: string): st
 
 export const useSelectNationFlagLink = (variant: string, nation: string): string | undefined =>
 	useAppSelector((state: RootState) => selectors.selectNationFlagLink(state, variant, nation));
+
+export const useSelectChannel = (gameId: string, channelId: string): Channel | null =>
+	useAppSelector((state: RootState) => selectors.selectChannel(state, gameId, channelId));

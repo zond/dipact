@@ -6,6 +6,9 @@ import {
 	Middleware,
 	Reducer,
 } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import { diplicityService } from "./service";
+import authReducer from "./auth";
 
 export function setupApiStore<
 	A extends {
@@ -53,4 +56,13 @@ export function setupApiStore<
 	refObj.store = store;
 
 	return refObj;
+}
+
+interface ReduxWrapperProps {
+	children: React.ReactNode,
+}
+
+export const ReduxWrapper = ({ children }: ReduxWrapperProps) => {
+	const storeRef = setupApiStore(diplicityService, { auth: authReducer });
+	return <Provider store={storeRef.store}>{children}</Provider>;
 }

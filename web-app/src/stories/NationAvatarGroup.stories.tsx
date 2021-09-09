@@ -2,7 +2,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import * as AvatarStories from "./NationAvatar.stories";
-import { NationAvatar } from "../components/NationAvatar";
+import NationAvatar from "../components/NationAvatar";
 import Component from "../components/NationAvatarGroup";
 
 export default {

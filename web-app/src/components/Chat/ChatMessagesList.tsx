@@ -3,15 +3,13 @@ import React from "react";
 import ChatMessage from "./ChatMessage";
 import ChatNewMessagesBanner from "./ChatNewMessagesBanner";
 import ChatPhaseDivider from "./ChatPhaseDivider";
-import NationAvatar, { withMuted } from "./NationAvatar";
-import useChatMessagesList from "../hooks/useChatMessagesList";
-import { getPhaseName } from "../utils/general";
-import Loading from "./Loading";
+import NationAvatar, { withMuted } from "../NationAvatar";
+import { getPhaseName } from "../../utils/general";
 import ChatMessageWithAvatar from "./ChatMessageWithAvatar";
+import { Message } from "../../hooks/types";
 
 interface ChatMessagesListProps {
-  gameId: string;
-  channelId: string;
+  messages: Message[];
   newAfter: number;
 }
 
@@ -24,14 +22,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChatMessagesList = ({
-  gameId,
-  channelId,
+  messages,
   newAfter,
 }: ChatMessagesListProps): React.ReactElement => {
   const classes = useStyles();
-  const { isLoading, messages } = useChatMessagesList()(gameId, channelId);
-
-  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -44,6 +38,7 @@ const ChatMessagesList = ({
           color,
           nationAbbreviation,
           link,
+          selfish,
         } = message;
 
         // TODO
@@ -81,7 +76,7 @@ const ChatMessagesList = ({
               </div>
             )}
             {isNewMessage && <ChatNewMessagesBanner />}
-            <ChatMessageWithAvatar selfish={false}>
+            <ChatMessageWithAvatar selfish={selfish}>
               {wrappedAvatar}
               <ChatMessage key={ID} message={message} avatar={wrappedAvatar} />
             </ChatMessageWithAvatar>

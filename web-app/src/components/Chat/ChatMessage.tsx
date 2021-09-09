@@ -1,9 +1,9 @@
 import React from "react";
-import * as helpers from "../helpers";
+import * as helpers from "../../helpers";
 
 import { makeStyles, Theme, Typography } from "@material-ui/core";
 import { alpha } from "@material-ui/core/styles";
-import { Message } from "../hooks/useChatMessagesList";
+import { Message } from "../../hooks/useChatMessagesList";
 
 interface StyleProps {
   selfish: boolean;

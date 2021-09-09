@@ -2,6 +2,7 @@ import $ from "jquery";
 import Messaging from "./static/js/messaging";
 
 import { dippyMap } from "./static/js/dippymap";
+import { User } from "./store/types";
 
 // eslint-disable-next-line no-restricted-globals
 const hrefURL = new URL(location.href);
@@ -14,8 +15,17 @@ if (fakeID) {
 	serverURL.searchParams.set("fake-id", fakeID);
 }
 
+interface IGlobals {
+	user: User | null,
+	[key: string]: any
+}
+
+declare global {
+    interface Window { Globals: IGlobals; }
+}
+
 window.Globals = {
-	serverRequest: new Request(serverURL, {
+	serverRequest: new Request(serverURL.toString(), {
 		headers: {
 			"X-Diplicity-API-Level": "8",
 			Accept: "application/json",
@@ -23,8 +33,8 @@ window.Globals = {
 		},
 		mode: "cors",
 	}),
-	user: {},
-	onNewForumMail: (fm) => {
+	user: null,
+	onNewForumMail: (fm: any) => {
 		window.Globals.latestForumMail = fm;
 	},
 	latestForumMail: null,

@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component from "../components/ChatMessageInput";
+import Component from "../components/Chat/ChatMessageInput";
 
 export default {
   title: "components/ChatMessageInput",

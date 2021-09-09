@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component from "../components/ChatPhaseDivider";
+import Component from "../components/Chat/ChatPhaseDivider";
 
 export default {
   title: "components/ChatPhaseDivider",

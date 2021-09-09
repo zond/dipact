@@ -10,9 +10,9 @@ import {
   FormGroup,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import * as helpers from "../helpers";
-import useRegisterPageView from "../hooks/useRegisterPageview";
-import useGetHook from "../hooks/useChatCreateChannelDialog";
+import * as helpers from "../../helpers";
+import useRegisterPageView from "../../hooks/useRegisterPageview";
+import useGetHook from "../../hooks/useChatCreateChannelDialog";
 
 interface ChatCreateChannelDialogProps {
   open: boolean;

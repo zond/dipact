@@ -2,28 +2,23 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { Game, Message as StoreMessage, Phase, Variant } from "../store/types";
 import { getNationAbbreviation, getNationColor, getNationFlagLink } from "../utils/general";
-import { useSelectVariant } from "./selectors";
+import { useSelectChannel, useSelectVariant } from "./selectors";
 import {
   useGetGameQuery,
+  useGetRootQuery,
+  useListChannelsQuery,
   useListMessagesQuery,
   useListPhasesQuery,
 } from "./service";
+import { Message, Channel } from './types';
+import { getChannel } from "./utils";
 
-export interface IUseChatMessagesList {
+export interface IUseChatChannel {
   isError: boolean;
   isLoading: boolean;
   messages: Message[];
+  channel: Channel | null;
 }
-
-export type Message = StoreMessage & {
-  phase: Phase;
-  undelivered: boolean;
-  color: string;
-  variant: string;
-  selfish: boolean;
-  nationAbbreviation: string;
-  link: string | undefined;
-};
 
 const asDate = (dateString: string) =>
   new Date(Date.parse(dateString)).getTime();
@@ -58,16 +53,27 @@ const enhanceMessage = (
   };
 };
 
-const useChatMessagesList = (
+const useChatChannel = (
   gameId: string,
   channelId: string
-): IUseChatMessagesList => {
+): IUseChatChannel => {
   const {
     data: phases,
     isLoading: phasesIsLoading,
     isError: phasesIsError,
     isSuccess: phasesIsSuccess,
   } = useListPhasesQuery(gameId);
+  const {
+    data: user,
+    isLoading: userIsLoading,
+    isError: userIsError,
+    isSuccess: userIsSuccess,
+  } = useGetRootQuery(undefined);
+  const {
+    isLoading: channelsIsLoading,
+    isError: channelsIsError,
+    isSuccess: channelsIsSuccess,
+  } = useListChannelsQuery(gameId);
   const {
     data: messages,
     isLoading: messagesIsLoading,
@@ -80,13 +86,22 @@ const useChatMessagesList = (
     isError: gameIsError,
     isSuccess: gameIsSuccess,
   } = useGetGameQuery(gameId);
+  const [channel, setChannel] = useState<Channel | null>(null);
   const variant = useSelectVariant(game?.Variant || "");
 
   const [enhancedMessages, setEnhancedMessages] = useState<Message[]>([]);
 
-  const isLoading = phasesIsLoading || messagesIsLoading || gameIsLoading;
+  const storeChannel = useSelectChannel(gameId, channelId);
+
+  const isLoading = phasesIsLoading || messagesIsLoading || gameIsLoading || channelsIsLoading || userIsLoading;
   const isError = phasesIsError || messagesIsError || gameIsError;
   const isSuccess = phasesIsSuccess || messagesIsSuccess || gameIsSuccess;
+
+  useEffect(() => {
+    if (game && variant && storeChannel && user) {
+      setChannel(getChannel(storeChannel, variant, game, user));
+    }
+  }, [game, variant, storeChannel, user]);
 
   useEffect(() => {
     if (isSuccess && messages && phases && game && variant) {
@@ -102,21 +117,22 @@ const useChatMessagesList = (
     isError,
     isLoading,
     messages: enhancedMessages,
+    channel,
   };
 };
 
-export const ChatMessagesListStub = createContext<
-  null | typeof useChatMessagesList
+export const ChatChannelStub = createContext<
+  null | typeof useChatChannel
 >(null);
 
 const useGetHook = (): ((
   gameId: string,
-  chatChannelId: string
-) => IUseChatMessagesList) => {
-  const mockUseChatMessagesList = useContext(ChatMessagesListStub);
-  return mockUseChatMessagesList
-    ? mockUseChatMessagesList
-    : useChatMessagesList;
+  channelId: string
+) => IUseChatChannel) => {
+  const mockUseChatChannel = useContext(ChatChannelStub);
+  return mockUseChatChannel
+    ? mockUseChatChannel
+    : useChatChannel;
 };
 
 export default useGetHook;

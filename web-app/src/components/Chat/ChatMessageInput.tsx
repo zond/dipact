@@ -1,6 +1,6 @@
 import { IconButton, TextField, Typography, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
-import { SendMessageIcon } from "../icons";
+import { SendMessageIcon } from "../../icons";
 
 interface ChatMessageInputProps {
   onSendMessage: (message: string) => void;

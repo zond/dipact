@@ -1,39 +1,24 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import Component from "../components/ChatMessagesList";
-import { ChatMessagesListStub as Stub, EnhancedMessage } from "../hooks/useChatMessagesList";
+import Component from "../components/Chat/ChatMessagesList";
+import * as ChatMessageStories from "./ChatMessage.stories";
+import { getChatMessagesListDecorator } from "./decorators";
+import { Message } from "../hooks/useChatMessagesList";
 
 export default {
   title: "components/ChatMessagesList",
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-type StubbedComponentProps = Parameters<typeof Component>[0] & {
-  Context: React.Context<any>;
-  stubbedValues: any;
-};
-
-const StubbedComponent = ({
-  Context,
-  stubbedValues,
-  ...args
-}: StubbedComponentProps) => {
-  return (
-    <Stub.Provider value={() => stubbedValues}>
-      <Component {...args} />
-    </Stub.Provider>
-  );
-};
-
-const Template: ComponentStory<typeof StubbedComponent> = (args) => {
-  return <StubbedComponent {...args} />;
+const Template: ComponentStory<typeof Component> = (args) => {
+  return <Component {...args} />;
 };
 
 const defaultStubbedValues = {
+  isError: false,
   isLoading: false,
   messages: [],
-  variant: "Classical",
 };
 
 const defaultArgs = {
@@ -45,34 +30,44 @@ const defaultArgs = {
   },
 };
 
-const message: EnhancedMessage = {
-    ID: "1",
-    GameID: "1234",
-    ChannelMembers: ["France", "England"],
-    Sender: "France",
-    Body: "Hello there. This is a message of medium length. Don't you agree?",
-    time: "07:11:49 01/08/2021",
-    phase: {
-        Season: "Spring",
-        Type: "Movement",
-        Year: 1901,
-    },
-    undelivered: false,
-}
-
 export const Loading = Template.bind({});
+Loading.args = { ...defaultArgs };
+Loading.decorators = [getChatMessagesListDecorator({
+    ...defaultStubbedValues,
+    isLoading: true,
+})];
 
 export const NoMessages = Template.bind({});
+NoMessages.args = {
+  ...defaultArgs,
+}
+NoMessages.decorators = [getChatMessagesListDecorator({
+    ...defaultStubbedValues,
+})];
 
 export const OneMessage = Template.bind({});
-OneMessage.args = {
-  ...defaultArgs,
-  stubbedValues: {
+OneMessage.args = { ...defaultArgs };
+OneMessage.decorators = [getChatMessagesListDecorator({
     ...defaultStubbedValues,
-    messages: [message]
-  }
-};
+    messages: [
+      ChatMessageStories.Medium.args?.message as Message,
+    ]
+})];
 
 export const MultipleMessages = Template.bind({});
+MultipleMessages.args = { ...defaultArgs };
+MultipleMessages.decorators = [getChatMessagesListDecorator({
+    ...defaultStubbedValues,
+    messages: [
+      { ...ChatMessageStories.Medium.args?.message as Message, ID: "234" },
+      { ...ChatMessageStories.Short.args?.message as Message, ID: "345" },
+      { ...ChatMessageStories.Selfish.args?.message as Message, ID: "456" },
+      { ...ChatMessageStories.Undelivered.args?.message as Message, ID: "567" },
+    ]
+})];
 
-export const UndeliveredMessage = Template.bind({});
+// export const MultiplePhases = Template.bind({});
+
+// export const NewMessages = Template.bind({});
+
+// export const UndeliveredMessage = Template.bind({});
