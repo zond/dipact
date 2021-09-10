@@ -18,7 +18,8 @@ import {
 	SkipNextIcon,
 	WarningIcon,
 } from "../icons";
-import ColdWarPath from "../static/img/coldwar.png";
+//import ColdWarPath from "../static/img/coldwar.png";
+import colorModePath from "../static/img/colourmode.png";
 
 export default class NewsDialog extends React.Component {
 	constructor(props) {
@@ -28,28 +29,65 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
-					header: "2021/9/6: Release update",
-					subheader: "A new North Sea Wars map",
+					header: "New feature: Coloured provinces",
+					subheader: "Really see you've conquered the map",
 					icon: false,
 					content: (
 						<React.Fragment>
-							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px"}}>
-								New map: North Sea Wars
+							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
+								Beta feature: Coloured provinces
 							</Typography>
-							<Typography variant="body2" style={{ margin: "0px 0px 16px 0px" }}>
-								In line with updating all maps to a newer look,
-								we released a new version of the North Sea Wars
-								map. It's not a new variant, but a reskin:
+							<Typography
+								variant="body2"
+								style={{ margin: "0px 0px 16px 0px" }}
+							>
+								Provinces without SC can now be coloured,
+								connecting the SCs you've conquered. <br />
+								It's aesthetics and doesn't
+								affect the gameplay.
 								<br />
-								<img src="https://diplicity-engine.appspot.com/Variant/North%20Sea%20Wars/Map.svg" style={{maxWidth: "400px"}} />
+								While in Beta, this setting is device-specific.
+								<br /><br />
+								Below is the effect off (left) or on (right).
+								<img
+									src={colorModePath}
+									style={{ width: "100%", maxWidth: "400px" }}
+								/>
 								<br />
-								This might be a nice opportunity to start a new
-								game on this map!
+								We always look for feedback in the <a href="https://discord.com/invite/bu3JxYc" target="_blank">Chat</a> or <a href="https://groups.google.com/g/diplicity-talk" target="_blank">Forum</a>.
 							</Typography>
 						</React.Fragment>
 					),
 				},
-				],
+				{
+					header: "New North Sea Wars map",
+					subheader: "Redesign of the variant",
+					icon: false,
+					content: (
+						<React.Fragment>
+							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
+								New map: North Sea Wars
+							</Typography>
+							<Typography
+								variant="body2"
+								style={{ margin: "0px 0px 16px 0px" }}
+							>
+								In line with updating all maps to a newer look, we released a
+								new version of the North Sea Wars map. It's not a new variant,
+								but a reskin:
+								<br />
+								<img
+									src="https://diplicity-engine.appspot.com/Variant/North%20Sea%20Wars/Map.svg"
+									style={{ maxWidth: "400px" }}
+								/>
+								<br />
+								This might be a nice opportunity to start a new game on this
+								map!
+							</Typography>
+						</React.Fragment>
+					),
+				},
+			],
 		};
 		this.setForumMail = this.setForumMail.bind(this);
 		this.close = this.close.bind(this);
@@ -59,7 +97,7 @@ export default class NewsDialog extends React.Component {
 	setForumMail(fm) {
 		this.setState((state, props) => {
 			state = Object.assign({}, state);
-			state.newsItems.splice(1, 0, {
+			state.newsItems.push({
 				header: <span>New Forum Post:</span>,
 				subheader: <span>{fm.Properties.Subject}</span>,
 				content: (
@@ -68,11 +106,11 @@ export default class NewsDialog extends React.Component {
 							Latest forum post
 						</Typography>
 						<pre style={{ whiteSpace: "pre-wrap" }}>
-						<Typography variant="body2">
-							{fm.Properties.Subject}
-							{"\n\n"}
-							{fm.Properties.Body}
-						</Typography>
+							<Typography variant="body2">
+								{fm.Properties.Subject}
+								{"\n\n"}
+								{fm.Properties.Body}
+							</Typography>
 						</pre>
 						<Typography variant="body2" style={{ margin: "0px 0px 12px 0px" }}>
 							<a
@@ -92,8 +130,7 @@ export default class NewsDialog extends React.Component {
 	ff(ev) {
 		if (ev) ev.stopPropagation();
 		this.setState({
-			activeItem:
-				(this.state.activeItem + 1) % this.state.newsItems.length,
+			activeItem: (this.state.activeItem + 1) % this.state.newsItems.length,
 		});
 	}
 	componentDidMount() {
@@ -138,10 +175,7 @@ export default class NewsDialog extends React.Component {
 							>
 								<CloseIcon />
 							</IconButton>
-							<Typography
-								variant="h6"
-								style={{ paddingLeft: "16px" }}
-							>
+							<Typography variant="h6" style={{ paddingLeft: "16px" }}>
 								News
 							</Typography>
 						</Toolbar>
@@ -165,17 +199,14 @@ export default class NewsDialog extends React.Component {
 								return (
 									<React.Fragment key={idx}>
 										{item.content}
-										<Divider
-											style={{ margin: "16px 0 12px 0" }}
-										/>
+										<Divider style={{ margin: "16px 0 12px 0" }} />
 									</React.Fragment>
 								);
 							})}
 						</div>
 						<div
 							style={{
-								backgroundImage:
-									"url('../static/img/soldiers.svg'",
+								backgroundImage: "url('../static/img/soldiers.svg'",
 								height: "72px",
 								top: "auto",
 								bottom: "0px",
@@ -186,7 +217,13 @@ export default class NewsDialog extends React.Component {
 			);
 		} else {
 			return (
-				<div style={{ height: "52px", margin: "0px auto 6px auto", maxWidth: "940px" }}>
+				<div
+					style={{
+						height: "52px",
+						margin: "0px auto 6px auto",
+						maxWidth: "940px",
+					}}
+				>
 					<div
 						style={{
 							borderRadius: "3px",
@@ -194,18 +231,15 @@ export default class NewsDialog extends React.Component {
 							alignItems: "flex-start",
 							padding: "6px 8px",
 							margin: "8px 16px 0px 16px",
-							backgroundColor: this.state.newsItems[
-								this.state.activeItem
-							].background
+							backgroundColor: this.state.newsItems[this.state.activeItem]
+								.background
 								? null
 								: "rgb(255, 244, 229)",
 							backgroundSize: "cover",
-							backgroundImage: this.state.newsItems[
-								this.state.activeItem
-							].background
+							backgroundImage: this.state.newsItems[this.state.activeItem]
+								.background
 								? "url(" +
-								  this.state.newsItems[this.state.activeItem]
-										.background +
+								  this.state.newsItems[this.state.activeItem].background +
 								  ")"
 								: null,
 						}}
@@ -213,7 +247,6 @@ export default class NewsDialog extends React.Component {
 							this.setState({ open: true });
 						}}
 					>
-						
 						<div style={{ width: "calc(100% - 48px)" }}>
 							<Typography
 								variant="body1"
@@ -224,10 +257,7 @@ export default class NewsDialog extends React.Component {
 								textoverflow="ellipsis"
 								noWrap
 							>
-								{
-									this.state.newsItems[this.state.activeItem]
-										.header
-								}
+								{this.state.newsItems[this.state.activeItem].header}
 							</Typography>
 
 							<Typography
@@ -236,10 +266,7 @@ export default class NewsDialog extends React.Component {
 								textoverflow="ellipsis"
 								noWrap
 							>
-								{
-									this.state.newsItems[this.state.activeItem]
-										.subheader
-								}
+								{this.state.newsItems[this.state.activeItem].subheader}
 							</Typography>
 						</div>
 					</div>

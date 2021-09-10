@@ -679,10 +679,12 @@ export default class DipMap extends React.Component {
 				}
 			}
 
+
+
 			//Don't do any map colouring if feature is turned off.
 			console.log(JSON.stringify(localStorage.getItem("colourNonSCs")));
 
-			if (JSON.parse(localStorage.getItem('colourNonSCs')) === true) {
+			if (JSON.parse(localStorage.getItem("colourNonSCs")) === true) {
 				//Here we check each non-SC and non-Sea territory. If all surrounding SCs are of the same power and none is "Neutral", colour them that power.
 				//Get all nodes, disqualify Sea and SC, and per node collect the edges in an array.
 
@@ -700,13 +702,18 @@ export default class DipMap extends React.Component {
 						}
 
 						// check if all members of array are equal/not neutral.
-						const firstProv = borderProvs[0];
-						let shouldDraw = !borderProvs.every((prov) => prov !== firstProv || prov === "Neutral");
+						const compareProv = borderProvs.find(element => element !== undefined);
+
+						let shouldDraw = borderProvs.every(
+							(prov) => prov === compareProv || prov === "Neutral"
+						);
+
 
 						const countNeutral = borderProvs.filter(
-							(prov) => prov === "undefined"
+							(prov) => prov === undefined
 						).length;
-						if (countNeutral === borderProvs.length) {
+
+						if (countNeutral === borderProvs.length || countNeutral > 0) {
 							shouldDraw = false;
 						}
 
@@ -715,9 +722,9 @@ export default class DipMap extends React.Component {
 							const col = helpers.natCol(borderProvs[0], this.state.variant);
 							this.map.colorProvince(prov, col);
 						}
-
 						//if by the default rule we don't draw it, check if "special" rules apply.
 						else {
+
 							//Need to escape if starting provinces have not been defined
 							if (this.props.variant.Properties.ExtraDominanceRules != null) {
 								//if prov is startingprovince
@@ -750,6 +757,7 @@ export default class DipMap extends React.Component {
 											break;
 										}
 									}
+
 
 									//Check if we should STILL draw it or not.
 									if (shouldEventuallyDraw) {

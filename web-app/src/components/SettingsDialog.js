@@ -77,7 +77,6 @@ class SettingsDialog extends React.Component {
 
 	handleChangeColourNonSCs(e) {
 		const value = e.currentTarget.checked;
-		console.log(value);
 		localStorage.setItem("colourNonSCs", value.toString());
 		this.setState({ colourNonSCs: value });
 	}
