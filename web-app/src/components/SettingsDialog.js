@@ -61,7 +61,7 @@ class SettingsDialog extends React.Component {
 			userConfig: Globals.userConfig,
 			newColorOverrideVariant: "Classical",
 			resetSettingsChecked: false,
-			colourNonSCs: true,
+			colourNonSCs: false,
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -138,9 +138,7 @@ class SettingsDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		const colourNonSCs = localStorage.getItem("colourNonSCs");
-
-
-		if (colourNonSCs !== null && colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
+		if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
 			this.setState({ colourNonSCs: true })
 		}
 		if (
