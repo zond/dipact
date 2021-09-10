@@ -137,6 +137,7 @@ class SettingsDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (localStorage.getItem("colourNonSCs") !== null) {
 		const colourNonSCs = localStorage.getItem("colourNonSCs");
 		if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
 			this.setState({ colourNonSCs: true })
@@ -153,6 +154,7 @@ class SettingsDialog extends React.Component {
 				page_location: location.href,
 			});
 			gtag("event", "page_view");
+		}
 		}
 	}
 	saveConfig() {
