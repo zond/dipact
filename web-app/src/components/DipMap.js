@@ -684,7 +684,7 @@ export default class DipMap extends React.Component {
 			//Don't do any map colouring if feature is turned off.
 			console.log(JSON.stringify(localStorage.getItem("colourNonSCs")));
 
-			if (JSON.parse(localStorage.getItem("colourNonSCs")) === true) {
+			if (JSON.parse(localStorage.getItem("colourNonSCs")) === true || JSON.parse(localStorage.getItem("colourNonSCs")) === null) {
 				//Here we check each non-SC and non-Sea territory. If all surrounding SCs are of the same power and none is "Neutral", colour them that power.
 				//Get all nodes, disqualify Sea and SC, and per node collect the edges in an array.
 
