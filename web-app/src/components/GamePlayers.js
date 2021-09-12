@@ -1,28 +1,41 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
-import gtag from 'ga-gtag';
-import { Button, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, Typography, FormControlLabel } from "@material-ui/core";
+import React from "react";
+import * as helpers from "../helpers";
+import gtag from "ga-gtag";
+import {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	Button,
+	Checkbox,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+	Typography,
+	FormControlLabel,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-import UserAvatar from './UserAvatar';
-import GameMetadata from './GameMetadata';
-import Globals from '../Globals';
+import { ExpandIcon, SendMessageIcon } from "../icons";
+import UserAvatar from "./UserAvatar";
+import GameMetadata from "./GameMetadata";
+import Globals from "../Globals";
 
 const styles = (theme) => ({
-  dialogActions: {
-    backgroundColor: "white",
-    position: "sticky",
-    bottom: "-8px",
-  },
-  valignClass: {
-	display: 'flex',
-	alignItems: 'center',
-  },
-  paper: {
-    margin: "2px",
-    width: "100%",
-  },
+	dialogActions: {
+		backgroundColor: "white",
+		position: "sticky",
+		bottom: "-8px",
+	},
+	valignClass: {
+		display: "flex",
+		alignItems: "center",
+	},
+	paper: {
+		margin: "2px",
+		width: "100%",
+	},
 });
 
 class GamePlayers extends React.Component {
@@ -80,18 +93,15 @@ class GamePlayers extends React.Component {
 				helpers.incProgress();
 				helpers
 					.safeFetch(
-						helpers.createRequest(
-							"/User/" + Globals.user.Id + "/Ban",
-							{
-								method: "POST",
-								headers: {
-									"Content-Type": "application/json",
-								},
-								body: JSON.stringify({
-									UserIds: [Globals.user.Id, uid],
-								}),
-							}
-						)
+						helpers.createRequest("/User/" + Globals.user.Id + "/Ban", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								UserIds: [Globals.user.Id, uid],
+							}),
+						})
 					)
 					.then((res) => res.json())
 					.then((js) => {
@@ -117,11 +127,11 @@ class GamePlayers extends React.Component {
 					idx
 				).concat(gameState.Properties.Muted.slice(idx + 1));
 			}
-			let updateLink = this.state.gameStates[
-				this.member.Nation
-			].Links.find((l) => {
-				return l.Rel === "update";
-			});
+			let updateLink = this.state.gameStates[this.member.Nation].Links.find(
+				(l) => {
+					return l.Rel === "update";
+				}
+			);
 			helpers.incProgress();
 			helpers
 				.safeFetch(
@@ -138,8 +148,7 @@ class GamePlayers extends React.Component {
 					helpers.decProgress();
 					this.setState((state, props) => {
 						state = Object.assign({}, state);
-						state.gameStates[this.member.Nation].Properties =
-							js.Properties;
+						state.gameStates[this.member.Nation].Properties = js.Properties;
 						return state;
 					});
 					this.props.onNewGameState(js);
@@ -160,22 +169,64 @@ class GamePlayers extends React.Component {
 					className="find-game-dialog"
 					disableBackdropClick={false}
 					classes={{
-						paper: classes.paper
+						paper: classes.paper,
 					}}
 					onClose={this.close}
 				>
-					<DialogTitle>Game info</DialogTitle>
+					<DialogTitle>Game & Player info</DialogTitle>
 					<DialogContent>
 						<Typography
 							variant="subtitle2"
 							style={{ fontWeight: "bold", paddingBottom: "8px" }}
 						>
-							Settings
+							Game settings
 						</Typography>
-						<GameMetadata
-							game={this.props.game}
-							noplayerlist="true"
-						/>
+						<GameMetadata game={this.props.game} noplayerlist="true" />
+
+						<Accordion
+							onChange={(ev, exp) => {
+								this.setState({ expanded: exp });
+								console.log(this);
+							}}
+							square
+							style={{
+								border: "none",
+								boxShadow: "none",
+								padding: "0px",
+								margin: "0px",
+								position: "inherit",
+							}}
+						>
+							<AccordionSummary
+								classes={{
+									root: classes.accordionSummaryRoot,
+									content: classes.accordionSummaryContent,
+								}}
+								style={{
+									border: "none",
+									boxShadow: "none",
+									padding: "0px",
+									margin: "0px",
+								}}	
+								expandIcon={<ExpandIcon />}
+							>
+								<Typography variant="subtitle2" style={{fontWeight: "bold", marginTop: "8px"}}>Variant rules</Typography>
+							</AccordionSummary>
+							<AccordionDetails className={classes.accordionDetails} style={{padding: "0"}}>
+								{this.state.expanded ? (
+															<Typography variant="subtitle2" style={{ paddingBottom: "8px" }}>
+
+										
+
+											{this.props.variant.Properties.Rules}
+										
+									</Typography>
+								) : (
+									""
+								)}
+							</AccordionDetails>
+						</Accordion>
+
 						<Typography
 							variant="subtitle2"
 							style={{
@@ -186,174 +237,111 @@ class GamePlayers extends React.Component {
 						>
 							Players
 						</Typography>
-						<Typography
-							variant="subtitle2"
-							style={{ paddingBottom: "8px" }}
-						>
-							Banning a player means you'll never play with them
-							again.
+						<Typography variant="subtitle2" style={{ paddingBottom: "8px" }}>
+							Banning a player means you'll never play with them again.
 						</Typography>
 						{this.state.gameStates
-							? this.props.game.Properties.Members.map(
-									(member) => {
-										return (
-											<React.Fragment
-												key={
-													member.Nation + "-fragment"
-												}
+							? this.props.game.Properties.Members.map((member) => {
+									return (
+										<React.Fragment key={member.Nation + "-fragment"}>
+											<div
+												style={{
+													display: "flex",
+													width: "100%",
+													flexWrap: "wrap",
+													marginBottom: "12px",
+												}}
 											>
 												<div
 													style={{
-														display: "flex",
-														width: "100%",
-														flexWrap: "wrap",
-														marginBottom: "12px",
+														width: "40px",
+														height: "40px",
+														marginRight: "8px",
 													}}
 												>
-													<div
-														style={{
-															width: "40px",
-															height: "40px",
-															marginRight: "8px",
+													<UserAvatar
+														onNewGameState={this.props.onNewGameState}
+														game={this.props.game}
+														gameState={
+															this.member
+																? this.state.gameStates[this.member.Nation]
+																: null
+														}
+														banChange={(_) => {
+															this.forceUpdate();
 														}}
-													>
-														<UserAvatar
-															onNewGameState={
-																this.props
-																	.onNewGameState
-															}
-															game={
-																this.props.game
-															}
-															gameState={
-																this.member
-																	? this.state
-																			.gameStates[
-																			this
-																				.member
-																				.Nation
-																	  ]
-																	: null
-															}
-															banChange={(_) => {
-																this.forceUpdate();
-															}}
-															user={member.User}
-														/>
-													</div>
-
-													<div
-														style={{
-															display: "flex",
-															flexDirection:
-																"column",
-														}}
-													>
-														<Typography variant="body1">
-															{member.Nation}
-														</Typography>
-														<Typography variant="subtitle2">
-															{member.User.Name}
-														</Typography>
-													</div>
-
-													<div
-														style={{
-															marginLeft: "auto",
-															display: "flex",
-															paddingLeft: "8px",
-														}}
-													>
-														<FormControlLabel
-															control={
-																<Checkbox
-																	disabled={
-																		!member
-																			.User
-																			.Id ||
-																		member
-																			.User
-																			.Id ===
-																			Globals
-																				.user
-																				.Id
-																	}
-																	checked={
-																		!!this
-																			.state
-																			.bans[
-																			member
-																				.User
-																				.Id
-																		]
-																	}
-																	onChange={this.toggleBanned(
-																		member
-																			.User
-																			.Id
-																	)}
-																	color="primary"
-																/>
-															}
-															label="Ban"
-														/>
-
-														<FormControlLabel
-															control={
-																<Checkbox
-																	disabled={
-																		!this
-																			.member ||
-																		member.Nation ===
-																			this
-																				.member
-																				.Nation
-																	}
-																	checked={
-																		this
-																			.member &&
-																		(
-																			this
-																				.state
-																				.gameStates[
-																				this
-																					.member
-																					.Nation
-																			]
-																				.Properties
-																				.Muted ||
-																			[]
-																		).indexOf(
-																			member.Nation
-																		) !== -1
-																	}
-																	onChange={this.toggleMuted(
-																		member.Nation
-																	)}
-																	color="primary"
-																/>
-															}
-															label="Mute"
-															style={{
-																marginRigh:
-																	"0px",
-															}}
-														/>
-													</div>
+														user={member.User}
+													/>
 												</div>
-											</React.Fragment>
-										);
-									}
-							  )
+
+												<div
+													style={{
+														display: "flex",
+														flexDirection: "column",
+													}}
+												>
+													<Typography variant="body1">
+														{member.Nation}
+													</Typography>
+													<Typography variant="subtitle2">
+														{member.User.Name}
+													</Typography>
+												</div>
+
+												<div
+													style={{
+														marginLeft: "auto",
+														display: "flex",
+														paddingLeft: "8px",
+													}}
+												>
+													<FormControlLabel
+														control={
+															<Checkbox
+																disabled={
+																	!member.User.Id ||
+																	member.User.Id === Globals.user.Id
+																}
+																checked={!!this.state.bans[member.User.Id]}
+																onChange={this.toggleBanned(member.User.Id)}
+																color="primary"
+															/>
+														}
+														label="Ban"
+													/>
+
+													<FormControlLabel
+														control={
+															<Checkbox
+																disabled={
+																	!this.member ||
+																	member.Nation === this.member.Nation
+																}
+																checked={
+																	this.member &&
+																	(
+																		this.state.gameStates[this.member.Nation]
+																			.Properties.Muted || []
+																	).indexOf(member.Nation) !== -1
+																}
+																onChange={this.toggleMuted(member.Nation)}
+																color="primary"
+															/>
+														}
+														label="Mute"
+														style={{
+															marginRigh: "0px",
+														}}
+													/>
+												</div>
+											</div>
+										</React.Fragment>
+									);
+							  })
 							: ""}
 
-						<DialogActions
-							className={classes.dialogActions}
-						>
-							<Button
-								onClick={this.close}
-								color="primary"
-							>
+						<DialogActions className={classes.dialogActions}>
+							<Button onClick={this.close} color="primary">
 								Close
 							</Button>
 						</DialogActions>

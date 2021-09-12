@@ -100,6 +100,7 @@ export default class Game extends React.Component {
 		this.dip_map = null;
 		this.countdownInterval = null;
 	}
+
 	debugCount(tag) {
 		if (!this.debugCounters[tag]) {
 			this.debugCounters[tag] = 0;
@@ -118,12 +119,10 @@ export default class Game extends React.Component {
 		}
 	}
 	shareNative() {
-		console.log("shared");
 		const hrefURL = new URL(location.href);
 
 		if (navigator.share && !this.state.game.Properties.Started) {
-			console.log("support");
-
+		
 			navigator
 				.share({
 					url:
@@ -133,14 +132,11 @@ export default class Game extends React.Component {
 						"/Game/" +
 						this.state.game.Properties.ID,
 					title: "Join my game at Diplicity!",
-					text: "Hi! Follow the link below, log in with Google and join the game.", //If you want to understand the rules, visit http://rules.diplicity.com
+					text: "Hi! Please join my game of Diplomacy. Follow the link and click 'Join'.", //If you want to understand the rules, visit http://rules.diplicity.com
 				})
 				.then(() => {
-					console.log("Shared successfull");
-				})
+						})
 				.catch(() => {
-					console.log("Shared fail");
-
 					helpers
 						.copyToClipboard(
 							hrefURL.protocol +
@@ -155,10 +151,9 @@ export default class Game extends React.Component {
 									moreMenuAnchorEl: null,
 								});
 
-
-									helpers.snackbar(
-										"Game URL copied to clipboard. Share it to invite other players."
-									);
+								helpers.snackbar(
+									"Game URL copied to clipboard. Share it to invite other players."
+								);
 							},
 							(err) => {
 								console.log(err);
@@ -176,13 +171,11 @@ export default class Game extends React.Component {
 						"/Game/" +
 						this.state.game.Properties.ID,
 					title: "View my game at Diplicity!",
-					text: "Hi! Follow the link below, log in with Google and view my Diplomacy game.", //If you want to understand the rules, visit http://rules.diplicity.com
+					text: "Hi. Please check out my game of Diplomacy!", //If you want to understand the rules, visit http://rules.diplicity.com
 				})
 				.then(() => {
-					console.log("Shared successfull");
 				})
 				.catch(() => {
-					console.log("Shared fail");
 
 					helpers
 						.copyToClipboard(
@@ -198,11 +191,9 @@ export default class Game extends React.Component {
 									moreMenuAnchorEl: null,
 								});
 
-									helpers.snackbar(
-										"Game URL copied to clipboard. Share it to show the game."
-									);
-
-								
+								helpers.snackbar(
+									"Game URL copied to clipboard. Share it to show the game."
+								);
 							},
 							(err) => {
 								console.log(err);

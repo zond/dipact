@@ -153,7 +153,7 @@ class GameListElement extends React.Component {
 						"/Game/" +
 						this.state.game.Properties.ID,
 					title: "Join my game at Diplicity!",
-					text: "Hi! Follow the link below, log in with Google and join the game.", //If you want to understand the rules, visit http://rules.diplicity.com
+					text: "Hi! Please join my game of Diplomacy. Follow the link and click 'Join'.", //If you want to understand the rules, visit http://rules.diplicity.com
 				})
 				.then(() => {
 					console.log("Shared successfull");
@@ -171,7 +171,7 @@ class GameListElement extends React.Component {
 						.then(
 							(_) => {
 								helpers.snackbar(
-									"Game URL copied to clipboard. Share it to other players."
+									"Game URL copied to clipboard. Share it to invite other players."
 								);
 							},
 							(err) => {
