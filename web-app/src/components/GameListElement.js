@@ -41,6 +41,7 @@ import {
 const warningClass = { color: "red" };
 const noticeClass = {
 	fontWeight: "bold !important",
+	color: "red"
 };
 const secondRowSummaryClass = {
 	display: "flex",
@@ -542,13 +543,13 @@ class GameListElement extends React.Component {
 	}
 	failureExplanations() {
 		return {
-			Hated: "Your 'hated' score is too high.",
-			Hater: "Your 'hater' score is too high.",
-			MaxRating: "Your rating is too high.",
-			MinRating: "Your rating is too low.",
-			MinReliability: "Your reliability score is too low.",
-			MinQuickness: "Your quickness score is too low.",
-			InvitationNeeded: "The Game Master needs to whitelist you.",
+			Hated: "you've been reported too often (hated score too high).",
+			Hater: "you banned others too often (hater score too high).",
+			MaxRating: "you're too good (rating too high).",
+			MinRating: "you're not good enough yet (rating too low).",
+			MinReliability: "you haven't given any orders on too many turns (reliability too low).",
+			MinQuickness: "you haven't commited your orders often enough (quickness too low).",
+			InvitationNeeded: "the Game Master hasn't whitelisted you.",
 		};
 	}
 	render() {
@@ -571,8 +572,8 @@ class GameListElement extends React.Component {
 			this.state.game.Properties.FailedRequirements
 		) {
 			buttons.push(
-				<Typography key="requirement-notice" style={noticeClass}>
-					You can't join this game because:{" "}
+				<Typography variant="subtitle2" key="requirement-notice" style={noticeClass}>
+					You can't join this game because{" "}
 					{this.state.game.Properties.FailedRequirements.map((req) => {
 						return this.failureExplanations()[req];
 					}).join(" ")}

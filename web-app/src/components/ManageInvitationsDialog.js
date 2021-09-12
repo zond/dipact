@@ -139,7 +139,7 @@ class ManageInvitationsDialog extends React.Component {
 						<Typography variant="subtitle2">
 							Whitelist players can join the game{" "}
 							<span style={{ color: "red" }}>
-								(they will not be invited automatically)
+								(they won't be invited automatically)
 							</span>
 							. Email address must match players Diplicity login details
 							exactly.
