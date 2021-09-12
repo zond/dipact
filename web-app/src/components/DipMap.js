@@ -748,8 +748,8 @@ export default class DipMap extends React.Component {
 										// If not because they're not neutral, check the neutral one is owned by the favouring country (should have no effect)
 										// If one is owned by someone else than defined (neutral not being the favouring country), don't draw
 										if (
-											influencedprov[1] != tempSC &&
-											tempSC !=
+											influencedprov[1] !== tempSC &&
+											tempSC !==
 												this.props.variant.Properties.ExtraDominanceRules[prov]
 													.Nation
 										) {

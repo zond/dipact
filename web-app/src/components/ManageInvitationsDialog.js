@@ -137,12 +137,12 @@ class ManageInvitationsDialog extends React.Component {
 				<DialogContent>
 					<React.Fragment>
 						<Typography variant="subtitle2">
-							Whitelist players to allow them to join the game (they will not be
-							invited automatically!){" "}
+							Whitelist players can join the game{" "}
 							<span style={{ color: "red" }}>
-								Email address must match players Diplicity login details
-								exactly.
+								(they will not be invited automatically)
 							</span>
+							. Email address must match players Diplicity login details
+							exactly.
 						</Typography>
 						<Typography
 							variant="subtitle2"
@@ -195,7 +195,7 @@ class ManageInvitationsDialog extends React.Component {
 						style={{
 							display: "flex",
 							flexWrap: "wrap",
-							marginTop: "0",
+							marginTop: "0px",
 							paddingTop: "0px",
 						}}
 					>
@@ -208,13 +208,14 @@ class ManageInvitationsDialog extends React.Component {
 								this.setState({ email: ev.target.value });
 							}}
 							style={{
-								margin: "0 16px 0 0",
+								margin: "4px 16px 0 0",
 								flexGrow: "1",
 								alignSelf: "flex-end",
 								maxWidth: "200px",
+
 							}}
 						/>
-						<div style={{ margin: "0", padding: "0" }}>
+						<div style={{ margin: "4px 16px 0 0", padding: "0" }}>
 							<InputLabel
 								shrink
 								id="nationlabel"
@@ -233,7 +234,7 @@ class ManageInvitationsDialog extends React.Component {
 								}}
 							>
 								<MenuItem key="normal_allocation" value="normal_allocation">
-									{this.props.game.Properties.NationAllocation == 0
+									{this.props.game.Properties.NationAllocation === 0
 										? "Random"
 										: "Player preference"}
 								</MenuItem>
@@ -246,7 +247,15 @@ class ManageInvitationsDialog extends React.Component {
 								})}
 							</Select>
 						</div>
-						<Button onClick={this.onInvite} variant="outlined" color="primary" style={{alignSelf: "flex-end", marginLeft: "16px"}}>
+						<Button
+							onClick={this.onInvite}
+							variant="outlined"
+							color="primary"
+							style={{
+								alignSelf: "flex-end",
+								marginTop: "4px",
+							}}
+						>
 							Add
 						</Button>
 					</div>

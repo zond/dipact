@@ -4,7 +4,6 @@ import * as helpers from "../helpers";
 import {
 	Dialog,
 	Divider,
-	Button,
 	AppBar,
 	Toolbar,
 	IconButton,
@@ -12,10 +11,7 @@ import {
 } from "@material-ui/core";
 import Globals from "../Globals";
 import {
-	BugReportIcon,
-	ChatIcon,
 	CloseIcon,
-	SkipNextIcon,
 	WarningIcon,
 } from "../icons";
 //import ColdWarPath from "../static/img/coldwar.png";
