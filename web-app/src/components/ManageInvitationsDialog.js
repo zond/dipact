@@ -131,105 +131,115 @@ class ManageInvitationsDialog extends React.Component {
 				open={this.state.open}
 				onEntered={helpers.genOnback(this.close)}
 				disableBackdropClick={false}
-				onClose={this.close}
-				fullWidth={true}
-				maxWidth="xl"
+				onClose={this.close} //TODO: REMOVE THE THEY WILL NOT BE INVITED AUTOMATICALLY BELOW. THIS NEEDS TO BE HANDLED PRETTIER.
 			>
 				<DialogTitle>Manage whitelist</DialogTitle>
 				<DialogContent>
 					<React.Fragment>
-						<Typography style={{ margin: "1em" }}>
-							<span style={{ fontWeight: "bold" }}>
-								Email addresses must exactly match their login
-								email.
-							</span>{" "}
-							Login email can be seen in the top right menu with
-							the logout option. Whitelisted players are able to
-							join the game, even if it requires game master
-							whitelisting. If the game master picks a country for
-							the whitelisting, that country will be assigned when
-							the game starts. No email or messages are sent to
-							the player, use the 'Share game' link after opening
-							the game to send links to this game.
+						<Typography variant="subtitle2">
+							Whitelist players to allow them to join the game (they will not be invited automatically!){" "}
+							<span style={{ color: "red" }}>
+								Email address must match players Diplicity login details
+								exactly.
+							</span> 
+						</Typography>
+						<Typography
+							variant="subtitle2"
+							style={{ fontWeight: "bold", marginTop: "8px" }}
+						>
+							Whitelisted players
 						</Typography>
 						<List>
-							{(
-								this.state.game.Properties
-									.GameMasterInvitations || []
-							).map((invitation) => {
-								return (
-									<ListItem key={invitation.Email}>
-										<Grid container>
-											<Grid key="data" item xs={10}>
-												<Typography>
-													{invitation.Email}
-													{invitation.Nation
-														? " as " +
-														  invitation.Nation
-														: ""}
-												</Typography>
-											</Grid>
-											<Grid key="button" item xs={2}>
-												<IconButton
-													style={{ padding: "0" }}
-													onClick={this.onUninvite(
-														invitation.Email
+							{(this.state.game.Properties.GameMasterInvitations || []).map(
+								(invitation) => {
+									return (
+										<ListItem
+											key={invitation.Email}
+											style={{ padding: "0", margin: "0 0 8px 0" }}
+										>
+											<Grid container>
+												<Grid key="data" item xs={11}>
+													<Typography>{invitation.Email}</Typography>
+													{invitation.Nation ? (
+														<Typography variant="caption">
+															as {""}
+															{invitation.Nation}
+														</Typography>
+													) : (
+														""
 													)}
-												>
-													<DeleteIcon />
-												</IconButton>
+												</Grid>
+												<Grid key="button" item xs={1}>
+													<IconButton
+														style={{ padding: "0", margin: "0" }}
+														onClick={this.onUninvite(invitation.Email)}
+													>
+														<DeleteIcon />
+													</IconButton>
+												</Grid>
 											</Grid>
-										</Grid>
-									</ListItem>
-								);
-							})}
+										</ListItem>
+									);
+								}
+							)}
 						</List>
 					</React.Fragment>
-					<TextField
-						key="Email"
-						id="manage-invitations-dialog-email"
-						label="Email"
-						margin="dense"
-						onChange={(ev) => {
-							this.setState({ email: ev.target.value });
-						}}
-						style={{
-							marginBottom: "8px",
-							flexGrow: "1",
-						}}
-					/>
-					<InputLabel
-						shrink
-						id="nationlabel"
-						style={{
-							marginTop: "16px",
-						}}
+					<Typography
+						variant="subtitle2"
+						style={{ fontWeight: "bold", marginTop: "8px" }}
 					>
-						Nation
-					</InputLabel>
-					<Select
-						key="Nation"
-						labelId="nationlabel"
-						value={this.state.nation}
-						onChange={(ev) => {
-							this.setState({ nation: ev.target.value });
-						}}
-						style={{ marginBottom: "16px" }}
-					>
-						<MenuItem
-							key="normal_allocation"
-							value="normal_allocation"
-						>
-							Default allocation for game
-						</MenuItem>
-						{this.variant.Properties.Nations.map((nation) => {
-							return (
-								<MenuItem key={nation} value={nation}>
-									{nation}
+						Add player
+					</Typography>
+					<div style={{ display: "flex", flexWrap: "wrap", marginTop: "0", paddingTop: "0px" }}>
+						<TextField
+							key="Email"
+							id="manage-invitations-dialog-email"
+							label="Email"
+							margin="dense"
+							onChange={(ev) => {
+								this.setState({ email: ev.target.value });
+							}}
+							style={{
+								margin: "0 16px 0 0",
+								flexGrow: "1",
+								alignSelf: "flex-end",
+								maxWidth: "200px",
+							}}
+						/>
+						<div style={{ margin: "0", padding: "0" }}>
+							<InputLabel
+								shrink
+								id="nationlabel"
+								style={{
+									marginTop: "16px",
+								}}
+							>
+								Nation
+							</InputLabel>
+							<Select
+								key="Nation"
+								labelId="nationlabel"
+								value={this.state.nation}
+								onChange={(ev) => {
+									this.setState({ nation: ev.target.value });
+								}}
+
+							>
+								<MenuItem key="normal_allocation" value="normal_allocation">
+									{this.props.game.Properties.NationAllocation == 0
+										? "Random"
+										: "Player preference"}
 								</MenuItem>
-							);
-						})}
-					</Select>
+								{this.variant.Properties.Nations.map((nation) => {
+									return (
+										<MenuItem key={nation} value={nation}>
+											{nation}
+										</MenuItem>
+									);
+								})}
+							</Select>
+						</div>
+					</div>
 				</DialogContent>
 				<DialogActions className={classes.dialogActions}>
 					<Button onClick={this.onInvite} color="primary">
