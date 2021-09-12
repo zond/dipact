@@ -153,7 +153,7 @@ class GameListElement extends React.Component {
 						"/Game/" +
 						this.state.game.Properties.ID,
 					title: "Join my game at Diplicity!",
-					text: "Hi! I'd like you to join a game of Diplomacy. Follow the link, log in with Google and press join to play the game.", //If you want to understand the rules, visit http://rules.diplicity.com
+					text: "Hi! Follow the link below, log in with Google and join the game.", //If you want to understand the rules, visit http://rules.diplicity.com
 				})
 				.then(() => {
 					console.log("Shared successfull");
@@ -625,56 +625,7 @@ class GameListElement extends React.Component {
 					}}
 					color="primary"
 					onClick={
-						this.shareNative
-						/*const canonical = document.querySelector("link[rel=canonical]");
-		let url = canonical ? canonical.href : document.location.href;
-		const shareDetails = { url, title, text };
-
-		console.log(shareDetails);
-
-		const handleSharing = async () => {
-			//check if sharer is present, use that.
-			if (navigator.share) {
-				try {
-					await navigator
-						.share(shareDetails)
-						.then(() => console.log("Hooray, content shared!"));
-				} catch (error) {
-					console.log('oops, error ${error}');
-				}
-			} else {
-				//fallback if no sharer feature.
-				console.log('not supported');
-			}
-		};
-	}
-
-
-
-*/
-					}
-					/* onClick={(_) => {
-						const hrefURL = new URL(location.href);
-						helpers
-							.copyToClipboard(
-								hrefURL.protocol +
-									"//" +
-									hrefURL.host +
-									"/Game/" +
-									this.state.game.Properties.ID
-							)
-							.then(
-								(_) => {
-									helpers.snackbar(
-										"Game URL copied to clipboard. Share it to other players."
-									);
-								},
-								(err) => {
-									console.log(err);
-								}
-							);
-						gtag("event", "game_share");
-					}} */
+						this.shareNative}
 					key={itemKey++}
 				>
 					Invite
