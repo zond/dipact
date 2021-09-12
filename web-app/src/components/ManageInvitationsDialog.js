@@ -137,11 +137,12 @@ class ManageInvitationsDialog extends React.Component {
 				<DialogContent>
 					<React.Fragment>
 						<Typography variant="subtitle2">
-							Whitelist players to allow them to join the game (they will not be invited automatically!){" "}
+							Whitelist players to allow them to join the game (they will not be
+							invited automatically!){" "}
 							<span style={{ color: "red" }}>
 								Email address must match players Diplicity login details
 								exactly.
-							</span> 
+							</span>
 						</Typography>
 						<Typography
 							variant="subtitle2"
@@ -190,7 +191,14 @@ class ManageInvitationsDialog extends React.Component {
 					>
 						Add player
 					</Typography>
-					<div style={{ display: "flex", flexWrap: "wrap", marginTop: "0", paddingTop: "0px" }}>
+					<div
+						style={{
+							display: "flex",
+							flexWrap: "wrap",
+							marginTop: "0",
+							paddingTop: "0px",
+						}}
+					>
 						<TextField
 							key="Email"
 							id="manage-invitations-dialog-email"
@@ -223,7 +231,6 @@ class ManageInvitationsDialog extends React.Component {
 								onChange={(ev) => {
 									this.setState({ nation: ev.target.value });
 								}}
-
 							>
 								<MenuItem key="normal_allocation" value="normal_allocation">
 									{this.props.game.Properties.NationAllocation == 0
@@ -239,12 +246,13 @@ class ManageInvitationsDialog extends React.Component {
 								})}
 							</Select>
 						</div>
+						<Button onClick={this.onInvite} variant="outlined" color="primary" style={{alignSelf: "flex-end", marginLeft: "16px"}}>
+							Add
+						</Button>
 					</div>
 				</DialogContent>
 				<DialogActions className={classes.dialogActions}>
-					<Button onClick={this.onInvite} color="primary">
-						Add to whitelist
-					</Button>
+					<Button onClick={this.close}>Close</Button>
 				</DialogActions>
 			</Dialog>
 		);
