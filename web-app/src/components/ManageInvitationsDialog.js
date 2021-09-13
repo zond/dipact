@@ -36,6 +36,8 @@ class ManageInvitationsDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
+			emailError: false,
+			emailErrorDescription: "",
 			game: this.props.game,
 			email: "",
 			nation: "normal_allocation",
@@ -49,6 +51,7 @@ class ManageInvitationsDialog extends React.Component {
 		this.onInvite = this.onInvite.bind(this);
 		this.onUninvite = this.onUninvite.bind(this);
 		this.close = this.close.bind(this);
+		this.handleError = this.handleError.bind(this);
 	}
 	onUninvite(email) {
 		return (_) => {
@@ -74,9 +77,47 @@ class ManageInvitationsDialog extends React.Component {
 		};
 	}
 	onInvite() {
+		console.log(this);
+
+		// Check if the email is a valid format
+		let validString =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		let validEmail = validString.test(this.state.email);
+		let nationExists = false;
+		// Check if the nation is already allocated - we don't want two similar nations!
+		if (this.props.game.Properties.GameMasterInvitations) {
+
+			this.props.game.Properties.GameMasterInvitations.map(
+			(nation) => {
+				if (nation.Nation == this.state.nation) {
+					nationExists = true;
+				}
+			}
+			);
+		}
+
+		console.log(nationExists);
 		if (!this.state.email) {
-			helpers.snackbar("Email address is empty.");
+			this.setState({
+				emailError: true,
+				emailErrorDescription: "Email is empty",
+			});
 			return;
+		} else if (validEmail == false) {
+			this.setState({
+				emailError: true,
+				emailErrorDescription: "Invalid email address",
+			});
+			return;
+		} else if (nationExists == true) {
+			this.setState({
+				emailError: true,
+				emailErrorDescription: "Nation is already allocated",
+			});
+			return;
+		}
+		{
+			this.setState({ emailError: false });
 		}
 		const link = this.state.game.Links.find((l) => {
 			return l.Rel === "invite-user";
@@ -106,6 +147,8 @@ class ManageInvitationsDialog extends React.Component {
 					this.setState({ game: game });
 				});
 			});
+			
+
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
@@ -119,6 +162,17 @@ class ManageInvitationsDialog extends React.Component {
 	close() {
 		helpers.unback(this.close);
 		this.setState({ open: false });
+	}
+	handleError() {
+		if (this.state.emailError == false) {
+			return <div style={{ height: "19px" }}></div>;
+		} else {
+			return (
+				<Typography variant="caption" color="error">
+					{this.state.emailErrorDescription}
+				</Typography>
+			);
+		}
 	}
 	render() {
 		const { classes } = this.props;
@@ -199,23 +253,41 @@ class ManageInvitationsDialog extends React.Component {
 							paddingTop: "0px",
 						}}
 					>
-						<TextField
-							key="Email"
-							id="manage-invitations-dialog-email"
-							label="Email"
-							margin="dense"
-							onChange={(ev) => {
-								this.setState({ email: ev.target.value });
-							}}
+						<div
 							style={{
-								margin: "4px 16px 0 0",
-								flexGrow: "1",
-								alignSelf: "flex-end",
-								maxWidth: "200px",
-
+								display: "flex",
+								flexDirection: "column",
+								marginRight: "16px",
+								marginTop: "0px",
+								paddingTop: "0px",
 							}}
-						/>
-						<div style={{ margin: "4px 16px 0 0", padding: "0" }}>
+						>
+							<TextField
+								key="Email"
+								id="manage-invitations-dialog-email"
+								label="Email"
+								margin="dense"
+								error={this.state.emailError}
+								onChange={(ev) => {
+									this.setState({ email: ev.target.value });
+								}}
+								style={{
+									margin: "0 0 0 0",
+									flexGrow: "1",
+									justifyContent: "flex-end",
+									maxWidth: "200px",
+								}}
+							/>
+							{this.handleError()}
+						</div>
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								margin: "0 16px 0 0",
+								padding: "0",
+							}}
+						>
 							<InputLabel
 								shrink
 								id="nationlabel"
@@ -246,18 +318,28 @@ class ManageInvitationsDialog extends React.Component {
 									);
 								})}
 							</Select>
+							<div style={{ height: "19px" }}></div>
 						</div>
-						<Button
-							onClick={this.onInvite}
-							variant="outlined"
-							color="primary"
+						<div
 							style={{
-								alignSelf: "flex-end",
-								marginTop: "4px",
+								display: "flex",
+								flexDirection: "column",
+								justifyContent: "flex-end",
 							}}
 						>
-							Add
-						</Button>
+							<Button
+								onClick={this.onInvite}
+								variant="outlined"
+								color="primary"
+								style={{
+									alignSelf: "flex-end",
+									marginTop: "4px",
+								}}
+							>
+								Add
+							</Button>
+							<div style={{ height: "19px" }}></div>
+						</div>
 					</div>
 				</DialogContent>
 				<DialogActions className={classes.dialogActions}>

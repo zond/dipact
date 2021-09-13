@@ -559,7 +559,7 @@ export default class CreateGameDialog extends React.Component {
 												)}
 											/>
 										}
-										label="Game master of new game"
+										label="Manage as Game Master"
 										style={{ marginBottom: "8px" }}
 									/>
 
@@ -567,7 +567,7 @@ export default class CreateGameDialog extends React.Component {
 										<FormHelperText>
 											As game master, you can pause/resume
 											games and control who joins (and as
-											what nation). If you want to play
+											what nation). To play
 											yourself, you need to join as a
 											player after creating your game.
 										</FormHelperText>
