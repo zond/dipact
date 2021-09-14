@@ -656,9 +656,7 @@ class GameListElement extends React.Component {
 				) {
 					buttons.unshift(
 						<Typography key="reliability-warning" style={warningClass}>
-							WARNING: We advise you to join a different game, because you have
-							high reliability. Since this game has no reliability requirements,
-							it might have (some) absent players.
+							WARNING: We advise you to join a different game, because this game might have (some) absent players. You have high reliability so can join a better game.
 						</Typography>
 					);
 				}
