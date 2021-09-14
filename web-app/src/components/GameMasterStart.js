@@ -27,6 +27,7 @@ export default class GameMasterStart extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
+		this.createGameDialog = null;
 		this.myStagingGamesList = null;
 		this.myStartedGamesList = null;
 		this.myFinishedGamesList = null;
@@ -316,6 +317,18 @@ export default class GameMasterStart extends React.Component {
 						</div>
 					</React.Fragment>
 				)}
+				<CreateGameDialog
+					gameCreated={(game) => {
+						if (game.Properties.GameMasterEnabled) {
+							this.masteredStagingGamesList.reload();
+						} else {
+							this.myStagingGamesList.reload();
+						}
+					}}
+					parentCB={(c) => {
+						this.createGameDialog = c;
+					}}
+				/>
 			</React.Fragment>
 		);
 	}
