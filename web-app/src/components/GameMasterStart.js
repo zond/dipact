@@ -54,7 +54,7 @@ export default class GameMasterStart extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				{!this.hasGameMastered() ? (
+				{this.hasGameMastered() ? (
 					<div
 						style={{
 							height: "calc(100vh - 60px)",
@@ -226,6 +226,27 @@ export default class GameMasterStart extends React.Component {
 								</ul>
 							</li>
 						</List>
+												<AppBar
+							position="fixed"
+							color="primary"
+							style={{ top: "auto", bottom: 0 }}
+						>
+							<Toolbar style={{ justifyContent: "space-around" }}>
+									<Button
+										style={{ margin: 4 }}
+										variant="outlined"
+										color="secondary"
+										key="create"
+										onClick={(_) => {
+											this.createGameDialog.setState({
+												open: true,
+											});
+										}}
+									>
+										Create game
+									</Button>
+							</Toolbar>
+						</AppBar>
 					</div>
 				) : (
 					<React.Fragment>
@@ -320,9 +341,9 @@ export default class GameMasterStart extends React.Component {
 				<CreateGameDialog
 					gameCreated={(game) => {
 						if (game.Properties.GameMasterEnabled) {
-							this.masteredStagingGamesList.reload();
+//TODO: IF GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG
 						} else {
-							this.myStagingGamesList.reload();
+//TODO: IF NO GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG AND LOAD START.JS AS ACTIVITY
 						}
 					}}
 					parentCB={(c) => {

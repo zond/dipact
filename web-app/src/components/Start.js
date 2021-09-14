@@ -435,8 +435,10 @@ export default class Start extends React.Component {
 					gameCreated={(game) => {
 						if (game.Properties.GameMasterEnabled) {
 							this.masteredStagingGamesList.reload();
+//TODO: IF NO GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG AND LOAD GAME MASTER PAGE 
 						} else {
 							this.myStagingGamesList.reload();
+//TODO: IF NO GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG 
 						}
 					}}
 					parentCB={(c) => {
