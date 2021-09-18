@@ -575,7 +575,7 @@ class GameListElement extends React.Component {
 				"you haven't given any orders on too many turns (reliability too low).",
 			MinQuickness:
 				"you haven't commited your orders often enough (quickness too low).",
-			InvitationNeeded: "the Game Master hasn't whitelisted you.",
+			InvitationNeeded: "the Game Master hasn't assigned a nation to you.",
 		};
 	}
 	render() {
@@ -691,8 +691,6 @@ class GameListElement extends React.Component {
 						</Typography>
 					);
 				}
-				console.log(this);
-				console.log(link.Rel);
 				buttons.push(
 					<Button
 						key={itemKey++}
@@ -709,21 +707,7 @@ class GameListElement extends React.Component {
 			} else if (link.Rel === "edit-newest-phase-deadline-at") {
 				buttons.push(
 					<React.Fragment>
-						<Button
-							key={itemKey++}
-							variant="contained"
-							color="primary"
-							style={{
-								marginRight: "16px",
-								minWidth: "100px",
-								marginBottom: "4px",
-							}}
-							onClick={(_) => {
-								this.reschedule(link);
-							}}
-						>
-							Change Deadlines
-						</Button>
+						<Divider style={{marginBottom: "4px"}} />
 						<Button
 							key={itemKey++}
 							variant="contained"
@@ -737,7 +721,22 @@ class GameListElement extends React.Component {
 								this.nextturn(link);
 							}}
 						>
-							Next Turn
+							End Current Phase
+						</Button>
+						<Button
+							key={itemKey++}
+							variant="contained"
+							color="primary"
+							style={{
+								marginRight: "16px",
+								minWidth: "100px",
+								marginBottom: "4px",
+							}}
+							onClick={(_) => {
+								this.reschedule(link);
+							}}
+						>
+							Change deadline
 						</Button>
 					</React.Fragment>
 				);
@@ -799,7 +798,7 @@ class GameListElement extends React.Component {
 						this.manageInvitations();
 					}}
 				>
-					Manage Whitelist
+					Assign players
 				</Button>
 			);
 		}

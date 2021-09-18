@@ -1,6 +1,6 @@
-/* eslint-disable no-restricted-globals */
 import React from "react";
 import * as helpers from "../helpers";
+
 import {
 	Dialog,
 	Button,
@@ -11,22 +11,13 @@ import {
 	DialogTitle,
 } from "@material-ui/core";
 
-export default class RescheduleDialog extends React.Component {
+export default class ConfirmDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			open: false,
-			minutes: "60",
 		};
-		if (this.props.parentCB) {
-			this.props.parentCB(this);
-		}
-		this.onSubmit = this.onSubmit.bind(this);
 		this.close = this.close.bind(this);
-	}
-	onSubmit() {
-		this.props.onSubmit(this.state.minutes);
-		this.setState({ open: false });
 	}
 	close() {
 		helpers.unback(this.close);
@@ -43,34 +34,18 @@ export default class RescheduleDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<DialogTitle>Change Deadline</DialogTitle>
+				<DialogTitle>Are you sure?</DialogTitle>
 				<DialogContent>
-					<Typography variant="body2">
-						New length will be the remainder of the current phases.
-					</Typography>
 					<Typography variant="body2" style={{marginBottom: "16px"}}>
 						To pause, set a long deadline and change it back to resume.
 					</Typography>
-					<TextField
-						name="next-phase-deadline-in-minutes"
-						label="New phase length (minutes)"
-						style={{ minWidth: "190px" }}
-						type="number"
-						inputProps={{ min: 0, max: 60 * 24 * 30 }}
-						value={this.state.minutes}
-						onChange={(ev) => {
-							this.setState({
-								minutes: ev.target.value,
-							});
-						}}
-					/>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={this.close} color="primary">
 						Cancel
 					</Button>
-					<Button onClick={this.onSubmit} color="primary">
-						Set new phase length
+					<Button onClick={} color="primary">
+						Sure
 					</Button>
 				</DialogActions>
 			</Dialog>

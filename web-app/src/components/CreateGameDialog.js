@@ -581,6 +581,7 @@ export default class CreateGameDialog extends React.Component {
 									{this.state.newGameProperties.Private &&
 									this.state.newGameProperties
 										.GameMasterEnabled ? (
+										<React.Fragment>
 										<FormControlLabel
 											control={
 												<Checkbox
@@ -595,9 +596,13 @@ export default class CreateGameDialog extends React.Component {
 													)}
 												/>
 											}
-											label="Require whitelisting to join"
+											label="Require assignment to join"
 											style={{ marginBottom: "8px" }}
 										/>
+										<FormHelperText>
+											Only players assigned (a nation) by you can join (whitelist).
+										</FormHelperText>
+										</React.Fragment>
 									) : (
 										""
 									)}
