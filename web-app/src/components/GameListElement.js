@@ -706,6 +706,7 @@ class GameListElement extends React.Component {
 				);
 			} else if (link.Rel === "edit-newest-phase-deadline-at") {
 				buttons.push(
+					//TODO: Add confirmdialog.js before we accidentally move a turn forwards.. (how?)
 					<React.Fragment>
 						<Divider style={{marginBottom: "4px"}} />
 						<Button

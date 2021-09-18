@@ -174,10 +174,20 @@ export default class MainMenu extends ActivityContainer {
 							edge="start"
 							onClick={this.openDrawer}
 							color="secondary"
+							style={{marginRight:"16px"}}
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography style={{ flexGrow: 1 }}></Typography>
+
+						<Typography variant="h6" style={{ flexGrow: 1 }}>
+							{this.state.activity.name == "Start"
+								? "My Games"
+								: this.state.activity.name == "GameMasterStart"
+								? "My Managed Games"
+								: this.state.activity.name == "GameList"
+								? "Public Games"
+								: this.state.activity.name}
+						</Typography>
 						<IconButton
 							edge="end"
 							onClick={(ev) => {
