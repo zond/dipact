@@ -167,6 +167,7 @@ export default class MainMenu extends ActivityContainer {
 	}
 	render() {
 		return (
+			//Below typography is wonky due to limited title classes. I really shouldn't be doing it like this.
 			<React.Fragment>
 				<AppBar position="fixed">
 					<Toolbar>
