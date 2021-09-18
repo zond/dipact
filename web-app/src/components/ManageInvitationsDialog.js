@@ -191,7 +191,7 @@ class ManageInvitationsDialog extends React.Component {
 				<DialogContent>
 					<React.Fragment>
 						<Typography variant="subtitle2">
-							Whitelist players can join the game{" "}
+							Whitelist players are allowed to join the game{" "}
 							<span style={{ color: "red" }}>
 								(they won't be invited automatically)
 							</span>

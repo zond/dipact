@@ -43,7 +43,7 @@ export default class RescheduleDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<DialogTitle>Change Deadline</DialogTitle>
+				<DialogTitle>Change Deadlines</DialogTitle>
 				<DialogContent>
 					<Typography variant="body2" style={{marginBottom: "16px"}}>
 						Your new deadline length will be set as the remainder for the current and all following turns.<br />

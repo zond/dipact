@@ -722,7 +722,7 @@ class GameListElement extends React.Component {
 								this.reschedule(link);
 							}}
 						>
-							Change Deadline
+							Change Deadlines
 						</Button>
 						<Button
 							key={itemKey++}
