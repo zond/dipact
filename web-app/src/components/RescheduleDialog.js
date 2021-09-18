@@ -1,14 +1,15 @@
 /* eslint-disable no-restricted-globals */
-import React from 'react';
-import * as helpers from '../helpers';
+import React from "react";
+import * as helpers from "../helpers";
 import {
-    Dialog,
-    Button,
-    TextField,
-    DialogContent,
-    DialogActions,
-    DialogTitle,
-} from '@material-ui/core';
+	Dialog,
+	Button,
+	TextField,
+	Typography,
+	DialogContent,
+	DialogActions,
+	DialogTitle,
+} from "@material-ui/core";
 
 export default class RescheduleDialog extends React.Component {
 	constructor(props) {
@@ -42,12 +43,16 @@ export default class RescheduleDialog extends React.Component {
 				disableBackdropClick={false}
 				onClose={this.close}
 			>
-				<DialogTitle>Reschedule game</DialogTitle>
+				<DialogTitle>Change Deadline</DialogTitle>
 				<DialogContent>
+					<Typography variant="body2" style={{marginBottom: "16px"}}>
+						Your new deadline length will be set as the remainder for the current and all following turns.<br />
+						To pause your game, set a very long deadline and adjust it back when resuming.
+					</Typography>
 					<TextField
 						name="next-phase-deadline-in-minutes"
-						label="New next deadline in minutes"
-						style={{ minWidth: "170px" }}
+						label="New phase length (minutes)"
+						style={{ minWidth: "190px" }}
 						type="number"
 						inputProps={{ min: 0, max: 60 * 24 * 30 }}
 						value={this.state.minutes}
@@ -67,4 +72,3 @@ export default class RescheduleDialog extends React.Component {
 		);
 	}
 }
-

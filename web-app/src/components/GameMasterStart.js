@@ -28,9 +28,6 @@ export default class GameMasterStart extends React.Component {
 		super(props);
 		this.state = {};
 		this.createGameDialog = null;
-		this.myStagingGamesList = null;
-		this.myStartedGamesList = null;
-		this.myFinishedGamesList = null;
 		this.masteredStagingGamesList = null;
 		this.masteredStartedGamesList = null;
 		this.masteredFinishedGamesList = null;
@@ -38,7 +35,7 @@ export default class GameMasterStart extends React.Component {
 		this.hasGameMastered = this.hasGameMastered.bind(this);
 	}
 	hasGameMastered() {
-		//This needs to validate that there is a GM game -- or empty state
+		//TODO: This needs to validate that there is a GM game -- or empty state
 		return (
 			Globals.userStats.Properties.JoinedGames ||
 			Globals.userStats.Properties.PrivateStats.JoinedGames
