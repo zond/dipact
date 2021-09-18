@@ -760,6 +760,7 @@ class GameListElement extends React.Component {
 				);
 			} else if (link.Rel === "delete-game") {
 				buttons.push(
+					//TODO: add confirmdialog.js before we accidentally DELETE THE WHOLE (ONGOING) GAME (how)?
 					<Button
 						key={itemKey++}
 						variant="outlined"

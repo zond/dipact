@@ -697,6 +697,7 @@ export default class GameMetadata extends React.Component {
 								this.state.game.Links.find((link) => {
 									return link.Rel === "kick-" + member.User.Id;
 								}) ? (
+									//TODO: add confirmdialog.js before we just KICK someone (how)?
 									<IconButton
 										onClick={this.onKick(member.User.Id)}
 										style={{ margin: "0 0 0 auto" }}
@@ -723,17 +724,15 @@ export default class GameMetadata extends React.Component {
 								marginBottom: "4px",
 							}}
 						>
-							<UserAvatar user={member.User} style={{border:"1px solid red"}}/>
-							<Typography style={{color: "red"}}>
-								[Open position]
-							</Typography>
-							<IconButton
-										style={{ margin: "0 0 0 auto" }}
-
-									>
-										<CreateMessageIcon style={{color: "red"}}/> 
-									</IconButton>
-							</div>
+							<UserAvatar
+								user={member.User}
+								style={{ border: "1px solid red" }}
+							/>
+							<Typography style={{ color: "red" }}>[Open position]</Typography>
+							<IconButton style={{ margin: "0 0 0 auto" }}>
+								<CreateMessageIcon style={{ color: "red" }} />
+							</IconButton>
+						</div>
 					);
 				}
 			});
