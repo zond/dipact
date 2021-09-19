@@ -836,20 +836,6 @@ class GameListElement extends React.Component {
 				}}
 			>
 				{((_) => {
-					console.log(this);
-					//TODOJOREN
-					console.log(this.props.game.Properties.NMembers);
-					console.log(this.state.game.Properties.Members);
-					let replaceablePlayers = 0;
-					if (this.state.game.Properties.Members !== null) {
-					replaceablePlayers = this.state.game.Properties.Members.filter(member => 
-  					member.Replaceable == true
-					).length;
-					} else {
-						replaceablePlayers = 0;
-					}
-					//TODOJOREN: I now know how many players are replaceable. If they are - let them be bitched
-
 					if (this.state.game.Properties.Started && replaceablePlayers == 0) {
 						return (
 							<React.Fragment>
