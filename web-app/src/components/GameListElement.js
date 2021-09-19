@@ -1045,7 +1045,7 @@ class GameListElement extends React.Component {
 									>
 										<NumMembersIcon style={replaceablePlayers == 0 ? {color: "primary"} : {color: "red"} } />
 										<Typography variant="body2" style={replaceablePlayers == 0 ? { paddingLeft: "2px" } : { paddingLeft: "2px", color: "red"}}>
-											{replaceablePlayers == 0 ? this.state.game.Properties.NMembers : replaceablePlayers}/
+											{replaceablePlayers == 0 ? this.state.game.Properties.NMembers : this.state.game.Properties.NMembers - replaceablePlayers}/
 											{this.variant.Properties.Nations.length}{" "}
 										</Typography>
 									</div>

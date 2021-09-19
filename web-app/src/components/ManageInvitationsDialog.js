@@ -180,7 +180,7 @@ class ManageInvitationsDialog extends React.Component {
 				open={this.state.open}
 				onEntered={helpers.genOnback(this.close)}
 				disableBackdropClick={false}
-				onClose={this.close} //TODO: REMOVE THE THEY WILL NOT BE INVITED AUTOMATICALLY BELOW. THIS NEEDS TO BE HANDLED PRETTIER.
+				onClose={this.close} 
 			>
 				<DialogTitle>Assign players</DialogTitle>
 				<DialogContent>
