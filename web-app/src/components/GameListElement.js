@@ -645,7 +645,15 @@ class GameListElement extends React.Component {
 				);
 			}
 		}
-		if (!this.state.game.Properties.Closed) {
+		let replaceablePlayers = 0;
+					if (this.state.game.Properties.Members !== null) {
+					replaceablePlayers = this.state.game.Properties.Members.filter(member => 
+  					member.Replaceable == true
+					).length;
+					} else {
+						replaceablePlayers = 0;
+					}
+		if (!this.state.game.Properties.Closed || replaceablePlayers > 0) {
 			buttons.push(
 				<Button
 					variant="outlined"
@@ -828,7 +836,21 @@ class GameListElement extends React.Component {
 				}}
 			>
 				{((_) => {
-					if (this.state.game.Properties.Started) {
+					console.log(this);
+					//TODOJOREN
+					console.log(this.props.game.Properties.NMembers);
+					console.log(this.state.game.Properties.Members);
+					let replaceablePlayers = 0;
+					if (this.state.game.Properties.Members !== null) {
+					replaceablePlayers = this.state.game.Properties.Members.filter(member => 
+  					member.Replaceable == true
+					).length;
+					} else {
+						replaceablePlayers = 0;
+					}
+					//TODOJOREN: I now know how many players are replaceable. If they are - let them be bitched
+
+					if (this.state.game.Properties.Started && replaceablePlayers == 0) {
 						return (
 							<React.Fragment>
 								{/* IF STARTED */}
@@ -1035,9 +1057,9 @@ class GameListElement extends React.Component {
 											alignItems: "center",
 										}}
 									>
-										<NumMembersIcon />
-										<Typography variant="body2" style={{ paddingLeft: "2px" }}>
-											{this.state.game.Properties.NMembers}/
+										<NumMembersIcon style={replaceablePlayers == 0 ? {color: "primary"} : {color: "red"} } />
+										<Typography variant="body2" style={replaceablePlayers == 0 ? { paddingLeft: "2px" } : { paddingLeft: "2px", color: "red"}}>
+											{replaceablePlayers == 0 ? this.state.game.Properties.NMembers : replaceablePlayers}/
 											{this.variant.Properties.Nations.length}{" "}
 										</Typography>
 									</div>
