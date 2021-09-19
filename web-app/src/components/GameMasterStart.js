@@ -35,7 +35,7 @@ export default class GameMasterStart extends React.Component {
 		this.hasGameMastered = this.hasGameMastered.bind(this);
 	}
 	hasGameMastered() {
-		//TODO: This needs to validate that there is a GM game -- or empty state
+		//TODO: This needs to validate that there is a GM game -- or empty state. Now it's just a copy of the start.js
 		return (
 			Globals.userStats.Properties.JoinedGames ||
 			Globals.userStats.Properties.PrivateStats.JoinedGames
