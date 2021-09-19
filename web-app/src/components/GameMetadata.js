@@ -199,7 +199,7 @@ export default class GameMetadata extends React.Component {
 					key={cells.length}
 				>
 					<MusteringIcon style={{ marginRight: "8px" }} />
-					<Typography>Mustering before start</Typography>
+					<Typography>Get Ready Phase before start</Typography>
 				</div>
 			);
 		}

@@ -879,14 +879,11 @@ export default class CreateGameDialog extends React.Component {
 											)}
 										/>
 									}
-									label="Skip mustering phase"
+									label="Skip Get Ready phase"
 									style={{ marginBottom: "8px" }}
 								/>
 								<FormHelperText>
-									The initial mustering phase ejects all
-									non-ready players and and reverts the game
-									to the staging state unless all players
-									report ready within the deadline.
+									The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game.
 								</FormHelperText>
 
 								<FormControlLabel

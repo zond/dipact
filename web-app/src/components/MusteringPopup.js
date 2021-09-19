@@ -1,19 +1,26 @@
-import React from 'react';
+import React from "react";
 
-import * as helpers from '../helpers';
-import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
+import * as helpers from "../helpers";
+import {
+	Button,
+	Typography,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
-  dialogActions: {
-    backgroundColor: "white",
-    position: "sticky",
-    bottom: "0px",
-  },
-  paper: {
-    margin: "2px",
-    width: "100%",
-  },
+	dialogActions: {
+		backgroundColor: "white",
+		position: "sticky",
+		bottom: "0px",
+	},
+	paper: {
+		margin: "2px",
+		width: "100%",
+	},
 });
 
 class MusteringPopup extends React.Component {
@@ -37,28 +44,25 @@ class MusteringPopup extends React.Component {
 				open={this.state.open}
 				disableBackdropClick={false}
 				classes={{
-					paper: classes.paper
+					paper: classes.paper,
 				}}
 				onClose={this.close}
 			>
-				<DialogTitle>Mustering game</DialogTitle>
+				<DialogTitle>Get Ready Phase</DialogTitle>
 				<DialogContent style={{ paddingBottom: "0px" }}>
 					<Typography>
-						This game is currently in the mustering phase. This
-						means that all players must confirm that they are ready
-						to start, or the game will eject all non-ready players
-						from this and all staging games, and revert back to
-						being a staging game.
+						This game is currently in the Get Ready phase. Players must confirm
+						they're ready to start or the game will remove them and go back to
+						finding (replacement) players. To give future replacements an equal
+						chance, you can't chat yet.
 					</Typography>
-					<DialogActions
-						className={classes.dialogActions}
-					>
+					<DialogActions className={classes.dialogActions}>
 						<Button
 							color="primary"
-							onClick={_ => {
+							onClick={(_) => {
 								this.setState(
 									{
-										open: false
+										open: false,
 									},
 									this.props.viewOrders
 								);

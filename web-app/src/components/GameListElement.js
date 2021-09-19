@@ -464,7 +464,7 @@ class GameListElement extends React.Component {
 				icons,
 				MusteringIcon,
 				"black",
-				"Mustering before start"
+				"Get Ready phase before start"
 			);
 		}
 		if (
