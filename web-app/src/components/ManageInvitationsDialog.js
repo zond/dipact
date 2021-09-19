@@ -186,7 +186,7 @@ class ManageInvitationsDialog extends React.Component {
 				<DialogContent>
 					<React.Fragment>
 						<Typography variant="subtitle2">
-							Assign a player to have them join a specific nation{" "}
+							Assign a player to let them join as a specific nation{" "}
 							<span style={{ color: "red" }}>
 								(they won't be invited automatically)
 							</span>

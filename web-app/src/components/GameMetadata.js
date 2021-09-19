@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, IconButton, Typography, SvgIcon } from "@material-ui/core";
+import { Icon, IconButton, Button, Typography, SvgIcon } from "@material-ui/core";
 import {
 	CreateMessageIcon,
 	PhaseDeadlineIcon,
@@ -159,7 +159,7 @@ export default class GameMetadata extends React.Component {
 					key={cells.length}
 				>
 					<WhitelistIcon style={{ marginRight: "8px" }} />
-					<Typography>Whitelist only (set by Game Master)</Typography>
+					<Typography>Assigned players only (Whitelist)</Typography>
 				</div>
 			);
 		}
@@ -698,12 +698,14 @@ export default class GameMetadata extends React.Component {
 									return link.Rel === "kick-" + member.User.Id;
 								}) ? (
 									//TODO: add confirmdialog.js before we just KICK someone (how)?
-									<IconButton
+									<Button
 										onClick={this.onKick(member.User.Id)}
+										variant="contained"
+										color="primary"
 										style={{ margin: "0 0 0 auto" }}
 									>
-										<KickIcon />
-									</IconButton>
+									Kick
+									</Button>
 								) : (
 									""
 								)
@@ -729,9 +731,9 @@ export default class GameMetadata extends React.Component {
 								style={{ border: "1px solid red" }}
 							/>
 							<Typography style={{ color: "red" }}>[Open position]</Typography>
-							<IconButton style={{ margin: "0 0 0 auto" }}>
-								<CreateMessageIcon style={{ color: "red" }} />
-							</IconButton>
+							<Button style={{ margin: "0 0 0 auto", borderColor: "red", color: "red"}} variant="outlined" >
+								Invite
+							</Button>
 						</div>
 					);
 				}
