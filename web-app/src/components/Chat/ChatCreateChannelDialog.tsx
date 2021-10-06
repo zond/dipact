@@ -9,17 +9,15 @@ import {
   FormControlLabel,
   FormGroup,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import * as helpers from "../../helpers";
+import React, { useState } from "react";
 import useRegisterPageView from "../../hooks/useRegisterPageview";
-import useGetHook from "../../hooks/useChatCreateChannelDialog";
 
 interface ChatCreateChannelDialogProps {
   open: boolean;
   onClose: () => void;
   nations: string[];
   userNation: string;
-  gameId: string;
+  createChannel: (members: string[]) => void;
 }
 
 const title = "Create channel";
@@ -30,22 +28,19 @@ const ChatCreateChannelDialog = ({
   onClose,
   nations,
   userNation,
-  gameId,
+  createChannel,
 }: ChatCreateChannelDialogProps): React.ReactElement => {
-
   const [members, setMembers] = useState<string[]>([userNation]);
-  const { isLoading, validationMessage, createChannel } = useGetHook()(gameId);
   useRegisterPageView("CreateChannelDialog");
 
-  useEffect(() => {
-    if (validationMessage) helpers.snackbar(validationMessage);
-  }, [validationMessage]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, nation: string) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    nation: string
+  ) => {
     if (e.target.checked) {
-        setMembers([...members, nation]);
+      setMembers([...members, nation]);
     } else {
-        setMembers(members.filter((member => member !== nation)));
+      setMembers(members.filter((member) => member !== nation));
     }
   };
 
@@ -74,11 +69,7 @@ const ChatCreateChannelDialog = ({
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button
-          disabled={isLoading}
-          onClick={() => createChannel(members)}
-          color="primary"
-        >
+        <Button onClick={() => createChannel(members)} color="primary">
           Create
         </Button>
       </DialogActions>

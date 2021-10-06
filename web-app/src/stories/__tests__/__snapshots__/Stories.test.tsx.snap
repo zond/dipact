@@ -1153,6 +1153,66 @@ exports[`Storyshots components/ChatPhaseDivider Default 1`] = `
 </h6>
 `;
 
+exports[`Storyshots components/ErrorMessage Internal Server Error 1`] = `
+<div
+  className="makeStyles-root-81"
+>
+  <div>
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+      />
+    </svg>
+    <p
+      className="MuiTypography-root MuiTypography-body1"
+      role="alert"
+    >
+      Internal server error
+       (
+      500
+      )
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/Loading Default 1`] = `
+<div
+  className="makeStyles-root-84 makeStyles-root-85"
+>
+  <div
+    className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+    role="progressbar"
+    style={
+      Object {
+        "height": 40,
+        "width": 40,
+      }
+    }
+  >
+    <svg
+      className="MuiCircularProgress-svg"
+      viewBox="22 22 44 44"
+    >
+      <circle
+        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+        cx={44}
+        cy={44}
+        fill="none"
+        r={20.2}
+        strokeWidth={3.6}
+        style={Object {}}
+      />
+    </svg>
+  </div>
+</div>
+`;
+
 exports[`Storyshots components/NationAvatar England 1`] = `
 <div
   className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-107 makeStyles-avatar-108"

@@ -14,6 +14,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   messagePreviewContainer: {
     display: "flex",
     flexDirection: "column",
+    width: "100%",
   },
   messagePreviewTitle: {
     textTransform: "none",
@@ -90,7 +91,7 @@ const ChatChannelPreview = ({
             variant="body2"
             className={classes.messagePreviewText}
           >
-            <Typography variant="body2" className={classes.messagePreviewLabel}>
+            <Typography variant="body2" title={"sender"} className={classes.messagePreviewLabel}>
               {messagePreviewSenderLabel}
             </Typography>
             {channel.LatestMessage.Body}

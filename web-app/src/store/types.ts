@@ -512,3 +512,7 @@ export interface MutationStatus {
   isLoading: boolean;
   isError: boolean;
 }
+
+export type CreateMessageResponse = ApiResponse & {
+  Properties: Message
+}

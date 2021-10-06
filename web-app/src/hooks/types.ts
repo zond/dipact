@@ -23,3 +23,8 @@ export interface Channel extends StoreChannel {
   };
   id: string;
 }
+
+export interface ApiError {
+  status: number | null;
+  data: any;
+}

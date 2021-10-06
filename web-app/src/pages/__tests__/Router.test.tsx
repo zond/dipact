@@ -21,7 +21,7 @@ const renderRoute = (route: string | null = null): void => {
 	const initialEntries = route ? [route] : undefined;
 	render(
 		<MemoryRouter initialEntries={initialEntries}>
-			<Routes urls={{}} />
+			<Routes />
 		</MemoryRouter>
 	);
 };

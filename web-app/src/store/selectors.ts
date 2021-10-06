@@ -26,6 +26,9 @@ export const selectHasPlayed = (state: RootState): boolean =>
 
 export const selectMessaging = (state: RootState): Messaging => state.messaging;
 
+export const selectIsLoggedIn = (state: RootState): boolean =>
+  state.auth.isLoggedIn;
+
 export const selectToken = (state: RootState): string | undefined =>
   state.auth.token;
 

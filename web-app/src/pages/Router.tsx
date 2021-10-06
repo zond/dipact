@@ -1,20 +1,31 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { ChatMenu } from "../components/Chat";
-import ChatChannel from "../components/Chat/ChatChannel";
-import Game from "../components/Game";
-import LegacyApp from "../LegacyApp";
-import About from "./About";
+import GameRouter from "./GameRouter";
+import Login from "./Login";
 import { RouteConfig } from "./RouteConfig";
+
+import { useSelectIsLoggedIn } from "../hooks/selectors";
+
+// TODO test
+export const LoggedOutRoutes = (): React.ReactElement => {
+  return (
+    <Switch>
+      <Route path={RouteConfig.Login}>
+        <Login />
+      </Route>
+      <Redirect to="/" />
+    </Switch>
+  );
+};
 
 // Separated into two components to make testing routes easier
 export const Routes = (): React.ReactElement => {
-	return (
-		<Switch>
-			{/* <Route exact path="/">
+  return (
+    <Switch>
+      {/* <Route exact path="/">
         		<LegacyApp />
 			</Route> */}
-			{/* <Route exact path={RouteConfig.About}>
+      {/* <Route exact path={RouteConfig.About}>
 				<About />
 			</Route>
 			<Route exact path={RouteConfig.Game}>
@@ -23,26 +34,25 @@ export const Routes = (): React.ReactElement => {
 			<Route exact path={RouteConfig.GameTab}>
 				<Game />
 			</Route> */}
-			<Route exact path={RouteConfig.GameChat}>
-				<ChatMenu />
-			</Route>
-			<Route exact path={RouteConfig.GameChatChannel}>
-				<ChatChannel />
-			</Route>
-			{/* <Route exact path={RouteConfig.GameLaboratoryMode}>
+      <Route path={RouteConfig.Game}>
+        <GameRouter />
+      </Route>
+      {/* <Route exact path={RouteConfig.GameLaboratoryMode}>
 				<Game laboratoryMode />
 			</Route> */}
-			{/* <Redirect to="/" /> */}
-		</Switch>
-	);
+      {/* <Redirect to="/" /> */}
+    </Switch>
+  );
 };
 
 const Router = (): React.ReactElement => {
-	return (
-		<BrowserRouter>
-			<Routes />
-		</BrowserRouter>
-	);
+  const isLoggedIn = useSelectIsLoggedIn();
+
+  return (
+    <BrowserRouter>
+      {isLoggedIn ? <Routes /> : <LoggedOutRoutes />}
+    </BrowserRouter>
+  );
 };
 
 export default Router;

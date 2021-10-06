@@ -24,6 +24,12 @@ export const authSlice = createSlice({
 			state.isLoggedIn = true;
 			state.token = token;
 		},
+		// TODO test
+		logout: (state) => {
+			localStorage.removeItem("token");
+			state.isLoggedIn = false;
+			state.token = undefined;
+		},
 	},
 });
 

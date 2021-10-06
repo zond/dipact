@@ -4,6 +4,23 @@
     {
       "Name": "Austria",
       "Properties": {
+        "ID": "newMessage",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Austria",
+          "Russia"
+        ],
+        "Sender": "Austria",
+        "Body": "New message text",
+        "CreatedAt": "2021-07-29T13:51:21.099982Z",
+        "Age": 4067328748454713
+      },
+      "Type": "Message",
+      "Links": null
+    },
+    {
+      "Name": "Austria",
+      "Properties": {
         "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQAsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIOQXVzdHJpYSxSdXNzaWEMCxIHTWVzc2FnZRiAgICf_p_zCAw",
         "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
         "ChannelMembers": [

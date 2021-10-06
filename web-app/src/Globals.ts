@@ -20,8 +20,12 @@ interface IGlobals {
 	[key: string]: any
 }
 
+interface IWrapper {
+
+}
+
 declare global {
-    interface Window { Globals: IGlobals; }
+    interface Window { Globals: IGlobals; Wrapper: IWrapper }
 }
 
 window.Globals = {

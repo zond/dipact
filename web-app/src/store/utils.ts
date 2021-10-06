@@ -2,6 +2,7 @@
 import {
 	Channel,
 	ChannelResponse,
+	Message,
 	// FCMToken,
 	// Messaging,
 	Variant,
@@ -84,7 +85,20 @@ export const sortListChannels = (
 		if (channelA.LatestMessage) {
 			const d1 = Date.parse(channelA.LatestMessage.CreatedAt);
 			const d2 = Date.parse(channelB.LatestMessage.CreatedAt);
-			return d1 > d2 ? -1 : d2 > d1 ? 1 : 0;
+			return d1 > d2 ? 1 : d2 > d1 ? -1 : 0;
+		}
+		return 0;
+	});
+};
+
+export const sortMessages = (
+	messages: Message[],
+): Message[] => {
+	return [...messages].sort((messageA, messageB) => {
+		if (messageA.CreatedAt) {
+			const d1 = Date.parse(messageA.CreatedAt);
+			const d2 = Date.parse(messageB.CreatedAt);
+			return d1 > d2 ? 1 : d2 > d1 ? -1 : 0;
 		}
 		return 0;
 	});

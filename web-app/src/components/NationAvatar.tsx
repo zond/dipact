@@ -52,6 +52,7 @@ const NationAvatar = ({
       className={classes.avatar}
       alt={nation}
       src={link}
+      title={nation}
     >
       {nationAbbreviation}
     </Avatar>

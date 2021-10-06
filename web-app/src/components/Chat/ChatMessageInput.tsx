@@ -1,9 +1,10 @@
 import { IconButton, TextField, Typography, makeStyles } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SendMessageIcon } from "../../icons";
 
 interface ChatMessageInputProps {
   onSendMessage: (message: string) => void;
+  undelivered: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +28,13 @@ const useStyles = makeStyles((theme) => ({
 
 const SEND_PROMPT = "Ctrl + Enter to send";
 
-const ChatMessageInput = ({ onSendMessage }: ChatMessageInputProps): React.ReactElement => {
+const ChatMessageInput = ({ onSendMessage, undelivered }: ChatMessageInputProps): React.ReactElement => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
+  // Empty input after message is sent
+  useEffect(() => {
+	  if (!undelivered) setMessage("");
+  }, [undelivered])
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
 	if (e.key === "Enter" && e.ctrlKey) {
@@ -59,10 +64,13 @@ const ChatMessageInput = ({ onSendMessage }: ChatMessageInputProps): React.React
 				onKeyDown={onKeyDown}
 				onChange={onChange}
 				value={message}
+				disabled={undelivered}
 			/>
 			<IconButton
+				title="Send message"
 				onClick={sendMessage}
 				color="primary"
+				disabled={undelivered}
 			>
 				<SendMessageIcon />
 			</IconButton>

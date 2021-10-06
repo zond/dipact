@@ -1,0 +1,565 @@
+{
+  "Name": "phases",
+  "Properties": [
+    {
+      "Name": "Spring 1901, Movement",
+      "Properties": {
+        "PhaseOrdinal": 1,
+        "Season": "Spring",
+        "Year": 1901,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-29T12:32:06.612762Z",
+        "CreatedAgo": -4067792072029615,
+        "ResolvedAt": "2021-07-30T12:32:06.729141Z",
+        "ResolvedAgo": -3981391955650814,
+        "DeadlineAt": "2021-07-30T12:32:06.612762Z",
+        "NextDeadlineIn": -3981392072028385,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Host": "diplicity-engine.appspot.com"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1901, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 2,
+        "Season": "Spring",
+        "Year": 1901,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-30T12:32:06.736095Z",
+        "CreatedAgo": -3981391948738762,
+        "ResolvedAt": "2021-07-30T12:32:06.79089Z",
+        "ResolvedAgo": -3981391893943866,
+        "DeadlineAt": "2021-07-30T12:32:06.770747Z",
+        "NextDeadlineIn": -3981391914086648,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "Host": "diplicity-engine.appspot.com"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1901, Movement",
+      "Properties": {
+        "PhaseOrdinal": 3,
+        "Season": "Fall",
+        "Year": 1901,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-30T12:32:06.797191Z",
+        "CreatedAgo": -3981391887661903,
+        "ResolvedAt": "2021-07-31T12:32:06.915834Z",
+        "ResolvedAgo": -3894991769019003,
+        "DeadlineAt": "2021-07-31T12:32:06.797191Z",
+        "NextDeadlineIn": -3894991887661795,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1901, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 4,
+        "Season": "Fall",
+        "Year": 1901,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T12:32:06.921874Z",
+        "CreatedAgo": -3894991762997093,
+        "ResolvedAt": "2021-07-31T12:32:06.9571Z",
+        "ResolvedAgo": -3894991727771197,
+        "DeadlineAt": "2021-07-31T12:32:06.944558Z",
+        "NextDeadlineIn": -3894991740312989,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1901, Adjustment",
+      "Properties": {
+        "PhaseOrdinal": 5,
+        "Season": "Fall",
+        "Year": 1901,
+        "Type": "Adjustment",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T12:32:06.96479Z",
+        "CreatedAgo": -3894991720098747,
+        "ResolvedAt": "2021-07-31T12:59:34.138568Z",
+        "ResolvedAgo": -3893344546320845,
+        "DeadlineAt": "2021-08-01T12:32:06.96479Z",
+        "NextDeadlineIn": -3808591720098644,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1902, Movement",
+      "Properties": {
+        "PhaseOrdinal": 6,
+        "Season": "Spring",
+        "Year": 1902,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T12:59:34.144253Z",
+        "CreatedAgo": -3893344540653583,
+        "ResolvedAt": "2021-07-31T14:55:38.34371Z",
+        "ResolvedAgo": -3886380341196685,
+        "DeadlineAt": "2021-08-01T12:59:34.144253Z",
+        "NextDeadlineIn": -3806944540653480,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1902, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 7,
+        "Season": "Spring",
+        "Year": 1902,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T14:55:38.35053Z",
+        "CreatedAgo": -3886380334393119,
+        "ResolvedAt": "2021-07-31T14:55:38.387513Z",
+        "ResolvedAgo": -3886380297410219,
+        "DeadlineAt": "2021-07-31T14:55:38.37669Z",
+        "NextDeadlineIn": -3886380308233017,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1902, Movement",
+      "Properties": {
+        "PhaseOrdinal": 8,
+        "Season": "Fall",
+        "Year": 1902,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T14:55:38.393073Z",
+        "CreatedAgo": -3886380291867611,
+        "ResolvedAt": "2021-07-31T15:45:58.653042Z",
+        "ResolvedAgo": -3883360031898710,
+        "DeadlineAt": "2021-08-01T14:55:38.393073Z",
+        "NextDeadlineIn": -3799980291867508,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1902, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 9,
+        "Season": "Fall",
+        "Year": 1902,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T15:45:58.660946Z",
+        "CreatedAgo": -3883360024015326,
+        "ResolvedAt": "2021-07-31T15:45:58.760447Z",
+        "ResolvedAgo": -3883359924514426,
+        "DeadlineAt": "2021-07-31T15:45:58.687337Z",
+        "NextDeadlineIn": -3883359997624225,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1902, Adjustment",
+      "Properties": {
+        "PhaseOrdinal": 10,
+        "Season": "Fall",
+        "Year": 1902,
+        "Type": "Adjustment",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T15:45:58.767437Z",
+        "CreatedAgo": -3883359917548377,
+        "ResolvedAt": "2021-07-31T16:05:31.602359Z",
+        "ResolvedAgo": -3882187082626522,
+        "DeadlineAt": "2021-08-01T15:45:58.767437Z",
+        "NextDeadlineIn": -3796959917548231,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1903, Movement",
+      "Properties": {
+        "PhaseOrdinal": 11,
+        "Season": "Spring",
+        "Year": 1903,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T16:05:31.61056Z",
+        "CreatedAgo": -3882187074451593,
+        "ResolvedAt": "2021-07-31T16:23:55.354046Z",
+        "ResolvedAgo": -3881083330965696,
+        "DeadlineAt": "2021-08-01T16:05:31.61056Z",
+        "NextDeadlineIn": -3795787074451490,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1903, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 12,
+        "Season": "Spring",
+        "Year": 1903,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T16:23:55.361206Z",
+        "CreatedAgo": -3881083323830980,
+        "ResolvedAt": "2021-07-31T16:23:55.469777Z",
+        "ResolvedAgo": -3881083215260081,
+        "DeadlineAt": "2021-07-31T16:23:55.458058Z",
+        "NextDeadlineIn": -3881083226978876,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1903, Movement",
+      "Properties": {
+        "PhaseOrdinal": 13,
+        "Season": "Fall",
+        "Year": 1903,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T16:23:55.475732Z",
+        "CreatedAgo": -3881083209324079,
+        "ResolvedAt": "2021-07-31T16:30:10.744049Z",
+        "ResolvedAgo": -3880707941007179,
+        "DeadlineAt": "2021-08-01T16:23:55.475732Z",
+        "NextDeadlineIn": -3794683209323977,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1903, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 14,
+        "Season": "Fall",
+        "Year": 1903,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T16:30:10.754009Z",
+        "CreatedAgo": -3880707931066131,
+        "ResolvedAt": "2021-07-31T16:36:46.568197Z",
+        "ResolvedAgo": -3880312116878234,
+        "DeadlineAt": "2021-08-01T16:30:10.754009Z",
+        "NextDeadlineIn": -3794307931066030,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1903, Adjustment",
+      "Properties": {
+        "PhaseOrdinal": 15,
+        "Season": "Fall",
+        "Year": 1903,
+        "Type": "Adjustment",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T16:36:46.647177Z",
+        "CreatedAgo": -3880312037917200,
+        "ResolvedAt": "2021-07-31T16:54:04.764393Z",
+        "ResolvedAgo": -3879273920701303,
+        "DeadlineAt": "2021-08-01T16:36:46.647177Z",
+        "NextDeadlineIn": -3793912037917098,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1904, Movement",
+      "Properties": {
+        "PhaseOrdinal": 16,
+        "Season": "Spring",
+        "Year": 1904,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T16:54:04.771424Z",
+        "CreatedAgo": -3879273913688742,
+        "ResolvedAt": "2021-07-31T18:59:38.354946Z",
+        "ResolvedAgo": -3871740330166884,
+        "DeadlineAt": "2021-08-01T16:54:04.771424Z",
+        "NextDeadlineIn": -3792873913688584,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1904, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 17,
+        "Season": "Spring",
+        "Year": 1904,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T18:59:38.366874Z",
+        "CreatedAgo": -3871740318258238,
+        "ResolvedAt": "2021-07-31T18:59:38.484165Z",
+        "ResolvedAgo": -3871740200967349,
+        "DeadlineAt": "2021-07-31T18:59:38.467488Z",
+        "NextDeadlineIn": -3871740217644119,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1904, Movement",
+      "Properties": {
+        "PhaseOrdinal": 18,
+        "Season": "Fall",
+        "Year": 1904,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T18:59:38.494066Z",
+        "CreatedAgo": -3871740191084742,
+        "ResolvedAt": "2021-07-31T20:20:30.570514Z",
+        "ResolvedAgo": -3866888114636842,
+        "DeadlineAt": "2021-08-01T18:59:38.494066Z",
+        "NextDeadlineIn": -3785340191084642,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1904, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 19,
+        "Season": "Fall",
+        "Year": 1904,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T20:20:30.577277Z",
+        "CreatedAgo": -3866888107888624,
+        "ResolvedAt": "2021-07-31T20:24:13.640999Z",
+        "ResolvedAgo": -3866665044166722,
+        "DeadlineAt": "2021-08-01T20:20:30.577277Z",
+        "NextDeadlineIn": -3780488107888512,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1904, Adjustment",
+      "Properties": {
+        "PhaseOrdinal": 20,
+        "Season": "Fall",
+        "Year": 1904,
+        "Type": "Adjustment",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T20:24:13.649316Z",
+        "CreatedAgo": -3866665035866716,
+        "ResolvedAt": "2021-07-31T20:26:18.382046Z",
+        "ResolvedAgo": -3866540303136817,
+        "DeadlineAt": "2021-08-01T20:24:13.649316Z",
+        "NextDeadlineIn": -3780265035866611,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1905, Movement",
+      "Properties": {
+        "PhaseOrdinal": 21,
+        "Season": "Spring",
+        "Year": 1905,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-07-31T20:26:18.387489Z",
+        "CreatedAgo": -3866540297712248,
+        "ResolvedAt": "2021-08-01T05:20:22.51578Z",
+        "ResolvedAgo": -3834496169421350,
+        "DeadlineAt": "2021-08-01T20:26:18.387489Z",
+        "NextDeadlineIn": -3780140297712145,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Spring 1905, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 22,
+        "Season": "Spring",
+        "Year": 1905,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-08-01T05:20:22.523099Z",
+        "CreatedAgo": -3834496162119591,
+        "ResolvedAt": "2021-08-01T05:20:22.56142Z",
+        "ResolvedAgo": -3834496123798691,
+        "DeadlineAt": "2021-08-01T05:20:22.549154Z",
+        "NextDeadlineIn": -3834496136064488,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1905, Movement",
+      "Properties": {
+        "PhaseOrdinal": 23,
+        "Season": "Fall",
+        "Year": 1905,
+        "Type": "Movement",
+        "Resolved": true,
+        "CreatedAt": "2021-08-01T05:20:22.567765Z",
+        "CreatedAgo": -3834496117468548,
+        "ResolvedAt": "2021-08-01T10:49:21.67844Z",
+        "ResolvedAgo": -3814757006793648,
+        "DeadlineAt": "2021-08-02T05:20:22.567765Z",
+        "NextDeadlineIn": -3748096117468446,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1905, Retreat",
+      "Properties": {
+        "PhaseOrdinal": 24,
+        "Season": "Fall",
+        "Year": 1905,
+        "Type": "Retreat",
+        "Resolved": true,
+        "CreatedAt": "2021-08-01T10:49:21.687672Z",
+        "CreatedAgo": -3814756997576538,
+        "ResolvedAt": "2021-08-01T10:49:21.789232Z",
+        "ResolvedAgo": -3814756896016640,
+        "DeadlineAt": "2021-08-01T10:49:21.772344Z",
+        "NextDeadlineIn": -3814756912904435,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    },
+    {
+      "Name": "Fall 1905, Adjustment",
+      "Properties": {
+        "PhaseOrdinal": 25,
+        "Season": "Fall",
+        "Year": 1905,
+        "Type": "Adjustment",
+        "Resolved": true,
+        "CreatedAt": "2021-08-01T10:49:21.796972Z",
+        "CreatedAgo": -3814756888290874,
+        "ResolvedAt": "2021-08-01T10:49:21.851049Z",
+        "ResolvedAgo": -3814756834213974,
+        "DeadlineAt": "2021-08-02T10:49:21.796972Z",
+        "NextDeadlineIn": -3728356888290773,
+        "UnitsJSON": "",
+        "SCsJSON": "",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM"
+      },
+      "Type": "Phase",
+      "Links": [
+      ]
+    }
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Phases",
+      "Method": "GET"
+    }
+  ]
+}

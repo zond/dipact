@@ -7,16 +7,18 @@ export const getNationAvatarGroupFromChannel = (channel: Channel) => {
   const avatars =
     channel.title === EVERYONE
       ? [<NationAvatar {...getEveryoneAvatarProps()} />]
-      : channel.nations.map(({ name, color, link, abbreviation }) => {
-          return (
-            <NationAvatar
-              key={name}
-              nation={name}
-              color={color}
-              link={link}
-              nationAbbreviation={abbreviation}
-            />
-          );
-        });
+      : channel.nations
+          .filter((nation) => nation.name !== channel.member?.Nation)
+          .map(({ name, color, link, abbreviation }) => {
+            return (
+              <NationAvatar
+                key={name}
+                nation={name}
+                color={color}
+                link={link}
+                nationAbbreviation={abbreviation}
+              />
+            );
+          });
   return <NationAvatarGroup avatars={avatars} />;
-}
+};

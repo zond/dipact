@@ -40,3 +40,6 @@ export const useSelectNationFlagLink = (variant: string, nation: string): string
 
 export const useSelectChannel = (gameId: string, channelId: string): Channel | null =>
 	useAppSelector((state: RootState) => selectors.selectChannel(state, gameId, channelId));
+
+export const useSelectIsLoggedIn = (): boolean =>
+	useAppSelector((state: RootState) => selectors.selectIsLoggedIn(state));

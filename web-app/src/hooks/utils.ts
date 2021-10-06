@@ -10,7 +10,7 @@ import {
   getNationColor,
   getNationFlagLink,
 } from "../utils/general";
-import { Channel } from "./types";
+import { ApiError, Channel } from "./types";
 
 export const EVERYONE = "Everyone";
 
@@ -24,8 +24,6 @@ export const getChannel = (
   user: User
 ): Channel => {
   const { Members } = channel;
-  const title =
-    Members.length === variant.Nations.length ? EVERYONE : Members.join(", ");
   const nations = Members.map((nation) => {
     const color = getNationColor(variant, nation);
     const abbreviation = getNationAbbreviation(variant, nation);
@@ -34,6 +32,10 @@ export const getChannel = (
     return { name, color, abbreviation, link };
   });
   const member = getMember(game, user);
+  const title =
+    Members.length === variant.Nations.length
+      ? EVERYONE
+      : Members.filter((nation) => nation !== member?.Nation).join(", ");
   const id = Members.join(",");
   return {
     ...channel,
@@ -49,3 +51,20 @@ export const sortChannels = (channels: Channel[]): Channel[] =>
   channels.sort((a, b) =>
     a.title === EVERYONE ? -1 : b.title === EVERYONE ? 1 : 0
   );
+
+export const mergeErrors = (...errorsOrUndefined: (ApiError | undefined)[]): ApiError => {
+  const errors: ApiError[] = [];
+  errorsOrUndefined.forEach(error => {
+    if (error) errors.push(error)
+  });
+  return errors.reduce(
+    (mergedErrors, error) => {
+      const newError = {
+        status: error?.status || mergedErrors.status,
+        data: error?.data || mergedErrors.data,
+      }
+      return newError as ApiError;
+    },
+    { status: null, data: {} } as ApiError
+  );
+};

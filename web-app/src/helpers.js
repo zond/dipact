@@ -1233,15 +1233,14 @@ export function login(tokenDuration = 60 * 60 * 20) {
 		};
 		incProgress();
 		window.Wrapper.getToken();
-	} else if (Globals.loginURL) {
+	} else {
+		const loginUrl = "https://diplicity-engine.appspot.com/Auth/Login";
 		const hrefURL = new URL(location.href);
 		hrefURL.searchParams.delete("token");
-		const loginURL = new URL(Globals.loginURL.toString());
+		const loginURL = new URL(loginUrl.toString());
 		loginURL.searchParams.set("redirect-to", hrefURL.toString());
 		loginURL.searchParams.set("token-duration", "" + tokenDuration);
 		location.href = loginURL;
-	} else {
-		location.reload();
 	}
 }
 

@@ -78,9 +78,10 @@ const NationAvatarGroup = ({
 
   return (
     <div className={classes.root}>
-      {gridTemplate.map((num, index) => (
-        <div key={index}>{[...Array(num)].map(pickAvatar)}</div>
-      ))}
+      {gridTemplate.map((num, index) => {
+        const inner = [...Array(num)].map(pickAvatar);
+        return <div key={`${index}-${num}`}>{inner}</div>;
+      })}
     </div>
   );
 };

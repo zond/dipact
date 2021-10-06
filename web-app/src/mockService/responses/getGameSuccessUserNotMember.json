@@ -20,7 +20,7 @@
     "NoMerge": false,
     "DisableConferenceChat": false,
     "DisableGroupChat": false,
-    "DisablePrivateChat": true,
+    "DisablePrivateChat": false,
     "NationAllocation": 0,
     "Anonymous": false,
     "LastYear": 0,
@@ -47,7 +47,7 @@
     "Members": [
       {
         "User": {
-          "Email": "fakeemail@gmail.com",
+          "Email": "",
           "FamilyName": "",
           "Gender": "",
           "GivenName": "",

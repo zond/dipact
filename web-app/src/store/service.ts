@@ -29,16 +29,18 @@ import {
   Channel,
   ListChannelsResponse,
   User,
-  Root,
+  CreateMessageResponse,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
   sortVariantResponse,
   sortListChannels,
+  sortMessages,
 } from "./utils";
 
 export enum TagType {
   UserConfig = "UserConfig",
+  Messages = "Messages",
 }
 
 const hrefURL = new URL(location.href);
@@ -46,7 +48,7 @@ export const diplicityServiceURL = "https://diplicity-engine.appspot.com/";
 const serviceURL = localStorage.getItem("serverURL") || diplicityServiceURL;
 
 export const diplicityService = createApi({
-  tagTypes: [TagType.UserConfig],
+  tagTypes: [TagType.UserConfig, TagType.Messages],
   reducerPath: "diplicityService",
   baseQuery: fetchBaseQuery({
     baseUrl: serviceURL,
@@ -128,10 +130,12 @@ export const diplicityService = createApi({
       query: ({ gameId, channelId }) =>
         `/Game/${gameId}/Channel/${channelId}/Messages`,
       transformResponse: (response: ListMessagesResponse) => {
-        return response.Properties.map(
+        const messages = response.Properties.map(
           (messageResponse) => messageResponse.Properties
         );
+        return sortMessages(messages);
       },
+      providesTags: [TagType.Messages],
     }),
     listPhases: builder.query<Phase[], string>({
       query: (gameId) => `/Game/${gameId}/Phases`,
@@ -157,7 +161,7 @@ export const diplicityService = createApi({
       query: (gameId) => `/Game/${gameId}/Channels`,
       transformResponse: (response: ListChannelsResponse) => {
         const channels = response.Properties.map(
-          (messageResponse) => messageResponse.Properties
+          (channelResponse) => channelResponse.Properties
         );
         return sortListChannels(channels);
       },
@@ -175,6 +179,20 @@ export const diplicityService = createApi({
         method: "POST",
         body: JSON.stringify(data),
       }),
+    }),
+    createMessage: builder.mutation<
+      Message,
+      Pick<Message, "Body" | "ChannelMembers"> & { gameId: string }
+    >({
+      query: ({ gameId, ...data }) => ({
+        url: `/Game/${gameId}/Messages`,
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+      transformResponse: (response: CreateMessageResponse) => {
+        return response.Properties;
+      },
+      invalidatesTags: [TagType.Messages],
     }),
     updateUserConfig: builder.mutation<
       UpdateUserConfigResponse,
