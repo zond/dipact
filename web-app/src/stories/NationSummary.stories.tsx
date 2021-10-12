@@ -28,8 +28,8 @@ const Nations: { [key: string]: Nation } = {
 };
 
 const defaultArgs: Args = {
-  numBuilds: 0,
-  numDisbands: 0,
+  numBuilds: null,
+  numDisbands: null,
   numSupplyCenters: 3,
   numSupplyCentersToWin: 15,
   nation: Nations.France,

@@ -71,12 +71,16 @@ const getNumDisbands = (phaseState: PhaseState, member: Member | undefined) => {
   return message ? parseInt(message.split(":")[partIndex]) : null;
 };
 
-const getPhaseState = (game: Game | undefined, user: User | undefined | null, phaseStates: PhaseState[]): PhaseState | undefined => {
+const getPhaseState = (
+  game: Game | undefined,
+  user: User | undefined | null,
+  phaseStates: PhaseState[]
+): PhaseState | undefined => {
   if (game && user) {
     const member = getMember(game, user);
-    return phaseStates?.find((ps) => ps.Nation === member?.Nation)
+    return phaseStates?.find((ps) => ps.Nation === member?.Nation);
   }
-}
+};
 
 const getNationStatus = (
   phaseState: PhaseState,
@@ -147,11 +151,13 @@ const useOrders = (gameId: string): IUseOrders => {
     isError: gameIsError,
   } = useGetGameQuery(gameId);
 
-  const [updatePhaseState, { isLoading: phaseStateIsLoading }] = useUpdatePhaseStateMutation();
+  const [updatePhaseState, { isLoading: phaseStateIsLoading }] =
+    useUpdatePhaseStateMutation();
   const selectedPhase = useSelectPhase() || phases?.length;
 
   const dispatch = useDispatch();
-  const setSelectedPhase = (phaseOrdinal: number) => dispatch(phaseActions.set(phaseOrdinal));
+  const setSelectedPhase = (phaseOrdinal: number) =>
+    dispatch(phaseActions.set(phaseOrdinal));
 
   const [nationStatuses, setNationStatuses] = useState<NationStatus[]>([]);
   const variant = useSelectVariant(game?.Variant || "");
@@ -173,6 +179,15 @@ const useOrders = (gameId: string): IUseOrders => {
       );
     }
   }, [phases, game, variant, user, phaseStates]);
+
+  // TODO check this works
+  // TODO test
+  // Sets phase to null when component is unmounted
+  useEffect(() => {
+    return () => {
+      dispatch(phaseActions.clear());
+    };
+  });
 
   const isLoading =
     variantsIsLoading ||
@@ -204,13 +219,18 @@ const useOrders = (gameId: string): IUseOrders => {
   const toggleAcceptDraw = () => {
     if (phases && game && variant && user && phaseStates) {
       const member = getMember(game, user);
-      const phaseState = phaseStates?.find((ps) => ps.Nation === member?.Nation)
+      const phaseState = phaseStates?.find(
+        (ps) => ps.Nation === member?.Nation
+      );
       if (phaseState) {
-        const updatedPhaseState: PhaseState = { ...phaseState, WantsDIAS: !phaseState?.WantsDIAS}
+        const updatedPhaseState: PhaseState = {
+          ...phaseState,
+          WantsDIAS: !phaseState?.WantsDIAS,
+        };
         updatePhaseState(updatedPhaseState);
       }
     }
-  }
+  };
 
   const phaseState = getPhaseState(game, user, phaseStates || []);
   const ordersConfirmed = phaseState?.ReadyToResolve || false;

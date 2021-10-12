@@ -1,12 +1,12 @@
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, Meta } from "@storybook/react";
 
 import Component from "../components/PhaseSelector";
 
 export default {
   title: "components/PhaseSelector",
   component: Component,
-} as ComponentMeta<typeof Component>;
+} as Meta;
 
 const Template: ComponentStory<typeof Component> = (args) => (
   <Component {...args} />
@@ -22,6 +22,6 @@ Default.args = {
         [4, "Fall 1901, Retreat"],
         [5, "Fall 1901, Adjustment"],
     ],
-    onSelectPhase: console.log,
+    onSelectPhase: () => { return },
 };
 

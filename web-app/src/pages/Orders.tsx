@@ -6,22 +6,17 @@ import {
   Container,
   FormControlLabel,
   makeStyles,
-  SvgIcon,
 } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 
 import useRegisterPageView from "../hooks/useRegisterPageview";
 import NationSummary from "../components/Orders/NationSummary";
-import { WantsDrawIcon } from "../icons";
 import Order from "../components/Orders/Order";
 import { useHistory, useLocation, useParams } from "react-router";
 import useOrders from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
-import { useDispatch } from "react-redux";
-import { actions as phaseActions } from "../store/phase";
-import { useSelectPhase } from "../hooks/selectors";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -113,35 +108,23 @@ const Orders = () => {
     location.search,
   ]);
 
-  const phase = useSelectPhase();
-  const dispatch = useDispatch();
-
   useEffect(() => {
     const searchParamPhase = searchParams.get("phase");
-    if (!phase && searchParamPhase) {
-      dispatch(phaseActions.set(parseInt(searchParamPhase)));
+    if (!selectedPhase && searchParamPhase) {
+      setSelectedPhase(parseInt(searchParamPhase));
     }
-  }, [phase, dispatch, searchParams]);
+  }, [selectedPhase, searchParams, setSelectedPhase]);
 
   useEffect(() => {
-    if (phase) {
-      searchParams.set("phase", phase.toString());
+    if (selectedPhase) {
+      searchParams.set("phase", selectedPhase.toString());
       history.replace({
         pathname: location.pathname,
         search: searchParams.toString(),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
-
-  // TODO check this works
-  // TODO test
-  // Sets phase to null when component is unmounted
-  useEffect(() => {
-    return () => {
-      dispatch(phaseActions.clear);
-    };
-  });
+  }, [selectedPhase]);
 
   if (isError && error) return <ErrorMessage error={error} />;
   if (isLoading) return <Loading />;
