@@ -9,3 +9,9 @@ export const userSeesInternalServerErrorMessage = async () => {
     screen.getByText("Internal server error", { exact: false })
   );
 };
+
+export const userSeesPhaseSelector = async () => {
+  await waitFor(() =>
+    screen.getByTitle("phase selector", { exact: false })
+  );
+};

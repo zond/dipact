@@ -1,16 +1,8 @@
+import { Typography, makeStyles, Tooltip } from "@material-ui/core";
+import React from "react";
 import {
-  IconButton,
-  TextField,
-  Typography,
-  makeStyles,
-  Tooltip,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import {
-  ConfirmedReadyIcon,
   NoOrdersGivenIcon,
   OrdersConfirmedIcon,
-  SendMessageIcon,
   WantsDrawIcon,
 } from "../../icons";
 import NationAvatar from "../NationAvatar";
@@ -23,12 +15,13 @@ export interface Nation {
   isUser: boolean;
 }
 
+// TODO dedupe
 interface NationSummaryProps {
   confirmedOrders: boolean;
   nation: Nation;
   noOrdersGiven: boolean;
-  numBuilds: number;
-  numDisbands: number;
+  numBuilds: number | null;
+  numDisbands: number | null;
   numSupplyCenters: number;
   numSupplyCentersToWin: number;
   wantsDraw: boolean;
@@ -38,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "space-between",
+    width: "100%",
   },
   nationDetails: {
     display: "flex",
@@ -60,6 +54,10 @@ const NO_ORDERS_GIVEN_ICON_TITLE = "Did not send orders";
 const WANTS_DRAW_ICON_TITLE = "Wants draw";
 const SUPPLY_CENTER_LABEL_SINGULAR = "supply center";
 const SUPPLY_CENTER_LABEL_PLURAL = "supply centers";
+const BUILD_LABEL_SINGULAR = "build";
+const BUILD_LABEL_PLURAL = "builds";
+const DISBAND_LABEL_SINGULAR = "disband";
+const DISBAND_LABEL_PLURAL = "disbands";
 
 const NationSummary = ({
   confirmedOrders,
@@ -68,6 +66,8 @@ const NationSummary = ({
   numSupplyCentersToWin,
   wantsDraw,
   noOrdersGiven,
+  numBuilds,
+  numDisbands,
 }: NationSummaryProps): React.ReactElement => {
   const classes = useStyles();
 
@@ -76,12 +76,22 @@ const NationSummary = ({
       ? SUPPLY_CENTER_LABEL_PLURAL
       : SUPPLY_CENTER_LABEL_SINGULAR;
 
+  const buildLabel =
+    numBuilds !== 1
+      ? BUILD_LABEL_PLURAL
+      : BUILD_LABEL_SINGULAR;
+
+  const disbandLabel =
+    numDisbands !== 1
+      ? DISBAND_LABEL_PLURAL
+      : DISBAND_LABEL_SINGULAR;
+
   const supplyCentersToWinLabel = `${numSupplyCentersToWin} to win`;
 
   const nationLabel = nation.isUser ? `${nation.name} (You)` : nation.name;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} title={`${nation.name} summary`}>
       <div className={classes.nationDetails}>
         <div>
           <NationAvatar
@@ -98,6 +108,12 @@ const NationSummary = ({
           </Typography>
           {nation.isUser && (
             <Typography variant="body2">({supplyCentersToWinLabel})</Typography>
+          )}
+          {typeof numBuilds === "number" && (
+            <Typography variant="body2">{numBuilds} {buildLabel}</Typography>
+          )}
+          {typeof numDisbands === "number" && (
+            <Typography variant="body2">{numDisbands} {disbandLabel}</Typography>
           )}
         </div>
       </div>

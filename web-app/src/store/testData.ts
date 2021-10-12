@@ -93,7 +93,12 @@ export const initialState: RootState = {
   diplicityService: {
     queries: {},
     mutations: {},
-    provided: { [TagType.UserConfig]: {}, [TagType.Messages]: {} },
+    provided: {
+      [TagType.UserConfig]: {},
+      [TagType.Messages]: {},
+      [TagType.Game]: {},
+      [TagType.PhaseState]: {},
+    },
     subscriptions: {},
     config: {
       refetchOnFocus: false,
@@ -111,6 +116,7 @@ export const initialState: RootState = {
   messaging,
   userBans: {},
   userStats: {},
+  phase: null,
 };
 
 export const newGame: NewGame = {

@@ -1,5 +1,7 @@
 // See: https://mswjs.io/docs/getting-started/mocks/rest-api
-import { rest } from "msw";
+import { ResponseComposition, rest, RestContext, RestRequest } from "msw";
+import { ListPhasesResponse, ListPhaseStatesResponse, PhaseState, PhaseStateResponse } from "../store/types";
+
 import bansSuccess from "./responses/bansSuccess.json";
 import createGameSuccess from "./responses/createGameSuccess.json";
 import getGameSuccess from "./responses/getGameSuccess.json";
@@ -22,129 +24,229 @@ import messagesMultiplePhasesSuccess from "./responses/messagesMultiplePhasesSuc
 import variantsSuccess from "./responses/variantsSuccess.json";
 import variantsSuccessShort from "./responses/variantsSuccessShort.json";
 import listPhasesSuccess from "./responses/listPhasesSuccess.json";
+import listPhasesSuccessLarge from "./responses/listPhasesSuccessLarge.json";
+import listPhaseStatesSuccess25 from "./responses/listPhaseStatesSuccess25.json";
+import listPhaseStatesSuccess from "./responses/listPhaseStatesSuccess.json";
 import listChannelsSuccess from "./responses/listChannelsSuccess.json";
 import listChannelsSuccessNoChannels from "./responses/listChannelsSuccessNoChannels.json";
 
+import listPhases from "./data/listPhases";
+import listPhaseStates from "./data/listPhaseStates";
+
 const API_ROOT = "https://diplicity-engine.appspot.com/";
 
-const internalServerError = (req, res, ctx) => {
+const internalServerError = (
+  req: RestRequest<any, any>,
+  res: ResponseComposition<any>,
+  ctx: RestContext
+) => {
   return res(ctx.status(500));
 };
-const tokenTimeout = (req, res, ctx) => {
+
+const tokenTimeout = (
+  req: RestRequest<any, any>,
+  res: ResponseComposition<any>,
+  ctx: RestContext
+) => {
   return res(ctx.status(401), ctx.json("token timed out"));
+};
+
+interface listPhasesRequestParams {
+  gameId: string;
+}
+
+const getListPhasesHandlers = () => {
+  const url = `${API_ROOT}Game/:gameId/Phases`;
+  return {
+    success: rest.get<{}, ListPhasesResponse, listPhasesRequestParams>(
+      url,
+      (req, res, ctx) => {
+        const { gameId } = req.params;
+        return res(ctx.status(200), ctx.json(listPhases[gameId]));
+      }
+    ),
+    internalServerError: rest.get(url, internalServerError),
+    tokenTimeout: rest.get(url, tokenTimeout),
+  };
+};
+
+interface listPhaseStatesRequestParams {
+  gameId: string;
+  phaseId: string;
+}
+
+interface UpdatePhaseStateRequestParams {
+  gameId: string;
+  phaseId: string;
+}
+
+const listPhasesUrl = `${API_ROOT}Game/:gameId/Phases`;
+export const createListPhasesHandler = (
+  data: ListPhasesResponse,
+  status: number = 200
+) =>
+  rest.get<{}, ListPhasesResponse, listPhasesRequestParams>(
+    listPhasesUrl,
+    (req, res, ctx) => res(ctx.status(status), ctx.json(data))
+  );
+
+const listPhaseStatesUrl = `${API_ROOT}Game/:gameId/Phase/:phaseId/PhaseStates`;
+export const createListPhaseStateHandler = (
+  data: ListPhaseStatesResponse,
+  status: number = 200
+) =>
+  rest.get<{}, ListPhaseStatesResponse, listPhaseStatesRequestParams>(
+    listPhaseStatesUrl,
+    (req, res, ctx) => res(ctx.status(status), ctx.json(data))
+  );
+
+const getListPhaseStatesHandlers = () => {
+  const url = listPhaseStatesUrl;
+  return {
+    success: rest.get<
+      {},
+      ListPhaseStatesResponse,
+      listPhaseStatesRequestParams
+    >(url, (req, res, ctx) => {
+      const { gameId, phaseId } = req.params;
+      return res(ctx.status(200), ctx.json(listPhaseStates[gameId][phaseId]));
+    }),
+    internalServerError: rest.get(url, internalServerError),
+    tokenTimeout: rest.get(url, tokenTimeout),
+  };
+};
+
+const updatePhaseStateUrl = `${API_ROOT}Game/:gameId/Phase/:phaseId/PhaseState`;
+export const createUpdatePhaseStateHandler = (
+  data: PhaseStateResponse,
+  status: number = 200
+) =>
+  rest.put<{}, PhaseStateResponse, UpdatePhaseStateRequestParams>(
+    updatePhaseStateUrl,
+    (req, res, ctx) => res(ctx.status(status), ctx.json(data))
+  );
+
+const getUpdatePhaseStateHandlers = () => {
+  const url = updatePhaseStateUrl;
+  return {
+    success: rest.put<
+      PhaseState,
+      PhaseStateResponse,
+      UpdatePhaseStateRequestParams
+    >(url, (req, res, ctx) => {
+      const response = {
+        Name: req.body.Nation,
+        Type: "PhaseState",
+        Links: [],
+        Properties: req.body,
+      }
+      return res(ctx.status(200), ctx.json(response));
+    }),
+    internalServerError: rest.put(url, internalServerError),
+    tokenTimeout: rest.put(url, tokenTimeout),
+  };
 };
 
 const resolvers = {
   bans: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(bansSuccess));
     },
   },
   forumMail: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(forumMailSuccess));
     },
   },
   createGame: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(createGameSuccess));
     },
   },
   createMessage: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(createMessageSuccess));
     },
   },
   getGame: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(getGameSuccess));
     },
-    successUserNotMember: (req, res, ctx) => {
+    successUserNotMember: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(getGameSuccessUserNotMember));
     },
   },
   listChannels: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(listChannelsSuccess));
     },
-    successNoChannels: (req, res, ctx) => {
+    successNoChannels: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(listChannelsSuccessNoChannels));
     },
   },
-  listPhases: {
-    success: (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(listPhasesSuccess));
-    },
-  },
   histogram: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(histogramSuccess));
     },
   },
   myFinishedGames: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(myFinishedGamesSuccess));
     },
   },
   myStagingGames: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(myStagingGamesSuccessEmpty));
     },
   },
   myStartedGames: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(myStartedGamesSuccess));
     },
   },
   getUser: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(rootSuccess));
     },
   },
   updateUserConfig: {
-    success: (req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json(updateUserConfigSuccess)
-      );
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(updateUserConfigSuccess));
     },
   },
   userConfig: {
-    successZond: (req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json(userConfigSuccessZond)
-      );
+    successZond: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(userConfigSuccessZond));
     },
   },
   userStats: {
-    successNoGames: (req, res, ctx) => {
+    successNoGames: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(userStatsSuccessNoGames));
     },
-    successJoinedGames: (req, res, ctx) => {
+    successJoinedGames: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(userStatsSuccessJoinedGames));
     },
-    successZond: (req, res, ctx) => {
+    successZond: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(userStatsSuccessZond));
     },
   },
   variants: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(variantsSuccess));
     },
-    successShort: (req, res, ctx) => {
+    successShort: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(variantsSuccessShort));
     },
   },
 
   messages: {
-    success: (req, res, ctx) => {
+    success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(messagesSuccess));
     },
-    successMultiplePhases: (req, res, ctx) => {
+    successMultiplePhases: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(messagesMultiplePhasesSuccess));
     },
-    successNewMessage: (req, res, ctx) => {
+    successNewMessage: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(messagesSuccessNewMessage));
     },
   },
@@ -154,7 +256,6 @@ const variantsUrl = `${API_ROOT}Variants`;
 const getGameUrl = `${API_ROOT}Game/:gameId`;
 const messagesUrl = `${API_ROOT}Game/:gameId/Channel/:channelId/Messages`;
 const listChannelsUrl = `${API_ROOT}Game/:gameId/Channels`;
-const listPhasesUrl = `${API_ROOT}Game/:gameId/Phases`;
 const createGameUrl = `${API_ROOT}Game`;
 const createMessageUrl = `${API_ROOT}Game/:gameId/Messages`;
 const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
@@ -174,7 +275,10 @@ export const handlers = {
   },
   getGame: {
     success: rest.get(getGameUrl, resolvers.getGame.success),
-    successUserNotMember: rest.get(getGameUrl, resolvers.getGame.successUserNotMember),
+    successUserNotMember: rest.get(
+      getGameUrl,
+      resolvers.getGame.successUserNotMember
+    ),
     internalServerError: rest.get(getGameUrl, internalServerError),
     tokenTimeout: rest.get(messagesUrl, tokenTimeout),
   },
@@ -200,22 +304,29 @@ export const handlers = {
   },
   messages: {
     success: rest.get(messagesUrl, resolvers.messages.success),
-    successMultiplePhases: rest.get(messagesUrl, resolvers.messages.successMultiplePhases),
-    successNewMessage: rest.get(messagesUrl, resolvers.messages.successNewMessage),
+    successMultiplePhases: rest.get(
+      messagesUrl,
+      resolvers.messages.successMultiplePhases
+    ),
+    successNewMessage: rest.get(
+      messagesUrl,
+      resolvers.messages.successNewMessage
+    ),
     internalServerError: rest.get(messagesUrl, internalServerError),
     tokenTimeout: rest.get(messagesUrl, tokenTimeout),
   },
   listChannels: {
     success: rest.get(listChannelsUrl, resolvers.listChannels.success),
-    successNoChannels: rest.get(listChannelsUrl, resolvers.listChannels.successNoChannels),
+    successNoChannels: rest.get(
+      listChannelsUrl,
+      resolvers.listChannels.successNoChannels
+    ),
     internalServerError: rest.get(listChannelsUrl, internalServerError),
     tokenTimeout: rest.get(listChannelsUrl, tokenTimeout),
   },
-  listPhases: {
-    success: rest.get(listPhasesUrl, resolvers.listPhases.success),
-    internalServerError: rest.get(listPhasesUrl, internalServerError),
-    tokenTimeout: rest.get(listPhasesUrl, tokenTimeout),
-  },
+  listPhases: getListPhasesHandlers(),
+  listPhaseStates: getListPhaseStatesHandlers(),
+  updatePhaseState: getUpdatePhaseStateHandlers(),
 };
 
 export const handlersList = [
@@ -247,6 +358,8 @@ export const handlersList = [
   handlers.getUserConfig.success,
   handlers.listChannels.success,
   handlers.listPhases.success,
+  handlers.listPhaseStates.success,
+  handlers.updatePhaseState.success,
   handlers.messages.successNewMessage,
   handlers.createMessage.success,
   handlers.updateUserConfig.success,

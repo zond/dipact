@@ -129,3 +129,8 @@ export const selectUpdateUserConfigStatus = (
     isError: false, // TODO
   };
 };
+
+// TODO test
+export const selectPhase = (state: RootState): null | number => {
+  return state.phase;
+};

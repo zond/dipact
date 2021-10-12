@@ -43,3 +43,6 @@ export const useSelectChannel = (gameId: string, channelId: string): Channel | n
 
 export const useSelectIsLoggedIn = (): boolean =>
 	useAppSelector((state: RootState) => selectors.selectIsLoggedIn(state));
+
+export const useSelectPhase = (): null | number =>
+	useAppSelector((state: RootState) => selectors.selectPhase(state));

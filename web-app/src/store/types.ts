@@ -314,9 +314,9 @@ export type PhaseState = {
   OnProbation: boolean;
   NoOrders: boolean;
   Eliminated: boolean;
-  Messages: "";
+  Messages: string;
   ZippedOptions: null;
-  Note: "";
+  Note: string;
 };
 
 export type Member = {
@@ -414,7 +414,7 @@ export type Phase = {
   Bounces: null | Bounce[];
   Resolutions: null | Resolution[];
   Host: string;
-  SoloSCCount: 0;
+  SoloSCCount: number;
   PreliminaryScores: PreliminaryScore[];
 };
 

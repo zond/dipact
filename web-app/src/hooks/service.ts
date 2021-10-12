@@ -10,6 +10,8 @@ export const {
 	useListChannelsQuery,
 	useListMessagesQuery,
 	useListPhasesQuery,
+	useLazyListPhaseStatesQuery,
 	useListVariantsQuery,
 	useUpdateUserConfigMutation,
+	useUpdatePhaseStateMutation,
 } = diplicityService;

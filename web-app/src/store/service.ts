@@ -30,6 +30,7 @@ import {
   ListChannelsResponse,
   User,
   CreateMessageResponse,
+  PhaseStateResponse,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -41,6 +42,8 @@ import {
 export enum TagType {
   UserConfig = "UserConfig",
   Messages = "Messages",
+  PhaseState = "PhaseState",
+  Game = "Game",
 }
 
 const hrefURL = new URL(location.href);
@@ -48,7 +51,12 @@ export const diplicityServiceURL = "https://diplicity-engine.appspot.com/";
 const serviceURL = localStorage.getItem("serverURL") || diplicityServiceURL;
 
 export const diplicityService = createApi({
-  tagTypes: [TagType.UserConfig, TagType.Messages],
+  tagTypes: [
+    TagType.UserConfig,
+    TagType.Messages,
+    TagType.Game,
+    TagType.PhaseState,
+  ],
   reducerPath: "diplicityService",
   baseQuery: fetchBaseQuery({
     baseUrl: serviceURL,
@@ -156,6 +164,7 @@ export const diplicityService = createApi({
           (phaseStateResponse) => phaseStateResponse.Properties
         );
       },
+      providesTags: [TagType.PhaseState],
     }),
     listChannels: builder.query<Channel[], string>({
       query: (gameId) => `/Game/${gameId}/Channels`,
@@ -172,6 +181,7 @@ export const diplicityService = createApi({
       transformResponse: (response: GameResponse) => {
         return response.Properties;
       },
+      providesTags: [TagType.Game],
     }),
     createGame: builder.mutation<CreateGameResponse, NewGame>({
       query: (data) => ({
@@ -204,6 +214,21 @@ export const diplicityService = createApi({
         body: { UserId, ...patch },
       }),
       invalidatesTags: [TagType.UserConfig],
+    }),
+    updatePhaseState: builder.mutation<
+      PhaseStateResponse,
+      Partial<PhaseState> &
+        Pick<PhaseState, "GameID"> &
+        Pick<PhaseState, "PhaseOrdinal">
+    >({
+      query: ({ GameID, PhaseOrdinal, ...patch }) => {
+        return {
+          url: `/Game/${GameID}/Phase/${PhaseOrdinal}/PhaseState`,
+          method: "PUT",
+          body: { GameID, PhaseOrdinal, ...patch },
+        };
+      },
+      invalidatesTags: [TagType.Game, TagType.PhaseState],
     }),
   }),
 });

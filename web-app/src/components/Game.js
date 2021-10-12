@@ -1189,7 +1189,7 @@ class Game extends React.Component {
 								  }
 						}
 					>
-						{/* <DipMap
+						<DipMap
 							parentCB={(c) => {
 								this.dip_map = c;
 							}}
@@ -1205,7 +1205,7 @@ class Game extends React.Component {
 							phase={this.state.activePhase}
 							corroborateSubscriber={this.receiveCorroboration}
 							variant={this.state.variant}
-						/> */}
+						/>
 					</div>
 					<React.Fragment>
 						<div

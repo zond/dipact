@@ -5,6 +5,7 @@ import colorOverrides from "./colorOverrides";
 import feedback from "./feedback";
 import latestForumMail from "./latestForumMail";
 import messaging from "./messaging";
+import phase from "./phase";
 import userBans from "./userBans";
 import userStats from "./userStats";
 import { diplicityService } from "./service";
@@ -16,6 +17,7 @@ export default combineReducers({
 	feedback,
 	latestForumMail,
 	messaging,
+	phase,
 	userBans,
 	userStats,
 });

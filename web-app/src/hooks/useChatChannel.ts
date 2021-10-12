@@ -79,7 +79,6 @@ const useChatChannel = (gameId: string, channelId: string): IUseChatChannel => {
     error: variantsError,
     isLoading: variantsIsLoading,
     isError: variantsIsError,
-    isSuccess: variantsIsSuccess,
   } = useListVariantsQuery(undefined);
   const {
     data: phases,
@@ -93,13 +92,11 @@ const useChatChannel = (gameId: string, channelId: string): IUseChatChannel => {
     error: userError,
     isLoading: userIsLoading,
     isError: userIsError,
-    isSuccess: userIsSuccess,
   } = useGetRootQuery(undefined);
   const {
     error: channelsError,
     isLoading: channelsIsLoading,
     isError: channelsIsError,
-    isSuccess: channelsIsSuccess,
   } = useListChannelsQuery(gameId);
   const {
     data: messages,

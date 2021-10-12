@@ -23,6 +23,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         : theme.palette.error.main,
   },
   orderInconsistencies: {
+    color: theme.palette.error.main,
+    paddingInlineStart: 0,
     "& li": {
       paddingTop: "0",
       paddingBottom: "0",
@@ -30,12 +32,14 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
+export interface OrderDisplay {
+  label: string;
+  inconsistencies: string[];
+  resolution: string | null;
+}
+
 interface OrderProps {
-  order: {
-    label: string;
-    inconsistencies: string[];
-    resolution: string | null;
-  };
+  order: OrderDisplay;
 }
 
 const Order = ({ order }: OrderProps) => {
@@ -55,7 +59,7 @@ const Order = ({ order }: OrderProps) => {
       <ul className={classes.orderInconsistencies}>
         {order.inconsistencies.map((inconsistency) => (
           <li>
-            <Typography>{inconsistency}</Typography>
+            <Typography variant="body2">{inconsistency}</Typography>
           </li>
         ))}
       </ul>
