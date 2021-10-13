@@ -94,27 +94,12 @@ class Game extends React.Component {
 		this.joinWithPreferences = this.joinWithPreferences.bind(this);
 		this.leave = this.leave.bind(this);
 		this.refinePhaseMessage = this.refinePhaseMessage.bind(this);
-
-		this.gamePromise = () => {
-			return helpers
-				.safeFetch(
-					helpers.createRequest(
-						"/Game/" + this.props.match.params.gameId
-					)
-				)
-				.then((resp) => resp.json());
-		};
-
-		this.close = this.close.bind(this);
-
+		this.shareNative = this.shareNative.bind(this);
 		// Dead means "unmounted", and is used to stop the chat channel from setting the URL
 		// when it gets closed, if the parent game is unmounted.
 		this.dead = false;
 		this.dip_map = null;
 		this.countdownInterval = null;
-	}
-	close() {
-		this.props.history.push("/");
 	}
 	debugCount(tag) {
 		if (!this.debugCounters[tag]) {
@@ -131,6 +116,112 @@ class Game extends React.Component {
 				return "You may build " + parts[1] + " units this phase.";
 			default:
 				return "";
+		}
+	}
+	shareNative() {
+		const hrefURL = new URL(location.href);
+
+		if (navigator.share && !this.state.game.Properties.Started) {
+		
+			navigator
+				.share({
+					url:
+						hrefURL.protocol +
+						"//" +
+						hrefURL.host +
+						"/Game/" +
+						this.state.game.Properties.ID,
+					title: "Join my game at Diplicity!",
+					text: "Hi! Please join my game of Diplomacy. Follow the link and click 'Join'.", //If you want to understand the rules, visit http://rules.diplicity.com
+				})
+				.then(() => {
+						})
+				.catch(() => {
+					helpers
+						.copyToClipboard(
+							hrefURL.protocol +
+								"//" +
+								hrefURL.host +
+								"/Game/" +
+								this.state.game.Properties.ID
+						)
+						.then(
+							(_) => {
+								this.setState({
+									moreMenuAnchorEl: null,
+								});
+
+								helpers.snackbar(
+									"Game URL copied to clipboard. Share it to invite other players."
+								);
+							},
+							(err) => {
+								console.log(err);
+							}
+						);
+					gtag("event", "game_share");
+				});
+		} else if (navigator.share && this.state.game.Properties.Started) {
+			navigator
+				.share({
+					url:
+						hrefURL.protocol +
+						"//" +
+						hrefURL.host +
+						"/Game/" +
+						this.state.game.Properties.ID,
+					title: "View my game at Diplicity!",
+					text: "Hi. Please check out my game of Diplomacy!", //If you want to understand the rules, visit http://rules.diplicity.com
+				})
+				.then(() => {
+				})
+				.catch(() => {
+
+					helpers
+						.copyToClipboard(
+							hrefURL.protocol +
+								"//" +
+								hrefURL.host +
+								"/Game/" +
+								this.state.game.Properties.ID
+						)
+						.then(
+							(_) => {
+								this.setState({
+									moreMenuAnchorEl: null,
+								});
+
+								helpers.snackbar(
+									"Game URL copied to clipboard. Share it to show the game."
+								);
+							},
+							(err) => {
+								console.log(err);
+							}
+						);
+					gtag("event", "game_share");
+				});
+		} else {
+			console.log("No support for WebAPI, using snackbar");
+			helpers
+				.copyToClipboard(
+					hrefURL.protocol +
+						"//" +
+						hrefURL.host +
+						"/Game/" +
+						this.state.game.Properties.ID
+				)
+				.then(
+					(_) => {
+						helpers.snackbar(
+							"Game URL copied to clipboard. Share it to other players."
+						);
+					},
+					(err) => {
+						console.log(err);
+					}
+				);
+			gtag("event", "game_share");
 		}
 	}
 	leave() {
@@ -229,30 +320,34 @@ class Game extends React.Component {
 		});
 	}
 	serializePhaseState(phase) {
-		const toDeflate = JSON.stringify({
-			activePhase: phase.Properties.PhaseOrdinal,
-			phases: this.state.phases
-				.map((p) => {
-					if (
-						p.Properties.PhaseOrdinal ===
-						phase.Properties.PhaseOrdinal
-					) {
-						return phase;
-					} else {
-						return p;
-					}
-				})
-				.filter((p) => {
-					return (
-						!p.Properties.GameID ||
-						p.Properties.PhaseOrdinal ===
-							phase.Properties.PhaseOrdinal
-					);
-				}),
-		});
-		const deflated = pako.deflate(toDeflate, { to: "string" });
-		const base64 = btoa(deflated);
-		return encodeURIComponent(encodeURIComponent(base64));
+		return encodeURIComponent(
+			encodeURIComponent(
+				btoa(
+					pako.deflate(
+						JSON.stringify({
+							activePhase: phase.Properties.PhaseOrdinal,
+							phases: this.state.phases
+								.map((p) => {
+									if (
+										p.Properties.PhaseOrdinal === phase.Properties.PhaseOrdinal
+									) {
+										return phase;
+									} else {
+										return p;
+									}
+								})
+								.filter((p) => {
+									return (
+										!p.Properties.GameID ||
+										p.Properties.PhaseOrdinal === phase.Properties.PhaseOrdinal
+									);
+								}),
+						}),
+						{ to: "string" }
+					)
+				)
+			)
+		);
 	}
 	labPhaseResolve(resolvedPhase, newPhase) {
 		this.setState({
@@ -269,8 +364,7 @@ class Game extends React.Component {
 				})
 				.filter((oldPhase) => {
 					return (
-						oldPhase.Properties.PhaseOrdinal <
-						newPhase.Properties.PhaseOrdinal
+						oldPhase.Properties.PhaseOrdinal < newPhase.Properties.PhaseOrdinal
 					);
 				})
 				.concat([newPhase]),
@@ -330,50 +424,59 @@ class Game extends React.Component {
 			const els = document.getElementsByClassName("minute-countdown");
 			for (let i = 0; i < els.length; i++) {
 				const el = els[i];
-				const deadline = new Date(
-					parseFloat(el.getAttribute("dataat"))
-				);
+				const deadline = new Date(parseFloat(el.getAttribute("dataat")));
 				const deltaMinutes =
 					((deadline.getTime() - new Date().getTime()) * 1e-3) / 60.0;
 				el.innerText = helpers.minutesToDuration(deltaMinutes, true);
 			}
 		}, 30000);
 		this.loadGame().then((_) => {
-			if (this.props.laboratoryMode) {
-				const labOptions = this.props.match.params.labOptions;
-				const base64 = decodeURIComponent(
-					decodeURIComponent(labOptions)
-				);
-				const bytes = atob(base64)
-					.split(",")
-					.map((v) => parseInt(v));
-				const inflated = pako.inflate(new Uint8Array(bytes), {
-					to: "string",
-				});
-				const serializedState = JSON.parse(inflated);
-				const newPhases = this.state.phases.slice();
-				serializedState.phases.forEach((phase) => {
-					newPhases[phase.Properties.PhaseOrdinal - 1] = phase;
-				});
-				this.setState({
-					laboratoryMode: true,
-					activePhase: newPhases.find((phase) => {
-						return (
-							phase.Properties.PhaseOrdinal ===
-							serializedState.activePhase
-						);
-					}),
-					phases: newPhases,
-				});
-				gtag("set", {
-					page_title: "Game",
-					page_location: location.href,
-				});
-				gtag("event", "page_view");
-			}
-			if (
-				Globals.messaging.subscribe("phase", this.phaseMessageHandler)
-			) {
+			helpers.urlMatch(
+				[
+					[
+						/^\/Game\/([^/]+)\/Channel\/([^/]+)\/Messages$/,
+						(match) => {
+							this.setState({ activeTab: "chat" });
+						},
+					],
+					[
+						/^\/Game\/([^/]+)\/Lab\/(.+)$/,
+						(match) => {
+							const serializedState = JSON.parse(
+								pako.inflate(
+									atob(decodeURIComponent(decodeURIComponent(match[2]))),
+									{
+										to: "string",
+									}
+								)
+							);
+							const newPhases = this.state.phases.slice();
+							serializedState.phases.forEach((phase) => {
+								newPhases[phase.Properties.PhaseOrdinal - 1] = phase;
+							});
+							this.setState({
+								laboratoryMode: true,
+								activePhase: newPhases.find((phase) => {
+									return (
+										phase.Properties.PhaseOrdinal ===
+										serializedState.activePhase
+									);
+								}),
+								phases: newPhases,
+							});
+							gtag("set", {
+								page_title: "Game",
+								page_location: location.href,
+							});
+							gtag("event", "page_view");
+						},
+					],
+				],
+				(_) => {
+					history.pushState("", "", "/Game/" + this.state.game.Properties.ID);
+				}
+			);
+			if (Globals.messaging.subscribe("phase", this.phaseMessageHandler)) {
 				console.log("Game subscribing to `phase` notifications.");
 			}
 		});
@@ -506,9 +609,7 @@ class Game extends React.Component {
 					<AppBar
 						key="app-bar"
 						position="fixed"
-						color={
-							this.state.laboratoryMode ? "secondary" : "primary"
-						}
+						color={this.state.laboratoryMode ? "secondary" : "primary"}
 					>
 						<Toolbar>
 							{!this.state.laboratoryMode ? (
@@ -526,19 +627,13 @@ class Game extends React.Component {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
-												laboratoryMode:
-													!this.state.laboratoryMode,
+												laboratoryMode: !this.state.laboratoryMode,
 											},
 											(_) => {
-												if (
-													!this.state.laboratoryMode
-												) {
+												if (!this.state.laboratoryMode) {
 													this.loadGame();
 												} else {
-													gtag(
-														"event",
-														"enable_lab_mode"
-													);
+													gtag("event", "enable_lab_mode");
 												}
 											}
 										);
@@ -552,8 +647,7 @@ class Game extends React.Component {
 							)}
 							{!this.state.laboratoryMode &&
 							this.state.activePhase &&
-							this.state.activePhase.Properties.PhaseOrdinal >
-								1 ? (
+							this.state.activePhase.Properties.PhaseOrdinal > 1 ? (
 								<IconButton
 									onClick={this.phaseJumper(-1)}
 									key="previous"
@@ -569,10 +663,7 @@ class Game extends React.Component {
 							)}
 
 							{this.state.laboratoryMode ? (
-								<Typography
-									variant="h6"
-									style={{ marginRight: "8px" }}
-								>
+								<Typography variant="h6" style={{ marginRight: "8px" }}>
 									Sandbox
 								</Typography>
 							) : (
@@ -590,77 +681,53 @@ class Game extends React.Component {
 											? {
 													width: "100%",
 													minWidth: "0",
-													borderBottom:
-														"1px solid rgba(253, 226, 181, 0.7)",
+													borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
 													color: "rgb(40, 26, 26)",
 											  }
 											: {
 													width: "100%",
 													minWidth: "0",
-													borderBottom:
-														"1px solid rgba(253, 226, 181, 0.7)",
+													borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
 													color: "#FDE2B5",
 											  }
 									}
 									key="phase-select"
-									value={
-										this.state.activePhase.Properties
-											.PhaseOrdinal
-									}
+									value={this.state.activePhase.Properties.PhaseOrdinal}
 									onChange={this.changePhase}
-									label={helpers.phaseName(
-										this.state.activePhase
-									)}
+									label={helpers.phaseName(this.state.activePhase)}
 								>
 									{this.state.phases.map((phase) => {
 										return (
 											<MenuItem
-												key={
-													phase.Properties
-														.PhaseOrdinal
-												}
+												key={phase.Properties.PhaseOrdinal}
 												style={{
 													textOverflow: "ellipsis",
 												}}
-												value={
-													phase.Properties
-														.PhaseOrdinal
-												}
+												value={phase.Properties.PhaseOrdinal}
 											>
 												{helpers.phaseName(phase)}
-												{!this.state.game.Properties
-													.Started ||
-												this.state.laboratoryMode ||
+												{!this.state.game.Properties.Started ||
 												phase.Properties.Resolved ? (
 													""
 												) : (
 													<span
 														dataat={
 															new Date().getTime() +
-															phase.Properties
-																.NextDeadlineIn *
-																1e-6
+															phase.Properties.NextDeadlineIn * 1e-6
 														}
 														style={{
-															position:
-																"relative",
+															position: "relative",
 															top: "-6px",
-															fontSize:
-																"xx-small",
+															fontSize: "xx-small",
 															left: "-5px",
 															zIndex: "1",
-															backgroundColor:
-																"red",
+															backgroundColor: "red",
 															borderRadius: "7px",
-															padding:
-																"0 2px 1px 2px",
+															padding: "0 2px 1px 2px",
 														}}
 													>
 														{helpers.minutesToDuration(
-															(phase.Properties
-																.NextDeadlineIn *
-																1e-9) /
-																60.0,
+															(phase.Properties.NextDeadlineIn * 1e-9) / 60.0,
 															true
 														)}
 													</span>
@@ -676,8 +743,8 @@ class Game extends React.Component {
 							)}
 							{this.state.activePhase &&
 							this.state.activePhase.Properties.PhaseOrdinal <
-								this.state.phases[this.state.phases.length - 1]
-									.Properties.PhaseOrdinal ? (
+								this.state.phases[this.state.phases.length - 1].Properties
+									.PhaseOrdinal ? (
 								<IconButton
 									onClick={this.phaseJumper(1)}
 									edge="end"
@@ -729,9 +796,7 @@ class Game extends React.Component {
 										this.setState({
 											moreMenuAnchorEl: null,
 										});
-										if (
-											this.state.game.Properties.Started
-										) {
+										if (this.state.game.Properties.Started) {
 											this.gamePlayersDialog.setState({
 												open: true,
 											});
@@ -752,29 +817,23 @@ class Game extends React.Component {
 													this.setState({
 														moreMenuAnchorEl: null,
 													});
-													this.preliminaryScores.setState(
-														{
-															open: true,
-														}
-													);
+													this.preliminaryScores.setState({
+														open: true,
+													});
 												}}
 											>
 												Scores
 											</MenuItem>,
-											this.state.game.Properties
-												.Finished ? (
+											this.state.game.Properties.Finished ? (
 												<MenuItem
 													key="results"
 													onClick={(_) => {
 														this.setState({
-															moreMenuAnchorEl:
-																null,
+															moreMenuAnchorEl: null,
 														});
-														this.gameResults.setState(
-															{
-																open: true,
-															}
-														);
+														this.gameResults.setState({
+															open: true,
+														});
 													}}
 												>
 													Results
@@ -785,45 +844,7 @@ class Game extends React.Component {
 									  ]
 									: ""}
 								<Divider />
-								<MenuItem
-									key="game-id"
-									onClick={(_) => {
-										const hrefURL = new URL(location.href);
-										helpers
-											.copyToClipboard(
-												hrefURL.protocol +
-													"//" +
-													hrefURL.host +
-													"/Game/" +
-													this.state.game.Properties
-														.ID
-											)
-											.then(
-												(_) => {
-													this.setState({
-														moreMenuAnchorEl: null,
-													});
-
-													if (
-														this.state.game
-															.Properties.Started
-													) {
-														helpers.snackbar(
-															"Game URL copied to clipboard. Share it to show the game."
-														);
-													} else {
-														helpers.snackbar(
-															"Game URL copied to clipboard. Share it to invite other players."
-														);
-													}
-												},
-												(err) => {
-													console.log(err);
-												}
-											);
-										gtag("event", "game_share");
-									}}
-								>
+								<MenuItem key="game-id" onClick={this.shareNative}>
 									{this.state.game.Properties.Started
 										? "Share game"
 										: "Invite players"}
@@ -847,19 +868,13 @@ class Game extends React.Component {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
-												laboratoryMode:
-													!this.state.laboratoryMode,
+												laboratoryMode: !this.state.laboratoryMode,
 											},
 											(_) => {
-												if (
-													!this.state.laboratoryMode
-												) {
+												if (!this.state.laboratoryMode) {
 													this.loadGame();
 												} else {
-													gtag(
-														"event",
-														"enable_lab_mode"
-													);
+													gtag("event", "enable_lab_mode");
 												}
 											}
 										);
@@ -885,18 +900,12 @@ class Game extends React.Component {
 									key="debug-data"
 									onClick={(_) => {
 										helpers
-											.copyToClipboard(
-												JSON.stringify(
-													this.debugCounters
-												)
-											)
+											.copyToClipboard(JSON.stringify(this.debugCounters))
 											.then((_) => {
 												this.setState({
 													moreMenuAnchorEl: null,
 												});
-												helpers.snackbar(
-													"Debug data copied to clipboard"
-												);
+												helpers.snackbar("Debug data copied to clipboard");
 											});
 									}}
 								>
@@ -985,16 +994,8 @@ class Game extends React.Component {
 												variant="body2"
 												style={{ paddingLeft: "2px" }}
 											>
-												{
-													this.state.game.Properties
-														.NMembers
-												}
-												/
-												{
-													this.state.variant
-														.Properties.Nations
-														.length
-												}{" "}
+												{this.state.game.Properties.NMembers}/
+												{this.state.variant.Properties.Nations.length}{" "}
 											</Typography>
 										</div>
 									</Toolbar>
@@ -1012,14 +1013,8 @@ class Game extends React.Component {
 									<Tab
 										value="chat"
 										icon={
-											this.state.member &&
-											this.state.unreadMessages > 0 ? (
-												<Badge
-													badgeContent={
-														this.state
-															.unreadMessages
-													}
-												>
+											this.state.member && this.state.unreadMessages > 0 ? (
+												<Badge badgeContent={this.state.unreadMessages}>
 													<ChatIcon />
 												</Badge>
 											) : (
@@ -1029,12 +1024,9 @@ class Game extends React.Component {
 									/>
 									{this.state.game.Properties.Started ? (
 										this.state.member &&
-										!this.state.activePhase.Properties
-											.Resolved ? (
-											this.state.member.NewestPhaseState
-												.OnProbation ||
-											!this.state.member.NewestPhaseState
-												.ReadyToResolve ? (
+										!this.state.activePhase.Properties.Resolved ? (
+											this.state.member.NewestPhaseState.OnProbation ||
+											!this.state.member.NewestPhaseState.ReadyToResolve ? (
 												<Tab
 													value="orders"
 													icon={
@@ -1060,10 +1052,7 @@ class Game extends React.Component {
 												/>
 											)
 										) : (
-											<Tab
-												value="orders"
-												icon={<EventIcon />}
-											/>
+											<Tab value="orders" icon={<EventIcon />} />
 										)
 									) : (
 										""
@@ -1072,10 +1061,7 @@ class Game extends React.Component {
 							</React.Fragment>
 						) : (
 							<Toolbar>
-								<Typography
-									variant="body1"
-									style={{ marginRight: "8px" }}
-								>
+								<Typography variant="body1" style={{ marginRight: "8px" }}>
 									Edit
 								</Typography>
 								<FormControlLabel
@@ -1084,12 +1070,10 @@ class Game extends React.Component {
 										<Switch
 											onChange={(ev) => {
 												this.setState({
-													labEditMode:
-														!ev.target.checked,
+													labEditMode: !ev.target.checked,
 												});
 												this.dip_map.setState({
-													labEditMode:
-														!ev.target.checked,
+													labEditMode: !ev.target.checked,
 												});
 											}}
 											color="primary"
@@ -1118,23 +1102,17 @@ class Game extends React.Component {
 											style={{
 												width: "100%",
 												minWidth: "0",
-												borderBottom:
-													"1px solid rgba(253, 226, 181, 0.7)",
+												borderBottom: "1px solid rgba(253, 226, 181, 0.7)",
 												color: "rgb(40, 26, 26)",
 											}}
 										>
-											{this.state.variant.Properties.Nations.map(
-												(nation) => {
-													return (
-														<MenuItem
-															key={nation}
-															value={nation}
-														>
-															{nation}
-														</MenuItem>
-													);
-												}
-											)}
+											{this.state.variant.Properties.Nations.map((nation) => {
+												return (
+													<MenuItem key={nation} value={nation}>
+														{nation}
+													</MenuItem>
+												);
+											})}
 										</Select>
 									</FormControl>
 								) : (
@@ -1162,30 +1140,16 @@ class Game extends React.Component {
 						style={
 							this.state.laboratoryMode
 								? {
-										marginTop:
-											"" + this.state.marginTop + "px",
-										height:
-											"calc(100% - " +
-											this.state.marginTop +
-											"px)",
+										marginTop: "" + this.state.marginTop + "px",
+										height: "calc(100% - " + this.state.marginTop + "px)",
 										backgroundColor: "black",
-										display:
-											this.state.activeTab === "map"
-												? "block"
-												: "none",
+										display: this.state.activeTab === "map" ? "block" : "none",
 								  }
 								: {
-										marginTop:
-											"" + this.state.marginTop + "px",
-										height:
-											"calc(100% - " +
-											this.state.marginTop +
-											"px)",
+										marginTop: "" + this.state.marginTop + "px",
+										height: "calc(100% - " + this.state.marginTop + "px)",
 										backgroundColor: "black",
-										display:
-											this.state.activeTab === "map"
-												? "block"
-												: "none",
+										display: this.state.activeTab === "map" ? "block" : "none",
 								  }
 						}
 					>
@@ -1212,14 +1176,8 @@ class Game extends React.Component {
 							key="chat-container"
 							style={{
 								marginTop: "" + this.state.marginTop + "px",
-								height:
-									"calc(100% - " +
-									this.state.marginTop +
-									"px)",
-								display:
-									this.state.activeTab === "chat"
-										? "block"
-										: "none",
+								height: "calc(100% - " + this.state.marginTop + "px)",
+								display: this.state.activeTab === "chat" ? "block" : "none",
 							}}
 						>
 							<ChatMenu
@@ -1228,8 +1186,7 @@ class Game extends React.Component {
 									this.state.member && this.state.gameStates
 										? this.state.gameStates.find((gs) => {
 												return (
-													gs.Properties.Nation ===
-													this.state.member.Nation
+													gs.Properties.Nation === this.state.member.Nation
 												);
 										  })
 										: null
@@ -1246,16 +1203,10 @@ class Game extends React.Component {
 								key="orders-container"
 								style={{
 									marginTop: "" + this.state.marginTop + "px",
-									height:
-										"calc(100% - " +
-										this.state.marginTop +
-										"px)",
-									display:
-										this.state.activeTab === "orders"
-											? "flex"
-											: "none",
+									height: "calc(100% - " + this.state.marginTop + "px)",
+									display: this.state.activeTab === "orders" ? "flex" : "none",
 									flexDirection: "column",
-    								justifyContent: "space-between",
+									justifyContent: "space-between",
 								}}
 							>
 								<OrderList
@@ -1266,8 +1217,7 @@ class Game extends React.Component {
 									newPhaseStateHandler={(phaseState) => {
 										this.setState((state, props) => {
 											state = Object.assign({}, state);
-											state.member.NewestPhaseState =
-												phaseState.Properties;
+											state.member.NewestPhaseState = phaseState.Properties;
 											return state;
 										});
 										if (this.props.onChangeReady) {
@@ -1335,10 +1285,7 @@ class Game extends React.Component {
 						gameState={
 							this.state.member && this.state.gameStates
 								? this.state.gameStates.find((gs) => {
-										return (
-											gs.Properties.Nation ===
-											this.state.member.Nation
-										);
+										return gs.Properties.Nation === this.state.member.Nation;
 								  })
 								: null
 						}

@@ -7,6 +7,7 @@
 A client for [diplicity](https://github.com/zond/diplicity).
 
 The latest web-app version is deployed at https://www.diplicity.com.
+The latest changes are usually deployed at https://beta.diplicity.com.
 
 ## Develop
 

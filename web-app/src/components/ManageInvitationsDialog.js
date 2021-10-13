@@ -36,6 +36,8 @@ class ManageInvitationsDialog extends React.Component {
 		super(props);
 		this.state = {
 			open: false,
+			emailError: false,
+			emailErrorDescription: "",
 			game: this.props.game,
 			email: "",
 			nation: "normal_allocation",
@@ -49,6 +51,7 @@ class ManageInvitationsDialog extends React.Component {
 		this.onInvite = this.onInvite.bind(this);
 		this.onUninvite = this.onUninvite.bind(this);
 		this.close = this.close.bind(this);
+		this.handleError = this.handleError.bind(this);
 	}
 	onUninvite(email) {
 		return (_) => {
@@ -74,9 +77,47 @@ class ManageInvitationsDialog extends React.Component {
 		};
 	}
 	onInvite() {
+		console.log(this);
+
+		// Check if the email is a valid format
+		let validString =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		let validEmail = validString.test(this.state.email);
+		let nationExists = false;
+		// Check if the nation is already allocated - we don't want two similar nations!
+		if (this.props.game.Properties.GameMasterInvitations) {
+
+			this.props.game.Properties.GameMasterInvitations.map(
+			(nation) => {
+				if (nation.Nation == this.state.nation) {
+					nationExists = true;
+				}
+			}
+			);
+		}
+
+		console.log(nationExists);
 		if (!this.state.email) {
-			helpers.snackbar("Email address is empty.");
+			this.setState({
+				emailError: true,
+				emailErrorDescription: "Email is empty",
+			});
 			return;
+		} else if (validEmail == false) {
+			this.setState({
+				emailError: true,
+				emailErrorDescription: "Invalid email address",
+			});
+			return;
+		} else if (nationExists == true) {
+			this.setState({
+				emailError: true,
+				emailErrorDescription: "Nation is already allocated",
+			});
+			return;
+		}
+		{
+			this.setState({ emailError: false });
 		}
 		const link = this.state.game.Links.find((l) => {
 			return l.Rel === "invite-user";
@@ -106,6 +147,8 @@ class ManageInvitationsDialog extends React.Component {
 					this.setState({ game: game });
 				});
 			});
+			
+
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
@@ -120,6 +163,17 @@ class ManageInvitationsDialog extends React.Component {
 		helpers.unback(this.close);
 		this.setState({ open: false });
 	}
+	handleError() {
+		if (this.state.emailError == false) {
+			return <div style={{ height: "19px" }}></div>;
+		} else {
+			return (
+				<Typography variant="caption" color="error">
+					{this.state.emailErrorDescription}
+				</Typography>
+			);
+		}
+	}
 	render() {
 		const { classes } = this.props;
 
@@ -129,113 +183,167 @@ class ManageInvitationsDialog extends React.Component {
 		return (
 			<Dialog
 				open={this.state.open}
-				TransitionProps={{
-					onEnter: helpers.genOnback(this.close),
-				}}
-				onClose={this.close}
-				fullWidth={true}
-				maxWidth="xl"
+				onEntered={helpers.genOnback(this.close)}
+				disableBackdropClick={false}
+				onClose={this.close} //TODO: REMOVE THE THEY WILL NOT BE INVITED AUTOMATICALLY BELOW. THIS NEEDS TO BE HANDLED PRETTIER.
 			>
 				<DialogTitle>Manage whitelist</DialogTitle>
 				<DialogContent>
 					<React.Fragment>
-						<Typography style={{ margin: "1em" }}>
-							<span style={{ fontWeight: "bold" }}>
-								Email addresses must exactly match their login
-								email.
-							</span>{" "}
-							Login email can be seen in the top right menu with
-							the logout option. Whitelisted players are able to
-							join the game, even if it requires game master
-							whitelisting. If the game master picks a country for
-							the whitelisting, that country will be assigned when
-							the game starts. No email or messages are sent to
-							the player, use the 'Share game' link after opening
-							the game to send links to this game.
+						<Typography variant="subtitle2">
+							Whitelist players can join the game{" "}
+							<span style={{ color: "red" }}>
+								(they won't be invited automatically)
+							</span>
+							. Email address must match players Diplicity login details
+							exactly.
+						</Typography>
+						<Typography
+							variant="subtitle2"
+							style={{ fontWeight: "bold", marginTop: "8px" }}
+						>
+							Whitelisted players
 						</Typography>
 						<List>
-							{(
-								this.state.game.Properties
-									.GameMasterInvitations || []
-							).map((invitation) => {
-								return (
-									<ListItem key={invitation.Email}>
-										<Grid container>
-											<Grid key="data" item xs={10}>
-												<Typography>
-													{invitation.Email}
-													{invitation.Nation
-														? " as " +
-														  invitation.Nation
-														: ""}
-												</Typography>
-											</Grid>
-											<Grid key="button" item xs={2}>
-												<IconButton
-													style={{ padding: "0" }}
-													onClick={this.onUninvite(
-														invitation.Email
+							{(this.state.game.Properties.GameMasterInvitations || []).map(
+								(invitation) => {
+									return (
+										<ListItem
+											key={invitation.Email}
+											style={{ padding: "0", margin: "0 0 8px 0" }}
+										>
+											<Grid container>
+												<Grid key="data" item xs={11}>
+													<Typography>{invitation.Email}</Typography>
+													{invitation.Nation ? (
+														<Typography variant="caption">
+															as {""}
+															{invitation.Nation}
+														</Typography>
+													) : (
+														""
 													)}
-												>
-													<DeleteIcon />
-												</IconButton>
+												</Grid>
+												<Grid key="button" item xs={1}>
+													<IconButton
+														style={{ padding: "0", margin: "0" }}
+														onClick={this.onUninvite(invitation.Email)}
+													>
+														<DeleteIcon />
+													</IconButton>
+												</Grid>
 											</Grid>
-										</Grid>
-									</ListItem>
-								);
-							})}
+										</ListItem>
+									);
+								}
+							)}
 						</List>
 					</React.Fragment>
-					<TextField
-						key="Email"
-						id="manage-invitations-dialog-email"
-						label="Email"
-						margin="dense"
-						onChange={(ev) => {
-							this.setState({ email: ev.target.value });
-						}}
+					<Typography
+						variant="subtitle2"
+						style={{ fontWeight: "bold", marginTop: "8px" }}
+					>
+						Add player
+					</Typography>
+					<div
 						style={{
-							marginBottom: "8px",
-							flexGrow: "1",
-						}}
-					/>
-					<InputLabel
-						shrink
-						id="nationlabel"
-						style={{
-							marginTop: "16px",
+							display: "flex",
+							flexWrap: "wrap",
+							marginTop: "0px",
+							paddingTop: "0px",
 						}}
 					>
-						Nation
-					</InputLabel>
-					<Select
-						key="Nation"
-						labelId="nationlabel"
-						value={this.state.nation}
-						onChange={(ev) => {
-							this.setState({ nation: ev.target.value });
-						}}
-						style={{ marginBottom: "16px" }}
-					>
-						<MenuItem
-							key="normal_allocation"
-							value="normal_allocation"
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								marginRight: "16px",
+								marginTop: "0px",
+								paddingTop: "0px",
+							}}
 						>
-							Default allocation for game
-						</MenuItem>
-						{this.variant.Properties.Nations.map((nation) => {
-							return (
-								<MenuItem key={nation} value={nation}>
-									{nation}
+							<TextField
+								key="Email"
+								id="manage-invitations-dialog-email"
+								label="Email"
+								margin="dense"
+								error={this.state.emailError}
+								onChange={(ev) => {
+									this.setState({ email: ev.target.value });
+								}}
+								style={{
+									margin: "0 0 0 0",
+									flexGrow: "1",
+									justifyContent: "flex-end",
+									maxWidth: "200px",
+								}}
+							/>
+							{this.handleError()}
+						</div>
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								margin: "0 16px 0 0",
+								padding: "0",
+							}}
+						>
+							<InputLabel
+								shrink
+								id="nationlabel"
+								style={{
+									marginTop: "16px",
+								}}
+							>
+								Nation
+							</InputLabel>
+							<Select
+								key="Nation"
+								labelId="nationlabel"
+								value={this.state.nation}
+								onChange={(ev) => {
+									this.setState({ nation: ev.target.value });
+								}}
+							>
+								<MenuItem key="normal_allocation" value="normal_allocation">
+									{this.props.game.Properties.NationAllocation === 0
+										? "Random"
+										: "Player preference"}
 								</MenuItem>
-							);
-						})}
-					</Select>
+								{this.variant.Properties.Nations.map((nation) => {
+									return (
+										<MenuItem key={nation} value={nation}>
+											{nation}
+										</MenuItem>
+									);
+								})}
+							</Select>
+							<div style={{ height: "19px" }}></div>
+						</div>
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								justifyContent: "flex-end",
+							}}
+						>
+							<Button
+								onClick={this.onInvite}
+								variant="outlined"
+								color="primary"
+								style={{
+									alignSelf: "flex-end",
+									marginTop: "4px",
+								}}
+							>
+								Add
+							</Button>
+							<div style={{ height: "19px" }}></div>
+						</div>
+					</div>
 				</DialogContent>
 				<DialogActions className={classes.dialogActions}>
-					<Button onClick={this.onInvite} color="primary">
-						Add to whitelist
-					</Button>
+					<Button onClick={this.close}>Close</Button>
 				</DialogActions>
 			</Dialog>
 		);
