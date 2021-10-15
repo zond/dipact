@@ -13,6 +13,7 @@ import {
 import PhaseSelector from "../components/PhaseSelector";
 import PlayerCount from "../components/PlayerCount";
 import DipMap from "../components/DipMap";
+import Map from "../components/Map";
 
 interface GameUrlParams {
   gameId: string;
@@ -41,6 +42,7 @@ const Game = () => {
   const { gameId } = useParams<GameUrlParams>();
   const {
     isLoading,
+    isSuccess,
     phasesDisplay,
     setSelectedPhase,
     selectedPhase,
@@ -48,6 +50,7 @@ const Game = () => {
     canLeave,
     numPlayers,
     maxNumPlayers,
+    variantSVG,
   } = useGame()(gameId);
 
   if (isLoading) return <Loading />;
@@ -79,23 +82,7 @@ const Game = () => {
           </Container>
         </Toolbar>
       </AppBar>
-      <DipMap
-        // parentCB={(c) => {
-        //   this.dip_map = c;
-        // }}
-        // onLeaveProbation={(_) => {
-        //   this.loadGame();
-        // }}
-        // debugCount={this.debugCount}
-        // labPhaseResolve={this.labPhaseResolve}
-        // serializePhaseState={this.serializePhaseState}
-        // laboratoryMode={this.state.laboratoryMode}
-        // isActive={this.state.activeTab === "map"}
-        // game={this.state.game}
-        // phase={this.state.activePhase}
-        // corroborateSubscriber={this.receiveCorroboration}
-        // variant={this.state.variant}
-      />
+      {isSuccess && <Map variantSVG={variantSVG as string} />}
     </div>
   );
 };

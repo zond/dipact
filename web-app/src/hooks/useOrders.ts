@@ -33,10 +33,14 @@ export interface NationStatus {
   homelessInconsistencies: string[];
 }
 
-export interface IUseOrders {
+export interface ApiResponse {
   error: ApiError | null;
   isError: boolean;
   isLoading: boolean;
+  isSuccess: boolean;
+}
+
+export interface IUseOrders extends ApiResponse {
   nationStatuses: NationStatus[];
   noOrders: boolean;
   ordersConfirmed: boolean;
@@ -71,12 +75,16 @@ const getNumDisbands = (phaseState: PhaseState, member: Member | undefined) => {
   return message ? parseInt(message.split(":")[partIndex]) : null;
 };
 
-const getPhaseState = (game: Game | undefined, user: User | undefined | null, phaseStates: PhaseState[]): PhaseState | undefined => {
+const getPhaseState = (
+  game: Game | undefined,
+  user: User | undefined | null,
+  phaseStates: PhaseState[]
+): PhaseState | undefined => {
   if (game && user) {
     const member = getMember(game, user);
-    return phaseStates?.find((ps) => ps.Nation === member?.Nation)
+    return phaseStates?.find((ps) => ps.Nation === member?.Nation);
   }
-}
+};
 
 const getNationStatus = (
   phaseState: PhaseState,
@@ -147,11 +155,15 @@ const useOrders = (gameId: string): IUseOrders => {
     isError: gameIsError,
   } = useGetGameQuery(gameId);
 
-  const [updatePhaseState, { isLoading: phaseStateIsLoading }] = useUpdatePhaseStateMutation();
+  const [
+    updatePhaseState,
+    { isLoading: phaseStateIsLoading },
+  ] = useUpdatePhaseStateMutation();
   const selectedPhase = useSelectPhase() || phases?.length;
 
   const dispatch = useDispatch();
-  const setSelectedPhase = (phaseOrdinal: number) => dispatch(phaseActions.set(phaseOrdinal));
+  const setSelectedPhase = (phaseOrdinal: number) =>
+    dispatch(phaseActions.set(phaseOrdinal));
 
   const [nationStatuses, setNationStatuses] = useState<NationStatus[]>([]);
   const variant = useSelectVariant(game?.Variant || "");
@@ -204,13 +216,18 @@ const useOrders = (gameId: string): IUseOrders => {
   const toggleAcceptDraw = () => {
     if (phases && game && variant && user && phaseStates) {
       const member = getMember(game, user);
-      const phaseState = phaseStates?.find((ps) => ps.Nation === member?.Nation)
+      const phaseState = phaseStates?.find(
+        (ps) => ps.Nation === member?.Nation
+      );
       if (phaseState) {
-        const updatedPhaseState: PhaseState = { ...phaseState, WantsDIAS: !phaseState?.WantsDIAS}
+        const updatedPhaseState: PhaseState = {
+          ...phaseState,
+          WantsDIAS: !phaseState?.WantsDIAS,
+        };
         updatePhaseState(updatedPhaseState);
       }
     }
-  }
+  };
 
   const phaseState = getPhaseState(game, user, phaseStates || []);
   const ordersConfirmed = phaseState?.ReadyToResolve || false;
@@ -219,6 +236,7 @@ const useOrders = (gameId: string): IUseOrders => {
   return {
     isError,
     isLoading,
+    isSuccess: true,
     error,
     nationStatuses,
     noOrders,
@@ -233,11 +251,13 @@ const useOrders = (gameId: string): IUseOrders => {
   };
 };
 
-export const OrdersStub = createContext<null | typeof useOrders>(null);
+// Create DI context
+const createDIContext = <T>() => createContext<null | T>(null);
+export const useDIContext = createDIContext<typeof useOrders>();
 
-const useGetHook = (): ((gameId: string) => IUseOrders) => {
-  const mockUseOrders = useContext(OrdersStub);
-  return mockUseOrders ? mockUseOrders : useOrders;
-};
+// Create function to represent real or DI'd hook
+const useGetHook = () => useContext(useDIContext) || useOrders;
+const useDIHook = (gameId: string): IUseOrders => useGetHook()(gameId);
 
-export default useGetHook;
+// Export as default, your component can't tell the difference
+export default useDIHook;

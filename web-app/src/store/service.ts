@@ -74,6 +74,12 @@ export const diplicityService = createApi({
     mode: "cors",
   }),
   endpoints: (builder) => ({
+    getVariantSVG: builder.query<string, string>({
+      query: (variantName) => ({
+        url: `/Variant/${variantName}/Map.svg`,
+        responseHandler: (response) => response.text(),
+      }),
+    }),
     getRoot: builder.query<User | null, undefined>({
       query: () => "/User",
       transformResponse: (response: RootResponse, meta) => {

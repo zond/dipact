@@ -1,5 +1,6 @@
 import { Typography, makeStyles, Tooltip } from "@material-ui/core";
 import React from "react";
+import { NationStatus } from "../../hooks/useOrders";
 import {
   NoOrdersGivenIcon,
   OrdersConfirmedIcon,
@@ -15,16 +16,8 @@ export interface Nation {
   isUser: boolean;
 }
 
-// TODO dedupe
 interface NationSummaryProps {
-  confirmedOrders: boolean;
-  nation: Nation;
-  noOrdersGiven: boolean;
-  numBuilds: number | null;
-  numDisbands: number | null;
-  numSupplyCenters: number;
-  numSupplyCentersToWin: number;
-  wantsDraw: boolean;
+  nationStatus: NationStatus;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -60,15 +53,18 @@ const DISBAND_LABEL_SINGULAR = "disband";
 const DISBAND_LABEL_PLURAL = "disbands";
 
 const NationSummary = ({
-  confirmedOrders,
-  nation,
-  numSupplyCenters,
-  numSupplyCentersToWin,
-  wantsDraw,
-  noOrdersGiven,
-  numBuilds,
-  numDisbands,
+  nationStatus,
 }: NationSummaryProps): React.ReactElement => {
+  const {
+    confirmedOrders,
+    nation,
+    numSupplyCenters,
+    numSupplyCentersToWin,
+    wantsDraw,
+    noOrdersGiven,
+    numBuilds,
+    numDisbands,
+  } = nationStatus;
   const classes = useStyles();
 
   const supplyCentersLabel =
@@ -77,14 +73,10 @@ const NationSummary = ({
       : SUPPLY_CENTER_LABEL_SINGULAR;
 
   const buildLabel =
-    numBuilds !== 1
-      ? BUILD_LABEL_PLURAL
-      : BUILD_LABEL_SINGULAR;
+    numBuilds !== 1 ? BUILD_LABEL_PLURAL : BUILD_LABEL_SINGULAR;
 
   const disbandLabel =
-    numDisbands !== 1
-      ? DISBAND_LABEL_PLURAL
-      : DISBAND_LABEL_SINGULAR;
+    numDisbands !== 1 ? DISBAND_LABEL_PLURAL : DISBAND_LABEL_SINGULAR;
 
   const supplyCentersToWinLabel = `${numSupplyCentersToWin} to win`;
 
@@ -110,10 +102,14 @@ const NationSummary = ({
             <Typography variant="body2">({supplyCentersToWinLabel})</Typography>
           )}
           {typeof numBuilds === "number" && (
-            <Typography variant="body2">{numBuilds} {buildLabel}</Typography>
+            <Typography variant="body2">
+              {numBuilds} {buildLabel}
+            </Typography>
           )}
           {typeof numDisbands === "number" && (
-            <Typography variant="body2">{numDisbands} {disbandLabel}</Typography>
+            <Typography variant="body2">
+              {numDisbands} {disbandLabel}
+            </Typography>
           )}
         </div>
       </div>

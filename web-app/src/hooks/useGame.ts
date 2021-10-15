@@ -7,6 +7,7 @@ import { useSelectPhase, useSelectVariant } from "./selectors";
 import {
   useGetGameQuery,
   useGetRootQuery,
+  useLazyGetVariantSVGQuery,
   useLazyListPhaseStatesQuery,
   useListPhasesQuery,
   useListVariantsQuery,
@@ -24,6 +25,7 @@ export interface IUseGame {
   // TODO de-dupe
   error: ApiError | null;
   isError: boolean;
+  isSuccess: boolean;
   isLoading: boolean;
   // TODO de-dupe
   phasesDisplay: PhasesDisplay | undefined;
@@ -36,6 +38,7 @@ export interface IUseGame {
   started: boolean;
   finished: boolean;
   mustered: boolean;
+  variantSVG: string | undefined,
 }
 
 const useGame = (gameId: string): IUseGame => {
@@ -43,6 +46,7 @@ const useGame = (gameId: string): IUseGame => {
     error: variantsError,
     isLoading: variantsIsLoading,
     isError: variantsIsError,
+    isSuccess: variantsIsSuccess,
   } = useListVariantsQuery(undefined);
   const [
     listPhasesTrigger,
@@ -51,25 +55,39 @@ const useGame = (gameId: string): IUseGame => {
       error: phaseStatesError,
       isLoading: phaseStatesIsLoading,
       isError: phaseStatesIsError,
+      isSuccess: phaseStatesIsSuccess,
     },
   ] = useLazyListPhaseStatesQuery();
+  const [
+    getVariantSVGTrigger,
+    {
+      data: variantSVG,
+      error: variantSVGError,
+      isLoading: variantSVGIsLoading,
+      isError: variantSVGIsError,
+      isSuccess: variantSVGIsSuccess,
+    },
+  ] = useLazyGetVariantSVGQuery();
   const {
     data: phases,
     error: phasesError,
     isLoading: phasesIsLoading,
     isError: phasesIsError,
+    isSuccess: phasesIsSuccess,
   } = useListPhasesQuery(gameId);
   const {
     data: user,
     error: userError,
     isLoading: userIsLoading,
     isError: userIsError,
+    isSuccess: userIsSuccess,
   } = useGetRootQuery(undefined);
   const {
     data: game,
     error: gameError,
     isLoading: gameIsLoading,
     isError: gameIsError,
+    isSuccess: gameIsSuccess,
   } = useGetGameQuery(gameId);
 
   const selectedPhase = useSelectPhase() || phases?.length;
@@ -86,6 +104,12 @@ const useGame = (gameId: string): IUseGame => {
       listPhasesTrigger({ gameId, phaseId: phase.PhaseOrdinal.toString() });
     }
   }, [phases, gameId, listPhasesTrigger, selectedPhase]);
+
+  useEffect(() => {
+    if (variant) {
+      getVariantSVGTrigger(variant.Name);
+    }
+  }, [variant]);
 
   const isLoading =
     variantsIsLoading ||
@@ -109,6 +133,13 @@ const useGame = (gameId: string): IUseGame => {
       )
     : null;
 
+  const isSuccess =
+    variantsIsSuccess ||
+    phasesIsSuccess ||
+    gameIsSuccess ||
+    userIsSuccess ||
+    phaseStatesIsSuccess;
+
   const phasesDisplay: PhasesDisplay | undefined = phases?.map((phase) => [
     phase.PhaseOrdinal,
     getPhaseName(phase),
@@ -125,6 +156,7 @@ const useGame = (gameId: string): IUseGame => {
   return {
     isError,
     isLoading,
+    isSuccess,
     error,
     phasesDisplay,
     selectedPhase,
@@ -136,6 +168,7 @@ const useGame = (gameId: string): IUseGame => {
     started,
     finished,
     mustered,
+    variantSVG,
   };
 };
 
