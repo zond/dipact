@@ -18,8 +18,6 @@ jobs:
               run: ( echo "${{ secrets.IBRAVE_SSH_KEY }}" > ${HOME}/.ssh/id_rsa ) && chmod 600 ${HOME}/.ssh/id_rsa
             - name: Copy SSH host key for iBrave
               run: ( echo "${{ secrets.IBRAVE_SSH_HOST_KEY }}" >> ${HOME}/.ssh/known_hosts ) && chmod 600 ${HOME}/.ssh/known_hosts
-            - name: Verify iBrave SSH access
-              run: ssh -v -v oort.se@ssh.ibrave.io date
             - name: Build release
               working-directory: web-app
               run: docker-compose run sample yarn build
