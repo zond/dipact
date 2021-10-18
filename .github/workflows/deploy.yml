@@ -8,11 +8,6 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: Set up GoogleCloudPlatform
-              uses: google-github-actions/setup-gcloud@master
-              with:
-                  service_account_key: ${{ secrets.GCP_SA_KEY }}
-                  export_default_credentials: true
             - name: Checkout code
               uses: actions/checkout@v2
             - name: Extract branch name
@@ -20,11 +15,9 @@ jobs:
             - name: Build release
               working-directory: web-app
               run: docker-compose run sample yarn build
-            - name: Copy release to Cloud Storage
-              working-directory: web-app
-              run: gsutil -m rsync -r -c build gs://${BRANCH_NAME}-dipact/
-            - name: Make index.html no-cache
-              run: 'gsutil setmeta -h "Cache-Control: no-cache" gs://${BRANCH_NAME}-dipact/index.html'
-            - name: Remove redundant files from Cloud Storage
-              working-directory: web-app
-              run: gsutil -m rsync -r -d -c build gs://${BRANCH_NAME}-dipact/
+            - name: Create .ssh directory
+              run: mkdir $HOME/.ssh && chmod 700 $HOME/.ssh
+            - name: Copy SSH key for iBrave
+              run: ( echo ${{ secrets.IBRAVE_SSH_KEY }} > $HOME/.ssh/id_rsa ) && chmod 600 $HOME/.ssh/id_rsa
+            - name: Sync release to iBrave
+              run: rsync -a --delete web-app/ oort.se@ssh.ibrave.io:public_html/diplicity-${BRANCH_NAME}/
