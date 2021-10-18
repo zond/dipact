@@ -24,4 +24,4 @@ jobs:
               working-directory: web-app
               run: docker-compose run sample yarn build
             - name: Sync release to iBrave
-              run: rsync -a --delete web-app/ oort.se@ssh.ibrave.io:public_html/diplicity-${BRANCH_NAME}/
+              run: env LC_ALL=C rsync -a --delete web-app/ oort.se@ssh.ibrave.io:public_html/diplicity-${BRANCH_NAME}/
