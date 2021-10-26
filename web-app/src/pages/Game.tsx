@@ -41,11 +41,7 @@ const Game = () => {
   useRegisterPageView("Game");
   const { gameId } = useParams<GameUrlParams>();
   const {
-    isLoading,
-    isSuccess,
-    phasesDisplay,
-    setSelectedPhase,
-    selectedPhase,
+    combinedQueryState: { isLoading, isSuccess },
     canJoin,
     canLeave,
     numPlayers,
@@ -65,13 +61,7 @@ const Game = () => {
               {canLeave && <Button variant="outlined">Leave</Button>}
             </div>
             <div>
-              {phasesDisplay && selectedPhase && (
-                <PhaseSelector
-                  phases={phasesDisplay}
-                  selectedPhase={selectedPhase}
-                  onSelectPhase={setSelectedPhase}
-                />
-              )}
+              <PhaseSelector />
             </div>
             <div>
               <PlayerCount

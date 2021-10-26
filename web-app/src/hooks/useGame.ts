@@ -1,8 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { Nation } from "../components/Orders/NationSummary";
-import { OrderDisplay } from "../components/Orders/Order";
+import { createContext, useContext, useEffect } from "react";
 
-import { Game, Member, Phase, PhaseState, User, Variant } from "../store/types";
 import { useSelectPhase, useSelectVariant } from "./selectors";
 import {
   useGetGameQuery,
@@ -11,26 +8,13 @@ import {
   useLazyListPhaseStatesQuery,
   useListPhasesQuery,
   useListVariantsQuery,
-  useUpdatePhaseStateMutation,
 } from "./service";
-import { ApiError } from "./types";
-import { getMember, getNation, mergeErrors } from "./utils";
-import { getPhaseName } from "../utils/general";
-import { actions as phaseActions } from "../store/phase";
-import { useDispatch } from "react-redux";
+import { ApiResponse } from "./types";
+import { getCombinedQueryState } from "./utils";
 
 export type PhasesDisplay = [number, string][];
 
-export interface IUseGame {
-  // TODO de-dupe
-  error: ApiError | null;
-  isError: boolean;
-  isSuccess: boolean;
-  isLoading: boolean;
-  // TODO de-dupe
-  phasesDisplay: PhasesDisplay | undefined;
-  selectedPhase: number | undefined;
-  setSelectedPhase: (phaseOrdinal: number) => void;
+export interface IUseGame extends ApiResponse {
   canJoin: boolean;
   canLeave: boolean;
   numPlayers: number;
@@ -38,112 +22,53 @@ export interface IUseGame {
   started: boolean;
   finished: boolean;
   mustered: boolean;
-  variantSVG: string | undefined,
+  variantSVG: string | undefined;
 }
 
 const useGame = (gameId: string): IUseGame => {
-  const {
-    error: variantsError,
-    isLoading: variantsIsLoading,
-    isError: variantsIsError,
-    isSuccess: variantsIsSuccess,
-  } = useListVariantsQuery(undefined);
   const [
-    listPhasesTrigger,
-    {
-      data: phaseStates,
-      error: phaseStatesError,
-      isLoading: phaseStatesIsLoading,
-      isError: phaseStatesIsError,
-      isSuccess: phaseStatesIsSuccess,
-    },
+    listPhaseStatesTrigger,
+    listPhaseStatesQuery,
   ] = useLazyListPhaseStatesQuery();
   const [
     getVariantSVGTrigger,
-    {
-      data: variantSVG,
-      error: variantSVGError,
-      isLoading: variantSVGIsLoading,
-      isError: variantSVGIsError,
-      isSuccess: variantSVGIsSuccess,
-    },
+    getVariantSVGQuery
   ] = useLazyGetVariantSVGQuery();
-  const {
-    data: phases,
-    error: phasesError,
-    isLoading: phasesIsLoading,
-    isError: phasesIsError,
-    isSuccess: phasesIsSuccess,
-  } = useListPhasesQuery(gameId);
-  const {
-    data: user,
-    error: userError,
-    isLoading: userIsLoading,
-    isError: userIsError,
-    isSuccess: userIsSuccess,
-  } = useGetRootQuery(undefined);
-  const {
-    data: game,
-    error: gameError,
-    isLoading: gameIsLoading,
-    isError: gameIsError,
-    isSuccess: gameIsSuccess,
-  } = useGetGameQuery(gameId);
+  const combinedQuery = {
+    variants: useListVariantsQuery(undefined),
+    phases: useListPhasesQuery(gameId),
+    user: useGetRootQuery(undefined),
+    game: useGetGameQuery(gameId),
+    variantSVG: getVariantSVGQuery,
+    phaseStates: listPhaseStatesQuery,
+  };
 
+  const { game, phaseStates, phases, user, variants, variantSVG } = {
+    game: combinedQuery.game.data,
+    phaseStates: combinedQuery.phaseStates.data,
+    phases: combinedQuery.phases.data,
+    user: combinedQuery.user.data,
+    variants: combinedQuery.variants.data,
+    variantSVG: combinedQuery.variantSVG.data,
+  };
+  const combinedQueryState = getCombinedQueryState(combinedQuery);
+
+  // TODO use selector
   const selectedPhase = useSelectPhase() || phases?.length;
-
-  const dispatch = useDispatch();
-  const setSelectedPhase = (phaseOrdinal: number) =>
-    dispatch(phaseActions.set(phaseOrdinal));
-
   const variant = useSelectVariant(game?.Variant || "");
 
   useEffect(() => {
     if (phases?.length && selectedPhase) {
       const phase = phases[selectedPhase - 1];
-      listPhasesTrigger({ gameId, phaseId: phase.PhaseOrdinal.toString() });
+      listPhaseStatesTrigger({ gameId, phaseId: phase.PhaseOrdinal.toString() });
     }
-  }, [phases, gameId, listPhasesTrigger, selectedPhase]);
+  }, [phases, gameId, listPhaseStatesTrigger, selectedPhase]);
 
   useEffect(() => {
     if (variant) {
       getVariantSVGTrigger(variant.Name);
     }
   }, [variant]);
-
-  const isLoading =
-    variantsIsLoading ||
-    phasesIsLoading ||
-    gameIsLoading ||
-    userIsLoading ||
-    phaseStatesIsLoading;
-  const isError =
-    variantsIsError ||
-    phasesIsError ||
-    gameIsError ||
-    userIsError ||
-    phaseStatesIsError;
-  const error = isError
-    ? mergeErrors(
-        variantsError as ApiError,
-        userError as ApiError,
-        gameError as ApiError,
-        phasesError as ApiError,
-        phaseStatesError as ApiError
-      )
-    : null;
-
-  const isSuccess =
-    variantsIsSuccess ||
-    phasesIsSuccess ||
-    gameIsSuccess ||
-    userIsSuccess ||
-    phaseStatesIsSuccess;
-
-  const phasesDisplay: PhasesDisplay | undefined = phases?.map((phase) => [
-    phase.PhaseOrdinal,
-    getPhaseName(phase),
-  ]);
 
   const canJoin = true;
   const canLeave = false;
@@ -154,13 +79,7 @@ const useGame = (gameId: string): IUseGame => {
   const mustered = false;
 
   return {
-    isError,
-    isLoading,
-    isSuccess,
-    error,
-    phasesDisplay,
-    selectedPhase,
-    setSelectedPhase,
+    combinedQueryState,
     canJoin,
     canLeave,
     numPlayers,

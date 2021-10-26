@@ -12,11 +12,8 @@ import {
   useListVariantsQuery,
   useUpdatePhaseStateMutation,
 } from "./service";
-import { ApiError } from "./types";
-import { getMember, getNation, mergeErrors } from "./utils";
-import { getPhaseName } from "../utils/general";
-import { actions as phaseActions } from "../store/phase";
-import { useDispatch } from "react-redux";
+import { ApiResponse } from "./types";
+import { getMember, getNation, getCombinedQueryState } from "./utils";
 
 export type PhasesDisplay = [number, string][];
 
@@ -33,13 +30,6 @@ export interface NationStatus {
   homelessInconsistencies: string[];
 }
 
-export interface ApiResponse {
-  error: ApiError | null;
-  isError: boolean;
-  isLoading: boolean;
-  isSuccess: boolean;
-}
-
 export interface IUseOrders extends ApiResponse {
   nationStatuses: NationStatus[];
   noOrders: boolean;
@@ -47,9 +37,6 @@ export interface IUseOrders extends ApiResponse {
   toggleAcceptDraw: () => void;
   toggleConfirmOrders: () => void;
   userIsMember: boolean;
-  phasesDisplay: PhasesDisplay | undefined;
-  selectedPhase: number | undefined;
-  setSelectedPhase: (phaseOrdinal: number) => void;
   phaseStateIsLoading: boolean;
 }
 
@@ -122,58 +109,41 @@ const getNationStatus = (
 };
 
 const useOrders = (gameId: string): IUseOrders => {
-  const {
-    error: variantsError,
-    isLoading: variantsIsLoading,
-    isError: variantsIsError,
-  } = useListVariantsQuery(undefined);
   const [
-    listPhasesTrigger,
-    {
-      data: phaseStates,
-      error: phaseStatesError,
-      isLoading: phaseStatesIsLoading,
-      isError: phaseStatesIsError,
-    },
+    listPhaseStatesTrigger,
+    listPhaseStatesQuery,
   ] = useLazyListPhaseStatesQuery();
-  const {
-    data: phases,
-    error: phasesError,
-    isLoading: phasesIsLoading,
-    isError: phasesIsError,
-  } = useListPhasesQuery(gameId);
-  const {
-    data: user,
-    error: userError,
-    isLoading: userIsLoading,
-    isError: userIsError,
-  } = useGetRootQuery(undefined);
-  const {
-    data: game,
-    error: gameError,
-    isLoading: gameIsLoading,
-    isError: gameIsError,
-  } = useGetGameQuery(gameId);
+  const combinedQuery = {
+    game: useGetGameQuery(gameId),
+    phaseStates: listPhaseStatesQuery,
+    phases: useListPhasesQuery(gameId),
+    user: useGetRootQuery(undefined),
+    variants: useListVariantsQuery(undefined),
+  };
+  const { game, phaseStates, phases, user } = {
+    game: combinedQuery.game.data,
+    phaseStates: combinedQuery.phaseStates.data,
+    phases: combinedQuery.phases.data,
+    user: combinedQuery.user.data,
+  };
+  const combinedQueryState = getCombinedQueryState(combinedQuery);
 
   const [
     updatePhaseState,
     { isLoading: phaseStateIsLoading },
   ] = useUpdatePhaseStateMutation();
+  // TODO use selector
   const selectedPhase = useSelectPhase() || phases?.length;
-
-  const dispatch = useDispatch();
-  const setSelectedPhase = (phaseOrdinal: number) =>
-    dispatch(phaseActions.set(phaseOrdinal));
 
   const [nationStatuses, setNationStatuses] = useState<NationStatus[]>([]);
   const variant = useSelectVariant(game?.Variant || "");
 
   useEffect(() => {
     if (phases?.length && selectedPhase) {
-      const phase = phases[selectedPhase - 1];
-      listPhasesTrigger({ gameId, phaseId: phase.PhaseOrdinal.toString() });
+      const phaseId = phases[selectedPhase - 1].PhaseOrdinal.toString();
+      listPhaseStatesTrigger({ gameId, phaseId });
     }
-  }, [phases, gameId, listPhasesTrigger, selectedPhase]);
+  }, [phases, gameId, listPhaseStatesTrigger, selectedPhase]);
 
   useEffect(() => {
     if (phases && game && variant && user && phaseStates) {
@@ -185,33 +155,6 @@ const useOrders = (gameId: string): IUseOrders => {
       );
     }
   }, [phases, game, variant, user, phaseStates]);
-
-  const isLoading =
-    variantsIsLoading ||
-    phasesIsLoading ||
-    gameIsLoading ||
-    userIsLoading ||
-    phaseStatesIsLoading;
-  const isError =
-    variantsIsError ||
-    phasesIsError ||
-    gameIsError ||
-    userIsError ||
-    phaseStatesIsError;
-  const error = isError
-    ? mergeErrors(
-        variantsError as ApiError,
-        userError as ApiError,
-        gameError as ApiError,
-        phasesError as ApiError,
-        phaseStatesError as ApiError
-      )
-    : null;
-
-  const phasesDisplay: PhasesDisplay | undefined = phases?.map((phase) => [
-    phase.PhaseOrdinal,
-    getPhaseName(phase),
-  ]);
 
   const toggleAcceptDraw = () => {
     if (phases && game && variant && user && phaseStates) {
@@ -234,22 +177,18 @@ const useOrders = (gameId: string): IUseOrders => {
   const noOrders = phaseState?.NoOrders || false;
 
   return {
-    isError,
-    isLoading,
-    isSuccess: true,
-    error,
+    combinedQueryState,
     nationStatuses,
     noOrders,
     ordersConfirmed,
     userIsMember: true,
     toggleAcceptDraw,
     toggleConfirmOrders: () => null,
-    phasesDisplay,
-    selectedPhase,
-    setSelectedPhase,
     phaseStateIsLoading,
   };
 };
+
+export const useOrdersContext = createContext<null | typeof useOrders>(null);
 
 // Create DI context
 const createDIContext = <T>() => createContext<null | T>(null);

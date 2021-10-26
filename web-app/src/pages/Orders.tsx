@@ -13,12 +13,13 @@ import useRegisterPageView from "../hooks/useRegisterPageview";
 import NationSummary from "../components/Orders/NationSummary";
 import Order from "../components/Orders/Order";
 import { useParams } from "react-router";
-import useOrders from "../hooks/useOrders";
+import useOrders, { useOrdersContext } from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
 import { useSelectPhaseQuerystringParams } from "../hooks/useSelectPhaseQuerystringParams";
 import { ApiError } from "../hooks/types";
+import { useContext } from "react-router/node_modules/@types/react";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -85,22 +86,19 @@ const CONFIRM_ORDERS_LABEL = "Confirm orders";
 const NO_ORDERS_LABEL = "You have no orders to give this turn";
 const CONFIRM_ORDERS_PROMPT = "When you're ready for the next turn";
 
+
+
 const Orders = () => {
   useRegisterPageView("Orders");
   // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();
   const classes = useStyles();
   const {
+    combinedQueryState: { isError, isLoading, error},
     nationStatuses,
     userIsMember,
     noOrders,
     ordersConfirmed,
-    error,
-    isLoading,
-    isError,
-    phasesDisplay,
-    selectedPhase,
-    setSelectedPhase,
     toggleAcceptDraw,
     phaseStateIsLoading,
   } = useOrders(gameId);
@@ -111,15 +109,9 @@ const Orders = () => {
   return (
     <div className={classes.root}>
       <Container maxWidth="lg" className={classes.container}>
-        {phasesDisplay && selectedPhase && (
-          <div className={classes.phaseSelectorContainer}>
-            <PhaseSelector
-              phases={phasesDisplay}
-              selectedPhase={selectedPhase}
-              onSelectPhase={setSelectedPhase}
-            />
-          </div>
-        )}
+        <div className={classes.phaseSelectorContainer}>
+          <PhaseSelector />
+        </div>
         <div className={classes.nationSummaryList}>
           {nationStatuses.map((nationStatus) => (
             <div key={nationStatus.nation.name}>
