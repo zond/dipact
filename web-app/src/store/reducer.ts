@@ -11,13 +11,13 @@ import userStats from "./userStats";
 import { diplicityService } from "./service";
 
 export default combineReducers({
-	[diplicityService.reducerPath]: diplicityService.reducer,
-	auth,
-	colorOverrides,
-	feedback,
-	latestForumMail,
-	messaging,
-	phase,
-	userBans,
-	userStats,
+  [diplicityService.reducerPath]: diplicityService.reducer,
+  auth,
+  colorOverrides,
+  feedback,
+  latestForumMail,
+  messaging,
+  phase,
+  userBans,
+  userStats,
 });

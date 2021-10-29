@@ -23,6 +23,7 @@ interface GameUrlParams {
 enum Tabs {
   Chat = "chat",
   Orders = "orders",
+  Game = "game",
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -46,9 +47,10 @@ const getActive = (path: string): string | null => {
     matchPath(path, { path: RouteConfig.GameChat, exact }) ||
     matchPath(path, { path: RouteConfig.GameChatChannel, exact })
   )
-    return "chat";
+    return Tabs.Chat;
+  if (matchPath(path, { path: RouteConfig.Game, exact })) return Tabs.Game;
   if (matchPath(path, { path: RouteConfig.Orders, exact })) return "orders";
-  return null;
+  return Tabs.Orders;
 };
 
 // TODO test
@@ -68,7 +70,7 @@ const GameNavBar = ({ children }: GameNavBarProps): React.ReactElement => {
               <NavItem
                 href={RouteConfig.Home}
                 edge="end"
-                label="map"
+                label="home"
                 active={false}
               >
                 <GoBackIcon />
@@ -76,10 +78,10 @@ const GameNavBar = ({ children }: GameNavBarProps): React.ReactElement => {
             </div>
             <div>
               <NavItem
-                href={RouteConfig.Home}
+                href={generatePath(RouteConfig.Game, { gameId })}
                 edge="end"
-                label="map"
-                active={false}
+                label={Tabs.Game}
+                active={activeChannel === Tabs.Game}
               >
                 <MapIcon />
               </NavItem>

@@ -3,6 +3,7 @@ import Messaging from "./static/js/messaging";
 
 import { dippyMap } from "./static/js/dippymap";
 import { User } from "./store/types";
+import contrastColors from "./utils/contrastColors";
 
 // eslint-disable-next-line no-restricted-globals
 const hrefURL = new URL(location.href);
@@ -51,10 +52,7 @@ window.Globals = {
 	variants: [],
 	memoizeCache: {},
 	messaging: Messaging,
-	contrastColors: ((_) => {
-		let m = dippyMap($("body"));
-		return m.contrasts;
-	})(),
+	contrastColors: contrastColors,
 	colorOverrides: {
 		nationCodes: {},
 		variantCodes: {},

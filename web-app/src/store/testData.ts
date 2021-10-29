@@ -50,6 +50,7 @@ export const variant: Variant = {
   Version: "first",
   Description: "Description",
   Rules: "Rules",
+  ExtraDominanceRules: {},
   OrderTypes: [],
   nationAbbreviations: {},
   Links: [],

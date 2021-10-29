@@ -2,6 +2,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Component, { Nation } from "../components/Orders/NationSummary";
+import { NationStatus } from "../hooks/useOrders";
 
 export default {
   title: "components/Orders/NationSummary",
@@ -27,71 +28,95 @@ const Nations: { [key: string]: Nation } = {
   },
 };
 
-const defaultArgs: Args = {
-  numBuilds: null,
-  numDisbands: null,
+const defaultNationStatus: NationStatus = {
+  numBuilds: 0,
+  numDisbands: 0,
   numSupplyCenters: 3,
   numSupplyCentersToWin: 15,
   nation: Nations.France,
   confirmedOrders: false,
   wantsDraw: false,
   noOrdersGiven: false,
+  orders: [],
+  homelessInconsistencies: [],
+};
+
+const defaultArgs: Args = {
+  nationStatus: { ...defaultNationStatus },
 };
 
 export const SupplyCentersPlural = Template.bind({});
 SupplyCentersPlural.args = {
-  ...defaultArgs,
+  nationStatus: {
+    ...defaultNationStatus,
+  },
 };
 
 export const SupplyCentersSingular = Template.bind({});
 SupplyCentersSingular.args = {
-  ...defaultArgs,
-  numSupplyCenters: 1,
+  nationStatus: {
+    ...defaultNationStatus,
+    numSupplyCenters: 1,
+  },
 };
 
 export const SupplyCentersZero = Template.bind({});
 SupplyCentersZero.args = {
-  ...defaultArgs,
-  numSupplyCenters: 0,
+  nationStatus: {
+    ...defaultNationStatus,
+    numSupplyCenters: 0,
+  },
 };
 
 export const ConfirmedOrders = Template.bind({});
 ConfirmedOrders.args = {
-  ...defaultArgs,
-  confirmedOrders: true,
+  nationStatus: {
+    ...defaultNationStatus,
+    confirmedOrders: true,
+  },
 };
 
 export const WantsDraw = Template.bind({});
 WantsDraw.args = {
-  ...defaultArgs,
-  wantsDraw: true,
+  nationStatus: {
+    ...defaultNationStatus,
+    wantsDraw: true,
+  },
 };
 
 export const NoOrdersGiven = Template.bind({});
 NoOrdersGiven.args = {
-  ...defaultArgs,
-  noOrdersGiven: true,
+  nationStatus: {
+    ...defaultNationStatus,
+    noOrdersGiven: true,
+  },
 };
 
 export const ConfirmedOrdersAndWantsDraw = Template.bind({});
 ConfirmedOrdersAndWantsDraw.args = {
-  ...defaultArgs,
-  confirmedOrders: true,
-  wantsDraw: true,
+  nationStatus: {
+    ...defaultNationStatus,
+    confirmedOrders: true,
+    wantsDraw: true,
+  },
 };
 
 export const WantsDrawAndNoOrdersGiven = Template.bind({});
 WantsDrawAndNoOrdersGiven.args = {
-  ...defaultArgs,
-  noOrdersGiven: true,
-  wantsDraw: true,
+  nationStatus: {
+    ...defaultNationStatus,
+    noOrdersGiven: true,
+    wantsDraw: true,
+  },
 };
 
 export const IsUser = Template.bind({});
 IsUser.args = {
-  ...defaultArgs,
-  nation: {
-    ...Nations.France,
-    isUser: true,
-  }
+  nationStatus: {
+    ...defaultNationStatus,
+    nation: {
+      ...Nations.France,
+      isUser: true,
+    },
+  },
 };

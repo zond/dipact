@@ -11,7 +11,7 @@ import {
   getNationColor,
   getNationFlagLink,
 } from "../utils/general";
-import { ApiError, Channel } from "./types";
+import { ApiError, Channel, CombinedQuery, CombinedQueryState, DiplicityError } from "./types";
 
 export const EVERYONE = "Everyone";
 
@@ -58,20 +58,21 @@ export const sortChannels = (channels: Channel[]): Channel[] =>
 
 export const mergeErrors = (
   ...errorsOrUndefined: (ApiError | undefined)[]
-): ApiError => {
-  const errors: ApiError[] = [];
+): DiplicityError => {
+  const errors: DiplicityError[] = [];
   errorsOrUndefined.forEach((error) => {
-    if (error) errors.push(error);
+    if (error) errors.push(error as DiplicityError);
   });
   return errors.reduce(
-    (mergedErrors, error) => {
+    (mergedErrors, e) => {
+      const error = e as ApiError & { status: number, data: any }
       const newError = {
         status: error?.status || mergedErrors.status,
         data: error?.data || mergedErrors.data,
       };
-      return newError as ApiError;
+      return newError as ApiError & { status: number, data: any };
     },
-    { status: null, data: {} } as ApiError
+    { status: 0, data: {} } as DiplicityError
   );
 };
 
@@ -79,3 +80,21 @@ export const mergeErrors = (
 export const getPhaseName = (phase: Phase) => {
   return phase.Season + " " + phase.Year + ", " + phase.Type;
 };
+
+const getAnyIsLoading = (combinedQueryState: CombinedQuery) =>
+  Object.values(combinedQueryState).some((queryState) => queryState.isLoading);
+
+const getAnyIsError = (combinedQueryState: CombinedQuery) =>
+  Object.values(combinedQueryState).some((queryState) => queryState.isError);
+
+const getAllIsSuccess = (combinedQueryState: CombinedQuery) =>
+  Object.values(combinedQueryState).every((queryState) => queryState.isSuccess);
+
+export const getCombinedQueryState = (combinedQueryState: CombinedQuery): CombinedQueryState => ({
+  isLoading: getAnyIsLoading(combinedQueryState),
+  isError: getAnyIsError(combinedQueryState),
+  isSuccess: getAllIsSuccess(combinedQueryState),
+  error: mergeErrors(
+    ...Object.values(combinedQueryState).map((queryState) => queryState.error)
+  ),
+});

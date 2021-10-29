@@ -8,8 +8,8 @@ export default {
   component: Component,
 } as Meta;
 
-const Template: ComponentStory<typeof Component> = (args) => (
-  <Component {...args} />
+const Template: ComponentStory<typeof Component> = () => (
+  <Component />
 );
 
 export const Default = Template.bind({});

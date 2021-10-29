@@ -1,3 +1,5 @@
+import murmurhash from "murmurhash-js";
+
 import Globals from "../Globals";
 import { ColorOverrides, Phase, Variant } from "../store/types";
 
@@ -42,3 +44,7 @@ export const getNationFlagLink = (variant: Variant, nation: string): string | un
 	const linkObject = links ? links.find((link) => link.Rel === `flag-${nation}`) : null;
     return nation === DiplicitySender ? OttoURL : linkObject ? linkObject.URL : undefined;
 };
+
+export const hash = (s: string) => {
+	return murmurhash(s, 0);
+}

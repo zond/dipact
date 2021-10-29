@@ -11,7 +11,7 @@ type Link = {
   JSONschema: string; // TODO
 };
 
-type Unit = {
+export type Unit = {
   Type: string;
   Nation: string;
 };
@@ -45,6 +45,12 @@ type Start = {
   Graph: Graph;
 };
 
+export type DominanceRule = {
+  Priority: number;
+  Nation: string;
+  Dependencies: { [key: string]: string };
+};
+
 export type Variant = {
   Name: string;
   Nations: string[];
@@ -62,6 +68,7 @@ export type Variant = {
   nationAbbreviations: { [key: string]: string };
   Start?: Start;
   Links: Link[] | null;
+  ExtraDominanceRules: null | { [key: string]: DominanceRule };
 };
 
 export type VariantResponse = ApiResponse & {
@@ -230,7 +237,7 @@ type ApiResponse = {
 
 export type Root = {
   User: User | null;
-}
+};
 
 export type RootResponse = ApiResponse & {
   Properties: Root;
@@ -364,32 +371,32 @@ export type SCState = {
 };
 
 export type Resolution = {
-	Province: string,
-	Resolution: string,
-}
+  Province: string;
+  Resolution: string;
+};
 
 export type PreliminaryScore = {
-	UserId: string;
-	Member: string;
-	SCs: number;
-	Score: number;
-	Explanation: string;
-}
+  UserId: string;
+  Member: string;
+  SCs: number;
+  Score: number;
+  Explanation: string;
+};
 
 export type Bounce = {
-	Province: string;
-	BounceList: string;
-}
+  Province: string;
+  BounceList: string;
+};
 
 export type Dislodged = {
-	Province: string;
-	Dislodged: Unit;
-}
+  Province: string;
+  Dislodged: Unit;
+};
 
 export type Dislodger = {
-	Province: string;
-	Dislodger: string;
-}
+  Province: string;
+  Dislodger: string;
+};
 
 export type Phase = {
   PhaseOrdinal: number;
@@ -477,23 +484,23 @@ export interface SettingsFormValues {
 }
 
 export type Channel = {
- GameID: string,
- Members: string[],
- NMessages: number,
- LatestMessage: Message,
- NMessagesSince?: {
-   Since: string,
-   NMessages: number,
- },
-}
+  GameID: string;
+  Members: string[];
+  NMessages: number;
+  LatestMessage: Message;
+  NMessagesSince?: {
+    Since: string;
+    NMessages: number;
+  };
+};
 
 export type ChannelResponse = ApiResponse & {
   Properties: Channel;
-}
+};
 
 export type ListChannelsResponse = ApiResponse & {
   Properties: ChannelResponse[];
-}
+};
 
 export enum Severity {
   Error = "error",
@@ -514,5 +521,21 @@ export interface MutationStatus {
 }
 
 export type CreateMessageResponse = ApiResponse & {
-  Properties: Message
+  Properties: Message;
+};
+
+export type Order = {
+  GameID: string,
+  PhaseOrdinal: number,
+  Nation: string,
+  Parts: string[],
+}
+
+export type Corroboration = {
+  Orders: Order[];
+  Inconsistencies: string[];
+}
+
+export type CorroborationResponse = ApiResponse & {
+  Properties: Corroboration;
 }

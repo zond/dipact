@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import {
   Button,
   Checkbox,
@@ -12,11 +12,14 @@ import { Typography } from "@material-ui/core";
 import useRegisterPageView from "../hooks/useRegisterPageview";
 import NationSummary from "../components/Orders/NationSummary";
 import Order from "../components/Orders/Order";
-import { useHistory, useLocation, useParams } from "react-router";
-import useOrders from "../hooks/useOrders";
+import { useParams } from "react-router";
+import useOrders, { useOrdersContext } from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
+import { useSelectPhaseQuerystringParams } from "../hooks/useSelectPhaseQuerystringParams";
+import { ApiError } from "../hooks/types";
+import { useContext } from "react-router/node_modules/@types/react";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -83,78 +86,37 @@ const CONFIRM_ORDERS_LABEL = "Confirm orders";
 const NO_ORDERS_LABEL = "You have no orders to give this turn";
 const CONFIRM_ORDERS_PROMPT = "When you're ready for the next turn";
 
+
+
 const Orders = () => {
   useRegisterPageView("Orders");
+  // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();
   const classes = useStyles();
   const {
+    combinedQueryState: { isError, isLoading, error},
     nationStatuses,
     userIsMember,
     noOrders,
     ordersConfirmed,
-    error,
-    isLoading,
-    isError,
-    phasesDisplay,
-    selectedPhase,
-    setSelectedPhase,
     toggleAcceptDraw,
     phaseStateIsLoading,
-  } = useOrders()(gameId);
+  } = useOrders(gameId);
 
-  const location = useLocation();
-  const history = useHistory();
-  const searchParams = useMemo(() => new URLSearchParams(location.search), [
-    location.search,
-  ]);
-
-  useEffect(() => {
-    const searchParamPhase = searchParams.get("phase");
-    if (!selectedPhase && searchParamPhase) {
-      setSelectedPhase(parseInt(searchParamPhase));
-    }
-  }, [selectedPhase, searchParams, setSelectedPhase]);
-
-  useEffect(() => {
-    if (selectedPhase) {
-      searchParams.set("phase", selectedPhase.toString());
-      history.replace({
-        pathname: location.pathname,
-        search: searchParams.toString(),
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPhase]);
-
-  if (isError && error) return <ErrorMessage error={error} />;
+  if (isError) return <ErrorMessage error={error as ApiError} />;
   if (isLoading) return <Loading />;
 
   return (
     <div className={classes.root}>
       <Container maxWidth="lg" className={classes.container}>
-        {phasesDisplay && selectedPhase && (
-          <div className={classes.phaseSelectorContainer}>
-            <PhaseSelector
-              phases={phasesDisplay}
-              selectedPhase={selectedPhase}
-              onSelectPhase={setSelectedPhase}
-            />
-          </div>
-        )}
+        <div className={classes.phaseSelectorContainer}>
+          <PhaseSelector />
+        </div>
         <div className={classes.nationSummaryList}>
           {nationStatuses.map((nationStatus) => (
             <div key={nationStatus.nation.name}>
               <div className={classes.nationSummaryContainer}>
-                <NationSummary
-                  nation={nationStatus.nation}
-                  confirmedOrders={nationStatus.confirmedOrders}
-                  noOrdersGiven={nationStatus.noOrdersGiven}
-                  numBuilds={nationStatus.numBuilds}
-                  numSupplyCenters={nationStatus.numSupplyCenters}
-                  numSupplyCentersToWin={nationStatus.numSupplyCentersToWin}
-                  numDisbands={nationStatus.numDisbands}
-                  wantsDraw={nationStatus.wantsDraw}
-                />
+                <NationSummary nationStatus={nationStatus} />
                 {nationStatus.nation.isUser && (
                   <Button
                     color="primary"
@@ -202,7 +164,11 @@ const Orders = () => {
             <FormControlLabel
               label={CONFIRM_ORDERS_LABEL}
               control={
-                <Checkbox disabled={noOrders} checked={ordersConfirmed || noOrders} color="primary" />
+                <Checkbox
+                  disabled={noOrders}
+                  checked={ordersConfirmed || noOrders}
+                  color="primary"
+                />
               }
             />
           </Button>

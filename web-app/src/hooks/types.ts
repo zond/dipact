@@ -1,4 +1,10 @@
-import { Channel as StoreChannel, Message as StoreMessage, Phase } from "../store/types";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import {
+  Channel as StoreChannel,
+  Message as StoreMessage,
+  Phase,
+} from "../store/types";
 
 export type Message = StoreMessage & {
   phase: Phase;
@@ -24,7 +30,25 @@ export interface Channel extends StoreChannel {
   id: string;
 }
 
-export interface ApiError {
-  status: number | null;
+type SimplifiedQueryResult = {
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  error: ApiError;
+};
+
+export type CombinedQueryState = SimplifiedQueryResult;
+
+export type CombinedQuery = {
+  [key: string]: Partial<SimplifiedQueryResult>;
+};
+
+export type ApiError = FetchBaseQueryError | SerializedError | undefined;
+
+export type DiplicityError = ApiError & {
+  status: number;
   data: any;
+}
+export interface ApiResponse {
+  combinedQueryState: CombinedQueryState;
 }
