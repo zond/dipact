@@ -34,7 +34,7 @@ type SimplifiedQueryResult = {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  error: ApiError;
+  error?: ApiError;
 };
 
 export type CombinedQueryState = SimplifiedQueryResult;

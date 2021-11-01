@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import PhaseSelector from "../components/PhaseSelector";
 import PlayerCount from "../components/PlayerCount";
-import DipMap from "../components/DipMap";
 import Map from "../components/Map";
 
 interface GameUrlParams {
@@ -41,11 +40,11 @@ const Game = () => {
   useRegisterPageView("Game");
   const { gameId } = useParams<GameUrlParams>();
   const {
-    combinedQueryState: { isLoading, isSuccess },
     canJoin,
     canLeave,
-    numPlayers,
+    combinedQueryState: { isLoading, isSuccess },
     maxNumPlayers,
+    numPlayers,
     variantSVG,
   } = useGame()(gameId);
 

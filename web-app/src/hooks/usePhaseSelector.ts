@@ -2,14 +2,15 @@ import { useDispatch } from "react-redux";
 
 import { Phase } from "../store/types";
 import { useSelectPhase } from "./selectors";
-import { useListPhasesQuery } from "./service";
+import { useGetGameQuery, useListPhasesQuery } from "./service";
 import { getPhaseName, getCombinedQueryState } from "./utils";
 import { actions as phaseActions } from "../store/phase";
 import { ApiResponse } from "./types";
+import { createContext, useContext } from "react";
 
 type PhasesDisplay = [number, string][];
 
-interface IUsePhaseSelector extends ApiResponse {
+export interface IUsePhaseSelector extends ApiResponse {
   phases: PhasesDisplay | undefined;
   selectedPhase: number | undefined;
   setPhase: (id: number) => void;
@@ -51,3 +52,21 @@ export const usePhaseSelector = (gameId: string): IUsePhaseSelector => {
     setPreviousPhase,
   };
 };
+
+export const usePhaseSelectorContext = createContext<
+  null | typeof usePhaseSelector
+>(null);
+
+// Create DI context
+const createDIContext = <T>() => createContext<null | T>(null);
+export const useDIContext = createDIContext<typeof usePhaseSelector>();
+
+// Create function to represent real or DI'd hook
+const useGetHook = () => useContext(useDIContext) || usePhaseSelector;
+const useDIHook = (gameId: string): IUsePhaseSelector => {
+  console.log(useContext(useDIContext));
+  return useGetHook()(gameId);
+};
+
+// Export as default, your component can't tell the difference
+export default useDIHook;

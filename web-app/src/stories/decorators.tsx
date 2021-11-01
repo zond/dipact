@@ -1,7 +1,14 @@
 import { StoryFnReactReturnType } from "@storybook/react/dist/ts3.9/client/preview/types";
 
-import { IUseChatMessagesList, ChatMessagesListStub } from "../hooks/useChatMessagesList";
-import { IUseOrders, OrdersStub } from "../hooks/useOrders";
+import {
+  IUseChatMessagesList,
+  ChatMessagesListStub,
+} from "../hooks/useChatMessagesList";
+import {
+  IUseOrders,
+  useDIContext as useOrdersDIContext,
+} from "../hooks/useOrders";
+import { IUsePhaseSelector, useDIContext as usePhaseSelectorContext } from "../hooks/usePhaseSelector";
 
 export const getChatMessagesListDecorator = (values: IUseChatMessagesList) => {
   return (Story: () => StoryFnReactReturnType) => (
@@ -13,8 +20,16 @@ export const getChatMessagesListDecorator = (values: IUseChatMessagesList) => {
 
 export const ordersDecorator = (values: IUseOrders) => {
   return (Story: () => StoryFnReactReturnType) => (
-    <OrdersStub.Provider value={() => values}>
+    <useOrdersDIContext.Provider value={() => values}>
       <Story />
-    </OrdersStub.Provider>
+    </useOrdersDIContext.Provider>
+  );
+};
+
+export const phaseSelectorDecorator = (values: IUsePhaseSelector) => {
+  return (Story: () => StoryFnReactReturnType) => (
+    <usePhaseSelectorContext.Provider value={() => values}>
+      <Story />
+    </usePhaseSelectorContext.Provider>
   );
 };

@@ -3,7 +3,7 @@ import { Card, IconButton, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 import { NextIcon, PreviousIcon } from "../icons";
-import { usePhaseSelector } from "../hooks/usePhaseSelector";
+import usePhaseSelector from "../hooks/usePhaseSelector";
 import { useParams } from "react-router-dom";
 
 interface PhaseSelectorUrlParams {

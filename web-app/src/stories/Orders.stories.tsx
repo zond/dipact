@@ -3,18 +3,14 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { createMemoryHistory } from "history";
 
 import Component from "../pages/Orders";
-import useOrders, { useDIContext } from "../hooks/useOrders";
 import { Router } from "react-router";
+import { ordersDecorator, phaseSelectorDecorator } from "./decorators";
 
-type WrappedComponentProps = ReturnType<typeof useOrders>;
-
-const WrappedComponent = (props: WrappedComponentProps) => {
+const WrappedComponent = () => {
   const history = createMemoryHistory();
   return (
     <Router history={history}>
-      <useDIContext.Provider value={() => props}>
-        <Component />
-      </useDIContext.Provider>
+      <Component />
     </Router>
   );
 };
@@ -22,30 +18,44 @@ const WrappedComponent = (props: WrappedComponentProps) => {
 export default {
   title: "pages/Orders",
   component: WrappedComponent,
-  args: {
-    isError: false,
-    isLoading: false,
-    error: null,
-    nationStatuses: [],
-    ordersConfirmed: false,
-    userIsMember: true,
-    toggleAcceptDraw: () => {},
-    toggleConfirmOrders: () => {},
-    phasesDisplay: [],
-    setSelectedPhase: () => {},
-    phaseStateIsLoading: false,
-  },
 } as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof WrappedComponent> = (args) => (
+const Template: ComponentStory<typeof WrappedComponent> = () => (
   <div style={{ width: "500px" }}>
-    <WrappedComponent {...args} />
+    <WrappedComponent />
   </div>
 );
 
 type Args = React.ComponentProps<typeof Component>;
 
+const defaultCombinedQuerystate = {
+  isError: false,
+  isLoading: false,
+  isSuccess: true,
+};
+
+const defaultUseOrdersArgs = {
+  combinedQueryState: defaultCombinedQuerystate,
+  nationStatuses: [],
+  noOrders: true,
+  ordersConfirmed: false,
+  userIsMember: true,
+  toggleAcceptDraw: () => {},
+  toggleConfirmOrders: () => {},
+  phaseStateIsLoading: false,
+};
+
+const defaultUsePhaseSelectorArgs = {
+  combinedQueryState: defaultCombinedQuerystate,
+  phases: [],
+  selectedPhase: undefined,
+  setPhase: () => console.log("Set phase"),
+  setNextPhase: () => console.log("Set next phase"),
+  setPreviousPhase: () => console.log("Set previous phase"),
+};
+
 export const Default = Template.bind({});
-// Default.args = {
-//   ...defaultArgs,
-// };
+Default.decorators = [
+  ordersDecorator({ ...defaultUseOrdersArgs }),
+  phaseSelectorDecorator({ ...defaultUsePhaseSelectorArgs }),
+];

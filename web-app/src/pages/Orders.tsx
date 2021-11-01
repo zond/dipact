@@ -19,7 +19,6 @@ import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
 import { useSelectPhaseQuerystringParams } from "../hooks/useSelectPhaseQuerystringParams";
 import { ApiError } from "../hooks/types";
-import { useContext } from "react-router/node_modules/@types/react";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -96,14 +95,14 @@ const Orders = () => {
   const {
     combinedQueryState: { isError, isLoading, error},
     nationStatuses,
-    userIsMember,
     noOrders,
     ordersConfirmed,
-    toggleAcceptDraw,
     phaseStateIsLoading,
+    toggleAcceptDraw,
+    userIsMember,
   } = useOrders(gameId);
 
-  if (isError) return <ErrorMessage error={error as ApiError} />;
+  if (isError) return <ErrorMessage error={error} />;
   if (isLoading) return <Loading />;
 
   return (
