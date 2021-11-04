@@ -976,6 +976,7 @@ export default class Game extends React.Component {
 										>
 											<NumMembersIcon />{" "}
 											<Typography
+											//TODO: Change this to not NMembers but Nmembers - replaceable.
 												variant="body2"
 												style={{ paddingLeft: "2px" }}
 											>

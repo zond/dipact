@@ -28,6 +28,7 @@ import StatsDialog from "./StatsDialog";
 import SettingsDialog from "./SettingsDialog";
 import FindGameDialog from "./FindGameDialog";
 import Start from "./Start";
+import GameMasterStart from "./GameMasterStart";
 import GameList from "./GameList";
 import Game from "./Game";
 
@@ -69,11 +70,7 @@ export default class MainMenu extends ActivityContainer {
 						this.state.activityProps = {
 							gamePromise: (_) => {
 								return helpers
-									.safeFetch(
-										helpers.createRequest(
-											"/Game/" + match[1]
-										)
-									)
+									.safeFetch(helpers.createRequest("/Game/" + match[1]))
 									.then((resp) => resp.json());
 							},
 							close: (_) => {
@@ -81,10 +78,8 @@ export default class MainMenu extends ActivityContainer {
 									urls: this.props.urls,
 									findPrivateGame: this.findGameByID,
 									findOpenGame: this.renderOpenGames,
-									renderMasteredFinishedGames:
-										this.renderMasteredFinishedGames,
-									renderMyFinishedGames:
-										this.renderMyFinishedGames,
+									renderMasteredFinishedGames: this.renderMasteredFinishedGames,
+									renderMyFinishedGames: this.renderMyFinishedGames,
 								});
 							},
 						};
@@ -129,9 +124,7 @@ export default class MainMenu extends ActivityContainer {
 								});
 							});
 						} else {
-							helpers.snackbar(
-								"Didn't find a game with ID " + gameID
-							);
+							helpers.snackbar("Didn't find a game with ID " + gameID);
 						}
 					});
 			},
@@ -174,6 +167,7 @@ export default class MainMenu extends ActivityContainer {
 	}
 	render() {
 		return (
+			//Below typography is wonky due to limited title classes. I really shouldn't be doing it like this. - Joren
 			<React.Fragment>
 				<AppBar position="fixed">
 					<Toolbar>
@@ -181,10 +175,20 @@ export default class MainMenu extends ActivityContainer {
 							edge="start"
 							onClick={this.openDrawer}
 							color="secondary"
+							style={{marginRight:"16px"}}
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography style={{ flexGrow: 1 }}></Typography>
+
+						<Typography variant="h6" style={{ flexGrow: 1 }}>
+							{this.state.activity.name == "Start"
+								? "My Games"
+								: this.state.activity.name == "GameMasterStart"
+								? "My Managed Games"
+								: this.state.activity.name == "GameList"
+								? "Public Games"
+								: this.state.activity.name}
+						</Typography>
 						<IconButton
 							edge="end"
 							onClick={(ev) => {
@@ -219,10 +223,7 @@ export default class MainMenu extends ActivityContainer {
 							}}
 							open={!!this.state.menuAnchorEl}
 						>
-							<MenuItem
-								key="email"
-								style={{ fontWeight: "bold" }}
-							>
+							<MenuItem key="email" style={{ fontWeight: "bold" }}>
 								{Globals.user.Email}
 							</MenuItem>
 							<MenuItem
@@ -247,18 +248,12 @@ export default class MainMenu extends ActivityContainer {
 				<Drawer open={this.state.drawerOpen}>
 					<ClickAwayListener
 						onClickAway={(_) => {
-							if (
-								new Date().getTime() >
-								this.drawerOpenedAt + 100
-							) {
+							if (new Date().getTime() > this.drawerOpenedAt + 100) {
 								this.closeDrawer();
 							}
 						}}
 					>
-						<div
-							onClick={this.closeDrawer}
-							style={{ width: "220px" }}
-						>
+						<div onClick={this.closeDrawer} style={{ width: "220px" }}>
 							<List component="nav">
 								<ListItem
 									style={{
@@ -286,12 +281,25 @@ export default class MainMenu extends ActivityContainer {
 											urls: this.props.urls,
 											findPrivateGame: this.findGameByID,
 											findOpenGame: this.renderOpenGames,
-											renderMyFinishedGames:
-												this.renderMyFinishedGames,
+											renderMyFinishedGames: this.renderMyFinishedGames,
 										});
 									}}
 								>
 									<ListItemText primary="My games" />
+								</ListItem>
+
+								<ListItem
+									button
+									onClick={(_) => {
+										this.setActivity(GameMasterStart, {
+											urls: this.props.urls,
+											findPrivateGame: this.findGameByID,
+											findOpenGame: this.renderOpenGames,
+											renderMyFinishedGames: this.renderMyFinishedGames,
+										});
+									}}
+								>
+									<ListItemText primary="My managed games" />
 								</ListItem>
 
 								<ListItem
@@ -387,9 +395,7 @@ export default class MainMenu extends ActivityContainer {
 									style={{ padding: "4px 16px" }}
 									button
 									onClick={(_) => {
-										open(
-											"https://groups.google.com/g/diplicity-talk"
-										);
+										open("https://groups.google.com/g/diplicity-talk");
 									}}
 								>
 									<ListItemText primary="Forum" />
