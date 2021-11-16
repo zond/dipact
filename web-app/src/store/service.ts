@@ -80,6 +80,15 @@ export const diplicityService = createApi({
         responseHandler: (response) => response.text(),
       }),
     }),
+    getVariantUnitSVG: builder.query<
+      string,
+      { variantName: string; unitType: string }
+    >({
+      query: ({ variantName, unitType }) => ({
+        url: `/Variant/${variantName}/Units/${unitType}.svg`,
+        responseHandler: (response) => response.text(),
+      }),
+    }),
     getRoot: builder.query<User | null, undefined>({
       query: () => "/User",
       transformResponse: (response: RootResponse, meta) => {

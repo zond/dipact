@@ -46,9 +46,11 @@ const Game = () => {
     maxNumPlayers,
     numPlayers,
     variantSVG,
+    variant,
+    variantUnitSvgs,
   } = useGame()(gameId);
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !variant) return <Loading />;
 
   return (
     <div>
@@ -71,7 +73,7 @@ const Game = () => {
           </Container>
         </Toolbar>
       </AppBar>
-      {isSuccess && <Map variantSVG={variantSVG as string} />}
+      {isSuccess && <Map variant={variant} variantSVG={variantSVG as string} variantUnitSvgs={variantUnitSvgs} />}
     </div>
   );
 };

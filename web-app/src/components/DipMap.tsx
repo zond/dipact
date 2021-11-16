@@ -24,6 +24,8 @@ import {
   PieceType,
 } from "../utils/map";
 
+const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+
 const useStyles = makeStyles((theme) => ({
   viewport: {
     height: "100%",
@@ -149,6 +151,75 @@ const DipMap = () => {
   const labPlayAs = "France";
 
   const map = dippyMap($("#map"));
+
+  // TODO this could be replaced with normal react
+  const setMapSubtitle = () => {
+    // TODO use ref?
+    const svgEl = document.getElementById("map")?.children[0] as SVGSVGElement;
+    if (!svgEl) return;
+
+    // TODO use ref?
+    let dipMapTitle = document.getElementById("dip-map-title");
+    if (!dipMapTitle) {
+      const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
+      const spacing = addToBottom * 0.12;
+      const realEstate = addToBottom - spacing;
+      const titleRealEstate = realEstate * 0.66;
+      // I'm assuming 1/3 of the font size can stretch below the base line.
+      const titleFontSize = Math.floor(titleRealEstate * 0.66);
+      const promoRealEstate = realEstate - titleRealEstate;
+      const promoFontSize = Math.floor(promoRealEstate * 0.66);
+
+      const container = document.createElementNS(SVG_NAMESPACE, "g");
+      const backgroundBox = document.createElementNS(SVG_NAMESPACE, "rect");
+      const dipMapTitle = document.createElementNS(SVG_NAMESPACE, "text");
+      const promo = document.createElementNS(SVG_NAMESPACE, "text");
+
+      backgroundBox.setAttribute("y", svgEl.viewBox.baseVal.height.toString());
+      backgroundBox.setAttribute("x", svgEl.viewBox.baseVal.x.toString());
+      backgroundBox.setAttribute("width", svgEl.viewBox.baseVal.width.toString());
+      backgroundBox.setAttribute("height", addToBottom.toString());
+      backgroundBox.setAttribute("fill", "black");
+
+      dipMapTitle.setAttribute("x", svgEl.viewBox.baseVal.x.toString());
+      dipMapTitle.setAttribute(
+        "y",
+        svgEl.viewBox.baseVal.height + spacing + titleFontSize.toString()
+      );
+      dipMapTitle.style.fill = "#fde2b5";
+      dipMapTitle.style.fontSize = titleFontSize + "px";
+      dipMapTitle.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
+      dipMapTitle.setAttribute("id", "dip-map-title");
+
+      promo.setAttribute("x", svgEl.viewBox.baseVal.x.toString());
+      promo.setAttribute(
+        "y",
+        svgEl.viewBox.baseVal.height + spacing + titleRealEstate + promoFontSize.toString()
+      );
+      promo.style.fill = "#fde2b5";
+      promo.style.fontSize = promoFontSize + "px";
+      promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
+      promo.innerHTML = "https://diplicity.com";
+
+      container.appendChild(backgroundBox);
+      container.appendChild(dipMapTitle);
+      container.appendChild(promo);
+
+      const heightChange =
+        (svgEl.viewBox.baseVal.height + addToBottom) /
+        svgEl.viewBox.baseVal.height;
+      if (mapDims.y) {
+        setMapDims({ x: mapDims.x, y: mapDims.y * heightChange });
+      }
+      svgEl.viewBox.baseVal.height = svgEl.viewBox.baseVal.height + addToBottom;
+      svgEl.appendChild(container);
+
+      dipMapTitle.innerHTML =
+        helpers.gameDesc(game) + " - " + helpers.phaseName(phase);
+    }
+  };
+
+  
 
   const handleLaboratoryCommand = (parts: string[]) => {
     const parsedCommand = parseCommand(parts);
@@ -361,242 +432,242 @@ const DipMap = () => {
     });
   };
 
-  const updateMap = () => {
-    if (!svgLoaded) return; // TODO explainer comment
+  // const updateMap = () => {
+  //   if (!svgLoaded) return; // TODO explainer comment
 
-    const phaseHash = hash(JSON.stringify(phase));
-    console.log(phaseHash);
-    const nodes = variant.Start?.Graph.Nodes;
+  //   const phaseHash = hash(JSON.stringify(phase));
+  //   console.log(phaseHash);
+  //   const nodes = variant.Start?.Graph.Nodes;
 
-    // TODO use compare?
-    if (phaseHash !== lastRenderedPhaseHash) {
-      setLastRenderedPhaseHash(phaseHash);
-      let tempPhaseSpecialStrokes: { [key: string]: string } = {};
-      let SCs: { [key: string]: string } = {};
+  //   // TODO use compare?
+  //   if (phaseHash !== lastRenderedPhaseHash) {
+  //     setLastRenderedPhaseHash(phaseHash);
+  //     let tempPhaseSpecialStrokes: { [key: string]: string } = {};
+  //     let SCs: { [key: string]: string } = {};
 
-      phase.SCs.forEach((supplyCenter) => {
-        SCs[supplyCenter.Province] = supplyCenter.Owner;
-      });
+  //     phase.SCs.forEach((supplyCenter) => {
+  //       SCs[supplyCenter.Province] = supplyCenter.Owner;
+  //     });
 
-      for (let prov in nodes) {
-        const node = nodes[prov]; // TODO what's this about?
-        if (node.SC && SCs[prov]) {
-          const color = helpers.natCol(SCs[prov], variant);
-          if (helpers.brightnessByColor(color) || 0 < 0.5) {
-            // TODO fix
-            tempPhaseSpecialStrokes[prov] = "#ffffff";
-            map.colorSC(prov, "ffffff");
-            // this.map.colorSC(prov, "ffffff"); TODO
-          }
-          map.colorProvince(prov, color);
-        } else {
-          map.hideProvince(prov);
-        }
-      }
+  //     for (let prov in nodes) {
+  //       const node = nodes[prov]; // TODO what's this about?
+  //       if (node.SC && SCs[prov]) {
+  //         const color = helpers.natCol(SCs[prov], variant);
+  //         if (helpers.brightnessByColor(color) || 0 < 0.5) {
+  //           // TODO fix
+  //           tempPhaseSpecialStrokes[prov] = "#ffffff";
+  //           map.colorSC(prov, "ffffff");
+  //           // this.map.colorSC(prov, "ffffff"); TODO
+  //         }
+  //         map.colorProvince(prov, color);
+  //       } else {
+  //         map.hideProvince(prov);
+  //       }
+  //     }
 
-      // colourNonSCs logic starts here
-      const colourNonSCs = localStorage.getItem("colorNonSCs");
+  //     // colourNonSCs logic starts here
+  //     const colourNonSCs = localStorage.getItem("colorNonSCs");
 
-      // The user has teh colour non scs rule set to true (or default which is true)
-      if (colourNonSCs === "true" || !colourNonSCs) {
-        // Here we check each non-SC and non-Sea territory. If all surrounding SCs are of the same power and none is "Neutral", colour them that power.
-        // Get all nodes, disqualify Sea and SC, and per node collect the edges in an array.
+  //     // The user has teh colour non scs rule set to true (or default which is true)
+  //     if (colourNonSCs === "true" || !colourNonSCs) {
+  //       // Here we check each non-SC and non-Sea territory. If all surrounding SCs are of the same power and none is "Neutral", colour them that power.
+  //       // Get all nodes, disqualify Sea and SC, and per node collect the edges in an array.
 
-        // TODO is nodes ever undefined?
-        if (nodes) {
-          Object.values(nodes).forEach((node) => {
-            const flags = node.Subs[""].Flags;
-            const edgeKeys = Object.keys(node.Subs[""].Edges);
+  //       // TODO is nodes ever undefined?
+  //       if (nodes) {
+  //         Object.values(nodes).forEach((node) => {
+  //           const flags = node.Subs[""].Flags;
+  //           const edgeKeys = Object.keys(node.Subs[""].Edges);
 
-            // If node is a non-sc land province
-            if (!node.SC && flags.Land) {
-              // Get all provinces bordering this province that are not undefined and which have a supply center
-              const borderProvs = edgeKeys
-                .map((edgeKey) => nodes[edgeKey])
-                .filter(
-                  (edgeNode) => typeof edgeNode !== "undefined" && edgeNode.SC
-                )
-                .map((edgeNode) => SCs[edgeNode.Name]);
+  //           // If node is a non-sc land province
+  //           if (!node.SC && flags.Land) {
+  //             // Get all provinces bordering this province that are not undefined and which have a supply center
+  //             const borderProvs = edgeKeys
+  //               .map((edgeKey) => nodes[edgeKey])
+  //               .filter(
+  //                 (edgeNode) => typeof edgeNode !== "undefined" && edgeNode.SC
+  //               )
+  //               .map((edgeNode) => SCs[edgeNode.Name]);
 
-              // find the first province that is not undefined
-              const compareProv = borderProvs.find(
-                (prov) => prov !== undefined
-              );
+  //             // find the first province that is not undefined
+  //             const compareProv = borderProvs.find(
+  //               (prov) => prov !== undefined
+  //             );
 
-              // Only draw province if it is the compare province or neutral
-              let shouldDraw = borderProvs.every(
-                (prov) => prov === compareProv || prov === "Neutral"
-              );
+  //             // Only draw province if it is the compare province or neutral
+  //             let shouldDraw = borderProvs.every(
+  //               (prov) => prov === compareProv || prov === "Neutral"
+  //             );
 
-              const countNeutral = borderProvs.filter(
-                (prov) => prov === undefined
-              ).length;
+  //             const countNeutral = borderProvs.filter(
+  //               (prov) => prov === undefined
+  //             ).length;
 
-              if (countNeutral === borderProvs.length || countNeutral > 0) {
-                shouldDraw = false;
-              }
+  //             if (countNeutral === borderProvs.length || countNeutral > 0) {
+  //               shouldDraw = false;
+  //             }
 
-              if (shouldDraw) {
-                const color = helpers.natCol(borderProvs[0], variant);
-                map.colorProvince(node.Name, color);
-              } else {
-                // Default rule doesn't apply so check for extra dominance rules
-                const extraDominanceRules = variant.ExtraDominanceRules;
-                if (extraDominanceRules !== null) {
-                  // if prov is starting province
-                  if (node.Name in extraDominanceRules) {
-                    const rule = extraDominanceRules[node.Name];
-                    const dependencies = rule.Dependencies;
-                    const shouldEventuallyDraw = Object.entries(
-                      dependencies
-                    ).every(([dependencyProv, nation]) => {
-                      const tempSC = SCs[dependencyProv] || "Neutral";
-                      return !(nation !== tempSC && tempSC !== rule.Nation);
-                    });
-                    if (shouldEventuallyDraw) {
-                      const color = helpers.natCol(rule.Nation, variant);
-                      map.colorProvince(node.Name, color);
-                    } else {
-                      map.hideProvince(node.Name);
-                    }
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
+  //             if (shouldDraw) {
+  //               const color = helpers.natCol(borderProvs[0], variant);
+  //               map.colorProvince(node.Name, color);
+  //             } else {
+  //               // Default rule doesn't apply so check for extra dominance rules
+  //               const extraDominanceRules = variant.ExtraDominanceRules;
+  //               if (extraDominanceRules !== null) {
+  //                 // if prov is starting province
+  //                 if (node.Name in extraDominanceRules) {
+  //                   const rule = extraDominanceRules[node.Name];
+  //                   const dependencies = rule.Dependencies;
+  //                   const shouldEventuallyDraw = Object.entries(
+  //                     dependencies
+  //                   ).every(([dependencyProv, nation]) => {
+  //                     const tempSC = SCs[dependencyProv] || "Neutral";
+  //                     return !(nation !== tempSC && tempSC !== rule.Nation);
+  //                   });
+  //                   if (shouldEventuallyDraw) {
+  //                     const color = helpers.natCol(rule.Nation, variant);
+  //                     map.colorProvince(node.Name, color);
+  //                   } else {
+  //                     map.hideProvince(node.Name);
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         });
+  //       }
+  //     }
 
-      // TODO explainer
-      map.showProvinces();
+  //     // TODO explainer
+  //     map.showProvinces();
 
-      // TODO explainer
-      map.removeUnits();
+  //     // TODO explainer
+  //     map.removeUnits();
 
-      // render units logic starts here
-      // phase can be from variant or phase...
-      const units = phase.Units as UnitState[] | { [key: string]: Unit };
+  //     // render units logic starts here
+  //     // phase can be from variant or phase...
+  //     const units = phase.Units as UnitState[] | { [key: string]: Unit };
 
-      if (units instanceof Array) {
-        units.forEach((unit) => {
-          const superProv = unit.Province.split("/")[0];
-          map.addUnit(
-            "unit" + unit.Unit.Type,
-            unit.Province,
-            helpers.natCol(unit.Unit.Nation, variant),
-            false,
-            false,
-            "#units",
-            { stroke: phaseSpecialStrokes[superProv] }
-          );
-        });
-      } else {
-        Object.entries(units).forEach(([prov, unit]) => {
-          const superProv = prov.split("/")[0];
-          map.addUnit(
-            "unit" + unit.Type,
-            prov,
-            helpers.natCol(unit.Nation, variant),
-            false,
-            false,
-            "#units",
-            { stroke: phaseSpecialStrokes[superProv] }
-          );
-        });
-      }
+  //     if (units instanceof Array) {
+  //       units.forEach((unit) => {
+  //         const superProv = unit.Province.split("/")[0];
+  //         map.addUnit(
+  //           "unit" + unit.Unit.Type,
+  //           unit.Province,
+  //           helpers.natCol(unit.Unit.Nation, variant),
+  //           false,
+  //           false,
+  //           "#units",
+  //           { stroke: phaseSpecialStrokes[superProv] }
+  //         );
+  //       });
+  //     } else {
+  //       Object.entries(units).forEach(([prov, unit]) => {
+  //         const superProv = prov.split("/")[0];
+  //         map.addUnit(
+  //           "unit" + unit.Type,
+  //           prov,
+  //           helpers.natCol(unit.Nation, variant),
+  //           false,
+  //           false,
+  //           "#units",
+  //           { stroke: phaseSpecialStrokes[superProv] }
+  //         );
+  //       });
+  //     }
 
-      // render dislodgeds logic starts here
-      // phase can be from variant or phase...
-      const dislodgeds = phase.Dislodgeds as
-        | Dislodged[]
-        | { [key: string]: Unit };
-      if (dislodgeds instanceof Array) {
-        dislodgeds.forEach((dislodged) => {
-          const superProv = dislodged.Province.split("/")[0];
-          map.addUnit(
-            "unit" + dislodged.Dislodged.Type,
-            dislodged.Province,
-            helpers.natCol(dislodged.Dislodged.Nation, variant),
-            true,
-            false,
-            "#units",
-            { stroke: phaseSpecialStrokes[superProv] }
-          );
-        });
-      } else {
-        Object.entries(dislodgeds).forEach(([prov, dislodged]) => {
-          const superProv = prov.split("/")[0];
-          const unit = dislodged;
-          map.addUnit(
-            "unit" + unit.Type,
-            prov,
-            helpers.natCol(unit.Nation, variant),
-            true,
-            false,
-            "#units",
-            { stroke: phaseSpecialStrokes[superProv] }
-          );
-        });
-      }
+  //     // render dislodgeds logic starts here
+  //     // phase can be from variant or phase...
+  //     const dislodgeds = phase.Dislodgeds as
+  //       | Dislodged[]
+  //       | { [key: string]: Unit };
+  //     if (dislodgeds instanceof Array) {
+  //       dislodgeds.forEach((dislodged) => {
+  //         const superProv = dislodged.Province.split("/")[0];
+  //         map.addUnit(
+  //           "unit" + dislodged.Dislodged.Type,
+  //           dislodged.Province,
+  //           helpers.natCol(dislodged.Dislodged.Nation, variant),
+  //           true,
+  //           false,
+  //           "#units",
+  //           { stroke: phaseSpecialStrokes[superProv] }
+  //         );
+  //       });
+  //     } else {
+  //       Object.entries(dislodgeds).forEach(([prov, dislodged]) => {
+  //         const superProv = prov.split("/")[0];
+  //         const unit = dislodged;
+  //         map.addUnit(
+  //           "unit" + unit.Type,
+  //           prov,
+  //           helpers.natCol(unit.Nation, variant),
+  //           true,
+  //           false,
+  //           "#units",
+  //           { stroke: phaseSpecialStrokes[superProv] }
+  //         );
+  //       });
+  //     }
 
-      // render orders logic starts here
-      const ordersHash = helpers.hash(
-        // JSON.stringify([orders, phase.Orders])
-        JSON.stringify([orders])
-      );
-      if (ordersHash !== lastRenderedOrdersHash) {
-        setLastRenderedOrdersHash(ordersHash);
-        map.removeOrders();
+  //     // render orders logic starts here
+  //     const ordersHash = helpers.hash(
+  //       // JSON.stringify([orders, phase.Orders])
+  //       JSON.stringify([orders])
+  //     );
+  //     if (ordersHash !== lastRenderedOrdersHash) {
+  //       setLastRenderedOrdersHash(ordersHash);
+  //       map.removeOrders();
 
-        (orders || []).forEach((order) => {
-          const superProv = order.Parts[0].split("/")[0];
-          map.addOrder(order.Parts, helpers.natCol(order.Nation, variant), {
-            stroke: phaseSpecialStrokes[superProv],
-          });
-        });
+  //       (orders || []).forEach((order) => {
+  //         const superProv = order.Parts[0].split("/")[0];
+  //         map.addOrder(order.Parts, helpers.natCol(order.Nation, variant), {
+  //           stroke: phaseSpecialStrokes[superProv],
+  //         });
+  //       });
 
-        if (phase.Resolutions instanceof Array) {
-          phase.Resolutions.forEach((res) => {
-            if (res.Resolution !== "OK") {
-              map.addCross(res.Province, "#ff0000"); // TODO remove hard coding
-            }
-          });
-        }
+  //       if (phase.Resolutions instanceof Array) {
+  //         phase.Resolutions.forEach((res) => {
+  //           if (res.Resolution !== "OK") {
+  //             map.addCross(res.Province, "#ff0000"); // TODO remove hard coding
+  //           }
+  //         });
+  //       }
 
-        if (phase.ForceDisbands instanceof Array) {
-          phase.ForceDisbands.forEach((prov) => {
-            map.addCross(prov, "#ff6600"); // TODO remove hard coding
-            map.addBox(prov, 4, "#ff6600"); // TODO remove hard coding
-          });
-        }
-      }
+  //       if (phase.ForceDisbands instanceof Array) {
+  //         phase.ForceDisbands.forEach((prov) => {
+  //           map.addCross(prov, "#ff6600"); // TODO remove hard coding
+  //           map.addBox(prov, 4, "#ff6600"); // TODO remove hard coding
+  //         });
+  //       }
+  //     }
 
-      // Snapshot logic
-      const snapshotEl = document.getElementById(
-        "mapSnapshot"
-      ) as HTMLImageElement;
-      if (
-        snapshotEl &&
-        mapDims.x &&
-        mapDims.x > 0 &&
-        mapDims.y &&
-        mapDims.y > 0
-      ) {
-        getSVGData().then((data) => {
-          if (data) {
-            snapshotEl.src = data;
-          }
-        });
-      }
+  //     // Snapshot logic
+  //     const snapshotEl = document.getElementById(
+  //       "mapSnapshot"
+  //     ) as HTMLImageElement;
+  //     if (
+  //       snapshotEl &&
+  //       mapDims.x &&
+  //       mapDims.x > 0 &&
+  //       mapDims.y &&
+  //       mapDims.y > 0
+  //     ) {
+  //       getSVGData().then((data) => {
+  //         if (data) {
+  //           snapshotEl.src = data;
+  //         }
+  //       });
+  //     }
 
-      // Accept orders logic
-      map.clearClickListeners();
+  //     // Accept orders logic
+  //     map.clearClickListeners();
 
-      if (Object.keys(options || {}).length > 0) {
-        // addOptionHandlers(options, []);
-      }
-    }
-  };
+  //     if (Object.keys(options || {}).length > 0) {
+  //       // addOptionHandlers(options, []);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     const mapEl = document.getElementById("map");

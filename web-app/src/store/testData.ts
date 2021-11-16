@@ -54,6 +54,9 @@ export const variant: Variant = {
   OrderTypes: [],
   nationAbbreviations: {},
   Links: [],
+  Graph: {
+    Nodes: {},
+  },
 };
 
 export const variantResponse: VariantResponse = {

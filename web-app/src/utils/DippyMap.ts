@@ -1,7 +1,7 @@
 import $ from "jquery";
 
 type Province = string;
-type Order = [string, string, string | undefined, string | undefined];
+export type Order = [string, string, string | undefined, string | undefined];
 type AddClickListenerOptions = {
   noHighlight?: boolean;
   permanent?: boolean;
@@ -322,19 +322,19 @@ export class DippyMap {
    * @memberof DippyMap
    */
   addUnit(
-    sourceId: string,
+    svg: string,
     province: string,
     color: string,
     dislodged: boolean,
     layer: string = "#units",
     options: DrawOptions
   ) {
-    const shadowQuery = $("#" + sourceId)
-      .find("#shadow")
-      .first()
-      .clone()[0];
-    const hullQuery = $("#" + sourceId + " svg").find("#hull");
-    const bodyQuery = $("#" + sourceId + " svg").find("#body");
+    // const shadowQuery = $("#" + sourceId)
+    //   .find("#shadow")
+    //   .first()
+    //   .clone()[0];
+    const hullQuery = $(svg).find("#hull");
+    const bodyQuery = $(svg).find("#body");
 
     const provinceCenter = this.centerOf(province);
 
@@ -358,10 +358,10 @@ export class DippyMap {
       provinceCenter.y + offsetY
     );
 
-    shadowQuery.setAttribute(
-      "transform",
-      "translate(" + unitOrigin.x + ", " + unitOrigin.y + ")"
-    );
+    // shadowQuery?.setAttribute(
+    //   "transform",
+    //   "translate(" + unitOrigin.x + ", " + unitOrigin.y + ")"
+    // );
     unit.setAttribute(
       "transform",
       "translate(" + unitOrigin.x + ", " + unitOrigin.y + ")"
@@ -379,7 +379,7 @@ export class DippyMap {
       unit.style.setProperty(attributeName, value);
     });
     const layerElement = $(this.svgEl).find(layer)[0];
-    layerElement.appendChild(shadowQuery);
+    // layerElement.appendChild(shadowQuery);
     layerElement.appendChild(unit);
   }
 
@@ -414,7 +414,8 @@ export class DippyMap {
   }
 
   private getProvince(province: Province): JQuery<HTMLElement> {
-    return $(this.svgEl)
+    const provinceLayer = this.getProvinceLayer();
+    return $(provinceLayer)
       .find("#" + this.selEscape(province))
       .first();
   }
@@ -434,6 +435,10 @@ export class DippyMap {
 
   private selEscape(province: Province): string {
     return province.replace("/", "\\/");
+  }
+
+  private getProvinceLayer(): JQuery<HTMLElement> {
+    return $(this.svgEl).find("#provinces");
   }
 
   private getHighlightsLayer(): JQuery<HTMLElement> {
@@ -768,17 +773,22 @@ export class DippyMap {
   }
 
   private addBuild(
-    pieceType: string,
+    type: string,
     province: Province,
     options: DrawOptions
   ) {
     const unit = "unit";
     const color = "#00000";
     const layer = "#orders";
-    this.addUnit(unit + pieceType, province, color, false, layer, options);
+    const svg = this.getSvgForUnitType(type);
+    this.addUnit(svg, province, color, false, layer, options);
   }
 
   private getLayer(id: string): JQuery<HTMLElement> {
     return $(this.svgEl).find(id);
+  }
+
+  private getSvgForUnitType(type: string): string {
+    return "";
   }
 }

@@ -1,10 +1,14 @@
 import { createContext, useContext, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectVariantUnitSvgs } from "../store/selectors";
+import { Variant } from "../store/types";
 
-import { useSelectPhase, useSelectVariant } from "./selectors";
+import { useSelectPhase, useSelectVariant, useSelectVariantUnitSvgs } from "./selectors";
 import {
   useGetGameQuery,
   useGetRootQuery,
   useLazyGetVariantSVGQuery,
+  useLazyGetVariantUnitSVGQuery,
   useLazyListPhaseStatesQuery,
   useListPhasesQuery,
   useListVariantsQuery,
@@ -23,6 +27,8 @@ export interface IUseGame extends ApiResponse {
   finished: boolean;
   mustered: boolean;
   variantSVG: string | undefined;
+  variant: Variant | null;
+  variantUnitSvgs: { [key: string]: string };
 }
 
 const useGame = (gameId: string): IUseGame => {
@@ -32,8 +38,13 @@ const useGame = (gameId: string): IUseGame => {
   ] = useLazyListPhaseStatesQuery();
   const [
     getVariantSVGTrigger,
-    getVariantSVGQuery
+    getVariantSVGQuery,
   ] = useLazyGetVariantSVGQuery();
+  const [
+    getVariantUnitSVGTrigger,
+    getVariantUnitSVGQuery,
+  ] = useLazyGetVariantUnitSVGQuery();
+
   const combinedQuery = {
     variants: useListVariantsQuery(undefined),
     phases: useListPhasesQuery(gameId),
@@ -56,17 +67,33 @@ const useGame = (gameId: string): IUseGame => {
   // TODO use selector
   const selectedPhase = useSelectPhase() || phases?.length;
   const variant = useSelectVariant(game?.Variant || "");
+  const variantUnitSvgs = useSelectVariantUnitSvgs(variant);
 
   useEffect(() => {
     if (phases?.length && selectedPhase) {
       const phase = phases[selectedPhase - 1];
-      listPhaseStatesTrigger({ gameId, phaseId: phase.PhaseOrdinal.toString() });
+      listPhaseStatesTrigger({
+        gameId,
+        phaseId: phase.PhaseOrdinal.toString(),
+      });
     }
   }, [phases, gameId, listPhaseStatesTrigger, selectedPhase]);
 
   useEffect(() => {
     if (variant) {
       getVariantSVGTrigger(variant.Name);
+    }
+  }, [variant]);
+
+
+  useEffect(() => {
+    if (variant) {
+      variant.UnitTypes.forEach((unitType) => {
+        getVariantUnitSVGTrigger({
+          variantName: variant.Name,
+          unitType,
+        });
+      });
     }
   }, [variant]);
 
@@ -88,6 +115,8 @@ const useGame = (gameId: string): IUseGame => {
     finished,
     mustered,
     variantSVG,
+    variant,
+    variantUnitSvgs,
   };
 };
 

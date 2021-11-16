@@ -42,7 +42,6 @@ type Start = {
   SCs: { [key: string]: string };
   Units: { [key: string]: Unit };
   Map: string;
-  Graph: Graph;
 };
 
 export type DominanceRule = {
@@ -67,6 +66,7 @@ export type Variant = {
   OrderTypes: string[];
   nationAbbreviations: { [key: string]: string };
   Start?: Start;
+  Graph: Graph;
   Links: Link[] | null;
   ExtraDominanceRules: null | { [key: string]: DominanceRule };
 };

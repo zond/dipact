@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 
 import { Phase } from "../store/types";
 import { useSelectPhase } from "./selectors";
-import { useGetGameQuery, useListPhasesQuery } from "./service";
+import { useListPhasesQuery } from "./service";
 import { getPhaseName, getCombinedQueryState } from "./utils";
 import { actions as phaseActions } from "../store/phase";
 import { ApiResponse } from "./types";
@@ -64,7 +64,6 @@ export const useDIContext = createDIContext<typeof usePhaseSelector>();
 // Create function to represent real or DI'd hook
 const useGetHook = () => useContext(useDIContext) || usePhaseSelector;
 const useDIHook = (gameId: string): IUsePhaseSelector => {
-  console.log(useContext(useDIContext));
   return useGetHook()(gameId);
 };
 

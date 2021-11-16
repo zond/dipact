@@ -66,76 +66,7 @@ export default class DipMap extends React.Component {
 			return "";
 		}
 	}
-	setMapSubtitle() {
-		const svgEl = document.getElementById("map").children[0];
-		if (!svgEl) {
-			return;
-		}
-		let dipMapTitle = document.getElementById("dip-map-title");
-		if (!dipMapTitle) {
-			const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
-			const spacing = addToBottom * 0.12;
-			const realEstate = addToBottom - spacing;
-			const titleRealEstate = realEstate * 0.66;
-			// I'm assuming 1/3 of the font size can stretch below the base line.
-			const titleFontSize = Math.floor(titleRealEstate * 0.66);
-			const promoRealEstate = realEstate - titleRealEstate;
-			const promoFontSize = Math.floor(promoRealEstate * 0.66);
 
-			const container = document.createElementNS(
-				"http://www.w3.org/2000/svg",
-				"g"
-			);
-			const backgroundBox = document.createElementNS(
-				"http://www.w3.org/2000/svg",
-				"rect"
-			);
-			backgroundBox.setAttribute("y", svgEl.viewBox.baseVal.height);
-			backgroundBox.setAttribute("x", svgEl.viewBox.baseVal.x);
-			backgroundBox.setAttribute("width", svgEl.viewBox.baseVal.width);
-			backgroundBox.setAttribute("height", addToBottom);
-			backgroundBox.setAttribute("fill", "black");
-			container.appendChild(backgroundBox);
-			dipMapTitle = document.createElementNS(
-				"http://www.w3.org/2000/svg",
-				"text"
-			);
-			dipMapTitle.setAttribute("x", svgEl.viewBox.baseVal.x);
-			dipMapTitle.setAttribute(
-				"y",
-				svgEl.viewBox.baseVal.height + spacing + titleFontSize
-			);
-			dipMapTitle.style.fill = "#fde2b5";
-			dipMapTitle.style.fontSize = titleFontSize + "px";
-			dipMapTitle.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
-			dipMapTitle.setAttribute("id", "dip-map-title");
-			container.appendChild(dipMapTitle);
-			const promo = document.createElementNS(
-				"http://www.w3.org/2000/svg",
-				"text"
-			);
-			promo.setAttribute("x", svgEl.viewBox.baseVal.x);
-			promo.setAttribute(
-				"y",
-				svgEl.viewBox.baseVal.height + spacing + titleRealEstate + promoFontSize
-			);
-			promo.style.fill = "#fde2b5";
-			promo.style.fontSize = promoFontSize + "px";
-			promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
-			promo.innerHTML = "https://diplicity.com";
-			container.appendChild(promo);
-			const heightChange =
-				(svgEl.viewBox.baseVal.height + addToBottom) /
-				svgEl.viewBox.baseVal.height;
-			this.mapDims[1] *= heightChange;
-			svgEl.viewBox.baseVal.height = svgEl.viewBox.baseVal.height + addToBottom;
-			svgEl.appendChild(container);
-		}
-		dipMapTitle.innerHTML =
-			helpers.gameDesc(this.state.game) +
-			" - " +
-			helpers.phaseName(this.state.phase);
-	}
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
 		let info = helpers.provName(this.props.variant, prov);

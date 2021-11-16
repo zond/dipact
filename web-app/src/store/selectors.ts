@@ -92,7 +92,10 @@ export const selectNationFlagLink = (
 };
 
 export const selectUser = (state: RootState): User | null | undefined => {
-  return diplicityService.endpoints.getRoot.select(undefined)(state).data;
+  const endpoint = diplicityService.endpoints.getRoot;
+  const selector = endpoint.select(undefined);
+  const query = selector(state);
+  return query.data;
 };
 
 // TODO test
@@ -128,6 +131,34 @@ export const selectUpdateUserConfigStatus = (
     isLoading: mutation?.status === "pending",
     isError: false, // TODO
   };
+};
+
+export const selectVariantUnitSvg = (
+  state: RootState,
+  variantName: string,
+  unitType: string
+): string | undefined => {
+  const endpoint = diplicityService.endpoints.getVariantUnitSVG;
+  const selector = endpoint.select({ variantName, unitType });
+  const typedState = state as RootState & { [key: string]: any }; // Note, weird TS stuff going on here
+  const query = selector(typedState);
+  return query.data;
+};
+
+export const selectVariantUnitSvgs = (
+  state: RootState,
+  variantName?: string,
+  unitTypes?: string[]
+): { [key: string]: string } => {
+  if (!variantName || !unitTypes?.length) return {};
+  const variantUnitSvgs: { [key: string]: string } = {};
+  unitTypes.forEach((unitType) => {
+    const svg = selectVariantUnitSvg(state, variantName, unitType);
+    if (svg) {
+      variantUnitSvgs[unitType] = svg;
+    }
+  });
+  return variantUnitSvgs;
 };
 
 // TODO test

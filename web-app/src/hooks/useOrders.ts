@@ -194,7 +194,7 @@ export const useOrdersContext = createContext<null | typeof useOrders>(null);
 const createDIContext = <T>() => createContext<null | T>(null);
 export const useDIContext = createDIContext<typeof useOrders>();
 
-// Create function to represent real or DI'd hook
+// Function to get real or DI'd hook
 const useGetHook = () => useContext(useDIContext) || useOrders;
 const useDIHook = (gameId: string): IUseOrders => useGetHook()(gameId);
 
