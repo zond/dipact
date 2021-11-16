@@ -25,6 +25,42 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
+					header: "Tournament announcement: FvsA",
+					subheader: "Registration to FvsA will open on November 5th 2021",
+					icon: false,
+					content: (
+						<React.Fragment>
+							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
+								Tournament announcement: FvsA
+							</Typography>
+							<Typography
+								variant="body2"
+								style={{ margin: "0px 0px 16px 0px" }}
+							>
+								Dear Player , if you are willing to test your tactical
+								abilities on the Diplomacy classic map, do not miss the First Nexus
+								France vs Austria Tournament (FvsA)! The largest diplomatic online
+								community is looking for players who are able to dance along the
+								classic map stalemate lines and impose their supremacy to the opponents.
+								Test yourself against a lot of other players and emerge as the best tactician
+								around by showing your abilities on this great variant, which is hosted on Diplicity.
+								<br />
+								<br />
+								Registration to FvsA will open on November 5th 2021 and close on December 3rd 2021.
+								To register join the Nexus Variants server and compile the dedicated form (also available
+								on Nexus). Groups will be announced by December 5th. Games will be launched on December
+								6th. Players will only be contacted through Discord.
+								<br />
+								<br />
+								The Tournament will be run on the <a href={"https://discord.gg/DKtWVGKQa3"}>Nexus Variant Server</a>.
+								<br />
+								<br />
+								It is also possible to join from <a href={"https://discord.gg/6ffnnG5TtZ"}>Nexus</a>.
+							</Typography>
+						</React.Fragment>
+					),
+				},
+				{
 					header: "New feature: Coloured provinces",
 					subheader: "Really see you've conquered the map",
 					icon: false,

@@ -20,59 +20,52 @@ import NewsDialog from "./NewsDialog";
 
 import { ExpandIcon } from "../icons";
 import LogoDarkSvgPath from "../static/img/logo_dark.svg";
-import SoldiersSvgPath from "../static/img/soldiers.svg";
+import BattleGroundSvgPath from "../static/img/battleground.svg";
+import CommanderSvgPath from "../static/img/commander.svg";
 
-const latestNews = 1;
-const latestNewsShownKey = "latestNewsShownKey";
-
-export default class Start extends React.Component {
+export default class GameMasterStart extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			newGameFormOpen: false,
-			newsDialogOpen:
-				!localStorage.getItem(latestNewsShownKey) ||
-				Number.parseInt(localStorage.getItem(latestNewsShownKey)) <
-					latestNews,
-		};
+		this.state = {};
 		this.createGameDialog = null;
-		this.myStagingGamesList = null;
-		this.myStartedGamesList = null;
-		this.myFinishedGamesList = null;
 		this.masteredStagingGamesList = null;
 		this.masteredStartedGamesList = null;
 		this.masteredFinishedGamesList = null;
-		this.errorsDialog = null;
 
-		this.hasPlayed = this.hasPlayed.bind(this);
-		localStorage.setItem(latestNewsShownKey, "" + latestNews);
+		this.hasGameMastered = this.hasGameMastered.bind(this);
 	}
-	hasPlayed() {
+	hasGameMastered() {
+		//TODO: This needs to validate that there is a GM game -- or empty state. Now it's just a copy of the start.js
 		return (
 			Globals.userStats.Properties.JoinedGames ||
 			Globals.userStats.Properties.PrivateStats.JoinedGames
 		);
 	}
 	componentDidMount() {
-		gtag("set", { page_title: "Start", page_location: location.href });
+		gtag("set", {
+			page_title: "GameMasterStart",
+			page_location: location.href,
+		});
 		gtag("event", "page_view");
 	}
 	render() {
 		return (
 			<React.Fragment>
-				{this.hasPlayed() ? (
+				{this.hasGameMastered() ? (
 					<div
 						style={{
 							height: "calc(100vh - 60px)",
 							overflowY: "scroll",
 						}}
 					>
-						<div>
-
-						</div>
-						<NewsDialog />
-						<List style={{ maxWidth: "940px", margin: "auto", marginBottom: "64px" }}>
-							<li key="started" id="my-started-container">
+						<List
+							style={{
+								maxWidth: "940px",
+								margin: "auto",
+								marginBottom: "64px",
+							}}
+						>
+							<li key="mastered-started" id="mastered-started-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
 										style={{
@@ -90,7 +83,7 @@ export default class Start extends React.Component {
 												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
-											My ongoing games
+											Ongoing games managed by me
 										</ListSubheader>
 									</div>
 									<ListItem
@@ -102,33 +95,30 @@ export default class Start extends React.Component {
 										<GameList
 											limit={128}
 											contained={true}
-											url={
-												this.props.urls[
-													"my-started-games"
-												]
-											}
+											withDetails={true}
+											url={this.props.urls["mastered-started-games"]}
 											onPhaseMessage={(_) => {
-												this.myStartedGamesList.refresh();
-												this.myFinishedGamesList.refresh();
+												this.masteredStartedGamesList.refresh();
+												this.masteredFinishedGamesList.refresh();
 											}}
 											parentCB={(c) => {
-												this.myStartedGamesList = c;
+												this.masteredStartedGamesList = c;
 											}}
 											onFilled={(_) => {
 												document.getElementById(
-													"my-started-container"
+													"mastered-started-container"
 												).style.display = "block";
 											}}
 											onEmpty={(_) => {
 												document.getElementById(
-													"my-started-container"
+													"mastered-started-container"
 												).style.display = "none";
 											}}
 										/>
 									</ListItem>
 								</ul>
 							</li>
-							<li key="staging" id="my-staging-container">
+							<li key="mastered-staging" id="mastered-staging-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
 										style={{
@@ -146,7 +136,7 @@ export default class Start extends React.Component {
 												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
-											My forming games
+											Forming games managed by me
 										</ListSubheader>
 									</div>
 
@@ -159,33 +149,29 @@ export default class Start extends React.Component {
 											limit={128}
 											contained={true}
 											onPhaseMessage={(_) => {
-												this.myStartedGamesList.reload();
-												this.myStagingGamesList.reload();
+												this.masteredStartedGamesList.reload();
+												this.masteredStagingGamesList.reload();
 											}}
 											onFilled={(_) => {
 												document.getElementById(
-													"my-staging-container"
+													"mastered-staging-container"
 												).style.display = "block";
 											}}
 											withDetails={true}
 											onEmpty={(_) => {
 												document.getElementById(
-													"my-staging-container"
+													"mastered-staging-container"
 												).style.display = "none";
 											}}
 											parentCB={(c) => {
-												this.myStagingGamesList = c;
+												this.masteredStagingGamesList = c;
 											}}
-											url={
-												this.props.urls[
-													"my-staging-games"
-												]
-											}
+											url={this.props.urls["mastered-staging-games"]}
 										/>
 									</ListItem>
 								</ul>
 							</li>
-							<li key="finished" id="my-finished-container">
+							<li key="mastered-finished" id="mastered-finished-container">
 								<ul style={{ paddingInlineStart: 0 }}>
 									<div
 										style={{
@@ -203,13 +189,9 @@ export default class Start extends React.Component {
 												color: "rgba(40, 26, 26, 0.56)",
 											}}
 										>
-											My finished games
+											Finished games managed by me
 										</ListSubheader>
-										<Button
-											onClick={
-												this.props.renderMyFinishedGames
-											}
-										>
+										<Button onClick={this.props.renderMasteredFinishedGames}>
 											View all
 										</Button>
 									</div>
@@ -222,79 +204,31 @@ export default class Start extends React.Component {
 										<GameList
 											contained={true}
 											parentCB={(c) => {
-												this.myFinishedGamesList = c;
+												this.masteredFinishedGamesList = c;
 											}}
 											onFilled={(_) => {
 												document.getElementById(
-													"my-finished-container"
+													"mastered-finished-container"
 												).style.display = "block";
 											}}
 											onEmpty={(_) => {
 												document.getElementById(
-													"my-finished-container"
+													"mastered-finished-container"
 												).style.display = "none";
 											}}
-											url={
-												this.props.urls[
-													"my-finished-games"
-												]
-											}
+											url={this.props.urls["mastered-finished-games"]}
 											limit={8}
 										/>
 									</ListItem>
 								</ul>
 							</li>
 						</List>
-						<AppBar
+												<AppBar
 							position="fixed"
 							color="primary"
 							style={{ top: "auto", bottom: 0 }}
 						>
 							<Toolbar style={{ justifyContent: "space-around" }}>
-								<Button
-									key="new-game"
-									onClick={(_) => {
-										this.setState({
-											newGameFormOpen:
-												!this.state.newGameFormOpen,
-										});
-									}}
-									variant="contained"
-									color="secondary"
-								>
-									New game
-									{this.state.newGameFormOpen ? (
-										<ExpandIcon />
-									) : (
-										""
-									)}
-								</Button>
-							</Toolbar>
-							<Slide
-								mountOnEnter
-								unmountOnExit
-								direction="up"
-								in={this.state.newGameFormOpen}
-							>
-								<Toolbar style={{ flexDirection: "column" }}>
-									<Button
-										style={{ margin: 4 }}
-										variant="outlined"
-										color="secondary"
-										key="find-open"
-										onClick={this.props.findOpenGame}
-									>
-										Browse open games
-									</Button>
-									<Button
-										style={{ margin: 4 }}
-										variant="outlined"
-										color="secondary"
-										key="find-private"
-										onClick={this.props.findPrivateGame}
-									>
-										Find game
-									</Button>
 									<Button
 										style={{ margin: 4 }}
 										variant="outlined"
@@ -308,8 +242,7 @@ export default class Start extends React.Component {
 									>
 										Create game
 									</Button>
-								</Toolbar>
-							</Slide>
+							</Toolbar>
 						</AppBar>
 					</div>
 				) : (
@@ -335,27 +268,28 @@ export default class Start extends React.Component {
 									flexDirection: "column",
 								}}
 							>
-								<img
-									alt="Diplity logo dark"
-									style={{
-										width: "calc(100% - 48px)",
-										maxWidth: "340px",
-										margin: "24px",
-									}}
-									src={LogoDarkSvgPath}
-								/>
+								<Typography
+									variant="h5"
+									style={{ alignSelf: "center", padding: "16px" }}
+								>
+									My Managed Games
+								</Typography>
 
 								<Typography
 									variant="body2"
 									style={{
-										margin: "0px 16px 0px 16px",
+										margin: "0px 16px 16px 16px",
 									}}
 								>
-									Welcome! Diplomacy games are all about human
-									interaction, so they usually take or even
-									start after many days. Before joining your
-									first game, we strongly advise you to read
-									the rules.
+									Games which you manage as Game Master (GM) will appear here.
+									<br />
+									<br />
+									As GM, you manage a game: who can join (as what nation), time
+									(set deadlines, pause and resume), active players (kick and
+									replace).
+									<br />
+									This is for tournaments or games with friends, but not for
+									public games (risk of abuse).
 								</Typography>
 								<Button
 									style={{
@@ -364,69 +298,39 @@ export default class Start extends React.Component {
 									}}
 									color="primary"
 									variant="outlined"
-									key="find-open"
-									href="https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983"
-									target="_blank"
+									key="create"
+									onClick={(_) => {
+										this.createGameDialog.setState({
+											open: true,
+										});
+									}}
 								>
-									Read the rules
+									Create new game
 								</Button>
 							</div>
 							<div id="bottom">
 								<div
 									style={{
-										backgroundImage: `url(${SoldiersSvgPath})`,
+										backgroundImage: `url(${BattleGroundSvgPath})`,
 										height: "72px",
 									}}
-								></div>
+								>
+									<div
+										style={{
+											backgroundImage: `url(${CommanderSvgPath})`,
+											backgroundRepeat: "no-repeat",
+											height: "72px",
+										}}
+									></div>
+								</div>
 								<div
 									style={{
 										backgroundColor: "#291B1B",
 										display: "flex",
 										flexDirection: "column",
-										paddingBottom: "24px",
+										paddingBottom: "124px",
 									}}
-								>
-									<Button
-										style={{
-											margin: "4px auto",
-											minWidth: "200px",
-										}}
-										variant="outlined"
-										color="secondary"
-										key="find-open"
-										onClick={this.props.findOpenGame}
-									>
-										Browse open games
-									</Button>
-									<Button
-										style={{
-											margin: "4px auto",
-											minWidth: "200px",
-										}}
-										variant="outlined"
-										color="secondary"
-										key="find-private"
-										onClick={this.props.findPrivateGame}
-									>
-										Find game
-									</Button>
-									<Button
-										style={{
-											margin: "4px auto",
-											minWidth: "200px",
-										}}
-										variant="outlined"
-										color="secondary"
-										key="create"
-										onClick={(_) => {
-											this.createGameDialog.setState({
-												open: true,
-											});
-										}}
-									>
-										Create game
-									</Button>
-								</div>
+								></div>
 							</div>
 						</div>
 					</React.Fragment>
@@ -434,21 +338,13 @@ export default class Start extends React.Component {
 				<CreateGameDialog
 					gameCreated={(game) => {
 						if (game.Properties.GameMasterEnabled) {
-							//this.masteredStagingGamesList.reload();
-//TODO: IF NO GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG AND LOAD GAME MASTER PAGE 
+//TODO: IF GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG
 						} else {
-							this.myStagingGamesList.reload();
-//TODO: IF NO GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG 
+//TODO: IF NO GAMEMASTERGAME CLOSE THE CREATEGAMEDIALOG AND LOAD START.JS AS ACTIVITY
 						}
 					}}
 					parentCB={(c) => {
 						this.createGameDialog = c;
-					}}
-				/>
-				<ErrorsDialog
-					key="errors-dialog"
-					parentCB={(c) => {
-						this.errorsDialog = c;
 					}}
 				/>
 			</React.Fragment>

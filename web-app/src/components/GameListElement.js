@@ -41,7 +41,7 @@ import {
 const warningClass = { color: "red" };
 const noticeClass = {
 	fontWeight: "bold !important",
-	color: "red"
+	color: "red",
 };
 const secondRowSummaryClass = {
 	display: "flex",
@@ -206,6 +206,30 @@ class GameListElement extends React.Component {
 	}
 	reschedule() {
 		this.rescheduleDialog.setState({ open: true });
+	}
+	nextturn() {
+		const link = this.state.game.Links.find((link) => {
+			return link.Rel === "edit-newest-phase-deadline-at";
+		});
+		if (!link) return;
+		helpers.incProgress();
+		helpers
+			.safeFetch(
+				helpers.createRequest(link.URL, {
+					method: link.Method,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						NextPhaseDeadlineInMinutes: Number.parseInt(0),
+					}),
+				})
+			)
+			.then((_) => {
+				helpers.decProgress();
+				gtag("event", "game_list_element_reschedule");
+				this.reloadGame();
+			});
 	}
 	renameGame() {
 		this.renameGameDialog.setState({ open: true });
@@ -440,7 +464,7 @@ class GameListElement extends React.Component {
 				icons,
 				MusteringIcon,
 				"black",
-				"Mustering before start"
+				"Get Ready phase before start"
 			);
 		}
 		if (
@@ -547,9 +571,11 @@ class GameListElement extends React.Component {
 			Hater: "you banned others too often (hater score too high).",
 			MaxRating: "you're too good (rating too high).",
 			MinRating: "you're not good enough yet (rating too low).",
-			MinReliability: "you haven't given any orders on too many turns (reliability too low).",
-			MinQuickness: "you haven't commited your orders often enough (quickness too low).",
-			InvitationNeeded: "the Game Master hasn't whitelisted you.",
+			MinReliability:
+				"you haven't given any orders on too many turns (reliability too low).",
+			MinQuickness:
+				"you haven't commited your orders often enough (quickness too low).",
+			InvitationNeeded: "the Game Master hasn't assigned a nation to you.",
 		};
 	}
 	render() {
@@ -572,7 +598,11 @@ class GameListElement extends React.Component {
 			this.state.game.Properties.FailedRequirements
 		) {
 			buttons.push(
-				<Typography variant="subtitle2" key="requirement-notice" style={noticeClass}>
+				<Typography
+					variant="subtitle2"
+					key="requirement-notice"
+					style={noticeClass}
+				>
 					You can't join this game because{" "}
 					{this.state.game.Properties.FailedRequirements.map((req) => {
 						return this.failureExplanations()[req];
@@ -615,7 +645,15 @@ class GameListElement extends React.Component {
 				);
 			}
 		}
-		if (!this.state.game.Properties.Closed) {
+		let replaceablePlayers = 0;
+					if (this.state.game.Properties.Members !== null) {
+					replaceablePlayers = this.state.game.Properties.Members.filter(member => 
+  					member.Replaceable == true
+					).length;
+					} else {
+						replaceablePlayers = 0;
+					}
+		if (!this.state.game.Properties.Closed || replaceablePlayers > 0) {
 			buttons.push(
 				<Button
 					variant="outlined"
@@ -625,8 +663,7 @@ class GameListElement extends React.Component {
 						marginBottom: "4px",
 					}}
 					color="primary"
-					onClick={
-						this.shareNative}
+					onClick={this.shareNative}
 					key={itemKey++}
 				>
 					Invite
@@ -656,9 +693,9 @@ class GameListElement extends React.Component {
 				) {
 					buttons.unshift(
 						<Typography key="reliability-warning" style={warningClass}>
-							WARNING: We advise you to join a different game, because you have
-							high reliability. Since this game has no reliability requirements,
-							it might have (some) absent players.
+							WARNING: We advise you to join a different game, because this game
+							might have (some) absent players. You have high reliability so can
+							join a better game.
 						</Typography>
 					);
 				}
@@ -677,21 +714,40 @@ class GameListElement extends React.Component {
 				);
 			} else if (link.Rel === "edit-newest-phase-deadline-at") {
 				buttons.push(
-					<Button
-						key={itemKey++}
-						variant="outlined"
-						color="primary"
-						style={{
-							marginRight: "16px",
-							minWidth: "100px",
-							marginBottom: "4px",
-						}}
-						onClick={(_) => {
-							this.reschedule(link);
-						}}
-					>
-						Reschedule
-					</Button>
+					//TODO: Add confirmdialog.js before we accidentally move a turn forwards.. (how?)
+					<React.Fragment>
+						<Divider style={{marginBottom: "4px"}} />
+						<Button
+							key={itemKey++}
+							variant="contained"
+							color="primary"
+							style={{
+								marginRight: "16px",
+								minWidth: "100px",
+								marginBottom: "4px",
+							}}
+							onClick={(_) => {
+								this.nextturn(link);
+							}}
+						>
+							End Current Phase
+						</Button>
+						<Button
+							key={itemKey++}
+							variant="contained"
+							color="primary"
+							style={{
+								marginRight: "16px",
+								minWidth: "100px",
+								marginBottom: "4px",
+							}}
+							onClick={(_) => {
+								this.reschedule(link);
+							}}
+						>
+							Change deadline
+						</Button>
+					</React.Fragment>
 				);
 			} else if (link.Rel === "leave") {
 				buttons.push(
@@ -713,6 +769,7 @@ class GameListElement extends React.Component {
 				);
 			} else if (link.Rel === "delete-game") {
 				buttons.push(
+					//TODO: add confirmdialog.js before we accidentally DELETE THE WHOLE (ONGOING) GAME (how)?
 					<Button
 						key={itemKey++}
 						variant="outlined"
@@ -740,7 +797,7 @@ class GameListElement extends React.Component {
 			buttons.push(
 				<Button
 					key={itemKey++}
-					variant="outlined"
+					variant="contained"
 					color="primary"
 					style={{
 						marginRight: "16px",
@@ -751,7 +808,7 @@ class GameListElement extends React.Component {
 						this.manageInvitations();
 					}}
 				>
-					Whitelist
+					Assign players
 				</Button>
 			);
 		}
@@ -779,7 +836,7 @@ class GameListElement extends React.Component {
 				}}
 			>
 				{((_) => {
-					if (this.state.game.Properties.Started) {
+					if (this.state.game.Properties.Started && replaceablePlayers == 0) {
 						return (
 							<React.Fragment>
 								{/* IF STARTED */}
@@ -986,9 +1043,9 @@ class GameListElement extends React.Component {
 											alignItems: "center",
 										}}
 									>
-										<NumMembersIcon />
-										<Typography variant="body2" style={{ paddingLeft: "2px" }}>
-											{this.state.game.Properties.NMembers}/
+										<NumMembersIcon style={replaceablePlayers == 0 ? {color: "primary"} : {color: "red"} } />
+										<Typography variant="body2" style={replaceablePlayers == 0 ? { paddingLeft: "2px", } : { paddingLeft: "2px", color: "red"}}>
+											{replaceablePlayers == 0 ? this.state.game.Properties.NMembers : this.state.game.Properties.NMembers - replaceablePlayers}/
 											{this.variant.Properties.Nations.length}{" "}
 										</Typography>
 									</div>

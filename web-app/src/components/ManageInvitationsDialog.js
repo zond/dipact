@@ -86,14 +86,11 @@ class ManageInvitationsDialog extends React.Component {
 		let nationExists = false;
 		// Check if the nation is already allocated - we don't want two similar nations!
 		if (this.props.game.Properties.GameMasterInvitations) {
-
-			this.props.game.Properties.GameMasterInvitations.map(
-			(nation) => {
+			this.props.game.Properties.GameMasterInvitations.map((nation) => {
 				if (nation.Nation == this.state.nation) {
 					nationExists = true;
 				}
-			}
-			);
+			});
 		}
 
 		console.log(nationExists);
@@ -147,8 +144,6 @@ class ManageInvitationsDialog extends React.Component {
 					this.setState({ game: game });
 				});
 			});
-			
-
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (!prevState.open && this.state.open) {
@@ -185,24 +180,26 @@ class ManageInvitationsDialog extends React.Component {
 				open={this.state.open}
 				onEntered={helpers.genOnback(this.close)}
 				disableBackdropClick={false}
-				onClose={this.close} //TODO: REMOVE THE THEY WILL NOT BE INVITED AUTOMATICALLY BELOW. THIS NEEDS TO BE HANDLED PRETTIER.
+				onClose={this.close} 
 			>
-				<DialogTitle>Manage whitelist</DialogTitle>
+				<DialogTitle>Assign players</DialogTitle>
 				<DialogContent>
 					<React.Fragment>
 						<Typography variant="subtitle2">
-							Whitelist players can join the game{" "}
+							Assign a player to let them join as a specific nation{" "}
 							<span style={{ color: "red" }}>
 								(they won't be invited automatically)
 							</span>
-							. Email address must match players Diplicity login details
-							exactly.
+							. <br />
+							To re-assign a joined player, remove them from the game and let
+							them re-join. <br />
+							Email address must match their Diplicity login details exactly.
 						</Typography>
 						<Typography
 							variant="subtitle2"
 							style={{ fontWeight: "bold", marginTop: "8px" }}
 						>
-							Whitelisted players
+							Assigned players
 						</Typography>
 						<List>
 							{(this.state.game.Properties.GameMasterInvitations || []).map(
@@ -336,7 +333,7 @@ class ManageInvitationsDialog extends React.Component {
 									marginTop: "4px",
 								}}
 							>
-								Add
+								Assign
 							</Button>
 							<div style={{ height: "19px" }}></div>
 						</div>

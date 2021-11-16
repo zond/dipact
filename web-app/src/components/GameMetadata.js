@@ -1,6 +1,7 @@
 import React from "react";
-import { Icon, IconButton, Typography, SvgIcon } from "@material-ui/core";
+import { Icon, IconButton, Button, Typography, SvgIcon } from "@material-ui/core";
 import {
+	CreateMessageIcon,
 	PhaseDeadlineIcon,
 	KickIcon,
 	ChatIcon,
@@ -30,9 +31,7 @@ export default class GameMetadata extends React.Component {
 		this.onKick = this.onKick.bind(this);
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (
-			JSON.stringify(prevProps.game) !== JSON.stringify(this.props.game)
-		) {
+		if (JSON.stringify(prevProps.game) !== JSON.stringify(this.props.game)) {
 			this.setState({ game: this.props.game });
 		}
 	}
@@ -98,11 +97,7 @@ export default class GameMetadata extends React.Component {
 									width: "24px",
 								}}
 							>
-								{
-									this.state.game.Properties
-										.ChatLanguageISO639_1
-								}{" "}
-								aaa
+								{this.state.game.Properties.ChatLanguageISO639_1} aaa
 							</div>
 						</div>
 					</span>
@@ -111,9 +106,7 @@ export default class GameMetadata extends React.Component {
 						{
 							helpers.iso639_1Codes.find((el) => {
 								return (
-									el.code ===
-									this.state.game.Properties
-										.ChatLanguageISO639_1
+									el.code === this.state.game.Properties.ChatLanguageISO639_1
 								);
 							}).name
 						}
@@ -166,7 +159,7 @@ export default class GameMetadata extends React.Component {
 					key={cells.length}
 				>
 					<WhitelistIcon style={{ marginRight: "8px" }} />
-					<Typography>Whitelist only (set by Game Master)</Typography>
+					<Typography>Assigned players only (Whitelist)</Typography>
 				</div>
 			);
 		}
@@ -206,7 +199,7 @@ export default class GameMetadata extends React.Component {
 					key={cells.length}
 				>
 					<MusteringIcon style={{ marginRight: "8px" }} />
-					<Typography>Mustering before start</Typography>
+					<Typography>Get Ready Phase before start</Typography>
 				</div>
 			);
 		}
@@ -224,8 +217,7 @@ export default class GameMetadata extends React.Component {
 					<Typography>
 						Non movement phase deadline{" "}
 						{helpers.minutesToDuration(
-							this.state.game.Properties
-								.NonMovementPhaseLengthMinutes
+							this.state.game.Properties.NonMovementPhaseLengthMinutes
 						)}
 					</Typography>
 				</div>
@@ -263,10 +255,7 @@ export default class GameMetadata extends React.Component {
 							fillRule="evenodd"
 						>
 							<g id="timelapse-24px">
-								<polygon
-									id="Path"
-									points="0 0 24 0 24 24 0 24"
-								></polygon>
+								<polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
 								<path
 									d="M12,6 C12.5719312,6 13.1251722,6.08002251 13.6491373,6.22948186 L12,12 Z M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M12,20 C7.58,20 4,16.42 4,12 C4,7.58 7.58,4 12,4 C16.42,4 20,7.58 20,12 C20,16.42 16.42,20 12,20 Z"
 									id="Shape"
@@ -278,10 +267,7 @@ export default class GameMetadata extends React.Component {
 					</SvgIcon>
 				</Icon>
 				<Typography>
-					Created:{" "}
-					{helpers.timeStrToDate(
-						this.state.game.Properties.CreatedAt
-					)}{" "}
+					Created: {helpers.timeStrToDate(this.state.game.Properties.CreatedAt)}{" "}
 				</Typography>
 			</div>
 		);
@@ -298,9 +284,7 @@ export default class GameMetadata extends React.Component {
 					<StartedAtIcon style={{ marginRight: "8px" }} />
 					<Typography>
 						Started:{" "}
-						{helpers.timeStrToDate(
-							this.state.game.Properties.StartedAt
-						)}
+						{helpers.timeStrToDate(this.state.game.Properties.StartedAt)}
 					</Typography>
 				</div>
 			);
@@ -325,10 +309,7 @@ export default class GameMetadata extends React.Component {
 								fillRule="evenodd"
 							>
 								<g id="timelapse-24px">
-									<polygon
-										id="Path"
-										points="0 0 24 0 24 24 0 24"
-									></polygon>
+									<polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
 									<path
 										d="M12,6 C15.3137085,6 18,8.6862915 18,12 C18,15.3137085 15.3137085,18 12,18 C8.6862915,18 6,15.3137085 6,12 C6,9.25822274 7.83903025,6.94597402 10.3508627,6.22948186 L12,12 Z M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M12,20 C7.58,20 4,16.42 4,12 C4,7.58 7.58,4 12,4 C16.42,4 20,7.58 20,12 C20,16.42 16.42,20 12,20 Z"
 										id="Shape"
@@ -341,9 +322,7 @@ export default class GameMetadata extends React.Component {
 					</Icon>
 					<Typography>
 						Finished:{" "}
-						{helpers.timeStrToDate(
-							this.state.game.Properties.FinishedAt
-						)}{" "}
+						{helpers.timeStrToDate(this.state.game.Properties.FinishedAt)}{" "}
 					</Typography>
 				</div>
 			);
@@ -381,15 +360,9 @@ export default class GameMetadata extends React.Component {
 									></path>
 								</g>
 								<g id="loop-24px">
-									<polygon
-										id="Path"
-										points="13 12 26 12 26 25 13 25"
-									></polygon>
+									<polygon id="Path" points="13 12 26 12 26 25 13 25"></polygon>
 									<g id="transfer_within_a_station-24px">
-										<polygon
-											id="Path"
-											points="0 0 24 0 24 24 0 24"
-										></polygon>
+										<polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
 									</g>
 								</g>
 							</g>
@@ -452,8 +425,7 @@ export default class GameMetadata extends React.Component {
 				>
 					<ReliabilityIcon style={{ marginRight: "8px" }} />
 					<Typography>
-						Minimum reliability:{" "}
-						{this.state.game.Properties.MinReliability}{" "}
+						Minimum reliability: {this.state.game.Properties.MinReliability}{" "}
 					</Typography>
 				</div>
 			);
@@ -470,8 +442,7 @@ export default class GameMetadata extends React.Component {
 				>
 					<ReliabilityIcon style={{ marginRight: "8px" }} />
 					<Typography>
-						Minimum quickness:{" "}
-						{this.state.game.Properties.MinQuickness}{" "}
+						Minimum quickness: {this.state.game.Properties.MinQuickness}{" "}
 					</Typography>
 				</div>
 			);
@@ -556,7 +527,6 @@ export default class GameMetadata extends React.Component {
 			);
 		}
 
-
 		if (
 			(this.state.game.Properties.Private &&
 				this.state.game.Properties.Anonymous) ||
@@ -624,10 +594,7 @@ export default class GameMetadata extends React.Component {
 									fillRule="evenodd"
 								>
 									<g id="message-24px">
-										<polygon
-											id="Path"
-											points="0 0 24 0 24 24 0 24"
-										></polygon>
+										<polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
 										<path
 											d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
 											id="Combined-Shape"
@@ -644,12 +611,10 @@ export default class GameMetadata extends React.Component {
 			} else {
 				// Sort channel types by whether they're enabled or disabled.
 				let allChannels = { false: [], true: [] };
-				allChannels[
-					this.state.game.Properties.DisableConferenceChat
-				].push("Conference");
-				allChannels[this.state.game.Properties.DisableGroupChat].push(
-					"Group"
+				allChannels[this.state.game.Properties.DisableConferenceChat].push(
+					"Conference"
 				);
+				allChannels[this.state.game.Properties.DisableGroupChat].push("Group");
 				allChannels[this.state.game.Properties.DisablePrivateChat].push(
 					"Individual"
 				);
@@ -672,10 +637,7 @@ export default class GameMetadata extends React.Component {
 									fillRule="evenodd"
 								>
 									<g id="message-24px">
-										<polygon
-											id="Path"
-											points="0 0 24 0 24 24 0 24"
-										></polygon>
+										<polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
 										<path
 											d="M2.4,2.614 L20.5847763,20.7989899 L20.598,20.784 L20.7989899,20.9842712 L19.3847763,22.3984848 L14.986,18 L6,18 L2,22 L2.008,5.022 L1,4.0137085 L2.4,2.614 Z M20,2 C21.05,2 21.9177686,2.82004132 21.9944872,3.85130541 L22,4 L22,16 C22,16.9134058 21.3794387,17.6889091 20.539101,17.925725 L16.614,14 L18,14 L18,12 L14.614,12 L13.614,11 L18,11 L18,9 L11.614,9 L10.614,8 L18,8 L18,6 L8.614,6 L4.614,2 L20,2 Z M8.987,12 L6,12 L6,14 L10.986,14 L8.987,12 Z M6,9.013 L6,11 L7.987,11 L6,9.013 Z"
 											id="Combined-Shape"
@@ -686,10 +648,7 @@ export default class GameMetadata extends React.Component {
 								</g>
 							</SvgIcon>
 						</Icon>
-						<Typography>
-							{" "}
-							{allChannels[true].join(" & ")} chat off
-						</Typography>
+						<Typography> {allChannels[true].join(" & ")} chat off</Typography>
 					</div>
 				);
 				cells.push(
@@ -702,10 +661,7 @@ export default class GameMetadata extends React.Component {
 						key={cells.length}
 					>
 						<ChatIcon style={{ marginRight: "8px" }} />
-						<Typography>
-							{" "}
-							{allChannels[false].join(" & ")} chat on{" "}
-						</Typography>
+						<Typography> {allChannels[false].join(" & ")} chat on </Typography>
 					</div>
 				);
 			}
@@ -723,39 +679,65 @@ export default class GameMetadata extends React.Component {
 			);
 
 			(this.state.game.Properties.Members || []).forEach((member) => {
-				playerList.push(
-					<div
-						key={playerList.length}
-						style={{
-							display: "flex",
-							alignItems: "center",
-							marginBottom: "4px",
-						}}
-					>
-						<UserAvatar user={member.User} />
-						<Typography>
-							{member.User.GivenName} {member.User.FamilyName}
-						</Typography>
-						{this.props.withKickButtons ? (
-							this.state.game.Links.find((link) => {
-								return link.Rel === "kick-" + member.User.Id;
-							}) ? (
-								<IconButton
-									onClick={this.onKick(member.User.Id)}
-									style={{ margin: "0 0 0 auto" }}
-								>
-									<KickIcon />
-								</IconButton>
+				if (member.Replaceable == false) {
+					playerList.push(
+						<div
+							key={playerList.length}
+							style={{
+								display: "flex",
+								alignItems: "center",
+								marginBottom: "4px",
+							}}
+						>
+							<UserAvatar user={member.User} />
+							<Typography>
+								{member.User.GivenName} {member.User.FamilyName}
+							</Typography>
+							{this.props.withKickButtons ? (
+								this.state.game.Links.find((link) => {
+									return link.Rel === "kick-" + member.User.Id;
+								}) ? (
+									//TODO: add confirmdialog.js before we just KICK someone (how)?
+									<Button
+										onClick={this.onKick(member.User.Id)}
+										variant="contained"
+										color="primary"
+										style={{ margin: "0 0 0 auto" }}
+									>
+									Kick
+									</Button>
+								) : (
+									""
+								)
 							) : (
 								""
-							)
-						) : (
-							""
-						)}
-					</div>
-				);
+							)}
+						</div>
+					);
+				} else {
+					//we use createmessageicon below because it's "Add" aka a "+" icon
+					//TODO: make this whole div start the Invite feature
+					playerList.push(
+						<div
+							key={playerList.length}
+							style={{
+								display: "flex",
+								alignItems: "center",
+								marginBottom: "4px",
+							}}
+						>
+							<UserAvatar
+								user={member.User}
+								style={{ border: "1px solid red" }}
+							/>
+							<Typography style={{ color: "red" }}>[Open position]</Typography>
+							<Button style={{ margin: "0 0 0 auto", borderColor: "red", color: "red"}} variant="outlined" >
+								Invite
+							</Button>
+						</div>
+					);
+				}
 			});
-
 			cells.push(
 				<div
 					style={{
