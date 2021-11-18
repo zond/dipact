@@ -22,7 +22,7 @@ import ChatChannel from "../ChatChannel";
 import {
   userSeesInternalServerErrorMessage,
   userSeesLoadingSpinner,
-} from "./utils";
+} from "../testUtils";
 
 const server = setupServer(
   handlers.getGame.success,

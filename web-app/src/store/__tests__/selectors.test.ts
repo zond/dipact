@@ -4,6 +4,22 @@ import { RootState } from "../store";
 import { initialState, privateStats } from "../testData";
 import { Variant } from "../types";
 
+const createListVariantsSlice = (data: any) => ({
+  queries: {
+    "listVariants(undefined)": {
+      data,
+    },
+  },
+});
+
+const createGetRootSlice = (data: any) => ({
+  queries: {
+    "getRoot(undefined)": {
+      data,
+    },
+  },
+});
+
 describe("selectColorOverrides", () => {
   test("gets color overrides", () => {
     const state = { ...initialState };
@@ -34,24 +50,16 @@ describe("selectHasPlayed", () => {
 
 describe("selectUser", () => {
   test("gets user", () => {
+    const user = {
+      Email: "fake-email@email.com",
+    };
     const diplicityService = {
       ...initialState.diplicityService,
-      queries: {
-        "getRoot(undefined)": {
-          data: {
-            Properties: {
-              User: {
-                Email: "fake-email@email.com",
-              },
-            },
-          },
-        },
-      },
+      ...createGetRootSlice(user),
     };
-    const user = { Email: "fake-email@email.com" };
     const state = { ...initialState, diplicityService };
     const result = selectors.selectUser((state as unknown) as RootState);
-    expect(result).toStrictEqual(user);
+    expect(result).toEqual(user);
   });
 });
 
@@ -84,20 +92,17 @@ describe("selectToken", () => {
 
 describe("selectVariant", () => {
   test("gets variant", () => {
+    const variants = [
+      {
+        Name: "variant-name",
+      },
+      {
+        Name: "other-variant-name",
+      },
+    ];
     const diplicityService = {
       ...initialState.diplicityService,
-      queries: {
-        "listVariants(undefined)": {
-          data: [
-            {
-              Name: "variant-name",
-            },
-            {
-              Name: "other-variant-name",
-            },
-          ],
-        },
-      },
+      ...createListVariantsSlice(variants),
     };
     const state = { ...initialState, diplicityService };
     const result = selectors.selectVariant(
@@ -112,11 +117,7 @@ describe("selectVariant", () => {
   test("missing variant", () => {
     const diplicityService = {
       ...initialState.diplicityService,
-      queries: {
-        "listVariants(undefined)": {
-          data: [],
-        },
-      },
+      ...createListVariantsSlice([]),
     };
     const state = { ...initialState, diplicityService };
     const result = selectors.selectVariant(
@@ -125,14 +126,6 @@ describe("selectVariant", () => {
     );
     expect(result).toBeNull();
   });
-});
-
-const createListVariantsSlice = (data: any) => ({
-  queries: {
-    "listVariants(undefined)": {
-      data,
-    },
-  },
 });
 
 describe("selectNationColor", () => {
@@ -151,7 +144,7 @@ describe("selectNationColor", () => {
       {
         Name: "variant",
         NationColors: { france: "#FFFFFF" },
-		Nations: [],
+        Nations: [],
       },
     ];
     const diplicityService = {
@@ -170,7 +163,7 @@ describe("selectNationColor", () => {
       {
         Name: "variant",
         NationColors: { france: "#FFFFFF" },
-		Nations: [],
+        Nations: [],
       },
     ];
     Globals.colorOverrides.variants = {
@@ -188,9 +181,14 @@ describe("selectNationColor", () => {
     expect(result).toBe("#000000");
   });
   test("gets color for diplicity", () => {
+    const variantData = [
+      {
+        Name: "variant",
+      },
+    ];
     const diplicityService = {
       ...initialState.diplicityService,
-      ...createListVariantsSlice([]),
+      ...createListVariantsSlice(variantData),
     };
     const state = ({
       ...initialState,
@@ -200,9 +198,14 @@ describe("selectNationColor", () => {
     expect(result).toBe("#000000");
   });
   test("gets color for neutral", () => {
+    const variantData = [
+      {
+        Name: "variant",
+      },
+    ];
     const diplicityService = {
       ...initialState.diplicityService,
-      ...createListVariantsSlice([]),
+      ...createListVariantsSlice(variantData),
     };
     const state = ({
       ...initialState,
@@ -214,7 +217,6 @@ describe("selectNationColor", () => {
 });
 
 describe("selectNationAbbreviation", () => {
-
   test("gets abbreviation from variant", () => {
     const variantData = [
       {
@@ -230,7 +232,11 @@ describe("selectNationAbbreviation", () => {
       ...initialState,
       diplicityService,
     } as unknown) as RootState;
-    const result = selectors.selectNationAbbreviation(state, "variant", "france");
+    const result = selectors.selectNationAbbreviation(
+      state,
+      "variant",
+      "france"
+    );
     expect(result).toBe("fr");
   });
   test("missing abbreviation", () => {
@@ -248,18 +254,21 @@ describe("selectNationAbbreviation", () => {
       ...initialState,
       diplicityService,
     } as unknown) as RootState;
-    const result = selectors.selectNationAbbreviation(state, "variant", "france");
+    const result = selectors.selectNationAbbreviation(
+      state,
+      "variant",
+      "france"
+    );
     expect(result).toBe("");
   });
 });
 
 describe("selectNationFlagLink", () => {
-
   test("gets nation flag link from variant", () => {
     const variantData = [
       {
         Name: "variant",
-		Links: [{ Rel: "flag-France", URL: "abc123" }]
+        Links: [{ Rel: "flag-France", URL: "abc123" }],
       },
     ];
     const diplicityService = {
@@ -277,7 +286,7 @@ describe("selectNationFlagLink", () => {
     const variantData = [
       {
         Name: "variant",
-		Links: []
+        Links: [],
       },
     ];
     const diplicityService = {

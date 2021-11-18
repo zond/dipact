@@ -15,7 +15,7 @@ import ChatMenu, { NO_CHANNELS_MESSAGE } from "../ChatMenu";
 import {
   userSeesInternalServerErrorMessage,
   userSeesLoadingSpinner,
-} from "./utils";
+} from "../testUtils";
 
 const server = setupServer(
   handlers.variants.successShort,

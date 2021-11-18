@@ -20,7 +20,7 @@ import {
 import { ReduxWrapper } from "../../store/testUtils";
 import { RouteConfig } from "../../pages/RouteConfig";
 import { diplicityServiceURL } from "../../store/service";
-import { userSeesLoadingSpinner, userSeesPhaseSelector } from "./utils";
+import { userSeesLoadingSpinner, userSeesPhaseSelector } from "../testUtils";
 import {
   createListPhaseResponse,
   createPhase,
@@ -100,8 +100,6 @@ describe("Game functional tests", () => {
 
   test("Renders page", async () => {});
 
-  test("Shows map", async () => {});
-
   test("Shows turn nav", async () => {});
 
   test("Shows join button if game open to join", async () => {});
@@ -117,6 +115,14 @@ describe("Game functional tests", () => {
   test("Doesn't show join button if game not open to join", async () => {});
 
   test("Doesn't show player count if game not open to join", async () => {});
+
+  test.todo("Shows map");
+  test.todo("Shows army");
+  test.todo("Shows fleet");
+  test.todo("Shows move");
+  test.todo("Shows hold");
+  test.todo("Shows support");
+  test.todo("Shows convoy");
 
   // TODO ready reminder
   // TODO work through old game and check for tests

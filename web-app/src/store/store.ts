@@ -1,8 +1,8 @@
 import {
-	configureStore,
-	getDefaultMiddleware,
-	ThunkAction,
-	Action,
+  configureStore,
+  getDefaultMiddleware,
+  ThunkAction,
+  Action,
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
@@ -11,13 +11,19 @@ import { diplicityService } from "./service";
 import middleware from "./middleware";
 
 export const store = configureStore({
-	reducer,
-	middleware: [
-		...getDefaultMiddleware({ serializableCheck: false })
-			.concat(diplicityService.middleware)
-			.concat(middleware),
-	],
+  reducer,
+  middleware: [
+    ...getDefaultMiddleware({ serializableCheck: false })
+      .concat(diplicityService.middleware)
+      .concat(middleware),
+  ],
 });
+
+export const createTestStore = (preloadedState: RootState) =>
+  configureStore({
+    reducer,
+	preloadedState,
+  });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
@@ -29,8 +35,8 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
 >;

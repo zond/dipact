@@ -15,6 +15,9 @@ import {
   Variant,
 } from "./types";
 
+const getListVariantsSelector = () => diplicityService.endpoints.listVariants.select(undefined);
+const getGetRootSelector = () => diplicityService.endpoints.getRoot.select(undefined);
+
 export const selectColorOverrides = (state: RootState): ColorOverrides =>
   state.colorOverrides;
 
@@ -36,11 +39,8 @@ export const selectVariant = (
   state: RootState,
   variantName: string
 ): Variant | null => {
-  return (
-    diplicityService.endpoints.listVariants
-      .select(undefined)(state)
-      .data?.find((variant) => variant.Name === variantName) || null
-  );
+  const { data } = getListVariantsSelector()(state);
+  return data?.find((variant) => variant.Name === variantName) || null;
 };
 
 export const selectChannel = (
@@ -92,15 +92,18 @@ export const selectNationFlagLink = (
 };
 
 export const selectUser = (state: RootState): User | null | undefined => {
-  const endpoint = diplicityService.endpoints.getRoot;
-  const selector = endpoint.select(undefined);
-  const query = selector(state);
-  return query.data;
+  const { data } = getGetRootSelector()(state);
+  return data;
 };
 
 // TODO test
 export const selectUserId = (state: RootState): string | undefined => {
   return selectUser(state)?.Id;
+};
+
+// TODO test
+export const selectUserPicture = (state: RootState): string | undefined => {
+  return selectUser(state)?.Picture;
 };
 
 export const selectUserConfig = (state: RootState): UserConfig | undefined => {

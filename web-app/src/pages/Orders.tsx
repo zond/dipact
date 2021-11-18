@@ -1,5 +1,4 @@
 /* eslint-disable no-restricted-globals */
-import React from "react";
 import {
   Button,
   Checkbox,
@@ -13,12 +12,10 @@ import useRegisterPageView from "../hooks/useRegisterPageview";
 import NationSummary from "../components/Orders/NationSummary";
 import Order from "../components/Orders/Order";
 import { useParams } from "react-router";
-import useOrders, { useOrdersContext } from "../hooks/useOrders";
+import useOrders from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
-import { useSelectPhaseQuerystringParams } from "../hooks/useSelectPhaseQuerystringParams";
-import { ApiError } from "../hooks/types";
 
 interface OrdersUrlParams {
   gameId: string;

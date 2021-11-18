@@ -1,9 +1,8 @@
 import React from "react";
 import { alpha, IconButton, Theme } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-
 import { useHistory } from "react-router-dom";
-import { RouteConfig } from "../pages/RouteConfig";
+
 
 interface StyleProps {
   active: boolean;
@@ -24,8 +23,10 @@ interface NavItemProps {
   children: React.ReactNode;
   href: string;
   label: string;
-  edge: "end" | "start";
+  edge?: "end" | "start";
   active: boolean;
+  external?: true;
+  text?: boolean
 }
 
 const NavItem = ({
@@ -34,16 +35,19 @@ const NavItem = ({
   label,
   edge,
   active,
+  external,
 }: NavItemProps): React.ReactElement => {
   const classes = useNavStyles({ active });
   const history = useHistory();
-  const goToLink = () => history.push(href);
+  const goToLink = () => (!external) && history.push(href);
   return (
     <a
       className={classes.root}
-      href={RouteConfig.Home}
-      onClick={(e) => e.preventDefault()}
+      href={href}
+      onClick={(e) => !external && e.preventDefault()}
       title={label}
+      target="_blank"
+      rel="noreferrer"
     >
       <IconButton edge={edge} aria-label={label} onClick={goToLink}>
         {children}
@@ -53,7 +57,7 @@ const NavItem = ({
 };
 
 NavItem.defaultProps = {
-  active: true,
+  active: false,
 };
 
 export default NavItem;

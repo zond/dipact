@@ -114,11 +114,11 @@ const useOrders = (gameId: string): IUseOrders => {
     listPhaseStatesQuery,
   ] = useLazyListPhaseStatesQuery();
   const combinedQuery = {
-    game: useGetGameQuery(gameId),
-    phaseStates: listPhaseStatesQuery,
+    variants: useListVariantsQuery(undefined),
     phases: useListPhasesQuery(gameId),
     user: useGetRootQuery(undefined),
-    variants: useListVariantsQuery(undefined),
+    game: useGetGameQuery(gameId),
+    phaseStates: listPhaseStatesQuery,
   };
   const { game, phaseStates, phases, user } = {
     game: combinedQuery.game.data,
@@ -190,13 +190,10 @@ const useOrders = (gameId: string): IUseOrders => {
 
 export const useOrdersContext = createContext<null | typeof useOrders>(null);
 
-// Create DI context
 const createDIContext = <T>() => createContext<null | T>(null);
 export const useDIContext = createDIContext<typeof useOrders>();
 
-// Function to get real or DI'd hook
 const useGetHook = () => useContext(useDIContext) || useOrders;
 const useDIHook = (gameId: string): IUseOrders => useGetHook()(gameId);
 
-// Export as default, your component can't tell the difference
 export default useDIHook;

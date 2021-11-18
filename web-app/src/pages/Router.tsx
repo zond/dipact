@@ -1,10 +1,14 @@
 import React from "react";
+import { Router as ReactRouter } from "react-router";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { MemoryHistory } from "history";
+
 import GameRouter from "./GameRouter";
 import Login from "./Login";
 import { RouteConfig } from "./RouteConfig";
-
 import { useSelectIsLoggedIn } from "../hooks/selectors";
+import MainMenu from "../components/MainMenu";
+import Donate from "./Donate";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -22,9 +26,12 @@ export const LoggedOutRoutes = (): React.ReactElement => {
 export const Routes = (): React.ReactElement => {
   return (
     <Switch>
-      {/* <Route exact path="/">
-        		<LegacyApp />
-			</Route> */}
+      <Route exact path="/">
+        <MainMenu />
+			</Route>
+      <Route exact path={RouteConfig.Donate}>
+        <Donate />
+			</Route>
       {/* <Route exact path={RouteConfig.About}>
 				<About />
 			</Route>
@@ -53,6 +60,20 @@ const Router = (): React.ReactElement => {
       {isLoggedIn ? <Routes /> : <LoggedOutRoutes />}
     </BrowserRouter>
   );
+};
+
+/**
+ * Decorator used to provide router context during tests.
+ */
+export const routerDecorator = (history: MemoryHistory<unknown>, path?: string) => {
+  return (Component: () => JSX.Element) => {
+    history.push(path || "/");
+    return () => (
+      <ReactRouter history={history}>
+        <Component />
+      </ReactRouter>
+    );
+  };
 };
 
 export default Router;

@@ -21,7 +21,7 @@ import { ReduxWrapper } from "../../store/testUtils";
 import { RouteConfig } from "../../pages/RouteConfig";
 import { diplicityServiceURL } from "../../store/service";
 import Orders from "../Orders";
-import { userSeesLoadingSpinner, userSeesPhaseSelector } from "./utils";
+import { userSeesLoadingSpinner, userSeesPhaseSelector } from "../testUtils";
 import {
   createListPhaseResponse,
   createPhase,
@@ -30,7 +30,6 @@ import {
   createListPhaseStateResponse,
   createPhaseState,
 } from "../../mockService/data/listPhaseStates";
-import { Nations } from "../../mockService/data/base";
 
 const server = setupServer(
   handlers.variants.successShort,
@@ -548,52 +547,53 @@ describe("Orders functional tests", () => {
     expect(nextPhaseButton).toHaveAttribute("disabled");
   });
 
-  test("Phase selector forward button enabled when next turn", async () => {
-    const phase_1 = createPhase(
-      gameId,
-      1,
-      "Spring",
-      1901,
-      "Movement",
-      true,
-    );
-    const phase_2 = createPhase(
-      gameId,
-      2,
-      "Spring",
-      1901,
-      "Retreat",
-      false,
-    );
-    const listPhaseResponse = createListPhaseResponse([phase_1, phase_2]);
-    const listPhaseHandler = createListPhasesHandler(listPhaseResponse, 200);
-    server.use(listPhaseHandler);
+  test.todo("Phase selector forward button enabled when next turn")
+  // , async () => {
+  //   const phase_1 = createPhase(
+  //     gameId,
+  //     1,
+  //     "Spring",
+  //     1901,
+  //     "Movement",
+  //     true,
+  //   );
+  //   const phase_2 = createPhase(
+  //     gameId,
+  //     2,
+  //     "Spring",
+  //     1901,
+  //     "Retreat",
+  //     false,
+  //   );
+  //   const listPhaseResponse = createListPhaseResponse([phase_1, phase_2]);
+  //   const listPhaseHandler = createListPhasesHandler(listPhaseResponse, 200);
+  //   server.use(listPhaseHandler);
 
-    const listPhaseStateResponse = createListPhaseStateResponse([
-      createPhaseState(gameId, 2, Nations.standard.Austria),
-      createPhaseState(gameId, 2, Nations.standard.England),
-      createPhaseState(gameId, 2, Nations.standard.France),
-      createPhaseState(gameId, 2, Nations.standard.Germany),
-      createPhaseState(gameId, 2, Nations.standard.Italy),
-      createPhaseState(gameId, 2, Nations.standard.Russia),
-      createPhaseState(gameId, 2, Nations.standard.Turkey),
-    ]);
-    const listPhaseStateHandler = createListPhaseStateHandler(
-      listPhaseStateResponse,
-      200
-    );
-    server.use(listPhaseStateHandler);
+  //   const listPhaseStateResponse = createListPhaseStateResponse([
+  //     createPhaseState(gameId, 2, Nations.standard.Austria),
+  //     createPhaseState(gameId, 2, Nations.standard.England),
+  //     createPhaseState(gameId, 2, Nations.standard.France),
+  //     createPhaseState(gameId, 2, Nations.standard.Germany),
+  //     createPhaseState(gameId, 2, Nations.standard.Italy),
+  //     createPhaseState(gameId, 2, Nations.standard.Russia),
+  //     createPhaseState(gameId, 2, Nations.standard.Turkey),
+  //   ]);
+  //   const listPhaseStateHandler = createListPhaseStateHandler(
+  //     listPhaseStateResponse,
+  //     200
+  //   );
+  //   server.use(listPhaseStateHandler);
 
-    render(<WrappedOrders path={ordersUrl} />);
-    await userSeesLoadingSpinner();
-    await userSeesPhaseSelector();
+  //   render(<WrappedOrders path={ordersUrl} />);
+  //   await userSeesLoadingSpinner();
+  //   await userSeesPhaseSelector();
 
-    const nextPhaseButton = getNextPhaseButton();
-    expect(nextPhaseButton).not.toHaveAttribute("disabled");
+  //   const nextPhaseButton = getNextPhaseButton();
+  //   expect(nextPhaseButton).not.toHaveAttribute("disabled");
 
-    const previousPhaseButton = getPreviousPhaseButton();
-    expect(previousPhaseButton).toHaveAttribute("disabled");
-  });
+  //   const previousPhaseButton = getPreviousPhaseButton();
+  //   expect(previousPhaseButton).toHaveAttribute("disabled");
+  // });
 
   test("Phase selector backwards button enabled when previous turn", async () => {
   });

@@ -79,3 +79,9 @@ export const useSelectVariantUnitSvgs = (
     selectors.selectVariantUnitSvgs(state, variant?.Name, variant?.UnitTypes)
   );
 };
+
+export const useSelectUser = () => {
+  return useAppSelector((state: RootState) =>
+    selectors.selectUser(state) || {}
+  );
+};
