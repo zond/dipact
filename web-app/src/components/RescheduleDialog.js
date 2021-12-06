@@ -46,7 +46,7 @@ export default class RescheduleDialog extends React.Component {
 				<DialogTitle>Change Next Deadline</DialogTitle>
 				<DialogContent>
 					<Typography variant="body2">
-						New length will be the remainder of the current phase.
+						New length will be the remainder <strong>of the current phase</strong>.
 					</Typography>
 					<Typography variant="body2" style={{marginBottom: "16px"}}>
 						<i>To pause, set a long deadline and adjust it later to resume.</i>
