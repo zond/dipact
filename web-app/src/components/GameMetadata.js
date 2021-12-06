@@ -731,9 +731,11 @@ export default class GameMetadata extends React.Component {
 								style={{ border: "1px solid red" }}
 							/>
 							<Typography style={{ color: "red" }}>[Open position]</Typography>
+							{/*
+							TODO: Ideally this button should do the same as the invite button, but it's in a different component :(
 							<Button style={{ margin: "0 0 0 auto", borderColor: "red", color: "red"}} variant="outlined" >
 								Invite
-							</Button>
+							</Button>*/}
 						</div>
 					);
 				}
