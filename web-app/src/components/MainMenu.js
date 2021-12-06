@@ -181,13 +181,15 @@ export default class MainMenu extends ActivityContainer {
 						</IconButton>
 
 						<Typography variant="h6" style={{ flexGrow: 1 }}>
+
 							{this.state.activity.name == "Start"
 								? "My Games"
 								: this.state.activity.name == "GameMasterStart"
 								? "My Managed Games"
 								: this.state.activity.name == "GameList"
 								? "Public Games"
-								: this.state.activity.name}
+								: ""}
+						
 						</Typography>
 						<IconButton
 							edge="end"
