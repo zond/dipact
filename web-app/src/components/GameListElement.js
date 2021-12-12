@@ -14,8 +14,8 @@ import {
 	AccordionSummary,
 	Accordion,
 	AccordionDetails,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 import { withRouter } from "react-router-dom";
 
 import GameMetadata from "./GameMetadata";
@@ -66,7 +66,7 @@ const styles = (theme) => ({
 		padding: theme.spacing(0),
 	},
 	accordionSummaryContent: {
-		maxWidth: `calc(100% - ${theme.spacing(4)}px)`,
+		maxWidth: `calc(100% - ${theme.spacing(4)})`,
 	},
 	accordionDetails: {
 		padding: theme.spacing(0),

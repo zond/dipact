@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import React from "react";
-import { makeStyles, Theme } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
+import { Theme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { Typography } from "@mui/material";
 
 interface StyleProps {
   resolution: string | null;

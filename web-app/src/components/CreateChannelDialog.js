@@ -11,7 +11,7 @@ import {
 	DialogTitle,
 	DialogContent,
 	DialogContentText,
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter } from "react-router-dom";
 import Globals from "../Globals";
 

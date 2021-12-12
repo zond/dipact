@@ -7,7 +7,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ProgressDialog from "./components/ProgressDialog";
 import Snackbar from "./components/Snackbar";
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import theme from "./theme";
@@ -24,9 +24,11 @@ ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </StyledEngineProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

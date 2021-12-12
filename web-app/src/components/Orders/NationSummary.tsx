@@ -1,4 +1,5 @@
-import { Typography, makeStyles, Tooltip } from "@material-ui/core";
+import { Typography, Tooltip } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { NationStatus } from "../../hooks/useOrders";
 import {

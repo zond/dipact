@@ -8,11 +8,11 @@ import {
   List,
   ListItem,
   ListItemText,
-  makeStyles,
   Menu,
   MenuItem,
   Toolbar,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
@@ -74,7 +74,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainMenu = () => {
+interface MainMenuProps {
+  children: React.ReactNode;
+}
+
+const MainMenu = ({ children }: MainMenuProps) => {
   useRegisterPageView("MainMenu");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerOpenedAt, setDrawerOpenedAt] = useState(0);
@@ -101,130 +105,130 @@ const MainMenu = () => {
   const onClickForum = () => window.open(FORUM_URL, "_blank");
   const onClickFAQ = () => window.open(FAQ_URL, "_blank");
 
-  return (
-    <>
-      <AppBar position="fixed">
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            onClick={openDrawer}
-            color="secondary"
-            title={OPEN_DRAWER_BUTTON_TITLE}
-          >
-            <MenuIcon />
-          </IconButton>
-          <IconButton
-            edge="end"
-            onClick={onClickAvatar}
-            color="secondary"
-            title={OPEN_USER_MENU_BUTTON_TITLE}
-          >
-            <Avatar
-              alt={USER_AVATAR_ALT_TEXT}
-              src={user.Picture}
-              className={classes.avatar}
-            />
-          </IconButton>
-          <Menu
-            anchorEl={menuAnchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            onClose={() => setMenuAnchorEl(null)}
-            open={!!menuAnchorEl}
-          >
-            <MenuItem key="email" className={classes.email} disabled>
-              {user.Email}
-            </MenuItem>
-            <MenuItem key="stats" onClick={onClickPlayerStats}>
-              {PLAYER_STATS_MENU_ITEM}
-            </MenuItem>
-
-            <MenuItem key="logout" onClick={logout}>
-              {LOGOUT_MENU_ITEM}
-            </MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
-      <Drawer open={drawerOpen}>
-        <ClickAwayListener
-          onClickAway={() => {
-            if (drawerOpenedAt && new Date().getTime() > drawerOpenedAt + 100) {
-              closeDrawer();
-            }
+  return <>
+    <AppBar position="fixed">
+      <Toolbar className={classes.toolbar}>
+        <IconButton
+          edge="start"
+          onClick={openDrawer}
+          color="secondary"
+          title={OPEN_DRAWER_BUTTON_TITLE}
+          size="large">
+          <MenuIcon />
+        </IconButton>
+        <IconButton
+          edge="end"
+          onClick={onClickAvatar}
+          color="secondary"
+          title={OPEN_USER_MENU_BUTTON_TITLE}
+          size="large">
+          <Avatar
+            alt={USER_AVATAR_ALT_TEXT}
+            src={user.Picture}
+            className={classes.avatar}
+          />
+        </IconButton>
+        <Menu
+          anchorEl={menuAnchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
           }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          onClose={() => setMenuAnchorEl(null)}
+          open={!!menuAnchorEl}
         >
-          <div
-            onClick={closeDrawer}
-            className={classes.drawer}
-            title={DRAWER_TITLE}
-          >
-            <List component="nav">
-              <ListItem className={classes.menuItemSectionHeader}>
-                <ListItemText
-                  primary={MY_DIPLICITY_MENU_ITEM}
-                  disableTypography
-                />
-              </ListItem>
+          <MenuItem key="email" className={classes.email} disabled>
+            {user.Email}
+          </MenuItem>
+          <MenuItem key="stats" onClick={onClickPlayerStats}>
+            {PLAYER_STATS_MENU_ITEM}
+          </MenuItem>
 
-              <ListItem button onClick={onClickSettings}>
-                <ListItemText primary={SETTINGS_MENU_ITEM} />
-              </ListItem>
+          <MenuItem key="logout" onClick={logout}>
+            {LOGOUT_MENU_ITEM}
+          </MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
+    <Drawer open={drawerOpen}>
+      <ClickAwayListener
+        onClickAway={() => {
+          if (drawerOpenedAt && new Date().getTime() > drawerOpenedAt + 100) {
+            closeDrawer();
+          }
+        }}
+      >
+        <div
+          onClick={closeDrawer}
+          className={classes.drawer}
+          title={DRAWER_TITLE}
+        >
+          <List component="nav">
+            <ListItem className={classes.menuItemSectionHeader}>
+              <ListItemText
+                primary={MY_DIPLICITY_MENU_ITEM}
+                disableTypography
+              />
+            </ListItem>
 
-              <Divider />
+            <ListItem button onClick={onClickSettings}>
+              <ListItemText primary={SETTINGS_MENU_ITEM} />
+            </ListItem>
 
-              <ListItem className={classes.menuItemSectionHeader}>
-                <ListItemText primary={COMMUNITY_MENU_ITEM} disableTypography />
-              </ListItem>
+            <Divider />
 
-              <ListItem button onClick={onClickChat}>
-                <ListItemText primary={CHAT_MENU_ITEM} />
-              </ListItem>
+            <ListItem className={classes.menuItemSectionHeader}>
+              <ListItemText primary={COMMUNITY_MENU_ITEM} disableTypography />
+            </ListItem>
 
-              <ListItem button onClick={onClickForum}>
-                <ListItemText primary={FORUM_MENU_ITEM} />
-              </ListItem>
+            <ListItem button onClick={onClickChat}>
+              <ListItemText primary={CHAT_MENU_ITEM} />
+            </ListItem>
 
-              <Divider />
+            <ListItem button onClick={onClickForum}>
+              <ListItemText primary={FORUM_MENU_ITEM} />
+            </ListItem>
 
-              <ListItem button onClick={onClickFAQ}>
-                <ListItemText primary={FAQ_MENU_ITEM} />
-              </ListItem>
+            <Divider />
 
-              <ListItem button onClick={onClickAbout}>
-                <ListItemText primary={ABOUT_MENU_ITEM} />
-              </ListItem>
-            </List>
-            <div className={classes.icons}>
-              <NavItem
-                href={DIPACT_GITHUB_URL}
-                label={GITHUB_BUTTON_LABEL}
-                active
-                external
-              >
-                <GitHubIcon />
-              </NavItem>
-              <IconButton onClick={onClickErrorLog} title={ERROR_BUTTON_LABEL}>
-                <BugReportIcon />
-              </IconButton>
-              <NavItem
-                href={RouteConfig.Donate}
-                label={DONATE_BUTTON_LABEL}
-                active
-              >
-                <DonateIcon />
-              </NavItem>
-            </div>
+            <ListItem button onClick={onClickFAQ}>
+              <ListItemText primary={FAQ_MENU_ITEM} />
+            </ListItem>
+
+            <ListItem button onClick={onClickAbout}>
+              <ListItemText primary={ABOUT_MENU_ITEM} />
+            </ListItem>
+          </List>
+          <div className={classes.icons}>
+            <NavItem
+              href={DIPACT_GITHUB_URL}
+              label={GITHUB_BUTTON_LABEL}
+              active
+              external
+            >
+              <GitHubIcon />
+            </NavItem>
+            <IconButton onClick={onClickErrorLog} title={ERROR_BUTTON_LABEL} size="large">
+              <BugReportIcon />
+            </IconButton>
+            <NavItem
+              href={RouteConfig.Donate}
+              label={DONATE_BUTTON_LABEL}
+              active
+            >
+              <DonateIcon />
+            </NavItem>
           </div>
-        </ClickAwayListener>
-      </Drawer>
-    </>
-  );
+        </div>
+      </ClickAwayListener>
+    </Drawer>
+    <Toolbar />
+    {children}
+  </>;
 };
 
 export default MainMenu;

@@ -21,7 +21,7 @@ import {
 	Checkbox,
 	TextField,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter } from "react-router-dom";
 
 import { CloseIcon, RandomGameNameIcon } from "../icons";
@@ -439,7 +439,7 @@ class CreateGameDialog extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
+            <React.Fragment>
 				<Dialog
 					TransitionProps={{
 						onEnter: helpers.genOnback(this.close),
@@ -451,11 +451,11 @@ class CreateGameDialog extends React.Component {
 					<AppBar>
 						<Toolbar>
 							<IconButton
-								edge="start"
-								color="inherit"
-								onClick={this.close}
-								aria-label="close"
-							>
+                                edge="start"
+                                color="inherit"
+                                onClick={this.close}
+                                aria-label="close"
+                                size="large">
 								<CloseIcon />
 							</IconButton>
 							<Typography
@@ -505,7 +505,7 @@ class CreateGameDialog extends React.Component {
 										}}
 									/>
 									<IconButton
-										onClick={(_) => {
+                                        onClick={(_) => {
 											this.setState((state, props) => {
 												state = Object.assign(
 													{},
@@ -516,7 +516,7 @@ class CreateGameDialog extends React.Component {
 												return state;
 											});
 										}}
-									>
+                                        size="large">
 										<RandomGameNameIcon />
 									</IconButton>
 								</div>
@@ -1282,7 +1282,7 @@ class CreateGameDialog extends React.Component {
 					}}
 				/>
 			</React.Fragment>
-		);
+        );
 	}
 }
 

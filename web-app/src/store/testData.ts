@@ -242,7 +242,7 @@ export const game: Game = {
   NMembers: 0,
   Members: [member],
   StartETA: "",
-  NewestPhaseMeta: null,
+  NewestPhaseMeta: [],
   ActiveBans: null,
   FailedRequirements: null,
   FirstMember: member,

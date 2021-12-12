@@ -1,6 +1,6 @@
 import React from "react";
 
-import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import { useHistory } from "react-router";
 import { RouteConfig } from "../pages/RouteConfig";
 import { GoBackIcon } from "../icons";
@@ -22,25 +22,23 @@ const GoBackNav = ({
 
   const onClick = () => history.push(href);
 
-  return (
-    <>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onClick}
-            aria-label="close"
-            title={TITLE}
-          >
-            <GoBackIcon />
-          </IconButton>
-          <Typography variant="h6">{title}</Typography>
-        </Toolbar>
-      </AppBar>
-      {children}
-    </>
-  );
+  return <>
+    <AppBar position="static">
+      <Toolbar variant="dense">
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={onClick}
+          aria-label="close"
+          title={TITLE}
+          size="large">
+          <GoBackIcon />
+        </IconButton>
+        <Typography variant="h6">{title}</Typography>
+      </Toolbar>
+    </AppBar>
+    {children}
+  </>;
 };
 
 GoBackNav.defaultProps = {

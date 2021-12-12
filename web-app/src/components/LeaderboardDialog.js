@@ -14,7 +14,7 @@ import {
 	Paper,
 	TableBody,
 	DialogActions,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import UserAvatar from "./UserAvatar";
 

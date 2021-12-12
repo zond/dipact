@@ -1,6 +1,6 @@
 import React from 'react';
 import Globals from '../Globals';
-import { IconButton, Snackbar as MuiSnackbar } from '@material-ui/core';
+import { IconButton, Snackbar as MuiSnackbar } from '@mui/material';
 import { CloseIcon } from '../icons';
 
 export default class Snackbar extends React.Component {

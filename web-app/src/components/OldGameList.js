@@ -2,7 +2,7 @@
 import React from 'react';
 import * as helpers from '../helpers';
 import gtag from 'ga-gtag';
-import {Divider, Typography, CircularProgress} from "@material-ui/core";
+import {Divider, Typography, CircularProgress} from "@mui/material";
 
 import GameListElement from './GameListElement';
 

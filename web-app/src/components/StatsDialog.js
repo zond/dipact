@@ -20,7 +20,7 @@ import {
 	Button,
 	TableBody,
 	TableContainer,
-} from "@material-ui/core";
+} from "@mui/material";
 
 /*
  * MUST HAVE:

@@ -1,6 +1,6 @@
 import React from "react";
-import { AppBar, Container, Toolbar } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { AppBar, Container, Toolbar } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 
 import { ChatIcon, GoBackIcon, MapIcon, OrdersOpenIcon } from "../icons";
 import {

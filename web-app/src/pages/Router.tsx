@@ -9,6 +9,7 @@ import { RouteConfig } from "./RouteConfig";
 import { useSelectIsLoggedIn } from "../hooks/selectors";
 import MainMenu from "../components/MainMenu";
 import Donate from "./Donate";
+import GameList from "./GameList";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -27,27 +28,20 @@ export const Routes = (): React.ReactElement => {
   return (
     <Switch>
       <Route exact path="/">
-        <MainMenu />
+        <MainMenu>
+          <div></div>
+        </MainMenu>
 			</Route>
       <Route exact path={RouteConfig.Donate}>
         <Donate />
 			</Route>
-      {/* <Route exact path={RouteConfig.About}>
-				<About />
-			</Route>
-			<Route exact path={RouteConfig.Game}>
-				<Game />
-			</Route>
-			<Route exact path={RouteConfig.GameTab}>
-				<Game />
-			</Route> */}
+      <Route exact path={RouteConfig.GameList}>
+        <GameList />
+      </Route>
       <Route path={RouteConfig.Game}>
         <GameRouter />
       </Route>
-      {/* <Route exact path={RouteConfig.GameLaboratoryMode}>
-				<Game laboratoryMode />
-			</Route> */}
-      {/* <Redirect to="/" /> */}
+      <Redirect to="/" />
     </Switch>
   );
 };

@@ -24,7 +24,7 @@ import {
 	SvgIcon,
 	Typography,
 	Switch,
-} from "@material-ui/core";
+} from "@mui/material";
 import { generatePath, withRouter } from "react-router-dom";
 import { RouteConfig } from "../pages/RouteConfig";
 
@@ -605,7 +605,7 @@ class Game extends React.Component {
 	render() {
 		if (this.state.game) {
 			return (
-				<React.Fragment>
+                <React.Fragment>
 					<AppBar
 						key="app-bar"
 						position="fixed"
@@ -614,16 +614,16 @@ class Game extends React.Component {
 						<Toolbar>
 							{!this.state.laboratoryMode ? (
 								<IconButton
-									onClick={this.close}
-									key="close"
-									edge="start"
-									color="secondary"
-								>
+                                    onClick={this.close}
+                                    key="close"
+                                    edge="start"
+                                    color="secondary"
+                                    size="large">
 									<CloseIcon />
 								</IconButton>
 							) : (
 								<IconButton
-									onClick={(_) => {
+                                    onClick={(_) => {
 										this.setState(
 											{
 												moreMenuAnchorEl: null,
@@ -638,10 +638,10 @@ class Game extends React.Component {
 											}
 										);
 									}}
-									key="close"
-									edge="start"
-									color="primary"
-								>
+                                    key="close"
+                                    edge="start"
+                                    color="primary"
+                                    size="large">
 									<CloseIcon />
 								</IconButton>
 							)}
@@ -649,11 +649,11 @@ class Game extends React.Component {
 							this.state.activePhase &&
 							this.state.activePhase.Properties.PhaseOrdinal > 1 ? (
 								<IconButton
-									onClick={this.phaseJumper(-1)}
-									key="previous"
-									edge="start"
-									color="secondary"
-								>
+                                    onClick={this.phaseJumper(-1)}
+                                    key="previous"
+                                    edge="start"
+                                    color="secondary"
+                                    size="large">
 									<PreviousIcon />
 								</IconButton>
 							) : !this.state.laboratoryMode ? (
@@ -746,11 +746,11 @@ class Game extends React.Component {
 								this.state.phases[this.state.phases.length - 1].Properties
 									.PhaseOrdinal ? (
 								<IconButton
-									onClick={this.phaseJumper(1)}
-									edge="end"
-									key="next"
-									color="secondary"
-								>
+                                    onClick={this.phaseJumper(1)}
+                                    edge="end"
+                                    key="next"
+                                    color="secondary"
+                                    size="large">
 									<NextIcon />
 								</IconButton>
 							) : !this.state.laboratoryMode ? (
@@ -761,15 +761,15 @@ class Game extends React.Component {
 
 							{!this.state.laboratoryMode ? (
 								<IconButton
-									edge="end"
-									key="more-icon"
-									color="secondary"
-									onClick={(ev) => {
+                                    edge="end"
+                                    key="more-icon"
+                                    color="secondary"
+                                    onClick={(ev) => {
 										this.setState({
 											moreMenuAnchorEl: ev.currentTarget,
 										});
 									}}
-								>
+                                    size="large">
 									<SettingsIcon />
 								</IconButton>
 							) : (
@@ -915,24 +915,24 @@ class Game extends React.Component {
 							{this.state.laboratoryMode ? (
 								<React.Fragment>
 									<IconButton
-										onClick={(_) => {
+                                        onClick={(_) => {
 											this.dip_map.downloadMap();
 											gtag("event", "download_map");
 										}}
-										color="primary"
-										edge="end"
-										style={{ marginLeft: "auto" }}
-									>
+                                        color="primary"
+                                        edge="end"
+                                        style={{ marginLeft: "auto" }}
+                                        size="large">
 										<DownloadIcon />
 									</IconButton>
 									<IconButton
-										onClick={(_) => {
+                                        onClick={(_) => {
 											this.dip_map.labShare();
 										}}
-										color="primary"
-										edge="end"
-										style={{ marginLeft: "auto" }}
-									>
+                                        color="primary"
+                                        edge="end"
+                                        style={{ marginLeft: "auto" }}
+                                        size="large">
 										<ShareIcon />
 									</IconButton>
 								</React.Fragment>
@@ -1120,15 +1120,15 @@ class Game extends React.Component {
 								)}
 
 								<IconButton
-									edge="end"
-									onClick={(ev) => {
+                                    edge="end"
+                                    onClick={(ev) => {
 										this.dip_map.labResolve();
 									}}
-									style={{
+                                    style={{
 										marginLeft: "auto",
 										color: "rgb(40, 26, 26)",
 									}}
-								>
+                                    size="large">
 									<FastForwardIcon />
 								</IconButton>
 							</Toolbar>
@@ -1345,7 +1345,7 @@ class Game extends React.Component {
 						}
 					/>
 				</React.Fragment>
-			);
+            );
 		} else {
 			return "";
 		}

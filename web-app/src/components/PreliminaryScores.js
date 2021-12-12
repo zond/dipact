@@ -11,8 +11,8 @@ import {
 	DialogTitle,
 	DialogContent,
 	DialogActions,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 
 import { Chart, registerables } from "chart.js";
 

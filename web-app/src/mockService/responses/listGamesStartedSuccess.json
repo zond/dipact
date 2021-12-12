@@ -1,0 +1,451 @@
+{
+    "Name": "started-games",
+    "Properties": [
+        {
+            "Name": "Clash of the crowns",
+            "Properties": {
+                "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM",
+                "Started": true,
+                "Mustered": true,
+                "Closed": true,
+                "Finished": false,
+                "Desc": "Clash of the crowns",
+                "Variant": "Western World 901",
+                "PhaseLengthMinutes": 1440,
+                "NonMovementPhaseLengthMinutes": 0,
+                "MaxHated": 0,
+                "MaxHater": 0,
+                "MinRating": 0,
+                "MaxRating": 0,
+                "MinReliability": 10,
+                "MinQuickness": 0,
+                "Private": false,
+                "NoMerge": false,
+                "DisableConferenceChat": false,
+                "DisableGroupChat": false,
+                "DisablePrivateChat": false,
+                "NationAllocation": 1,
+                "Anonymous": false,
+                "LastYear": 0,
+                "SkipMuster": true,
+                "ChatLanguageISO639_1": "en",
+                "GameMasterEnabled": false,
+                "RequireGameMasterInvitation": false,
+                "GameMasterInvitations": null,
+                "GameMaster": {
+                    "Email": "",
+                    "FamilyName": "",
+                    "Gender": "",
+                    "GivenName": "",
+                    "Hd": "",
+                    "Id": "",
+                    "Link": "",
+                    "Locale": "",
+                    "Name": "",
+                    "Picture": "",
+                    "VerifiedEmail": false,
+                    "ValidUntil": "0001-01-01T00:00:00Z"
+                },
+                "NMembers": 9,
+                "Members": [
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "MasNet",
+                            "Gender": "",
+                            "GivenName": "MonKers",
+                            "Hd": "",
+                            "Id": "101894254060153183481",
+                            "Link": "",
+                            "Locale": "ca",
+                            "Name": "MonKers MasNet",
+                            "Picture": "https://lh3.googleusercontent.com/a/AATXAJw3XSxn558pM9Y9KZxDX8nA9m-YXQzUSdkzbiwH=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-11-03T19:24:34.852274Z"
+                        },
+                        "Nation": "East Frankish Kingdom",
+                        "GameAlias": "",
+                        "NationPreferences": "West Frankish Kingdom,East Frankish Kingdom,Kingdom of Denmark,Abbasid Caliphate,Umayyad Emirate,Tulunid Emirate,Principality of Kiev,Khaganate of Khazaria,Eastern Roman Empire",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Defender",
+                            "Gender": "",
+                            "GivenName": "Aminta",
+                            "Hd": "",
+                            "Id": "117343196266351309661",
+                            "Link": "",
+                            "Locale": "en",
+                            "Name": "Aminta Defender",
+                            "Picture": "https://lh3.googleusercontent.com/a/AATXAJzAjLvECsZBFVOCpwKjp0Whbo6SMAcyhBx5ayFO=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-11-05T17:17:08.645182Z"
+                        },
+                        "Nation": "Umayyad Emirate",
+                        "GameAlias": "",
+                        "NationPreferences": "Umayyad Emirate,Principality of Kiev,Kingdom of Denmark,Khaganate of Khazaria,West Frankish Kingdom,Tulunid Emirate,Abbasid Caliphate,East Frankish Kingdom,Eastern Roman Empire",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Botero",
+                            "Gender": "",
+                            "GivenName": "Ricardo",
+                            "Hd": "",
+                            "Id": "109357903809830391634",
+                            "Link": "",
+                            "Locale": "en-GB",
+                            "Name": "Ricardo Botero",
+                            "Picture": "https://lh3.googleusercontent.com/a-/AOh14GgH9-kRIGNn1aJUQ6UQI-Kia9KSk-sxYgNAQGvCvA=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-02T08:12:49.899894Z"
+                        },
+                        "Nation": "West Frankish Kingdom",
+                        "GameAlias": "",
+                        "NationPreferences": "Umayyad Emirate,Principality of Kiev,Khaganate of Khazaria,West Frankish Kingdom,Tulunid Emirate,Abbasid Caliphate,East Frankish Kingdom,Eastern Roman Empire,Kingdom of Denmark",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "",
+                            "Gender": "",
+                            "GivenName": "",
+                            "Hd": "",
+                            "Id": "100912974083716286678",
+                            "Link": "",
+                            "Locale": "es",
+                            "Name": "wiked_2.0_erik@hotmail.com",
+                            "Picture": "https://lh3.googleusercontent.com/a-/AOh14Gg2NyJA_Nyt8veUDG8kJZ9gXj7IQW3uP3xOU5aQ=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-04T05:00:39.441676Z"
+                        },
+                        "Nation": "Abbasid Caliphate",
+                        "GameAlias": "",
+                        "NationPreferences": "Khaganate of Khazaria,Abbasid Caliphate,West Frankish Kingdom,Umayyad Emirate,East Frankish Kingdom,Tulunid Emirate,Eastern Roman Empire,Principality of Kiev,Kingdom of Denmark",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Diepeveen",
+                            "Gender": "",
+                            "GivenName": "Alexander",
+                            "Hd": "",
+                            "Id": "110452452919971516833",
+                            "Link": "",
+                            "Locale": "nl",
+                            "Name": "Alexander Diepeveen",
+                            "Picture": "https://lh3.googleusercontent.com/a/AATXAJyjHaAKiQk0YyhsUlbXkbNktUz1D_nT5emrUIbt=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-09T12:21:13.926619Z"
+                        },
+                        "Nation": "Principality of Kiev",
+                        "GameAlias": "",
+                        "NationPreferences": "Umayyad Emirate,Principality of Kiev,Kingdom of Denmark,Khaganate of Khazaria,West Frankish Kingdom,Tulunid Emirate,Abbasid Caliphate,East Frankish Kingdom,Eastern Roman Empire",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Perikić",
+                            "Gender": "",
+                            "GivenName": "Filip",
+                            "Hd": "",
+                            "Id": "113225291510437016175",
+                            "Link": "",
+                            "Locale": "de",
+                            "Name": "Filip Perikić",
+                            "Picture": "https://lh3.googleusercontent.com/a/AATXAJwdxM3rpDsm-8Aj-Xj5nHPbgBAxrGHIUqWfwdd5MA=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-10T14:23:06.761557Z"
+                        },
+                        "Nation": "Eastern Roman Empire",
+                        "GameAlias": "",
+                        "NationPreferences": "Eastern Roman Empire,West Frankish Kingdom,Umayyad Emirate,East Frankish Kingdom,Khaganate of Khazaria,Tulunid Emirate,Principality of Kiev,Abbasid Caliphate,Kingdom of Denmark",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Simko",
+                            "Gender": "",
+                            "GivenName": "James",
+                            "Hd": "ieee.org",
+                            "Id": "110495958131727357838",
+                            "Link": "",
+                            "Locale": "en",
+                            "Name": "James Simko",
+                            "Picture": "https://lh3.googleusercontent.com/a-/AOh14Gh7k_yrRjjjibqDyObOlWZu0megH3DK2EwLda2hAA=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-10T08:56:09.681709Z"
+                        },
+                        "Nation": "Tulunid Emirate",
+                        "GameAlias": "",
+                        "NationPreferences": "Kingdom of Denmark,Principality of Kiev,Umayyad Emirate,Khaganate of Khazaria,Tulunid Emirate,Abbasid Caliphate,West Frankish Kingdom,East Frankish Kingdom,Eastern Roman Empire",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Millett",
+                            "Gender": "",
+                            "GivenName": "Craig",
+                            "Hd": "",
+                            "Id": "115459887828543517946",
+                            "Link": "",
+                            "Locale": "en",
+                            "Name": "Craig Millett",
+                            "Picture": "https://lh3.googleusercontent.com/a/AATXAJz7S5ckmYI73hgSSOoTqRbiUoKwVC7Lpl2_llxt=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-10T03:11:25.626301Z"
+                        },
+                        "Nation": "Kingdom of Denmark",
+                        "GameAlias": "",
+                        "NationPreferences": "Kingdom of Denmark,Umayyad Emirate,Principality of Kiev,Khaganate of Khazaria,West Frankish Kingdom,Tulunid Emirate,Abbasid Caliphate,East Frankish Kingdom,Eastern Roman Empire",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    },
+                    {
+                        "User": {
+                            "Email": "",
+                            "FamilyName": "Lectures",
+                            "Gender": "",
+                            "GivenName": "CFAP",
+                            "Hd": "",
+                            "Id": "101941167189282647005",
+                            "Link": "",
+                            "Locale": "en",
+                            "Name": "CFAP Lectures",
+                            "Picture": "https://lh3.googleusercontent.com/a/AATXAJy_I2mN_o5gg3QGzWCnAVEbdicLKzujBiDw8bL8=s96-c",
+                            "VerifiedEmail": true,
+                            "ValidUntil": "2021-12-11T03:33:13.520854Z"
+                        },
+                        "Nation": "Khaganate of Khazaria",
+                        "GameAlias": "",
+                        "NationPreferences": "Kingdom of Denmark,Khaganate of Khazaria,Principality of Kiev,Abbasid Caliphate,West Frankish Kingdom,Umayyad Emirate,Tulunid Emirate,East Frankish Kingdom,Eastern Roman Empire",
+                        "NewestPhaseState": {
+                            "GameID": null,
+                            "PhaseOrdinal": 0,
+                            "Nation": "",
+                            "ReadyToResolve": false,
+                            "WantsDIAS": false,
+                            "WantsConcede": false,
+                            "OnProbation": false,
+                            "NoOrders": false,
+                            "Eliminated": false,
+                            "Messages": "",
+                            "ZippedOptions": null,
+                            "Note": ""
+                        },
+                        "UnreadMessages": 0,
+                        "Replaceable": false
+                    }
+                ],
+                "StartETA": "2021-12-10T12:02:33.960644Z",
+                "NewestPhaseMeta": [
+                    {
+                        "PhaseOrdinal": 1,
+                        "Season": "Spring",
+                        "Year": 901,
+                        "Type": "Movement",
+                        "Resolved": false,
+                        "CreatedAt": "2021-12-10T12:02:33.960754Z",
+                        "CreatedAgo": -2992474103006,
+                        "ResolvedAt": "0001-01-01T00:00:00Z",
+                        "ResolvedAgo": 0,
+                        "DeadlineAt": "2021-12-11T12:02:33.960754Z",
+                        "NextDeadlineIn": 83407525897740,
+                        "UnitsJSON": "[{\"Province\":\"bav\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"East Frankish Kingdom\"}},{\"Province\":\"sax\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"East Frankish Kingdom\"}},{\"Province\":\"bag\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Abbasid Caliphate\"}},{\"Province\":\"ros\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Principality of Kiev\"}},{\"Province\":\"bre\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"East Frankish Kingdom\"}},{\"Province\":\"pam\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"nar\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"West Frankish Kingdom\"}},{\"Province\":\"cad\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Umayyad Emirate\"}},{\"Province\":\"ifr\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"aze\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"btt\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"con\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Eastern Roman Empire\"}},{\"Province\":\"est\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"lot\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"dal\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"thr\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"tam\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Khaganate of Khazaria\"}},{\"Province\":\"cod\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Umayyad Emirate\"}},{\"Province\":\"snc\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Umayyad Emirate\"}},{\"Province\":\"swa\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"East Frankish Kingdom\"}},{\"Province\":\"pec\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"mav\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"jer\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Tulunid Emirate\"}},{\"Province\":\"sak\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Khaganate of Khazaria\"}},{\"Province\":\"tar\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Eastern Roman Empire\"}},{\"Province\":\"ira\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Abbasid Caliphate\"}},{\"Province\":\"att\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Eastern Roman Empire\"}},{\"Province\":\"geo\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"rom\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"urg\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"smo\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Principality of Kiev\"}},{\"Province\":\"ati\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Khaganate of Khazaria\"}},{\"Province\":\"bar\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Tulunid Emirate\"}},{\"Province\":\"bor\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"bja\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"isf\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Abbasid Caliphate\"}},{\"Province\":\"cos\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"ard\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Abbasid Caliphate\"}},{\"Province\":\"sad\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"dub\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"cyp\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"val\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Umayyad Emirate\"}},{\"Province\":\"crn\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Eastern Roman Empire\"}},{\"Province\":\"ale\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Tulunid Emirate\"}},{\"Province\":\"sca\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Kingdom of Denmark\"}},{\"Province\":\"bnj\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Khaganate of Khazaria\"}},{\"Province\":\"aqt\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"West Frankish Kingdom\"}},{\"Province\":\"arm\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"bul\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"cre\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"par\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"West Frankish Kingdom\"}},{\"Province\":\"gas\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"West Frankish Kingdom\"}},{\"Province\":\"maz\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"vik\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Kingdom of Denmark\"}},{\"Province\":\"jor/ec\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Kingdom of Denmark\"}},{\"Province\":\"dam\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Tulunid Emirate\"}},{\"Province\":\"bas\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"low\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"mau\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"nov\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Principality of Kiev\"}},{\"Province\":\"kie\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Principality of Kiev\"}},{\"Province\":\"jel\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Kingdom of Denmark\"}},{\"Province\":\"sic\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}},{\"Province\":\"wsx\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Neutral\"}}]",
+                        "SCsJSON": "[{\"Province\":\"isf\",\"Owner\":\"Abbasid Caliphate\"},{\"Province\":\"bul\",\"Owner\":\"Neutral\"},{\"Province\":\"nar\",\"Owner\":\"West Frankish Kingdom\"},{\"Province\":\"geo\",\"Owner\":\"Neutral\"},{\"Province\":\"jer\",\"Owner\":\"Tulunid Emirate\"},{\"Province\":\"att\",\"Owner\":\"Eastern Roman Empire\"},{\"Province\":\"wsx\",\"Owner\":\"Neutral\"},{\"Province\":\"bnj\",\"Owner\":\"Khaganate of Khazaria\"},{\"Province\":\"bar\",\"Owner\":\"Tulunid Emirate\"},{\"Province\":\"sax\",\"Owner\":\"East Frankish Kingdom\"},{\"Province\":\"aze\",\"Owner\":\"Neutral\"},{\"Province\":\"thr\",\"Owner\":\"Neutral\"},{\"Province\":\"cod\",\"Owner\":\"Umayyad Emirate\"},{\"Province\":\"ira\",\"Owner\":\"Abbasid Caliphate\"},{\"Province\":\"dam\",\"Owner\":\"Tulunid Emirate\"},{\"Province\":\"dub\",\"Owner\":\"Neutral\"},{\"Province\":\"dal\",\"Owner\":\"Neutral\"},{\"Province\":\"mav\",\"Owner\":\"Neutral\"},{\"Province\":\"ifr\",\"Owner\":\"Neutral\"},{\"Province\":\"kie\",\"Owner\":\"Principality of Kiev\"},{\"Province\":\"aqt\",\"Owner\":\"West Frankish Kingdom\"},{\"Province\":\"pam\",\"Owner\":\"Neutral\"},{\"Province\":\"bre\",\"Owner\":\"East Frankish Kingdom\"},{\"Province\":\"swa\",\"Owner\":\"East Frankish Kingdom\"},{\"Province\":\"par\",\"Owner\":\"West Frankish Kingdom\"},{\"Province\":\"gas\",\"Owner\":\"West Frankish Kingdom\"},{\"Province\":\"bas\",\"Owner\":\"Neutral\"},{\"Province\":\"low\",\"Owner\":\"Neutral\"},{\"Province\":\"pec\",\"Owner\":\"Neutral\"},{\"Province\":\"sic\",\"Owner\":\"Neutral\"},{\"Province\":\"val\",\"Owner\":\"Umayyad Emirate\"},{\"Province\":\"snc\",\"Owner\":\"Umayyad Emirate\"},{\"Province\":\"mau\",\"Owner\":\"Neutral\"},{\"Province\":\"bav\",\"Owner\":\"East Frankish Kingdom\"},{\"Province\":\"ard\",\"Owner\":\"Abbasid Caliphate\"},{\"Province\":\"sad\",\"Owner\":\"Neutral\"},{\"Province\":\"smo\",\"Owner\":\"Principality of Kiev\"},{\"Province\":\"jor\",\"Owner\":\"Kingdom of Denmark\"},{\"Province\":\"est\",\"Owner\":\"Neutral\"},{\"Province\":\"urg\",\"Owner\":\"Neutral\"},{\"Province\":\"cre\",\"Owner\":\"Neutral\"},{\"Province\":\"cad\",\"Owner\":\"Umayyad Emirate\"},{\"Province\":\"tar\",\"Owner\":\"Eastern Roman Empire\"},{\"Province\":\"sak\",\"Owner\":\"Khaganate of Khazaria\"},{\"Province\":\"cyp\",\"Owner\":\"Neutral\"},{\"Province\":\"btt\",\"Owner\":\"Neutral\"},{\"Province\":\"maz\",\"Owner\":\"Neutral\"},{\"Province\":\"sca\",\"Owner\":\"Kingdom of Denmark\"},{\"Province\":\"ati\",\"Owner\":\"Khaganate of Khazaria\"},{\"Province\":\"con\",\"Owner\":\"Eastern Roman Empire\"},{\"Province\":\"arm\",\"Owner\":\"Neutral\"},{\"Province\":\"nov\",\"Owner\":\"Principality of Kiev\"},{\"Province\":\"jel\",\"Owner\":\"Kingdom of Denmark\"},{\"Province\":\"bja\",\"Owner\":\"Neutral\"},{\"Province\":\"ale\",\"Owner\":\"Tulunid Emirate\"},{\"Province\":\"bor\",\"Owner\":\"Neutral\"},{\"Province\":\"crn\",\"Owner\":\"Eastern Roman Empire\"},{\"Province\":\"rom\",\"Owner\":\"Neutral\"},{\"Province\":\"lot\",\"Owner\":\"Neutral\"},{\"Province\":\"cos\",\"Owner\":\"Neutral\"},{\"Province\":\"ros\",\"Owner\":\"Principality of Kiev\"},{\"Province\":\"vik\",\"Owner\":\"Kingdom of Denmark\"},{\"Province\":\"tam\",\"Owner\":\"Khaganate of Khazaria\"},{\"Province\":\"bag\",\"Owner\":\"Abbasid Caliphate\"}]"
+                    }
+                ],
+                "ActiveBans": null,
+                "FailedRequirements": null,
+                "CreatedAt": "2021-10-30T22:57:59.834345Z",
+                "CreatedAgo": -3506066600512425,
+                "StartedAt": "2021-12-10T12:02:33.960644Z",
+                "StartedAgo": -2992474213592,
+                "FinishedAt": "0001-01-01T00:00:00Z",
+                "FinishedAgo": 0
+            },
+            "Type": "Game",
+            "Links": [
+                {
+                    "Rel": "self",
+                    "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM",
+                    "Method": "GET"
+                },
+                {
+                    "Rel": "channels",
+                    "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM/Channels",
+                    "Method": "GET"
+                },
+                {
+                    "Rel": "phases",
+                    "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM/Phases",
+                    "Method": "GET"
+                },
+                {
+                    "Rel": "game-states",
+                    "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM/GameStates",
+                    "Method": "GET"
+                }
+            ]
+        }
+    ],
+    "Desc": [
+        [
+            "Started games",
+            "Public started games, sorted with oldest first."
+        ],
+        [
+            "Cursor and limit",
+            "The list contains at most 128 games.",
+            "If there are additional matching games, a 'next' link will be available with a 'cursor' query parameter.",
+            "Use the 'next' link to list the next batch of matching games.",
+            "To list fewer than 128 games, add an explicit 'limit' query parameter."
+        ],
+        [
+            "Filters",
+            "To show only games matching certain criteria, add query parameter filters.",
+            "`variant=X` filters on variant X.",
+            "`min-reliability=X:Y` filters on min reliability between X and Y.",
+            "`min-quickness=X:Y` filters on min quickness between X and Y.",
+            "`max-hated=X:Y` filters on max hated between X and Y.",
+            "`max-hater=X:Y` filters on max hater between X and Y.",
+            "`min-rating=X:Y` filters on min rating between X and Y.",
+            "`max-rating=X:Y` filters on max rating between X and Y."
+        ]
+    ],
+    "Type": "List",
+    "Links": [
+        {
+            "Rel": "self",
+            "URL": "https://diplicity-engine.appspot.com/Games/Started",
+            "Method": "GET"
+        }
+    ]
+}

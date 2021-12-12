@@ -10,7 +10,7 @@ import {
 	DialogContent,
 	DialogActions,
 	DialogTitle,
-} from "@material-ui/core";
+} from "@mui/material";
 
 export default class RenameGameDialog extends React.Component {
 	constructor(props) {

@@ -21,12 +21,12 @@ import {
 	Typography,
 	Switch,
 	FormControl,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Color from "./Color";
 import Globals from "../Globals";
 import { DeleteIcon, GoBackIcon } from "../icons";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
 const styles = (theme) => ({
 	container: {
@@ -210,7 +210,7 @@ class SettingsDialog extends React.Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<Dialog
+            <Dialog
 				TransitionProps={{
 					onEnter: helpers.genOnback(this.close),
 				}}
@@ -221,11 +221,11 @@ class SettingsDialog extends React.Component {
 				<AppBar>
 					<Toolbar>
 						<IconButton
-							edge="start"
-							color="inherit"
-							onClick={this.close}
-							aria-label="close"
-						>
+                            edge="start"
+                            color="inherit"
+                            onClick={this.close}
+                            aria-label="close"
+                            size="large">
 							<GoBackIcon />
 						</IconButton>
 						<Typography variant="h6" style={{ paddingLeft: "16px" }}>
@@ -642,7 +642,7 @@ class SettingsDialog extends React.Component {
 					""
 				)}
 			</Dialog>
-		);
+        );
 	}
 }
 

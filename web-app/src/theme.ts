@@ -1,10 +1,14 @@
 // See https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
-import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from "@mui/material/styles";
+// it could be your App.tsx file or theme file that is included in your tsconfig.json
+import { Theme } from "@mui/material/styles";
 
+declare module "@mui/styles/defaultTheme" {
+  interface DefaultTheme extends Theme {}
+}
 
 const theme = createMuiTheme({
   typography: {
-    useNextVariants: true,
     fontFamily: ["Cabin", "Roboto", "sans-serif"].join(","),
   },
   palette: {

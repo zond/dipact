@@ -27,6 +27,7 @@ import listPhasesSuccess from "./responses/listPhasesSuccess.json";
 import listPhasesSuccessLarge from "./responses/listPhasesSuccessLarge.json";
 import listPhaseStatesSuccess25 from "./responses/listPhaseStatesSuccess25.json";
 import listPhaseStatesSuccess from "./responses/listPhaseStatesSuccess.json";
+import listGamesStartedSuccess from "./responses/listGamesStartedSuccess.json";
 import listChannelsSuccess from "./responses/listChannelsSuccess.json";
 import listChannelsSuccessNoChannels from "./responses/listChannelsSuccessNoChannels.json";
 
@@ -184,6 +185,11 @@ const resolvers = {
       return res(ctx.status(200), ctx.json(listChannelsSuccessNoChannels));
     },
   },
+  listGamesStarted: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(listGamesStartedSuccess));
+    },
+  },
   histogram: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(histogramSuccess));
@@ -256,6 +262,7 @@ const variantsUrl = `${API_ROOT}Variants`;
 const getGameUrl = `${API_ROOT}Game/:gameId`;
 const messagesUrl = `${API_ROOT}Game/:gameId/Channel/:channelId/Messages`;
 const listChannelsUrl = `${API_ROOT}Game/:gameId/Channels`;
+const listGamesStartedUrl = `${API_ROOT}Games/started`;
 const createGameUrl = `${API_ROOT}Game`;
 const createMessageUrl = `${API_ROOT}Game/:gameId/Messages`;
 const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
@@ -324,6 +331,11 @@ export const handlers = {
     internalServerError: rest.get(listChannelsUrl, internalServerError),
     tokenTimeout: rest.get(listChannelsUrl, tokenTimeout),
   },
+  listGamesStarted: {
+    success: rest.get(listGamesStartedUrl, resolvers.listGamesStarted.success),
+    internalServerError: rest.get(listGamesStartedUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesStartedUrl, tokenTimeout),
+  },
   listPhases: getListPhasesHandlers(),
   listPhaseStates: getListPhaseStatesHandlers(),
   updatePhaseState: getUpdatePhaseStateHandlers(),
@@ -359,6 +371,7 @@ export const handlersList = [
   handlers.listChannels.success,
   handlers.listPhases.success,
   handlers.listPhaseStates.success,
+  handlers.listGamesStarted.success,
   handlers.updatePhaseState.success,
   handlers.messages.successNewMessage,
   handlers.createMessage.success,

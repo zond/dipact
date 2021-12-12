@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { addDecorator } from '@storybook/react';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import { muiTheme } from '../src/theme';
 
@@ -17,5 +17,7 @@ export const parameters = {
 }
 
 addDecorator((story) => (
-    <ThemeProvider theme={muiTheme}>{story()}</ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={muiTheme}>{story()}</ThemeProvider>
+    </StyledEngineProvider>
 ));

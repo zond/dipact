@@ -8,6 +8,7 @@ export const {
   useGetUserConfigQuery,
   useGetUserRatingHistogramQuery,
   useListChannelsQuery,
+  useListGamesQuery,
   useListMessagesQuery,
   useListPhasesQuery,
   useLazyGetVariantSVGQuery,

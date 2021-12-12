@@ -1,6 +1,12 @@
 import React from "react";
-import { Card, IconButton, MenuItem, Select } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import {
+  Card,
+  IconButton,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 import { NextIcon, PreviousIcon } from "../icons";
 import usePhaseSelector from "../hooks/usePhaseSelector";
@@ -32,11 +38,9 @@ const PhaseSelector = (): React.ReactElement => {
     combinedQueryState: { isLoading, isError },
   } = usePhaseSelector(gameId);
 
-  const handleChange = (
-    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) => {
-    const value = e.target.value as number;
-    setPhase(value);
+  const handleChange = (e: SelectChangeEvent<number>) => {
+    const value = e.target.value;
+    setPhase(value as number);
   };
 
   if (isLoading || isError || !phases || !selectedPhase) return <></>;
@@ -47,6 +51,7 @@ const PhaseSelector = (): React.ReactElement => {
         onClick={setPreviousPhase}
         disabled={selectedPhase === 1}
         title="show previous phase"
+        size="large"
       >
         <PreviousIcon />
       </IconButton>
@@ -61,6 +66,7 @@ const PhaseSelector = (): React.ReactElement => {
         onClick={setNextPhase}
         disabled={selectedPhase === phases.length}
         title="show next phase"
+        size="large"
       >
         <NextIcon />
       </IconButton>

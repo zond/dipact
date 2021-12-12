@@ -3,13 +3,8 @@ import useRegisterPageView from "../hooks/useRegisterPageview";
 import useGame from "../hooks/useGame";
 import { useParams } from "react-router";
 import Loading from "../components/Loading";
-import {
-  makeStyles,
-  AppBar,
-  Toolbar,
-  Container,
-  Button,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Container, Button } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import PhaseSelector from "../components/PhaseSelector";
 import PlayerCount from "../components/PlayerCount";
 import Map from "../components/Map";

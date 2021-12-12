@@ -1,4 +1,5 @@
-import { IconButton, TextField, Typography, makeStyles } from "@material-ui/core";
+import { IconButton, TextField, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useState } from "react";
 import { SendMessageIcon } from "../../icons";
 
@@ -52,33 +53,33 @@ const ChatMessageInput = ({ onSendMessage, undelivered }: ChatMessageInputProps)
   }
 
   return (
-	<div className={classes.root}>
-		<div className={classes.subDiv}>
-			<TextField
-				id="chat-channel-input-field"
-				multiline
-				rows="2"
-				className={classes.input}
-				label="Message"
-				variant="outlined"
-				onKeyDown={onKeyDown}
-				onChange={onChange}
-				value={message}
-				disabled={undelivered}
-			/>
-			<IconButton
-				title="Send message"
-				onClick={sendMessage}
-				color="primary"
-				disabled={undelivered}
-			>
-				<SendMessageIcon />
-			</IconButton>
-		</div>
-		<Typography className={classes.prompt} variant="caption">
-            {SEND_PROMPT}
-		</Typography>
-	</div>
+      <div className={classes.root}>
+          <div className={classes.subDiv}>
+              <TextField
+                  id="chat-channel-input-field"
+                  multiline
+                  rows="2"
+                  className={classes.input}
+                  label="Message"
+                  variant="outlined"
+                  onKeyDown={onKeyDown}
+                  onChange={onChange}
+                  value={message}
+                  disabled={undelivered}
+              />
+              <IconButton
+                  title="Send message"
+                  onClick={sendMessage}
+                  color="primary"
+                  disabled={undelivered}
+                  size="large">
+                  <SendMessageIcon />
+              </IconButton>
+          </div>
+          <Typography className={classes.prompt} variant="caption">
+              {SEND_PROMPT}
+          </Typography>
+      </div>
   );
 };
 

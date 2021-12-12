@@ -31,6 +31,7 @@ import {
   User,
   CreateMessageResponse,
   PhaseStateResponse,
+  ListGamesResponse,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -181,6 +182,18 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.PhaseState],
     }),
+    listGames: builder.query<Game[], { my: boolean; gameStatus: string }>({
+      query: ({ my, gameStatus }) => {
+        if (my) return `/My/Games/${gameStatus}`;
+        return `/Games/${gameStatus}`;
+      },
+      transformResponse: (response: ListGamesResponse) => {
+        return response.Properties.map(
+          (gameResponse) => gameResponse.Properties
+        );
+      },
+    }),
+    // https://diplicity-engine.appspot.com/Games/Started?limit=64
     listChannels: builder.query<Channel[], string>({
       query: (gameId) => `/Game/${gameId}/Channels`,
       transformResponse: (response: ListChannelsResponse) => {

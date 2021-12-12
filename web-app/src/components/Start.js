@@ -10,11 +10,11 @@ import {
 	Slide,
 	Toolbar,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Globals from "../Globals";
 import ErrorsDialog from "./ErrorsDialog";
-import GameList from "./GameList";
+import GameList from "./OldGameList";
 import CreateGameDialog from "./CreateGameDialog";
 import NewsDialog from "./NewsDialog";
 

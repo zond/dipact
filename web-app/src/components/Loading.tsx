@@ -1,4 +1,5 @@
-import { makeStyles, CircularProgress, Theme } from "@material-ui/core";
+import { CircularProgress, Theme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
@@ -31,4 +32,3 @@ const Loading = ({ space }: LoadingProps): React.ReactElement => {
 Loading.defaultProps = defaultProps;
 
 export default Loading;
-

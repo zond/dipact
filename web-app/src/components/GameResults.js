@@ -13,8 +13,8 @@ import {
 	AccordionDetails,
 	Accordion,
 	AccordionSummary,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 import gtag from "ga-gtag";
 
 import { ExpandIcon } from '../icons';

@@ -8,7 +8,7 @@ import {
 	Toolbar,
 	IconButton,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import Globals from "../Globals";
 import {
 	CloseIcon,
@@ -153,22 +153,23 @@ export default class NewsDialog extends React.Component {
 	render() {
 		if (this.state.open) {
 			return (
-				<Dialog
-					onEntered={helpers.genOnback(this.close)}
-					open={this.state.open}
-					fullScreen
-					onClose={this.close}
-				>
+                <Dialog
+                    open={this.state.open}
+                    fullScreen
+                    onClose={this.close}
+                    TransitionProps={{
+                        onEntered: helpers.genOnback(this.close)
+                    }}>
 					<AppBar>
 						<Toolbar>
 							<IconButton
-								edge="start"
-								color="inherit"
-								onClick={(_) => {
+                                edge="start"
+                                color="inherit"
+                                onClick={(_) => {
 									this.setState({ open: false });
 								}}
-								aria-label="close"
-							>
+                                aria-label="close"
+                                size="large">
 								<CloseIcon />
 							</IconButton>
 							<Typography variant="h6" style={{ paddingLeft: "16px" }}>
@@ -210,7 +211,7 @@ export default class NewsDialog extends React.Component {
 						></div>
 					</div>
 				</Dialog>
-			);
+            );
 		} else {
 			return (
 				<div

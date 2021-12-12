@@ -10,8 +10,8 @@ import {
   List,
   ListItem,
   Typography,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 
 import * as helpers from "../helpers";
 
@@ -60,14 +60,14 @@ class ErrorsDialog extends React.Component {
     const { classes } = this.props;
     return (
       <Dialog
-        onEntered={helpers.genOnback(this.close)}
         classes={{
           paper: classes.paper,
         }}
         open={this.state.open}
-        disableBackdropClick={false}
         onClose={this.close}
-      >
+        TransitionProps={{
+          onEntered: helpers.genOnback(this.close)
+        }}>
         <DialogTitle>Bug report info</DialogTitle>
         <DialogContent>
         <Typography>

@@ -5,8 +5,8 @@ import {
     Toolbar,
     IconButton,
     Typography
-} from '@material-ui/core';
-import { withStyles } from "@material-ui/core/styles";
+} from '@mui/material';
+import withStyles from '@mui/styles/withStyles';
 
 import { GoBackIcon } from '../icons'
 import * as helpers from '../helpers';
@@ -39,7 +39,7 @@ class DonateDialog extends React.Component {
 			return "";
 		}
 		return (
-			<Dialog
+            <Dialog
 				TransitionProps={{
 					onEnter: helpers.genOnback(this.close),
 				}}
@@ -53,11 +53,11 @@ class DonateDialog extends React.Component {
 				<AppBar>
 					<Toolbar>
 						<IconButton
-							edge="start"
-							color="inherit"
-							onClick={this.close}
-							aria-label="close"
-						>
+                            edge="start"
+                            color="inherit"
+                            onClick={this.close}
+                            aria-label="close"
+                            size="large">
 							<GoBackIcon />
 						</IconButton>
 						<Typography
@@ -116,7 +116,7 @@ class DonateDialog extends React.Component {
 					</p>
 				</div>
 			</Dialog>
-		);
+        );
 	}
 }
 

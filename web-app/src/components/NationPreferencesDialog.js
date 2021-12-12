@@ -14,9 +14,9 @@ import {
 	ListItem,
 	Grid,
 	IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
 import { ArrowDownwardIcon, ArrowUpwardIcon } from "../icons";
 
@@ -71,7 +71,7 @@ class NationPreferencesDialog extends React.Component {
 			return "";
 		}
 		return (
-			<Dialog
+            <Dialog
 				open={!!this.isOpen(this.props)}
 				TransitionProps={{
 					onEnter: helpers.genOnback(this.close),
@@ -87,7 +87,7 @@ class NationPreferencesDialog extends React.Component {
 						<List>
 							{this.state.nations.map((nation, idx) => {
 								return (
-									<ListItem key={nation}>
+                                    <ListItem key={nation}>
 										<Grid container>
 											<Grid key={nation} item xs={10}>
 												<Typography>
@@ -100,7 +100,7 @@ class NationPreferencesDialog extends React.Component {
 												xs={1}
 											>
 												<IconButton
-													onClick={(_) => {
+                                                    onClick={(_) => {
 														if (
 															idx + 1 <
 															this.state.nations
@@ -121,7 +121,7 @@ class NationPreferencesDialog extends React.Component {
 															});
 														}
 													}}
-												>
+                                                    size="large">
 													<ArrowDownwardIcon />
 												</IconButton>
 											</Grid>
@@ -131,7 +131,7 @@ class NationPreferencesDialog extends React.Component {
 												xs={1}
 											>
 												<IconButton
-													onClick={(_) => {
+                                                    onClick={(_) => {
 														if (idx > 0) {
 															let nations =
 																this.state.nations.slice();
@@ -148,13 +148,13 @@ class NationPreferencesDialog extends React.Component {
 															});
 														}
 													}}
-												>
+                                                    size="large">
 													<ArrowUpwardIcon />
 												</IconButton>
 											</Grid>
 										</Grid>
 									</ListItem>
-								);
+                                );
 							})}
 						</List>
 					</Paper>
@@ -165,7 +165,7 @@ class NationPreferencesDialog extends React.Component {
 					</DialogActions>
 				</DialogContent>
 			</Dialog>
-		);
+        );
 	}
 }
 

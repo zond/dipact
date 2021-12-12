@@ -1,9 +1,5 @@
-import {
-  Typography,
-  makeStyles,
-  Fab,
-  Container,
-} from "@material-ui/core";
+import { Typography, Fab, Container } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect } from "react";
 import {
   generatePath,

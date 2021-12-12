@@ -7,6 +7,7 @@ export const RouteConfig = {
 	GameTab: '/game/:gameId/:tab',
 	Game: '/game/:gameId',
 	GameChat: '/game/:gameId/chat',
+	GameList: '/games',
 	GameChatChannel: '/game/:gameId/channel/:channelId/messages',
 	GameLaboratoryMode: '/game/:gameId/lab/:labOptions',
 	Orders: '/game/:gameId/orders',

@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogActions,
     DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 
 export default class RescheduleDialog extends React.Component {
 	constructor(props) {

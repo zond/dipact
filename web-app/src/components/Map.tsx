@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 import { useEffect, useState, useRef } from "react";
 
 import { hash } from "../utils/general";

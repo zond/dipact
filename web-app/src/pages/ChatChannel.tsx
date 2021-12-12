@@ -1,6 +1,6 @@
 import React from "react";
-import { Container, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 
 import { GoBackIcon } from "../icons";
 import { generatePath, useParams } from "react-router-dom";

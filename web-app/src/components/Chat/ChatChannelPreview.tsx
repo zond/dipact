@@ -1,4 +1,5 @@
-import { makeStyles, Typography, Badge, Theme } from "@material-ui/core";
+import { Typography, Badge, Theme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { Channel } from "../../hooks/types";
 import { getNationAvatarGroupFromChannel } from "./utils";
@@ -45,7 +46,7 @@ interface ChatChannelPreviewProps {
 const withMessagesSince = (component: React.ReactElement, channel: Channel) => (
   <Badge
     badgeContent={channel?.NMessagesSince?.NMessages}
-    overlap="circle"
+    overlap="circular"
     color="primary"
   >
     {component}

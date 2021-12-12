@@ -1,9 +1,9 @@
 /* eslint-disable no-restricted-globals */
 import React from "react";
-import { Button, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Button, FormControlLabel, Checkbox } from "@mui/material";
 import gtag from "ga-gtag";
-import { Typography } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import { Typography } from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 
 import * as helpers from "../helpers";
 import Globals from "../Globals";

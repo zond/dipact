@@ -336,6 +336,22 @@ export type Member = {
   NewestPhaseState: PhaseState;
 };
 
+export interface PhaseMeta {
+  PhaseOrdinal: number;
+  Season: string;
+  Year: number;
+  Type: string;
+  Resolved: false;
+  CreatedAt: string;
+  CreatedAgo: number;
+  ResolvedAt: string;
+  ResolvedAgo: number;
+  DeadlineAt: string;
+  NextDeadlineIn: number;
+  UnitsJSON: string;
+  SCsJSON: string;
+}
+
 export type Game = NewGame & {
   Closed: boolean;
   Finished: boolean;
@@ -348,7 +364,7 @@ export type Game = NewGame & {
   NMembers: number;
   Members: Member[];
   StartETA: string;
-  NewestPhaseMeta: null;
+  NewestPhaseMeta: PhaseMeta[];
   ActiveBans: null;
   FailedRequirements: null;
   FirstMember: Member;
@@ -502,6 +518,10 @@ export type ListChannelsResponse = ApiResponse & {
   Properties: ChannelResponse[];
 };
 
+export type ListGamesResponse = ApiResponse & {
+  Properties: GameResponse[];
+};
+
 export enum Severity {
   Error = "error",
   Warning = "warning",
@@ -525,17 +545,17 @@ export type CreateMessageResponse = ApiResponse & {
 };
 
 export type Order = {
-  GameID: string,
-  PhaseOrdinal: number,
-  Nation: string,
-  Parts: string[],
-}
+  GameID: string;
+  PhaseOrdinal: number;
+  Nation: string;
+  Parts: string[];
+};
 
 export type Corroboration = {
   Orders: Order[];
   Inconsistencies: string[];
-}
+};
 
 export type CorroborationResponse = ApiResponse & {
   Properties: Corroboration;
-}
+};

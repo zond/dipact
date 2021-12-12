@@ -1,13 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
-import {
-  Button,
-  FormControlLabel,
-  Checkbox,
-  Container,
-  makeStyles,
-} from "@material-ui/core";
-import { Typography } from "@material-ui/core";
+import { Button, FormControlLabel, Checkbox, Container } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { Typography } from "@mui/material";
 
 import * as helpers from "../helpers";
 import loginBackground from "../static/img/login_background.jpg";

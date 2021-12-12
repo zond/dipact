@@ -7,9 +7,10 @@ import {
   DialogTitle,
   List,
   ListItem,
-  makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from '@mui/styles/makeStyles';
 
 import * as helpers from "../helpers";
 import useRegisterPageView from "../hooks/useRegisterPageview";

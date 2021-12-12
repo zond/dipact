@@ -1,5 +1,5 @@
 import { createMemoryHistory } from "history";
-import { Router } from "react-router";
+import { Router, Route, MemoryRouter } from "react-router";
 
 import {
   IUseOrders,
@@ -10,14 +10,18 @@ import {
   useDIContext as usePhaseSelectorContext,
 } from "../hooks/usePhaseSelector";
 
-export const routerDecorator = (path?: string) => {
+export const routerDecorator = (path?: string, routePath?: string) => {
   return (Component: () => JSX.Element) => {
-    const history = createMemoryHistory();
-    history.push(path || "/");
     return (
-      <Router history={history}>
-        <Component />
-      </Router>
+      <MemoryRouter initialEntries={[path || ""]}>
+        {routePath ? (
+          <Route path={routePath}>
+            <Component />
+          </Route>
+        ) : (
+          <Component />
+        )}
+      </MemoryRouter>
     );
   };
 };

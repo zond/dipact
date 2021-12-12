@@ -1,5 +1,7 @@
 import React from "react";
-import { Avatar, Badge, makeStyles, Theme } from "@material-ui/core";
+import { Avatar, Badge, Theme } from "@mui/material";
+
+import makeStyles from '@mui/styles/makeStyles';
 
 import { EVERYONE } from "../hooks/utils";
 import UNFlagLink from "../static/img/un_logo.svg";

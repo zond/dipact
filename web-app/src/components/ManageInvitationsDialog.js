@@ -18,8 +18,8 @@ import {
 	InputLabel,
 	List,
 	IconButton,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 
 import { DeleteIcon } from "../icons";
 
@@ -181,12 +181,13 @@ class ManageInvitationsDialog extends React.Component {
 			return "";
 		}
 		return (
-			<Dialog
-				open={this.state.open}
-				onEntered={helpers.genOnback(this.close)}
-				disableBackdropClick={false}
-				onClose={this.close} //TODO: REMOVE THE THEY WILL NOT BE INVITED AUTOMATICALLY BELOW. THIS NEEDS TO BE HANDLED PRETTIER.
-			>
+            <Dialog
+                open={this.state.open}
+                //TODO: REMOVE THE THEY WILL NOT BE INVITED AUTOMATICALLY BELOW. THIS NEEDS TO BE HANDLED PRETTIER.
+                onClose={this.close}
+                TransitionProps={{
+                    onEntered: helpers.genOnback(this.close)
+                }}>
 				<DialogTitle>Manage whitelist</DialogTitle>
 				<DialogContent>
 					<React.Fragment>
@@ -208,7 +209,7 @@ class ManageInvitationsDialog extends React.Component {
 							{(this.state.game.Properties.GameMasterInvitations || []).map(
 								(invitation) => {
 									return (
-										<ListItem
+                                        <ListItem
 											key={invitation.Email}
 											style={{ padding: "0", margin: "0 0 8px 0" }}
 										>
@@ -226,15 +227,15 @@ class ManageInvitationsDialog extends React.Component {
 												</Grid>
 												<Grid key="button" item xs={1}>
 													<IconButton
-														style={{ padding: "0", margin: "0" }}
-														onClick={this.onUninvite(invitation.Email)}
-													>
+                                                        style={{ padding: "0", margin: "0" }}
+                                                        onClick={this.onUninvite(invitation.Email)}
+                                                        size="large">
 														<DeleteIcon />
 													</IconButton>
 												</Grid>
 											</Grid>
 										</ListItem>
-									);
+                                    );
 								}
 							)}
 						</List>
@@ -346,7 +347,7 @@ class ManageInvitationsDialog extends React.Component {
 					<Button onClick={this.close}>Close</Button>
 				</DialogActions>
 			</Dialog>
-		);
+        );
 	}
 }
 

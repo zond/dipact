@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgress, Dialog } from "@material-ui/core";
+import { CircularProgress, Dialog } from "@mui/material";
 import Globals from '../Globals';
 
 export default class ProgressDialog extends React.Component {

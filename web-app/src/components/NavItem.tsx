@@ -1,6 +1,6 @@
 import React from "react";
-import { alpha, IconButton, Theme } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import { alpha, IconButton, Theme } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { useHistory } from "react-router-dom";
 
 
@@ -49,7 +49,7 @@ const NavItem = ({
       target="_blank"
       rel="noreferrer"
     >
-      <IconButton edge={edge} aria-label={label} onClick={goToLink}>
+      <IconButton edge={edge} aria-label={label} onClick={goToLink} size="large">
         {children}
       </IconButton>
     </a>

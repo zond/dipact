@@ -1,8 +1,8 @@
 import React from 'react';
 
 import * as helpers from '../helpers';
-import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 
 const styles = (theme) => ({
   dialogActions: {
