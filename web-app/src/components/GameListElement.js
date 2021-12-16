@@ -21,7 +21,7 @@ import { withRouter } from "react-router-dom";
 import GameMetadata from "./GameMetadata";
 import Game from "./Game";
 import Globals from "../Globals";
-import NationPreferencesDialog from "./NationPreferencesDialog";
+import NationPreferencesDialog from "./OldNationPreferencesDialog";
 import RenameGameDialog from "./RenameGameDialog";
 import ManageInvitationsDialog from "./ManageInvitationsDialog";
 import RescheduleDialog from "./RescheduleDialog";

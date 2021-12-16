@@ -49,7 +49,7 @@ import GamePlayers from "./GamePlayers";
 import GameResults from "./GameResults";
 import PreliminaryScores from "./PreliminaryScores";
 import MusteringPopup from "./MusteringPopup";
-import NationPreferencesDialog from "./NationPreferencesDialog";
+import NationPreferencesDialog from "./OldNationPreferencesDialog";
 import Globals from "../Globals";
 
 class Game extends React.Component {

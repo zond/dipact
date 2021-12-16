@@ -26,7 +26,7 @@ import { withRouter } from "react-router-dom";
 
 import { CloseIcon, RandomGameNameIcon } from "../icons";
 
-import NationPreferencesDialog from "./NationPreferencesDialog";
+import NationPreferencesDialog from "./OldNationPreferencesDialog";
 import Globals from "../Globals";
 
 const intReg = /^[0-9]+$/;

@@ -102,6 +102,7 @@ export const initialState: RootState = {
       [TagType.Messages]: {},
       [TagType.Game]: {},
       [TagType.PhaseState]: {},
+      [TagType.ListGames]: {},
     },
     subscriptions: {},
     config: {

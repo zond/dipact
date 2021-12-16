@@ -1,15 +1,15 @@
 {
-    "Name": "started-games",
+    "Name": "finished-games",
     "Properties": [
         {
-            "Name": "Clash of the crowns",
+            "Name": "Finished game",
             "Properties": {
                 "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM",
                 "Started": true,
                 "Mustered": true,
                 "Closed": true,
-                "Finished": false,
-                "Desc": "Clash of the crowns",
+                "Finished": true,
+                "Desc": "Finished game",
                 "Variant": "Western World 901",
                 "PhaseLengthMinutes": 1440,
                 "NonMovementPhaseLengthMinutes": 0,
@@ -142,7 +142,7 @@
     "Links": [
         {
             "Rel": "self",
-            "URL": "https://diplicity-engine.appspot.com/Games/Started",
+            "URL": "https://diplicity-engine.appspot.com/Games/Finished",
             "Method": "GET"
         }
     ]

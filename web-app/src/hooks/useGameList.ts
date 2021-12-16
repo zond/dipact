@@ -4,6 +4,7 @@ import { ApiResponse } from "./types";
 import { Game as StoreGame } from "../store/types";
 import isoCodes from "../utils/isoCodes";
 import { getPhaseDisplay, phaseLengthDisplay, timeStrToDate } from "../utils/general";
+import { ListGameFilters } from "../store/service";
 
 export enum GameStatus {
   Started = "started",
@@ -31,6 +32,7 @@ export interface Game {
   chatLanguageDisplay: string;
   createdAtDisplay: string;
   deadlineDisplay: string;
+  failedRequirements: string[];
   gameVariant: string;
   id: string;
   minQuickness: number | null;
@@ -60,6 +62,7 @@ const transformGame = (game: StoreGame): Game => {
     )?.name || "",
     createdAtDisplay: timeStrToDate(game.CreatedAt),
     deadlineDisplay: phaseLengthDisplay(game),
+    failedRequirements: game.FailedRequirements || [],
     gameVariant: game.Variant,
     id: game.ID,
     minQuickness: game.MinQuickness,
@@ -77,11 +80,8 @@ const transformGame = (game: StoreGame): Game => {
   };
 };
 
-const useGameList = (my: boolean, gameStatus: GameStatus) => {
-  const { isLoading, isError, isSuccess, data } = useListGamesQuery({
-    my,
-    gameStatus,
-  });
+const useGameList = (filters: ListGameFilters) => {
+  const { isLoading, isError, isSuccess, data } = useListGamesQuery(filters);
   return {
     combinedQueryState: {
       isLoading,
@@ -100,7 +100,7 @@ const createDIContext = <T>() => createContext<null | T>(null);
 export const useDIContext = createDIContext<typeof useGameList>();
 
 const useGetHook = () => useContext(useDIContext) || useGameList;
-const useDIHook = (my: boolean, gameStatus: GameStatus): IUseGameList =>
-  useGetHook()(my, gameStatus);
+const useDIHook = (filters: ListGameFilters): IUseGameList =>
+  useGetHook()(filters);
 
 export default useDIHook;

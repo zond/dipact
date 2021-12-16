@@ -5,8 +5,6 @@ import "./index.css";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import ProgressDialog from "./components/ProgressDialog";
-import Snackbar from "./components/Snackbar";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -19,8 +17,6 @@ if (process.env.NODE_ENV === "development") {
   worker.start();
 }
 
-ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));
-ReactDOM.render(<Snackbar />, document.getElementById("snackbar"));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

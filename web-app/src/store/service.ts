@@ -32,6 +32,7 @@ import {
   CreateMessageResponse,
   PhaseStateResponse,
   ListGamesResponse,
+  Member,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -45,6 +46,13 @@ export enum TagType {
   Messages = "Messages",
   PhaseState = "PhaseState",
   Game = "Game",
+  ListGames = "ListGames",
+}
+
+export interface ListGameFilters {
+  my: boolean;
+  status: string;
+  mastered: boolean;
 }
 
 const hrefURL = new URL(location.href);
@@ -56,6 +64,7 @@ export const diplicityService = createApi({
     TagType.UserConfig,
     TagType.Messages,
     TagType.Game,
+    TagType.ListGames,
     TagType.PhaseState,
   ],
   reducerPath: "diplicityService",
@@ -182,16 +191,25 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.PhaseState],
     }),
-    listGames: builder.query<Game[], { my: boolean; gameStatus: string }>({
-      query: ({ my, gameStatus }) => {
-        if (my) return `/My/Games/${gameStatus}`;
-        return `/Games/${gameStatus}`;
+    listGames: builder.query<
+      Game[],
+      ListGameFilters
+    >({
+      query: ({ my, status, mastered }) => {
+        if (my) {
+          if (mastered) {
+            return `/My/Mastered/Games/${status}`;
+          }
+          return `/My/Games/${status}`;
+        }
+        return `/Games/${status}`;
       },
       transformResponse: (response: ListGamesResponse) => {
         return response.Properties.map(
           (gameResponse) => gameResponse.Properties
         );
       },
+      providesTags: [TagType.ListGames],
     }),
     // https://diplicity-engine.appspot.com/Games/Started?limit=64
     listChannels: builder.query<Channel[], string>({
@@ -257,6 +275,17 @@ export const diplicityService = createApi({
         };
       },
       invalidatesTags: [TagType.Game, TagType.PhaseState],
+    }),
+    joinGame: builder.mutation<
+      undefined,
+      Pick<Member, "NationPreferences" | "GameAlias"> & { gameId: string }
+    >({
+      query: ({ gameId, ...data }) => ({
+        url: `/Game/${gameId}/Member`,
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [TagType.ListGames],
     }),
   }),
 });

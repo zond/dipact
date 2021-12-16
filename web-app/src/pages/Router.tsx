@@ -10,6 +10,8 @@ import { useSelectIsLoggedIn } from "../hooks/selectors";
 import MainMenu from "../components/MainMenu";
 import Donate from "./Donate";
 import GameList from "./GameList";
+import NationPreferencesDialog from "../components/NationPreferencesDialog";
+import About from "./About";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -35,6 +37,9 @@ export const Routes = (): React.ReactElement => {
       <Route exact path={RouteConfig.Donate}>
         <Donate />
 			</Route>
+      <Route exact path={RouteConfig.About}>
+        <About />
+			</Route>
       <Route exact path={RouteConfig.GameList}>
         <GameList />
       </Route>
@@ -44,7 +49,7 @@ export const Routes = (): React.ReactElement => {
       <Redirect to="/" />
     </Switch>
   );
-};
+}
 
 const Router = (): React.ReactElement => {
   const isLoggedIn = useSelectIsLoggedIn();
@@ -52,6 +57,7 @@ const Router = (): React.ReactElement => {
   return (
     <BrowserRouter>
       {isLoggedIn ? <Routes /> : <LoggedOutRoutes />}
+      <NationPreferencesDialog />
     </BrowserRouter>
   );
 };

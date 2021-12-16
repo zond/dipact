@@ -1,15 +1,15 @@
 {
-    "Name": "started-games",
+    "Name": "staging-games",
     "Properties": [
         {
-            "Name": "Clash of the crowns",
+            "Name": "Staging game",
             "Properties": {
                 "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDAwJLy2QsM",
-                "Started": true,
+                "Started": false,
                 "Mustered": true,
-                "Closed": true,
+                "Closed": false,
                 "Finished": false,
-                "Desc": "Clash of the crowns",
+                "Desc": "Finished game",
                 "Variant": "Western World 901",
                 "PhaseLengthMinutes": 1440,
                 "NonMovementPhaseLengthMinutes": 0,
@@ -142,7 +142,7 @@
     "Links": [
         {
             "Rel": "self",
-            "URL": "https://diplicity-engine.appspot.com/Games/Started",
+            "URL": "https://diplicity-engine.appspot.com/Games/Staging",
             "Method": "GET"
         }
     ]

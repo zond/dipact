@@ -17,4 +17,5 @@ export const {
   useListVariantsQuery,
   useUpdateUserConfigMutation,
   useUpdatePhaseStateMutation,
+  useJoinGameMutation,
 } = diplicityService;

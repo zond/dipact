@@ -366,7 +366,7 @@ export type Game = NewGame & {
   StartETA: string;
   NewestPhaseMeta: PhaseMeta[];
   ActiveBans: null;
-  FailedRequirements: null;
+  FailedRequirements: null | string[];
   FirstMember: Member;
   CreatedAt: string;
   CreatedAgo: string;

@@ -1,6 +1,11 @@
 // See: https://mswjs.io/docs/getting-started/mocks/rest-api
 import { ResponseComposition, rest, RestContext, RestRequest } from "msw";
-import { ListPhasesResponse, ListPhaseStatesResponse, PhaseState, PhaseStateResponse } from "../store/types";
+import {
+  ListPhasesResponse,
+  ListPhaseStatesResponse,
+  PhaseState,
+  PhaseStateResponse,
+} from "../store/types";
 
 import bansSuccess from "./responses/bansSuccess.json";
 import createGameSuccess from "./responses/createGameSuccess.json";
@@ -8,9 +13,6 @@ import getGameSuccess from "./responses/getGameSuccess.json";
 import getGameSuccessUserNotMember from "./responses/getGameSuccessUserNotMember.json";
 import forumMailSuccess from "./responses/forumMailSuccess.json";
 import histogramSuccess from "./responses/histogramSuccess.json";
-import myFinishedGamesSuccess from "./responses/myFinishedGamesSuccess.json";
-import myStagingGamesSuccessEmpty from "./responses/myStagingGamesSuccessEmpty.json";
-import myStartedGamesSuccess from "./responses/myStartedGamesSuccess.json";
 import rootSuccess from "./responses/rootSuccess.json";
 import updateUserConfigSuccess from "./responses/updateUserConfigSuccess.json";
 import userConfigSuccessZond from "./responses/userConfigSuccessZond.json";
@@ -27,12 +29,33 @@ import listPhasesSuccess from "./responses/listPhasesSuccess.json";
 import listPhasesSuccessLarge from "./responses/listPhasesSuccessLarge.json";
 import listPhaseStatesSuccess25 from "./responses/listPhaseStatesSuccess25.json";
 import listPhaseStatesSuccess from "./responses/listPhaseStatesSuccess.json";
-import listGamesStartedSuccess from "./responses/listGamesStartedSuccess.json";
 import listChannelsSuccess from "./responses/listChannelsSuccess.json";
 import listChannelsSuccessNoChannels from "./responses/listChannelsSuccessNoChannels.json";
 
 import listPhases from "./data/listPhases";
 import listPhaseStates from "./data/listPhaseStates";
+
+import {
+  finishedGames,
+  finishedGamesEmpty,
+  masteredFinishedGames,
+  masteredFinishedGamesEmpty,
+  masteredStagingGames,
+  masteredStagingGamesEmpty,
+  masteredStartedGames,
+  masteredStartedGamesEmpty,
+  myFinishedGames,
+  myFinishedGamesEmpty,
+  myStagingGames,
+  myStagingGamesEmpty,
+  myStartedGames,
+  myStartedGamesEmpty,
+  stagingGames,
+  stagingGamesEmpty,
+  startedGames,
+  startedGamesEmpty,
+  startedGamesFailedRequirements,
+} from "./responses/listGames";
 
 const API_ROOT = "https://diplicity-engine.appspot.com/";
 
@@ -140,7 +163,7 @@ const getUpdatePhaseStateHandlers = () => {
         Type: "PhaseState",
         Links: [],
         Properties: req.body,
-      }
+      };
       return res(ctx.status(200), ctx.json(response));
     }),
     internalServerError: rest.put(url, internalServerError),
@@ -169,6 +192,11 @@ const resolvers = {
       return res(ctx.status(200), ctx.json(createMessageSuccess));
     },
   },
+  joinGame: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200));
+    },
+  },
   getGame: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(getGameSuccess));
@@ -187,27 +215,82 @@ const resolvers = {
   },
   listGamesStarted: {
     success: (req: any, res: any, ctx: any) => {
-      return res(ctx.status(200), ctx.json(listGamesStartedSuccess));
+      return res(ctx.status(200), ctx.json(startedGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(startedGamesEmpty));
+    },
+    successFailedRequirements: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(startedGamesFailedRequirements));
+    },
+  },
+  listGamesMyStarted: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(myStartedGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(myStartedGamesEmpty));
+    },
+  },
+  listGamesMasteredStarted: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredStartedGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredStartedGamesEmpty));
+    },
+  },
+  listGamesFinished: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(finishedGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(finishedGamesEmpty));
+    },
+  },
+  listGamesMyFinished: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(myFinishedGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(myFinishedGamesEmpty));
+    },
+  },
+  listGamesMasteredFinished: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredFinishedGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredFinishedGamesEmpty));
+    },
+  },
+  listGamesStaging: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(stagingGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(stagingGamesEmpty));
+    },
+  },
+  listGamesMyStaging: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(myStagingGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(myStagingGamesEmpty));
+    },
+  },
+  listGamesMasteredStaging: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredStagingGames));
+    },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredStagingGamesEmpty));
     },
   },
   histogram: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(histogramSuccess));
-    },
-  },
-  myFinishedGames: {
-    success: (req: any, res: any, ctx: any) => {
-      return res(ctx.status(200), ctx.json(myFinishedGamesSuccess));
-    },
-  },
-  myStagingGames: {
-    success: (req: any, res: any, ctx: any) => {
-      return res(ctx.status(200), ctx.json(myStagingGamesSuccessEmpty));
-    },
-  },
-  myStartedGames: {
-    success: (req: any, res: any, ctx: any) => {
-      return res(ctx.status(200), ctx.json(myStartedGamesSuccess));
     },
   },
   getUser: {
@@ -262,12 +345,22 @@ const variantsUrl = `${API_ROOT}Variants`;
 const getGameUrl = `${API_ROOT}Game/:gameId`;
 const messagesUrl = `${API_ROOT}Game/:gameId/Channel/:channelId/Messages`;
 const listChannelsUrl = `${API_ROOT}Game/:gameId/Channels`;
-const listGamesStartedUrl = `${API_ROOT}Games/started`;
 const createGameUrl = `${API_ROOT}Game`;
 const createMessageUrl = `${API_ROOT}Game/:gameId/Messages`;
+const joinGameUrl = `${API_ROOT}Game/:gameId/Member`;
 const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const updateUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const getUserUrl = `${API_ROOT}User`;
+
+const listGamesStartedUrl = `${API_ROOT}Games/started`;
+const listGamesMyStartedUrl = `${API_ROOT}My/Games/started`;
+const listGamesMasteredStartedUrl = `${API_ROOT}My/Mastered/Games/started`;
+const listGamesFinishedUrl = `${API_ROOT}Games/finished`;
+const listGamesMyFinishedUrl = `${API_ROOT}My/Games/finished`;
+const listGamesMasteredFinishedUrl = `${API_ROOT}My/Mastered/Games/finished`;
+const listGamesStagingUrl = `${API_ROOT}Games/staging`;
+const listGamesMyStagingUrl = `${API_ROOT}My/Games/staging`;
+const listGamesMasteredStagingUrl = `${API_ROOT}My/Mastered/Games/staging`;
 
 export const handlers = {
   createGame: {
@@ -279,6 +372,11 @@ export const handlers = {
     success: rest.post(createMessageUrl, resolvers.createMessage.success),
     internalServerError: rest.post(createMessageUrl, internalServerError),
     tokenTimeout: rest.post(createMessageUrl, tokenTimeout),
+  },
+  joinGame: {
+    success: rest.post(joinGameUrl, resolvers.joinGame.success),
+    internalServerError: rest.post(joinGameUrl, internalServerError),
+    tokenTimeout: rest.post(joinGameUrl, tokenTimeout),
   },
   getGame: {
     success: rest.get(getGameUrl, resolvers.getGame.success),
@@ -331,14 +429,127 @@ export const handlers = {
     internalServerError: rest.get(listChannelsUrl, internalServerError),
     tokenTimeout: rest.get(listChannelsUrl, tokenTimeout),
   },
-  listGamesStarted: {
-    success: rest.get(listGamesStartedUrl, resolvers.listGamesStarted.success),
-    internalServerError: rest.get(listGamesStartedUrl, internalServerError),
-    tokenTimeout: rest.get(listGamesStartedUrl, tokenTimeout),
-  },
   listPhases: getListPhasesHandlers(),
   listPhaseStates: getListPhaseStatesHandlers(),
   updatePhaseState: getUpdatePhaseStateHandlers(),
+
+  listGamesStarted: {
+    success: rest.get(listGamesStartedUrl, resolvers.listGamesStarted.success),
+    successEmpty: rest.get(
+      listGamesStartedUrl,
+      resolvers.listGamesStarted.successEmpty
+    ),
+    successFailedRequirements: rest.get(
+      listGamesStartedUrl,
+      resolvers.listGamesStarted.successFailedRequirements
+    ),
+    internalServerError: rest.get(listGamesStartedUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesStartedUrl, tokenTimeout),
+  },
+  listGamesMyStarted: {
+    success: rest.get(
+      listGamesMyStartedUrl,
+      resolvers.listGamesMyStarted.success
+    ),
+    successEmpty: rest.get(
+      listGamesMyStartedUrl,
+      resolvers.listGamesMyStarted.successEmpty
+    ),
+    internalServerError: rest.get(listGamesMyStartedUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesMyStartedUrl, tokenTimeout),
+  },
+  listGamesMasteredStarted: {
+    success: rest.get(
+      listGamesMasteredStartedUrl,
+      resolvers.listGamesMasteredStarted.success
+    ),
+    successEmpty: rest.get(
+      listGamesMasteredStartedUrl,
+      resolvers.listGamesMasteredStarted.successEmpty
+    ),
+    internalServerError: rest.get(
+      listGamesMasteredStartedUrl,
+      internalServerError
+    ),
+    tokenTimeout: rest.get(listGamesMasteredStartedUrl, tokenTimeout),
+  },
+
+  listGamesFinished: {
+    success: rest.get(
+      listGamesFinishedUrl,
+      resolvers.listGamesFinished.success
+    ),
+    successEmpty: rest.get(
+      listGamesFinishedUrl,
+      resolvers.listGamesFinished.successEmpty
+    ),
+    internalServerError: rest.get(listGamesFinishedUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesFinishedUrl, tokenTimeout),
+  },
+  listGamesMyFinished: {
+    success: rest.get(
+      listGamesMyFinishedUrl,
+      resolvers.listGamesMyFinished.success
+    ),
+    successEmpty: rest.get(
+      listGamesMyFinishedUrl,
+      resolvers.listGamesMyFinished.successEmpty
+    ),
+    internalServerError: rest.get(listGamesMyFinishedUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesMyFinishedUrl, tokenTimeout),
+  },
+  listGamesMasteredFinished: {
+    success: rest.get(
+      listGamesMasteredFinishedUrl,
+      resolvers.listGamesMasteredFinished.success
+    ),
+    successEmpty: rest.get(
+      listGamesMasteredFinishedUrl,
+      resolvers.listGamesMasteredFinished.successEmpty
+    ),
+    internalServerError: rest.get(
+      listGamesMasteredFinishedUrl,
+      internalServerError
+    ),
+    tokenTimeout: rest.get(listGamesMasteredFinishedUrl, tokenTimeout),
+  },
+
+  listGamesStaging: {
+    success: rest.get(listGamesStagingUrl, resolvers.listGamesStaging.success),
+    successEmpty: rest.get(
+      listGamesStagingUrl,
+      resolvers.listGamesStaging.successEmpty
+    ),
+    internalServerError: rest.get(listGamesStagingUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesStagingUrl, tokenTimeout),
+  },
+  listGamesMyStaging: {
+    success: rest.get(
+      listGamesMyStagingUrl,
+      resolvers.listGamesMyStaging.success
+    ),
+    successEmpty: rest.get(
+      listGamesMyStagingUrl,
+      resolvers.listGamesMyStaging.successEmpty
+    ),
+    internalServerError: rest.get(listGamesMyStagingUrl, internalServerError),
+    tokenTimeout: rest.get(listGamesMyStagingUrl, tokenTimeout),
+  },
+  listGamesMasteredStaging: {
+    success: rest.get(
+      listGamesMasteredStagingUrl,
+      resolvers.listGamesMasteredStaging.success
+    ),
+    successEmpty: rest.get(
+      listGamesMasteredStagingUrl,
+      resolvers.listGamesMasteredStaging.successEmpty
+    ),
+    internalServerError: rest.get(
+      listGamesMasteredStagingUrl,
+      internalServerError
+    ),
+    tokenTimeout: rest.get(listGamesMasteredStagingUrl, tokenTimeout),
+  },
 };
 
 export const handlersList = [
@@ -351,15 +562,6 @@ export const handlersList = [
   // histogram
   rest.get(`${API_ROOT}Users/Ratings/Histogram`, resolvers.histogram.success),
 
-  // myFinishedGames
-  rest.get(`${API_ROOT}Games/My/Finished`, resolvers.myFinishedGames.success),
-
-  // myStagingGames
-  rest.get(`${API_ROOT}Games/My/Staging`, resolvers.myStagingGames.success),
-
-  // myStartedGames
-  rest.get(`${API_ROOT}Games/My/Started`, resolvers.myStartedGames.success),
-
   // userStats
   // rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successNoGames),
   rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successZond),
@@ -371,10 +573,22 @@ export const handlersList = [
   handlers.listChannels.success,
   handlers.listPhases.success,
   handlers.listPhaseStates.success,
-  handlers.listGamesStarted.success,
   handlers.updatePhaseState.success,
   handlers.messages.successNewMessage,
   handlers.createMessage.success,
+  handlers.joinGame.success,
   handlers.updateUserConfig.success,
   handlers.variants.success,
+
+  handlers.listGamesStarted.successFailedRequirements,
+  handlers.listGamesMyStarted.success,
+  handlers.listGamesMasteredStarted.success,
+
+  handlers.listGamesFinished.success,
+  handlers.listGamesMyFinished.success,
+  handlers.listGamesMasteredFinished.success,
+
+  handlers.listGamesStaging.success,
+  handlers.listGamesMyStaging.success,
+  handlers.listGamesMasteredStaging.success,
 ];

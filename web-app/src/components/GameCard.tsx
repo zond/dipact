@@ -8,8 +8,10 @@ import {
   Button,
   Avatar,
   IconButton,
+  List,
+  ListItem,
 } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { generatePath } from "react-router";
@@ -52,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   accordionDetails: {
     flexDirection: "column",
+    display: "flex",
     gap: theme.spacing(1),
   },
   deadline: {
@@ -132,6 +135,32 @@ const NATION_ALLOCATION_LABEL = "Nation selection: ";
 const LINK_COPIED_TO_CLIPBOARD_FEEDBACK =
   "Game URL copied to clipboard. Share it with other players.";
 
+const FAILED_REQUIREMENTS_LABEL = "You can't join this game:";
+const FAILED_REQUIREMENT_EXPLANATION_HATED =
+  "You've been reported too often (hated score too high).";
+const FAILED_REQUIREMENT_EXPLANATION_HATER =
+  "You banned others too often (hater score too high).";
+const FAILED_REQUIREMENT_EXPLANATION_MAX_RATING =
+  "You're too good (rating too high).";
+const FAILED_REQUIREMENT_EXPLANATION_MIN_RATING =
+  "You're not good enough yet (rating too low).";
+const FAILED_REQUIREMENT_EXPLANATION_MIN_RELIABILITY =
+  "You haven't given any orders on too many turns (reliability too low).";
+const FAILED_REQUIREMENT_EXPLANATION_MIN_QUICKNESS =
+  "You haven't committed your orders often enough (quickness too low).";
+const FAILED_REQUIREMENT_EXPLANATION_INVITATION_NEEDED =
+  "The game Mmaster hasn't invited you.";
+
+const failedRequirementExplanationMap: { [key: string]: string } = {
+  Hated: FAILED_REQUIREMENT_EXPLANATION_HATED,
+  Hater: FAILED_REQUIREMENT_EXPLANATION_HATER,
+  MaxRating: FAILED_REQUIREMENT_EXPLANATION_MIN_RATING,
+  MinRating: FAILED_REQUIREMENT_EXPLANATION_MAX_RATING,
+  MinReliability: FAILED_REQUIREMENT_EXPLANATION_MIN_RELIABILITY,
+  MinQuickness: FAILED_REQUIREMENT_EXPLANATION_MIN_QUICKNESS,
+  InvitationNeeded: FAILED_REQUIREMENT_EXPLANATION_INVITATION_NEEDED,
+};
+
 const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const classes = useStyles();
   const {
@@ -140,6 +169,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
     chatLanguageDisplay,
     createdAtDisplay,
     deadlineDisplay,
+    failedRequirements,
     gameVariant,
     id,
     minQuickness,
@@ -189,7 +219,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
     } else {
       // joinGameWithPreferences([])
     }
-  }
+  };
 
   return (
     <Accordion className={classes.root} elevation={0} square>
@@ -270,8 +300,26 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
           <Button variant={"outlined"} onClick={onClickView}>
             {VIEW_GAME_BUTTON_LABEL}
           </Button>
-          <Button variant={"outlined"} onClick={onClickInvite}>{INVITE_BUTTON_LABEL}</Button>
-          <Button variant={"outlined"} onClick={onClickJoin}>{JOIN_BUTTON_LABEL}</Button>
+          <Button variant={"outlined"} onClick={onClickInvite}>
+            {INVITE_BUTTON_LABEL}
+          </Button>
+          <Button
+            variant={"outlined"}
+            onClick={onClickJoin}
+            disabled={Boolean(failedRequirements.length)}
+          >
+            {JOIN_BUTTON_LABEL}
+          </Button>
+        </div>
+        <div>
+          <Typography>{FAILED_REQUIREMENTS_LABEL}</Typography>
+          <List>
+            {failedRequirements.map((req) => (
+              <ListItem dense key={req}>
+                <Typography>{failedRequirementExplanationMap[req]}</Typography>
+              </ListItem>
+            ))}
+          </List>
         </div>
         <div>
           <Typography variant={"caption"}>{RULES_LABEL}</Typography>

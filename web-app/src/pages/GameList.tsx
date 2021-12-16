@@ -6,10 +6,12 @@ import {
   FormGroup,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Tab,
   Tabs,
+  Typography,
 } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import ErrorMessage from "../components/ErrorMessage";
 import GameCard from "../components/GameCard";
@@ -28,12 +30,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     gap: theme.spacing(2),
     padding: theme.spacing(2),
-  }
+    alignItems: "center",
+  },
 }));
-
-interface GameListProps {
-  games?: any;
-}
 
 const gameStatusLabels = {
   [GameStatus.Started]: "Started games",
@@ -43,21 +42,24 @@ const gameStatusLabels = {
 
 const ALL_GAMES_TAB_LABEL = "All games";
 const MY_GAMES_TAB_LABEL = "My games";
-const MANAGED_CHECKBOX_LABEL = "Managed by me";
+const MASTERED_CHECKBOX_LABEL = "Managed by me";
+export const NO_GAMES_MESSAGE = "No games found.";
 
 const GameList = () => {
   const classes = useStyles();
-  const { getParam, setParam } = useSearchParams();
+  const { getParam, setParam, removeParam } = useSearchParams();
   let status = getParam("status") as GameStatus;
-  const my = getParam("my") || "0";
-  const managed = getParam("managed") || "0";
+  const myVal = getParam("my") || "0";
+  const my = Boolean(parseInt(myVal));
+  const masteredVal = getParam("mastered") || "0";
+  const mastered = Boolean(parseInt(masteredVal));
   if (!(status && Object.values(GameStatus).includes(status))) {
     status = GameStatus.Started;
   }
   const {
     games,
     combinedQueryState: { isLoading, isError, error },
-  } = useGameList(Boolean(parseInt(my)), status);
+  } = useGameList({ my, status, mastered });
 
   const a11yProps = (index: string) => {
     return {
@@ -66,11 +68,23 @@ const GameList = () => {
     };
   };
 
-  const handleManagedCheckboxChange = (
+  const handleMasteredCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const managed = e.target.checked ? "1" : "0";
-    setParam("managed", managed);
+    const mastered = e.target.checked ? "1" : "0";
+    setParam("mastered", mastered);
+  };
+
+  const handleStatusChange = (e: SelectChangeEvent<GameStatus>) => {
+    setParam("status", e.target.value);
+  };
+
+  const handleChangeTab = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: any
+  ) => {
+    setParam("my", value);
+    if (value === "0") removeParam("mastered");
   };
 
   if (isError) return <ErrorMessage error={error} />;
@@ -80,8 +94,8 @@ const GameList = () => {
       <Container>
         <Tabs
           defaultValue={"0"}
-          value={my}
-          onChange={(_, value: string) => setParam("my", value)}
+          value={myVal}
+          onChange={handleChangeTab}
           aria-label="games filter"
           className={classes.tabs}
         >
@@ -93,30 +107,44 @@ const GameList = () => {
         ) : (
           <>
             <div className={classes.filters}>
-              <Select value={status} label>
-                {Object.values(GameStatus).map((status) => (
-                  <MenuItem value={status}>{gameStatusLabels[status]}</MenuItem>
+              <Select
+                value={status}
+                onChange={handleStatusChange}
+                data-testid={"status-select"}
+              >
+                {Object.values(GameStatus).map((opt) => (
+                  <MenuItem key={opt} value={opt}>
+                    {gameStatusLabels[opt]}
+                  </MenuItem>
                 ))}
               </Select>
 
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={Boolean(parseInt(managed))}
-                      onChange={handleManagedCheckboxChange}
-                    />
-                  }
-                  label={MANAGED_CHECKBOX_LABEL}
-                />
-              </FormGroup>
+              {my && (
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={mastered}
+                        onChange={handleMasteredCheckboxChange}
+                      />
+                    }
+                    label={MASTERED_CHECKBOX_LABEL}
+                  />
+                </FormGroup>
+              )}
             </div>
-            {games.map((game) => (
-              <div>
-                <GameCard game={game} />
-                <Divider light />
-              </div>
-            ))}
+            {games.length ? (
+              <>
+                {games.map((game) => (
+                  <div key={game.id}>
+                    <GameCard game={game} />
+                    <Divider light />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <Typography>{NO_GAMES_MESSAGE}</Typography>
+            )}
           </>
         )}
       </Container>
