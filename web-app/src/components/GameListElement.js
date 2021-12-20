@@ -24,7 +24,7 @@ import Globals from "../Globals";
 import NationPreferencesDialog from "./OldNationPreferencesDialog";
 import RenameGameDialog from "./RenameGameDialog";
 import ManageInvitationsDialog from "./ManageInvitationsDialog";
-import RescheduleDialog from "./RescheduleDialog";
+import RescheduleDialog from "./OldRescheduleDialog";
 
 import {
 	ConfirmedReadyIcon,

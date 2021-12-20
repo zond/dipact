@@ -20,7 +20,7 @@ const FeedbackWrapper = ({
     <>
       {children}
       {feedback.map(({ id, message, severity }) => (
-        <Snackbar open={true} onClose={() => handleClose(id)} message={message}>
+        <Snackbar key={id} open={true} onClose={() => handleClose(id)} message={message}>
           <Alert severity={severity}>{message}</Alert>
         </Snackbar>
       ))}

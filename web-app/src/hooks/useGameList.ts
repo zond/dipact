@@ -1,9 +1,13 @@
-import { useContext, createContext } from "react";
-import { useListGamesQuery } from "./service";
-import { ApiResponse } from "./types";
-import { Game as StoreGame } from "../store/types";
+import { useContext, createContext, useEffect, useState } from "react";
+import { useGetRootQuery, useListGamesQuery } from "./service";
+import { ApiError, ApiResponse } from "./types";
+import { Game as StoreGame, User } from "../store/types";
 import isoCodes from "../utils/isoCodes";
-import { getPhaseDisplay, phaseLengthDisplay, timeStrToDate } from "../utils/general";
+import {
+  getPhaseDisplay,
+  phaseLengthDisplay,
+  timeStrToDate,
+} from "../utils/general";
 import { ListGameFilters } from "../store/service";
 
 export enum GameStatus {
@@ -18,7 +22,8 @@ export enum NationAllocation {
 }
 
 const nationAllocationMap: { [key: number]: NationAllocation } = {
-  1: NationAllocation.Random,
+  0: NationAllocation.Random,
+  1: NationAllocation.Preference,
 };
 
 interface Player {
@@ -46,20 +51,28 @@ export interface Game {
   privateGame: boolean;
   rulesSummary: string;
   started: boolean;
+  userIsGameMaster: boolean;
   variantNumNations: number;
 }
 
-interface IUseGameList extends ApiResponse {
+interface IUseGameList {
   games: Game[];
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  error?: ApiError;
 }
 
-const transformGame = (game: StoreGame): Game => {
+const transformGame = (game: StoreGame, user: User): Game => {
+  const userIsGameMaster = game.GameMaster.Id === user.Id;
+
   return {
     chatDisabled: true,
     chatLanguage: game.ChatLanguageISO639_1,
-    chatLanguageDisplay: isoCodes.find(
-      (code) => code.code === game.ChatLanguageISO639_1
-    )?.name || "",
+    chatLanguageDisplay:
+      isoCodes.find((code) => code.code === game.ChatLanguageISO639_1)?.name ||
+      "",
     createdAtDisplay: timeStrToDate(game.CreatedAt),
     deadlineDisplay: phaseLengthDisplay(game),
     failedRequirements: game.FailedRequirements || [],
@@ -72,23 +85,36 @@ const transformGame = (game: StoreGame): Game => {
     nationAllocation: nationAllocationMap[game.NationAllocation],
     numUnreadMessages: 0,
     phaseSummary: getPhaseDisplay(game),
-    players: game.Members.map((member) => ({ username: member.User.Name as string, image: member.User.Picture as string })),
+    players: game.Members.map((member) => ({
+      username: member.User.Name as string,
+      image: member.User.Picture as string,
+    })),
     privateGame: game.Private,
     rulesSummary: game.Variant + " " + phaseLengthDisplay(game),
     started: game.Started,
+    userIsGameMaster,
     variantNumNations: 9,
   };
 };
 
 const useGameList = (filters: ListGameFilters) => {
-  const { isLoading, isError, isSuccess, data } = useListGamesQuery(filters);
+  const userQuery = useGetRootQuery(undefined);
+  const { isLoading, isError, isSuccess, isFetching, data } = useListGamesQuery(
+    filters
+  );
+  const [games, setGames] = useState<Game[]>([]);
+
+  useEffect(() => {
+    if (userQuery.isSuccess && isSuccess && userQuery.data) {
+      setGames(data?.map((game) => transformGame(game, userQuery.data as User)) || []);
+    }
+  }, [userQuery, useListGamesQuery, data, isSuccess]);
   return {
-    combinedQueryState: {
-      isLoading,
-      isError,
-      isSuccess,
-    },
-    games: data?.map(transformGame) || [],
+    isLoading,
+    isError,
+    isSuccess,
+    isFetching,
+    games,
   };
 };
 

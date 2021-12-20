@@ -6,6 +6,8 @@ import {
   fireEvent,
   getByText,
   getByDisplayValue,
+  queryByText,
+  waitForElementToBeRemoved,
 } from "@testing-library/react";
 import { diplicityServiceURL } from "../../store/service";
 
@@ -22,11 +24,24 @@ import { userSeesLoadingSpinner } from "../testUtils";
 import Game from "../Game";
 import GameList, { NO_GAMES_MESSAGE } from "../GameList";
 import theme from "../../theme";
+import * as generalUtils from "../../utils/general";
+import NationPreferencesDialog from "../../components/NationPreferencesDialog";
+import FeedbackWrapper from "../../components/FeedbackWrapper";
+import { Provider } from "react-redux";
+import { createTestStore } from "../../store";
+import ReactGA from "react-ga";
+import RescheduleDialog from "../../components/RescheduleDialog";
 
 const server = setupServer(
+  handlers.getUser.success,
+  handlers.variants.successShort,
   handlers.listGamesStarted.success,
+  handlers.listGamesMasteredStaging.success,
+  handlers.listGamesMasteredStarted.success,
   handlers.listGamesStaging.success,
-  handlers.listGamesFinished.success
+  handlers.listGamesFinished.success,
+  handlers.joinGame.success,
+  handlers.getGame.success
 );
 
 beforeAll((): void => {
@@ -61,9 +76,13 @@ const WrappedGameList = ({ path }: WrappedGameProps) => {
         <Router history={history}>
           <Switch>
             <Route path={RouteConfig.GameList}>
-              <ReduxWrapper>
-                <GameList />
-              </ReduxWrapper>
+              <Provider store={createTestStore()}>
+                <FeedbackWrapper>
+                  <GameList />
+                  <NationPreferencesDialog />
+                  <RescheduleDialog />
+                </FeedbackWrapper>
+              </Provider>
             </Route>
           </Switch>
         </Router>
@@ -72,25 +91,22 @@ const WrappedGameList = ({ path }: WrappedGameProps) => {
   );
 };
 
-const gameId = "game-1234";
-const phaseId = "1";
+const gameId = "game-123";
 const gameListUrl = generatePath(RouteConfig.GameList);
 
 const getTab = async (name: string, options?: any) => {
   return await waitFor(() => screen.getByRole("tab", { name, ...options }));
 };
 
-const setStatus = async (status: string) => {
-  const select = await waitFor(() => screen.getByTestId("status-select"));
-  const actualSelect = select.childNodes[0].childNodes[0];
-  fireEvent.change(actualSelect, { target: { value: status } });
-};
-
 describe("Game functional tests", () => {
   let fetchSpy: jest.SpyInstance;
+  let gaEventSpy: jest.SpyInstance;
+  let gaSetSpy: jest.SpyInstance;
 
   beforeEach(() => {
     fetchSpy = jest.spyOn(global, "fetch");
+    gaEventSpy = jest.spyOn(ReactGA, "event");
+    gaSetSpy = jest.spyOn(ReactGA, "set");
   });
 
   test("Renders", async () => {
@@ -235,9 +251,10 @@ describe("Game functional tests", () => {
   test("Game card shows summary information", async () => {
     render(<WrappedGameList path={gameListUrl} />);
     await waitFor(() => screen.getByText("Name of started game"));
-    await waitFor(() => screen.getByText("Western World 901 1d"));
+    await waitFor(() => screen.getByText("Classical 1d"));
     await waitFor(() => screen.getByText("Spring 901 Movement"));
   });
+
   test("If user can't join game reasons are shown", async () => {
     server.use(handlers.listGamesStarted.successFailedRequirements);
     render(<WrappedGameList path={gameListUrl} />);
@@ -248,6 +265,14 @@ describe("Game functional tests", () => {
     await waitFor(() => screen.getByText("You're too good (rating too high)."));
   });
 
+  test("If user can join game reasons are not shown", async () => {
+    server.use(handlers.listGamesStarted.success);
+    render(<WrappedGameList path={gameListUrl} />);
+    await waitFor(() => screen.getByText("Name of started game"));
+    const text = screen.queryByText("You can't join this game:");
+    expect(text).toBeNull();
+  });
+
   test("Failed requirements disables join button", async () => {
     server.use(handlers.listGamesStarted.successFailedRequirements);
     render(<WrappedGameList path={gameListUrl} />);
@@ -255,33 +280,211 @@ describe("Game functional tests", () => {
     expect(button).toHaveAttribute("disabled");
   });
 
-  test.todo("View game button is <a> tag");
-  test.todo("View game button links to game");
+  test("View game button is <a> tag", async () => {
+    server.use(handlers.listGamesStarted.success);
+    render(<WrappedGameList path={gameListUrl} />);
+    const link = await waitFor(() => screen.getByText("View").closest("a"));
+    expect(link?.href).toBe(
+      "http://localhost" +
+        generatePath(RouteConfig.Game, { gameId: "game-123" })
+    );
+  });
 
-  test.todo("Invite button copies link to clipboard");
+  test("Invite button copies link to clipboard", async () => {
+    const copyToClipboardSpy = jest.spyOn(generalUtils, "copyToClipboard");
+    server.use(handlers.listGamesStarted.success);
+    render(<WrappedGameList path={gameListUrl} />);
+    const button = await waitFor(() => screen.getByText("Invite"));
+    fireEvent.click(button);
+    const gameUrl = generatePath(RouteConfig.Game, { gameId: "game-123" });
+    expect(copyToClipboardSpy).toBeCalledWith(gameUrl);
+  });
 
-  test.todo(
-    "Join button opens nation preferences dialog if nation selection is preference"
-  );
-  test.todo("Join button disables join button while loading");
-  test.todo("Join button shows errors when error");
+  test("Join button opens nation preferences dialog if nation selection is preference", async () => {
+    server.use(handlers.listGamesStarted.success);
+    render(<WrappedGameList path={gameListUrl} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Nation preferences"));
+  });
+
+  test("Join button shows errors when error", async () => {
+    server.use(
+      handlers.listGamesStaging.successRandomAllocation,
+      handlers.joinGame.internalServerError
+    );
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Couldn't join game."));
+  });
+
+  test("Join button hits endpoint correctly", async () => {
+    server.use(handlers.listGamesStaging.successRandomAllocation);
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Joined game!"));
+    const call = fetchSpy.mock.calls[2][0];
+    expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Member`);
+    expect(call.method).toBe("POST");
+  });
+
+  test("Join button calls GA", async () => {
+    server.use(handlers.listGamesStaging.successRandomAllocation);
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Joined game!"));
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "game_list_element_join",
+    });
+  });
+
+  test("Join button shows success feedback", async () => {
+    server.use(handlers.listGamesStaging.successRandomAllocation);
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Joined game!"));
+  });
 
   test.todo("Nation preference dialog causes gtag page load event");
-  test.todo("Nation preference dialog loads nations for game");
-  test.todo("Nation preference dialog up button works");
-  test.todo("Nation preference dialog down button works");
-  test.todo("Nation preference dialog submit button disables submit button");
-  test.todo("Nation preference dialog submit button submits sorted nations");
-  test.todo("Nation preference dialog submit button causes gtag event");
-  test.todo("Nation preference dialog submission closes dialog");
-  test.todo("Nation preference dialog submission loads games again");
-  test.todo("Nation preference dialog close button closes dialog");
-  test.todo("Nation preference dialog submit button shows errors when error");
 
-  test.todo("Reschedule button appears if");
-  test.todo("Reschedule button does not appear if");
-  test.todo("Reschedule button shows reschedule dialog");
-  test.todo("Reschedule dialog causes gtag page load event");
+  test("Nation preference dialog loads nations for game", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Nation preferences"));
+    const nations = [
+      "Austria",
+      "England",
+      "France",
+      "Germany",
+      "Italy",
+      "Turkey",
+      "Russia",
+    ];
+    await waitFor(() => screen.getByText("Austria"));
+    nations.forEach((nation) => screen.getByText(nation));
+  });
+
+  test("Nation preference dialog submit button disables submit button", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const joinButton = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(joinButton);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogJoinButton = await waitFor(() => getByText(dialog, "Join"));
+    expect(dialogJoinButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogJoinButton);
+    expect(dialogJoinButton).toHaveAttribute("disabled");
+  });
+  test("Nation preference dialog submit button calls endpoint", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const joinButton = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(joinButton);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogJoinButton = await waitFor(() => getByText(dialog, "Join"));
+    expect(dialogJoinButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogJoinButton);
+    await waitFor(() => screen.getByText("Joined game!"));
+    const call = fetchSpy.mock.calls[3][0] as Request;
+    expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Member`);
+  });
+  test("Nation preference dialog submit button causes gtag event", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const joinButton = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(joinButton);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogJoinButton = await waitFor(() => getByText(dialog, "Join"));
+    expect(dialogJoinButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogJoinButton);
+    await waitFor(() => screen.getByText("Joined game!"));
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "game_list_element_join",
+    });
+  });
+
+  test("Nation preference dialog submission closes dialog", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const joinButton = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(joinButton);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogJoinButton = await waitFor(() => getByText(dialog, "Join"));
+    expect(dialogJoinButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogJoinButton);
+    await waitFor(() => screen.getByText("Joined game!"));
+    await waitForElementToBeRemoved(() =>
+      screen.queryByText("Nation preferences")
+    );
+  });
+
+  test("Nation preference dialog close button closes dialog", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const joinButton = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(joinButton);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogCancelButton = await waitFor(() => getByText(dialog, "Cancel"));
+    expect(dialogCancelButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogCancelButton);
+    await waitForElementToBeRemoved(() =>
+      screen.queryByText("Nation preferences")
+    );
+  });
+
+  test("Nation preference dialog submit button shows errors when error", async () => {
+    server.use(handlers.joinGame.internalServerError);
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const joinButton = await waitFor(() => screen.getByText("Join"));
+    fireEvent.click(joinButton);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogJoinButton = await waitFor(() => getByText(dialog, "Join"));
+    fireEvent.click(dialogJoinButton);
+    await waitFor(() => screen.getByText("Couldn't join game."));
+  });
+
+  test("Reschedule button appears if", async () => {
+    server.use(handlers.listGamesMasteredStarted.success);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    await waitFor(() => screen.getByText("Reschedule"));
+  });
+  test("Reschedule button does not appear if not game master", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const rescheduleButton = screen.queryByText("Reschedule");
+    expect(rescheduleButton).toBeNull();
+  });
+  test("Reschedule button shows reschedule dialog", async () => {
+    server.use(handlers.listGamesMasteredStarted.success);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+  });
+  test("Reschedule dialog causes gtag page load event", async () => {
+    server.use(handlers.listGamesMasteredStarted.success);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    gaEventSpy.mockClear();
+    gaSetSpy.mockClear();
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    expect(gaSetSpy).toBeCalledWith({
+      page_title: "RescheduleDialog",
+      page_location: "/games?my=1&mastered=1&reschedule-dialog=game-123",
+    });
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "page_view",
+    });
+  });
   test.todo("Reschedule dialog submit button submits new deadline");
   test.todo("Reschedule dialog submit button disables submit button");
   test.todo("Reschedule dialog submit button causes gtag event");

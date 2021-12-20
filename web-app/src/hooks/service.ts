@@ -5,6 +5,7 @@ export const {
   useCreateMessageMutation,
   useGetRootQuery,
   useGetGameQuery,
+  useLazyGetGameQuery,
   useGetUserConfigQuery,
   useGetUserRatingHistogramQuery,
   useListChannelsQuery,
@@ -18,4 +19,5 @@ export const {
   useUpdateUserConfigMutation,
   useUpdatePhaseStateMutation,
   useJoinGameMutation,
+  useRescheduleGameMutation,
 } = diplicityService;

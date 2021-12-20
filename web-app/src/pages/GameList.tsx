@@ -56,10 +56,11 @@ const GameList = () => {
   if (!(status && Object.values(GameStatus).includes(status))) {
     status = GameStatus.Started;
   }
-  const {
-    games,
-    combinedQueryState: { isLoading, isError, error },
-  } = useGameList({ my, status, mastered });
+  const { games, isFetching, isError, error } = useGameList({
+    my,
+    status,
+    mastered,
+  });
 
   const a11yProps = (index: string) => {
     return {
@@ -102,7 +103,7 @@ const GameList = () => {
           <Tab value={"0"} label={ALL_GAMES_TAB_LABEL} {...a11yProps("0")} />
           <Tab value={"1"} label={MY_GAMES_TAB_LABEL} {...a11yProps("1")} />
         </Tabs>
-        {isLoading ? (
+        {isFetching ? (
           <Loading />
         ) : (
           <>

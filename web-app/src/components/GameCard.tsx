@@ -12,7 +12,7 @@ import {
   ListItem,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { generatePath } from "react-router";
 import { useHistory } from "react-router-dom";
@@ -35,6 +35,9 @@ import { copyToClipboard } from "../utils/general";
 import PlayerCount from "./PlayerCount";
 import { actions as feedbackActions } from "../store/feedback";
 import useSearchParams from "../hooks/useSearchParams";
+import NavItem from "./NavItem";
+import { useJoinGameMutation } from "../hooks/service";
+import { registerEvent } from "../hooks/useRegisterPageview";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +84,9 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     display: "flex",
     gap: theme.spacing(1),
+    "& a": {
+      textDecoration: "none",
+    },
   },
   rules: {
     display: "flex",
@@ -126,6 +132,7 @@ const CHAT_DISABLED_TOOLTIP = "Chat disabled";
 const VIEW_GAME_BUTTON_LABEL = "View";
 const INVITE_BUTTON_LABEL = "Invite";
 const JOIN_BUTTON_LABEL = "Join";
+const RESCHEDULE_BUTTON_LABEL = "Reschedule";
 const RULES_LABEL = "Rules:";
 const PLAYERS_LABEL = "Players:";
 const GAME_VARIANT_LABEL = "Game variant: ";
@@ -183,6 +190,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
     players,
     rulesSummary,
     started,
+    userIsGameMaster,
     variantNumNations,
   } = game;
 
@@ -194,6 +202,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
 
   const gameUrl = generatePath(RouteConfig.Game, { gameId: id });
   const onClickView = () => history.push(gameUrl);
+  const [joinGame, { isLoading, isSuccess }] = useJoinGameMutation();
 
   const onClickInvite = () => {
     if (false) {
@@ -213,13 +222,22 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   };
 
   const onClickJoin = () => {
-    // if (nationAllocation === NationAllocation.Preference) {
-    if (true) {
+    if (nationAllocation === NationAllocation.Preference) {
       setParam("nation-preference-dialog", id);
     } else {
-      // joinGameWithPreferences([])
+      joinGame({ gameId: id as string, NationPreferences: "", GameAlias: "" });
     }
   };
+
+  const onClickReschedule = () => {
+    setParam("reschedule-dialog", id);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      registerEvent("game_list_element_join");
+    }
+  }, [isSuccess]);
 
   return (
     <Accordion className={classes.root} elevation={0} square>
@@ -297,22 +315,36 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         <div className={classes.buttons}>
-          <Button variant={"outlined"} onClick={onClickView}>
-            {VIEW_GAME_BUTTON_LABEL}
-          </Button>
+          <a
+            href={generatePath(RouteConfig.Game, { gameId: id })}
+            target={"_blank"}
+            rel="noreferrer"
+          >
+            <Button variant={"outlined"} onClick={onClickView}>
+              {VIEW_GAME_BUTTON_LABEL}
+            </Button>
+          </a>
           <Button variant={"outlined"} onClick={onClickInvite}>
             {INVITE_BUTTON_LABEL}
           </Button>
           <Button
             variant={"outlined"}
             onClick={onClickJoin}
-            disabled={Boolean(failedRequirements.length)}
+            disabled={Boolean(failedRequirements.length) || isLoading}
           >
             {JOIN_BUTTON_LABEL}
           </Button>
+          {/* // if len(g.NewestPhaseMeta) == 1 && !g.NewestPhaseMeta[0].Resolved */}
+          {userIsGameMaster && (
+            <Button variant={"outlined"} onClick={onClickReschedule}>
+              {RESCHEDULE_BUTTON_LABEL}
+            </Button>
+          )}
         </div>
         <div>
-          <Typography>{FAILED_REQUIREMENTS_LABEL}</Typography>
+          {failedRequirements.length && (
+            <Typography>{FAILED_REQUIREMENTS_LABEL}</Typography>
+          )}
           <List>
             {failedRequirements.map((req) => (
               <ListItem dense key={req}>

@@ -55,6 +55,7 @@ import {
   startedGames,
   startedGamesEmpty,
   startedGamesFailedRequirements,
+  stagingGamesRandomNationAllocation,
 } from "./responses/listGames";
 
 const API_ROOT = "https://diplicity-engine.appspot.com/";
@@ -197,6 +198,11 @@ const resolvers = {
       return res(ctx.status(200));
     },
   },
+  rescheduleGame: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200));
+    },
+  },
   getGame: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(getGameSuccess));
@@ -270,6 +276,9 @@ const resolvers = {
     },
     successEmpty: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(stagingGamesEmpty));
+    },
+    successRandomAllocation: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(stagingGamesRandomNationAllocation));
     },
   },
   listGamesMyStaging: {
@@ -348,9 +357,10 @@ const listChannelsUrl = `${API_ROOT}Game/:gameId/Channels`;
 const createGameUrl = `${API_ROOT}Game`;
 const createMessageUrl = `${API_ROOT}Game/:gameId/Messages`;
 const joinGameUrl = `${API_ROOT}Game/:gameId/Member`;
+const rescheduleGameUrl = `${API_ROOT}Game/:gameId/Phase/:PhaseOrdinal/DeadlineAt`;
 const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const updateUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
-const getUserUrl = `${API_ROOT}User`;
+const getUserUrl = `${API_ROOT}`;
 
 const listGamesStartedUrl = `${API_ROOT}Games/started`;
 const listGamesMyStartedUrl = `${API_ROOT}My/Games/started`;
@@ -377,6 +387,11 @@ export const handlers = {
     success: rest.post(joinGameUrl, resolvers.joinGame.success),
     internalServerError: rest.post(joinGameUrl, internalServerError),
     tokenTimeout: rest.post(joinGameUrl, tokenTimeout),
+  },
+  rescheduleGame: {
+    success: rest.post(rescheduleGameUrl, resolvers.rescheduleGame.success),
+    internalServerError: rest.post(rescheduleGameUrl, internalServerError),
+    tokenTimeout: rest.post(rescheduleGameUrl, tokenTimeout),
   },
   getGame: {
     success: rest.get(getGameUrl, resolvers.getGame.success),
@@ -520,6 +535,10 @@ export const handlers = {
       listGamesStagingUrl,
       resolvers.listGamesStaging.successEmpty
     ),
+    successRandomAllocation: rest.get(
+      listGamesStagingUrl,
+      resolvers.listGamesStaging.successRandomAllocation
+    ),
     internalServerError: rest.get(listGamesStagingUrl, internalServerError),
     tokenTimeout: rest.get(listGamesStagingUrl, tokenTimeout),
   },
@@ -576,11 +595,10 @@ export const handlersList = [
   handlers.updatePhaseState.success,
   handlers.messages.successNewMessage,
   handlers.createMessage.success,
-  handlers.joinGame.success,
   handlers.updateUserConfig.success,
   handlers.variants.success,
 
-  handlers.listGamesStarted.successFailedRequirements,
+  handlers.listGamesStarted.success,
   handlers.listGamesMyStarted.success,
   handlers.listGamesMasteredStarted.success,
 
@@ -591,4 +609,7 @@ export const handlersList = [
   handlers.listGamesStaging.success,
   handlers.listGamesMyStaging.success,
   handlers.listGamesMasteredStaging.success,
+
+  handlers.joinGame.internalServerError,
+  handlers.rescheduleGame.success,
 ];

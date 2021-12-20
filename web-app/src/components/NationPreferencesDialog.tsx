@@ -12,7 +12,13 @@ import {
   Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useJoinGameMutation } from "../hooks/service";
+import { useSelectVariant } from "../hooks/selectors";
+import {
+  useGetGameQuery,
+  useJoinGameMutation,
+  useLazyGetGameQuery,
+  useListVariantsQuery,
+} from "../hooks/service";
 import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
 import { ArrowDownwardIcon, ArrowUpwardIcon } from "../icons";
@@ -22,6 +28,8 @@ export const searchKey = "nation-preference-dialog";
 const NATION_PREFERENCES_DIALOG_TITLE = "Nation preferences";
 const NATION_PREFERENCES_DIALOG_PROMPT =
   "Sort the possible nations in order of preference.";
+const JOIN_BUTTON_LABEL = "Join";
+const CANCEL_BUTTON_LABEL = "Cancel";
 
 const NationPreferencesDialog = (): React.ReactElement => {
   const { getParam, removeParam } = useSearchParams();
@@ -29,9 +37,28 @@ const NationPreferencesDialog = (): React.ReactElement => {
   const [sortedNations, setSortedNations] = useState<string[]>([]);
   const open = Boolean(gameId);
 
+  // TODO refactor into hook
   const [joinGame, { isLoading, isSuccess }] = useJoinGameMutation();
 
-  const nations: string[] = ["England", "France", "Germany"];
+  const {
+    error: variantsError,
+    isLoading: variantsIsLoading,
+    isError: variantsIsError,
+  } = useListVariantsQuery(undefined);
+
+  const [
+    getGameTrigger,
+    {
+      data: game,
+      error: gameError,
+      isLoading: gameIsLoading,
+      isError: gameIsError,
+      isSuccess: gameIsSuccess,
+    },
+  ] = useLazyGetGameQuery();
+
+  const variant = useSelectVariant(game?.Variant || "");
+  const nations = variant?.Nations;
 
   const close = () => {
     removeParam(searchKey);
@@ -39,11 +66,13 @@ const NationPreferencesDialog = (): React.ReactElement => {
 
   useEffect(() => {
     if (gameId) registerPageView("NationPreferencesDialog");
+    if (gameId) getGameTrigger(gameId);
   }, [gameId]);
 
   useEffect(() => {
-    if (!sortedNations.length && nations.length) setSortedNations(nations);
-  }, []);
+    if (!sortedNations.length && nations?.length)
+      setSortedNations(nations as string[]);
+  }, [nations]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -53,7 +82,11 @@ const NationPreferencesDialog = (): React.ReactElement => {
   }, [isSuccess]);
 
   const onSelected = () => {
-    joinGame({ gameId: gameId as string, NationPreferences: sortedNations.join(","), GameAlias: "" })
+    joinGame({
+      gameId: gameId as string,
+      NationPreferences: sortedNations.join(","),
+      GameAlias: "",
+    });
   };
 
   const updateOrder = (direction: "up" | "down", idx: number) => {
@@ -102,8 +135,9 @@ const NationPreferencesDialog = (): React.ReactElement => {
           </List>
         </Paper>
         <DialogActions>
-          <Button onClick={onSelected} color="primary" disabled={isLoading}>
-            Join
+          <Button onClick={close}>{CANCEL_BUTTON_LABEL}</Button>
+          <Button onClick={onSelected} disabled={isLoading}>
+            {JOIN_BUTTON_LABEL}
           </Button>
         </DialogActions>
       </DialogContent>

@@ -100,7 +100,7 @@ export const diplicityService = createApi({
       }),
     }),
     getRoot: builder.query<User | null, undefined>({
-      query: () => "/User",
+      query: () => "/",
       transformResponse: (response: RootResponse, meta) => {
         return response.Properties?.User || null;
       },
@@ -282,6 +282,17 @@ export const diplicityService = createApi({
     >({
       query: ({ gameId, ...data }) => ({
         url: `/Game/${gameId}/Member`,
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [TagType.ListGames],
+    }),
+    rescheduleGame: builder.mutation<
+      undefined,
+      { gameId: string, PhaseOrdinal: number, NextPhaseDeadlineInMinutes: number }
+    >({
+      query: ({ gameId, PhaseOrdinal, ...data }) => ({
+        url: `/Game/${gameId}/Phase/${PhaseOrdinal}/DeadlineAt`,
         method: "POST",
         body: JSON.stringify(data),
       }),

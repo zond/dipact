@@ -19,10 +19,15 @@ export const store = configureStore({
   ],
 });
 
-export const createTestStore = (preloadedState: RootState) =>
+export const createTestStore = (preloadedState?: RootState) =>
   configureStore({
     reducer,
-	preloadedState,
+    middleware: [
+      ...getDefaultMiddleware({ serializableCheck: false })
+        .concat(diplicityService.middleware)
+        .concat(middleware),
+    ],
+    preloadedState,
   });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

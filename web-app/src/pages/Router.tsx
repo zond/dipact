@@ -12,6 +12,7 @@ import Donate from "./Donate";
 import GameList from "./GameList";
 import NationPreferencesDialog from "../components/NationPreferencesDialog";
 import About from "./About";
+import RescheduleDialog from "../components/RescheduleDialog";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -58,6 +59,7 @@ const Router = (): React.ReactElement => {
     <BrowserRouter>
       {isLoggedIn ? <Routes /> : <LoggedOutRoutes />}
       <NationPreferencesDialog />
+      <RescheduleDialog />
     </BrowserRouter>
   );
 };
