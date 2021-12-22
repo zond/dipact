@@ -70,6 +70,76 @@ export const rescheduleGameMiddleware: Middleware<{}, any> = ({
   next(action);
 };
 
+export const inviteMiddleware: Middleware<{}, any> = ({
+  getState,
+  dispatch,
+}) => (next) => (action) => {
+  if (diplicityService.endpoints.invite.matchFulfilled(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Success,
+        message: "Invited!",
+      })
+    );
+  }
+  if (diplicityService.endpoints.invite.matchRejected(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Error,
+        message: "Couldn't invite user.",
+      })
+    );
+  }
+  next(action);
+};
+
+// TODO test
+export const unInviteMiddleware: Middleware<{}, any> = ({
+  getState,
+  dispatch,
+}) => (next) => (action) => {
+  if (diplicityService.endpoints.unInvite.matchFulfilled(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Success,
+        message: "Un-invited.",
+      })
+    );
+  }
+  if (diplicityService.endpoints.unInvite.matchRejected(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Error,
+        message: "Couldn't un-invite user.",
+      })
+    );
+  }
+  next(action);
+};
+
+export const renameGameMiddleware: Middleware<{}, any> = ({
+  getState,
+  dispatch,
+}) => (next) => (action) => {
+  if (diplicityService.endpoints.renameGame.matchFulfilled(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Success,
+        message: "Renamed!",
+      })
+    );
+  }
+  if (diplicityService.endpoints.renameGame.matchRejected(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Error,
+        message: "Couldn't rename game.",
+      })
+    );
+  }
+  next(action);
+};
+
 const logoutOn400: Middleware<{}, any> = ({ getState, dispatch }) => (next) => (
   action
 ) => {
@@ -86,5 +156,8 @@ const middleware = [
   logoutOn400,
   joinGameMiddleware,
   rescheduleGameMiddleware,
+  inviteMiddleware,
+  unInviteMiddleware,
+  renameGameMiddleware,
 ];
 export default middleware;

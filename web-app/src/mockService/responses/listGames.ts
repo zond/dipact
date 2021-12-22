@@ -1,9 +1,12 @@
 import { GameStatus } from "../../hooks/useGameList";
+import { GameMasterInvitation } from "../../store/types";
 
 interface Options {
   failedRequirements?: string[];
   nationAllocation?: number;
   gameMasterId?: string;
+  invitations?: GameMasterInvitation[];
+  userId?: string;
 }
 
 const getGame = (
@@ -63,7 +66,7 @@ const getGame = (
             ChatLanguageISO639_1: "en",
             GameMasterEnabled: false,
             RequireGameMasterInvitation: false,
-            GameMasterInvitations: null,
+            GameMasterInvitations: options?.invitations || null,
             GameMaster: {
               Email: "",
               FamilyName: "",
@@ -87,7 +90,7 @@ const getGame = (
                   Gender: "",
                   GivenName: "MonKers",
                   Hd: "",
-                  Id: "101894254060153183481",
+                  Id: options?.userId || "",
                   Link: "",
                   Locale: "ca",
                   Name: "MonKers MasNet",
@@ -188,29 +191,42 @@ const getGame = (
   };
 };
 
+const userId = "123456789";
+
 export const startedGames = getGame(GameStatus.Started, false, false);
-export const myStartedGames = getGame(GameStatus.Started, true, false);
+export const myStartedGames = getGame(GameStatus.Started, true, false, false, { userId });
 export const masteredStartedGames = getGame(
   GameStatus.Started,
   true,
   true,
   undefined,
-  { gameMasterId: "123456789" }
+  { gameMasterId: userId, userId }
 );
 
 export const finishedGames = getGame(GameStatus.Finished, false, false);
-export const myFinishedGames = getGame(GameStatus.Finished, true, false);
-export const masteredFinishedGames = getGame(GameStatus.Finished, true, true);
+export const myFinishedGames = getGame(GameStatus.Finished, true, false, false, { userId });
+export const masteredFinishedGames = getGame(GameStatus.Finished, true, true, false, { userId });
 
 export const stagingGames = getGame(GameStatus.Staging, false, false);
-export const myStagingGames = getGame(GameStatus.Staging, true, false);
+export const myStagingGames = getGame(GameStatus.Staging, true, false, false, { userId });
 export const masteredStagingGames = getGame(
   GameStatus.Staging,
   true,
   true,
   undefined,
-  { gameMasterId: "123456789" }
+  { gameMasterId: "123456789", userId }
 );
+export const masteredStagingGamesInvitation = getGame(
+  GameStatus.Staging,
+  true,
+  true,
+  undefined,
+  {
+    gameMasterId: userId,
+    invitations: [{ Email: "fakeemail@fakememail.com", Nation: "England" }],
+  }
+);
+
 
 export const startedGamesEmpty = getGame(
   GameStatus.Started,
@@ -222,13 +238,15 @@ export const myStartedGamesEmpty = getGame(
   GameStatus.Started,
   true,
   false,
-  true
+  true,
+  { userId }
 );
 export const masteredStartedGamesEmpty = getGame(
   GameStatus.Started,
   true,
   true,
-  true
+  true,
+  { userId }
 );
 
 export const finishedGamesEmpty = getGame(
@@ -241,13 +259,15 @@ export const myFinishedGamesEmpty = getGame(
   GameStatus.Finished,
   true,
   false,
-  true
+  true,
+  { userId }
 );
 export const masteredFinishedGamesEmpty = getGame(
   GameStatus.Finished,
   true,
   true,
-  true
+  true,
+  { userId }
 );
 
 export const stagingGamesEmpty = getGame(
@@ -260,13 +280,15 @@ export const myStagingGamesEmpty = getGame(
   GameStatus.Staging,
   true,
   false,
-  true
+  true,
+  { userId }
 );
 export const masteredStagingGamesEmpty = getGame(
   GameStatus.Staging,
   true,
   true,
-  true
+  true,
+  { userId }
 );
 
 export const startedGamesFailedRequirements = getGame(

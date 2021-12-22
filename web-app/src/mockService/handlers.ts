@@ -41,6 +41,7 @@ import {
   masteredFinishedGames,
   masteredFinishedGamesEmpty,
   masteredStagingGames,
+  masteredStagingGamesInvitation,
   masteredStagingGamesEmpty,
   masteredStartedGames,
   masteredStartedGamesEmpty,
@@ -203,6 +204,21 @@ const resolvers = {
       return res(ctx.status(200));
     },
   },
+  renameGame: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200));
+    },
+  },
+  unInvite: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200));
+    },
+  },
+  invite: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200));
+    },
+  },
   getGame: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(getGameSuccess));
@@ -293,6 +309,9 @@ const resolvers = {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(masteredStagingGames));
     },
+    successInvitation: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(masteredStagingGamesInvitation));
+    },
     successEmpty: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(masteredStagingGamesEmpty));
     },
@@ -358,6 +377,9 @@ const createGameUrl = `${API_ROOT}Game`;
 const createMessageUrl = `${API_ROOT}Game/:gameId/Messages`;
 const joinGameUrl = `${API_ROOT}Game/:gameId/Member`;
 const rescheduleGameUrl = `${API_ROOT}Game/:gameId/Phase/:PhaseOrdinal/DeadlineAt`;
+const renameGameUrl = `${API_ROOT}Game/:gameId/Member/:userId`;
+const unInviteUrl = `${API_ROOT}Game/:gameId/:email`;
+const inviteUrl = `${API_ROOT}Game/:gameId`;
 const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const updateUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
 const getUserUrl = `${API_ROOT}`;
@@ -392,6 +414,21 @@ export const handlers = {
     success: rest.post(rescheduleGameUrl, resolvers.rescheduleGame.success),
     internalServerError: rest.post(rescheduleGameUrl, internalServerError),
     tokenTimeout: rest.post(rescheduleGameUrl, tokenTimeout),
+  },
+  renameGame: {
+    success: rest.put(renameGameUrl, resolvers.renameGame.success),
+    internalServerError: rest.put(renameGameUrl, internalServerError),
+    tokenTimeout: rest.put(renameGameUrl, tokenTimeout),
+  },
+  unInvite: {
+    success: rest.delete(unInviteUrl, resolvers.unInvite.success),
+    internalServerError: rest.delete(unInviteUrl, internalServerError),
+    tokenTimeout: rest.delete(unInviteUrl, tokenTimeout),
+  },
+  invite: {
+    success: rest.post(inviteUrl, resolvers.invite.success),
+    internalServerError: rest.post(inviteUrl, internalServerError),
+    tokenTimeout: rest.post(inviteUrl, tokenTimeout),
   },
   getGame: {
     success: rest.get(getGameUrl, resolvers.getGame.success),
@@ -563,6 +600,10 @@ export const handlers = {
       listGamesMasteredStagingUrl,
       resolvers.listGamesMasteredStaging.successEmpty
     ),
+    successInvitation: rest.get(
+      listGamesMasteredStagingUrl,
+      resolvers.listGamesMasteredStaging.successInvitation
+    ),
     internalServerError: rest.get(
       listGamesMasteredStagingUrl,
       internalServerError
@@ -612,4 +653,7 @@ export const handlersList = [
 
   handlers.joinGame.internalServerError,
   handlers.rescheduleGame.success,
+  handlers.renameGame.success,
+  handlers.unInvite.success,
+  handlers.invite.success,
 ];

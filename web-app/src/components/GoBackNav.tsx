@@ -24,7 +24,7 @@ const GoBackNav = ({
 
   return <>
     <AppBar position="static">
-      <Toolbar variant="dense">
+      <Toolbar>
         <IconButton
           edge="start"
           color="inherit"

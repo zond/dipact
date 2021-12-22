@@ -20,4 +20,7 @@ export const {
   useUpdatePhaseStateMutation,
   useJoinGameMutation,
   useRescheduleGameMutation,
+  useUnInviteMutation,
+  useInviteMutation,
+  useRenameGameMutation,
 } = diplicityService;

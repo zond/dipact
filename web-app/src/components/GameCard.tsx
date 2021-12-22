@@ -133,6 +133,7 @@ const VIEW_GAME_BUTTON_LABEL = "View";
 const INVITE_BUTTON_LABEL = "Invite";
 const JOIN_BUTTON_LABEL = "Join";
 const RESCHEDULE_BUTTON_LABEL = "Reschedule";
+export const RENAME_BUTTON_LABEL = "Rename";
 const RULES_LABEL = "Rules:";
 const PLAYERS_LABEL = "Players:";
 const GAME_VARIANT_LABEL = "Game variant: ";
@@ -156,7 +157,8 @@ const FAILED_REQUIREMENT_EXPLANATION_MIN_RELIABILITY =
 const FAILED_REQUIREMENT_EXPLANATION_MIN_QUICKNESS =
   "You haven't committed your orders often enough (quickness too low).";
 const FAILED_REQUIREMENT_EXPLANATION_INVITATION_NEEDED =
-  "The game Mmaster hasn't invited you.";
+  "The game Master hasn't invited you.";
+export const MANAGE_INVITATIONS_BUTTON_LABEL = "Manage invitations";
 
 const failedRequirementExplanationMap: { [key: string]: string } = {
   Hated: FAILED_REQUIREMENT_EXPLANATION_HATED,
@@ -190,6 +192,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
     players,
     rulesSummary,
     started,
+    userIsMember,
     userIsGameMaster,
     variantNumNations,
   } = game;
@@ -229,9 +232,10 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
     }
   };
 
-  const onClickReschedule = () => {
-    setParam("reschedule-dialog", id);
-  };
+  const onClickReschedule = () => setParam("reschedule-dialog", id);
+  const onClickRename = () => setParam("rename-game-dialog", id);
+  const onClickManageInvitations = () =>
+    setParam("manage-invitations-dialog", id);
 
   useEffect(() => {
     if (isSuccess) {
@@ -297,7 +301,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
                     <NationAllocationIcon fontSize={"small"} />
                   </Tooltip>
                 )}
-                {minRating && (
+                {Boolean(minRating) && (
                   <Tooltip title={MIN_RATING_REQUIRED_TOOLTIP}>
                     <RatingIcon fontSize={"small"} />
                   </Tooltip>
@@ -335,14 +339,24 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
             {JOIN_BUTTON_LABEL}
           </Button>
           {/* // if len(g.NewestPhaseMeta) == 1 && !g.NewestPhaseMeta[0].Resolved */}
-          {userIsGameMaster && (
-            <Button variant={"outlined"} onClick={onClickReschedule}>
-              {RESCHEDULE_BUTTON_LABEL}
+          {userIsMember && (
+            <Button variant={"outlined"} onClick={onClickRename}>
+              {RENAME_BUTTON_LABEL}
             </Button>
+          )}
+          {userIsGameMaster && (
+            <>
+              <Button variant={"outlined"} onClick={onClickReschedule}>
+                {RESCHEDULE_BUTTON_LABEL}
+              </Button>
+              <Button variant={"outlined"} onClick={onClickManageInvitations}>
+                {MANAGE_INVITATIONS_BUTTON_LABEL}
+              </Button>
+            </>
           )}
         </div>
         <div>
-          {failedRequirements.length && (
+          {Boolean(failedRequirements.length) && (
             <Typography>{FAILED_REQUIREMENTS_LABEL}</Typography>
           )}
           <List>

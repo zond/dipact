@@ -33,6 +33,7 @@ import {
   PhaseStateResponse,
   ListGamesResponse,
   Member,
+  GameMasterInvitation,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -191,10 +192,7 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.PhaseState],
     }),
-    listGames: builder.query<
-      Game[],
-      ListGameFilters
-    >({
+    listGames: builder.query<Game[], ListGameFilters>({
       query: ({ my, status, mastered }) => {
         if (my) {
           if (mastered) {
@@ -211,7 +209,6 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.ListGames],
     }),
-    // https://diplicity-engine.appspot.com/Games/Started?limit=64
     listChannels: builder.query<Channel[], string>({
       query: (gameId) => `/Game/${gameId}/Channels`,
       transformResponse: (response: ListChannelsResponse) => {
@@ -289,11 +286,44 @@ export const diplicityService = createApi({
     }),
     rescheduleGame: builder.mutation<
       undefined,
-      { gameId: string, PhaseOrdinal: number, NextPhaseDeadlineInMinutes: number }
+      {
+        gameId: string;
+        PhaseOrdinal: number;
+        NextPhaseDeadlineInMinutes: number;
+      }
     >({
       query: ({ gameId, PhaseOrdinal, ...data }) => ({
         url: `/Game/${gameId}/Phase/${PhaseOrdinal}/DeadlineAt`,
         method: "POST",
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [TagType.ListGames],
+    }),
+    unInvite: builder.mutation<undefined, { gameId: string; email: string }>({
+      query: ({ gameId, email }) => ({
+        url: `/Game/${gameId}/${email}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [TagType.ListGames],
+    }),
+    invite: builder.mutation<
+      undefined,
+      GameMasterInvitation & { gameId: string }
+    >({
+      query: ({ gameId, ...data }) => ({
+        url: `/Game/${gameId}`,
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [TagType.ListGames],
+    }),
+    renameGame: builder.mutation<
+      undefined,
+      { gameId: string; userId: string; GameAlias: string }
+    >({
+      query: ({ gameId, userId, ...data }) => ({
+        url: `/Game/${gameId}/Member/${userId}`,
+        method: "PUT",
         body: JSON.stringify(data),
       }),
       invalidatesTags: [TagType.ListGames],

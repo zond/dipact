@@ -8,6 +8,8 @@ import {
   getByDisplayValue,
   queryByText,
   waitForElementToBeRemoved,
+  getByLabelText,
+  getByTitle,
 } from "@testing-library/react";
 import { diplicityServiceURL } from "../../store/service";
 
@@ -31,6 +33,17 @@ import { Provider } from "react-redux";
 import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
 import RescheduleDialog from "../../components/RescheduleDialog";
+import ManageInvitationsDialog, {
+  MANAGE_INVITATIONS_DIALOG_TITLE,
+} from "../../components/ManageInvitationsDialog";
+import {
+  MANAGE_INVITATIONS_BUTTON_LABEL,
+  RENAME_BUTTON_LABEL,
+} from "../../components/GameCard";
+import RenameGameDialog, {
+  RENAME_GAME_DIALOG_TITLE,
+  RENAME_INPUT_LABEL,
+} from "../../components/RenameGameDialog";
 
 const server = setupServer(
   handlers.getUser.success,
@@ -41,7 +54,11 @@ const server = setupServer(
   handlers.listGamesStaging.success,
   handlers.listGamesFinished.success,
   handlers.joinGame.success,
-  handlers.getGame.success
+  handlers.getGame.success,
+  handlers.rescheduleGame.success,
+  handlers.invite.success,
+  handlers.unInvite.success,
+  handlers.renameGame
 );
 
 beforeAll((): void => {
@@ -81,6 +98,8 @@ const WrappedGameList = ({ path }: WrappedGameProps) => {
                   <GameList />
                   <NationPreferencesDialog />
                   <RescheduleDialog />
+                  <ManageInvitationsDialog />
+                  <RenameGameDialog />
                 </FeedbackWrapper>
               </Provider>
             </Route>
@@ -92,6 +111,7 @@ const WrappedGameList = ({ path }: WrappedGameProps) => {
 };
 
 const gameId = "game-123";
+const phaseOrdinal = 1;
 const gameListUrl = generatePath(RouteConfig.GameList);
 
 const getTab = async (name: string, options?: any) => {
@@ -174,7 +194,7 @@ describe("Game functional tests", () => {
     server.use(handlers.listGamesMyStarted.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=started&my=1"} />);
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}My/Games/started`);
   });
 
@@ -182,14 +202,14 @@ describe("Game functional tests", () => {
     server.use(handlers.listGamesMyFinished.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=finished&my=1"} />);
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}My/Games/finished`);
   });
   test("Hits endpoints correctly - my staging games", async () => {
     server.use(handlers.listGamesMyStaging.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=staging&my=1"} />);
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}My/Games/staging`);
   });
 
@@ -197,7 +217,7 @@ describe("Game functional tests", () => {
     server.use(handlers.listGamesStarted.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=started"} />);
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}Games/started`);
   });
 
@@ -205,14 +225,14 @@ describe("Game functional tests", () => {
     server.use(handlers.listGamesFinished.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=finished"} />);
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}Games/finished`);
   });
   test("Hits endpoints correctly - staging games", async () => {
     server.use(handlers.listGamesStaging.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}Games/staging`);
   });
 
@@ -222,7 +242,7 @@ describe("Game functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&mastered=1&status=started"} />
     );
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/started`);
   });
 
@@ -234,7 +254,7 @@ describe("Game functional tests", () => {
       />
     );
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/finished`);
   });
 
@@ -244,7 +264,7 @@ describe("Game functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&mastered=1&status=staging"} />
     );
     await userSeesLoadingSpinner();
-    const call = fetchSpy.mock.calls[0][0];
+    const call = fetchSpy.mock.calls[1][0];
     expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/staging`);
   });
 
@@ -325,7 +345,7 @@ describe("Game functional tests", () => {
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
-    const call = fetchSpy.mock.calls[2][0];
+    const call = fetchSpy.mock.calls[3][0];
     expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Member`);
     expect(call.method).toBe("POST");
   });
@@ -350,7 +370,23 @@ describe("Game functional tests", () => {
     await waitFor(() => screen.getByText("Joined game!"));
   });
 
-  test.todo("Nation preference dialog causes gtag page load event");
+  test("Nation preference dialog causes gtag page load event", async () => {
+    render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    const button = await waitFor(() => screen.getByText("Join"));
+    gaEventSpy.mockClear();
+    gaSetSpy.mockClear();
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Nation preferences"));
+
+    expect(gaSetSpy).toBeCalledWith({
+      page_title: "NationPreferencesDialog",
+      page_location: "http://localhost/",
+    });
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "page_view",
+    });
+  });
 
   test("Nation preference dialog loads nations for game", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
@@ -389,7 +425,7 @@ describe("Game functional tests", () => {
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogJoinButton);
     await waitFor(() => screen.getByText("Joined game!"));
-    const call = fetchSpy.mock.calls[3][0] as Request;
+    const call = fetchSpy.mock.calls[4][0] as Request;
     expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Member`);
   });
   test("Nation preference dialog submit button causes gtag event", async () => {
@@ -452,11 +488,13 @@ describe("Game functional tests", () => {
     );
     await waitFor(() => screen.getByText("Reschedule"));
   });
+
   test("Reschedule button does not appear if not game master", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     const rescheduleButton = screen.queryByText("Reschedule");
     expect(rescheduleButton).toBeNull();
   });
+
   test("Reschedule button shows reschedule dialog", async () => {
     server.use(handlers.listGamesMasteredStarted.success);
     render(
@@ -466,6 +504,7 @@ describe("Game functional tests", () => {
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
   });
+
   test("Reschedule dialog causes gtag page load event", async () => {
     server.use(handlers.listGamesMasteredStarted.success);
     render(
@@ -478,45 +517,475 @@ describe("Game functional tests", () => {
     await waitFor(() => screen.getByText("Reschedule game"));
     expect(gaSetSpy).toBeCalledWith({
       page_title: "RescheduleDialog",
-      page_location: "/games?my=1&mastered=1&reschedule-dialog=game-123",
+      page_location: "http://localhost/",
     });
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "page_view",
     });
   });
-  test.todo("Reschedule dialog submit button submits new deadline");
-  test.todo("Reschedule dialog submit button disables submit button");
-  test.todo("Reschedule dialog submit button causes gtag event");
-  test.todo("Reschedule dialog submit button loads games again");
-  test.todo("Reschedule dialog submit button closes dialog");
-  test.todo("Reschedule dialog close button closes dialog");
-  test.todo("Reschedule submit shows errors when error");
 
-  test.todo("Manage invitations button appears if");
-  test.todo("Manage invitations button does not appear if");
-  test.todo("Manage invitations button shows reschedule dialog");
-  test.todo("Manage invitations dialog causes gtag page load event");
-  test.todo("Manage invitations dialog invite button submits invite");
-  test.todo("Manage invitations dialog invite button disables invite button");
-  test.todo("Manage invitations dialog invite button causes gtag event");
-  test.todo("Manage invitations dialog uninvite button submits uninvite");
-  test.todo(
-    "Manage invitations dialog uninvite button disables uninvite button"
-  );
-  test.todo("Manage invitations dialog uninvite button causes gtag event");
-  test.todo("Manage invitations dialog close button closes dialog");
-  test.todo("Manage invitations submit shows errors when error");
+  test("Reschedule dialog submit button submits new deadline", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogRescheduleButton = await waitFor(() =>
+      getByText(dialog, "Reschedule")
+    );
+    fireEvent.click(dialogRescheduleButton);
+    await waitFor(() => screen.getByText("Rescheduled game!"));
+    const call = fetchSpy.mock.calls[4][0];
+    expect(call.url).toBe(
+      `${diplicityServiceURL}Game/${gameId}/Phase/${phaseOrdinal}/DeadlineAt`
+    );
+    expect(call.method).toBe("POST");
+  });
 
-  test.todo("Rename button appears if");
-  test.todo("Rename button does not appear if");
-  test.todo("Rename button shows reschedule dialog");
-  test.todo("Rename dialog causes gtag page load event");
-  test.todo("Rename dialog submit button submits submit");
-  test.todo("Rename dialog submit button disables submit button");
-  test.todo("Rename dialog submit button causes gtag event");
-  test.todo("Rename dialog close button closes dialog");
-  test.todo("Rename submit shows errors when error");
+  test("Reschedule dialog submit button disables submit button", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogRescheduleButton = await waitFor(() =>
+      getByText(dialog, "Reschedule")
+    );
+    expect(dialogRescheduleButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogRescheduleButton);
+    expect(dialogRescheduleButton).toHaveAttribute("disabled");
+  });
+  test("Reschedule dialog submit button causes gtag event", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogRescheduleButton = await waitFor(() =>
+      getByText(dialog, "Reschedule")
+    );
+    fireEvent.click(dialogRescheduleButton);
+    await waitFor(() => screen.getByText("Rescheduled game!"));
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "game_list_element_reschedule",
+    });
+  });
+  test("Reschedule dialog submit button closes dialog", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogRescheduleButton = await waitFor(() =>
+      getByText(dialog, "Reschedule")
+    );
+    fireEvent.click(dialogRescheduleButton);
+    await waitFor(() => screen.getByText("Rescheduled game!"));
+    await waitForElementToBeRemoved(() =>
+      screen.queryByText("Reschedule game")
+    );
+  });
+  test("Reschedule dialog close button closes dialog", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogCancelButton = await waitFor(() => getByText(dialog, "Cancel"));
+    fireEvent.click(dialogCancelButton);
+    await waitForElementToBeRemoved(() =>
+      screen.queryByText("Reschedule game")
+    );
+  });
+  test("Reschedule submit shows errors when error", async () => {
+    server.use(handlers.rescheduleGame.internalServerError);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText("Reschedule"));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Reschedule game"));
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogRescheduleButton = await waitFor(() =>
+      getByText(dialog, "Reschedule")
+    );
+    fireEvent.click(dialogRescheduleButton);
+    await waitFor(() => screen.getByText("Couldn't reschedule game."));
+  });
+
+  test("Manage invitations button appears if game master", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL));
+  });
+
+  test("Manage invitations button does not appear if", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = screen.queryByText(MANAGE_INVITATIONS_BUTTON_LABEL);
+    expect(button).toBeNull();
+  });
+
+  test("Manage invitations button shows manage invitations dialog", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+  });
+
+  test("Manage invitations dialog causes gtag page load event", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    gaEventSpy.mockClear();
+    gaSetSpy.mockClear();
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    expect(gaSetSpy).toBeCalledWith({
+      page_title: "ManageInvitationsDialog",
+      page_location: "http://localhost/",
+    });
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "page_view",
+    });
+  });
+
+  test("Manage invitations dialog invite button disabled if no email", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    expect(dialogSubmitButton).toHaveAttribute("disabled");
+  });
+
+  test("Manage invitations dialog invite button submits invite", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    const emailField = getByLabelText(dialog, "Email");
+    fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
+    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    expect(dialogSubmitButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogSubmitButton);
+    await waitFor(() => screen.getByText("Invited!"));
+    const call = fetchSpy.mock.calls[4][0];
+    expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}`);
+    expect(call.method).toBe("POST");
+  });
+
+  test("Manage invitations dialog invite button disables invite button", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const emailField = getByLabelText(dialog, "Email");
+    fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
+    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    expect(dialogSubmitButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogSubmitButton);
+    expect(dialogSubmitButton).toHaveAttribute("disabled");
+  });
+
+  test("Manage invitations dialog invite button causes gtag event", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    const emailField = getByLabelText(dialog, "Email");
+    fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
+    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    fireEvent.click(dialogSubmitButton);
+    await waitFor(() => screen.getByText("Invited!"));
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "manage_invitations_dialog_invite_user",
+    });
+  });
+
+  test("Manage invitations dialog empty message", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() =>
+      getByText(dialog, "You have not invited any players yet.")
+    );
+  });
+
+  test("Manage invitations dialog shows invite", async () => {
+    server.use(handlers.listGamesMasteredStaging.successInvitation);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
+    await waitFor(() => getByText(dialog, "England"));
+  });
+
+  test("Manage invitations dialog un-invite button submits un-invite", async () => {
+    server.use(handlers.listGamesMasteredStaging.successInvitation);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
+    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    fireEvent.click(unInviteButton);
+    await waitFor(() => screen.getByText("Un-invited."));
+  });
+
+  test("Manage invitations dialog un-invite button disables un-invite button", async () => {
+    server.use(handlers.listGamesMasteredStaging.successInvitation);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
+    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    fireEvent.click(unInviteButton);
+    expect(unInviteButton).toHaveAttribute("disabled");
+  });
+  test("Manage invitations dialog un-invite button causes gtag event", async () => {
+    server.use(handlers.listGamesMasteredStaging.successInvitation);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
+    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    fireEvent.click(unInviteButton);
+    await waitFor(() => screen.getByText("Un-invited."));
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "manage_invitations_dialog_uninvite_user",
+    });
+  });
+  test("Manage invitations dialog close button closes dialog", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogCancelButton = await waitFor(() => getByText(dialog, "Cancel"));
+    fireEvent.click(dialogCancelButton);
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
+  });
+
+  test("Manage invitations submit shows errors when error", async () => {
+    server.use(
+      handlers.listGamesMasteredStaging.successInvitation,
+      handlers.invite.internalServerError
+    );
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const emailField = getByLabelText(dialog, "Email");
+    fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
+    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    fireEvent.click(dialogSubmitButton);
+    await waitFor(() => screen.getByText("Couldn't invite user."));
+  });
+
+  test("Manage invitations un-invite button shows errors when error", async () => {
+    server.use(
+      handlers.listGamesMasteredStaging.successInvitation,
+      handlers.unInvite.internalServerError
+    );
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() =>
+      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+    );
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
+    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    fireEvent.click(unInviteButton);
+    await waitFor(() => screen.getByText("Couldn't un-invite user."));
+  });
+
+  test("Rename button appears if user is member", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+  });
+
+  test("Rename button does not appear if user not member", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=0&status=started"} />);
+    const button = screen.queryByText(RENAME_BUTTON_LABEL);
+    expect(button).toBeNull();
+  });
+
+  test("Rename button shows rename dialog", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, RENAME_GAME_DIALOG_TITLE));
+  });
+
+  test("Rename dialog causes gtag page load event", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    gaEventSpy.mockClear();
+    gaSetSpy.mockClear();
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    await waitFor(() => getByText(dialog, RENAME_GAME_DIALOG_TITLE));
+
+    expect(gaSetSpy).toBeCalledWith({
+      page_title: "RenameGameDialog",
+      page_location: "http://localhost/",
+    });
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "page_view",
+    });
+  });
+
+  test("Rename dialog submit button submits rename", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const nameField = getByLabelText(dialog, RENAME_INPUT_LABEL);
+    fireEvent.change(nameField, { target: { value: "new name" } });
+    const dialogSubmitButton = await waitFor(() =>
+      getByText(dialog, RENAME_BUTTON_LABEL)
+    );
+    fireEvent.click(dialogSubmitButton);
+    await waitFor(() => screen.getByText("Renamed!"));
+    const call = fetchSpy.mock.calls[4][0];
+    expect(call.url).toBe(
+      `${diplicityServiceURL}Game/${gameId}/Member/123456789`
+    );
+    expect(call.method).toBe("PUT");
+  });
+  test("Rename dialog submit button disables submit button", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const nameField = getByLabelText(dialog, RENAME_INPUT_LABEL);
+    fireEvent.change(nameField, { target: { value: "new name" } });
+    const dialogSubmitButton = await waitFor(() =>
+      getByText(dialog, RENAME_BUTTON_LABEL)
+    );
+    expect(dialogSubmitButton).not.toHaveAttribute("disabled");
+    fireEvent.click(dialogSubmitButton);
+    expect(dialogSubmitButton).toHaveAttribute("disabled");
+  });
+  test("Rename dialog submit button causes gtag event", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const nameField = getByLabelText(dialog, RENAME_INPUT_LABEL);
+    fireEvent.change(nameField, { target: { value: "new name" } });
+    const dialogSubmitButton = await waitFor(() =>
+      getByText(dialog, RENAME_BUTTON_LABEL)
+    );
+    fireEvent.click(dialogSubmitButton);
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "game_list_element_rename",
+    });
+  });
+  test("Rename dialog close button closes dialog", async () => {
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const dialogCancelButton = await waitFor(() => getByText(dialog, "Cancel"));
+    fireEvent.click(dialogCancelButton);
+    await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
+  });
+  test("Rename submit shows errors when error", async () => {
+    server.use(handlers.renameGame.internalServerError);
+    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    fireEvent.click(button);
+    const dialog = await waitFor(() => screen.getByRole("dialog"));
+    const nameField = getByLabelText(dialog, RENAME_INPUT_LABEL);
+    fireEvent.change(nameField, { target: { value: "new name" } });
+    const dialogSubmitButton = await waitFor(() =>
+      getByText(dialog, RENAME_BUTTON_LABEL)
+    );
+    fireEvent.click(dialogSubmitButton);
+    await waitFor(() => screen.getByText("Couldn't rename game."));
+  });
 
   test.todo("Delete button appears if");
   test.todo("Delete button does not appear if");

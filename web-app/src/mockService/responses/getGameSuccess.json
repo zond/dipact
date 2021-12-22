@@ -28,7 +28,12 @@
     "ChatLanguageISO639_1": "",
     "GameMasterEnabled": false,
     "RequireGameMasterInvitation": false,
-    "GameMasterInvitations": null,
+    "GameMasterInvitations": [
+      {
+        "Email": "fakeemail@gmail.com",
+        "Nation": "England"
+      }
+    ],
     "GameMaster": {
       "Email": "",
       "FamilyName": "",
@@ -52,7 +57,7 @@
           "Gender": "",
           "GivenName": "",
           "Hd": "",
-          "Id": "114413642839130335053",
+          "Id": "123456789",
           "Link": "",
           "Locale": "en",
           "Name": "",
@@ -65,7 +70,7 @@
         "NationPreferences": "",
         "NewestPhaseState": {
           "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
-          "PhaseOrdinal": 25,
+          "PhaseOrdinal": 1,
           "Nation": "Austria",
           "ReadyToResolve": false,
           "WantsDIAS": true,
@@ -294,7 +299,7 @@
     "StartETA": "2021-07-29T12:32:06.612741Z",
     "NewestPhaseMeta": [
       {
-        "PhaseOrdinal": 25,
+        "PhaseOrdinal": 1,
         "Season": "Fall",
         "Year": 1905,
         "Type": "Adjustment",

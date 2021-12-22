@@ -88,7 +88,7 @@ const GameList = () => {
     if (value === "0") removeParam("mastered");
   };
 
-  if (isError) return <ErrorMessage error={error} />;
+  // if (isError) return <ErrorMessage error={error} />;
 
   return (
     <MainMenu>

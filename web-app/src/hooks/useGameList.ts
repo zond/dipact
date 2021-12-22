@@ -21,7 +21,7 @@ export enum NationAllocation {
   Preference = "Preference",
 }
 
-const nationAllocationMap: { [key: number]: NationAllocation } = {
+export const nationAllocationMap: { [key: number]: NationAllocation } = {
   0: NationAllocation.Random,
   1: NationAllocation.Preference,
 };
@@ -51,6 +51,7 @@ export interface Game {
   privateGame: boolean;
   rulesSummary: string;
   started: boolean;
+  userIsMember: boolean;
   userIsGameMaster: boolean;
   variantNumNations: number;
 }
@@ -66,6 +67,9 @@ interface IUseGameList {
 
 const transformGame = (game: StoreGame, user: User): Game => {
   const userIsGameMaster = game.GameMaster.Id === user.Id;
+  const userIsMember = Boolean(
+    game.Members.find((member) => member.User.Id === user.Id)
+  );
 
   return {
     chatDisabled: true,
@@ -92,6 +96,7 @@ const transformGame = (game: StoreGame, user: User): Game => {
     privateGame: game.Private,
     rulesSummary: game.Variant + " " + phaseLengthDisplay(game),
     started: game.Started,
+    userIsMember,
     userIsGameMaster,
     variantNumNations: 9,
   };
@@ -106,7 +111,9 @@ const useGameList = (filters: ListGameFilters) => {
 
   useEffect(() => {
     if (userQuery.isSuccess && isSuccess && userQuery.data) {
-      setGames(data?.map((game) => transformGame(game, userQuery.data as User)) || []);
+      setGames(
+        data?.map((game) => transformGame(game, userQuery.data as User)) || []
+      );
     }
   }, [userQuery, useListGamesQuery, data, isSuccess]);
   return {

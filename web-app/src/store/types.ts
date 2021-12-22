@@ -352,6 +352,11 @@ export interface PhaseMeta {
   SCsJSON: string;
 }
 
+export type GameMasterInvitation = {
+  Email: string;
+  Nation: string;
+}
+
 export type Game = NewGame & {
   Closed: boolean;
   Finished: boolean;
@@ -359,7 +364,7 @@ export type Game = NewGame & {
   Mustered: boolean;
   NoMerge: boolean;
   Started: boolean;
-  GameMasterInvitations: null;
+  GameMasterInvitations: null | GameMasterInvitation[];
   GameMaster: User;
   NMembers: number;
   Members: Member[];
