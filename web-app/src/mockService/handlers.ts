@@ -209,6 +209,11 @@ const resolvers = {
       return res(ctx.status(200));
     },
   },
+  deleteGame: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200));
+    },
+  },
   unInvite: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200));
@@ -378,6 +383,7 @@ const createMessageUrl = `${API_ROOT}Game/:gameId/Messages`;
 const joinGameUrl = `${API_ROOT}Game/:gameId/Member`;
 const rescheduleGameUrl = `${API_ROOT}Game/:gameId/Phase/:PhaseOrdinal/DeadlineAt`;
 const renameGameUrl = `${API_ROOT}Game/:gameId/Member/:userId`;
+const deleteGameUrl = `${API_ROOT}Game/:gameId`;
 const unInviteUrl = `${API_ROOT}Game/:gameId/:email`;
 const inviteUrl = `${API_ROOT}Game/:gameId`;
 const getUserConfigUrl = `${API_ROOT}User/:userId/UserConfig`;
@@ -419,6 +425,11 @@ export const handlers = {
     success: rest.put(renameGameUrl, resolvers.renameGame.success),
     internalServerError: rest.put(renameGameUrl, internalServerError),
     tokenTimeout: rest.put(renameGameUrl, tokenTimeout),
+  },
+  deleteGame: {
+    success: rest.delete(deleteGameUrl, resolvers.deleteGame.success),
+    internalServerError: rest.delete(deleteGameUrl, internalServerError),
+    tokenTimeout: rest.delete(deleteGameUrl, tokenTimeout),
   },
   unInvite: {
     success: rest.delete(unInviteUrl, resolvers.unInvite.success),
@@ -656,4 +667,5 @@ export const handlersList = [
   handlers.renameGame.success,
   handlers.unInvite.success,
   handlers.invite.success,
+  handlers.deleteGame.success,
 ];

@@ -328,5 +328,12 @@ export const diplicityService = createApi({
       }),
       invalidatesTags: [TagType.ListGames],
     }),
+    deleteGame: builder.mutation<undefined, string>({
+      query: (gameId) => ({
+        url: `/Game/${gameId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [TagType.ListGames],
+    }),
   }),
 });

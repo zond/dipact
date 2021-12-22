@@ -37,6 +37,7 @@ import ManageInvitationsDialog, {
   MANAGE_INVITATIONS_DIALOG_TITLE,
 } from "../../components/ManageInvitationsDialog";
 import {
+  DELETE_BUTTON_LABEL,
   MANAGE_INVITATIONS_BUTTON_LABEL,
   RENAME_BUTTON_LABEL,
 } from "../../components/GameCard";
@@ -58,7 +59,8 @@ const server = setupServer(
   handlers.rescheduleGame.success,
   handlers.invite.success,
   handlers.unInvite.success,
-  handlers.renameGame
+  handlers.renameGame.success,
+  handlers.deleteGame.success
 );
 
 beforeAll((): void => {
@@ -878,18 +880,24 @@ describe("Game functional tests", () => {
   });
 
   test("Rename button appears if user is member", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
   });
 
   test("Rename button does not appear if user not member", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=0&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=0&status=started&mastered=1"} />
+    );
     const button = screen.queryByText(RENAME_BUTTON_LABEL);
     expect(button).toBeNull();
   });
 
   test("Rename button shows rename dialog", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -897,7 +905,9 @@ describe("Game functional tests", () => {
   });
 
   test("Rename dialog causes gtag page load event", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
@@ -916,7 +926,9 @@ describe("Game functional tests", () => {
   });
 
   test("Rename dialog submit button submits rename", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -934,7 +946,9 @@ describe("Game functional tests", () => {
     expect(call.method).toBe("PUT");
   });
   test("Rename dialog submit button disables submit button", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -948,7 +962,9 @@ describe("Game functional tests", () => {
     expect(dialogSubmitButton).toHaveAttribute("disabled");
   });
   test("Rename dialog submit button causes gtag event", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -958,13 +974,16 @@ describe("Game functional tests", () => {
       getByText(dialog, RENAME_BUTTON_LABEL)
     );
     fireEvent.click(dialogSubmitButton);
+    await waitFor(() => screen.getByText("Renamed!"));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "game_list_element_rename",
     });
   });
   test("Rename dialog close button closes dialog", async () => {
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -974,7 +993,9 @@ describe("Game functional tests", () => {
   });
   test("Rename submit shows errors when error", async () => {
     server.use(handlers.renameGame.internalServerError);
-    render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -987,12 +1008,62 @@ describe("Game functional tests", () => {
     await waitFor(() => screen.getByText("Couldn't rename game."));
   });
 
-  test.todo("Delete button appears if");
-  test.todo("Delete button does not appear if");
-  test.todo("Delete button deletes game");
-  test.todo("Delete button causes gtag event");
-  test.todo("Delete button disables delete button");
-  test.todo("Delete shows errors when error");
+  test("Delete button appears if game master", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+  });
+
+  test("Delete button does not appear if not game master", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = screen.queryByText(DELETE_BUTTON_LABEL);
+    expect(button).toBeNull();
+  });
+
+  test("Delete button deletes game", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    fireEvent.click(button);
+    fetchSpy.mockClear();
+    await waitFor(() => screen.getByText("Deleted!"));
+    const call = fetchSpy.mock.calls[0][0];
+    expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}`);
+    expect(call.method).toBe("DELETE");
+  });
+  test("Delete button causes gtag event", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Deleted!"));
+    expect(gaEventSpy).toBeCalledWith({
+      category: "(not set)",
+      action: "game_list_element_delete",
+    });
+  });
+  test("Delete button disables delete button", async () => {
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    fireEvent.click(button);
+    expect(button).toHaveAttribute("disabled");
+  });
+  test("Delete shows errors when error", async () => {
+    server.use(handlers.deleteGame.internalServerError);
+    render(
+      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+    );
+    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    fireEvent.click(button);
+    await waitFor(() => screen.getByText("Couldn't delete game."));
+  });
 
   test.todo("Scroll to bottom of page triggers list request (infinite scroll)");
 

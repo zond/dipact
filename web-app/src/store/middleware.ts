@@ -140,6 +140,29 @@ export const renameGameMiddleware: Middleware<{}, any> = ({
   next(action);
 };
 
+export const deleteGameMiddleware: Middleware<{}, any> = ({
+  getState,
+  dispatch,
+}) => (next) => (action) => {
+  if (diplicityService.endpoints.deleteGame.matchFulfilled(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Success,
+        message: "Deleted!",
+      })
+    );
+  }
+  if (diplicityService.endpoints.deleteGame.matchRejected(action)) {
+    dispatch(
+      feedbackActions.add({
+        severity: Severity.Error,
+        message: "Couldn't delete game.",
+      })
+    );
+  }
+  next(action);
+};
+
 const logoutOn400: Middleware<{}, any> = ({ getState, dispatch }) => (next) => (
   action
 ) => {
@@ -159,5 +182,6 @@ const middleware = [
   inviteMiddleware,
   unInviteMiddleware,
   renameGameMiddleware,
+  deleteGameMiddleware,
 ];
 export default middleware;

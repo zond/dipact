@@ -36,7 +36,7 @@ import PlayerCount from "./PlayerCount";
 import { actions as feedbackActions } from "../store/feedback";
 import useSearchParams from "../hooks/useSearchParams";
 import NavItem from "./NavItem";
-import { useJoinGameMutation } from "../hooks/service";
+import { useDeleteGameMutation, useJoinGameMutation } from "../hooks/service";
 import { registerEvent } from "../hooks/useRegisterPageview";
 
 const useStyles = makeStyles((theme) => ({
@@ -134,6 +134,7 @@ const INVITE_BUTTON_LABEL = "Invite";
 const JOIN_BUTTON_LABEL = "Join";
 const RESCHEDULE_BUTTON_LABEL = "Reschedule";
 export const RENAME_BUTTON_LABEL = "Rename";
+export const DELETE_BUTTON_LABEL = "Delete";
 const RULES_LABEL = "Rules:";
 const PLAYERS_LABEL = "Players:";
 const GAME_VARIANT_LABEL = "Game variant: ";
@@ -206,6 +207,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const gameUrl = generatePath(RouteConfig.Game, { gameId: id });
   const onClickView = () => history.push(gameUrl);
   const [joinGame, { isLoading, isSuccess }] = useJoinGameMutation();
+  const [deleteGame, deleteGameQuery] = useDeleteGameMutation();
 
   const onClickInvite = () => {
     if (false) {
@@ -236,6 +238,10 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const onClickRename = () => setParam("rename-game-dialog", id);
   const onClickManageInvitations = () =>
     setParam("manage-invitations-dialog", id);
+  const onClickDelete = () => {
+    deleteGame(id);
+    registerEvent("game_list_element_delete");
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -351,6 +357,13 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
               </Button>
               <Button variant={"outlined"} onClick={onClickManageInvitations}>
                 {MANAGE_INVITATIONS_BUTTON_LABEL}
+              </Button>
+              <Button
+                variant={"outlined"}
+                onClick={onClickDelete}
+                disabled={deleteGameQuery.isLoading}
+              >
+                {DELETE_BUTTON_LABEL}
               </Button>
             </>
           )}
