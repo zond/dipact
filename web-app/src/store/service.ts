@@ -194,13 +194,14 @@ export const diplicityService = createApi({
     }),
     listGames: builder.query<Game[], ListGameFilters>({
       query: ({ my, status, mastered }) => {
+        const titleStatus = status.charAt(0).toUpperCase() + status.slice(1);
         if (my) {
           if (mastered) {
-            return `/My/Mastered/Games/${status}`;
+            return `/My/Mastered/Games/${titleStatus}`;
           }
-          return `/My/Games/${status}`;
+          return `/My/Games/${titleStatus}`;
         }
-        return `/Games/${status}`;
+        return `/Games/${titleStatus}`;
       },
       transformResponse: (response: ListGamesResponse) => {
         return response.Properties.map(

@@ -197,7 +197,7 @@ describe("Game functional tests", () => {
     render(<WrappedGameList path={gameListUrl + "?status=started&my=1"} />);
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}My/Games/started`);
+    expect(call.url).toBe(`${diplicityServiceURL}My/Games/Started`);
   });
 
   test("Hits endpoints correctly - my finished games", async () => {
@@ -205,14 +205,14 @@ describe("Game functional tests", () => {
     render(<WrappedGameList path={gameListUrl + "?status=finished&my=1"} />);
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}My/Games/finished`);
+    expect(call.url).toBe(`${diplicityServiceURL}My/Games/Finished`);
   });
   test("Hits endpoints correctly - my staging games", async () => {
     server.use(handlers.listGamesMyStaging.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=staging&my=1"} />);
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}My/Games/staging`);
+    expect(call.url).toBe(`${diplicityServiceURL}My/Games/Staging`);
   });
 
   test("Hits endpoints correctly - started games", async () => {
@@ -220,7 +220,7 @@ describe("Game functional tests", () => {
     render(<WrappedGameList path={gameListUrl + "?status=started"} />);
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}Games/started`);
+    expect(call.url).toBe(`${diplicityServiceURL}Games/Started`);
   });
 
   test("Hits endpoints correctly - finished games", async () => {
@@ -228,14 +228,14 @@ describe("Game functional tests", () => {
     render(<WrappedGameList path={gameListUrl + "?status=finished"} />);
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}Games/finished`);
+    expect(call.url).toBe(`${diplicityServiceURL}Games/Finished`);
   });
   test("Hits endpoints correctly - staging games", async () => {
     server.use(handlers.listGamesStaging.successEmpty);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}Games/staging`);
+    expect(call.url).toBe(`${diplicityServiceURL}Games/Staging`);
   });
 
   test("Hits endpoints correctly - my mastered started games", async () => {
@@ -245,7 +245,7 @@ describe("Game functional tests", () => {
     );
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/started`);
+    expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/Started`);
   });
 
   test("Hits endpoints correctly - my mastered finished games", async () => {
@@ -257,7 +257,7 @@ describe("Game functional tests", () => {
     );
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/finished`);
+    expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/Finished`);
   });
 
   test("Hits endpoints correctly - my mastered staging games", async () => {
@@ -267,7 +267,7 @@ describe("Game functional tests", () => {
     );
     await userSeesLoadingSpinner();
     const call = fetchSpy.mock.calls[1][0];
-    expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/staging`);
+    expect(call.url).toBe(`${diplicityServiceURL}My/Mastered/Games/Staging`);
   });
 
   test("Game card shows summary information", async () => {

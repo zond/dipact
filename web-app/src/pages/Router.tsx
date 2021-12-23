@@ -15,6 +15,7 @@ import Settings from "./Settings";
 import RescheduleDialog from "../components/RescheduleDialog";
 import ManageInvitationsDialog from "../components/ManageInvitationsDialog";
 import RenameGameDialog from "../components/RenameGameDialog";
+import ResetSettingsDialog from "../components/ResetSettingsDialog";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -54,6 +55,7 @@ export const Routes = (): React.ReactElement => {
       <RescheduleDialog />
       <ManageInvitationsDialog />
       <RenameGameDialog />
+      <ResetSettingsDialog />
     </>
   );
 };
