@@ -18,7 +18,6 @@ import makeStyles from "@mui/styles/makeStyles";
 import GoBackNav from "../components/GoBackNav";
 import { searchKey as resetSettingsSearchKey } from "../components/ResetSettingsDialog";
 import useSearchParams from "../hooks/useSearchParams";
-import useSettingsForm from "../hooks/useSettingsForm";
 import useSettings from "../hooks/useSettings";
 
 const useStyles = makeStyles((theme) => ({
@@ -94,9 +93,8 @@ const Settings = (): React.ReactElement => {
 
   const notificationErrorsVariant = "caption";
 
-  const selectedVariant = "Classical";
-
   const { variants } = useSettings();
+  const selectedVariant = variants["Classical"];
 
   const onClickResetSettings = () => {
     setParam(resetSettingsSearchKey, "1");
@@ -225,14 +223,15 @@ const Settings = (): React.ReactElement => {
             </Select>
           </FormControl>
           <div>
-            {variants[selectedVariant].map(({ name, color }) => (
-              <div className={classes.nationColorRow}>
-                <Typography>{name}</Typography>
-                <div>
-                  <input type="color" value={color} />
+            {selectedVariant &&
+              Object.entries(selectedVariant).map(([name, color]) => (
+                <div className={classes.nationColorRow}>
+                  <Typography>{name}</Typography>
+                  <div>
+                    <input type="color" value={color} />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         <div>
