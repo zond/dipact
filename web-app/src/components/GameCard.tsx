@@ -285,7 +285,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
             <Typography variant={"caption"}>{rulesSummary}</Typography>
             <div className={classes.phaseSummaryContainer}>
               <div className={classes.icons}>
-                {chatLanguage && (
+                {Boolean(chatLanguage) && (
                   <Tooltip title={CHAT_LANGUAGE_TOOLTIP + chatLanguageDisplay}>
                     <div className={classes.chatIconContainer}>
                       <ChatLanguageIcon fontSize={"small"} />
@@ -300,7 +300,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
                     <PrivateGameIcon fontSize={"small"} />
                   </Tooltip>
                 )}
-                {(minQuickness || minReliability) && (
+                {Boolean(minQuickness || minReliability) && (
                   <Tooltip
                     title={MIN_QUICKNESS_OR_RELIABILITY_REQUIRED_TOOLTIP}
                   >
