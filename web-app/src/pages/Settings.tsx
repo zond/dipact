@@ -96,7 +96,7 @@ const Settings = (): React.ReactElement => {
 
   const selectedVariant = "Classical";
 
-  const { variants } = useSettings();
+  // const { variants } = useSettings();
 
   const onClickResetSettings = () => {
     setParam(resetSettingsSearchKey, "1");
@@ -209,7 +209,7 @@ const Settings = (): React.ReactElement => {
         <Typography variant="subtitle2">
           {NATION_COLORS_SECTION_LABEL}
         </Typography>
-        <div>
+        {/* <div>
           <FormControl>
             <InputLabel id="variantinputlabel">
               {VARIANT_SELECT_LABEL}
@@ -234,7 +234,7 @@ const Settings = (): React.ReactElement => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         <div>
           <Button onClick={onClickResetSettings}>
             {RESET_SETTINGS_BUTTON_LABEL}

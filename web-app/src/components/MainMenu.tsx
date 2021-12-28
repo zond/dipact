@@ -31,6 +31,7 @@ const PLAYER_STATS_MENU_ITEM = "Player stats";
 const LOGOUT_MENU_ITEM = "Logout";
 const ABOUT_MENU_ITEM = "About";
 const MY_DIPLICITY_MENU_ITEM = "My Diplicity";
+const CREATE_GAME_MENU_ITEM = "Create game";
 const SETTINGS_MENU_ITEM = "Settings";
 const COMMUNITY_MENU_ITEM = "Community";
 const CHAT_MENU_ITEM = "Chat";
@@ -98,6 +99,7 @@ const MainMenu = ({ children }: MainMenuProps) => {
     setMenuAnchorEl(e.currentTarget);
   const onClickPlayerStats = () => setParam("player-stats", user.Id as string);
   const onClickAbout = () => history.push(RouteConfig.About);
+  const onClickCreateGame = () => history.push(RouteConfig.CreateGame);
   const onClickSettings = () => history.push(RouteConfig.Settings);
   const onClickErrorLog = () => setParam("error-log", "1");
 
@@ -173,6 +175,10 @@ const MainMenu = ({ children }: MainMenuProps) => {
                 primary={MY_DIPLICITY_MENU_ITEM}
                 disableTypography
               />
+            </ListItem>
+
+            <ListItem button onClick={onClickCreateGame}>
+              <ListItemText primary={CREATE_GAME_MENU_ITEM} />
             </ListItem>
 
             <ListItem button onClick={onClickSettings}>

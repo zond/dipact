@@ -16,6 +16,7 @@ import RescheduleDialog from "../components/RescheduleDialog";
 import ManageInvitationsDialog from "../components/ManageInvitationsDialog";
 import RenameGameDialog from "../components/RenameGameDialog";
 import ResetSettingsDialog from "../components/ResetSettingsDialog";
+import CreateGame from "./CreateGame";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -39,6 +40,9 @@ export const Routes = (): React.ReactElement => {
         </Route>
         <Route exact path={RouteConfig.About}>
           <About />
+        </Route>
+        <Route exact path={RouteConfig.CreateGame}>
+          <CreateGame />
         </Route>
         <Route exact path={RouteConfig.GameList}>
           <GameList />

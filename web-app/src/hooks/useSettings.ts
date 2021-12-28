@@ -12,22 +12,18 @@ import {
   useListVariantsQuery,
 } from "./service";
 
-interface IUseSettings {
-  variants: { [key: string]: { name: string; color: string }[] };
-}
+interface IUseSettings {}
 
-const transformVariants = (variants: Variant[]) => {
+const transformVariants = (variants: Variant[]) => {};
 
-}
-
-const useSettings = (userId: string): IUseSettings => {
+const useSettings = (): IUseSettings => {
   const [variant, setVariant] = useState("");
 
   useGetRootQuery(undefined);
-  const updateUserConfigStatus = useUpdateUserConfigStatus();
-  const { data: userConfig, ...getUserConfigStatus } = useGetUserConfigQuery(
-    userId
-  );
+  // const updateUserConfigStatus = useUpdateUserConfigStatus();
+  // const { data: userConfig, ...getUserConfigStatus } = useGetUserConfigQuery(
+  //   userId
+  // );
   const { data: variants } = useListVariantsQuery(undefined);
   // const { hasPermission, tokenEnabled } = useMessaging();
   // const colorOverrides = useColorOverrides();
@@ -38,9 +34,7 @@ const useSettings = (userId: string): IUseSettings => {
   //     }
   // }, [variants])
 
-  return {
-    variants,
-  };
+  return {};
 };
 
 export default useSettings;

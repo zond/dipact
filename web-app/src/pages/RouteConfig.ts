@@ -1,6 +1,7 @@
 // Note, this used to be in Router but was causing problems during tests by loading the entire application
 export const RouteConfig = {
 	About: '/about',
+	CreateGame: '/create-game',
 	Donate: '/donate',
 	Home: '/',
 	Login: '/',

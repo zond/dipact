@@ -1,4 +1,4 @@
-FROM node:14 AS web-app-base
+FROM node:16 AS web-app-base
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH

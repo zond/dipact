@@ -1,7 +1,9 @@
 import {
+  Button,
   Checkbox,
   Container,
   Divider,
+  Fab,
   FormControlLabel,
   FormGroup,
   MenuItem,
@@ -13,12 +15,15 @@ import {
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import { generatePath } from "react-router";
 import ErrorMessage from "../components/ErrorMessage";
 import GameCard from "../components/GameCard";
 import Loading from "../components/Loading";
 import MainMenu from "../components/MainMenu";
 import useGameList, { GameStatus } from "../hooks/useGameList";
 import useSearchParams from "../hooks/useSearchParams";
+import { CreateMessageIcon } from "../icons";
+import { RouteConfig } from "./RouteConfig";
 
 const useStyles = makeStyles((theme) => ({
   tabs: {
@@ -32,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     alignItems: "center",
   },
+  createGameButton: {
+    display: "flex",
+  },
+  filtersAndCreate: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  }
 }));
 
 const gameStatusLabels = {
@@ -93,46 +106,60 @@ const GameList = () => {
   return (
     <MainMenu>
       <Container>
-        <Tabs
-          defaultValue={"0"}
-          value={myVal}
-          onChange={handleChangeTab}
-          aria-label="games filter"
-          className={classes.tabs}
-        >
-          <Tab value={"0"} label={ALL_GAMES_TAB_LABEL} {...a11yProps("0")} />
-          <Tab value={"1"} label={MY_GAMES_TAB_LABEL} {...a11yProps("1")} />
-        </Tabs>
+        <div>
+          <Tabs
+            defaultValue={"0"}
+            value={myVal}
+            onChange={handleChangeTab}
+            aria-label="games filter"
+            className={classes.tabs}
+          >
+            <Tab value={"0"} label={ALL_GAMES_TAB_LABEL} {...a11yProps("0")} />
+            <Tab value={"1"} label={MY_GAMES_TAB_LABEL} {...a11yProps("1")} />
+          </Tabs>
+        </div>
         {isFetching ? (
           <Loading />
         ) : (
           <>
-            <div className={classes.filters}>
-              <Select
-                value={status}
-                onChange={handleStatusChange}
-                data-testid={"status-select"}
-              >
-                {Object.values(GameStatus).map((opt) => (
-                  <MenuItem key={opt} value={opt}>
-                    {gameStatusLabels[opt]}
-                  </MenuItem>
-                ))}
-              </Select>
+            <div className={classes.filtersAndCreate}>
+              <div className={classes.filters}>
+                <Select
+                  value={status}
+                  onChange={handleStatusChange}
+                  data-testid={"status-select"}
+                >
+                  {Object.values(GameStatus).map((opt) => (
+                    <MenuItem key={opt} value={opt}>
+                      {gameStatusLabels[opt]}
+                    </MenuItem>
+                  ))}
+                </Select>
 
-              {my && (
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={mastered}
-                        onChange={handleMasteredCheckboxChange}
-                      />
-                    }
-                    label={MASTERED_CHECKBOX_LABEL}
-                  />
-                </FormGroup>
-              )}
+                {my && (
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={mastered}
+                          onChange={handleMasteredCheckboxChange}
+                        />
+                      }
+                      label={MASTERED_CHECKBOX_LABEL}
+                    />
+                  </FormGroup>
+                )}
+              </div>
+              <a href={generatePath(RouteConfig.CreateGame)}>
+                <Fab
+                  title="Create game"
+                  className={classes.createGameButton}
+                  color="secondary"
+                  aria-label="edit"
+                >
+                  <CreateMessageIcon />
+                </Fab>
+              </a>
             </div>
             {games.length ? (
               <>

@@ -250,7 +250,12 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   }, [isSuccess]);
 
   return (
-    <Accordion className={classes.root} elevation={0} square>
+    <Accordion
+      className={classes.root}
+      elevation={0}
+      TransitionProps={{ unmountOnExit: true }}
+      square
+    >
       <AccordionSummary
         expandIcon={<ExpandIcon />}
         className={classes.accordionSummary}
