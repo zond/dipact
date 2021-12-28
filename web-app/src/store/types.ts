@@ -501,6 +501,7 @@ export interface SettingsFormValues {
   colors: { [key: string]: { [key: string]: string } };
   enablePushNotifications: boolean;
   enableEmailNotifications: boolean;
+  enableColorNonSCs: boolean;
   phaseDeadline: number;
 }
 

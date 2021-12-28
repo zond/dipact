@@ -49,6 +49,7 @@ const initialFormValues: SettingsFormValues = {
   colors: {},
   enablePushNotifications: false,
   enableEmailNotifications: false,
+  enableColorNonSCs: false,
   phaseDeadline: 60,
 };
 

@@ -75,26 +75,23 @@ const NOTIFICATIONS_ERROR_FIREBASE_NOT_SUPPORTED =
 const Settings = (): React.ReactElement => {
   const { setParam } = useSearchParams();
 
-  const pushNotificationsEnabled = true;
   const pushNotificationsDisabled = false;
-  const pushNotificationsErrorNoToken = true;
-  const pushNotificationsErrorNoPermission = true;
-  const pushNotificationsErrorNotStarted = true;
-  const pushNotificationsErrorFirebaseNotSupported = true;
+  const pushNotificationsErrorNoToken = false;
+  const pushNotificationsErrorNoPermission = false;
+  const pushNotificationsErrorNotStarted = false;
+  const pushNotificationsErrorFirebaseNotSupported = false;
 
-  const emailNotificationsEnabled = true;
   const emailNotificationsDisabled = false;
 
   const phaseDeadlineReminderDisabled = false;
-  const phaseDeadlineReminderValue = 60;
 
-  const colorNonSCsEnabled = true;
   const colorNonSCsDisabled = false;
 
   const notificationErrorsVariant = "caption";
 
-  const { variants } = useSettings();
-  const selectedVariant = variants["Classical"];
+  const { variants, handleChange, values } = useSettings();
+  const variantName = "Classical";
+  const selectedVariant = variants[variantName];
 
   const onClickResetSettings = () => {
     setParam(resetSettingsSearchKey, "1");
@@ -113,8 +110,10 @@ const Settings = (): React.ReactElement => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={pushNotificationsEnabled}
                   disabled={pushNotificationsDisabled}
+                  checked={values.enablePushNotifications}
+                  onChange={handleChange}
+                  name={"enablePushNotifications"}
                 />
               }
               label={PUSH_NOTIFICATIONS_SWITCH_LABEL}
@@ -163,8 +162,10 @@ const Settings = (): React.ReactElement => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={emailNotificationsEnabled}
                   disabled={emailNotificationsDisabled}
+                  checked={values.enableEmailNotifications}
+                  onChange={handleChange}
+                  name={"enableEmailNotifications"}
                 />
               }
               label={EMAIL_NOTIFICATIONS_SWITCH_LABEL}
@@ -176,6 +177,9 @@ const Settings = (): React.ReactElement => {
               fullWidth
               disabled={phaseDeadlineReminderDisabled}
               type="number"
+              value={values.phaseDeadline}
+              onChange={handleChange}
+              name="phaseDeadline"
               label={PHASE_DEADLINE_REMINDER_INPUT_LABEL}
               helperText={
                 phaseDeadlineReminderDisabled
@@ -183,7 +187,6 @@ const Settings = (): React.ReactElement => {
                   : PHASE_DEADLINE_REMINDER_NOTIFICATIONS_PROMPT
               }
               margin="dense"
-              value={phaseDeadlineReminderValue}
               // onChange={this.updatePhaseDeadline}
               // onBlur={this.saveConfig}
             />
@@ -194,8 +197,10 @@ const Settings = (): React.ReactElement => {
           <FormControlLabel
             control={
               <Switch
-                checked={colorNonSCsEnabled}
+                checked={values.enableColorNonSCs}
                 disabled={colorNonSCsDisabled}
+                onChange={handleChange}
+                name={"enableColorNonSCs"}
               />
             }
             label={COLOR_NON_SCS_SWITCH_LABEL}
@@ -208,11 +213,11 @@ const Settings = (): React.ReactElement => {
           {NATION_COLORS_SECTION_LABEL}
         </Typography>
         <div>
-          <FormControl>
+          <FormControl variant="standard">
             <InputLabel id="variantinputlabel">
               {VARIANT_SELECT_LABEL}
             </InputLabel>
-            <Select labelId="variantinputlabel" value={selectedVariant}>
+            <Select labelId="variantinputlabel" value={variantName}>
               {Object.keys(variants).map((variant) => {
                 return (
                   <MenuItem key={variant} value={variant}>
@@ -225,10 +230,18 @@ const Settings = (): React.ReactElement => {
           <div>
             {selectedVariant &&
               Object.entries(selectedVariant).map(([name, color]) => (
-                <div className={classes.nationColorRow}>
+                <div
+                  key={`${variantName}-${name}`}
+                  className={classes.nationColorRow}
+                >
                   <Typography>{name}</Typography>
                   <div>
-                    <input type="color" value={color} />
+                    <input
+                      type="color"
+                      value={color}
+                      onChange={handleChange}
+                      name={`colors.${variantName}.${name}`}
+                    />
                   </div>
                 </div>
               ))}

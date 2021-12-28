@@ -72,7 +72,7 @@ const transformGame = (game: StoreGame, user: User): Game => {
   );
 
   return {
-    chatDisabled: true,
+    chatDisabled: game.DisablePrivateChat,
     chatLanguage: game.ChatLanguageISO639_1,
     chatLanguageDisplay:
       isoCodes.find((code) => code.code === game.ChatLanguageISO639_1)?.name ||
