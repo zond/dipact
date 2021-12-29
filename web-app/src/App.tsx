@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import ErrorDialogWrapper from "./components/ErrorsDialog";
 
@@ -12,17 +12,19 @@ const App = (): React.ReactElement => {
   useListVariantsQuery(undefined);
   useGetRootQuery(undefined);
   return (
-    <BrowserRouter>
-      <TokenHandler>
-        <FeedbackWrapper>
-          <ErrorDialogWrapper>
-            <StatsDialogWrapper>
-              <Router />
-            </StatsDialogWrapper>
-          </ErrorDialogWrapper>
-        </FeedbackWrapper>
-      </TokenHandler>
-    </BrowserRouter>
+    <Suspense fallback="loading">
+      <BrowserRouter>
+        <TokenHandler>
+          <FeedbackWrapper>
+            <ErrorDialogWrapper>
+              <StatsDialogWrapper>
+                <Router />
+              </StatsDialogWrapper>
+            </ErrorDialogWrapper>
+          </FeedbackWrapper>
+        </TokenHandler>
+      </BrowserRouter>
+    </Suspense>
   );
 };
 

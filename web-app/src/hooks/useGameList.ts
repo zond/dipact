@@ -10,17 +10,20 @@ import {
 } from "../utils/general";
 import { ListGameFilters } from "../store/service";
 
+// TODO move to types
 export enum GameStatus {
   Started = "started",
   Staging = "staging",
   Finished = "finished",
 }
 
+// TODO move to types
 export enum NationAllocation {
   Random = "Random",
   Preference = "Preference",
 }
 
+// TODO move to types
 export const nationAllocationMap: { [key: number]: NationAllocation } = {
   0: NationAllocation.Random,
   1: NationAllocation.Preference,

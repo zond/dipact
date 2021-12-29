@@ -1,0 +1,8 @@
+{
+    "create-game": {
+        "title": "Create Game",
+        "name-input": {
+            "label": "Name"
+        }
+    }
+}
