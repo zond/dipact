@@ -34,6 +34,7 @@ import {
   ListGamesResponse,
   Member,
   GameMasterInvitation,
+  UserStats,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -135,8 +136,9 @@ export const diplicityService = createApi({
       transformResponse: (response: UserConfigResponse) => response.Properties,
       providesTags: [TagType.UserConfig],
     }),
-    getUserStats: builder.query<UserStatsResponse, string>({
+    getUserStats: builder.query<UserStats, string>({
       query: (id) => `/User/${id}/Stats`,
+      transformResponse: (response: UserStatsResponse) => response.Properties,
     }),
     getUserRatingHistogram: builder.query<
       UserRatingHistogramResponse,

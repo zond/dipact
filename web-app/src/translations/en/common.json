@@ -3,6 +3,16 @@
         "title": "Create Game",
         "name-input": {
             "label": "Name"
+        },
+        "max-rating-input": {
+            "error-message": {
+                "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
+            }
+        },
+        "min-rating-input": {
+            "error-message": {
+                "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
+            }
         }
     }
 }

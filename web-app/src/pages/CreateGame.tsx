@@ -159,8 +159,10 @@ const CreateGame = (): React.ReactElement => {
     randomizeName,
     selectedVariant,
     selectedVariantSVG,
+    userStats,
     values,
     variants,
+    validationErrors,
   } = useCreateGame();
 
   const classes = useStyles();
@@ -168,6 +170,7 @@ const CreateGame = (): React.ReactElement => {
   const singularAdjustmentPhaseLength =
     values.adjustmentPhaseLengthMultiplier === 1;
   const minEndAfterYearsValue = (selectedVariant?.Start?.Year || 0) + 1;
+  const submitDisabled = Object.keys(validationErrors).length !== 0;
 
   return (
     <GoBackNav title={t(tk.CreateGameTitle)}>
@@ -507,6 +510,7 @@ const CreateGame = (): React.ReactElement => {
                   variant="standard"
                   label={MIN_RELIABILITY_INPUT_LABEL}
                   name="minReliability"
+                  type="number"
                   margin="dense"
                   value={values.minReliability}
                   onChange={handleChange}
@@ -532,6 +536,7 @@ const CreateGame = (): React.ReactElement => {
                   variant="standard"
                   label={MIN_QUICKNESS_INPUT_LABEL}
                   name="minQuickness"
+                  type="number"
                   margin="dense"
                   value={values.minQuickness}
                   onChange={handleChange}
@@ -558,10 +563,20 @@ const CreateGame = (): React.ReactElement => {
                     variant="standard"
                     label={MIN_RATING_INPUT_LABEL}
                     name="minRating"
+                    type="number"
                     margin="dense"
                     value={values.minRating}
                     onChange={handleChange}
+                    error={Boolean(validationErrors.minRating)}
                   />
+                  {validationErrors.minRating ? (
+                    <FormHelperText error={true}>
+                      {t(validationErrors.minRating, {
+                        // TODO simplify when all data in component
+                        rating: userStats?.TrueSkill?.Rating?.toFixed(2),
+                      })}
+                    </FormHelperText>
+                  ) : null}
                   <FormHelperText>{MIN_RATING_INPUT_HELP_TEXT}</FormHelperText>
                 </>
               )}
@@ -588,16 +603,26 @@ const CreateGame = (): React.ReactElement => {
                     label={MAX_RATING_INPUT_LABEL}
                     name="maxRating"
                     margin="dense"
-                    value={values.maxRating}
+                    type="number"
+                    value={values.maxRating.toFixed(2)}
                     onChange={handleChange}
+                    error={Boolean(validationErrors.maxRating)}
                   />
+                  {validationErrors.maxRating ? (
+                    <FormHelperText error={true}>
+                      {t(validationErrors.maxRating, {
+                        // TODO simplify when all data in component
+                        rating: userStats?.TrueSkill?.Rating?.toFixed(2),
+                      })}
+                    </FormHelperText>
+                  ) : null}
                   <FormHelperText>{MAX_RATING_INPUT_HELP_TEXT}</FormHelperText>
                 </>
               )}
             </div>
           </section>
           <div className={classes.buttonContainer}>
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" disabled={submitDisabled}>
               {CREATE_GAME_BUTTON_LABEL}
             </Button>
           </div>

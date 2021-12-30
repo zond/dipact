@@ -1,20 +1,28 @@
-import { useFormik } from "formik";
+import { FormikErrors, FormikTouched, useFormik } from "formik";
 import { FormEvent, useEffect, useState } from "react";
 import Globals from "../Globals";
 import { randomGameName } from "../helpers";
 import {
   ColorOverrides,
+  CreateGameFormValues,
   SettingsFormValues,
   UserConfig,
+  UserStats,
   Variant,
 } from "../store/types";
 import { useColorOverrides } from "./selectors";
 import {
   useGetRootQuery,
+  useGetUserRatingHistogramQuery,
   useLazyGetUserConfigQuery,
+  useLazyGetUserStatsQuery,
   useLazyGetVariantSVGQuery,
   useListVariantsQuery,
 } from "./service";
+import { actions as uiActions } from "../store/ui";
+import { useDispatch } from "react-redux";
+import * as yup from "yup";
+import tk from "../translations/translateKeys";
 
 // TODO de-dupe with useSettings
 const CLASSICAL = "Classical";
@@ -27,35 +35,9 @@ interface IUseCreateGame {
   selectedVariantSVG: string | undefined;
   values: CreateGameFormValues;
   variants: Variant[];
-}
-
-interface CreateGameFormValues {
-  name: string;
-  privateGame: boolean;
-  gameMaster: boolean;
-  variant: string;
-  nationAllocation: number;
-  phaseLengthMultiplier: number;
-  phaseLengthUnit: number;
-  customAdjustmentPhaseLength: boolean;
-  adjustmentPhaseLengthMultiplier: number;
-  adjustmentPhaseLengthUnit: number;
-  skipGetReadyPhase: boolean;
-  endAfterYears: boolean;
-  endAfterYearsValue: number;
-  conferenceChatEnabled: boolean;
-  groupChatEnabled: boolean;
-  individualChatEnabled: boolean;
-  anonymousEnabled: boolean;
-  chatLanguage: string;
-  reliabilityEnabled: boolean;
-  minReliability: number;
-  quicknessEnabled: boolean;
-  minQuickness: number;
-  minRatingEnabled: boolean;
-  minRating: number;
-  maxRatingEnabled: boolean;
-  maxRating: number;
+  touched: FormikTouched<CreateGameFormValues>;
+  userStats?: UserStats;
+  validationErrors: FormikErrors<CreateGameFormValues>;
 }
 
 const getInitialFormValues = (): CreateGameFormValues => ({
@@ -84,7 +66,7 @@ const getInitialFormValues = (): CreateGameFormValues => ({
   minRatingEnabled: false,
   minRating: 0,
   maxRatingEnabled: false,
-  maxRating: 0, // TODO set default to user rating
+  maxRating: 0,
 });
 
 const useCreateGame = (): IUseCreateGame => {
@@ -93,7 +75,39 @@ const useCreateGame = (): IUseCreateGame => {
     getVariantsSVGQuery,
   ] = useLazyGetVariantSVGQuery();
   const listVariantsQuery = useListVariantsQuery(undefined);
+  const getRootQuery = useGetRootQuery(undefined);
+  const [getUserStatsTrigger, getUserStatsQuery] = useLazyGetUserStatsQuery();
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [validationSchema, setValidationSchema] = useState<any>();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (getRootQuery.data) {
+      getUserStatsTrigger(getRootQuery.data.Id as string);
+    }
+  }, [getRootQuery, getUserStatsTrigger]);
+
+  useEffect(() => {
+    if (getUserStatsQuery.isSuccess) {
+      setValidationSchema(
+        yup.object().shape({
+          maxRating: yup
+            .number()
+            .min(
+              (getUserStatsQuery.data.TrueSkill?.Rating || 0) - 0.01 as number,
+              tk.CreateGameMaxRatingInputErrorMessageLessThanUserRating
+            ),
+          minRating: yup
+            .number()
+            .max(
+              getUserStatsQuery.data.TrueSkill?.Rating as number,
+              tk.CreateGameMinRatingInputErrorMessageMoreThanUserRating
+            ),
+        })
+      );
+    }
+  }, [getUserStatsQuery.isSuccess, getUserStatsQuery.data?.TrueSkill?.Rating]);
+
   const {
     values,
     handleChange,
@@ -101,13 +115,25 @@ const useCreateGame = (): IUseCreateGame => {
     resetForm,
     initialValues,
     setFieldValue,
+    errors: validationErrors,
+    touched,
   } = useFormik({
     initialValues: getInitialFormValues(),
     onSubmit: (vals) => {
-      console.log(vals);
-      // dispatch(submitCreateGameForm(vals));
+      dispatch(uiActions.submitCreateGameForm(vals));
     },
+    validationSchema,
   });
+
+  useEffect(() => {
+    if (getUserStatsQuery.isSuccess) {
+      if (values.maxRating === 0)
+        setFieldValue(
+          "maxRating",
+          getUserStatsQuery.data.TrueSkill?.Rating as number
+        );
+    }
+  }, [getRootQuery, getUserStatsQuery, setFieldValue, values.maxRating]);
 
   useEffect(() => {
     if (listVariantsQuery.isSuccess && listVariantsQuery.data) {
@@ -141,6 +167,9 @@ const useCreateGame = (): IUseCreateGame => {
     selectedVariantSVG: getVariantsSVGQuery.data,
     values,
     variants: listVariantsQuery.data || [],
+    touched,
+    userStats: getUserStatsQuery.data,
+    validationErrors,
   };
 };
 

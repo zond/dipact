@@ -565,3 +565,32 @@ export type Corroboration = {
 export type CorroborationResponse = ApiResponse & {
   Properties: Corroboration;
 };
+
+export interface CreateGameFormValues {
+  name: string;
+  privateGame: boolean;
+  gameMaster: boolean;
+  variant: string;
+  nationAllocation: number;
+  phaseLengthMultiplier: number;
+  phaseLengthUnit: number;
+  customAdjustmentPhaseLength: boolean;
+  adjustmentPhaseLengthMultiplier: number;
+  adjustmentPhaseLengthUnit: number;
+  skipGetReadyPhase: boolean;
+  endAfterYears: boolean;
+  endAfterYearsValue: number;
+  conferenceChatEnabled: boolean;
+  groupChatEnabled: boolean;
+  individualChatEnabled: boolean;
+  anonymousEnabled: boolean;
+  chatLanguage: string;
+  reliabilityEnabled: boolean;
+  minReliability: number;
+  quicknessEnabled: boolean;
+  minQuickness: number;
+  minRatingEnabled: boolean;
+  minRating: number;
+  maxRatingEnabled: boolean;
+  maxRating: number;
+}

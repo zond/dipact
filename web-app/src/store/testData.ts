@@ -120,7 +120,6 @@ export const initialState: RootState = {
   latestForumMail: {},
   messaging,
   userBans: {},
-  userStats: {},
   phase: null,
 };
 

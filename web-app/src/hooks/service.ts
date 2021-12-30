@@ -11,6 +11,8 @@ export const {
   useInviteMutation,
   useJoinGameMutation,
   useLazyGetGameQuery,
+  useLazyGetUserConfigQuery,
+  useLazyGetUserStatsQuery,
   useLazyGetVariantSVGQuery,
   useLazyGetVariantUnitSVGQuery,
   useLazyListPhaseStatesQuery,
@@ -24,5 +26,4 @@ export const {
   useUnInviteMutation,
   useUpdatePhaseStateMutation,
   useUpdateUserConfigMutation,
-  useLazyGetUserConfigQuery,
 } = diplicityService;

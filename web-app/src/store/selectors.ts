@@ -12,17 +12,33 @@ import {
   MutationStatus,
   User,
   UserConfig,
+  UserStats,
   Variant,
 } from "./types";
 
-const getListVariantsSelector = () => diplicityService.endpoints.listVariants.select(undefined);
-const getGetRootSelector = () => diplicityService.endpoints.getRoot.select(undefined);
+// TODO use memoized selectors
+
+const getListVariantsSelector = () =>
+  diplicityService.endpoints.listVariants.select(undefined);
+const getGetRootSelector = () =>
+  diplicityService.endpoints.getRoot.select(undefined);
 
 export const selectColorOverrides = (state: RootState): ColorOverrides =>
   state.colorOverrides;
 
-const selectJoinedGames = (state: RootState): number | undefined =>
-  state.userStats.JoinedGames || state.userStats.PrivateStats?.JoinedGames;
+const selectUserStats = (state: RootState): UserStats | undefined => {
+  const userId = selectUserId(state);
+  if (!userId) return;
+  const userStats = diplicityService.endpoints.getUserStats.select(userId)(
+    state
+  ).data;
+  return userStats;
+};
+
+const selectJoinedGames = (state: RootState): number | undefined => {
+  const userStats = selectUserStats(state);
+  return userStats?.JoinedGames || userStats?.PrivateStats?.JoinedGames;
+}
 
 export const selectHasPlayed = (state: RootState): boolean =>
   Boolean(selectJoinedGames(state));
