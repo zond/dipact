@@ -47,20 +47,24 @@ import RenameGameDialog, {
 } from "../../components/RenameGameDialog";
 
 const server = setupServer(
+  handlers.deleteGame.success,
+  handlers.getGame.success,
   handlers.getUser.success,
-  handlers.variants.successShort,
-  handlers.listGamesStarted.success,
+  handlers.invite.success,
+  handlers.joinGame.success,
+  handlers.listGamesFinished.success,
+  handlers.listGamesMasteredFinished.success,
   handlers.listGamesMasteredStaging.success,
   handlers.listGamesMasteredStarted.success,
   handlers.listGamesStaging.success,
-  handlers.listGamesFinished.success,
-  handlers.joinGame.success,
-  handlers.getGame.success,
-  handlers.rescheduleGame.success,
-  handlers.invite.success,
-  handlers.unInvite.success,
+  handlers.listGamesStarted.success,
+  handlers.listGamesMyStaging.success,
+  handlers.listGamesMyFinished.success,
+  handlers.listGamesMyStarted.success,
   handlers.renameGame.success,
-  handlers.deleteGame.success
+  handlers.rescheduleGame.success,
+  handlers.unInvite.success,
+  handlers.variants.successShort,
 );
 
 beforeAll((): void => {
@@ -120,7 +124,16 @@ const getTab = async (name: string, options?: any) => {
   return await waitFor(() => screen.getByRole("tab", { name, ...options }));
 };
 
-describe("Game functional tests", () => {
+const getExpandButton = async () => {
+  return await waitFor(() => screen.getByTestId("ExpandMoreIcon"));
+}
+
+const clickExpandButton = async () => {
+  const button = await getExpandButton();
+  fireEvent.click(button);
+}
+
+describe("Game list functional tests", () => {
   let fetchSpy: jest.SpyInstance;
   let gaEventSpy: jest.SpyInstance;
   let gaSetSpy: jest.SpyInstance;
@@ -280,6 +293,7 @@ describe("Game functional tests", () => {
   test("If user can't join game reasons are shown", async () => {
     server.use(handlers.listGamesStarted.successFailedRequirements);
     render(<WrappedGameList path={gameListUrl} />);
+    await clickExpandButton();
     await waitFor(() => screen.getByText("You can't join this game:"));
     await waitFor(() =>
       screen.getByText("You've been reported too often (hated score too high).")
@@ -290,6 +304,7 @@ describe("Game functional tests", () => {
   test("If user can join game reasons are not shown", async () => {
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
+    await clickExpandButton();
     await waitFor(() => screen.getByText("Name of started game"));
     const text = screen.queryByText("You can't join this game:");
     expect(text).toBeNull();
@@ -298,6 +313,7 @@ describe("Game functional tests", () => {
   test("Failed requirements disables join button", async () => {
     server.use(handlers.listGamesStarted.successFailedRequirements);
     render(<WrappedGameList path={gameListUrl} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     expect(button).toHaveAttribute("disabled");
   });
@@ -305,6 +321,7 @@ describe("Game functional tests", () => {
   test("View game button is <a> tag", async () => {
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
+    await clickExpandButton();
     const link = await waitFor(() => screen.getByText("View").closest("a"));
     expect(link?.href).toBe(
       "http://localhost" +
@@ -316,6 +333,7 @@ describe("Game functional tests", () => {
     const copyToClipboardSpy = jest.spyOn(generalUtils, "copyToClipboard");
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Invite"));
     fireEvent.click(button);
     const gameUrl = generatePath(RouteConfig.Game, { gameId: "game-123" });
@@ -325,6 +343,7 @@ describe("Game functional tests", () => {
   test("Join button opens nation preferences dialog if nation selection is preference", async () => {
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Nation preferences"));
@@ -336,6 +355,7 @@ describe("Game functional tests", () => {
       handlers.joinGame.internalServerError
     );
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Couldn't join game."));
@@ -344,6 +364,7 @@ describe("Game functional tests", () => {
   test("Join button hits endpoint correctly", async () => {
     server.use(handlers.listGamesStaging.successRandomAllocation);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
@@ -355,6 +376,7 @@ describe("Game functional tests", () => {
   test("Join button calls GA", async () => {
     server.use(handlers.listGamesStaging.successRandomAllocation);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
@@ -367,6 +389,7 @@ describe("Game functional tests", () => {
   test("Join button shows success feedback", async () => {
     server.use(handlers.listGamesStaging.successRandomAllocation);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
@@ -374,6 +397,7 @@ describe("Game functional tests", () => {
 
   test("Nation preference dialog causes gtag page load event", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
@@ -392,6 +416,7 @@ describe("Game functional tests", () => {
 
   test("Nation preference dialog loads nations for game", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Nation preferences"));
@@ -410,6 +435,7 @@ describe("Game functional tests", () => {
 
   test("Nation preference dialog submit button disables submit button", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const joinButton = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(joinButton);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -420,6 +446,7 @@ describe("Game functional tests", () => {
   });
   test("Nation preference dialog submit button calls endpoint", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const joinButton = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(joinButton);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -432,6 +459,7 @@ describe("Game functional tests", () => {
   });
   test("Nation preference dialog submit button causes gtag event", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const joinButton = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(joinButton);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -447,6 +475,7 @@ describe("Game functional tests", () => {
 
   test("Nation preference dialog submission closes dialog", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const joinButton = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(joinButton);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -461,6 +490,7 @@ describe("Game functional tests", () => {
 
   test("Nation preference dialog close button closes dialog", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const joinButton = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(joinButton);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -475,6 +505,7 @@ describe("Game functional tests", () => {
   test("Nation preference dialog submit button shows errors when error", async () => {
     server.use(handlers.joinGame.internalServerError);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const joinButton = await waitFor(() => screen.getByText("Join"));
     fireEvent.click(joinButton);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -488,11 +519,13 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     await waitFor(() => screen.getByText("Reschedule"));
   });
 
   test("Reschedule button does not appear if not game master", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
+    await clickExpandButton();
     const rescheduleButton = screen.queryByText("Reschedule");
     expect(rescheduleButton).toBeNull();
   });
@@ -502,6 +535,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -512,6 +546,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
@@ -531,6 +566,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -551,6 +587,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -566,6 +603,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -584,6 +622,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -601,6 +640,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -616,6 +656,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText("Reschedule"));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Reschedule game"));
@@ -631,11 +672,13 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     await waitFor(() => screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL));
   });
 
   test("Manage invitations button does not appear if", async () => {
     render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
+    await clickExpandButton();
     const button = screen.queryByText(MANAGE_INVITATIONS_BUTTON_LABEL);
     expect(button).toBeNull();
   });
@@ -644,6 +687,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -656,6 +700,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -678,6 +723,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -692,6 +738,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -713,6 +760,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -731,6 +779,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -752,6 +801,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -767,6 +817,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -781,6 +832,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -797,6 +849,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -812,6 +865,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -830,6 +884,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -848,6 +903,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -868,6 +924,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() =>
       screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
     );
@@ -883,6 +940,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
   });
 
@@ -890,6 +948,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=0&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = screen.queryByText(RENAME_BUTTON_LABEL);
     expect(button).toBeNull();
   });
@@ -898,6 +957,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -908,6 +968,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
@@ -929,6 +990,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -949,6 +1011,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -965,6 +1028,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -984,6 +1048,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -996,6 +1061,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
     fireEvent.click(button);
     const dialog = await waitFor(() => screen.getByRole("dialog"));
@@ -1012,13 +1078,15 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
   });
 
   test("Delete button does not appear if not game master", async () => {
     render(
-      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+      <WrappedGameList path={gameListUrl + "?my=1&status=started"} />
     );
+    await clickExpandButton();
     const button = screen.queryByText(DELETE_BUTTON_LABEL);
     expect(button).toBeNull();
   });
@@ -1027,6 +1095,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
     fireEvent.click(button);
     fetchSpy.mockClear();
@@ -1039,6 +1108,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Deleted!"));
@@ -1051,6 +1121,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
     fireEvent.click(button);
     expect(button).toHaveAttribute("disabled");
@@ -1060,6 +1131,7 @@ describe("Game functional tests", () => {
     render(
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
+    await clickExpandButton();
     const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Couldn't delete game."));
