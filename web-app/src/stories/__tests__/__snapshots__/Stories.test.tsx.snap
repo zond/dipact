@@ -12,58 +12,67 @@ exports[`Storyshots components/ChatChannelPreview Default 1`] = `
   }
 >
   <div
-    className="makeStyles-root-6 makeStyles-root-7"
+    className="makeStyles-root-1"
   >
-    <div>
-      <div
-        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-8 makeStyles-avatar-9"
-      >
-        <img
-          alt="England"
-          className="MuiAvatar-img"
-          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-        />
+    <div
+      className="makeStyles-root-7 makeStyles-root-8"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-9 makeStyles-avatar-10 css-1a00onu-MuiAvatar-root"
+          title="England"
+        >
+          <img
+            alt="England"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-9 makeStyles-avatar-11 css-1a00onu-MuiAvatar-root"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-9 makeStyles-avatar-12 css-1a00onu-MuiAvatar-root"
+          title="Germany"
+        >
+          <img
+            alt="Germany"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+          />
+        </div>
       </div>
     </div>
-    <div>
-      <div
-        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-8 makeStyles-avatar-10"
+    <div
+      className="makeStyles-messagePreviewContainer-2"
+      title="Chat channel preview"
+    >
+      <h4
+        className="MuiTypography-root MuiTypography-body1 makeStyles-messagePreviewTitle-3 css-rb48uj-MuiTypography-root"
       >
-        <img
-          alt="France"
-          className="MuiAvatar-img"
-          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-        />
-      </div>
-      <div
-        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-8 makeStyles-avatar-11"
+        England, France, Germany (3)
+      </h4>
+      <span
+        className="MuiTypography-root MuiTypography-body2 makeStyles-messagePreviewText-4 css-fvst8m-MuiTypography-root"
       >
-        <img
-          alt="Germany"
-          className="MuiAvatar-img"
-          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
-        />
-      </div>
+        <p
+          className="MuiTypography-root MuiTypography-body2 makeStyles-messagePreviewLabel-5 makeStyles-messagePreviewLabel-6 css-fvst8m-MuiTypography-root"
+          title="sender"
+        >
+          England: 
+        </p>
+        Hello fellow players.
+      </span>
     </div>
-  </div>
-  <div
-    className="makeStyles-messagePreviewContainer-1"
-  >
-    <p
-      className="MuiTypography-root makeStyles-messagePreviewTitle-2 MuiTypography-body1"
-    >
-      England, France, Germany (3)
-    </p>
-    <p
-      className="MuiTypography-root makeStyles-messagePreviewText-3 MuiTypography-body2"
-    >
-      <p
-        className="MuiTypography-root makeStyles-messagePreviewLabel-4 makeStyles-messagePreviewLabel-5 MuiTypography-body2"
-      >
-        England: 
-      </p>
-      Hello fellow players.
-    </p>
   </div>
 </button>
 `;
@@ -79,68 +88,65 @@ exports[`Storyshots components/ChatChannelPreview Messages Since 1`] = `
     }
   }
 >
-  <span
-    className="MuiBadge-root"
-  >
-    <div
-      className="makeStyles-root-28 makeStyles-root-29"
-    >
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-30 makeStyles-avatar-31"
-        >
-          <img
-            alt="England"
-            className="MuiAvatar-img"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-          />
-        </div>
-      </div>
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-30 makeStyles-avatar-32"
-        >
-          <img
-            alt="France"
-            className="MuiAvatar-img"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-          />
-        </div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-30 makeStyles-avatar-33"
-        >
-          <img
-            alt="Germany"
-            className="MuiAvatar-img"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
-          />
-        </div>
-      </div>
-    </div>
-    <span
-      className="MuiBadge-badge MuiBadge-anchorOriginTopRightCircle MuiBadge-colorPrimary"
-    >
-      2
-    </span>
-  </span>
   <div
-    className="makeStyles-messagePreviewContainer-23"
+    className="makeStyles-root-13"
   >
-    <p
-      className="MuiTypography-root makeStyles-messagePreviewTitle-24 MuiTypography-body1"
+    <span
+      className="MuiBadge-root css-1c32n2y-MuiBadge-root"
     >
-      England, France, Germany (3)
-    </p>
-    <p
-      className="MuiTypography-root makeStyles-messagePreviewText-25 MuiTypography-body2"
-    >
-      <p
-        className="MuiTypography-root makeStyles-messagePreviewLabel-26 makeStyles-messagePreviewLabel-27 MuiTypography-body2"
+      <div
+        className="makeStyles-root-19 makeStyles-root-20"
       >
-        You: 
-      </p>
-      Hello fellow players.
-    </p>
+        <div>
+          <div
+            className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-21 makeStyles-avatar-22 css-1a00onu-MuiAvatar-root"
+            title="France"
+          >
+            <img
+              alt="France"
+              className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+              src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+            />
+          </div>
+          <div
+            className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-21 makeStyles-avatar-23 css-1a00onu-MuiAvatar-root"
+            title="Germany"
+          >
+            <img
+              alt="Germany"
+              className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+              src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+            />
+          </div>
+        </div>
+      </div>
+      <span
+        className="MuiBadge-colorPrimary MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopRightCircular css-1fkl0a0-MuiBadge-badge"
+      >
+        2
+      </span>
+    </span>
+    <div
+      className="makeStyles-messagePreviewContainer-14"
+      title="Chat channel preview"
+    >
+      <h4
+        className="MuiTypography-root MuiTypography-body1 makeStyles-messagePreviewTitle-15 css-rb48uj-MuiTypography-root"
+      >
+        England, France, Germany (3)
+      </h4>
+      <span
+        className="MuiTypography-root MuiTypography-body2 makeStyles-messagePreviewText-16 css-fvst8m-MuiTypography-root"
+      >
+        <p
+          className="MuiTypography-root MuiTypography-body2 makeStyles-messagePreviewLabel-17 makeStyles-messagePreviewLabel-18 css-fvst8m-MuiTypography-root"
+          title="sender"
+        >
+          You: 
+        </p>
+        Hello fellow players.
+      </span>
+    </div>
   </div>
 </button>
 `;
@@ -157,58 +163,55 @@ exports[`Storyshots components/ChatChannelPreview User Is Sender 1`] = `
   }
 >
   <div
-    className="makeStyles-root-17 makeStyles-root-18"
+    className="makeStyles-root-24"
   >
-    <div>
-      <div
-        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-19 makeStyles-avatar-20"
-      >
-        <img
-          alt="England"
-          className="MuiAvatar-img"
-          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-        />
+    <div
+      className="makeStyles-root-30 makeStyles-root-31"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-32 makeStyles-avatar-33 css-1a00onu-MuiAvatar-root"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-32 makeStyles-avatar-34 css-1a00onu-MuiAvatar-root"
+          title="Germany"
+        >
+          <img
+            alt="Germany"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
+          />
+        </div>
       </div>
     </div>
-    <div>
-      <div
-        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-19 makeStyles-avatar-21"
+    <div
+      className="makeStyles-messagePreviewContainer-25"
+      title="Chat channel preview"
+    >
+      <h4
+        className="MuiTypography-root MuiTypography-body1 makeStyles-messagePreviewTitle-26 css-rb48uj-MuiTypography-root"
       >
-        <img
-          alt="France"
-          className="MuiAvatar-img"
-          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-        />
-      </div>
-      <div
-        className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-19 makeStyles-avatar-22"
+        England, France, Germany (3)
+      </h4>
+      <span
+        className="MuiTypography-root MuiTypography-body2 makeStyles-messagePreviewText-27 css-fvst8m-MuiTypography-root"
       >
-        <img
-          alt="Germany"
-          className="MuiAvatar-img"
-          src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
-        />
-      </div>
+        <p
+          className="MuiTypography-root MuiTypography-body2 makeStyles-messagePreviewLabel-28 makeStyles-messagePreviewLabel-29 css-fvst8m-MuiTypography-root"
+          title="sender"
+        >
+          You: 
+        </p>
+        Hello fellow players.
+      </span>
     </div>
-  </div>
-  <div
-    className="makeStyles-messagePreviewContainer-12"
-  >
-    <p
-      className="MuiTypography-root makeStyles-messagePreviewTitle-13 MuiTypography-body1"
-    >
-      England, France, Germany (3)
-    </p>
-    <p
-      className="MuiTypography-root makeStyles-messagePreviewText-14 MuiTypography-body2"
-    >
-      <p
-        className="MuiTypography-root makeStyles-messagePreviewLabel-15 makeStyles-messagePreviewLabel-16 MuiTypography-body2"
-      >
-        You: 
-      </p>
-      Hello fellow players.
-    </p>
   </div>
 </button>
 `;
@@ -275,138 +278,48 @@ exports[`Storyshots components/ChatMessage Long 1`] = `
 
 exports[`Storyshots components/ChatMessage Medium 1`] = `
 <div
-  className="makeStyles-root-8 makeStyles-root-13"
->
-  <div />
-  <div
-    className="makeStyles-messageContainer-9 makeStyles-messageContainer-14"
-  >
-    <h6
-      className="MuiTypography-root makeStyles-name-10 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-11 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-12 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage No Name 1`] = `
-<div
-  className="makeStyles-root-22 makeStyles-root-27"
->
-  <div />
-  <div
-    className="makeStyles-messageContainer-23 makeStyles-messageContainer-28"
-  >
-    <h6
-      className="MuiTypography-root makeStyles-name-24 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-25 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-26 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage Not Delivered 1`] = `
-<div
-  className="makeStyles-root-36 makeStyles-root-41"
->
-  <div />
-  <div
-    className="makeStyles-messageContainer-37 makeStyles-messageContainer-42"
-  >
-    <h6
-      className="MuiTypography-root makeStyles-name-38 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-39 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-40 MuiTypography-caption"
-    >
-      Sending...
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage Not Self 1`] = `
-<div
-  className="makeStyles-root-29 makeStyles-root-34"
->
-  <div />
-  <div
-    className="makeStyles-messageContainer-30 makeStyles-messageContainer-35"
-  >
-    <h6
-      className="MuiTypography-root makeStyles-name-31 MuiTypography-subtitle2"
-    >
-      
-       
-      Germany
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-32 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-33 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage Selfish 1`] = `
-<div
-  className="makeStyles-root-42 makeStyles-root-51"
+  className="makeStyles-root-35 makeStyles-root-41"
+  data-testid="message"
 >
   <h6
-    className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+    className="MuiTypography-root MuiTypography-subtitle2 makeStyles-name-36 message-sender css-3941kt-MuiTypography-root"
   >
     
      
     England
   </h6>
   <p
-    className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+    className="MuiTypography-root MuiTypography-body1 makeStyles-text-37 message-text css-rb48uj-MuiTypography-root"
   >
     Hello there. This is a message of medium length. Don't you agree?
   </p>
   <span
-    className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+    className="MuiTypography-root MuiTypography-caption makeStyles-status-38 message-status css-w6f2ch-MuiTypography-root"
+  >
+    12:32:12 31/7/2021
+  </span>
+</div>
+`;
+
+exports[`Storyshots components/ChatMessage Selfish 1`] = `
+<div
+  className="makeStyles-root-35 makeStyles-root-42"
+  data-testid="message"
+>
+  <h6
+    className="MuiTypography-root MuiTypography-subtitle2 makeStyles-name-36 message-sender css-3941kt-MuiTypography-root"
+  >
+    
+     
+    England
+  </h6>
+  <p
+    className="MuiTypography-root MuiTypography-body1 makeStyles-text-37 message-text css-rb48uj-MuiTypography-root"
+  >
+    Hello there. This is a message of medium length. Don't you agree?
+  </p>
+  <span
+    className="MuiTypography-root MuiTypography-caption makeStyles-status-38 message-status css-w6f2ch-MuiTypography-root"
   >
     12:32:12 31/7/2021
   </span>
@@ -415,200 +328,51 @@ exports[`Storyshots components/ChatMessage Selfish 1`] = `
 
 exports[`Storyshots components/ChatMessage Short 1`] = `
 <div
-  className="makeStyles-root-1 makeStyles-root-6"
->
-  <div />
-  <div
-    className="makeStyles-messageContainer-2 makeStyles-messageContainer-7"
-  >
-    <h6
-      className="MuiTypography-root makeStyles-name-3 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-4 MuiTypography-body1"
-    >
-      Hello there
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-5 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage Undelivered 1`] = `
-<div
-  className="makeStyles-root-42 makeStyles-root-49"
+  className="makeStyles-root-35 makeStyles-root-43"
+  data-testid="message"
 >
   <h6
-    className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+    className="MuiTypography-root MuiTypography-subtitle2 makeStyles-name-36 message-sender css-3941kt-MuiTypography-root"
   >
     
      
     England
   </h6>
   <p
-    className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+    className="MuiTypography-root MuiTypography-body1 makeStyles-text-37 message-text css-rb48uj-MuiTypography-root"
   >
-    Hello there. This is a message of medium length. Don't you agree?
+    Short message
   </p>
   <span
-    className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+    className="MuiTypography-root MuiTypography-caption makeStyles-status-38 message-status css-w6f2ch-MuiTypography-root"
   >
-    Sending...
+    12:32:12 31/7/2021
   </span>
 </div>
 `;
 
-exports[`Storyshots components/ChatMessage Username 1`] = `
+exports[`Storyshots components/ChatMessage Undelivered 1`] = `
 <div
-  className="makeStyles-root-77 makeStyles-root-82"
+  className="makeStyles-root-35 makeStyles-root-44"
+  data-testid="message"
 >
-  <div />
-  <div
-    className="makeStyles-messageContainer-78 makeStyles-messageContainer-83"
+  <h6
+    className="MuiTypography-root MuiTypography-subtitle2 makeStyles-name-36 message-sender css-3941kt-MuiTypography-root"
   >
-    <h6
-      className="MuiTypography-root makeStyles-name-79 MuiTypography-subtitle2"
-    >
-      Diplicity
-       
-      
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-80 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-81 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage With Avatar France 1`] = `
-<div
-  className="makeStyles-root-50 makeStyles-root-55"
->
-  <div>
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-57 makeStyles-avatar-58"
-    >
-      <img
-        alt="France"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-      />
-    </div>
-  </div>
-  <div
-    className="makeStyles-messageContainer-51 makeStyles-messageContainer-56"
+    
+     
+    England
+  </h6>
+  <p
+    className="MuiTypography-root MuiTypography-body1 makeStyles-text-37 message-text css-rb48uj-MuiTypography-root"
   >
-    <h6
-      className="MuiTypography-root makeStyles-name-52 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-53 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-54 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage With Avatar France Other 1`] = `
-<div
-  className="makeStyles-root-59 makeStyles-root-64"
->
-  <div>
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-66 makeStyles-avatar-67"
-    >
-      <img
-        alt="France"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-      />
-    </div>
-  </div>
-  <div
-    className="makeStyles-messageContainer-60 makeStyles-messageContainer-65"
+    Hello there. This is a message of medium length. Don't you agree?
+  </p>
+  <span
+    className="MuiTypography-root MuiTypography-caption makeStyles-status-38 message-status css-w6f2ch-MuiTypography-root"
   >
-    <h6
-      className="MuiTypography-root makeStyles-name-61 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-62 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-63 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessage With Avatar Otto 1`] = `
-<div
-  className="makeStyles-root-68 makeStyles-root-73"
->
-  <div>
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-75 makeStyles-avatar-76"
-    >
-      <img
-        alt="France"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-      />
-    </div>
-  </div>
-  <div
-    className="makeStyles-messageContainer-69 makeStyles-messageContainer-74"
-  >
-    <h6
-      className="MuiTypography-root makeStyles-name-70 MuiTypography-subtitle2"
-    >
-      
-       
-      France
-    </h6>
-    <p
-      className="MuiTypography-root makeStyles-text-71 MuiTypography-body1"
-    >
-      Hello there. This is a message of medium length. Don't you agree?
-    </p>
-    <span
-      className="MuiTypography-root makeStyles-status-72 MuiTypography-caption"
-    >
-      07:11:49 01/08/2021
-    </span>
-  </div>
+    Sending...
+  </span>
 </div>
 `;
 
@@ -808,35 +572,37 @@ exports[`Storyshots components/ChatMessageInput Wide 1`] = `
 
 exports[`Storyshots components/ChatMessageWithAvatar France 1`] = `
 <div
-  className="makeStyles-root-95 makeStyles-root-96"
+  className="makeStyles-root-53 makeStyles-root-54"
 >
   <div
-    className="makeStyles-root-42 makeStyles-root-97"
+    className="makeStyles-root-35 makeStyles-root-55"
+    data-testid="message"
   >
     <h6
-      className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      className="MuiTypography-root MuiTypography-subtitle2 makeStyles-name-36 message-sender css-3941kt-MuiTypography-root"
     >
       
        
       England
     </h6>
     <p
-      className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-text-37 message-text css-rb48uj-MuiTypography-root"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
     <span
-      className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      className="MuiTypography-root MuiTypography-caption makeStyles-status-38 message-status css-w6f2ch-MuiTypography-root"
     >
       12:32:12 31/7/2021
     </span>
   </div>
   <div
-    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-98 makeStyles-avatar-99"
+    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-56 makeStyles-avatar-57 css-1a00onu-MuiAvatar-root"
+    title="France"
   >
     <img
       alt="France"
-      className="MuiAvatar-img"
+      className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
       src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
     />
   </div>
@@ -845,302 +611,49 @@ exports[`Storyshots components/ChatMessageWithAvatar France 1`] = `
 
 exports[`Storyshots components/ChatMessageWithAvatar Selfish 1`] = `
 <div
-  className="makeStyles-root-100 makeStyles-root-101"
+  className="makeStyles-root-58 makeStyles-root-59"
 >
   <div
-    className="makeStyles-root-42 makeStyles-root-102"
+    className="makeStyles-root-35 makeStyles-root-60"
+    data-testid="message"
   >
     <h6
-      className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
+      className="MuiTypography-root MuiTypography-subtitle2 makeStyles-name-36 message-sender css-3941kt-MuiTypography-root"
     >
       
        
       England
     </h6>
     <p
-      className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-text-37 message-text css-rb48uj-MuiTypography-root"
     >
       Hello there. This is a message of medium length. Don't you agree?
     </p>
     <span
-      className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
+      className="MuiTypography-root MuiTypography-caption makeStyles-status-38 message-status css-w6f2ch-MuiTypography-root"
     >
       12:32:12 31/7/2021
     </span>
   </div>
   <div
-    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-103 makeStyles-avatar-104"
+    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-61 makeStyles-avatar-62 css-1a00onu-MuiAvatar-root"
+    title="France"
   >
     <img
       alt="France"
-      className="MuiAvatar-img"
+      className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
       src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
     />
   </div>
 </div>
 `;
 
-exports[`Storyshots components/ChatMessagesList Loading 1`] = `
-<div
-  className="makeStyles-root-69 makeStyles-root-70"
->
-  <div
-    className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
-    role="progressbar"
-    style={
-      Object {
-        "height": 40,
-        "width": 40,
-      }
-    }
-  >
-    <svg
-      className="MuiCircularProgress-svg"
-      viewBox="22 22 44 44"
-    >
-      <circle
-        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
-        cx={44}
-        cy={44}
-        fill="none"
-        r={20.2}
-        strokeWidth={3.6}
-        style={Object {}}
-      />
-    </svg>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/ChatMessagesList Multiple Messages 1`] = `
-Array [
-  <div
-    className="makeStyles-phaseDividerContainer-79"
-  >
-    <h6
-      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorPrimary MuiTypography-displayBlock"
-    >
-      ------ Spring 1900, Movement ------
-    </h6>
-  </div>,
-  <div
-    className="makeStyles-root-80"
-  >
-    <h6
-      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-displayBlock"
-    >
-      New messages
-    </h6>
-  </div>,
-  <div
-    className="makeStyles-root-81 makeStyles-root-82"
-  >
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-84"
-      onClick={[Function]}
-    >
-      <img
-        alt="England"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-      />
-    </div>
-    <div
-      className="makeStyles-root-42 makeStyles-root-85"
-    >
-      <h6
-        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
-      >
-        
-         
-        England
-      </h6>
-      <p
-        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
-      >
-        Hello there. This is a message of medium length. Don't you agree?
-      </p>
-      <span
-        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
-      >
-        12:32:12 31/7/2021
-      </span>
-    </div>
-  </div>,
-  <div
-    className="makeStyles-root-81 makeStyles-root-86"
-  >
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-87"
-      onClick={[Function]}
-    >
-      <img
-        alt="England"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-      />
-    </div>
-    <div
-      className="makeStyles-root-42 makeStyles-root-88"
-    >
-      <h6
-        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
-      >
-        
-         
-        England
-      </h6>
-      <p
-        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
-      >
-        Short message
-      </p>
-      <span
-        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
-      >
-        12:32:12 31/7/2021
-      </span>
-    </div>
-  </div>,
-  <div
-    className="makeStyles-root-81 makeStyles-root-89"
-  >
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-90"
-      onClick={[Function]}
-    >
-      <img
-        alt="England"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-      />
-    </div>
-    <div
-      className="makeStyles-root-42 makeStyles-root-91"
-    >
-      <h6
-        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
-      >
-        
-         
-        England
-      </h6>
-      <p
-        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
-      >
-        Hello there. This is a message of medium length. Don't you agree?
-      </p>
-      <span
-        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
-      >
-        12:32:12 31/7/2021
-      </span>
-    </div>
-  </div>,
-  <div
-    className="makeStyles-root-81 makeStyles-root-92"
-  >
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-93"
-      onClick={[Function]}
-    >
-      <img
-        alt="England"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-      />
-    </div>
-    <div
-      className="makeStyles-root-42 makeStyles-root-94"
-    >
-      <h6
-        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
-      >
-        
-         
-        England
-      </h6>
-      <p
-        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
-      >
-        Hello there. This is a message of medium length. Don't you agree?
-      </p>
-      <span
-        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
-      >
-        Sending...
-      </span>
-    </div>
-  </div>,
-]
-`;
-
-exports[`Storyshots components/ChatMessagesList No Messages 1`] = `null`;
-
-exports[`Storyshots components/ChatMessagesList One Message 1`] = `
-Array [
-  <div
-    className="makeStyles-phaseDividerContainer-72"
-  >
-    <h6
-      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorPrimary MuiTypography-displayBlock"
-    >
-      ------ Spring 1900, Movement ------
-    </h6>
-  </div>,
-  <div
-    className="makeStyles-root-73"
-  >
-    <h6
-      className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-displayBlock"
-    >
-      New messages
-    </h6>
-  </div>,
-  <div
-    className="makeStyles-root-74 makeStyles-root-75"
-  >
-    <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-76 makeStyles-avatar-77"
-      onClick={[Function]}
-    >
-      <img
-        alt="England"
-        className="MuiAvatar-img"
-        src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
-      />
-    </div>
-    <div
-      className="makeStyles-root-42 makeStyles-root-78"
-    >
-      <h6
-        className="MuiTypography-root makeStyles-name-43 MuiTypography-subtitle2"
-      >
-        
-         
-        England
-      </h6>
-      <p
-        className="MuiTypography-root makeStyles-text-44 MuiTypography-body1"
-      >
-        Hello there. This is a message of medium length. Don't you agree?
-      </p>
-      <span
-        className="MuiTypography-root makeStyles-status-45 MuiTypography-caption"
-      >
-        12:32:12 31/7/2021
-      </span>
-    </div>
-  </div>,
-]
-`;
-
 exports[`Storyshots components/ChatNewMessagesBanner Default 1`] = `
 <div
-  className="makeStyles-root-100"
+  className="makeStyles-root-63"
 >
   <h6
-    className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-displayBlock"
+    className="MuiTypography-root MuiTypography-subtitle2 css-19pnjn6-MuiTypography-root"
   >
     New messages
   </h6>
@@ -1149,7 +662,7 @@ exports[`Storyshots components/ChatNewMessagesBanner Default 1`] = `
 
 exports[`Storyshots components/ChatPhaseDivider Default 1`] = `
 <h6
-  className="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorPrimary MuiTypography-displayBlock"
+  className="MuiTypography-root MuiTypography-subtitle2 css-aywqym-MuiTypography-root"
 >
   ------ Fall 1903, Movement ------
 </h6>
@@ -1157,12 +670,13 @@ exports[`Storyshots components/ChatPhaseDivider Default 1`] = `
 
 exports[`Storyshots components/ErrorMessage Internal Server Error 1`] = `
 <div
-  className="makeStyles-root-81"
+  className="makeStyles-root-64"
 >
   <div>
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="WarningIcon"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -1171,7 +685,7 @@ exports[`Storyshots components/ErrorMessage Internal Server Error 1`] = `
       />
     </svg>
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
       role="alert"
     >
       Internal server error
@@ -1185,10 +699,10 @@ exports[`Storyshots components/ErrorMessage Internal Server Error 1`] = `
 
 exports[`Storyshots components/Loading Default 1`] = `
 <div
-  className="makeStyles-root-84 makeStyles-root-85"
+  className="makeStyles-root-65 makeStyles-root-66"
 >
-  <div
-    className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+  <span
+    className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1ls149k-MuiCircularProgress-root"
     role="progressbar"
     style={
       Object {
@@ -1198,11 +712,11 @@ exports[`Storyshots components/Loading Default 1`] = `
     }
   >
     <svg
-      className="MuiCircularProgress-svg"
+      className="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
       viewBox="22 22 44 44"
     >
       <circle
-        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
         cx={44}
         cy={44}
         fill="none"
@@ -1211,17 +725,18 @@ exports[`Storyshots components/Loading Default 1`] = `
         style={Object {}}
       />
     </svg>
-  </div>
+  </span>
 </div>
 `;
 
 exports[`Storyshots components/NationAvatar England 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-107 makeStyles-avatar-108"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-67 makeStyles-avatar-68 css-1a00onu-MuiAvatar-root"
+  title="England"
 >
   <img
     alt="England"
-    className="MuiAvatar-img"
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
     src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
   />
 </div>
@@ -1229,11 +744,12 @@ exports[`Storyshots components/NationAvatar England 1`] = `
 
 exports[`Storyshots components/NationAvatar France 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-101 makeStyles-avatar-102"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-69 makeStyles-avatar-70 css-1a00onu-MuiAvatar-root"
+  title="France"
 >
   <img
     alt="France"
-    className="MuiAvatar-img"
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
     src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
   />
 </div>
@@ -1241,11 +757,12 @@ exports[`Storyshots components/NationAvatar France 1`] = `
 
 exports[`Storyshots components/NationAvatar Germany 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-105 makeStyles-avatar-106"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-71 makeStyles-avatar-72 css-1a00onu-MuiAvatar-root"
+  title="Germany"
 >
   <img
     alt="Germany"
-    className="MuiAvatar-img"
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
     src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
   />
 </div>
@@ -1253,24 +770,26 @@ exports[`Storyshots components/NationAvatar Germany 1`] = `
 
 exports[`Storyshots components/NationAvatar Muted 1`] = `
 <span
-  className="MuiBadge-root"
+  className="MuiBadge-root css-1c32n2y-MuiBadge-root"
 >
   <div
-    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-119 makeStyles-avatar-120 MuiAvatar-colorDefault"
+    className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-73 makeStyles-avatar-74 css-6foqxf-MuiAvatar-root"
+    title="France"
   >
     Fra
   </div>
   <span
-    className="MuiBadge-badge MuiBadge-anchorOriginTopRightCircular"
+    className="MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopRightCircular css-1ie08l-MuiBadge-badge"
   >
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="MicOffIcon"
       focusable="false"
       viewBox="0 0 24 24"
     >
       <path
-        d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"
+        d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3 3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"
       />
     </svg>
   </span>
@@ -1279,7 +798,8 @@ exports[`Storyshots components/NationAvatar Muted 1`] = `
 
 exports[`Storyshots components/NationAvatar No Link Dark Color 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-116 MuiAvatar-colorDefault"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-75 makeStyles-avatar-76 css-6foqxf-MuiAvatar-root"
+  title="France"
 >
   Fra
 </div>
@@ -1287,7 +807,8 @@ exports[`Storyshots components/NationAvatar No Link Dark Color 1`] = `
 
 exports[`Storyshots components/NationAvatar No Link Long Abbreviation 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-111 makeStyles-avatar-112 MuiAvatar-colorDefault"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-77 makeStyles-avatar-78 css-6foqxf-MuiAvatar-root"
+  title="France"
 >
   Russ
 </div>
@@ -1295,7 +816,8 @@ exports[`Storyshots components/NationAvatar No Link Long Abbreviation 1`] = `
 
 exports[`Storyshots components/NationAvatar No Link Short Abbreviation 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-113 makeStyles-avatar-114 MuiAvatar-colorDefault"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-79 makeStyles-avatar-80 css-6foqxf-MuiAvatar-root"
+  title="France"
 >
   Fra
 </div>
@@ -1303,11 +825,12 @@ exports[`Storyshots components/NationAvatar No Link Short Abbreviation 1`] = `
 
 exports[`Storyshots components/NationAvatar Otto 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-117 makeStyles-avatar-118"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-81 makeStyles-avatar-82 css-1a00onu-MuiAvatar-root"
+  title="Diplicity"
 >
   <img
     alt="Diplicity"
-    className="MuiAvatar-img"
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
     src="https://diplicity-engine.appspot.com/img/otto.png"
   />
 </div>
@@ -1315,11 +838,12 @@ exports[`Storyshots components/NationAvatar Otto 1`] = `
 
 exports[`Storyshots components/NationAvatar Russia 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-103 makeStyles-avatar-104"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-83 makeStyles-avatar-84 css-1a00onu-MuiAvatar-root"
+  title="Russia"
 >
   <img
     alt="Russia"
-    className="MuiAvatar-img"
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
     src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
   />
 </div>
@@ -1327,11 +851,12 @@ exports[`Storyshots components/NationAvatar Russia 1`] = `
 
 exports[`Storyshots components/NationAvatar Turkey 1`] = `
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-109 makeStyles-avatar-110"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-85 makeStyles-avatar-86 css-1a00onu-MuiAvatar-root"
+  title="Turkey"
 >
   <img
     alt="Turkey"
-    className="MuiAvatar-img"
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
     src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
   />
 </div>
@@ -1339,82 +864,90 @@ exports[`Storyshots components/NationAvatar Turkey 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
 <div
-  className="makeStyles-root-170 makeStyles-root-171"
+  className="makeStyles-root-87 makeStyles-root-88"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-173"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-90 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-174"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-91 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-175"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-92 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-176"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-93 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-177"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-94 css-1a00onu-MuiAvatar-root"
+      title="Turkey"
     >
       <img
         alt="Turkey"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-178"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-95 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-179"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-96 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-172 makeStyles-avatar-180"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-89 makeStyles-avatar-97 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
@@ -1424,55 +957,60 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
 <div
-  className="makeStyles-root-143 makeStyles-root-144"
+  className="makeStyles-root-98 makeStyles-root-99"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-145 makeStyles-avatar-146"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-100 makeStyles-avatar-101 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-145 makeStyles-avatar-147"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-100 makeStyles-avatar-102 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-145 makeStyles-avatar-148"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-100 makeStyles-avatar-103 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-145 makeStyles-avatar-149"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-100 makeStyles-avatar-104 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-145 makeStyles-avatar-150"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-100 makeStyles-avatar-105 css-1a00onu-MuiAvatar-root"
+      title="Turkey"
     >
       <img
         alt="Turkey"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
       />
     </div>
@@ -1482,44 +1020,48 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
 <div
-  className="makeStyles-root-136 makeStyles-root-137"
+  className="makeStyles-root-106 makeStyles-root-107"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-138 makeStyles-avatar-139"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-108 makeStyles-avatar-109 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-138 makeStyles-avatar-140"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-108 makeStyles-avatar-110 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-138 makeStyles-avatar-141"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-108 makeStyles-avatar-111 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-138 makeStyles-avatar-142"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-108 makeStyles-avatar-112 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
@@ -1529,91 +1071,100 @@ exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
 <div
-  className="makeStyles-root-181 makeStyles-root-182"
+  className="makeStyles-root-113 makeStyles-root-114"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-184"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-116 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-185"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-117 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-186"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-118 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-187"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-119 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-188"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-120 css-1a00onu-MuiAvatar-root"
+      title="Turkey"
     >
       <img
         alt="Turkey"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-189"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-121 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-190"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-122 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-191"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-123 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-183 makeStyles-avatar-192"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-115 makeStyles-avatar-124 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
@@ -1623,15 +1174,16 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup One Avatar 1`] = `
 <div
-  className="makeStyles-root-121 makeStyles-root-122"
+  className="makeStyles-root-125 makeStyles-root-126"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-123 makeStyles-avatar-124"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-127 makeStyles-avatar-128 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
@@ -1641,73 +1193,80 @@ exports[`Storyshots components/NationAvatarGroup One Avatar 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
 <div
-  className="makeStyles-root-160 makeStyles-root-161"
+  className="makeStyles-root-129 makeStyles-root-130"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-163"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-132 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-164"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-133 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-165"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-134 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-166"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-135 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-167"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-136 css-1a00onu-MuiAvatar-root"
+      title="Turkey"
     >
       <img
         alt="Turkey"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-168"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-137 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-169"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-131 makeStyles-avatar-138 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
@@ -1717,62 +1276,68 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
 <div
-  className="makeStyles-root-151 makeStyles-root-152"
+  className="makeStyles-root-139 makeStyles-root-140"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-153 makeStyles-avatar-154"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-141 makeStyles-avatar-142 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-153 makeStyles-avatar-155"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-141 makeStyles-avatar-143 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-153 makeStyles-avatar-156"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-141 makeStyles-avatar-144 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-153 makeStyles-avatar-157"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-141 makeStyles-avatar-145 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-153 makeStyles-avatar-158"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-141 makeStyles-avatar-146 css-1a00onu-MuiAvatar-root"
+      title="Turkey"
     >
       <img
         alt="Turkey"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-153 makeStyles-avatar-159"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-141 makeStyles-avatar-147 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
@@ -1782,91 +1347,100 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
 <div
-  className="makeStyles-root-193 makeStyles-root-194"
+  className="makeStyles-root-148 makeStyles-root-149"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-196"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-151 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-197"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-152 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-198"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-153 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-199"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-154 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-200"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-155 css-1a00onu-MuiAvatar-root"
+      title="Turkey"
     >
       <img
         alt="Turkey"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Turkey.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-201"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-156 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-202"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-157 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-203"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-158 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-195 makeStyles-avatar-204"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-150 makeStyles-avatar-159 css-1a00onu-MuiAvatar-root"
+      title="England"
     >
       <img
         alt="England"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/England.svg"
       />
     </div>
@@ -1876,35 +1450,38 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
 <div
-  className="makeStyles-root-130 makeStyles-root-131"
+  className="makeStyles-root-160 makeStyles-root-161"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-132 makeStyles-avatar-133"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-163 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-132 makeStyles-avatar-134"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-164 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-132 makeStyles-avatar-135"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-162 makeStyles-avatar-165 css-1a00onu-MuiAvatar-root"
+      title="Germany"
     >
       <img
         alt="Germany"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Germany.svg"
       />
     </div>
@@ -1914,24 +1491,26 @@ exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
 
 exports[`Storyshots components/NationAvatarGroup Two Avatars 1`] = `
 <div
-  className="makeStyles-root-125 makeStyles-root-126"
+  className="makeStyles-root-166 makeStyles-root-167"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-127 makeStyles-avatar-128"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-168 makeStyles-avatar-169 css-1a00onu-MuiAvatar-root"
+      title="France"
     >
       <img
         alt="France"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-127 makeStyles-avatar-129"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-168 makeStyles-avatar-170 css-1a00onu-MuiAvatar-root"
+      title="Russia"
     >
       <img
         alt="Russia"
-        className="MuiAvatar-img"
+        className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
         src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/Russia.svg"
       />
     </div>
@@ -1948,45 +1527,62 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
   }
 >
   <div
-    className="makeStyles-root-205"
+    className="makeStyles-root-171"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-206"
+      className="makeStyles-nationDetails-172"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-208 makeStyles-avatar-209"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-174 makeStyles-avatar-175 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-207"
+      className="makeStyles-nationStatus-173"
     >
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Confirmed their orders"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -1994,7 +1590,6 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Confirmed their orders"
         viewBox="0 0 24 24"
       >
         <path
@@ -2016,45 +1611,62 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
   }
 >
   <div
-    className="makeStyles-root-220"
+    className="makeStyles-root-176"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-221"
+      className="makeStyles-nationDetails-177"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-223 makeStyles-avatar-224"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-179 makeStyles-avatar-180 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-222"
+      className="makeStyles-nationStatus-178"
     >
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Confirmed their orders"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -2062,7 +1674,6 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Confirmed their orders"
         viewBox="0 0 24 24"
       >
         <path
@@ -2071,9 +1682,11 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
         />
       </svg>
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Wants draw"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -2081,7 +1694,6 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Wants draw"
         viewBox="0 0 24 24"
       >
         <path
@@ -2102,47 +1714,62 @@ exports[`Storyshots components/Orders/NationSummary Is User 1`] = `
   }
 >
   <div
-    className="makeStyles-root-230"
+    className="makeStyles-root-181"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-231"
+      className="makeStyles-nationDetails-182"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-233 makeStyles-avatar-234"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-184 makeStyles-avatar-185 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France (You)
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           (
           15 to win
           )
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-232"
+      className="makeStyles-nationStatus-183"
     />
   </div>
 </div>
@@ -2157,45 +1784,62 @@ exports[`Storyshots components/Orders/NationSummary No Orders Given 1`] = `
   }
 >
   <div
-    className="makeStyles-root-215"
+    className="makeStyles-root-186"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-216"
+      className="makeStyles-nationDetails-187"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-218 makeStyles-avatar-219"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-189 makeStyles-avatar-190 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-217"
+      className="makeStyles-nationStatus-188"
     >
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Did not send orders"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -2203,7 +1847,6 @@ exports[`Storyshots components/Orders/NationSummary No Orders Given 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Did not send orders"
         viewBox="0 0 24 24"
       >
         <path
@@ -2224,40 +1867,55 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Plural 1`] = 
   }
 >
   <div
-    className="makeStyles-root-190"
+    className="makeStyles-root-191"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-191"
+      className="makeStyles-nationDetails-192"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-193 makeStyles-avatar-194"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-195 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-192"
+      className="makeStyles-nationStatus-193"
     />
   </div>
 </div>
@@ -2272,40 +1930,55 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Singular 1`] 
   }
 >
   <div
-    className="makeStyles-root-195"
+    className="makeStyles-root-196"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-196"
+      className="makeStyles-nationDetails-197"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-198 makeStyles-avatar-199"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-199 makeStyles-avatar-200 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           1
            
           supply center
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-197"
+      className="makeStyles-nationStatus-198"
     />
   </div>
 </div>
@@ -2320,40 +1993,55 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Zero 1`] = `
   }
 >
   <div
-    className="makeStyles-root-200"
+    className="makeStyles-root-201"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-201"
+      className="makeStyles-nationDetails-202"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-204"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-205 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           0
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-202"
+      className="makeStyles-nationStatus-203"
     />
   </div>
 </div>
@@ -2368,45 +2056,62 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
   }
 >
   <div
-    className="makeStyles-root-210"
+    className="makeStyles-root-206"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-211"
+      className="makeStyles-nationDetails-207"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-214"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-209 makeStyles-avatar-210 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-212"
+      className="makeStyles-nationStatus-208"
     >
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Wants draw"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -2414,7 +2119,6 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Wants draw"
         viewBox="0 0 24 24"
       >
         <path
@@ -2435,45 +2139,62 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
   }
 >
   <div
-    className="makeStyles-root-225"
+    className="makeStyles-root-211"
+    title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-226"
+      className="makeStyles-nationDetails-212"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-228 makeStyles-avatar-229"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-214 makeStyles-avatar-215 css-1a00onu-MuiAvatar-root"
           title="France"
         >
           <img
             alt="France"
-            className="MuiAvatar-img"
+            className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
             src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
           />
         </div>
       </div>
       <div>
         <p
-          className="MuiTypography-root MuiTypography-body1"
+          className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
         >
           France
         </p>
         <p
-          className="MuiTypography-root MuiTypography-body2"
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
         >
           3
            
           supply centers
         </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          builds
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
+        >
+          0
+           
+          disbands
+        </p>
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-227"
+      className="makeStyles-nationStatus-213"
     >
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Wants draw"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -2481,7 +2202,6 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Wants draw"
         viewBox="0 0 24 24"
       >
         <path
@@ -2489,9 +2209,11 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
         />
       </svg>
       <svg
-        aria-describedby={null}
         aria-hidden={true}
-        className="MuiSvgIcon-root"
+        aria-label="Did not send orders"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-mui-internal-clone-element={true}
         focusable="false"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -2499,7 +2221,6 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
         onTouchStart={[Function]}
-        title="Did not send orders"
         viewBox="0 0 24 24"
       >
         <path
@@ -2520,16 +2241,16 @@ exports[`Storyshots components/Orders/Order Default 1`] = `
   }
 >
   <div
-    className="makeStyles-root-235"
+    className="makeStyles-root-216"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
     >
       Trieste move to Adriatic Sea
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-237"
+    className="makeStyles-orderInconsistencies-218"
   />
 </div>
 `;
@@ -2543,20 +2264,20 @@ exports[`Storyshots components/Orders/Order Inconsistency 1`] = `
   }
 >
   <div
-    className="makeStyles-root-239"
+    className="makeStyles-root-220"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
     >
       Trieste move to Adriatic Sea
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-241"
+    className="makeStyles-orderInconsistencies-222"
   >
     <li>
       <p
-        className="MuiTypography-root MuiTypography-body2"
+        className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
       >
         Doesn't match order for Burgundy
       </p>
@@ -2574,27 +2295,27 @@ exports[`Storyshots components/Orders/Order Multiple Inconsistencies 1`] = `
   }
 >
   <div
-    className="makeStyles-root-243"
+    className="makeStyles-root-224"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
     >
       Trieste move to Adriatic Sea
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-245"
+    className="makeStyles-orderInconsistencies-226"
   >
     <li>
       <p
-        className="MuiTypography-root MuiTypography-body2"
+        className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
       >
         Doesn't match order for Burgundy
       </p>
     </li>
     <li>
       <p
-        className="MuiTypography-root MuiTypography-body2"
+        className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
       >
         No matching convoy
       </p>
@@ -2612,21 +2333,21 @@ exports[`Storyshots components/Orders/Order Resolved Bounce 1`] = `
   }
 >
   <div
-    className="makeStyles-root-251"
+    className="makeStyles-root-228"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
     >
       Trieste move to Adriatic Sea
     </p>
     <p
-      className="MuiTypography-root makeStyles-orderResolution-252 makeStyles-orderResolution-254 MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-229 makeStyles-orderResolution-231 css-rb48uj-MuiTypography-root"
     >
       Bounced
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-253"
+    className="makeStyles-orderInconsistencies-230"
   />
 </div>
 `;
@@ -2640,143 +2361,36 @@ exports[`Storyshots components/Orders/Order Resolved Success 1`] = `
   }
 >
   <div
-    className="makeStyles-root-247"
+    className="makeStyles-root-232"
   >
     <p
-      className="MuiTypography-root MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
     >
       Trieste move to Adriatic Sea
     </p>
     <p
-      className="MuiTypography-root makeStyles-orderResolution-248 makeStyles-orderResolution-250 MuiTypography-body1"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-233 makeStyles-orderResolution-235 css-rb48uj-MuiTypography-root"
     >
       Success
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-249"
+    className="makeStyles-orderInconsistencies-234"
   />
-</div>
-`;
-
-exports[`Storyshots components/PhaseSelector Default 1`] = `
-<div
-  className="MuiPaper-root MuiCard-root makeStyles-root-255 MuiPaper-elevation1 MuiPaper-rounded"
->
-  <button
-    className="MuiButtonBase-root MuiIconButton-root"
-    disabled={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={0}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-        />
-      </svg>
-    </span>
-  </button>
-  <div
-    className="MuiInputBase-root MuiInput-root"
-    onClick={[Function]}
-  >
-    <div
-      aria-haspopup="listbox"
-      className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onMouseDown={[Function]}
-      role="button"
-      tabIndex={0}
-    >
-      Fall 1901, Adjustment
-    </div>
-    <input
-      aria-hidden={true}
-      className="MuiSelect-nativeInput"
-      onAnimationStart={[Function]}
-      onChange={[Function]}
-      tabIndex={-1}
-      value={5}
-    />
-    <svg
-      aria-hidden={true}
-      className="MuiSvgIcon-root MuiSelect-icon"
-      focusable="false"
-      viewBox="0 0 24 24"
-    >
-      <path
-        d="M7 10l5 5 5-5z"
-      />
-    </svg>
-  </div>
-  <button
-    className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
-    disabled={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onDragLeave={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    onMouseDown={[Function]}
-    onMouseLeave={[Function]}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    onTouchMove={[Function]}
-    onTouchStart={[Function]}
-    tabIndex={-1}
-    type="button"
-  >
-    <span
-      className="MuiIconButton-label"
-    >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-        />
-      </svg>
-    </span>
-  </button>
 </div>
 `;
 
 exports[`Storyshots components/PhaseSelector First Turn 1`] = `
 <div
-  className="MuiPaper-root MuiCard-root makeStyles-root-277 MuiPaper-elevation1 MuiPaper-rounded"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-255 css-bhp9pd-MuiPaper-root-MuiCard-root"
   title="phase selector"
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+    className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
     disabled={true}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -2791,28 +2405,27 @@ exports[`Storyshots components/PhaseSelector First Turn 1`] = `
     title="show previous phase"
     type="button"
   >
-    <span
-      className="MuiIconButton-label"
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="ChevronLeftIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-        />
-      </svg>
-    </span>
+      <path
+        d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+      />
+    </svg>
   </button>
   <div
-    className="MuiInputBase-root MuiInput-root"
+    className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary css-1ccycko-MuiInputBase-root-MuiOutlinedInput-root"
+    disableUnderline={true}
     onClick={[Function]}
   >
     <div
+      aria-expanded="false"
       aria-haspopup="listbox"
-      className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+      className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -2824,7 +2437,7 @@ exports[`Storyshots components/PhaseSelector First Turn 1`] = `
     </div>
     <input
       aria-hidden={true}
-      className="MuiSelect-nativeInput"
+      className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
       onAnimationStart={[Function]}
       onChange={[Function]}
       tabIndex={-1}
@@ -2832,7 +2445,8 @@ exports[`Storyshots components/PhaseSelector First Turn 1`] = `
     />
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSelect-icon"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+      data-testid="ArrowDropDownIcon"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -2840,12 +2454,30 @@ exports[`Storyshots components/PhaseSelector First Turn 1`] = `
         d="M7 10l5 5 5-5z"
       />
     </svg>
+    <fieldset
+      aria-hidden={true}
+      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        className="css-nnbavb"
+      >
+        <span
+          className="notranslate"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "&#8203;",
+            }
+          }
+        />
+      </legend>
+    </fieldset>
   </div>
   <button
-    className="MuiButtonBase-root MuiIconButton-root"
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -2860,34 +2492,32 @@ exports[`Storyshots components/PhaseSelector First Turn 1`] = `
     title="show next phase"
     type="button"
   >
-    <span
-      className="MuiIconButton-label"
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="ChevronRightIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-        />
-      </svg>
-    </span>
+      <path
+        d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+      />
+    </svg>
   </button>
 </div>
 `;
 
 exports[`Storyshots components/PhaseSelector Last Turn 1`] = `
 <div
-  className="MuiPaper-root MuiCard-root makeStyles-root-278 MuiPaper-elevation1 MuiPaper-rounded"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-256 css-bhp9pd-MuiPaper-root-MuiCard-root"
   title="phase selector"
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root"
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -2902,28 +2532,27 @@ exports[`Storyshots components/PhaseSelector Last Turn 1`] = `
     title="show previous phase"
     type="button"
   >
-    <span
-      className="MuiIconButton-label"
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="ChevronLeftIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-        />
-      </svg>
-    </span>
+      <path
+        d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+      />
+    </svg>
   </button>
   <div
-    className="MuiInputBase-root MuiInput-root"
+    className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary css-1ccycko-MuiInputBase-root-MuiOutlinedInput-root"
+    disableUnderline={true}
     onClick={[Function]}
   >
     <div
+      aria-expanded="false"
       aria-haspopup="listbox"
-      className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+      className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -2935,7 +2564,7 @@ exports[`Storyshots components/PhaseSelector Last Turn 1`] = `
     </div>
     <input
       aria-hidden={true}
-      className="MuiSelect-nativeInput"
+      className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
       onAnimationStart={[Function]}
       onChange={[Function]}
       tabIndex={-1}
@@ -2943,7 +2572,8 @@ exports[`Storyshots components/PhaseSelector Last Turn 1`] = `
     />
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSelect-icon"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+      data-testid="ArrowDropDownIcon"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -2951,12 +2581,30 @@ exports[`Storyshots components/PhaseSelector Last Turn 1`] = `
         d="M7 10l5 5 5-5z"
       />
     </svg>
+    <fieldset
+      aria-hidden={true}
+      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        className="css-nnbavb"
+      >
+        <span
+          className="notranslate"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "&#8203;",
+            }
+          }
+        />
+      </legend>
+    </fieldset>
   </div>
   <button
-    className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+    className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
     disabled={true}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -2971,34 +2619,32 @@ exports[`Storyshots components/PhaseSelector Last Turn 1`] = `
     title="show next phase"
     type="button"
   >
-    <span
-      className="MuiIconButton-label"
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="ChevronRightIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-        />
-      </svg>
-    </span>
+      <path
+        d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+      />
+    </svg>
   </button>
 </div>
 `;
 
 exports[`Storyshots components/PhaseSelector Middle Turn 1`] = `
 <div
-  className="MuiPaper-root MuiCard-root makeStyles-root-279 MuiPaper-elevation1 MuiPaper-rounded"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-257 css-bhp9pd-MuiPaper-root-MuiCard-root"
   title="phase selector"
 >
   <button
-    className="MuiButtonBase-root MuiIconButton-root"
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -3013,28 +2659,27 @@ exports[`Storyshots components/PhaseSelector Middle Turn 1`] = `
     title="show previous phase"
     type="button"
   >
-    <span
-      className="MuiIconButton-label"
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="ChevronLeftIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-        />
-      </svg>
-    </span>
+      <path
+        d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+      />
+    </svg>
   </button>
   <div
-    className="MuiInputBase-root MuiInput-root"
+    className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary css-1ccycko-MuiInputBase-root-MuiOutlinedInput-root"
+    disableUnderline={true}
     onClick={[Function]}
   >
     <div
+      aria-expanded="false"
       aria-haspopup="listbox"
-      className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+      className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
       onBlur={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -3046,7 +2691,7 @@ exports[`Storyshots components/PhaseSelector Middle Turn 1`] = `
     </div>
     <input
       aria-hidden={true}
-      className="MuiSelect-nativeInput"
+      className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
       onAnimationStart={[Function]}
       onChange={[Function]}
       tabIndex={-1}
@@ -3054,7 +2699,8 @@ exports[`Storyshots components/PhaseSelector Middle Turn 1`] = `
     />
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSelect-icon"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+      data-testid="ArrowDropDownIcon"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -3062,12 +2708,30 @@ exports[`Storyshots components/PhaseSelector Middle Turn 1`] = `
         d="M7 10l5 5 5-5z"
       />
     </svg>
+    <fieldset
+      aria-hidden={true}
+      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        className="css-nnbavb"
+      >
+        <span
+          className="notranslate"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "&#8203;",
+            }
+          }
+        />
+      </legend>
+    </fieldset>
   </div>
   <button
-    className="MuiButtonBase-root MuiIconButton-root"
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -3082,20 +2746,17 @@ exports[`Storyshots components/PhaseSelector Middle Turn 1`] = `
     title="show next phase"
     type="button"
   >
-    <span
-      className="MuiIconButton-label"
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="ChevronRightIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root"
-        focusable="false"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-        />
-      </svg>
-    </span>
+      <path
+        d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+      />
+    </svg>
   </button>
 </div>
 `;
@@ -3104,11 +2765,12 @@ exports[`Storyshots components/PhaseSelector No Turn 1`] = `null`;
 
 exports[`Storyshots components/PlayerCount Default 1`] = `
 <div
-  className="makeStyles-root-281"
+  className="makeStyles-root-259"
 >
   <svg
     aria-hidden={true}
-    className="MuiSvgIcon-root"
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    data-testid="PeopleIcon"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -3117,7 +2779,7 @@ exports[`Storyshots components/PlayerCount Default 1`] = `
     />
   </svg>
   <p
-    className="MuiTypography-root MuiTypography-body1"
+    className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
   >
     3
      / 
@@ -3128,11 +2790,12 @@ exports[`Storyshots components/PlayerCount Default 1`] = `
 
 exports[`Storyshots components/PlayerCount Zero 1`] = `
 <div
-  className="makeStyles-root-282"
+  className="makeStyles-root-260"
 >
   <svg
     aria-hidden={true}
-    className="MuiSvgIcon-root"
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+    data-testid="PeopleIcon"
     focusable="false"
     viewBox="0 0 24 24"
   >
@@ -3141,7 +2804,7 @@ exports[`Storyshots components/PlayerCount Zero 1`] = `
     />
   </svg>
   <p
-    className="MuiTypography-root MuiTypography-body1"
+    className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
   >
     0
      / 
@@ -3152,23 +2815,24 @@ exports[`Storyshots components/PlayerCount Zero 1`] = `
 
 exports[`Storyshots pages/Orders Default 1`] = `
 <div
-  className="makeStyles-root-254"
+  className="makeStyles-root-236"
 >
   <div
-    className="MuiContainer-root makeStyles-container-256 MuiContainer-maxWidthLg"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-238 css-1oqqzyl-MuiContainer-root"
   >
     <div
-      className="makeStyles-phaseSelectorContainer-255"
+      className="makeStyles-phaseSelectorContainer-237"
     >
       <div
-        className="MuiPaper-root MuiCard-root makeStyles-root-263 MuiPaper-elevation1 MuiPaper-rounded"
+        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-245 css-bhp9pd-MuiPaper-root-MuiCard-root"
         title="phase selector"
       >
         <button
-          className="MuiButtonBase-root MuiIconButton-root"
+          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
+          onContextMenu={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
@@ -3183,28 +2847,27 @@ exports[`Storyshots pages/Orders Default 1`] = `
           title="show previous phase"
           type="button"
         >
-          <span
-            className="MuiIconButton-label"
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ChevronLeftIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-              />
-            </svg>
-          </span>
+            <path
+              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+            />
+          </svg>
         </button>
         <div
-          className="MuiInputBase-root MuiInput-root"
+          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary css-1ccycko-MuiInputBase-root-MuiOutlinedInput-root"
+          disableUnderline={true}
           onClick={[Function]}
         >
           <div
+            aria-expanded="false"
             aria-haspopup="listbox"
-            className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+            className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
             onBlur={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
@@ -3216,7 +2879,7 @@ exports[`Storyshots pages/Orders Default 1`] = `
           </div>
           <input
             aria-hidden={true}
-            className="MuiSelect-nativeInput"
+            className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             onAnimationStart={[Function]}
             onChange={[Function]}
             tabIndex={-1}
@@ -3224,7 +2887,8 @@ exports[`Storyshots pages/Orders Default 1`] = `
           />
           <svg
             aria-hidden={true}
-            className="MuiSvgIcon-root MuiSelect-icon"
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -3232,12 +2896,30 @@ exports[`Storyshots pages/Orders Default 1`] = `
               d="M7 10l5 5 5-5z"
             />
           </svg>
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-nnbavb"
+            >
+              <span
+                className="notranslate"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
         </div>
         <button
-          className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+          className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
           disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
+          onContextMenu={[Function]}
           onDragLeave={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
@@ -3252,57 +2934,54 @@ exports[`Storyshots pages/Orders Default 1`] = `
           title="show next phase"
           type="button"
         >
-          <span
-            className="MuiIconButton-label"
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ChevronRightIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <svg
-              aria-hidden={true}
-              className="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-              />
-            </svg>
-          </span>
+            <path
+              d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+            />
+          </svg>
         </button>
       </div>
     </div>
     <div
-      className="makeStyles-nationSummaryList-257"
+      className="makeStyles-nationSummaryList-239"
     >
       <div>
         <div
-          className="makeStyles-nationSummaryContainer-258"
+          className="makeStyles-nationSummaryContainer-240"
         >
           <div
-            className="makeStyles-root-264"
+            className="makeStyles-root-246"
             title="France summary"
           >
             <div
-              className="makeStyles-nationDetails-265"
+              className="makeStyles-nationDetails-247"
             >
               <div>
                 <div
-                  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-267 makeStyles-avatar-268"
+                  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-249 makeStyles-avatar-250 css-1a00onu-MuiAvatar-root"
                   title="France"
                 >
                   <img
                     alt="France"
-                    className="MuiAvatar-img"
+                    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
                     src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
                   />
                 </div>
               </div>
               <div>
                 <p
-                  className="MuiTypography-root MuiTypography-body1"
+                  className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
                 >
                   France
                 </p>
                 <p
-                  className="MuiTypography-root MuiTypography-body2"
+                  className="MuiTypography-root MuiTypography-body2 css-fvst8m-MuiTypography-root"
                 >
                   3
                    
@@ -3311,41 +2990,42 @@ exports[`Storyshots pages/Orders Default 1`] = `
               </div>
             </div>
             <div
-              className="makeStyles-nationStatus-266"
+              className="makeStyles-nationStatus-248"
             />
           </div>
         </div>
         <ul
-          className="makeStyles-ordersList-259"
+          className="makeStyles-ordersList-241"
         >
           <li>
             <div
-              className="makeStyles-root-269"
+              className="makeStyles-root-251"
             >
               <p
-                className="MuiTypography-root MuiTypography-body1"
+                className="MuiTypography-root MuiTypography-body1 css-rb48uj-MuiTypography-root"
               >
                 Trieste move to Albania
               </p>
             </div>
             <ul
-              className="makeStyles-orderInconsistencies-271"
+              className="makeStyles-orderInconsistencies-253"
             />
           </li>
         </ul>
         <ul
-          className="makeStyles-homelessInconsistenciesList-260"
+          className="makeStyles-homelessInconsistenciesList-242"
         />
       </div>
     </div>
   </div>
   <div
-    className="makeStyles-bottomBar-261"
+    className="makeStyles-bottomBar-243"
   >
     <button
-      className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-confirmOrdersButton-262 MuiButton-containedSecondary"
+      className="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root makeStyles-confirmOrdersButton-244 css-1c5tu40-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
+      onContextMenu={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -3359,61 +3039,54 @@ exports[`Storyshots pages/Orders Default 1`] = `
       tabIndex={0}
       type="button"
     >
-      <span
-        className="MuiButton-label"
+      <label
+        className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
-        <label
-          className="MuiFormControlLabel-root"
+        <span
+          className="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-1d9iknj-MuiButtonBase-root-MuiCheckbox-root"
+          onBlur={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={null}
         >
-          <span
-            aria-disabled={false}
-            className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-273 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
-            onBlur={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={null}
+          <input
+            checked={false}
+            className="PrivateSwitchBase-input css-1m9pwf3"
+            data-indeterminate={false}
+            disabled={false}
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="CheckBoxOutlineBlankIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            <span
-              className="MuiIconButton-label"
-            >
-              <input
-                checked={false}
-                className="PrivateSwitchBase-input-276"
-                data-indeterminate={false}
-                disabled={false}
-                onChange={[Function]}
-                type="checkbox"
-              />
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                />
-              </svg>
-            </span>
-          </span>
-          <span
-            className="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
-          >
-            Confirm orders
-          </span>
-        </label>
-      </span>
+            <path
+              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+            />
+          </svg>
+        </span>
+        <span
+          className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rb48uj-MuiTypography-root"
+        >
+          Confirm orders
+        </span>
+      </label>
     </button>
     <span
-      className="MuiTypography-root MuiTypography-caption"
+      className="MuiTypography-root MuiTypography-caption css-w6f2ch-MuiTypography-root"
     >
       When you're ready for the next turn
     </span>

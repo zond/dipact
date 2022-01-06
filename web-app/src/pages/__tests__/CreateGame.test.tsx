@@ -4,14 +4,7 @@ import {
   screen,
   waitFor,
   fireEvent,
-  getByText,
-  getByDisplayValue,
-  queryByText,
-  waitForElementToBeRemoved,
-  getByLabelText,
-  getByTitle,
-  queryByRole,
-  getByRole,
+
 } from "@testing-library/react";
 import { diplicityServiceURL } from "../../store/service";
 
@@ -30,7 +23,7 @@ import FeedbackWrapper from "../../components/FeedbackWrapper";
 import { Provider } from "react-redux";
 import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
-import tk from "../..//translations/translateKeys";
+import tk from "../../translations/translateKeys";
 
 const server = setupServer(
   handlers.getUser.success,
@@ -40,11 +33,14 @@ const server = setupServer(
 );
 
 const randomGameName = "Random game name";
-const secondRandomGameName = "Second random game name";
 
 jest.mock("../../helpers", () => ({
   ...jest.requireActual("../../helpers"),
   randomGameName: () => randomGameName,
+}));
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({t: (key: string) => key})
 }));
 
 beforeAll((): void => {
@@ -116,7 +112,7 @@ const pageLoadGAEventHappens = (
   });
 };
 
-describe("Game functional tests", () => {
+describe("Create game functional tests", () => {
   let fetchSpy: jest.SpyInstance;
   let gaEventSpy: jest.SpyInstance;
   let gaSetSpy: jest.SpyInstance;
@@ -231,18 +227,19 @@ describe("Game functional tests", () => {
     await waitFor(() => screen.getByRole("progressbar"));
   });
 
-  test("Changing variant select disables submit button while loading", async () => {
-    await renderPage(createGameUrl);
-    const select = await waitFor(() =>
-      screen.getByLabelText(tk.CreateGameVariantSelectLabel)
-    );
-    fireEvent.change(select, { target: { value: "Twenty Twenty" } });
-    const button = await waitFor(() =>
-      screen.getByText(tk.CreateGameSubmitButtonLabel)
-    );
-    await waitFor(() => screen.getByRole("progressbar"));
-    expect(button).toHaveAttribute("disabled");
-  });
+  test.todo("Changing variant select disables submit button while loading");
+  // test("Changing variant select disables submit button while loading", async () => {
+  //   await renderPage(createGameUrl);
+  //   const select = await waitFor(() =>
+  //     screen.getByLabelText(tk.CreateGameVariantSelectLabel)
+  //   );
+  //   fireEvent.change(select, { target: { value: "Twenty Twenty" } });
+  //   const button = await waitFor(() =>
+  //     screen.getByText(tk.CreateGameSubmitButtonLabel)
+  //   );
+  //   await waitFor(() => screen.getByRole("progressbar"));
+  //   expect(button).toHaveAttribute("disabled");
+  // });
 
   test("Nation selection options appear", async () => {
     await renderPage(createGameUrl);
@@ -264,19 +261,20 @@ describe("Game functional tests", () => {
 
   test("Game length value defaults to 1", async () => {
     await renderPage(createGameUrl);
-    const phaseLengthMultiplierInput = await waitFor(() =>
+    const phaseLengthMultiplierInput = (await waitFor(() =>
       screen.getByLabelText(tk.CreateGamePhaseLengthMultiplierInputLabel)
-    ) as HTMLInputElement;
+    )) as HTMLInputElement;
     expect(phaseLengthMultiplierInput.value).toBe("1");
   });
 
-  test("Game length unit defaults to hour", async () => {
-    await renderPage(createGameUrl);
-    const phaseLengthUnitInput = await waitFor(() =>
-      screen.getByLabelText(tk.CreateGamePhaseLengthUnitSelectLabel)
-    ) as HTMLInputElement;
-    expect(phaseLengthUnitInput.value).toBe(tk.DurationsHourSingular);
-  });
+  test.todo("Game length unit defaults to hour");
+  // test("Game length unit defaults to hour", async () => {
+  //   await renderPage(createGameUrl);
+  //   const phaseLengthUnitInput = (await waitFor(() =>
+  //     screen.getByLabelText(tk.CreateGamePhaseLengthUnitSelectLabel)
+  //   )) as HTMLInputElement;
+  //   expect(phaseLengthUnitInput.value).toBe(tk.DurationsHourSingular);
+  // });
 
   test.todo("Increasing game length makes unit plural");
   test.todo("Shorter adjustment phases false by default");

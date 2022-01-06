@@ -55,11 +55,6 @@ export const Routes = (): React.ReactElement => {
         </Route>
         <Redirect to="/" />
       </Switch>
-      <NationPreferencesDialog />
-      <RescheduleDialog />
-      <ManageInvitationsDialog />
-      <RenameGameDialog />
-      <ResetSettingsDialog />
     </>
   );
 };
@@ -69,7 +64,18 @@ const Router = (): React.ReactElement => {
 
   return (
     <BrowserRouter>
-      {isLoggedIn ? <Routes /> : <LoggedOutRoutes />}
+      {isLoggedIn ? (
+        <>
+          <Routes />
+          <NationPreferencesDialog />
+          <RescheduleDialog />
+          <ManageInvitationsDialog />
+          <RenameGameDialog />
+          <ResetSettingsDialog />
+        </>
+      ) : (
+        <LoggedOutRoutes />
+      )}
     </BrowserRouter>
   );
 };

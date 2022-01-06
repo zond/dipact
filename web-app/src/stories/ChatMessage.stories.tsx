@@ -90,5 +90,3 @@ Selfish.args = {
     selfish: true,
   }
 };
-
-// Long.decorators = [getChatMessageStubDecorator({ color: "#000000"})];

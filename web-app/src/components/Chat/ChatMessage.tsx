@@ -1,10 +1,11 @@
 import React from "react";
 import * as helpers from "../../helpers";
 
-import { Theme, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import { Typography } from "@mui/material";
+import { makeStyles } from '@material-ui/core/styles';
 import { alpha } from "@mui/material/styles";
 import { Message } from "../../hooks/useChatMessagesList";
+import { DefaultTheme } from "@mui/styles";
 
 interface StyleProps {
   selfish: boolean;
@@ -17,17 +18,17 @@ interface ChatMessageProps {
   avatar: React.ReactElement;
 }
 
-const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
+const useStyles = makeStyles<DefaultTheme, StyleProps>((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
+    padding: theme.spacing(1),
     backgroundColor: ({ color }) => color + "19",
     borderRadius: ({ selfish }) =>
       selfish
         ? theme.spacing(1.5, 0, 1.5, 1.5)
         : theme.spacing(0, 1.5, 1.5, 1.5),
     border: ({ bright, color }) => (bright ? "1px solid " + color : "none"),
-    padding: theme.spacing(1),
   },
   name: {
     fontWeight: theme.typography.fontWeightBold,
@@ -59,7 +60,10 @@ export const ChatMessage = ({
   const classes = useStyles({ selfish, bright, color });
   return (
     <div className={classes.root} data-testid="message">
-      <Typography variant={"subtitle2"} className={classes.name + " message-sender"}>
+      <Typography
+        variant={"subtitle2"}
+        className={classes.name + " message-sender"}
+      >
         {name} {nation}
       </Typography>
       <Typography className={classes.text + " message-text"}>

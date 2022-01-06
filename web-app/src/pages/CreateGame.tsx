@@ -84,13 +84,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VARIANT_SELECT_LABEL = "Variant";
 const VARIANT_START_YEAR_LABEL = "Start year";
 const VARIANT_AUTHOR_LABEL = "Original author";
 const VARIANT_RULES_LABEL = "Rules";
-const NATION_ALLOCATION_LABEL = "Nation selection";
 const GAME_LENGTH_SECTION_LABEL = "Game length";
-const PHASE_LENGTH_LABEL = "Phase length";
 const ADJUSTMENT_PHASE_LENGTH_LABEL = "Adjustment phase length";
 const CUSTOM_ADJUSTMENT_PHASE_LENGTH_CHECKBOX_LABEL =
   "Shorter adjustment phases";
@@ -134,8 +131,6 @@ const MAX_RATING_INPUT_LABEL = "Maximum rating";
 // TODO formatting and error message on too much
 const MAX_RATING_INPUT_HELP_TEXT =
   "Removes the most challenging 0% of active players";
-
-const CREATE_GAME_BUTTON_LABEL = "Create";
 
 const MINUTE_SINGULAR = "Minute";
 const MINUTE_PLURAL = "Minutes";

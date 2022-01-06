@@ -16,6 +16,8 @@ import {
   userSeesInternalServerErrorMessage,
   userSeesLoadingSpinner,
 } from "../testUtils";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material";
+import theme from "../../theme";
 
 const server = setupServer(
   handlers.variants.successShort,
@@ -51,15 +53,19 @@ const WrappedChatMenu = ({ path }: WrappedChatMenuProps) => {
   history = createMemoryHistory();
   history.push(path || "/");
   return (
-    <Router history={history}>
-      <Switch>
-        <Route path={RouteConfig.Game}>
-          <ReduxWrapper>
-            <ChatMenu />
-          </ReduxWrapper>
-        </Route>
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <StyledEngineProvider injectFirst>
+        <Router history={history}>
+          <Switch>
+            <Route path={RouteConfig.Game}>
+              <ReduxWrapper>
+                <ChatMenu />
+              </ReduxWrapper>
+            </Route>
+          </Switch>
+        </Router>
+      </StyledEngineProvider>
+    </ThemeProvider>
   );
 };
 
@@ -140,11 +146,15 @@ describe("ChatMenu functional tests", () => {
   test("Hits endpoints correctly", async () => {
     render(<WrappedChatMenu path={chatMenuUrl} />);
     await userSeesLoadingSpinner();
-    const [firstCall, secondCall, thirdCall, fourthCall] =
-      fetchSpy.mock.calls.map((call) => call[0] as Request);
+    const [
+      firstCall,
+      secondCall,
+      thirdCall,
+      fourthCall,
+    ] = fetchSpy.mock.calls.map((call) => call[0] as Request);
     expect(fetchSpy.mock.calls.length).toBe(4);
     expect(firstCall.url).toBe(`${diplicityServiceURL}Variants`);
-    expect(secondCall.url).toBe(`${diplicityServiceURL}User`);
+    expect(secondCall.url).toBe(`${diplicityServiceURL}`);
     expect(thirdCall.url).toBe(`${diplicityServiceURL}Game/${gameId}`);
     expect(fourthCall.url).toBe(
       `${diplicityServiceURL}Game/${gameId}/Channels`
@@ -176,8 +186,9 @@ describe("ChatMenu functional tests", () => {
     await userSeesChatChannelPreviews();
     const senderLabels = await screen.findAllByTitle("sender");
     const senderLabel = senderLabels[1];
-    const fontStyle =
-      getComputedStyle(senderLabel).getPropertyValue("font-style");
+    const fontStyle = getComputedStyle(senderLabel).getPropertyValue(
+      "font-style"
+    );
     const label = senderLabel.innerHTML;
     expect(label).toBe("You: ");
     expect(fontStyle).toBe("italic");
@@ -188,8 +199,9 @@ describe("ChatMenu functional tests", () => {
     await userSeesChatChannelPreviews();
     const senderLabels = await screen.findAllByTitle("sender");
     const senderLabel = senderLabels[0];
-    const fontStyle =
-      getComputedStyle(senderLabel).getPropertyValue("font-style");
+    const fontStyle = getComputedStyle(senderLabel).getPropertyValue(
+      "font-style"
+    );
     const label = senderLabel.innerHTML;
     expect(label).toBe("England: ");
     expect(fontStyle).toBe("inherit");

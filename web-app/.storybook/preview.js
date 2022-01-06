@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { addDecorator } from '@storybook/react';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { addDecorator } from "@storybook/react";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 
-import { muiTheme } from '../src/theme';
+import theme from "../src/theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -13,11 +13,14 @@ export const parameters = {
       date: /Date$/,
     },
   },
-  layout: 'centered',
-}
+  layout: "centered",
+};
+
+const generateClassName = (rule, styleSheet) =>
+  `${styleSheet.options.classNamePrefix}-${rule.key}`;
 
 addDecorator((story) => (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={muiTheme}>{story()}</ThemeProvider>
-    </StyledEngineProvider>
+  <StyledEngineProvider injectFirst generateClassName={generateClassName}>
+    <ThemeProvider theme={theme}>{story()}</ThemeProvider>
+  </StyledEngineProvider>
 ));

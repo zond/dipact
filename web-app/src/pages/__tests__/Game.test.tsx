@@ -1,36 +1,16 @@
-import React from "react";
-
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-  getByText,
-} from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { generatePath, Router, Route, Switch } from "react-router";
 import "@testing-library/jest-dom/extend-expect";
 import { setupServer } from "msw/node";
 import { createMemoryHistory, MemoryHistory } from "history";
 
-import {
-  createListPhasesHandler,
-  createListPhaseStateHandler,
-  handlers,
-} from "../../mockService/handlers";
+import { handlers } from "../../mockService/handlers";
 import { ReduxWrapper } from "../../store/testUtils";
 import { RouteConfig } from "../../pages/RouteConfig";
-import { diplicityServiceURL } from "../../store/service";
-import { userSeesLoadingSpinner, userSeesPhaseSelector } from "../testUtils";
-import {
-  createListPhaseResponse,
-  createPhase,
-} from "../../mockService/data/listPhases";
-import {
-  createListPhaseStateResponse,
-  createPhaseState,
-} from "../../mockService/data/listPhaseStates";
-import { Nations } from "../../mockService/data/base";
+import { userSeesLoadingSpinner } from "../testUtils";
 import Game from "../Game";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material";
+import theme from "../../theme";
 
 const server = setupServer(
   handlers.variants.successShort,
@@ -38,7 +18,7 @@ const server = setupServer(
   handlers.listChannels.success,
   handlers.getUser.success,
   handlers.listPhases.success,
-  handlers.listPhaseStates.success,
+  handlers.listPhaseStates.success
 );
 
 beforeAll((): void => {
@@ -68,15 +48,19 @@ const WrappedGame = ({ path }: WrappedGameProps) => {
   history = createMemoryHistory();
   history.push(path || "/");
   return (
-    <Router history={history}>
-      <Switch>
-        <Route path={RouteConfig.Game}>
-          <ReduxWrapper>
-            <Game />
-          </ReduxWrapper>
-        </Route>
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <StyledEngineProvider injectFirst>
+        <Router history={history}>
+          <Switch>
+            <Route path={RouteConfig.Game}>
+              <ReduxWrapper>
+                <Game />
+              </ReduxWrapper>
+            </Route>
+          </Switch>
+        </Router>
+      </StyledEngineProvider>
+    </ThemeProvider>
   );
 };
 

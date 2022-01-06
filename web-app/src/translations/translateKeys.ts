@@ -13,7 +13,7 @@ enum TranslateKeys {
   CreateGameSubmitButtonLabel = "create-game.submit-button.label",
   CreateGameNationAllocationSectionLabel = "create-game.nation-allocation-section.label",
   CreateGamePhaseLengthMultiplierInputLabel =  "create-game.phase-length-multiplier-input.label",
-  CreateGamePhaseLengthUnitSelectLabel =  "create-game.phase-length-multiplier-select.label",
+  CreateGamePhaseLengthUnitSelectLabel =  "create-game.phase-length-unit-select.label",
   NationAllocationOptionsRandom = "nation-allocation-options.random",
   NationAllocationOptionsPreference = "nation-allocation-options.preference",
   DurationsMinuteSingular = "durations.minute.singular",

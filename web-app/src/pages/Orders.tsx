@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { Button, Checkbox, Container, FormControlLabel } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import { Typography } from "@mui/material";

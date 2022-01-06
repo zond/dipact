@@ -4,9 +4,13 @@ import { mount } from "enzyme";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { createMemoryHistory, MemoryHistory } from "history";
 
-import MainMenuComponent, { mainMenuDecorator } from "../MainMenu";
-import { routerDecorator } from "../../pages/Router";
+import MainMenuComponent from "../MainMenu";
+import { useDIContext } from "../../hooks/useMainMenu";
+import { Router, Route, Switch } from "react-router";
 import { RouteConfig } from "../../pages/RouteConfig";
+import { StyledEngineProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/styles";
+import theme from "../../theme";
 
 let history: MemoryHistory;
 const mockLogout = jest.fn();
@@ -32,10 +36,31 @@ const getDefaultProps = (): MainMenuTestProps => ({
   user: defaultUser,
 });
 
-const getComponent = ({ history, user }: MainMenuTestProps) =>
-  mainMenuDecorator({ user, logout: mockLogout })(
-    routerDecorator(history)(MainMenuComponent)
+const WrappedComponent = ({ history, user }: MainMenuTestProps) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <StyledEngineProvider injectFirst>
+        <Router history={history}>
+          <Switch>
+            <Route path={RouteConfig.GameList}>
+              <useDIContext.Provider
+                value={() => ({ user, logout: mockLogout })}
+              >
+                <MainMenuComponent>
+                  <div></div>
+                </MainMenuComponent>
+              </useDIContext.Provider>
+            </Route>
+          </Switch>
+        </Router>
+      </StyledEngineProvider>
+    </ThemeProvider>
   );
+};
+
+const getComponent = ({ history, user }: MainMenuTestProps) => {
+  return () => <WrappedComponent history={history} user={user} />;
+};
 
 const getOpenDrawerButton = () => screen.getByTitle("Open drawer");
 const getAvatar = () => screen.getByAltText("Your avatar");
@@ -212,8 +237,6 @@ describe("MainMenu", () => {
     fireEvent.click(button);
     const menuItem = screen.getByTitle("Donate to this project");
 
-    expect(menuItem.getAttribute("href")).toBe(
-      RouteConfig.Donate
-    );
+    expect(menuItem.getAttribute("href")).toBe(RouteConfig.Donate);
   });
 });

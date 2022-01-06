@@ -30,6 +30,8 @@ import {
   createListPhaseStateResponse,
   createPhaseState,
 } from "../../mockService/data/listPhaseStates";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material";
+import theme from "../../theme";
 
 const server = setupServer(
   handlers.variants.successShort,
@@ -72,7 +74,11 @@ const WrappedOrders = ({ path }: WrappedOrdersProps) => {
       <Switch>
         <Route path={RouteConfig.Game}>
           <ReduxWrapper>
-            <Orders />
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={theme}>
+                <Orders />
+              </ThemeProvider>
+            </StyledEngineProvider>
           </ReduxWrapper>
         </Route>
       </Switch>
@@ -95,7 +101,6 @@ const getAcceptDrawButton = () => {
 };
 
 const getNextPhaseButton = () => screen.getByTitle("show next phase");
-const getPreviousPhaseButton = () => screen.getByTitle("show previous phase");
 
 const getAcceptDrawCheckbox = () => screen.getByLabelText("Accept draw");
 
@@ -139,7 +144,7 @@ describe("Orders functional tests", () => {
     ] = fetchSpy.mock.calls.map((call) => call[0] as Request);
     expect(firstCall.url).toBe(`${diplicityServiceURL}Variants`);
     expect(secondCall.url).toBe(`${diplicityServiceURL}Game/${gameId}/Phases`);
-    expect(thirdCall.url).toBe(`${diplicityServiceURL}User`);
+    expect(thirdCall.url).toBe(`${diplicityServiceURL}`);
     expect(fourthCall.url).toBe(`${diplicityServiceURL}Game/${gameId}`);
 
     await userSeesPhaseSelector();
@@ -547,7 +552,7 @@ describe("Orders functional tests", () => {
     expect(nextPhaseButton).toHaveAttribute("disabled");
   });
 
-  test.todo("Phase selector forward button enabled when next turn")
+  test.todo("Phase selector forward button enabled when next turn");
   // , async () => {
   //   const phase_1 = createPhase(
   //     gameId,
@@ -595,11 +600,9 @@ describe("Orders functional tests", () => {
   //   expect(previousPhaseButton).toHaveAttribute("disabled");
   // });
 
-  test("Phase selector backwards button enabled when previous turn", async () => {
-  });
+  test("Phase selector backwards button enabled when previous turn", async () => {});
 
-  test("Back button on turn navigator shows previous turn", async () => {
-  });
+  test("Back button on turn navigator shows previous turn", async () => {});
 
   test("Next button on turn navigator shows next turn", async () => {});
 

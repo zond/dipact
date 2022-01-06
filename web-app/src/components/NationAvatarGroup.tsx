@@ -1,7 +1,7 @@
 import React from "react";
 import { Theme } from "@mui/material";
 
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 
 interface NationAvatarGroupProps {
   avatars: React.ReactElement[];
@@ -82,7 +82,8 @@ const NationAvatarGroup = ({
     <div className={classes.root}>
       {gridTemplate.map((num, index) => {
         const inner = [...Array(num)].map(pickAvatar);
-        return <div key={`${index}-${num}`}>{inner}</div>;
+        const key = `${index}-${num}-${count}`;
+        return <div key={key}>{inner}</div>;
       })}
     </div>
   );

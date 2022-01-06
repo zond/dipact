@@ -55,7 +55,7 @@ const PhaseSelector = (): React.ReactElement => {
       >
         <PreviousIcon />
       </IconButton>
-      <Select value={selectedPhase} disableUnderline onChange={handleChange}>
+      <Select value={selectedPhase} onChange={handleChange}>
         {phases.map((phase) => (
           <MenuItem key={phase[0]} value={phase[0]}>
             {phase[1]}
