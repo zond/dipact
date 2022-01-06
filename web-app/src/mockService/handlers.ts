@@ -174,6 +174,11 @@ const getUpdatePhaseStateHandlers = () => {
 };
 
 const resolvers = {
+  variantSvg: {
+    success: (req: any, res: any, ctx: RestContext) => {
+      return res(ctx.status(200), ctx.text("<svg data-testid=\"variant-svg\""));
+    },
+  },
   bans: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(bansSuccess));
@@ -399,8 +404,15 @@ const listGamesMasteredFinishedUrl = `${API_ROOT}My/Mastered/Games/finished`;
 const listGamesStagingUrl = `${API_ROOT}Games/staging`;
 const listGamesMyStagingUrl = `${API_ROOT}My/Games/staging`;
 const listGamesMasteredStagingUrl = `${API_ROOT}My/Mastered/Games/staging`;
+const getUserStatsUrl = `${API_ROOT}User/:userId/Stats`;
+const getVariantSVGUrl = `${API_ROOT}Variant/:variantName/Map.svg`;
 
 export const handlers = {
+  getVariantSVG: {
+    success: rest.get(getVariantSVGUrl, resolvers.variantSvg.success),
+    internalServerError: rest.get(getVariantSVGUrl, internalServerError),
+    tokenTimeout: rest.get(getVariantSVGUrl, tokenTimeout),
+  },
   createGame: {
     success: rest.post(createGameUrl, resolvers.createGame.success),
     internalServerError: rest.post(createGameUrl, internalServerError),
@@ -621,22 +633,18 @@ export const handlers = {
     ),
     tokenTimeout: rest.get(listGamesMasteredStagingUrl, tokenTimeout),
   },
+  getUserStats: {
+    successEmpty: rest.get(
+      getUserStatsUrl,
+      resolvers.userStats.successNoGames,
+    )
+  }
 };
 
 export const handlersList = [
-  // bans
   rest.get(`${API_ROOT}User/:userId/Bans`, resolvers.bans.success),
-
-  // forumMail
   rest.get(`${API_ROOT}ForumMail`, resolvers.forumMail.success),
-
-  // histogram
   rest.get(`${API_ROOT}Users/Ratings/Histogram`, resolvers.histogram.success),
-
-  // userStats
-  // rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successNoGames),
-  rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successZond),
-  // rest.get(`${API_ROOT}User/:userId/Stats`, resolvers.userStats.successJoinedGames),
 
   handlers.getGame.success,
   handlers.getUser.success,
@@ -648,7 +656,7 @@ export const handlersList = [
   handlers.messages.successNewMessage,
   handlers.createMessage.success,
   handlers.updateUserConfig.success,
-  handlers.variants.success,
+  handlers.variants.successShort,
 
   handlers.listGamesStarted.success,
   handlers.listGamesMyStarted.success,
@@ -668,4 +676,7 @@ export const handlersList = [
   handlers.unInvite.success,
   handlers.invite.success,
   handlers.deleteGame.success,
+
+  handlers.getUserStats.successEmpty,
+  handlers.getVariantSVG.success,
 ];

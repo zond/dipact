@@ -9,6 +9,7 @@ import {
   timeStrToDate,
 } from "../utils/general";
 import { ListGameFilters } from "../store/service";
+import tk from "../translations/translateKeys";
 
 // TODO move to types
 export enum GameStatus {
@@ -28,6 +29,11 @@ export const nationAllocationMap: { [key: number]: NationAllocation } = {
   0: NationAllocation.Random,
   1: NationAllocation.Preference,
 };
+
+export const nationAllocationTranslations: { [key: string]: string } = {
+  [NationAllocation.Random]: tk.NationAllocationOptionsRandom,
+  [NationAllocation.Preference]: tk.NationAllocationOptionsPreference,
+}
 
 interface Player {
   username: string;

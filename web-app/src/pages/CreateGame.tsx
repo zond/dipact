@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
   Container,
@@ -6,7 +6,6 @@ import {
   ListItem,
   FormControlLabel,
   FormHelperText,
-  Switch,
   Typography,
   TextField,
   IconButton,
@@ -23,12 +22,14 @@ import {
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import GoBackNav from "../components/GoBackNav";
-import useSearchParams from "../hooks/useSearchParams";
-import { iso639_1Codes, randomGameName } from "../helpers";
+import { iso639_1Codes } from "../helpers";
 import { RandomGameNameIcon } from "../icons";
 import useCreateGame from "../hooks/useCreateGame";
 import Loading from "../components/Loading";
-import { nationAllocationMap } from "../hooks/useGameList";
+import {
+  nationAllocationMap,
+  nationAllocationTranslations,
+} from "../hooks/useGameList";
 import { useTranslation } from "react-i18next";
 import tk from "../translations/translateKeys";
 
@@ -83,12 +84,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PRIVATE_CHECKBOX_LABEL = "Private";
-const GAME_MASTER_CHECKBOX_LABEL = "Manage as Game Master";
-const GAME_MASTER_EXPLANATION =
-  "As game master, you can pause/resume games and control who joins (and as what nation). To play yourself, you need to join as a player after creating your game.";
-const GAME_MASTER_DISABLED_EXPLANATION =
-  "Game master only allowed in private games (risk of abuse)";
 const VARIANT_SELECT_LABEL = "Variant";
 const VARIANT_START_YEAR_LABEL = "Start year";
 const VARIANT_AUTHOR_LABEL = "Original author";
@@ -150,18 +145,19 @@ const DAY_SINGULAR = "Day";
 const DAY_PLURAL = "Days";
 
 const CreateGame = (): React.ReactElement => {
-  const { t, i18n } = useTranslation("common");
-  const { setParam } = useSearchParams();
-  console.log(i18n.languages);
+  const { t } = useTranslation("common");
   const {
     handleChange,
     handleSubmit,
+    isLoading,
     randomizeName,
     selectedVariant,
     selectedVariantSVG,
+    submitDisabled,
     userStats,
     values,
     variants,
+    variantSVGIsFetching,
     validationErrors,
   } = useCreateGame();
 
@@ -170,464 +166,524 @@ const CreateGame = (): React.ReactElement => {
   const singularAdjustmentPhaseLength =
     values.adjustmentPhaseLengthMultiplier === 1;
   const minEndAfterYearsValue = (selectedVariant?.Start?.Year || 0) + 1;
-  const submitDisabled = Object.keys(validationErrors).length !== 0;
 
   return (
     <GoBackNav title={t(tk.CreateGameTitle)}>
-      <Container className={classes.root}>
-        <form onSubmit={handleSubmit}>
-          <section>
-            <div className={classes.nameInputContainer}>
-              <TextField
-                variant="standard"
-                label={t(tk.CreateGameNameInputLabel)}
-                name="name"
-                margin="dense"
-                value={values.name}
-                onChange={handleChange}
-              />
-              <IconButton onClick={randomizeName} size="large">
-                <RandomGameNameIcon />
-              </IconButton>
-            </div>
-          </section>
-          <section>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="privateGame"
-                    checked={values.privateGame}
-                    onChange={handleChange}
-                  />
-                }
-                label={PRIVATE_CHECKBOX_LABEL}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="gameMaster"
-                    checked={values.gameMaster}
-                    onChange={handleChange}
-                    disabled={!values.privateGame}
-                  />
-                }
-                label={GAME_MASTER_CHECKBOX_LABEL}
-              />
-              {values.privateGame ? (
-                <FormHelperText>{GAME_MASTER_EXPLANATION}</FormHelperText>
-              ) : (
-                <FormHelperText>
-                  {GAME_MASTER_DISABLED_EXPLANATION}
-                </FormHelperText>
-              )}
-            </FormGroup>
-          </section>
-          <section>
-            {selectedVariant ? (
-              <>
-                <FormControl
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Container className={classes.root}>
+          <form onSubmit={handleSubmit}>
+            <section>
+              <div className={classes.nameInputContainer}>
+                <TextField
                   variant="standard"
-                  className={classes.variantSelect}
+                  label={t(tk.CreateGameNameInputLabel)}
+                  name="name"
+                  margin="dense"
+                  value={values.name}
+                  onChange={handleChange}
+                />
+                <IconButton
+                  title={t(tk.CreateGameRandomizeNameButtonTitle)}
+                  onClick={randomizeName}
+                  size="large"
                 >
-                  <InputLabel id="variant-input-label">
-                    {VARIANT_SELECT_LABEL}
-                  </InputLabel>
-                  <Select
-                    labelId="variant-input-label"
-                    value={values.variant}
-                    onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
-                  >
-                    {variants.map((variant) => (
-                      <MenuItem key={variant.Name} value={variant.Name}>
-                        {/* TODO format string when translating */}
-                        {variant.Name} ({variant.Nations.length} players)
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Typography className={classes.variantDescription}>
-                  {selectedVariant.Description}
-                </Typography>
-                {selectedVariantSVG && (
-                  <div
-                    className={classes.variantSVGContainer}
-                    dangerouslySetInnerHTML={{ __html: selectedVariantSVG }}
-                  />
+                  <RandomGameNameIcon />
+                </IconButton>
+              </div>
+            </section>
+            <section>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="privateGame"
+                      checked={values.privateGame}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={t(tk.CreateGamePrivateCheckboxLabel) as string}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="gameMaster"
+                      checked={values.gameMaster}
+                      onChange={handleChange}
+                      disabled={!values.privateGame}
+                    />
+                  }
+                  label={t(tk.CreateGameGameMasterCheckboxLabel) as string}
+                />
+                {values.privateGame ? (
+                  <FormHelperText>
+                    {t(tk.CreateGameGameMasterHelpTextDefault)}
+                  </FormHelperText>
+                ) : (
+                  <FormHelperText>
+                    {t(tk.CreateGameGameMasterHelpTextDisabled)}
+                  </FormHelperText>
                 )}
-                <List className={classes.variantDetailList}>
-                  <ListItem>
-                    <Typography variant="caption">
-                      {VARIANT_START_YEAR_LABEL}
-                    </Typography>
-                    <Typography>{selectedVariant.Start?.Year}</Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography variant="caption">
-                      {VARIANT_AUTHOR_LABEL}
-                    </Typography>
-                    <Typography>{selectedVariant.CreatedBy}</Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography variant="caption">
-                      {VARIANT_RULES_LABEL}
-                    </Typography>
-                    <Typography>{selectedVariant.Rules}</Typography>
-                  </ListItem>
-                </List>
-              </>
-            ) : (
-              <Loading />
-            )}
-          </section>
-          <section>
-            <Typography variant="caption">{NATION_ALLOCATION_LABEL}</Typography>
+              </FormGroup>
+            </section>
+            <section>
+              {selectedVariant ? (
+                <>
+                  <FormControl
+                    variant="standard"
+                    className={classes.variantSelect}
+                  >
+                    <InputLabel htmlFor="variant-input-label">
+                      {t(tk.CreateGameVariantSelectLabel)}
+                    </InputLabel>
+                    <Select
+                      id="variant-input-label"
+                      value={values.variant}
+                      name="variant"
+                      onChange={(e) =>
+                        handleChange(e as React.ChangeEvent<any>)
+                      }
+                      native
+                    >
+                      {variants.map((variant) => (
+                        <option
+                          aria-checked={selectedVariant === variant}
+                          key={variant.Name}
+                          value={variant.Name}
+                          title={variant.Name}
+                        >
+                          {t(tk.CreateGameVariantSelectOptionLabel, {
+                            name: variant.Name,
+                            numPlayers: variant.Nations.length,
+                          })}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {variantSVGIsFetching ? (
+                    <Loading />
+                  ) : (
+                    <>
+                      <Typography className={classes.variantDescription}>
+                        {selectedVariant.Description}
+                      </Typography>
+                      {selectedVariantSVG && (
+                        <div
+                          className={classes.variantSVGContainer}
+                          dangerouslySetInnerHTML={{
+                            __html: selectedVariantSVG,
+                          }}
+                        />
+                      )}
+                      <List className={classes.variantDetailList}>
+                        <ListItem>
+                          <Typography variant="caption">
+                            {VARIANT_START_YEAR_LABEL}
+                          </Typography>
+                          <Typography>{selectedVariant.Start?.Year}</Typography>
+                        </ListItem>
+                        <ListItem>
+                          <Typography variant="caption">
+                            {VARIANT_AUTHOR_LABEL}
+                          </Typography>
+                          <Typography>{selectedVariant.CreatedBy}</Typography>
+                        </ListItem>
+                        <ListItem>
+                          <Typography variant="caption">
+                            {VARIANT_RULES_LABEL}
+                          </Typography>
+                          <Typography>{selectedVariant.Rules}</Typography>
+                        </ListItem>
+                      </List>
+                    </>
+                  )}
+                </>
+              ) : (
+                <Loading />
+              )}
+            </section>
+            <section>
+              <Typography variant="caption">
+                {t(tk.CreateGameNationAllocationSectionLabel)}
+              </Typography>
 
-            <RadioGroup
-              value={values.nationAllocation}
-              onChange={handleChange}
-              name="nationAllocation"
-              className={classes.nationAllocationContainer}
-            >
-              <FormControlLabel
-                value={0}
-                control={<Radio />}
-                label={nationAllocationMap[0]}
-              />
-              <FormControlLabel
-                value={1}
-                control={<Radio />}
-                label={nationAllocationMap[1]}
-              />
-            </RadioGroup>
-          </section>
-          <section>
-            <Typography variant="caption">
-              {GAME_LENGTH_SECTION_LABEL}
-            </Typography>
-
-            <Box display="flex">
-              <TextField
-                name="phaseLengthMultiplier"
-                label={PHASE_LENGTH_LABEL}
-                type="number"
-                inputProps={{ min: 1 }}
-                value={values.phaseLengthMultiplier}
+              <RadioGroup
+                value={values.nationAllocation}
                 onChange={handleChange}
-                variant="standard"
-              />
-              <Select
-                name="phaseLengthUnit"
-                value={values.phaseLengthUnit}
-                onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
-                variant="standard"
+                name="nationAllocation"
+                className={classes.nationAllocationContainer}
               >
-                <MenuItem key={1} value={1}>
-                  {singularPhaseLength ? MINUTE_SINGULAR : MINUTE_PLURAL}
-                </MenuItem>
-                <MenuItem key={60} value={60}>
-                  {singularPhaseLength ? HOUR_SINGULAR : HOUR_PLURAL}
-                </MenuItem>
-                <MenuItem key={60 * 24} value={60 * 24}>
-                  {singularPhaseLength ? DAY_SINGULAR : DAY_PLURAL}
-                </MenuItem>
-              </Select>
-            </Box>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="customAdjustmentPhaseLength"
-                    checked={values.customAdjustmentPhaseLength}
-                    onChange={handleChange}
-                  />
-                }
-                label={CUSTOM_ADJUSTMENT_PHASE_LENGTH_CHECKBOX_LABEL}
-              />
-            </div>
-            {/* TODO componentize */}
-            {values.customAdjustmentPhaseLength && (
+                <FormControlLabel
+                  value={0}
+                  control={<Radio />}
+                  label={
+                    t(
+                      nationAllocationTranslations[nationAllocationMap[0]]
+                    ) as string
+                  }
+                />
+                <FormControlLabel
+                  value={1}
+                  control={<Radio />}
+                  label={
+                    t(
+                      nationAllocationTranslations[nationAllocationMap[1]]
+                    ) as string
+                  }
+                />
+              </RadioGroup>
+            </section>
+            <section>
+              <Typography variant="caption">
+                {GAME_LENGTH_SECTION_LABEL}
+              </Typography>
+
               <Box display="flex">
                 <TextField
-                  name="adjustmentPhaseLengthMultiplier"
-                  label={ADJUSTMENT_PHASE_LENGTH_LABEL}
+                  name="phaseLengthMultiplier"
+                  label={t(tk.CreateGamePhaseLengthMultiplierInputLabel)}
                   type="number"
                   inputProps={{ min: 1 }}
-                  value={values.adjustmentPhaseLengthMultiplier}
+                  value={values.phaseLengthMultiplier}
                   onChange={handleChange}
                   variant="standard"
                 />
+                <InputLabel id="phase-length-unit-input-label">
+                  {t(tk.CreateGamePhaseLengthUnitSelectLabel)}
+                </InputLabel>
                 <Select
-                  name="adjustmentPhaseLengthUnit"
-                  value={values.adjustmentPhaseLengthUnit}
+                  name="phaseLengthUnit"
+									labelId="phase-length-unit-input-label"
+                  value={values.phaseLengthUnit}
                   onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
                   variant="standard"
                 >
                   <MenuItem key={1} value={1}>
-                    {singularAdjustmentPhaseLength
-                      ? MINUTE_SINGULAR
-                      : MINUTE_PLURAL}
+                    {singularPhaseLength
+                      ? t(tk.DurationsMinuteSingular)
+                      : t(tk.DurationsMinutePlural)}
                   </MenuItem>
                   <MenuItem key={60} value={60}>
-                    {singularAdjustmentPhaseLength
-                      ? HOUR_SINGULAR
-                      : HOUR_PLURAL}
+                    {singularPhaseLength
+                      ? t(tk.DurationsHourSingular)
+                      : t(tk.DurationsHourPlural)}
                   </MenuItem>
                   <MenuItem key={60 * 24} value={60 * 24}>
-                    {singularAdjustmentPhaseLength ? DAY_SINGULAR : DAY_PLURAL}
+                    {singularPhaseLength
+                      ? t(tk.DurationsDaySingular)
+                      : t(tk.DurationsDayPlural)}
                   </MenuItem>
                 </Select>
               </Box>
-            )}
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="skipGetReadyPhase"
-                    checked={values.skipGetReadyPhase}
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="customAdjustmentPhaseLength"
+                      checked={values.customAdjustmentPhaseLength}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={CUSTOM_ADJUSTMENT_PHASE_LENGTH_CHECKBOX_LABEL}
+                />
+              </div>
+              {/* TODO componentize */}
+              {values.customAdjustmentPhaseLength && (
+                <Box display="flex">
+                  <TextField
+                    name="adjustmentPhaseLengthMultiplier"
+                    label={ADJUSTMENT_PHASE_LENGTH_LABEL}
+                    type="number"
+                    inputProps={{ min: 1 }}
+                    value={values.adjustmentPhaseLengthMultiplier}
                     onChange={handleChange}
+                    variant="standard"
                   />
-                }
-                label={SKIP_GET_READY_PHASE_CHECKBOX_LABEL}
-              />
-            </div>
-            <FormHelperText>{SKIP_GET_READY_PHASE_HELP_TEXT}</FormHelperText>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="endAfterYears"
-                    checked={values.endAfterYears}
-                    onChange={handleChange}
-                  />
-                }
-                label={END_AFTER_YEARS_CHECKBOX_LABEL}
-              />
-            </div>
-            {values.endAfterYears && (
-              <TextField
-                name="endAfterYearsValue"
-                label={END_AFTER_YEARS_VALUE_INPUT_LABEL}
-                type="number"
-                inputProps={{ min: minEndAfterYearsValue }}
-                value={values.endAfterYearsValue}
-                onChange={handleChange}
-                variant="standard"
-              />
-            )}
-          </section>
-          <section>
-            <Typography variant="caption">{CHAT_SECTION_LABEL}</Typography>
-            <Typography variant="caption">{ALLOW_CHATS_LABEL}</Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="conferenceChatEnabled"
-                    checked={values.conferenceChatEnabled}
-                    onChange={handleChange}
-                  />
-                }
-                label={CONFERENCE_CHAT_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="groupChatEnabled"
-                    checked={values.groupChatEnabled}
-                    onChange={handleChange}
-                  />
-                }
-                label={GROUP_CHAT_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="individualChatEnabled"
-                    checked={values.individualChatEnabled}
-                    onChange={handleChange}
-                  />
-                }
-                label={INDIVIDUAL_CHAT_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="anonymousEnabled"
-                    checked={values.anonymousEnabled}
-                    onChange={handleChange}
-                    disabled={!values.privateGame}
-                  />
-                }
-                label={ANONYMOUS_ENABLED_CHECKBOX_LABEL}
-              />
-              {!values.privateGame && (
-                <FormHelperText>{ANONYMOUS_PRIVATE_EXPLANATION}</FormHelperText>
-              )}
-            </FormGroup>
-            <FormControl variant="standard">
-              <InputLabel id="chat-language-input-label">
-                {CHAT_LANGUAGE_INPUT_LABEL}
-              </InputLabel>
-              <Select
-                labelId="chat-language-input-label"
-                value={values.chatLanguage}
-                onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
-              >
-                <MenuItem value="players_choice">
-                  {PLAYERS_CHOICE_OPTION_LABEL}
-                </MenuItem>
-                {iso639_1Codes.map((lang) => {
-                  return (
-                    <MenuItem key={lang.code} value={lang.code}>
-                      {lang.name}
+                  <Select
+                    name="adjustmentPhaseLengthUnit"
+                    value={values.adjustmentPhaseLengthUnit}
+                    onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
+                    variant="standard"
+                  >
+                    <MenuItem key={1} value={1}>
+                      {singularAdjustmentPhaseLength
+                        ? MINUTE_SINGULAR
+                        : MINUTE_PLURAL}
                     </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </section>
-          <section>
-            <Typography variant="caption">
-              {REQUIREMENTS_SECTION_LABEL}
-            </Typography>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="reliabilityEnabled"
-                    checked={values.reliabilityEnabled}
-                    onChange={handleChange}
-                  />
-                }
-                label={RELIABILITY_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormHelperText>
-                {RELIABILITY_ENABLED_CHECKBOX_HELP_TEXT}
-              </FormHelperText>
-              {values.reliabilityEnabled && (
+                    <MenuItem key={60} value={60}>
+                      {singularAdjustmentPhaseLength
+                        ? HOUR_SINGULAR
+                        : HOUR_PLURAL}
+                    </MenuItem>
+                    <MenuItem key={60 * 24} value={60 * 24}>
+                      {singularAdjustmentPhaseLength
+                        ? DAY_SINGULAR
+                        : DAY_PLURAL}
+                    </MenuItem>
+                  </Select>
+                </Box>
+              )}
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="skipGetReadyPhase"
+                      checked={values.skipGetReadyPhase}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={SKIP_GET_READY_PHASE_CHECKBOX_LABEL}
+                />
+              </div>
+              <FormHelperText>{SKIP_GET_READY_PHASE_HELP_TEXT}</FormHelperText>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="endAfterYears"
+                      checked={values.endAfterYears}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={END_AFTER_YEARS_CHECKBOX_LABEL}
+                />
+              </div>
+              {values.endAfterYears && (
                 <TextField
-                  variant="standard"
-                  label={MIN_RELIABILITY_INPUT_LABEL}
-                  name="minReliability"
+                  name="endAfterYearsValue"
+                  label={END_AFTER_YEARS_VALUE_INPUT_LABEL}
                   type="number"
-                  margin="dense"
-                  value={values.minReliability}
+                  inputProps={{ min: minEndAfterYearsValue }}
+                  value={values.endAfterYearsValue}
                   onChange={handleChange}
+                  variant="standard"
                 />
               )}
-            </div>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="quicknessEnabled"
-                    checked={values.quicknessEnabled}
-                    onChange={handleChange}
-                  />
-                }
-                label={QUICKNESS_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormHelperText>
-                {QUICKNESS_ENABLED_CHECKBOX_HELP_TEXT}
-              </FormHelperText>
-              {values.quicknessEnabled && (
-                <TextField
-                  variant="standard"
-                  label={MIN_QUICKNESS_INPUT_LABEL}
-                  name="minQuickness"
-                  type="number"
-                  margin="dense"
-                  value={values.minQuickness}
-                  onChange={handleChange}
+            </section>
+            <section>
+              <Typography variant="caption">{CHAT_SECTION_LABEL}</Typography>
+              <Typography variant="caption">{ALLOW_CHATS_LABEL}</Typography>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="conferenceChatEnabled"
+                      checked={values.conferenceChatEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={CONFERENCE_CHAT_ENABLED_CHECKBOX_LABEL}
                 />
-              )}
-            </div>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="minRatingEnabled"
-                    checked={values.minRatingEnabled}
-                    onChange={handleChange}
-                  />
-                }
-                label={MIN_RATING_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormHelperText>
-                {MIN_RATING_ENABLED_CHECKBOX_HELP_TEXT}
-              </FormHelperText>
-              {values.minRatingEnabled && (
-                <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="groupChatEnabled"
+                      checked={values.groupChatEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={GROUP_CHAT_ENABLED_CHECKBOX_LABEL}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="individualChatEnabled"
+                      checked={values.individualChatEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={INDIVIDUAL_CHAT_ENABLED_CHECKBOX_LABEL}
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="anonymousEnabled"
+                      checked={values.anonymousEnabled}
+                      onChange={handleChange}
+                      disabled={!values.privateGame}
+                    />
+                  }
+                  label={ANONYMOUS_ENABLED_CHECKBOX_LABEL}
+                />
+                {!values.privateGame && (
+                  <FormHelperText>
+                    {ANONYMOUS_PRIVATE_EXPLANATION}
+                  </FormHelperText>
+                )}
+              </FormGroup>
+              <FormControl variant="standard">
+                <InputLabel id="chat-language-input-label">
+                  {CHAT_LANGUAGE_INPUT_LABEL}
+                </InputLabel>
+                <Select
+                  labelId="chat-language-input-label"
+                  value={values.chatLanguage}
+                  onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
+                >
+                  <MenuItem value="players_choice">
+                    {PLAYERS_CHOICE_OPTION_LABEL}
+                  </MenuItem>
+                  {iso639_1Codes.map((lang) => {
+                    return (
+                      <MenuItem key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </section>
+            <section>
+              <Typography variant="caption">
+                {REQUIREMENTS_SECTION_LABEL}
+              </Typography>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="reliabilityEnabled"
+                      checked={values.reliabilityEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={RELIABILITY_ENABLED_CHECKBOX_LABEL}
+                />
+                <FormHelperText>
+                  {RELIABILITY_ENABLED_CHECKBOX_HELP_TEXT}
+                </FormHelperText>
+                {values.reliabilityEnabled && (
                   <TextField
                     variant="standard"
-                    label={MIN_RATING_INPUT_LABEL}
-                    name="minRating"
+                    label={MIN_RELIABILITY_INPUT_LABEL}
+                    name="minReliability"
                     type="number"
                     margin="dense"
-                    value={values.minRating}
-                    onChange={handleChange}
-                    error={Boolean(validationErrors.minRating)}
-                  />
-                  {validationErrors.minRating ? (
-                    <FormHelperText error={true}>
-                      {t(validationErrors.minRating, {
-                        // TODO simplify when all data in component
-                        rating: userStats?.TrueSkill?.Rating?.toFixed(2),
-                      })}
-                    </FormHelperText>
-                  ) : null}
-                  <FormHelperText>{MIN_RATING_INPUT_HELP_TEXT}</FormHelperText>
-                </>
-              )}
-            </div>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="maxRatingEnabled"
-                    checked={values.maxRatingEnabled}
+                    value={values.minReliability}
                     onChange={handleChange}
                   />
-                }
-                label={MAX_RATING_ENABLED_CHECKBOX_LABEL}
-              />
-              <FormHelperText>
-                {/* TODO errors should disable create button */}
-                {MAX_RATING_ENABLED_CHECKBOX_HELP_TEXT}
-              </FormHelperText>
-              {values.maxRatingEnabled && (
-                <>
+                )}
+              </div>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="quicknessEnabled"
+                      checked={values.quicknessEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={QUICKNESS_ENABLED_CHECKBOX_LABEL}
+                />
+                <FormHelperText>
+                  {QUICKNESS_ENABLED_CHECKBOX_HELP_TEXT}
+                </FormHelperText>
+                {values.quicknessEnabled && (
                   <TextField
                     variant="standard"
-                    label={MAX_RATING_INPUT_LABEL}
-                    name="maxRating"
-                    margin="dense"
+                    label={MIN_QUICKNESS_INPUT_LABEL}
+                    name="minQuickness"
                     type="number"
-                    value={values.maxRating.toFixed(2)}
+                    margin="dense"
+                    value={values.minQuickness}
                     onChange={handleChange}
-                    error={Boolean(validationErrors.maxRating)}
                   />
-                  {validationErrors.maxRating ? (
-                    <FormHelperText error={true}>
-                      {t(validationErrors.maxRating, {
-                        // TODO simplify when all data in component
-                        rating: userStats?.TrueSkill?.Rating?.toFixed(2),
-                      })}
+                )}
+              </div>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="minRatingEnabled"
+                      checked={values.minRatingEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={MIN_RATING_ENABLED_CHECKBOX_LABEL}
+                />
+                <FormHelperText>
+                  {MIN_RATING_ENABLED_CHECKBOX_HELP_TEXT}
+                </FormHelperText>
+                {values.minRatingEnabled && (
+                  <>
+                    <TextField
+                      variant="standard"
+                      label={MIN_RATING_INPUT_LABEL}
+                      name="minRating"
+                      type="number"
+                      margin="dense"
+                      value={values.minRating}
+                      onChange={handleChange}
+                      error={Boolean(validationErrors.minRating)}
+                    />
+                    {validationErrors.minRating ? (
+                      <FormHelperText error={true}>
+                        {t(validationErrors.minRating, {
+                          // TODO simplify when all data in component
+                          rating: userStats?.TrueSkill?.Rating?.toFixed(2),
+                        })}
+                      </FormHelperText>
+                    ) : null}
+                    <FormHelperText>
+                      {MIN_RATING_INPUT_HELP_TEXT}
                     </FormHelperText>
-                  ) : null}
-                  <FormHelperText>{MAX_RATING_INPUT_HELP_TEXT}</FormHelperText>
-                </>
-              )}
+                  </>
+                )}
+              </div>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="maxRatingEnabled"
+                      checked={values.maxRatingEnabled}
+                      onChange={handleChange}
+                    />
+                  }
+                  label={MAX_RATING_ENABLED_CHECKBOX_LABEL}
+                />
+                <FormHelperText>
+                  {/* TODO errors should disable create button */}
+                  {MAX_RATING_ENABLED_CHECKBOX_HELP_TEXT}
+                </FormHelperText>
+                {values.maxRatingEnabled && (
+                  <>
+                    <TextField
+                      variant="standard"
+                      label={MAX_RATING_INPUT_LABEL}
+                      name="maxRating"
+                      margin="dense"
+                      type="number"
+                      value={values.maxRating.toFixed(2)}
+                      onChange={handleChange}
+                      error={Boolean(validationErrors.maxRating)}
+                    />
+                    {validationErrors.maxRating ? (
+                      <FormHelperText error={true}>
+                        {t(validationErrors.maxRating, {
+                          // TODO simplify when all data in component
+                          rating: userStats?.TrueSkill?.Rating?.toFixed(2),
+                        })}
+                      </FormHelperText>
+                    ) : null}
+                    <FormHelperText>
+                      {MAX_RATING_INPUT_HELP_TEXT}
+                    </FormHelperText>
+                  </>
+                )}
+              </div>
+            </section>
+            <div className={classes.buttonContainer}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={submitDisabled}
+              >
+                {t(tk.CreateGameSubmitButtonLabel)}
+              </Button>
             </div>
-          </section>
-          <div className={classes.buttonContainer}>
-            <Button type="submit" variant="contained" disabled={submitDisabled}>
-              {CREATE_GAME_BUTTON_LABEL}
-            </Button>
-          </div>
-        </form>
-      </Container>
+          </form>
+        </Container>
+      )}
     </GoBackNav>
   );
 };

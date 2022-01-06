@@ -1,11 +1,18 @@
 import { isRejected } from "@reduxjs/toolkit";
 import { Middleware } from "redux";
+import ReactGA from "react-ga";
+
 import { submitSettingsForm } from "./actions";
 import { selectUserConfig } from "./selectors";
 import { diplicityService } from "./service";
 import { actions as authActions } from "./auth";
 import { actions as feedbackActions } from "./feedback";
+import { actions as uiActions } from "./ui";
+import { actions as gaActions } from "./ga";
 import { Severity } from "./types";
+
+const GTAG_DEFAULT_CATEGORY = "(not set)";
+const PAGE_VIEW_ACTION = "page_view";
 
 export const submitSettingsFormMiddleware: Middleware<{}, any> = ({
   getState,
@@ -21,6 +28,30 @@ export const submitSettingsFormMiddleware: Middleware<{}, any> = ({
         track: true,
       })
     );
+  }
+};
+
+export const uiPageLoadMiddleware: Middleware<{}, any> = ({
+  getState,
+  dispatch,
+}) => (next) => (action) => {
+  next(action);
+  if (action.type === uiActions.pageLoad.type) {
+    dispatch(gaActions.registerPageView(action.payload));
+  }
+};
+
+export const gaRegisterPageViewMiddleware: Middleware<{}, any> = () => (
+  next
+) => (action) => {
+  next(action);
+  if (action.type === gaActions.registerPageView.type) {
+    // eslint-disable-next-line no-restricted-globals
+    ReactGA.set({ page_title: action.payload, page_location: location.href });
+    ReactGA.event({
+      category: GTAG_DEFAULT_CATEGORY,
+      action: PAGE_VIEW_ACTION,
+    });
   }
 };
 
@@ -183,5 +214,7 @@ const middleware = [
   unInviteMiddleware,
   renameGameMiddleware,
   deleteGameMiddleware,
+  gaRegisterPageViewMiddleware,
+  uiPageLoadMiddleware,
 ];
 export default middleware;

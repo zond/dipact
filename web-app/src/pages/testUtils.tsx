@@ -1,7 +1,11 @@
 import { screen, waitFor } from "@testing-library/react";
 
+export const getLoadingSpinner = async () => {
+  return await waitFor(() => screen.queryByRole("progressbar"));
+}
 export const userSeesLoadingSpinner = async () => {
-  await waitFor(() => screen.getByRole("progressbar"));
+  const spinner = await getLoadingSpinner();
+  expect(spinner).toBeTruthy();
 };
 
 export const userSeesInternalServerErrorMessage = async () => {

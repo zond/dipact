@@ -1,8 +1,27 @@
 enum TranslateKeys {
   CreateGameTitle = "create-game.title",
   CreateGameNameInputLabel = "create-game.name-input.label",
+  CreateGamePrivateCheckboxLabel = "create-game.private-checkbox.label",
+  CreateGameGameMasterCheckboxLabel = "create-game.game-master-checkbox.label",
+  CreateGameGameMasterHelpTextDefault = "create-game.game-master-checkbox.help-text.default",
+  CreateGameGameMasterHelpTextDisabled = "create-game.game-master-checkbox.help-text.disabled",
+  CreateGameRandomizeNameButtonTitle = "create-game.randomize-name-button.title",
   CreateGameMaxRatingInputErrorMessageLessThanUserRating = "create-game.max-rating-input.error-message.less-than-user-rating",
   CreateGameMinRatingInputErrorMessageMoreThanUserRating = "create-game.min-rating-input.error-message.more-than-user-rating",
+  CreateGameVariantSelectLabel = "create-game.variant-select.label",
+  CreateGameVariantSelectOptionLabel = "create-game.variant-select.option-label",
+  CreateGameSubmitButtonLabel = "create-game.submit-button.label",
+  CreateGameNationAllocationSectionLabel = "create-game.nation-allocation-section.label",
+  CreateGamePhaseLengthMultiplierInputLabel =  "create-game.phase-length-multiplier-input.label",
+  CreateGamePhaseLengthUnitSelectLabel =  "create-game.phase-length-multiplier-select.label",
+  NationAllocationOptionsRandom = "nation-allocation-options.random",
+  NationAllocationOptionsPreference = "nation-allocation-options.preference",
+  DurationsMinuteSingular = "durations.minute.singular",
+  DurationsMinutePlural = "durations.minute.plural",
+  DurationsHourSingular = "durations.hour.singular",
+  DurationsHourPlural = "durations.hour.plural",
+  DurationsDaySingular = "durations.day.singular",
+  DurationsDayPlural = "durations.day.plural",
 }
 
 export default TranslateKeys;

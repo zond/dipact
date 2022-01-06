@@ -1,20 +1,9 @@
 import { FormikErrors, FormikTouched, useFormik } from "formik";
 import { FormEvent, useEffect, useState } from "react";
-import Globals from "../Globals";
 import { randomGameName } from "../helpers";
-import {
-  ColorOverrides,
-  CreateGameFormValues,
-  SettingsFormValues,
-  UserConfig,
-  UserStats,
-  Variant,
-} from "../store/types";
-import { useColorOverrides } from "./selectors";
+import { CreateGameFormValues, UserStats, Variant } from "../store/types";
 import {
   useGetRootQuery,
-  useGetUserRatingHistogramQuery,
-  useLazyGetUserConfigQuery,
   useLazyGetUserStatsQuery,
   useLazyGetVariantSVGQuery,
   useListVariantsQuery,
@@ -23,6 +12,7 @@ import { actions as uiActions } from "../store/ui";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import tk from "../translations/translateKeys";
+import usePageLoad from "./usePageLoad";
 
 // TODO de-dupe with useSettings
 const CLASSICAL = "Classical";
@@ -30,14 +20,17 @@ const CLASSICAL = "Classical";
 interface IUseCreateGame {
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
+  isLoading: boolean;
   randomizeName: () => void;
   selectedVariant: Variant | null;
   selectedVariantSVG: string | undefined;
-  values: CreateGameFormValues;
-  variants: Variant[];
+  submitDisabled: boolean;
   touched: FormikTouched<CreateGameFormValues>;
   userStats?: UserStats;
   validationErrors: FormikErrors<CreateGameFormValues>;
+  values: CreateGameFormValues;
+  variants: Variant[];
+  variantSVGIsFetching: boolean;
 }
 
 const getInitialFormValues = (): CreateGameFormValues => ({
@@ -70,16 +63,17 @@ const getInitialFormValues = (): CreateGameFormValues => ({
 });
 
 const useCreateGame = (): IUseCreateGame => {
+  const getRootQuery = useGetRootQuery(undefined);
+  const listVariantsQuery = useListVariantsQuery(undefined);
   const [
     triggerGetVariantSVGQuery,
     getVariantsSVGQuery,
   ] = useLazyGetVariantSVGQuery();
-  const listVariantsQuery = useListVariantsQuery(undefined);
-  const getRootQuery = useGetRootQuery(undefined);
   const [getUserStatsTrigger, getUserStatsQuery] = useLazyGetUserStatsQuery();
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [validationSchema, setValidationSchema] = useState<any>();
   const dispatch = useDispatch();
+  usePageLoad("CreateGame");
 
   useEffect(() => {
     if (getRootQuery.data) {
@@ -94,7 +88,8 @@ const useCreateGame = (): IUseCreateGame => {
           maxRating: yup
             .number()
             .min(
-              (getUserStatsQuery.data.TrueSkill?.Rating || 0) - 0.01 as number,
+              ((getUserStatsQuery.data.TrueSkill?.Rating || 0) -
+                0.01) as number,
               tk.CreateGameMaxRatingInputErrorMessageLessThanUserRating
             ),
           minRating: yup
@@ -148,6 +143,17 @@ const useCreateGame = (): IUseCreateGame => {
   }, [listVariantsQuery, setFieldValue]);
 
   useEffect(() => {
+    if (listVariantsQuery.data) {
+      const newVariant = listVariantsQuery.data.find(
+        (variant) => variant.Name === values.variant
+      );
+      if (newVariant) {
+        setSelectedVariant(newVariant);
+      }
+    }
+  }, [values.variant, listVariantsQuery.data]);
+
+  useEffect(() => {
     if (selectedVariant) {
       triggerGetVariantSVGQuery(selectedVariant.Name);
       setFieldValue(
@@ -158,6 +164,11 @@ const useCreateGame = (): IUseCreateGame => {
   }, [selectedVariant, triggerGetVariantSVGQuery, setFieldValue]);
 
   const randomizeName = () => setFieldValue("name", randomGameName());
+  const submitDisabled = Object.keys(validationErrors).length !== 0 || getVariantsSVGQuery.isFetching;
+  const isLoading =
+    listVariantsQuery.isLoading ||
+    getUserStatsQuery.isLoading ||
+    getVariantsSVGQuery.isLoading;
 
   return {
     handleChange,
@@ -166,10 +177,13 @@ const useCreateGame = (): IUseCreateGame => {
     selectedVariant,
     selectedVariantSVG: getVariantsSVGQuery.data,
     values,
+    variantSVGIsFetching: getVariantsSVGQuery.isFetching,
     variants: listVariantsQuery.data || [],
     touched,
     userStats: getUserStatsQuery.data,
     validationErrors,
+    submitDisabled,
+    isLoading,
   };
 };
 

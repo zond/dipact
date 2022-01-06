@@ -14,19 +14,9 @@
           "Turkey",
           "Russia"
         ],
-        "PhaseTypes": [
-          "Movement",
-          "Retreat",
-          "Adjustment"
-        ],
-        "Seasons": [
-          "Spring",
-          "Fall"
-        ],
-        "UnitTypes": [
-          "Army",
-          "Fleet"
-        ],
+        "PhaseTypes": ["Movement", "Retreat", "Adjustment"],
+        "Seasons": ["Spring", "Fall"],
+        "UnitTypes": ["Army", "Fleet"],
         "SVGVersion": "9",
         "ProvinceLongNames": {
           "adr": "Adriatic Sea",
@@ -250,66 +240,7 @@
             "adr": {
               "Name": "adr",
               "Subs": {
-                "": {
-                  "Name": "",
-                  "Edges": {
-                    "alb": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "apu": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "ion": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "tri": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "ven": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    }
-                  },
-                  "ReverseEdges": {
-                    "alb": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "apu": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "ion": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "tri": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    },
-                    "ven": {
-                      "Flags": {
-                        "Sea": true
-                      }
-                    }
-                  },
-                  "Flags": {
-                    "Sea": true
-                  }
-                }
+                "": {}
               },
               "SC": null
             }
@@ -1048,6 +979,2516 @@
         {
           "Rel": "flag-Austria",
           "URL": "https://diplicity-engine.appspot.com/Variant/Classical/Flags/Austria.svg",
+          "Method": "GET"
+        }
+      ]
+    },
+    {
+      "Name": "Twenty Twenty",
+      "Properties": {
+        "Name": "Twenty Twenty",
+        "Nations": [
+          "Brazil",
+          "Canada",
+          "Australia",
+          "Italy",
+          "USA",
+          "Kenya",
+          "Egypt",
+          "Thailand",
+          "Turkey",
+          "South Africa",
+          "India",
+          "Russia",
+          "Pakistan",
+          "China",
+          "UK",
+          "Japan",
+          "Germany",
+          "Argentina",
+          "Nigeria",
+          "Spain"
+        ],
+        "PhaseTypes": ["Movement", "Retreat", "Adjustment"],
+        "Seasons": ["Spring", "Fall"],
+        "UnitTypes": ["Army", "Fleet"],
+        "SVGVersion": "8",
+        "ProvinceLongNames": {
+          "Iqa": "Iqaluit",
+          "abu": "Abuja",
+          "ade": "Adelaide",
+          "aeg": "Aegean Sea",
+          "afg": "Afghanistan",
+          "alb": "Albania",
+          "ale": "Alexandria",
+          "alg": "Algeria",
+          "alm": "Almaty",
+          "anc": "Anchorage",
+          "and": "Andaman Sea",
+          "ang": "Angola",
+          "ank": "Ankara",
+          "ank/nc": "Ankara (NC)",
+          "ank/sc": "Ankara (SC)",
+          "ant": "Antarctica",
+          "ara": "Arabian Sea",
+          "arc": "Arctic Ocean",
+          "ast": "Astana",
+          "asw": "Aswan",
+          "atl": "Atlanta",
+          "aze": "Azerbaijan",
+          "bad": "Bangladesh",
+          "bao": "Baotou",
+          "bar": "Barcelona",
+          "bat": "Baltic Sea",
+          "bea": "Belarus",
+          "beg": "Belgium",
+          "bei": "Beijing",
+          "ben": "Berlin",
+          "bes": "Bering Sea",
+          "bet": "Bermuda Triangle",
+          "bhu": "Bhutan",
+          "bla": "Black Sea",
+          "ble": "Balearic Sea",
+          "bna": "Bangalore",
+          "bnh": "Banghazi",
+          "bnk": "Bangkok",
+          "bob": "Bay of Bengal",
+          "bod": "Bordeaux",
+          "bod/ec": "Bordeaux (EC)",
+          "bod/wc": "Bordeaux (WC)",
+          "bra": "Brasilia",
+          "bri": "Brisbane",
+          "bue": "Buenos Aires",
+          "bul": "Bulgaria",
+          "bul/ec": "Bulgaria (EC)",
+          "bul/sc": "Bulgaria (SC)",
+          "cab": "Cabo Verde",
+          "cad": "Cadiz",
+          "cai": "Cairo",
+          "can": "Canaries",
+          "cap": "Cape Town",
+          "car": "Central African Republic",
+          "cas": "Caribbean Sea",
+          "cha": "Chad",
+          "chc": "Chilean Coast",
+          "che": "Chesapeake Bay",
+          "chg": "Chicago",
+          "chm": "Chiang Mai",
+          "cho": "Chongqing",
+          "col": "Colombia",
+          "col/nc": "Colombia (NC)",
+          "col/wc": "Colombia (WC)",
+          "com": "Comodoro Rivadavia",
+          "cot": "Cote d'Ivoire",
+          "cro": "Croatia",
+          "cub": "Cuba",
+          "cze": "Czech Republic",
+          "dar": "Darwin",
+          "dem": "Denmark",
+          "des": "Denmark Strait",
+          "diy": "Diyarbakir",
+          "dom": "Dominican Republic",
+          "drc": "Democratic Republic of Congo",
+          "dub": "Dublin",
+          "dur": "Dubran",
+          "ecs": "East China Sea",
+          "edi": "Edinburgh",
+          "eio": "East Indian Ocean",
+          "ems": "East Mediterranean Sea",
+          "ena": "Eastern North Atlantic",
+          "esa": "Eastern South Atlantic",
+          "eth": "Ethiopia",
+          "fin": "Finland",
+          "fin/nc": "Finland (NC)",
+          "fin/sc": "Finland (SC)",
+          "gab": "Gabon",
+          "gha": "Ghana",
+          "gin": "Guinea",
+          "gog": "Gulf of Guinea",
+          "gos": "Gulf of St. Lawrence",
+          "grc": "Greece",
+          "grd": "Greenland",
+          "gub": "Guiana Basin",
+          "gur": "Gulf of Mannar",
+          "gux": "Gulf of Mexico",
+          "had": "Hat Yai",
+          "ham": "Hamburg",
+          "hon": "Hong Kong",
+          "hun": "Hungary",
+          "hyd": "Hyderabad",
+          "ind": "Indonesia",
+          "ion": "Ionian Sea",
+          "ira": "Iraq",
+          "ira/ec": "Iraq (EC)",
+          "ira/wc": "Iraq (WC)",
+          "irk": "Irkutsk",
+          "isl": "Islamabad",
+          "ist": "Istanbul",
+          "kam": "Kashmir",
+          "kan": "Kano",
+          "kar": "Karachi",
+          "kol": "Kolkata",
+          "kor": "Korea",
+          "ksi": "Kashi",
+          "kun": "Kunming",
+          "lab": "Labrador Sea",
+          "lac": "Laccadive Sea",
+          "lag": "Lagos",
+          "lah": "Lahore",
+          "lan": "Lanzhou",
+          "lap": "Laptev",
+          "lij": "Lijiang",
+          "lon": "London",
+          "los": "Los Angeles",
+          "los/ec": "Los Angeles (EC)",
+          "los/wc": "Los Angeles (WC)",
+          "lyo": "Lyon",
+          "mac": "Macapa",
+          "mad": "Madrid",
+          "man": "Mandalay",
+          "mar": "Marsabit",
+          "mas": "Mashad",
+          "mau": "Mauritania",
+          "mec": "Mecca",
+          "mec/nc": "Mecca (NC)",
+          "mec/sc": "Mecca (SC)",
+          "men": "Mendoza",
+          "mex": "Mexico",
+          "mex/ec": "Mexico (EC)",
+          "mex/wc": "Mexico (WC)",
+          "mil": "Milan",
+          "mil/ec": "Milan (EC)",
+          "mil/wc": "Milan (WC)",
+          "min": "Minneapolis",
+          "mio": "Mid Indian Ocean",
+          "moc": "Mozambique Channel",
+          "mog": "Mongolia",
+          "mom": "Mombasa",
+          "moq": "Mozambique",
+          "mor": "Morocco",
+          "mos": "Moscow",
+          "mot": "Montreal",
+          "mpo": "Mid Pacific Ocean",
+          "mum": "Mumbai",
+          "mun": "Munich",
+          "nag": "Nagasaki",
+          "nai": "Nairobi",
+          "nap": "Naples",
+          "ned": "New Delhi",
+          "neo": "New Orleans",
+          "nep": "Nepal",
+          "ney": "New York",
+          "nig": "Niger",
+          "nma": "North Mid Atlantic",
+          "nos": "Norwegian Sea",
+          "now": "Norway",
+          "npo": "North Pacific Ocean",
+          "okl": "Oklahoma City",
+          "oma": "Oman",
+          "oms": "Omsk",
+          "ott": "Ottawa",
+          "pab": "Panama Basin",
+          "pag": "Paraguay",
+          "pai": "Paris",
+          "pam": "Panama",
+          "peg": "Persian Gulf",
+          "pet": "Perth",
+          "peu": "Peru",
+          "phi": "Philippines",
+          "pol": "Poland",
+          "por": "Port Elizabeth",
+          "pre": "Pretoria",
+          "ran": "Rangoon",
+          "rec": "Recife",
+          "red": "Red Sea",
+          "rio": "Rio de Janeiro",
+          "riy": "Riyadh",
+          "rma": "Romania",
+          "roe": "Rome",
+          "roe/ec": "Rome (EC)",
+          "roe/wc": "Rome (WC)",
+          "ros": "Rostov-on-Don",
+          "sao": "Sao Paulo",
+          "sap": "Sapporo",
+          "sco": "Scotia Sea",
+          "scs": "South China Sea",
+          "sen": "Senegal",
+          "ser": "Serbia",
+          "she": "Shenyang",
+          "she/ec": "Shenyang (EC)",
+          "she/sc": "Shenyang (SC)",
+          "ska": "Skaggerak",
+          "sma": "South Mid Atlantic",
+          "soj": "Sea of Japan",
+          "soo": "Southern Ocean",
+          "spo": "South Pacific Ocean",
+          "stp": "St. Petersburg",
+          "sud": "Sudan",
+          "swe": "Sweden",
+          "syd": "Sydney",
+          "tai": "Taiwan",
+          "tan": "Tanzania",
+          "tas": "Tasman Sea",
+          "teh": "Tehran",
+          "tib": "Tibet",
+          "tok": "Tokyo",
+          "tri": "Tripoli",
+          "tur": "Turkmenistan",
+          "ukr": "Ukraine",
+          "uru": "Urumqi",
+          "uzb": "Uzbekistan",
+          "van": "Vancouver",
+          "ven": "Venezuela",
+          "vie": "Vietnam",
+          "vla": "Vladivostok",
+          "was": "Washington DC",
+          "whi": "Whitehorse",
+          "whi/nc": "Whitehorse (NC)",
+          "whi/wc": "Whitehorse (WC)",
+          "wio": "West Indian Ocean",
+          "wna": "Western North Atlantic",
+          "wsa": "Western South Atlantic",
+          "yak": "Yakutsk",
+          "yem": "Yemen",
+          "yeo": "Yellowknife",
+          "yes": "Yellow Sea",
+          "yum": "Yumen",
+          "zam": "Zambia",
+          "zim": "Zimbabwe"
+        },
+        "NationColors": null,
+        "CreatedBy": "TTTPPP",
+        "Version": "1",
+        "Description": "Twenty nations race to conquer the world by the year 2020.",
+        "Rules": "To win, a nation needs a number of Supply Centers (SC) more than any other nation at the end of a year. This starts with 20, but is reduced by 1 each year (in 2015 a nation needs six SC more, in 2020 only one). \nAlternatively, first to 49 SC wins.\nUnits may be built on any captured home SC (but not previously neutral ones).\nUnits & fleets can move between Anchorage & Vladivostok, New Orleans & Cuba, Cuba & Dominican Republic, Ethiopia & Yemen, Korea & Nagasaki, and Indonesia & Darwin.\nThirteen provinces have dual coasts: Whitehorse, Los Angeles, Mexico, Colombia, Bordeaux, Milan, Rome, Finland, Bulgaria, Ankara, Iraq, Mecca, and Shenyang.",
+        "OrderTypes": [
+          "Move",
+          "MoveViaConvoy",
+          "Hold",
+          "Support",
+          "Build",
+          "Disband",
+          "Convoy"
+        ],
+        "Start": {
+          "Year": 2001,
+          "Season": "Spring",
+          "Type": "Movement",
+          "SCs": {
+            "abu": "Nigeria",
+            "ale": "Egypt",
+            "anc": "USA",
+            "ank": "Turkey",
+            "asw": "Egypt",
+            "atl": "USA",
+            "bao": "China",
+            "bar": "Spain",
+            "bei": "China",
+            "ben": "Germany",
+            "bna": "India",
+            "bnk": "Thailand",
+            "bri": "Australia",
+            "bue": "Argentina",
+            "cad": "Spain",
+            "cai": "Egypt",
+            "cap": "South Africa",
+            "chm": "Thailand",
+            "cho": "China",
+            "com": "Argentina",
+            "diy": "Turkey",
+            "dub": "UK",
+            "dur": "South Africa",
+            "edi": "UK",
+            "ham": "Germany",
+            "hat": "Thailand",
+            "iqa": "Canada",
+            "irk": "Russia",
+            "isl": "Pakistan",
+            "ist": "Turkey",
+            "kan": "Nigeria",
+            "kar": "Pakistan",
+            "lag": "Nigeria",
+            "lah": "Pakistan",
+            "lon": "UK",
+            "mac": "Brazil",
+            "mad": "Spain",
+            "mar": "Kenya",
+            "men": "Argentina",
+            "mil": "Italy",
+            "mom": "Kenya",
+            "mos": "Russia",
+            "mot": "Canada",
+            "mum": "India",
+            "mun": "Germany",
+            "nag": "Japan",
+            "nai": "Kenya",
+            "nap": "Italy",
+            "ned": "India",
+            "okl": "USA",
+            "oms": "Russia",
+            "pet": "Australia",
+            "pre": "South Africa",
+            "rec": "Brazil",
+            "rio": "Brazil",
+            "roe": "Italy",
+            "sap": "Japan",
+            "syd": "Australia",
+            "tok": "Japan",
+            "van": "Canada",
+            "vla": "Russia",
+            "was": "USA",
+            "yum": "China"
+          },
+          "Units": {
+            "abu": {
+              "Type": "Army",
+              "Nation": "Nigeria"
+            },
+            "ale": {
+              "Type": "Fleet",
+              "Nation": "Egypt"
+            },
+            "anc": {
+              "Type": "Army",
+              "Nation": "USA"
+            },
+            "ank": {
+              "Type": "Army",
+              "Nation": "Turkey"
+            },
+            "asw": {
+              "Type": "Army",
+              "Nation": "Egypt"
+            },
+            "atl": {
+              "Type": "Army",
+              "Nation": "USA"
+            },
+            "bao": {
+              "Type": "Army",
+              "Nation": "China"
+            },
+            "bar": {
+              "Type": "Army",
+              "Nation": "Spain"
+            },
+            "bei": {
+              "Type": "Army",
+              "Nation": "China"
+            },
+            "ben": {
+              "Type": "Army",
+              "Nation": "Germany"
+            },
+            "bna": {
+              "Type": "Fleet",
+              "Nation": "India"
+            },
+            "bnk": {
+              "Type": "Fleet",
+              "Nation": "Thailand"
+            },
+            "bri": {
+              "Type": "Fleet",
+              "Nation": "Australia"
+            },
+            "bue": {
+              "Type": "Fleet",
+              "Nation": "Argentina"
+            },
+            "cad": {
+              "Type": "Fleet",
+              "Nation": "Spain"
+            },
+            "cai": {
+              "Type": "Army",
+              "Nation": "Egypt"
+            },
+            "cap": {
+              "Type": "Fleet",
+              "Nation": "South Africa"
+            },
+            "chm": {
+              "Type": "Army",
+              "Nation": "Thailand"
+            },
+            "cho": {
+              "Type": "Army",
+              "Nation": "China"
+            },
+            "com": {
+              "Type": "Fleet",
+              "Nation": "Argentina"
+            },
+            "diy": {
+              "Type": "Army",
+              "Nation": "Turkey"
+            },
+            "dub": {
+              "Type": "Fleet",
+              "Nation": "UK"
+            },
+            "dur": {
+              "Type": "Fleet",
+              "Nation": "South Africa"
+            },
+            "edi": {
+              "Type": "Fleet",
+              "Nation": "UK"
+            },
+            "ham": {
+              "Type": "Fleet",
+              "Nation": "Germany"
+            },
+            "hat": {
+              "Type": "Fleet",
+              "Nation": "Thailand"
+            },
+            "iqa": {
+              "Type": "Fleet",
+              "Nation": "Canada"
+            },
+            "irk": {
+              "Type": "Army",
+              "Nation": "Russia"
+            },
+            "isl": {
+              "Type": "Army",
+              "Nation": "Pakistan"
+            },
+            "ist": {
+              "Type": "Fleet",
+              "Nation": "Turkey"
+            },
+            "kan": {
+              "Type": "Army",
+              "Nation": "Nigeria"
+            },
+            "kar": {
+              "Type": "Fleet",
+              "Nation": "Pakistan"
+            },
+            "lag": {
+              "Type": "Fleet",
+              "Nation": "Nigeria"
+            },
+            "lah": {
+              "Type": "Army",
+              "Nation": "Pakistan"
+            },
+            "lon": {
+              "Type": "Fleet",
+              "Nation": "UK"
+            },
+            "mac": {
+              "Type": "Army",
+              "Nation": "Brazil"
+            },
+            "mad": {
+              "Type": "Fleet",
+              "Nation": "Spain"
+            },
+            "mar": {
+              "Type": "Army",
+              "Nation": "Kenya"
+            },
+            "men": {
+              "Type": "Fleet",
+              "Nation": "Argentina"
+            },
+            "mil": {
+              "Type": "Army",
+              "Nation": "Italy"
+            },
+            "mom": {
+              "Type": "Fleet",
+              "Nation": "Kenya"
+            },
+            "mos": {
+              "Type": "Army",
+              "Nation": "Russia"
+            },
+            "mot": {
+              "Type": "Fleet",
+              "Nation": "Canada"
+            },
+            "mum": {
+              "Type": "Fleet",
+              "Nation": "India"
+            },
+            "mun": {
+              "Type": "Army",
+              "Nation": "Germany"
+            },
+            "nag": {
+              "Type": "Fleet",
+              "Nation": "Japan"
+            },
+            "nai": {
+              "Type": "Army",
+              "Nation": "Kenya"
+            },
+            "nap": {
+              "Type": "Army",
+              "Nation": "Italy"
+            },
+            "ned": {
+              "Type": "Army",
+              "Nation": "India"
+            },
+            "okl": {
+              "Type": "Army",
+              "Nation": "USA"
+            },
+            "oms": {
+              "Type": "Army",
+              "Nation": "Russia"
+            },
+            "pet": {
+              "Type": "Fleet",
+              "Nation": "Australia"
+            },
+            "pre": {
+              "Type": "Army",
+              "Nation": "South Africa"
+            },
+            "rec": {
+              "Type": "Fleet",
+              "Nation": "Brazil"
+            },
+            "rio": {
+              "Type": "Fleet",
+              "Nation": "Brazil"
+            },
+            "roe/ec": {
+              "Type": "Fleet",
+              "Nation": "Italy"
+            },
+            "sap": {
+              "Type": "Fleet",
+              "Nation": "Japan"
+            },
+            "syd": {
+              "Type": "Fleet",
+              "Nation": "Australia"
+            },
+            "tok": {
+              "Type": "Fleet",
+              "Nation": "Japan"
+            },
+            "van": {
+              "Type": "Fleet",
+              "Nation": "Canada"
+            },
+            "vla": {
+              "Type": "Army",
+              "Nation": "Russia"
+            },
+            "was": {
+              "Type": "Fleet",
+              "Nation": "USA"
+            },
+            "yum": {
+              "Type": "Army",
+              "Nation": "China"
+            }
+          },
+          "Map": ""
+        },
+        "Graph": {
+          "Nodes": {
+          }
+        }
+      },
+      "Type": "Variant",
+      "Links": [
+        {
+          "Rel": "self",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty",
+          "Method": "GET"
+        },
+        {
+          "Rel": "start-state",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Start",
+          "Method": "GET"
+        },
+        {
+          "Rel": "resolve-state",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Resolve",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "map",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Map.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "unit-Army",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Units/Army.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "unit-Fleet",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Units/Fleet.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "Brazil-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Brazil/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Canada-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Canada/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Australia-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Australia/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Italy-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Italy/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "USA-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/USA/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Kenya-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Kenya/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Egypt-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Egypt/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Thailand-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Thailand/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Turkey-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Turkey/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "South Africa-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/South%20Africa/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "India-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/India/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Russia-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Russia/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Pakistan-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Pakistan/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "China-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/China/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "UK-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/UK/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Japan-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Japan/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Germany-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Germany/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Argentina-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Argentina/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Nigeria-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Nigeria/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "Spain-options",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Spain/Options",
+          "Method": "POST",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "Bounces": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "boolean"
+                  }
+                },
+                "title": "Bounces"
+              },
+              "Dislodgeds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Dislodgeds"
+              },
+              "Dislodgers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Dislodgers"
+              },
+              "Orders": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "title": "Orders"
+              },
+              "Resolutions": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "Resolutions"
+              },
+              "Season": {
+                "type": "string",
+                "title": "Season"
+              },
+              "SupplyCenters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "title": "SupplyCenters"
+              },
+              "Type": {
+                "type": "string",
+                "title": "Type"
+              },
+              "Units": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object"
+                },
+                "title": "Units"
+              },
+              "Variant": {
+                "type": "string",
+                "title": "Variant"
+              },
+              "Year": {
+                "type": "integer",
+                "title": "Year"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "flag-Argentina",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Argentina.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-India",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/India.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-South Africa",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/South%20Africa.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Russia",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Russia.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Spain",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Spain.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-UK",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/UK.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Australia",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Australia.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Brazil",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Brazil.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Canada",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Canada.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Kenya",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Kenya.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Pakistan",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Pakistan.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-USA",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/USA.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Egypt",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Egypt.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Germany",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Germany.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Turkey",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Turkey.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-China",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/China.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Italy",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Italy.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Japan",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Japan.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Nigeria",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Nigeria.svg",
+          "Method": "GET"
+        },
+        {
+          "Rel": "flag-Thailand",
+          "URL": "https://diplicity-engine.appspot.com/Variant/Twenty%20Twenty/Flags/Thailand.svg",
           "Method": "GET"
         }
       ]

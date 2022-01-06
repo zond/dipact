@@ -27,7 +27,7 @@ i18next.init({
 });
 
 if (process.env.NODE_ENV === "development") {
-  // worker.start();
+  worker.start();
 }
 
 ReactDOM.render(
