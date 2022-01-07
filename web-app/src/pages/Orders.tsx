@@ -1,5 +1,5 @@
 import { Button, Checkbox, Container, FormControlLabel } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { Typography } from "@mui/material";
 
 import useRegisterPageView from "../hooks/useRegisterPageview";
@@ -76,15 +76,13 @@ const CONFIRM_ORDERS_LABEL = "Confirm orders";
 const NO_ORDERS_LABEL = "You have no orders to give this turn";
 const CONFIRM_ORDERS_PROMPT = "When you're ready for the next turn";
 
-
-
 const Orders = () => {
   useRegisterPageView("Orders");
   // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();
   const classes = useStyles();
   const {
-    combinedQueryState: { isError, isLoading, error},
+    combinedQueryState: { isError, isLoading, error },
     nationStatuses,
     noOrders,
     ordersConfirmed,

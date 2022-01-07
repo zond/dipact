@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import React from "react";
 import { Theme } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';

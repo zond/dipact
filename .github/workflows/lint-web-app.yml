@@ -1,0 +1,11 @@
+name: Linting
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn --cwd ./web-app install -g --dev
+      - name: Run ESLint
+        run: yarn --cwd ./web-app run eslint 'src/**/*.{js,jsx,ts,tsx}' --max-warnings 0
