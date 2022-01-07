@@ -1,0 +1,164 @@
+{
+  "Name": "phase-states",
+  "Properties": [
+    {
+      "Name": "Austria",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "Austria",
+        "ReadyToResolve": true,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.615673741 +0000 UTC m=+234535.440511741 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    },
+    {
+      "Name": "England",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "England",
+        "ReadyToResolve": true,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.654353675 +0000 UTC m=+234535.479191684 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    },
+    {
+      "Name": "France",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "France",
+        "ReadyToResolve": true,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.649301033 +0000 UTC m=+234535.474139021 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    },
+    {
+      "Name": "Germany",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "Germany",
+        "ReadyToResolve": false,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.647756641 +0000 UTC m=+234535.472594644 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    },
+    {
+      "Name": "Italy",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "Italy",
+        "ReadyToResolve": false,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.652774723 +0000 UTC m=+234535.477612711 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    },
+    {
+      "Name": "Russia",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "Russia",
+        "ReadyToResolve": true,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.651208322 +0000 UTC m=+234535.476046311 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    },
+    {
+      "Name": "Turkey",
+      "Properties": {
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "PhaseOrdinal": 1,
+        "Nation": "Turkey",
+        "ReadyToResolve": false,
+        "WantsDIAS": false,
+        "WantsConcede": false,
+        "OnProbation": false,
+        "NoOrders": false,
+        "Eliminated": false,
+        "Messages": "",
+        "ZippedOptions": "",
+        "Note": "Created by Diplicity at 2021-07-29 12:32:06.6450232 +0000 UTC m=+234535.469861200 due to game start."
+      },
+      "Type": "PhaseState",
+      "Links": null
+    }
+  ],
+  "Desc": [
+    [
+      "Phase states",
+      "Each member has exactly one phase state per phase. The phase state defines phase scoped configuration for the member, such as whether the member is ready for the phase to resolve, if the member wants a draw and if the member is currently on probation."
+    ],
+    [
+      "Ready to resolve",
+      "If all members of a game are ready for the phase to resolve, the phase will resolve immediately without waiting for the deadline."
+    ],
+    [
+      "Draws",
+      "If all members of a game want a draw, the game will end early. The scoring system will reflect this by distributing points to all remaining players."
+    ],
+    [
+      "Probation",
+      "Members on probation will get future phase states automatically marked as 'ready to resolve' and 'wanting draw'. To return from probation, simply update the phase state of the member on probation."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Phase/1/PhaseStates",
+      "Method": "GET"
+    }
+  ]
+}

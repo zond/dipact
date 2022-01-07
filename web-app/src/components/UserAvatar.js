@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Avatar } from "@material-ui/core";
+import { IconButton, Avatar } from "@mui/material";
 
 import { withStatsDialog } from "./StatsDialogWrapper";
 
@@ -18,18 +18,18 @@ import { withStatsDialog } from "./StatsDialogWrapper";
 class UserAvatar extends React.Component {
 	render() {
 		return (
-			<React.Fragment>
+            <React.Fragment>
 				<IconButton
-					style={{
+                    style={{
 						padding: "0px",
 					}}
-					onClick={() => {
+                    onClick={() => {
 						// TODO move out of component
 						if (this.props.user.Id) {
 							this.props.statsDialogOptions.open(this.props.user, this.props.game, this.props.gameState, this.props.onNewGameState);
 						}
 					}}
-				>
+                    size="large">
 					<Avatar
 						alt={this.props.user.Name}
 						src={this.props.user.Picture}
@@ -37,7 +37,7 @@ class UserAvatar extends React.Component {
 					/>
 				</IconButton>
 			</React.Fragment>
-		);
+        );
 	}
 }
 

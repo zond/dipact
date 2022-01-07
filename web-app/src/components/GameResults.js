@@ -13,13 +13,13 @@ import {
 	AccordionDetails,
 	Accordion,
 	AccordionSummary,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import withStyles from '@mui/styles/withStyles';
 import gtag from "ga-gtag";
 
-import { ExpandIcon } from "../icons";
-import NationAvatar from "./NationAvatar";
-import Globals from "../Globals";
+import { ExpandIcon } from '../icons';
+import NationAvatar, { withMuted } from './NationAvatar';
+import Globals from '../Globals';
 
 const styles = (theme) => ({
 	dialogActions: {
@@ -204,6 +204,17 @@ class GameResults extends React.Component {
 													}
 											  )
 											: null;
+
+    									const { color, link, nationAbbreviation, muted } = helpers.getNationAvatarProps(score.Member, this.props.variant, this.props.gameState);
+										const avatar = (
+											<NationAvatar
+												nation={score.Member}
+												color={color}
+												link={link}
+												nationAbbreviation={nationAbbreviation}
+											/>)
+										const wrappedAvatar = muted ? withMuted(avatar) : avatar;
+
 										return (
 											<ListItem
 												key={"nation_" + score.Member}
@@ -247,27 +258,7 @@ class GameResults extends React.Component {
 																color: "rgba(40, 26, 26, 0.54)",
 															}}
 														>
-															<NationAvatar
-																game={
-																	this.props
-																		.game
-																}
-																gameState={
-																	this.props
-																		.gameState
-																}
-																newGameState={
-																	this.props
-																		.newGameState
-																}
-																nation={
-																	score.Member
-																}
-																variant={
-																	this.props
-																		.variant
-																}
-															/>
+															{wrappedAvatar}
 															<div
 																style={{
 																	marginLeft:

@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import * as helpers from "../helpers";
 import GameMetadata from "./GameMetadata";

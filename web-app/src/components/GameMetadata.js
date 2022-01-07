@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, IconButton, Typography, SvgIcon } from "@material-ui/core";
+import { Icon, IconButton, Typography, SvgIcon } from "@mui/material";
 import {
 	PhaseDeadlineIcon,
 	KickIcon,
@@ -741,9 +741,9 @@ export default class GameMetadata extends React.Component {
 								return link.Rel === "kick-" + member.User.Id;
 							}) ? (
 								<IconButton
-									onClick={this.onKick(member.User.Id)}
-									style={{ margin: "0 0 0 auto" }}
-								>
+                                    onClick={this.onKick(member.User.Id)}
+                                    style={{ margin: "0 0 0 auto" }}
+                                    size="large">
 									<KickIcon />
 								</IconButton>
 							) : (

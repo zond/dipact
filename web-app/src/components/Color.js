@@ -10,7 +10,7 @@ import {
 	DialogActions,
 	DialogContent,
 	TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
 export default class Color extends React.Component {
 	constructor(props) {

@@ -1,54 +1,100 @@
 import React from "react";
+import { Router as ReactRouter } from "react-router";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import Game from "../components/Game";
-import MainMenu from "../components/MainMenu";
+import { MemoryHistory } from "history";
+
+import GameRouter from "./GameRouter";
+import Login from "./Login";
+import { RouteConfig } from "./RouteConfig";
+import { useSelectIsLoggedIn } from "../hooks/selectors";
+import Donate from "./Donate";
+import GameList from "./GameList";
+import NationPreferencesDialog from "../components/NationPreferencesDialog";
 import About from "./About";
+import Settings from "./Settings";
+import RescheduleDialog from "../components/RescheduleDialog";
+import ManageInvitationsDialog from "../components/ManageInvitationsDialog";
+import RenameGameDialog from "../components/RenameGameDialog";
+import ResetSettingsDialog from "../components/ResetSettingsDialog";
+import CreateGame from "./CreateGame";
 
-type RouteProps = {
-	urls: { [key: string]: string };
+// TODO test
+export const LoggedOutRoutes = (): React.ReactElement => {
+  return (
+    <Switch>
+      <Route path={RouteConfig.Login}>
+        <Login />
+      </Route>
+      <Redirect to="/" />
+    </Switch>
+  );
 };
-
-export const RouteConfig = {
-	About: '/about',
-	GameTab: '/game/:gameId/:tab',
-	Game: '/game/:gameId',
-	GameChatChannel: '/game/:gameId/channel/:channelId/messages',
-	GameLaboratoryMode: '/game/:gameId/lab/:labOptions',
-}
 
 // Separated into two components to make testing routes easier
-export const Routes = (props: RouteProps): React.ReactElement => {
-	return (
-		<Switch>
-			<Route exact path="/">
-				<MainMenu urls={props.urls} />
-			</Route>
-			<Route exact path={RouteConfig.About}>
-				<About />
-			</Route>
-			<Route exact path={RouteConfig.Game}>
-				<Game />
-			</Route>
-			<Route exact path={RouteConfig.GameTab}>
-				<Game />
-			</Route>
-			<Route exact path={RouteConfig.GameChatChannel}>
-				<Game chatOpen />
-			</Route>
-			<Route exact path={RouteConfig.GameLaboratoryMode}>
-				<Game laboratoryMode />
-			</Route>
-			<Redirect to="/" />
-		</Switch>
-	);
+export const Routes = (): React.ReactElement => {
+  return (
+    <>
+      <Switch>
+        <Route exact path={RouteConfig.Donate}>
+          <Donate />
+        </Route>
+        <Route exact path={RouteConfig.About}>
+          <About />
+        </Route>
+        <Route exact path={RouteConfig.CreateGame}>
+          <CreateGame />
+        </Route>
+        <Route exact path={RouteConfig.GameList}>
+          <GameList />
+        </Route>
+        <Route path={RouteConfig.Game}>
+          <GameRouter />
+        </Route>
+        <Route path={RouteConfig.Settings}>
+          <Settings />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    </>
+  );
 };
 
-const Router = (props: RouteProps): React.ReactElement => {
-	return (
-		<BrowserRouter>
-			<Routes urls={props.urls} />
-		</BrowserRouter>
-	);
+const Router = (): React.ReactElement => {
+  const isLoggedIn = useSelectIsLoggedIn();
+
+  return (
+    <BrowserRouter>
+      {isLoggedIn ? (
+        <>
+          <Routes />
+          <NationPreferencesDialog />
+          <RescheduleDialog />
+          <ManageInvitationsDialog />
+          <RenameGameDialog />
+          <ResetSettingsDialog />
+        </>
+      ) : (
+        <LoggedOutRoutes />
+      )}
+    </BrowserRouter>
+  );
+};
+
+/**
+ * Decorator used to provide router context during tests.
+ */
+export const routerDecorator = (
+  history: MemoryHistory<unknown>,
+  path?: string
+) => {
+  return (Component: () => JSX.Element) => {
+    history.push(path || "/");
+    return () => (
+      <ReactRouter history={history}>
+        <Component />
+      </ReactRouter>
+    );
+  };
 };
 
 export default Router;

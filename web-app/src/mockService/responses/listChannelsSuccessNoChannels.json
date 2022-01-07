@@ -1,0 +1,44 @@
+{
+  "Name": "channels",
+  "Properties": [],
+  "Desc": [
+    [
+      "Lazy channels",
+      "Channels are created lazily when messages are created for previously non existing channels.",
+      "This means that you can write messages to combinations of nations not currently represented by a channel listed here, and the channel will simply be created for you."
+    ],
+    [
+      "Counters",
+      "Channels tell you how many messages they have, and how many new since you last loaded messages from them."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channels",
+      "Method": "GET"
+    },
+    {
+      "Rel": "message",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Messages",
+      "Method": "POST",
+      "JSONSchema": {
+        "type": "object",
+        "properties": {
+          "Body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "ChannelMembers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "ChannelMembers"
+          }
+        }
+      }
+    }
+  ]
+}

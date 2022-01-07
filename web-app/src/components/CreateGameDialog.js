@@ -21,12 +21,12 @@ import {
 	Checkbox,
 	TextField,
 	Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { withRouter } from "react-router-dom";
 
 import { CloseIcon, RandomGameNameIcon } from "../icons";
 
-import NationPreferencesDialog from "./NationPreferencesDialog";
+import NationPreferencesDialog from "./OldNationPreferencesDialog";
 import Globals from "../Globals";
 
 const intReg = /^[0-9]+$/;
@@ -439,7 +439,7 @@ class CreateGameDialog extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
+            <React.Fragment>
 				<Dialog
 					TransitionProps={{
 						onEnter: helpers.genOnback(this.close),
@@ -451,11 +451,11 @@ class CreateGameDialog extends React.Component {
 					<AppBar>
 						<Toolbar>
 							<IconButton
-								edge="start"
-								color="inherit"
-								onClick={this.close}
-								aria-label="close"
-							>
+                                edge="start"
+                                color="inherit"
+                                onClick={this.close}
+                                aria-label="close"
+                                size="large">
 								<CloseIcon />
 							</IconButton>
 							<Typography
@@ -505,7 +505,7 @@ class CreateGameDialog extends React.Component {
 										}}
 									/>
 									<IconButton
-										onClick={(_) => {
+                                        onClick={(_) => {
 											this.setState((state, props) => {
 												state = Object.assign(
 													{},
@@ -516,7 +516,7 @@ class CreateGameDialog extends React.Component {
 												return state;
 											});
 										}}
-									>
+                                        size="large">
 										<RandomGameNameIcon />
 									</IconButton>
 								</div>
@@ -558,7 +558,7 @@ class CreateGameDialog extends React.Component {
 												)}
 											/>
 										}
-										label="Game master of new game"
+										label="Manage as Game Master"
 										style={{ marginBottom: "8px" }}
 									/>
 
@@ -566,7 +566,7 @@ class CreateGameDialog extends React.Component {
 										<FormHelperText>
 											As game master, you can pause/resume
 											games and control who joins (and as
-											what nation). If you want to play
+											what nation). To play
 											yourself, you need to join as a
 											player after creating your game.
 										</FormHelperText>
@@ -1282,7 +1282,7 @@ class CreateGameDialog extends React.Component {
 					}}
 				/>
 			</React.Fragment>
-		);
+        );
 	}
 }
 

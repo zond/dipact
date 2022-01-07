@@ -2,7 +2,7 @@ name: Deploy
 
 on:
     push:
-        branches: ["beta"]
+        branches: ["master", "beta"]
 
 jobs:
     build:
@@ -22,9 +22,9 @@ jobs:
               run: docker-compose run sample yarn build
             - name: Copy release to Cloud Storage
               working-directory: web-app
-              run: gsutil -m rsync -r -c build gs://beta-dipact/
+              run: gsutil -m rsync -r -c build gs://${BRANCH_NAME}-dipact/
             - name: Make index.html no-cache
-              run: 'gsutil setmeta -h "Cache-Control: no-cache" gs://beta-dipact/index.html'
+              run: 'gsutil setmeta -h "Cache-Control: no-cache" gs://${BRANCH_NAME}-dipact/index.html'
             - name: Remove redundant files from Cloud Storage
               working-directory: web-app
-              run: gsutil -m rsync -r -d -c build gs://beta-dipact/
+              run: gsutil -m rsync -r -d -c build gs://${BRANCH_NAME}-dipact/

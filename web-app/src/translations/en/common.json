@@ -1,0 +1,65 @@
+{
+    "create-game": {
+        "title": "Create Game",
+        "name-input": {
+            "label": "Name"
+        },
+        "private-checkbox": {
+            "label": "Private"
+        },
+        "game-master-checkbox": {
+            "label": "Game master",
+            "help-text": {
+                "default": "As game master, you can pause/resume games and control who joins (and as what nation). To play yourself, you need to join as a player after creating your game.",
+                "disabled": "Game master only allowed in private games (risk of abuse)"
+            }
+        },
+        "variant-select": {
+            "label": "Variant",
+            "option-label": "{{ name }} ({{ numPlayers }} players)"
+        },
+        "randomize-name-button": {
+            "title": "Randomize name"
+        },
+        "max-rating-input": {
+            "error-message": {
+                "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
+            }
+        },
+        "min-rating-input": {
+            "error-message": {
+                "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
+            }
+        },
+        "submit-button": {
+            "label": "Create game"
+        },
+        "nation-allocation-section": {
+            "label": "Nation selection"
+        },
+        "phase-length-multiplier-input": {
+            "label": "Phase length"
+        },
+        "phase-length-unit-select": {
+            "label": "Unit"
+        }
+    },
+    "nation-allocation-options": {
+        "random": "Random",
+        "preference": "Preference"
+    },
+    "durations": {
+        "minute": {
+            "singular": "Minute",
+            "plural": "Minutes"
+        },
+        "hour": {
+            "singular": "Hour",
+            "plural": "Hours"
+        },
+        "day": {
+            "singular": "Day",
+            "plural": "Days"
+        }
+    }
+}

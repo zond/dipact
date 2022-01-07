@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React from "react";
 import gtag from "ga-gtag";
-import { Dialog, ButtonGroup, Button } from "@material-ui/core";
+import { Dialog, ButtonGroup, Button } from "@mui/material";
 
 import * as helpers from "../helpers";
 

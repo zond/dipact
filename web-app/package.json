@@ -3,10 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
     "@fontsource/cabin": "^4.4.5",
     "@jaames/iro": "^5.5.2",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.2.1",
+    "@mui/lab": "^5.0.0-alpha.59",
+    "@mui/material": "^5.2.3",
+    "@mui/styles": "^5.2.3",
+    "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -15,38 +22,80 @@
     "@types/react-dom": "^17.0.0",
     "chart.js": "^3.4.0",
     "firebase": "^8.7.0",
+    "formik": "^2.2.9",
     "ga-gtag": "^1.1.0",
+    "i18next": "^21.6.4",
     "jquery": "^3.6.0",
+    "murmurhash-js": "^1.0.0",
     "pako": "^2.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
+    "react-i18next": "^11.15.2",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
+    "@storybook/addon-links": "^6.3.7",
+    "@storybook/addon-storyshots": "^6.3.7",
+    "@storybook/node-logger": "^6.3.7",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.7",
+    "@storybook/testing-react": "^0.0.22",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/enzyme": "^3.10.9",
+    "@types/jest": "27.0.3",
+    "@types/jquery": "^3.5.6",
+    "@types/murmurhash-js": "^1.0.3",
     "@types/react-router-dom": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "babel-loader": "8.1.0",
     "enzyme": "^3.11.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0"
+    "eslint-plugin-react": "^7.24.0",
+    "jest": "26.6.0",
+    "jest-fetch-mock": "^3.0.3",
+    "msw": "^0.35.0",
+    "react-test-renderer": "^17.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test-ci": "react-scripts test --watchAll=false",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "lint": "eslint src/**/*.{js,ts,tsx}",
+    "lint-fix": "eslint src/**/*.{js,ts,tsx} --fix"
+  },
+  "resolutions": {
+    "babel-loader": "8.1.0"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -60,5 +109,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
