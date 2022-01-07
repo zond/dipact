@@ -35,7 +35,6 @@ import { copyToClipboard } from "../utils/general";
 import PlayerCount from "./PlayerCount";
 import { actions as feedbackActions } from "../store/feedback";
 import useSearchParams from "../hooks/useSearchParams";
-import NavItem from "./NavItem";
 import { useDeleteGameMutation, useJoinGameMutation } from "../hooks/service";
 import { registerEvent } from "../hooks/useRegisterPageview";
 

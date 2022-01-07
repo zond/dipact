@@ -3,7 +3,6 @@ import { diplicityService, diplicityServiceURL } from "../service";
 import { Headers } from "../types";
 import {
   createGameResponse,
-  game,
   getGameResponse,
   listVariantsResponse,
   newGame,

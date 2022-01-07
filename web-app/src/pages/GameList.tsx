@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   Container,
   Divider,
@@ -16,7 +15,6 @@ import {
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { generatePath } from "react-router";
-import ErrorMessage from "../components/ErrorMessage";
 import GameCard from "../components/GameCard";
 import Loading from "../components/Loading";
 import MainMenu from "../components/MainMenu";
@@ -69,7 +67,7 @@ const GameList = () => {
   if (!(status && Object.values(GameStatus).includes(status))) {
     status = GameStatus.Started;
   }
-  const { games, isFetching, isError, error } = useGameList({
+  const { games, isFetching } = useGameList({
     my,
     status,
     mastered,

@@ -1,6 +1,4 @@
 import { createContext, useContext, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectVariantUnitSvgs } from "../store/selectors";
 import { Variant } from "../store/types";
 
 import { useSelectPhase, useSelectVariant, useSelectVariantUnitSvgs } from "./selectors";
@@ -42,7 +40,6 @@ const useGame = (gameId: string): IUseGame => {
   ] = useLazyGetVariantSVGQuery();
   const [
     getVariantUnitSVGTrigger,
-    getVariantUnitSVGQuery,
   ] = useLazyGetVariantUnitSVGQuery();
 
   const combinedQuery = {
@@ -54,12 +51,9 @@ const useGame = (gameId: string): IUseGame => {
     phaseStates: listPhaseStatesQuery,
   };
 
-  const { game, phaseStates, phases, user, variants, variantSVG } = {
+  const { game, phases, variantSVG } = {
     game: combinedQuery.game.data,
-    phaseStates: combinedQuery.phaseStates.data,
     phases: combinedQuery.phases.data,
-    user: combinedQuery.user.data,
-    variants: combinedQuery.variants.data,
     variantSVG: combinedQuery.variantSVG.data,
   };
   const combinedQueryState = getCombinedQueryState(combinedQuery);
@@ -83,7 +77,7 @@ const useGame = (gameId: string): IUseGame => {
     if (variant) {
       getVariantSVGTrigger(variant.Name);
     }
-  }, [variant]);
+  }, [variant, getVariantSVGTrigger]);
 
 
   useEffect(() => {
@@ -95,7 +89,7 @@ const useGame = (gameId: string): IUseGame => {
         });
       });
     }
-  }, [variant]);
+  }, [variant, getVariantUnitSVGTrigger]);
 
   const canJoin = true;
   const canLeave = false;

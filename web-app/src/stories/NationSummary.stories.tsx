@@ -15,8 +15,6 @@ const Template: ComponentStory<typeof Component> = (args) => (
   </div>
 );
 
-type Args = React.ComponentProps<typeof Component>;
-
 const Nations: { [key: string]: Nation } = {
   France: {
     abbreviation: "fr",
@@ -39,10 +37,6 @@ const defaultNationStatus: NationStatus = {
   noOrdersGiven: false,
   orders: [],
   homelessInconsistencies: [],
-};
-
-const defaultArgs: Args = {
-  nationStatus: { ...defaultNationStatus },
 };
 
 export const SupplyCentersPlural = Template.bind({});

@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   useLazyGetGameQuery,
   useRescheduleGameMutation,
@@ -38,34 +38,28 @@ const RescheduleDialog = (): React.ReactElement => {
 
   const [
     getGameTrigger,
-    {
-      data: game,
-      error: gameError,
-      isLoading: gameIsLoading,
-      isError: gameIsError,
-      isSuccess: gameIsSuccess,
-    },
+    { data: game }
   ] = useLazyGetGameQuery();
   const [
     rescheduleGame,
     { isLoading, isSuccess },
   ] = useRescheduleGameMutation();
 
-  const close = () => {
+  const close = useCallback(() => {
     removeParam(searchKey);
-  };
+  }, [removeParam]);
 
   useEffect(() => {
     if (gameId) registerPageView("RescheduleDialog");
     if (gameId) getGameTrigger(gameId);
-  }, [gameId]);
+  }, [gameId, getGameTrigger]);
 
   useEffect(() => {
     if (isSuccess) {
       registerEvent("game_list_element_reschedule");
       close();
     }
-  }, [isSuccess]);
+  }, [close, isSuccess]);
 
   const onSelected = () => {
     rescheduleGame({

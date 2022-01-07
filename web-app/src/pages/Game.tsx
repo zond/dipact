@@ -7,7 +7,6 @@ import { AppBar, Toolbar, Container, Button } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import PhaseSelector from "../components/PhaseSelector";
 import PlayerCount from "../components/PlayerCount";
-import Map from "../components/Map";
 
 interface GameUrlParams {
   gameId: string;
@@ -37,12 +36,10 @@ const Game = () => {
   const {
     canJoin,
     canLeave,
-    combinedQueryState: { isLoading, isSuccess },
+    combinedQueryState: { isLoading },
     maxNumPlayers,
     numPlayers,
-    variantSVG,
     variant,
-    variantUnitSvgs,
   } = useGame()(gameId);
 
   if (isLoading || !variant) return <Loading />;
@@ -68,7 +65,7 @@ const Game = () => {
           </Container>
         </Toolbar>
       </AppBar>
-      {isSuccess && <Map variant={variant} variantSVG={variantSVG as string} variantUnitSvgs={variantUnitSvgs} />}
+      {/* {isSuccess && <Map variant={variant} variantSVG={variantSVG as string} variantUnitSvgs={variantUnitSvgs} />} */}
     </div>
   );
 };

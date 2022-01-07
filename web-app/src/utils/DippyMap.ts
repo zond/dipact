@@ -368,12 +368,12 @@ export class DippyMap {
     );
     const style = {
       fill: color,
-      ["fill-opacity"]: opacity.toString(),
-      ["stroke"]: options.stroke || "#000000",
-      ["stroke-width"]: UNIT_STROKE_WIDTH.toString(),
-      ["stroke-miterlimit"]: UNIT_STROKE_MITER_LIMIT.toString(),
-      ["stroke-opacity"]: UNIT_STROKE_OPACITY.toString(),
-      ["stroke-dasharray"]: UNIT_STROKE_DASHARRAY,
+      "fill-opacity": opacity.toString(),
+      "stroke": options.stroke || "#000000",
+      "stroke-width": UNIT_STROKE_WIDTH.toString(),
+      "stroke-miterlimit": UNIT_STROKE_MITER_LIMIT.toString(),
+      "stroke-opacity": UNIT_STROKE_OPACITY.toString(),
+      "stroke-dasharray": UNIT_STROKE_DASHARRAY,
     };
     Object.entries(style).forEach(([attributeName, value]) => {
       unit.style.setProperty(attributeName, value);
@@ -574,11 +574,11 @@ export class DippyMap {
       fill: color,
       stroke: options.stroke || "#000000",
       // TODO replace with type
-      ["fill-rule"]: BOX_FILL_RULE,
-      ["stroke-width"]: BOX_STROKE_WIDTH.toString(),
-      ["stroke-miterlimit"]: BOX_STROKE_MITER_LIMIT.toString(),
-      ["stroke-opacity"]: BOX_STROKE_OPACITY.toString(),
-      ["fill-opacity"]: BOX_FILL_OPACITY.toString(),
+      "fill-rule": BOX_FILL_RULE,
+      "stroke-width": BOX_STROKE_WIDTH.toString(),
+      "stroke-miterlimit": BOX_STROKE_MITER_LIMIT.toString(),
+      "stroke-opacity": BOX_STROKE_OPACITY.toString(),
+      "fill-opacity": BOX_FILL_OPACITY.toString(),
     };
 
     const path = this.createSvgPathElement(d, style);
@@ -670,10 +670,10 @@ export class DippyMap {
     const style = {
       fill: color,
       stroke: options.stroke || "#000000",
-      ["stroke-width"]: ARROW_STROKE_WIDTH.toString(),
-      ["stroke-miterlimit"]: ARROW_STROKE_MITER_LIMIT.toString(),
-      ["stroke-opacity"]: ARROW_STROKE_OPACITY.toString(),
-      ["fill-opacity"]: ARROW_FILL_OPACITY.toString(),
+      "stroke-width": ARROW_STROKE_WIDTH.toString(),
+      "stroke-miterlimit": ARROW_STROKE_MITER_LIMIT.toString(),
+      "stroke-opacity": ARROW_STROKE_OPACITY.toString(),
+      "fill-opacity": ARROW_FILL_OPACITY.toString(),
     };
 
     const path = this.createSvgPathElement(d, style);
@@ -708,10 +708,10 @@ export class DippyMap {
     const style = {
       fill: color,
       stroke: options.stroke || "#000000",
-      ["stroke-width"]: CROSS_STROKE_WIDTH.toString(),
-      ["stroke-miterlimit"]: CROSS_STROKE_MITER_LIMIT.toString(),
-      ["stroke-opacity"]: CROSS_STROKE_OPACITY.toString(),
-      ["fill-opacity"]: CROSS_FILL_OPACITY.toString(),
+      "stroke-width": CROSS_STROKE_WIDTH.toString(),
+      "stroke-miterlimit": CROSS_STROKE_MITER_LIMIT.toString(),
+      "stroke-opacity": CROSS_STROKE_OPACITY.toString(),
+      "fill-opacity": CROSS_FILL_OPACITY.toString(),
     };
     const path = this.createSvgPathElement(d, style);
     $(this.svgEl).find("#orders")[0].appendChild(path);
@@ -777,7 +777,6 @@ export class DippyMap {
     province: Province,
     options: DrawOptions
   ) {
-    const unit = "unit";
     const color = "#00000";
     const layer = "#orders";
     const svg = this.getSvgForUnitType(type);

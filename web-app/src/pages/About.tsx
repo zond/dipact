@@ -43,7 +43,7 @@ export default class About extends React.Component {
             <Typography variant={"body2"} style={{ marginBottom: "8px" }}>
               <a
                 href="https://diplicity.notion.site/How-to-play-39fbc4d1f1924c928c3953095062a983"
-                target="_blank"
+                target="_blank" rel="noreferrer"
               >
                 Here you can find an introduction on how to play.
               </a>

@@ -68,6 +68,7 @@ const getInitialFormValues = (
 };
 
 const useSettings = (): IUseSettings => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [variant, setVariant] = useState("");
 
   const {
@@ -75,12 +76,9 @@ const useSettings = (): IUseSettings => {
     handleChange,
     handleSubmit,
     resetForm,
-    initialValues,
-    setFieldValue,
-    dirty,
   } = useFormik({
     initialValues: initialFormValues,
-    onSubmit: (vals) => {
+    onSubmit: () => {
       // dispatch(submitSettingsForm(vals));
     },
   });
@@ -98,7 +96,7 @@ const useSettings = (): IUseSettings => {
     if (getRootQuery.data) {
       triggerUserConfigQuery(getRootQuery.data.Id as string);
     }
-  }, [getRootQuery.data]);
+  }, [getRootQuery.data, triggerUserConfigQuery]);
 
   useEffect(() => {
     if (userConfigQuery.data) {

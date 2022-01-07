@@ -1,5 +1,5 @@
 // Based on http://godsnotwheregodsnot.blogspot.se/2012/09/color-distribution-methodology.html.
-export default [
+const contrastColors = [
   "#F44336",
   "#2196F3",
   "#80DEEA",
@@ -104,3 +104,5 @@ export default [
   "#D16100",
   "#B903AA",
 ];
+
+export default contrastColors;

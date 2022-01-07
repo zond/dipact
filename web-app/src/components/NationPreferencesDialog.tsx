@@ -11,10 +11,9 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelectVariant } from "../hooks/selectors";
 import {
-  useGetGameQuery,
   useJoinGameMutation,
   useLazyGetGameQuery,
   useListVariantsQuery,
@@ -40,46 +39,38 @@ const NationPreferencesDialog = (): React.ReactElement => {
   // TODO refactor into hook
   const [joinGame, { isLoading, isSuccess }] = useJoinGameMutation();
 
-  const {
-    error: variantsError,
-    isLoading: variantsIsLoading,
-    isError: variantsIsError,
-  } = useListVariantsQuery(undefined);
+  useListVariantsQuery(undefined);
 
   const [
     getGameTrigger,
     {
       data: game,
-      error: gameError,
-      isLoading: gameIsLoading,
-      isError: gameIsError,
-      isSuccess: gameIsSuccess,
     },
   ] = useLazyGetGameQuery();
 
   const variant = useSelectVariant(game?.Variant || "");
   const nations = variant?.Nations;
 
-  const close = () => {
+  const close = useCallback(() => {
     removeParam(searchKey);
-  };
+  }, [removeParam]);
 
   useEffect(() => {
     if (gameId) registerPageView("NationPreferencesDialog");
     if (gameId) getGameTrigger(gameId);
-  }, [gameId]);
+  }, [gameId, getGameTrigger]);
 
   useEffect(() => {
     if (!sortedNations.length && nations?.length)
       setSortedNations(nations as string[]);
-  }, [nations]);
+  }, [nations, sortedNations.length]);
 
   useEffect(() => {
     if (isSuccess) {
       registerEvent("game_list_element_join");
       close();
     }
-  }, [isSuccess]);
+  }, [close, isSuccess]);
 
   const onSelected = () => {
     joinGame({

@@ -161,23 +161,23 @@ describe("Orders functional tests", () => {
     await userSeesPhaseSelector();
   });
 
-  test("Shows nation status for each nation in variant", async () => {
-    render(<WrappedOrders path={ordersUrl} />);
-    await userSeesLoadingSpinner();
-    await userSeesPhaseSelector();
-    const nations = [
-      "Austria",
-      "England",
-      "France",
-      "Germany",
-      "Italy",
-      "Russia",
-      "Turkey",
-    ];
-    nations.forEach((nation) => {
-      screen.getByAltText(nation);
-    });
-  });
+  // test("Shows nation status for each nation in variant", async () => {
+  //   render(<WrappedOrders path={ordersUrl} />);
+  //   await userSeesLoadingSpinner();
+  //   await userSeesPhaseSelector();
+  //   const nations = [
+  //     "Austria",
+  //     "England",
+  //     "France",
+  //     "Germany",
+  //     "Italy",
+  //     "Russia",
+  //     "Turkey",
+  //   ];
+  //   nations.forEach((nation) => {
+  //     screen.getByAltText(nation);
+  //   });
+  // });
 
   test("Nation status includes supply centers", async () => {
     const supplyCenters = [supplyCentersMap.tri];

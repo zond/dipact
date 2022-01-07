@@ -1,7 +1,7 @@
 import Globals from "../../Globals";
 import * as selectors from "../selectors";
 import { RootState } from "../store";
-import { initialState, privateStats } from "../testData";
+import { initialState } from "../testData";
 import { Variant } from "../types";
 
 const createListVariantsSlice = (data: any) => ({
@@ -25,26 +25,6 @@ describe("selectColorOverrides", () => {
     const state = { ...initialState };
     const result = selectors.selectColorOverrides(state);
     expect(result).toStrictEqual(state.colorOverrides);
-  });
-});
-
-describe("selectHasPlayed", () => {
-  test("has played false", () => {
-    const state = { ...initialState };
-    const result = selectors.selectHasPlayed(state);
-    expect(result).toBe(false);
-  });
-  test("has played true", () => {
-    const userStats = { JoinedGames: 1 };
-    const state = { ...initialState, userStats };
-    const result = selectors.selectHasPlayed(state);
-    expect(result).toBe(true);
-  });
-  test("has played private", () => {
-    const userStats = { PrivateStats: { ...privateStats, JoinedGames: 1 } };
-    const state = { ...initialState, userStats };
-    const result = selectors.selectHasPlayed(state);
-    expect(result).toBe(true);
   });
 });
 

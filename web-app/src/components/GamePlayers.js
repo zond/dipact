@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import withStyles from '@mui/styles/withStyles';
 
-import { ExpandIcon, SendMessageIcon } from "../icons";
+import { ExpandIcon } from "../icons";
 import UserAvatar from "./UserAvatar";
 import GameMetadata from "./GameMetadata";
 import Globals from "../Globals";

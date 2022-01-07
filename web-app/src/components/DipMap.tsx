@@ -2,18 +2,13 @@ import $ from "jquery";
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffect, useState } from "react";
 
-import { hash } from "../utils/general";
 import * as helpers from "../helpers";
 import {
-  Dislodged,
-  Game,
   Order,
   Phase,
   Unit,
   UnitState,
-  Variant,
 } from "../store/types";
-import { game, variant as testVariant } from "../store/testData";
 import { dippyMap } from "../static/js/dippymap";
 import {
   CommandType,
@@ -21,12 +16,9 @@ import {
   handleLaboratoryOrderCommand,
   handleLaboratoryPhaseCommand,
   parseCommand,
-  PieceType,
 } from "../utils/map";
 
-const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   viewport: {
     height: "100%",
     overflow: "hidden",
@@ -45,16 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type PhaseSpecialStrokes = { [key: string]: string };
 type MapDims = { x: number | null; y: number | null };
-type GetSVGDataOptions = {
-  width?: number;
-  force?: boolean;
-};
-type Options = {
-  width?: number;
-  force?: boolean;
-};
+
 
 type MapPhase = Omit<Phase, "Units"> & {
   SupplyCenters: { [key: string]: string };
@@ -68,28 +52,30 @@ type Opt = {
 };
 
 const DipMap = () => {
-  const [svgLoaded, setSvgLoaded] = useState(true);
-  const [lastRenderedPhaseHash, setLastRenderedPhaseHash] = useState<
-    number | null
-  >(null);
-  const [lastRenderedOrdersHash, setLastRenderedOrdersHash] = useState<
-    number | null
-  >(null);
-  const [lastSerializedSVG, setLastSerializedSVG] = useState<number | null>(
-    null
-  );
+  // const [svgLoaded, setSvgLoaded] = useState(true);
+  // const [lastRenderedPhaseHash, setLastRenderedPhaseHash] = useState<
+  //   number | null
+  // >(null);
+  // const [lastRenderedOrdersHash, setLastRenderedOrdersHash] = useState<
+  //   number | null
+  // >(null);
+  // const [lastSerializedSVG, setLastSerializedSVG] = useState<number | null>(
+  //   null
+  // );
 
   // TODO typing
-  const [
-    phaseSpecialStrokes,
-    setPhaseSpecialStrokes,
-  ] = useState<PhaseSpecialStrokes>({});
+  // const [
+  //   phaseSpecialStrokes,
+  //   setPhaseSpecialStrokes,
+  // ] = useState<PhaseSpecialStrokes>({});
 
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [mapDims, setMapDims] = useState<MapDims>({ x: null, y: null });
 
-  const [options, setOptions] = useState<Options>({});
+  // const [options, setOptions] = useState<Options>({});
 
-  const svgSerializer = new XMLSerializer();
+  // const svgSerializer = new XMLSerializer();
 
   // Props
   const currentNation = "";
@@ -120,9 +106,6 @@ const DipMap = () => {
     PreliminaryScores: [],
   };
 
-  const variant: Variant = {
-    ...testVariant,
-  };
 
   const classes = useStyles();
 
@@ -141,10 +124,8 @@ const DipMap = () => {
   ]);
 
   // TODO
-  const showInfoProvinceInfo = (province: string) => {};
 
   // TODO
-  const onClickProvince = (province: string) => {};
 
   const laboratoryMode = false;
   const labEditMode = false;
@@ -153,71 +134,6 @@ const DipMap = () => {
   const map = dippyMap($("#map"));
 
   // TODO this could be replaced with normal react
-  const setMapSubtitle = () => {
-    // TODO use ref?
-    const svgEl = document.getElementById("map")?.children[0] as SVGSVGElement;
-    if (!svgEl) return;
-
-    // TODO use ref?
-    let dipMapTitle = document.getElementById("dip-map-title");
-    if (!dipMapTitle) {
-      const addToBottom = svgEl.viewBox.baseVal.height * 0.07;
-      const spacing = addToBottom * 0.12;
-      const realEstate = addToBottom - spacing;
-      const titleRealEstate = realEstate * 0.66;
-      // I'm assuming 1/3 of the font size can stretch below the base line.
-      const titleFontSize = Math.floor(titleRealEstate * 0.66);
-      const promoRealEstate = realEstate - titleRealEstate;
-      const promoFontSize = Math.floor(promoRealEstate * 0.66);
-
-      const container = document.createElementNS(SVG_NAMESPACE, "g");
-      const backgroundBox = document.createElementNS(SVG_NAMESPACE, "rect");
-      const dipMapTitle = document.createElementNS(SVG_NAMESPACE, "text");
-      const promo = document.createElementNS(SVG_NAMESPACE, "text");
-
-      backgroundBox.setAttribute("y", svgEl.viewBox.baseVal.height.toString());
-      backgroundBox.setAttribute("x", svgEl.viewBox.baseVal.x.toString());
-      backgroundBox.setAttribute("width", svgEl.viewBox.baseVal.width.toString());
-      backgroundBox.setAttribute("height", addToBottom.toString());
-      backgroundBox.setAttribute("fill", "black");
-
-      dipMapTitle.setAttribute("x", svgEl.viewBox.baseVal.x.toString());
-      dipMapTitle.setAttribute(
-        "y",
-        svgEl.viewBox.baseVal.height + spacing + titleFontSize.toString()
-      );
-      dipMapTitle.style.fill = "#fde2b5";
-      dipMapTitle.style.fontSize = titleFontSize + "px";
-      dipMapTitle.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
-      dipMapTitle.setAttribute("id", "dip-map-title");
-
-      promo.setAttribute("x", svgEl.viewBox.baseVal.x.toString());
-      promo.setAttribute(
-        "y",
-        svgEl.viewBox.baseVal.height + spacing + titleRealEstate + promoFontSize.toString()
-      );
-      promo.style.fill = "#fde2b5";
-      promo.style.fontSize = promoFontSize + "px";
-      promo.style.fontFamily = '"Libre Baskerville", "Cabin", Serif';
-      promo.innerHTML = "https://diplicity.com";
-
-      container.appendChild(backgroundBox);
-      container.appendChild(dipMapTitle);
-      container.appendChild(promo);
-
-      const heightChange =
-        (svgEl.viewBox.baseVal.height + addToBottom) /
-        svgEl.viewBox.baseVal.height;
-      if (mapDims.y) {
-        setMapDims({ x: mapDims.x, y: mapDims.y * heightChange });
-      }
-      svgEl.viewBox.baseVal.height = svgEl.viewBox.baseVal.height + addToBottom;
-      svgEl.appendChild(container);
-
-      dipMapTitle.innerHTML =
-        helpers.gameDesc(game) + " - " + helpers.phaseName(phase);
-    }
-  };
 
   
 
@@ -234,6 +150,7 @@ const DipMap = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const addOptionHandlers = (
     options: { [key: string]: Opt },
     parts: string[]
@@ -291,7 +208,7 @@ const DipMap = () => {
                 prov,
                 (prov: string) => {
                   map.clearClickListeners();
-                  addOptionHandlers(options[prov].Next, parts.concat(prov));
+                  // addOptionHandlers(options[prov].Next, parts.concat(prov));
                 },
                 { touch: true }
               );
@@ -350,7 +267,7 @@ const DipMap = () => {
         case "SrcProvince":
           const srcProvince = Object.keys(options)[0];
           parts[0] = srcProvince;
-          addOptionHandlers(options[srcProvince].Next, parts);
+          // addOptionHandlers(options[srcProvince].Next, parts);
           break;
         default:
           break;
@@ -358,79 +275,6 @@ const DipMap = () => {
     }
   };
 
-  const getSVGData = (opts: GetSVGDataOptions = {}) => {
-    return new Promise((res: (value: string | null) => void, rej) => {
-      const mapEl = document.getElementById("map");
-      if (!mapDims.x || !mapDims.y || !mapEl) {
-        return res(null);
-      }
-      const scale = opts.width ? opts.width / mapDims.x : 1.0;
-      const svg = mapEl.children[0].cloneNode(true) as Element;
-      svg.setAttribute("width", (mapDims.x * scale).toString());
-      svg.setAttribute("height", (mapDims.y * scale).toString());
-      const svgXML = svgSerializer.serializeToString(svg);
-      const svgHash = helpers.hash(svgXML);
-
-      if (opts.force || svgHash !== lastSerializedSVG) {
-        setLastSerializedSVG(svgHash);
-        const serializedSVG = btoa(unescape(encodeURIComponent(svgXML)));
-        const snapshotImage = document.createElement("img");
-        snapshotImage.style.width = (mapDims.x * scale).toString();
-        snapshotImage.style.height = (mapDims.y * scale).toString();
-        snapshotImage.src = "data:image/svg+xml;base64," + serializedSVG;
-        snapshotImage.addEventListener("load", (_) => {
-          if ("createImageBitmap" in window) {
-            createImageBitmap(
-              snapshotImage,
-              0,
-              0,
-              snapshotImage.width,
-              snapshotImage.height
-            ).then((bitmap) => {
-              if (mapDims.x && mapDims.y) {
-                const snapshotCanvas = document.createElement("canvas");
-                snapshotCanvas.setAttribute(
-                  "width",
-                  (mapDims.x * scale).toString()
-                );
-                snapshotCanvas.setAttribute(
-                  "height",
-                  (mapDims.y * scale).toString()
-                );
-                snapshotCanvas.style.width = (mapDims.x * scale).toString();
-                snapshotCanvas.style.height = (mapDims.y * scale).toString();
-
-                const renderingContext = snapshotCanvas.getContext(
-                  "bitmaprenderer"
-                ) as ImageBitmapRenderingContext;
-                renderingContext.transferFromImageBitmap(bitmap);
-                res(snapshotCanvas.toDataURL("image/png"));
-              }
-            });
-          } else {
-            if (mapDims.x && mapDims.y) {
-              const snapshotCanvas = document.createElement("canvas");
-              snapshotCanvas.setAttribute(
-                "width",
-                (mapDims.x * scale).toString()
-              );
-              snapshotCanvas.setAttribute(
-                "height",
-                (mapDims.y * scale).toString()
-              );
-              snapshotCanvas.style.width = (mapDims.x * scale).toString();
-              snapshotCanvas.style.height = (mapDims.y * scale).toString();
-              const renderingContext = snapshotCanvas.getContext(
-                "2d"
-              ) as CanvasRenderingContext2D;
-              renderingContext.drawImage(snapshotImage, 0, 0);
-              res(snapshotCanvas.toDataURL("image/png"));
-            }
-          }
-        });
-      }
-    });
-  };
 
   // const updateMap = () => {
   //   if (!svgLoaded) return; // TODO explainer comment
@@ -696,7 +540,7 @@ const DipMap = () => {
       // });
       // setOrders(orders);
     }
-  }, [laboratoryMode, game, phase, game.ID, phase.PhaseOrdinal]);
+  }, [laboratoryMode, phase, phase.PhaseOrdinal]);
 
   useEffect(() => {
     // if (map) {

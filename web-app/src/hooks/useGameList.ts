@@ -1,6 +1,6 @@
 import { useContext, createContext, useEffect, useState } from "react";
 import { useGetRootQuery, useListGamesQuery } from "./service";
-import { ApiError, ApiResponse } from "./types";
+import { ApiError } from "./types";
 import { Game as StoreGame, User } from "../store/types";
 import isoCodes from "../utils/isoCodes";
 import {
@@ -124,7 +124,7 @@ const useGameList = (filters: ListGameFilters) => {
         data?.map((game) => transformGame(game, userQuery.data as User)) || []
       );
     }
-  }, [userQuery, useListGamesQuery, data, isSuccess]);
+  }, [userQuery, data, isSuccess]);
   return {
     isLoading,
     isError,

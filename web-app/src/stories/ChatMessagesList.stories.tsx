@@ -1,33 +1,30 @@
-import React from "react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta } from "@storybook/react";
 
 import Component from "../components/Chat/ChatMessagesList";
-import * as ChatMessageStories from "./ChatMessage.stories";
-import { Message } from "../hooks/useChatMessagesList";
 
 export default {
   title: "components/ChatMessagesList",
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof Component> = (args) => {
-  return <Component {...args} />;
-};
+// const Template: ComponentStory<typeof Component> = (args) => {
+//   return <Component {...args} />;
+// };
 
-const defaultStubbedValues = {
-  isError: false,
-  isLoading: false,
-  messages: [],
-};
+// const defaultStubbedValues = {
+//   isError: false,
+//   isLoading: false,
+//   messages: [],
+// };
 
-const defaultArgs = {
-  gameId: "1234",
-  channelId: "1234",
-  newAfter: 1,
-  stubbedValues: {
-    ...defaultStubbedValues,
-  },
-};
+// const defaultArgs = {
+//   gameId: "1234",
+//   channelId: "1234",
+//   newAfter: 1,
+//   stubbedValues: {
+//     ...defaultStubbedValues,
+//   },
+// };
 
 // export const Loading = Template.bind({});
 // Loading.args = { ...defaultArgs };

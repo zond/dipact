@@ -71,7 +71,7 @@ const ManageInvitationsDialog = (): React.ReactElement => {
 
   // TODO refactor into hook
   const [getGameTrigger, getGameQuery] = useLazyGetGameQuery();
-  const listVariantsQuery = useListVariantsQuery(undefined);
+  useListVariantsQuery(undefined);
   const game = getGameQuery.data;
   const variant = useSelectVariant(game?.Variant || "");
   const nationAllocation = game
@@ -88,13 +88,13 @@ const ManageInvitationsDialog = (): React.ReactElement => {
   useEffect(() => {
     if (gameId) registerPageView("ManageInvitationsDialog");
     if (gameId) getGameTrigger(gameId);
-  }, [gameId]);
+  }, [gameId, getGameTrigger]);
 
   useEffect(() => {
     if (game) {
       setNation(nationAllocation);
     }
-  }, [game]);
+  }, [game, nationAllocation]);
 
   useEffect(() => {
     if (inviteQuery.isSuccess) {
@@ -102,7 +102,7 @@ const ManageInvitationsDialog = (): React.ReactElement => {
       setEmail("");
       setNation(nationAllocation);
     }
-  }, [inviteQuery.isSuccess]);
+  }, [inviteQuery.isSuccess, nationAllocation]);
 
   useEffect(() => {
     if (unInviteQuery.isSuccess)

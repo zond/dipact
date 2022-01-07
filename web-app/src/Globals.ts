@@ -1,7 +1,5 @@
-import $ from "jquery";
 import Messaging from "./static/js/messaging";
 
-import { dippyMap } from "./static/js/dippymap";
 import { User } from "./store/types";
 import contrastColors from "./utils/contrastColors";
 

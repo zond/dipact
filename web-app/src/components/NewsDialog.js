@@ -12,7 +12,6 @@ import {
 import Globals from "../Globals";
 import {
 	CloseIcon,
-	WarningIcon,
 } from "../icons";
 //import ColdWarPath from "../static/img/coldwar.png";
 import colorModePath from "../static/img/colourmode.png";
@@ -48,9 +47,10 @@ export default class NewsDialog extends React.Component {
 								<img
 									src={colorModePath}
 									style={{ width: "100%", maxWidth: "400px" }}
+									alt="Color mode comparison"
 								/>
 								<br />
-								We always look for feedback in the <a href="https://discord.com/invite/bu3JxYc" target="_blank">Chat</a> or <a href="https://groups.google.com/g/diplicity-talk" target="_blank">Forum</a>.
+								We always look for feedback in the <a href="https://discord.com/invite/bu3JxYc" target="_blank" rel="noreferrer">Chat</a> or <a href="https://groups.google.com/g/diplicity-talk" target="_blank" rel="noreferrer">Forum</a>.
 							</Typography>
 						</React.Fragment>
 					),
@@ -74,6 +74,7 @@ export default class NewsDialog extends React.Component {
 								<br />
 								<img
 									src="https://diplicity-engine.appspot.com/Variant/North%20Sea%20Wars/Map.svg"
+									alt="North sea wars map"
 									style={{ maxWidth: "400px" }}
 								/>
 								<br />

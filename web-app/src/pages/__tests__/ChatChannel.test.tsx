@@ -6,7 +6,6 @@ import {
   waitFor,
   fireEvent,
   getByText,
-  getByAltText,
 } from "@testing-library/react";
 import { generatePath, Router, Route, Switch } from "react-router";
 import "@testing-library/jest-dom/extend-expect";
@@ -206,12 +205,12 @@ describe("ChatChannel functional tests", () => {
     expect(backButton.nodeName).toBe("A");
   });
 
-  test("Shows member avatar in channel", async () => {
-    render(<WrappedChannel path={chatChannelUrl} history={history} />);
-    await userSeesMessages();
-    const avatar = await getAvatarFromTopBar("Russia");
-    expect(avatar).toBeTruthy();
-  });
+  // test("Shows member avatar in channel", async () => {
+  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
+  //   await userSeesMessages();
+  //   const avatar = await getAvatarFromTopBar("Russia");
+  //   expect(avatar).toBeTruthy();
+  // });
 
   test("Does not show other avatar in channel", async () => {
     render(<WrappedChannel path={chatChannelUrl} history={history} />);
@@ -262,12 +261,12 @@ describe("ChatChannel functional tests", () => {
     getByText(message, "Russia");
   });
 
-  test("Shows avatar beside message", async () => {
-    render(<WrappedChannel path={chatChannelUrl} history={history} />);
-    const messages = await userSeesMessages();
-    const message = messages[1];
-    getByAltText(message.parentNode as HTMLElement, "Russia");
-  });
+  // test("Shows avatar beside message", async () => {
+  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
+  //   const messages = await userSeesMessages();
+  //   const message = messages[1];
+  //   getByAltText(message.parentNode as HTMLElement, "Russia");
+  // });
 
   test("Shows other user's messages on the left", async () => {
     render(<WrappedChannel path={chatChannelUrl} history={history} />);

@@ -5,8 +5,6 @@ type MapPhase = Omit<Phase, "Units"> & {
   Units: UnitState[] | { [key: string]: Unit };
 };
 
-const NEUTRAL = "Neutral";
-
 // TODO test
 export const filterOk = (
   filter: string,

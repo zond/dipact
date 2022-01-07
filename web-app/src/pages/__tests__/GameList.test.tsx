@@ -1,4 +1,3 @@
-import React from "react";
 import {
   render,
   screen,
@@ -6,10 +5,8 @@ import {
   fireEvent,
   getByText,
   getByDisplayValue,
-  queryByText,
   waitForElementToBeRemoved,
   getByLabelText,
-  getByTitle,
 } from "@testing-library/react";
 import { diplicityServiceURL } from "../../store/service";
 
@@ -20,10 +17,8 @@ import { createMemoryHistory, MemoryHistory } from "history";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 
 import { handlers } from "../../mockService/handlers";
-import { ReduxWrapper } from "../../store/testUtils";
 import { RouteConfig } from "../../pages/RouteConfig";
 import { userSeesLoadingSpinner } from "../testUtils";
-import Game from "../Game";
 import GameList, { NO_GAMES_MESSAGE } from "../GameList";
 import theme from "../../theme";
 import * as generalUtils from "../../utils/general";

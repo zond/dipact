@@ -7,7 +7,7 @@ const usePageLoad = (pageTitle: string): void => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(uiActions.pageLoad(pageTitle));
-  }, []);
+  }, [dispatch, pageTitle]);
 };
 
 export default usePageLoad;

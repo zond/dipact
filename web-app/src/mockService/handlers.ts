@@ -25,10 +25,6 @@ import messagesSuccessNewMessage from "./responses/messagesSuccessNewMessage.jso
 import messagesMultiplePhasesSuccess from "./responses/messagesMultiplePhasesSuccess.json";
 import variantsSuccess from "./responses/variantsSuccess.json";
 import variantsSuccessShort from "./responses/variantsSuccessShort.json";
-import listPhasesSuccess from "./responses/listPhasesSuccess.json";
-import listPhasesSuccessLarge from "./responses/listPhasesSuccessLarge.json";
-import listPhaseStatesSuccess25 from "./responses/listPhaseStatesSuccess25.json";
-import listPhaseStatesSuccess from "./responses/listPhaseStatesSuccess.json";
 import listChannelsSuccess from "./responses/listChannelsSuccess.json";
 import listChannelsSuccessNoChannels from "./responses/listChannelsSuccessNoChannels.json";
 

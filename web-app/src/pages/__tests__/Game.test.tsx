@@ -65,15 +65,11 @@ const WrappedGame = ({ path }: WrappedGameProps) => {
 };
 
 const gameId = "game-1234";
-const phaseId = "1";
 const gameUrl = generatePath(RouteConfig.Game, { gameId });
 
 describe("Game functional tests", () => {
-  let fetchSpy: jest.SpyInstance;
 
-  beforeEach(() => {
-    fetchSpy = jest.spyOn(global, "fetch");
-  });
+  beforeEach(() => {});
 
   test("Shows loading spinner when loading", async () => {
     render(<WrappedGame path={gameUrl} />);

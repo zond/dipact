@@ -207,14 +207,14 @@ describe("ChatMenu functional tests", () => {
     expect(fontStyle).toBe("inherit");
   });
 
-  test("Shows avatar in preview", async () => {
-    render(<WrappedChatMenu path={chatMenuUrl} />);
-    await userSeesChatChannelPreviews();
-    const chatChannelPreviews = await userSeesChatChannelPreviews();
-    const channel = chatChannelPreviews[1];
-    const avatar = await getAvatarFromPreview(channel, "Russia");
-    expect(avatar).toBeTruthy();
-  });
+  // test("Shows avatar in preview", async () => {
+  //   render(<WrappedChatMenu path={chatMenuUrl} />);
+  //   await userSeesChatChannelPreviews();
+  //   const chatChannelPreviews = await userSeesChatChannelPreviews();
+  //   const channel = chatChannelPreviews[1];
+  //   const avatar = await getAvatarFromPreview(channel, "Russia");
+  //   expect(avatar).toBeTruthy();
+  // });
 
   test("Does not show member avatar in preview", async () => {
     render(<WrappedChatMenu path={chatMenuUrl} />);

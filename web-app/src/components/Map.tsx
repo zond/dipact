@@ -1,27 +1,8 @@
 import $ from "jquery";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { useEffect, useState, useRef } from "react";
 
-import { hash } from "../utils/general";
-import * as helpers from "../helpers";
-import {
-  Dislodged,
-  Game,
-  Order,
-  Phase,
-  Unit,
-  UnitState,
-  Variant,
-} from "../store/types";
-import { game, variant as testVariant } from "../store/testData";
-import {
-  CommandType,
-  filterOk,
-  handleLaboratoryOrderCommand,
-  handleLaboratoryPhaseCommand,
-  parseCommand,
-  PieceType,
-} from "../utils/map";
+import { Variant } from "../store/types";
 import { DippyMap, Order as MapOrder } from "../utils/DippyMap";
 
 interface MapProps {
@@ -30,10 +11,7 @@ interface MapProps {
   variantUnitSvgs: { [key: string]: string };
 }
 
-type PhaseSpecialStrokes = { [key: string]: string };
-type SCs = { [key: string]: string };
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   viewport: {
     height: "100%",
     overflow: "hidden",
@@ -51,10 +29,6 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 }));
-
-const SCs: SCs = {
-  london: "england",
-};
 
 // TODO move to hook
 interface Province {
@@ -97,11 +71,22 @@ const provinces: { [key: string]: Province } = {
 };
 
 // TODO force disband shouldn't be here
-type Orders = { [key: string]: { order: MapOrder; color: string, forceDisband?: true, resolution?: string }}
+type Orders = {
+  [key: string]: {
+    order: MapOrder;
+    color: string;
+    forceDisband?: true;
+    resolution?: string;
+  };
+};
 
 const orders: Orders = {
   lon: { order: ["lon", "Hold", undefined, undefined], color: "#2196f3" },
-  wal: { order: ["wal", "Move", "lvp", undefined], color: "#2196f3", resolution: "Bounced" },
+  wal: {
+    order: ["wal", "Move", "lvp", undefined],
+    color: "#2196f3",
+    resolution: "Bounced",
+  },
 };
 
 const colorProvinces = (
@@ -144,18 +129,20 @@ const addDislodgedUnits = (
 
 const addOrders = (mapApi: DippyMap, orders: Orders) => {
   mapApi.removeOrders();
-  Object.entries(orders).forEach(([province, { order, color, forceDisband, resolution }]) => {
-    mapApi.addOrder(order, color, {});
-    if (resolution && resolution !== "OK") {
-      mapApi.addResolution(province);
+  Object.entries(orders).forEach(
+    ([province, { order, color, forceDisband, resolution }]) => {
+      mapApi.addOrder(order, color, {});
+      if (resolution && resolution !== "OK") {
+        mapApi.addResolution(province);
+      }
+      if (forceDisband) {
+        mapApi.addForceDisband(province);
+      }
     }
-    if (forceDisband) {
-      mapApi.addForceDisband(province);
-    }
-  });
+  );
 };
 
-const Map = ({ variant, variantSVG, variantUnitSvgs }: MapProps) => {
+const Map = ({ variantSVG, variantUnitSvgs }: MapProps) => {
   const classes = useStyles();
 
   const [mapApi, setMapApi] = useState<DippyMap | undefined>(undefined);
@@ -163,16 +150,13 @@ const Map = ({ variant, variantSVG, variantUnitSvgs }: MapProps) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const unitsDivRef = useRef<HTMLDivElement>(null);
 
-  let map: DippyMap | undefined = undefined;
-  const phaseHash = "";
-
   useEffect(() => {
     // Insert variantSVG into container once both are available. Create mapApi around map container.
     if (mapContainerRef.current) {
       mapContainerRef.current.innerHTML = variantSVG;
       setMapApi(new DippyMap($("#map")));
     }
-  }, [mapContainerRef.current]);
+  }, [variantSVG]);
 
   useEffect(() => {
     if (!mapApi) return;

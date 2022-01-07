@@ -133,7 +133,7 @@ describe("Vector", () => {
     const vector = new Vector(p1, p2);
     expect(vector.length()).toBe(1);
   });
-  test("length positive", () => {
+  test("length negative", () => {
     const p1 = new Point(0, 0);
     const p2 = new Point(-1, 0);
     const vector = new Vector(p1, p2);
@@ -212,6 +212,7 @@ describe("DippyMap", () => {
   let svgEl: HTMLElement;
   let supplyCenterPathEl: HTMLElement;
   let provincePathEl: HTMLElement;
+  let provincesLayer: HTMLElement;
 
   beforeEach(() => {
     divEl = document.createElement("div");
@@ -224,7 +225,10 @@ describe("DippyMap", () => {
       "d",
       "m 700.000,710.000 c 4.8888,-2.528 2.5896,-9.3976 -3.1453 z"
     );
-    svgEl.appendChild(provincePathEl);
+    provincesLayer = document.createElement("g");
+    provincesLayer.setAttribute("id", "provinces");
+    provincesLayer.appendChild(provincePathEl);
+    svgEl.appendChild(provincesLayer);
     svgEl.appendChild(supplyCenterPathEl);
     divEl.appendChild(svgEl);
   });
@@ -253,8 +257,6 @@ describe("DippyMap", () => {
   });
 
   test("showProvinces", () => {
-    const provincesLayer = document.createElement("g");
-    provincesLayer.setAttribute("id", "provinces");
     provincesLayer.setAttribute("style", "display: none;");
     svgEl.appendChild(provincesLayer);
     const container = $(divEl);

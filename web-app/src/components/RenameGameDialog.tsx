@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   useGetRootQuery,
   useLazyGetGameQuery,
@@ -39,34 +39,27 @@ const RenameGameDialog = (): React.ReactElement => {
 
   const [
     getGameTrigger,
-    {
-      data: game,
-      error: gameError,
-      isLoading: gameIsLoading,
-      isError: gameIsError,
-      isSuccess: gameIsSuccess,
-    },
   ] = useLazyGetGameQuery();
   const userQuery = useGetRootQuery(undefined);
   const user = userQuery.data;
   const [renameGame, renameGameQuery] = useRenameGameMutation();
 
-  const close = () => {
+  const close = useCallback(() => {
     removeParam(searchKey);
     setName("");
-  };
+  }, [removeParam]);
 
   useEffect(() => {
     if (gameId) registerPageView("RenameGameDialog");
     if (gameId) getGameTrigger(gameId);
-  }, [gameId]);
+  }, [gameId, getGameTrigger]);
 
   useEffect(() => {
     if (renameGameQuery.isSuccess) {
       registerEvent("game_list_element_rename");
       close();
     }
-  }, [renameGameQuery.isSuccess]);
+  }, [renameGameQuery.isSuccess, close]);
 
   const onSelected = () => {
     renameGame({

@@ -4,12 +4,10 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  TextField,
   Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect, useState } from "react";
-import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
+import React, { useEffect } from "react";
+import { registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
 
 export const searchKey = "reset-settings-dialog";

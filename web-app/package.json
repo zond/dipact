@@ -74,7 +74,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "lint": "eslint src/**/*.{js,ts,tsx}",
+    "lint-fix": "eslint src/**/*.{js,ts,tsx} --fix"
   },
   "resolutions": {
     "babel-loader": "8.1.0"

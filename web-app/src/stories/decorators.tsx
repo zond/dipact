@@ -1,5 +1,4 @@
-import { createMemoryHistory } from "history";
-import { Router, Route, MemoryRouter } from "react-router";
+import { Route, MemoryRouter } from "react-router";
 
 import {
   IUseOrders,

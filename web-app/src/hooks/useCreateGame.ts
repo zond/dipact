@@ -107,8 +107,6 @@ const useCreateGame = (): IUseCreateGame => {
     values,
     handleChange,
     handleSubmit,
-    resetForm,
-    initialValues,
     setFieldValue,
     errors: validationErrors,
     touched,
