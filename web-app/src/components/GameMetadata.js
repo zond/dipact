@@ -731,9 +731,11 @@ export default class GameMetadata extends React.Component {
 								style={{ border: "1px solid red" }}
 							/>
 							<Typography style={{ color: "red" }}>[Open position]</Typography>
+							{/*
+
 							<Button style={{ margin: "0 0 0 auto", borderColor: "red", color: "red"}} variant="outlined" >
 								Invite
-							</Button>
+							</Button>*/}
 						</div>
 					);
 				}
