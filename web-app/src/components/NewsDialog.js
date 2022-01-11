@@ -25,37 +25,26 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
-					header: "Tournament announcement: FvsA",
-					subheader: "Registration to FvsA will open on November 5th 2021",
+					header: "New variant: Sengoku",
+					subheader: "Become the new Shogun of Japan",
 					icon: false,
 					content: (
 						<React.Fragment>
 							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
-								Tournament announcement: FvsA
+								New variant: Sengoku
 							</Typography>
 							<Typography
 								variant="body2"
 								style={{ margin: "0px 0px 16px 0px" }}
 							>
-								Dear Player , if you are willing to test your tactical
-								abilities on the Diplomacy classic map, do not miss the First Nexus
-								France vs Austria Tournament (FvsA)! The largest diplomatic online
-								community is looking for players who are able to dance along the
-								classic map stalemate lines and impose their supremacy to the opponents.
-								Test yourself against a lot of other players and emerge as the best tactician
-								around by showing your abilities on this great variant, which is hosted on Diplicity.
+								As a Christmas gift, we released a new variant set in Ancient Japan - Sengoku.
 								<br />
+								<img
+									src="https://diplicity-engine.appspot.com/Variant/Sengoku/Map.svg"
+									style={{ maxWidth: "400px" }}
+								/>
 								<br />
-								Registration to FvsA will open on November 5th 2021 and close on December 3rd 2021.
-								To register join the Nexus Variants server and compile the dedicated form (also available
-								on Nexus). Groups will be announced by December 5th. Games will be launched on December
-								6th. Players will only be contacted through Discord.
-								<br />
-								<br />
-								The Tournament will be run on the <a href={"https://discord.gg/DKtWVGKQa3"}>Nexus Variant Server</a>.
-								<br />
-								<br />
-								It is also possible to join from <a href={"https://discord.gg/6ffnnG5TtZ"}>Nexus</a>.
+								This might be a nice opportunity to start a new game for the new year!
 							</Typography>
 						</React.Fragment>
 					),
@@ -87,34 +76,6 @@ export default class NewsDialog extends React.Component {
 								/>
 								<br />
 								We always look for feedback in the <a href="https://discord.com/invite/bu3JxYc" target="_blank">Chat</a> or <a href="https://groups.google.com/g/diplicity-talk" target="_blank">Forum</a>.
-							</Typography>
-						</React.Fragment>
-					),
-				},
-				{
-					header: "New North Sea Wars map",
-					subheader: "Redesign of the variant",
-					icon: false,
-					content: (
-						<React.Fragment>
-							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
-								New map: North Sea Wars
-							</Typography>
-							<Typography
-								variant="body2"
-								style={{ margin: "0px 0px 16px 0px" }}
-							>
-								In line with updating all maps to a newer look, we released a
-								new version of the North Sea Wars map. It's not a new variant,
-								but a reskin:
-								<br />
-								<img
-									src="https://diplicity-engine.appspot.com/Variant/North%20Sea%20Wars/Map.svg"
-									style={{ maxWidth: "400px" }}
-								/>
-								<br />
-								This might be a nice opportunity to start a new game on this
-								map!
 							</Typography>
 						</React.Fragment>
 					),
