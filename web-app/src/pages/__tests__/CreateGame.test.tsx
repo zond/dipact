@@ -129,13 +129,13 @@ describe("Create game functional tests", () => {
 
   test("Page load causes ga event", async () => {
     await renderPage(createGameUrl);
-    await waitFor(() => screen.getByLabelText(tk.CreateGameNameInputLabel));
+    await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
     pageLoadGAEventHappens(gaSetSpy, gaEventSpy, "CreateGame");
   });
 
   test("Hits endpoints correctly", async () => {
     await renderPage(createGameUrl);
-    await waitFor(() => screen.getByLabelText(tk.CreateGameNameInputLabel));
+    await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
     const calls = fetchSpy.mock.calls.map((call) => call[0] as Request);
     expect(
       calls.find((call) => call.url === `${diplicityServiceURL}`)
@@ -157,16 +157,16 @@ describe("Create game functional tests", () => {
 
   test("Name input has random name by default", async () => {
     await renderPage(createGameUrl);
-    await waitFor(() => screen.getByLabelText(tk.CreateGameNameInputLabel));
+    await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
     await waitFor(() => screen.getByDisplayValue(randomGameName));
   });
 
   test("Clicking randomize button creates new random name", async () => {
     await renderPage(createGameUrl);
-    await waitFor(() => screen.getByLabelText(tk.CreateGameNameInputLabel));
+    await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
     await waitFor(() => screen.getByDisplayValue(randomGameName));
-    const input = screen.getByLabelText(tk.CreateGameNameInputLabel);
-    const button = screen.getByTitle(tk.CreateGameRandomizeNameButtonTitle);
+    const input = screen.getByLabelText(tk.createGame.nameInput.label);
+    const button = screen.getByTitle(tk.createGame.randomizeGameNameButton.title);
     fireEvent.change(input, { target: { value: "Some string" } });
     await waitFor(() => screen.getByDisplayValue("Some string"));
     fireEvent.click(button);
@@ -176,7 +176,7 @@ describe("Create game functional tests", () => {
   test("Private unchecked by default", async () => {
     await renderPage(createGameUrl);
     const checkbox = (await waitFor(() =>
-      screen.getByLabelText(tk.CreateGamePrivateCheckboxLabel)
+      screen.getByLabelText(tk.createGame.privateCheckbox.label)
     )) as HTMLInputElement;
     expect(checkbox.checked).toBe(false);
   });
@@ -184,18 +184,18 @@ describe("Create game functional tests", () => {
   test("Game master help text when not private", async () => {
     await renderPage(createGameUrl);
     await waitFor(() =>
-      screen.getByText(tk.CreateGameGameMasterHelpTextDisabled)
+      screen.getByText(tk.createGame.gameMasterCheckbox.helpText.disabled)
     );
   });
 
   test("Game master help text when private", async () => {
     await renderPage(createGameUrl);
     const checkbox = (await waitFor(() =>
-      screen.getByLabelText(tk.CreateGamePrivateCheckboxLabel)
+      screen.getByLabelText(tk.createGame.privateCheckbox.label)
     )) as HTMLInputElement;
     fireEvent.click(checkbox);
     await waitFor(() =>
-      screen.getByText(tk.CreateGameGameMasterHelpTextDefault)
+      screen.getByText(tk.createGame.gameMasterCheckbox.helpText.default)
     );
   });
 
@@ -212,7 +212,7 @@ describe("Create game functional tests", () => {
   test("Variant select shows different variant", async () => {
     await renderPage(createGameUrl);
     const select = await waitFor(() =>
-      screen.getByLabelText(tk.CreateGameVariantSelectLabel)
+      screen.getByLabelText(tk.createGame.variantSelect.label)
     );
     fireEvent.change(select, { target: { value: "Twenty Twenty" } });
     await waitFor(() => screen.getByText("TTTPPP"));
@@ -221,7 +221,7 @@ describe("Create game functional tests", () => {
   test("Changing variant select shows loading spinner", async () => {
     await renderPage(createGameUrl);
     const select = await waitFor(() =>
-      screen.getByLabelText(tk.CreateGameVariantSelectLabel)
+      screen.getByLabelText(tk.createGame.variantSelect.label)
     );
     fireEvent.change(select, { target: { value: "Twenty Twenty" } });
     await waitFor(() => screen.getByRole("progressbar"));
@@ -244,17 +244,17 @@ describe("Create game functional tests", () => {
   test("Nation selection options appear", async () => {
     await renderPage(createGameUrl);
     await waitFor(() =>
-      screen.getByLabelText(tk.NationAllocationOptionsRandom)
+      screen.getByLabelText(tk.nationAllocationOptions.random)
     );
     await waitFor(() =>
-      screen.getByLabelText(tk.NationAllocationOptionsPreference)
+      screen.getByLabelText(tk.nationAllocationOptions.preference)
     );
   });
 
-  test("Nation selection random is defualt", async () => {
+  test("Nation selection random is default", async () => {
     await renderPage(createGameUrl);
     const randomOption = await waitFor(() =>
-      screen.getByLabelText(tk.NationAllocationOptionsRandom)
+      screen.getByLabelText(tk.nationAllocationOptions.random)
     );
     expect(randomOption).toHaveAttribute("checked");
   });
@@ -262,7 +262,7 @@ describe("Create game functional tests", () => {
   test("Game length value defaults to 1", async () => {
     await renderPage(createGameUrl);
     const phaseLengthMultiplierInput = (await waitFor(() =>
-      screen.getByLabelText(tk.CreateGamePhaseLengthMultiplierInputLabel)
+      screen.getByLabelText(tk.createGame.phaseLengthMultiplierInput.label)
     )) as HTMLInputElement;
     expect(phaseLengthMultiplierInput.value).toBe("1");
   });

@@ -90,13 +90,13 @@ const useCreateGame = (): IUseCreateGame => {
             .min(
               ((getUserStatsQuery.data.TrueSkill?.Rating || 0) -
                 0.01) as number,
-              tk.CreateGameMaxRatingInputErrorMessageLessThanUserRating
+              tk.createGame.maxRatingInput.errorMessage.lessThanUserRating
             ),
           minRating: yup
             .number()
             .max(
               getUserStatsQuery.data.TrueSkill?.Rating as number,
-              tk.CreateGameMinRatingInputErrorMessageMoreThanUserRating
+              tk.createGame.maxRatingInput.errorMessage.moreThanUserRating
             ),
         })
       );

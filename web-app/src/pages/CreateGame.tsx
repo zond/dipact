@@ -163,7 +163,7 @@ const CreateGame = (): React.ReactElement => {
   const minEndAfterYearsValue = (selectedVariant?.Start?.Year || 0) + 1;
 
   return (
-    <GoBackNav title={t(tk.CreateGameTitle)}>
+    <GoBackNav title={t(tk.createGame.title)}>
       {isLoading ? (
         <Loading />
       ) : (
@@ -173,14 +173,14 @@ const CreateGame = (): React.ReactElement => {
               <div className={classes.nameInputContainer}>
                 <TextField
                   variant="standard"
-                  label={t(tk.CreateGameNameInputLabel)}
+                  label={t(tk.createGame.nameInput.label)}
                   name="name"
                   margin="dense"
                   value={values.name}
                   onChange={handleChange}
                 />
                 <IconButton
-                  title={t(tk.CreateGameRandomizeNameButtonTitle)}
+                  title={t(tk.createGame.randomizeGameNameButton.title)}
                   onClick={randomizeName}
                   size="large"
                 >
@@ -198,7 +198,7 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.CreateGamePrivateCheckboxLabel) as string}
+                  label={t(tk.createGame.privateCheckbox.label) as string}
                 />
                 <FormControlLabel
                   control={
@@ -209,15 +209,15 @@ const CreateGame = (): React.ReactElement => {
                       disabled={!values.privateGame}
                     />
                   }
-                  label={t(tk.CreateGameGameMasterCheckboxLabel) as string}
+                  label={t(tk.createGame.gameMasterCheckbox.label) as string}
                 />
                 {values.privateGame ? (
                   <FormHelperText>
-                    {t(tk.CreateGameGameMasterHelpTextDefault)}
+                    {t(tk.createGame.gameMasterCheckbox.helpText.default)}
                   </FormHelperText>
                 ) : (
                   <FormHelperText>
-                    {t(tk.CreateGameGameMasterHelpTextDisabled)}
+                    {t(tk.createGame.gameMasterCheckbox.helpText.disabled)}
                   </FormHelperText>
                 )}
               </FormGroup>
@@ -230,7 +230,7 @@ const CreateGame = (): React.ReactElement => {
                     className={classes.variantSelect}
                   >
                     <InputLabel htmlFor="variant-input-label">
-                      {t(tk.CreateGameVariantSelectLabel)}
+                      {t(tk.createGame.variantSelect.label)}
                     </InputLabel>
                     <Select
                       id="variant-input-label"
@@ -248,7 +248,7 @@ const CreateGame = (): React.ReactElement => {
                           value={variant.Name}
                           title={variant.Name}
                         >
-                          {t(tk.CreateGameVariantSelectOptionLabel, {
+                          {t(tk.createGame.variantSelect.optionLabel, {
                             name: variant.Name,
                             numPlayers: variant.Nations.length,
                           })}
@@ -300,7 +300,7 @@ const CreateGame = (): React.ReactElement => {
             </section>
             <section>
               <Typography variant="caption">
-                {t(tk.CreateGameNationAllocationSectionLabel)}
+                {t(tk.createGame.nationAllocationSection.label)}
               </Typography>
 
               <RadioGroup
@@ -337,7 +337,7 @@ const CreateGame = (): React.ReactElement => {
               <Box display="flex">
                 <TextField
                   name="phaseLengthMultiplier"
-                  label={t(tk.CreateGamePhaseLengthMultiplierInputLabel)}
+                  label={t(tk.createGame.phaseLengthMultiplierInput.label)}
                   type="number"
                   inputProps={{ min: 1 }}
                   value={values.phaseLengthMultiplier}
@@ -345,7 +345,7 @@ const CreateGame = (): React.ReactElement => {
                   variant="standard"
                 />
                 <InputLabel id="phase-length-unit-input-label">
-                  {t(tk.CreateGamePhaseLengthUnitSelectLabel)}
+                  {t(tk.createGame.phaseLengthUnitSelect.label)}
                 </InputLabel>
                 <Select
                   name="phaseLengthUnit"
@@ -356,18 +356,18 @@ const CreateGame = (): React.ReactElement => {
                 >
                   <MenuItem key={1} value={1}>
                     {singularPhaseLength
-                      ? t(tk.DurationsMinuteSingular)
-                      : t(tk.DurationsMinutePlural)}
+                      ? t(tk.durations.minute.singular)
+                      : t(tk.durations.minute.plural)}
                   </MenuItem>
                   <MenuItem key={60} value={60}>
                     {singularPhaseLength
-                      ? t(tk.DurationsHourSingular)
-                      : t(tk.DurationsHourPlural)}
+                      ? t(tk.durations.hour.singular)
+                      : t(tk.durations.hour.plural)}
                   </MenuItem>
                   <MenuItem key={60 * 24} value={60 * 24}>
                     {singularPhaseLength
-                      ? t(tk.DurationsDaySingular)
-                      : t(tk.DurationsDayPlural)}
+                      ? t(tk.durations.day.singular)
+                      : t(tk.durations.day.plural)}
                   </MenuItem>
                 </Select>
               </Box>
@@ -673,7 +673,7 @@ const CreateGame = (): React.ReactElement => {
                 variant="contained"
                 disabled={submitDisabled}
               >
-                {t(tk.CreateGameSubmitButtonLabel)}
+                {t(tk.createGame.submitButton.label)}
               </Button>
             </div>
           </form>
