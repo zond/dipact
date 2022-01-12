@@ -109,7 +109,7 @@ const Settings = (): React.ReactElement => {
                   <a
                     target={"_blank"}
                     rel="noreferrer"
-                    href={NOTIFICATIONS_INFO_LINK}
+                    href={t(tk.settings.errorNotifications.infoLink)}
                   >
                     <Typography variant={notificationErrorsVariant}>
                       {t(tk.settings.errorNotifications.noPermissionPrompt)}
