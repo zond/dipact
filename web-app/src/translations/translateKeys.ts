@@ -76,15 +76,68 @@ const translateKeys = {
       label: "login.stay-logged-in-checkbox.label",
     },
     loginButton: {
-      label: "login.login-button.label"
-    }
+      label: "login.login-button.label",
+    },
+  },
+  settings: {
+    title: "settings.title",
+    notificationsSection: {
+      label: "settings.notifications-section.label",
+    },
+    pushNotificationsSwitch: {
+      label: "settings.push-notifications-switch.label",
+    },
+    emailNotificationsSwitch: {
+      label: "settings.email-notifications-switch.label",
+    },
+    phaseDeadlineReminder: { 
+      inputLabel: "settings.phase-deadline-reminder.input-label",
+      helpText: "settings.phase-deadline-reminder.help-text",
+      notificationsPrompt: "settings.phase-deadline-reminder.notifications-prompt",
+    },
+    colorNonSCsSwitch: {
+      label: "settings.color-non-scs-switch.label",
+      helpText: "settings.color-non-scs-switch.help-text"
+    },
+    mapColorsSection: { 
+      label: "settings.map-colors-section.label",
+    },
+    variantSelect: { 
+      label: "settings.variant-select.label"
+    }, 
+    resetSettingsButton: {
+      label: "settings.reset-settings-button.label"
+    },
+    errorNotifications: {
+      noToken: "settings.error-notifications.no-token",
+      noPermission: "settings.error-notifications.no-permission",
+      noPermissionPrompt: "settings.error-notifications.no-permission-prompt",
+      infoLink: "settings.error-notifications.info-link",
+      messagingNotStarted: "settings.error-notifications.messaging-not-started",
+      firebaseNotSupported: "settings.error-notifications.firebase-not-supported"
+    },
   }
 
 /*
-export const LOGIN_DESCRIPTION =
-  "A digital version of the classic game of Diplomacy. Sign in to play.";
-const STAY_LOGGED_IN_HELPTEXT = "Stay logged in";
-const LOGIN_BUTTON_LABEL = "Sign in with Google";
+
+
+
+const NATION_COLORS_SECTION_LABEL = "Custom nation colours";
+const VARIANT_SELECT_LABEL = "Variant";
+const RESET_SETTINGS_BUTTON_LABEL = "Reset settings";
+
+const NOTIFICATIONS_ERROR_NO_TOKEN =
+  "Notifications disabled [Error: no token uploaded]";
+const NOTIFICATIONS_ERROR_NO_PERMISSION =
+  "No notification permission received.";
+const NOTIFICATIONS_ERROR_NO_PERMISSION_PROMPT =
+  "Allow this sites notifications in your browser settings.";
+const NOTIFICATIONS_INFO_LINK =
+  "Allow this sites notifications in your browser settings.";
+const NOTIFICATIONS_ERROR_MESSAGING_NOT_STARTED =
+  "Notifications disabled [Error: notification system did not start]";
+const NOTIFICATIONS_ERROR_FIREBASE_NOT_SUPPORTED =
+  "Notifications disabled [Error: Firebase Messaging not supported on your browser]";
 */
 };
 
