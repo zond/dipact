@@ -42,6 +42,18 @@ const translateKeys = {
       label: "create-game.phase-length-unit-select.label",
     },
   },
+
+
+  nationPreferences: {
+    title: "nation-preferences.title",
+    dialog: "nation-preferences.dialog",
+    joinButton: {
+      label: "nation-preferences.joinButton.label"
+    },
+    cancelButton: {
+      label: "nation-preferences.cancelButton.label"
+    },
+  },
   durations: {
     minute: {
       singular: "durations.minute.singular",
