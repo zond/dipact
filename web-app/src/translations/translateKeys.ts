@@ -42,6 +42,10 @@ const translateKeys = {
       label: "create-game.phase-length-unit-select.label",
     },
   },
+  nationAllocationOptions: {
+    random: "nation-allocation-options.random",
+    preference: "nation-allocation-options.preference",
+  },
   nationPreferences: { 
     title: "nation-preferences.title",
     dialog: "nation-preferences.dialog",
@@ -66,10 +70,22 @@ const translateKeys = {
       plural: "durations.day.plural",
     },
   },
-  nationAllocationOptions: {
-    random: "nation-allocation-options.random",
-    preference: "nation-allocation-options.preference",
+  login: {
+    description: "login.description",
+    stayLoggedInCheckBox: {
+      label: "login.stay-logged-in-checkbox.label",
+    },
+    loginButton: {
+      label: "login.login-button.label"
+    }
   }
+
+/*
+export const LOGIN_DESCRIPTION =
+  "A digital version of the classic game of Diplomacy. Sign in to play.";
+const STAY_LOGGED_IN_HELPTEXT = "Stay logged in";
+const LOGIN_BUTTON_LABEL = "Sign in with Google";
+*/
 };
 
 export default translateKeys;
