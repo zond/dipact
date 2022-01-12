@@ -44,16 +44,19 @@
             "label": "Unit"
         }
     },
-
+    "nation-allocation-options": {
+        "random": "Random",
+        "preference": "Preference"
+    },
     "nation-preferences": {
         "title": "Nation preferences",
         "dialog": "Sort the possible nations in order of preference.",
-        "joinButton": {
+        "join-button": {
             "label": "Join"
         },
-        "cancelButton": {
-            "label": "Cancel"
-        },
+        "close-button": {
+            "label": "Close"
+        }
     },
     "durations": {
         "minute": {

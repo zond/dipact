@@ -44,12 +44,7 @@ const NationPreferencesDialog = (): React.ReactElement => {
 
   useListVariantsQuery(undefined);
 
-  const [
-    getGameTrigger,
-    {
-      data: game,
-    },
-  ] = useLazyGetGameQuery();
+  const [getGameTrigger, { data: game }] = useLazyGetGameQuery();
 
   const variant = useSelectVariant(game?.Variant || "");
   const nations = variant?.Nations;
@@ -96,7 +91,7 @@ const NationPreferencesDialog = (): React.ReactElement => {
     <Dialog open={open} onClose={close}>
       <DialogTitle>{t(tk.nationPreferences.title)}</DialogTitle>
       <DialogContent>
-        <Typography>{t(tk.nationPreferences.dialogContent)}</Typography>
+        <Typography>{t(tk.nationPreferences.dialog)}</Typography>
         <Paper elevation={3}>
           <List>
             {sortedNations.map((nation, idx) => {
@@ -129,7 +124,9 @@ const NationPreferencesDialog = (): React.ReactElement => {
           </List>
         </Paper>
         <DialogActions>
-          <Button onClick={close}>{t(tk.nationPreferences.cancelButton.label)}</Button>
+          <Button onClick={close}>
+            {t(tk.nationPreferences.closeButton.label)}
+          </Button>
           <Button onClick={onSelected} disabled={isLoading}>
             {t(tk.nationPreferences.joinButton.label)}
           </Button>
