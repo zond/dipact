@@ -46,33 +46,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NOTIFICATIONS_SECTION_LABEL = "Notifications";
-const MAP_COLORS_SECTION_LABEL = "Map colours";
-const COLOR_NON_SCS_SWITCH_LABEL = "Colour non-SC provinces";
-const COLOR_NON_SCS_HELP_TEXT =
-  "Colour provinces without supply centers based on the ownership of the supply centers around it.";
-const NATION_COLORS_SECTION_LABEL = "Custom nation colours";
-const PUSH_NOTIFICATIONS_SWITCH_LABEL = "Push notifications";
-const EMAIL_NOTIFICATIONS_SWITCH_LABEL = "Email notifications";
-const PHASE_DEADLINE_REMINDER_INPUT_LABEL = "Phase deadline reminder";
-const PHASE_DEADLINE_REMINDER_HELP_TEXT = "In minutes. 0 = off";
-const PHASE_DEADLINE_REMINDER_NOTIFICATIONS_PROMPT = "In minutes. 0 = off";
-const VARIANT_SELECT_LABEL = "Variant";
-const RESET_SETTINGS_BUTTON_LABEL = "Reset settings";
-
-const NOTIFICATIONS_ERROR_NO_TOKEN =
-  "Notifications disabled [Error: no token uploaded]";
-const NOTIFICATIONS_ERROR_NO_PERMISSION =
-  "No notification permission received.";
-const NOTIFICATIONS_ERROR_NO_PERMISSION_PROMPT =
-  "Allow this sites notifications in your browser settings.";
-const NOTIFICATIONS_INFO_LINK =
-  "Allow this sites notifications in your browser settings.";
-const NOTIFICATIONS_ERROR_MESSAGING_NOT_STARTED =
-  "Notifications disabled [Error: notification system did not start]";
-const NOTIFICATIONS_ERROR_FIREBASE_NOT_SUPPORTED =
-  "Notifications disabled [Error: Firebase Messaging not supported on your browser]";
-
 const Settings = (): React.ReactElement => {
   const { t } = useTranslation("common");
   const { setParam } = useSearchParams();
@@ -131,7 +104,7 @@ const Settings = (): React.ReactElement => {
               {pushNotificationsErrorNoPermission && (
                 <ListItem disableGutters>
                   <Typography variant={notificationErrorsVariant}>
-                     {t(tk.settings.errorNotifications.noPermission)}
+                    {t(tk.settings.errorNotifications.noPermission)}
                   </Typography>
                   <a
                     target={"_blank"}
@@ -139,7 +112,7 @@ const Settings = (): React.ReactElement => {
                     href={NOTIFICATIONS_INFO_LINK}
                   >
                     <Typography variant={notificationErrorsVariant}>
-                       {t(tk.settings.errorNotifications.noPermissionPrompt)}
+                      {t(tk.settings.errorNotifications.noPermissionPrompt)}
                     </Typography>
                   </a>
                 </ListItem>
@@ -147,7 +120,7 @@ const Settings = (): React.ReactElement => {
               {pushNotificationsErrorNotStarted && (
                 <ListItem disableGutters>
                   <Typography variant={notificationErrorsVariant}>
-                     {t(tk.settings.errorNotifications.messagingNotStarted)}
+                    {t(tk.settings.errorNotifications.messagingNotStarted)}
                   </Typography>
                 </ListItem>
               )}
@@ -194,7 +167,9 @@ const Settings = (): React.ReactElement => {
             />
           </div>
         </div>
-        <Typography variant="subtitle2">{t(tk.settings.mapColorsSection.label)}</Typography>
+        <Typography variant="subtitle2">
+          {t(tk.settings.mapColorsSection.label)}
+        </Typography>
         <div>
           <FormControlLabel
             control={
@@ -208,11 +183,13 @@ const Settings = (): React.ReactElement => {
             label={t(tk.settings.colorNonSCsSwitch.label) as string}
           />
           <div>
-            <Typography variant="caption">{t(tk.settings.colorNonSCsSwitch.helpText)}</Typography>
+            <Typography variant="caption">
+              {t(tk.settings.colorNonSCsSwitch.helpText)}
+            </Typography>
           </div>
         </div>
         <Typography variant="subtitle2">
-           {t(tk.settings.mapColorsSection.label)}
+          {t(tk.settings.mapColorsSection.label)}
         </Typography>
         <div>
           <FormControl variant="standard">
