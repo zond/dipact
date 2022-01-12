@@ -31,8 +31,8 @@ export const nationAllocationMap: { [key: number]: NationAllocation } = {
 };
 
 export const nationAllocationTranslations: { [key: string]: string } = {
-  [NationAllocation.Random]: tk.NationAllocationOptionsRandom,
-  [NationAllocation.Preference]: tk.NationAllocationOptionsPreference,
+  [NationAllocation.Random]: tk.nationAllocationOptions.random,
+  [NationAllocation.Preference]: tk.nationAllocationOptions.preference,
 }
 
 interface Player {
