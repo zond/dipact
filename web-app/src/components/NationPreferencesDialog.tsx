@@ -26,12 +26,6 @@ import tk from "../translations/translateKeys";
 
 export const searchKey = "nation-preference-dialog";
 
-const NATION_PREFERENCES_DIALOG_TITLE = "Nation preferences";
-const NATION_PREFERENCES_DIALOG_PROMPT =
-  "Sort the possible nations in order of preference.";
-const JOIN_BUTTON_LABEL = "Join";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const NationPreferencesDialog = (): React.ReactElement => {
   const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
