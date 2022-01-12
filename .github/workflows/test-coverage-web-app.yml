@@ -1,0 +1,17 @@
+name: Test coverage web app
+on: push
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install modules
+      run: yarn --cwd ./web-app install
+    - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: web-app
+        test-script: yarn run test-coverage
+        package-manager: yarn
+        threshold: 10
+        annotations: none

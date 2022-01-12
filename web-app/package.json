@@ -73,6 +73,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-ci": "react-scripts test --watchAll=false",
+    "test-coverage": "react-scripts test --watchAll=false --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
