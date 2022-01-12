@@ -15,11 +15,12 @@ interface NationAvatarProps {
   onClick?: () => void;
 }
 
-export const getEveryoneAvatarProps = (): NationAvatarProps => ({
+export const getEveryoneAvatarProps = (): NationAvatarProps & { key: string } => ({
   nation: EVERYONE,
   color: "#FFFFFF",
   link: UNFlagLink,
   nationAbbreviation: "",
+  key: EVERYONE,
 });
 
 type StyleProps = Pick<NationAvatarProps, "color" | "nationAbbreviation">;
@@ -54,6 +55,7 @@ const NationAvatar = ({
       className={classes.avatar}
       alt={nation}
       src={link}
+      key={nation}
       title={nation}
     >
       {nationAbbreviation}

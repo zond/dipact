@@ -77,21 +77,6 @@ interface listPhasesRequestParams {
   gameId: string;
 }
 
-const getListPhasesHandlers = () => {
-  const url = `${API_ROOT}Game/:gameId/Phases`;
-  return {
-    success: rest.get<{}, ListPhasesResponse, listPhasesRequestParams>(
-      url,
-      (req, res, ctx) => {
-        const { gameId } = req.params;
-        return res(ctx.status(200), ctx.json(listPhases[gameId]));
-      }
-    ),
-    internalServerError: rest.get(url, internalServerError),
-    tokenTimeout: rest.get(url, tokenTimeout),
-  };
-};
-
 interface listPhaseStatesRequestParams {
   gameId: string;
   phaseId: string;
@@ -122,22 +107,6 @@ export const createListPhaseStateHandler = (
     (req, res, ctx) => res(ctx.status(status), ctx.json(data))
   );
 
-const getListPhaseStatesHandlers = () => {
-  const url = listPhaseStatesUrl;
-  return {
-    success: rest.get<
-      {},
-      ListPhaseStatesResponse,
-      listPhaseStatesRequestParams
-    >(url, (req, res, ctx) => {
-      const { gameId, phaseId } = req.params;
-      return res(ctx.status(200), ctx.json(listPhaseStates[gameId][phaseId]));
-    }),
-    internalServerError: rest.get(url, internalServerError),
-    tokenTimeout: rest.get(url, tokenTimeout),
-  };
-};
-
 const updatePhaseStateUrl = `${API_ROOT}Game/:gameId/Phase/:phaseId/PhaseState`;
 export const createUpdatePhaseStateHandler = (
   data: PhaseStateResponse,
@@ -148,31 +117,10 @@ export const createUpdatePhaseStateHandler = (
     (req, res, ctx) => res(ctx.status(status), ctx.json(data))
   );
 
-const getUpdatePhaseStateHandlers = () => {
-  const url = updatePhaseStateUrl;
-  return {
-    success: rest.put<
-      PhaseState,
-      PhaseStateResponse,
-      UpdatePhaseStateRequestParams
-    >(url, (req, res, ctx) => {
-      const response = {
-        Name: req.body.Nation,
-        Type: "PhaseState",
-        Links: [],
-        Properties: req.body,
-      };
-      return res(ctx.status(200), ctx.json(response));
-    }),
-    internalServerError: rest.put(url, internalServerError),
-    tokenTimeout: rest.put(url, tokenTimeout),
-  };
-};
-
 const resolvers = {
   variantSvg: {
     success: (req: any, res: any, ctx: RestContext) => {
-      return res(ctx.status(200), ctx.text("<svg data-testid=\"variant-svg\""));
+      return res(ctx.status(200), ctx.text('<svg data-testid="variant-svg"'));
     },
   },
   bans: {
@@ -500,10 +448,51 @@ export const handlers = {
     internalServerError: rest.get(listChannelsUrl, internalServerError),
     tokenTimeout: rest.get(listChannelsUrl, tokenTimeout),
   },
-  listPhases: getListPhasesHandlers(),
-  listPhaseStates: getListPhaseStatesHandlers(),
-  updatePhaseState: getUpdatePhaseStateHandlers(),
-
+  listPhases: {
+    success: rest.get<
+      {},
+      ListPhasesResponse,
+      listPhasesRequestParams
+    >(`${API_ROOT}Game/:gameId/Phases`, (req, res, ctx) => {
+      const { gameId } = req.params;
+      const data = listPhases[gameId];
+      return res(ctx.status(200), ctx.json(data));
+    }),
+    internalServerError: rest.get(
+      `${API_ROOT}Game/:gameId/Phases`,
+      internalServerError
+    ),
+    tokenTimeout: rest.get(`${API_ROOT}Game/:gameId/Phases`, tokenTimeout),
+  },
+  listPhaseStates: {
+    success: rest.get<
+      {},
+      ListPhaseStatesResponse,
+      listPhaseStatesRequestParams
+    >(listPhaseStatesUrl, (req, res, ctx) => {
+      const { gameId, phaseId } = req.params;
+      return res(ctx.status(200), ctx.json(listPhaseStates[gameId][phaseId]));
+    }),
+    internalServerError: rest.get(listPhaseStatesUrl, internalServerError),
+    tokenTimeout: rest.get(listPhaseStatesUrl, tokenTimeout),
+  },
+  updatePhaseState: {
+    success: rest.put<
+      PhaseState,
+      PhaseStateResponse,
+      UpdatePhaseStateRequestParams
+    >(updatePhaseStateUrl, (req, res, ctx) => {
+      const response = {
+        Name: req.body.Nation,
+        Type: "PhaseState",
+        Links: [],
+        Properties: req.body,
+      };
+      return res(ctx.status(200), ctx.json(response));
+    }),
+    internalServerError: rest.put(updatePhaseStateUrl, internalServerError),
+    tokenTimeout: rest.put(updatePhaseStateUrl, tokenTimeout),
+  },
   listGamesStarted: {
     success: rest.get(listGamesStartedUrl, resolvers.listGamesStarted.success),
     successEmpty: rest.get(
@@ -630,11 +619,8 @@ export const handlers = {
     tokenTimeout: rest.get(listGamesMasteredStagingUrl, tokenTimeout),
   },
   getUserStats: {
-    successEmpty: rest.get(
-      getUserStatsUrl,
-      resolvers.userStats.successNoGames,
-    )
-  }
+    successEmpty: rest.get(getUserStatsUrl, resolvers.userStats.successNoGames),
+  },
 };
 
 export const handlersList = [
@@ -666,7 +652,7 @@ export const handlersList = [
   handlers.listGamesMyStaging.success,
   handlers.listGamesMasteredStaging.success,
 
-  handlers.joinGame.internalServerError,
+  handlers.joinGame.success,
   handlers.rescheduleGame.success,
   handlers.renameGame.success,
   handlers.unInvite.success,
