@@ -13,4 +13,5 @@ jobs:
         working-directory: web-app
         test-script: yarn run test-coverage
         package-manager: yarn
-        threshold: 20
+        threshold: 10
+        annotations: none
