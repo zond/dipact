@@ -50,7 +50,7 @@
     },
     "nation-preferences": {
         "title": "Nation preferences",
-        "dialog": "Sort the possible nations in order of preference.",
+        "prompt": "Sort the possible nations in order of preference.",
         "join-button": {
             "label": "Join"
         },

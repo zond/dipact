@@ -85,7 +85,7 @@ const NationPreferencesDialog = (): React.ReactElement => {
     <Dialog open={open} onClose={close}>
       <DialogTitle>{t(tk.nationPreferences.title)}</DialogTitle>
       <DialogContent>
-        <Typography>{t(tk.nationPreferences.dialog)}</Typography>
+        <Typography>{t(tk.nationPreferences.prompt)}</Typography>
         <Paper elevation={3}>
           <List>
             {sortedNations.map((nation, idx) => {

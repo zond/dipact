@@ -46,15 +46,15 @@ const translateKeys = {
     random: "nation-allocation-options.random",
     preference: "nation-allocation-options.preference",
   },
-  nationPreferences: { 
+  nationPreferences: {
     title: "nation-preferences.title",
-    dialog: "nation-preferences.dialog",
+    prompt: "nation-preferences.prompt",
     joinButton: {
-      label: "nation-preferences.join-button.label"
+      label: "nation-preferences.join-button.label",
     },
     closeButton: {
-      label: "nation-preferences.close-button.label"
-    }
+      label: "nation-preferences.close-button.label",
+    },
   },
   durations: {
     minute: {
@@ -90,23 +90,24 @@ const translateKeys = {
     emailNotificationsSwitch: {
       label: "settings.email-notifications-switch.label",
     },
-    phaseDeadlineReminder: { 
+    phaseDeadlineReminder: {
       inputLabel: "settings.phase-deadline-reminder.input-label",
       helpText: "settings.phase-deadline-reminder.help-text",
-      notificationsPrompt: "settings.phase-deadline-reminder.notifications-prompt",
+      notificationsPrompt:
+        "settings.phase-deadline-reminder.notifications-prompt",
     },
     colorNonSCsSwitch: {
       label: "settings.color-non-scs-switch.label",
-      helpText: "settings.color-non-scs-switch.help-text"
+      helpText: "settings.color-non-scs-switch.help-text",
     },
-    mapColorsSection: { 
+    mapColorsSection: {
       label: "settings.map-colors-section.label",
     },
-    variantSelect: { 
-      label: "settings.variant-select.label"
-    }, 
+    variantSelect: {
+      label: "settings.variant-select.label",
+    },
     resetSettingsButton: {
-      label: "settings.reset-settings-button.label"
+      label: "settings.reset-settings-button.label",
     },
     errorNotifications: {
       noToken: "settings.error-notifications.no-token",
@@ -114,31 +115,10 @@ const translateKeys = {
       noPermissionPrompt: "settings.error-notifications.no-permission-prompt",
       infoLink: "settings.error-notifications.info-link",
       messagingNotStarted: "settings.error-notifications.messaging-not-started",
-      firebaseNotSupported: "settings.error-notifications.firebase-not-supported"
+      firebaseNotSupported:
+        "settings.error-notifications.firebase-not-supported",
     },
-  }
-
-/*
-
-
-
-const NATION_COLORS_SECTION_LABEL = "Custom nation colours";
-const VARIANT_SELECT_LABEL = "Variant";
-const RESET_SETTINGS_BUTTON_LABEL = "Reset settings";
-
-const NOTIFICATIONS_ERROR_NO_TOKEN =
-  "Notifications disabled [Error: no token uploaded]";
-const NOTIFICATIONS_ERROR_NO_PERMISSION =
-  "No notification permission received.";
-const NOTIFICATIONS_ERROR_NO_PERMISSION_PROMPT =
-  "Allow this sites notifications in your browser settings.";
-const NOTIFICATIONS_INFO_LINK =
-  "Allow this sites notifications in your browser settings.";
-const NOTIFICATIONS_ERROR_MESSAGING_NOT_STARTED =
-  "Notifications disabled [Error: notification system did not start]";
-const NOTIFICATIONS_ERROR_FIREBASE_NOT_SUPPORTED =
-  "Notifications disabled [Error: Firebase Messaging not supported on your browser]";
-*/
+  },
 };
 
 export default translateKeys;
