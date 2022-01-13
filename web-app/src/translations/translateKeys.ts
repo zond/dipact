@@ -76,8 +76,15 @@ const translateKeys = {
       singular: "orders.disband.singular",
       plural: "orders.disband.plural",
     },
+    toggleDiasButton: {
+      label: "orders.toggle-dias-button.label",
+    },
+    confirmOrdersButton: {
+      label: "orders.confirm-orders-button.label",
+      noOrders: "orders.confirm-orders-button.no-orders",
+      prompt: "orders.confirm-orders-button.prompt",
+    },
   },
 };
-
 
 export default translateKeys;
