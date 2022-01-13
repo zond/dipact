@@ -59,7 +59,25 @@ const translateKeys = {
   nationAllocationOptions: {
     random: "nation-allocation-options.random",
     preference: "nation-allocation-options.preference",
-  }
+  },
+  orders: {
+    confirmedIconTooltip: "orders.confirmed-icon-tooltip",
+    noOrdersGivenIconTooltip: "orders.no-orders-given-icon-tooltip",
+    wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
+    supplyCenter: {
+      singular: "orders.supply-center.singular",
+      plural: "orders.supply-center.plural;",
+    },
+    build: {
+      singular: "orders.build.singular",
+      plural: "orders.build.plural",
+    },
+    disband: {
+      singular: "orders.disband.singular",
+      plural: "orders.disband.plural",
+    },
+  },
 };
+
 
 export default translateKeys;

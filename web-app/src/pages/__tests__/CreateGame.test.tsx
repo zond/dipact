@@ -24,6 +24,7 @@ import { Provider } from "react-redux";
 import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
 import tk from "../../translations/translateKeys";
+import { useTranslation } from "react-i18next";
 
 const server = setupServer(
   handlers.getUser.success,

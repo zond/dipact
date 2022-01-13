@@ -48,6 +48,23 @@
         "random": "Random",
         "preference": "Preference"
     },
+    "orders": {
+        "orders.confirmed-icon-tooltip": "Confirmed their orders",
+        "orders.no-orders-given-icon-tooltip": "Did not send orders",
+        "orders.wants-draw-icon-tooltip": "Wants a draw",
+        "supply-center": {
+            "orders.supply-center.singular": "supply center",
+            "orders.supply-center.plural": "supply centers"
+        },
+        "build": {
+            "orders.build.singular": "build",
+            "orders.build.plural": "builds"
+        },
+        "disband": {
+            "orders.disband.singular": "disband",
+            "orders.disband.plural": "disbands"
+        }
+    },
     "durations": {
         "minute": {
             "singular": "Minute",

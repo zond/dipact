@@ -1,5 +1,5 @@
 import { Typography, Tooltip } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { NationStatus } from "../../hooks/useOrders";
 import {
@@ -8,6 +8,7 @@ import {
   WantsDrawIcon,
 } from "../../icons";
 import NationAvatar from "../NationAvatar";
+import tk from "../../translations/translateKeys";
 
 export interface Nation {
   abbreviation: string;
@@ -43,16 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ORDERS_CONFIRMED_ICON_TITLE = "Confirmed their orders";
-const NO_ORDERS_GIVEN_ICON_TITLE = "Did not send orders";
-const WANTS_DRAW_ICON_TITLE = "Wants draw";
-const SUPPLY_CENTER_LABEL_SINGULAR = "supply center";
-const SUPPLY_CENTER_LABEL_PLURAL = "supply centers";
-const BUILD_LABEL_SINGULAR = "build";
-const BUILD_LABEL_PLURAL = "builds";
-const DISBAND_LABEL_SINGULAR = "disband";
-const DISBAND_LABEL_PLURAL = "disbands";
-
 const NationSummary = ({
   nationStatus,
 }: NationSummaryProps): React.ReactElement => {
@@ -70,14 +61,14 @@ const NationSummary = ({
 
   const supplyCentersLabel =
     numSupplyCenters !== 1
-      ? SUPPLY_CENTER_LABEL_PLURAL
-      : SUPPLY_CENTER_LABEL_SINGULAR;
+      ? tk.orders.supplyCenter.plural
+      : tk.orders.supplyCenter.singular;
 
   const buildLabel =
-    numBuilds !== 1 ? BUILD_LABEL_PLURAL : BUILD_LABEL_SINGULAR;
+    numBuilds !== 1 ? tk.orders.build.plural : tk.orders.build.singular;
 
   const disbandLabel =
-    numDisbands !== 1 ? DISBAND_LABEL_PLURAL : DISBAND_LABEL_SINGULAR;
+    numDisbands !== 1 ? tk.orders.disband.plural : tk.orders.disband.singular;
 
   const supplyCentersToWinLabel = `${numSupplyCentersToWin} to win`;
 
@@ -116,17 +107,17 @@ const NationSummary = ({
       </div>
       <div className={classes.nationStatus}>
         {confirmedOrders && (
-          <Tooltip title={ORDERS_CONFIRMED_ICON_TITLE}>
+          <Tooltip title={tk.orders.confirmedIconTooltip}>
             <OrdersConfirmedIcon />
           </Tooltip>
         )}
         {wantsDraw && (
-          <Tooltip title={WANTS_DRAW_ICON_TITLE}>
+          <Tooltip title={tk.orders.wantsDrawIconTooltip}>
             <WantsDrawIcon />
           </Tooltip>
         )}
         {noOrdersGiven && (
-          <Tooltip title={NO_ORDERS_GIVEN_ICON_TITLE}>
+          <Tooltip title={tk.orders.noOrdersGivenIconTooltip}>
             <NoOrdersGivenIcon />
           </Tooltip>
         )}
