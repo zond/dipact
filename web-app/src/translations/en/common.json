@@ -48,6 +48,16 @@
         "random": "Random",
         "preference": "Preference"
     },
+    "nation-preferences": {
+        "title": "Nation preferences",
+        "prompt": "Sort the possible nations in order of preference.",
+        "join-button": {
+            "label": "Join"
+        },
+        "close-button": {
+            "label": "Close"
+        }
+    },
     "durations": {
         "minute": {
             "singular": "Minute",
@@ -61,5 +71,53 @@
             "singular": "Day",
             "plural": "Days"
         }
+    },
+    "login": {
+        "description": "A digital version of the classic game of Diplomacy. Sign in to play.",
+        "stay-logged-in-checkbox": {
+            "label": "Stay logged in"
+        },
+        "login-button": {
+            "label": "Sign in with Google"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "notifications-section": {
+            "label": "Notifications"
+        },
+        "push-notifications-switch": {
+            "label": "Push notifications"
+        },
+        "email-notifications-switch": {
+            "label": "Email notifications"
+        },
+        "phase-deadline-reminder": {
+            "input-label": "Phase deadline reminder",
+            "help-text": "In minutes. 0 = off",
+            "notifications-prompt": "In minutes. 0 = off"
+        },
+        "color-non-scs-switch": {
+            "label": "Colour non-SC provinces",
+            "help-text": "Colour provinces without supply centers based on the ownership of the supply centers around it."
+        },
+        "map-colors-section": {
+            "label": "Custom nation colours"
+        },
+        "variant-select": {
+            "label" : "Variant"
+        },
+        "reset-settings-button" : {
+            "label" : "Reset settings"
+        },
+        "error-notifications" : {
+            "no-token": "Notifications disabled [Error: no token uploaded]",
+            "no-permission": "No notification permission received.",
+            "no-permission-prompt": "Allow this sites notifications in your browser settings.",
+            "info-link": "Allow this sites notifications in your browser settings.",
+            "messaging-not-started": "Notifications disabled [Error: Notification system did not start]",
+            "firebase-not-supported": "Notifications disabled [Error: Firebase Messaging not supported on your browser]"
+        }
+
     }
 }
