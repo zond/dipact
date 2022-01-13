@@ -22,6 +22,7 @@ import useGameList, { GameStatus } from "../hooks/useGameList";
 import useSearchParams from "../hooks/useSearchParams";
 import { CreateMessageIcon } from "../icons";
 import { RouteConfig } from "./RouteConfig";
+import tk from "../translations/translateKeys";
 
 const useStyles = makeStyles((theme) => ({
   tabs: {
@@ -50,11 +51,6 @@ const gameStatusLabels = {
   [GameStatus.Staging]: "Open to join",
   [GameStatus.Finished]: "Finished games",
 };
-
-const ALL_GAMES_TAB_LABEL = "All games";
-const MY_GAMES_TAB_LABEL = "My games";
-const MASTERED_CHECKBOX_LABEL = "Managed by me";
-export const NO_GAMES_MESSAGE = "No games found.";
 
 const GameList = () => {
   const classes = useStyles();
@@ -112,8 +108,8 @@ const GameList = () => {
             aria-label="games filter"
             className={classes.tabs}
           >
-            <Tab value={"0"} label={ALL_GAMES_TAB_LABEL} {...a11yProps("0")} />
-            <Tab value={"1"} label={MY_GAMES_TAB_LABEL} {...a11yProps("1")} />
+            <Tab value={"0"} label={tk.gameList.allGamesTab.label} {...a11yProps("0")} />
+            <Tab value={"1"} label={tk.gameList.myGamesTab.label} {...a11yProps("1")} />
           </Tabs>
         </div>
         {isFetching ? (
@@ -143,7 +139,7 @@ const GameList = () => {
                           onChange={handleMasteredCheckboxChange}
                         />
                       }
-                      label={MASTERED_CHECKBOX_LABEL}
+                      label={tk.gameList.masteredGamesCheckbox.label}
                     />
                   </FormGroup>
                 )}
@@ -169,7 +165,7 @@ const GameList = () => {
                 ))}
               </>
             ) : (
-              <Typography>{NO_GAMES_MESSAGE}</Typography>
+              <Typography>{tk.gameList.noGamesMessage}</Typography>
             )}
           </>
         )}

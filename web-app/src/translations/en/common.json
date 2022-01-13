@@ -81,6 +81,17 @@
             "label": "Sign in with Google"
         }
     },
+    "game-list" : {
+        "all-games-tab" : {
+            "label" : "All games"
+        },
+        "my-games-tab" : {
+            "label" : "My games"
+        },
+        "mastered-games-checkbox" : {
+            "label" : "Managed by me"
+        }
+    },
     "settings": {
         "title": "Settings",
         "notifications-section": {

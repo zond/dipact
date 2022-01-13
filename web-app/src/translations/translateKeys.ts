@@ -79,6 +79,18 @@ const translateKeys = {
       label: "login.login-button.label",
     },
   },
+  gameList: {
+    allGamesTab: {
+      label: "game-list.all-games-tab.label",
+    },
+    myGamesTab: {
+      label: "game-list.my-games-tab.label",
+    },
+    masteredGamesCheckbox: {
+      label: "game-list.mastered-games-checkbox.label",
+    },
+    noGamesMessage: "game-list.no-games-message",
+  },
   settings: {
     title: "settings.title",
     notificationsSection: {
