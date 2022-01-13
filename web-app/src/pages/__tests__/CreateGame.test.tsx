@@ -23,7 +23,6 @@ import FeedbackWrapper from "../../components/FeedbackWrapper";
 import { Provider } from "react-redux";
 import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
-import { useTranslation } from "react-i18next";
 import tk from "../../translations/translateKeys";
 
 const server = setupServer(
