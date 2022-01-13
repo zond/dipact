@@ -10,7 +10,6 @@ import useOrders from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
-import { useTranslation } from "react-i18next";
 import tk from "../translations/translateKeys";
 
 interface OrdersUrlParams {
@@ -74,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Orders = () => {
-  const { t } = useTranslation("common");
   useRegisterPageView("Orders");
   // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();
