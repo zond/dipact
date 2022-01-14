@@ -1,4 +1,20 @@
 {
+        "game-list": {
+        "all-games-tab": {
+            "label": "All games"
+        },
+        "my-games-tab": {
+            "label": "My games"
+        },
+        "mastered-games-checkbox": {
+            "label": "Managed by me"
+        },
+        "game-status-labels": {
+            "started": "Started games",
+            "staging": "Open to join",
+            "finished": "Finished games"
+        }
+    },
     "create-game": {
         "title": "Create Game",
         "name-input": {
@@ -81,17 +97,6 @@
             "label": "Sign in with Google"
         }
     },
-    "game-list" : {
-        "all-games-tab" : {
-            "label" : "All games"
-        },
-        "my-games-tab" : {
-            "label" : "My games"
-        },
-        "mastered-games-checkbox" : {
-            "label" : "Managed by me"
-        }
-    },
     "settings": {
         "title": "Settings",
         "notifications-section": {
@@ -116,12 +121,12 @@
             "label": "Custom nation colours"
         },
         "variant-select": {
-            "label" : "Variant"
+            "label": "Variant"
         },
-        "reset-settings-button" : {
-            "label" : "Reset settings"
+        "reset-settings-button": {
+            "label": "Reset settings"
         },
-        "error-notifications" : {
+        "error-notifications": {
             "no-token": "Notifications disabled [Error: no token uploaded]",
             "no-permission": "No notification permission received.",
             "no-permission-prompt": "Allow this sites notifications in your browser settings.",
@@ -129,6 +134,5 @@
             "messaging-not-started": "Notifications disabled [Error: Notification system did not start]",
             "firebase-not-supported": "Notifications disabled [Error: Firebase Messaging not supported on your browser]"
         }
-
     }
 }

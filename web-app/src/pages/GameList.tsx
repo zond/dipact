@@ -47,9 +47,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const gameStatusLabels = {
-  [GameStatus.Started]: "Started games",
-  [GameStatus.Staging]: "Open to join",
-  [GameStatus.Finished]: "Finished games",
+  [GameStatus.Started]: tk.gameList.gameStatusLabels.started,
+  [GameStatus.Staging]: tk.gameList.gameStatusLabels.staging,
+  [GameStatus.Finished]: tk.gameList.gameStatusLabels.finished,
 };
 
 const GameList = () => {
@@ -139,7 +139,7 @@ const GameList = () => {
                           onChange={handleMasteredCheckboxChange}
                         />
                       }
-                      label={tk.gameList.masteredGamesCheckbox.label}
+                      label={tk.gameList.masteredGamesCheckbox.label as string}
                     />
                   </FormGroup>
                 )}

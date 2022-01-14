@@ -80,6 +80,7 @@ const translateKeys = {
     },
   },
   gameList: {
+    noGamesMessage: "game-list.no-games-message",
     allGamesTab: {
       label: "game-list.all-games-tab.label",
     },
@@ -89,7 +90,11 @@ const translateKeys = {
     masteredGamesCheckbox: {
       label: "game-list.mastered-games-checkbox.label",
     },
-    noGamesMessage: "game-list.no-games-message",
+    gameStatusLabels: {
+      started: "game-list.game-status-labels.started",
+      staging: "game-list.game-status-labels.staging",
+      finished: "game-list.game-status-labels.finished"
+    },
   },
   settings: {
     title: "settings.title",
