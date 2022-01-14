@@ -2,8 +2,9 @@ import "@testing-library/jest-dom";
 import ReactGA from "react-ga";
 import Enzyme from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
-import { setGlobalConfig } from '@storybook/testing-react';
-import * as globalStorybookConfig from '../.storybook/preview';
+import { setGlobalConfig } from "@storybook/testing-react";
+import failOnConsole from "jest-fail-on-console";
+import * as globalStorybookConfig from "../.storybook/preview";
 
 setGlobalConfig(globalStorybookConfig);
 
@@ -13,3 +14,7 @@ Enzyme.configure({ adapter: new Adapter() });
 ReactGA.initialize("foo", { testMode: true });
 
 require("jest-fetch-mock").enableMocks();
+
+failOnConsole({
+  shouldFailOnWarn: true,
+});
