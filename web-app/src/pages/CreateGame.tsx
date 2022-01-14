@@ -132,12 +132,6 @@ const MAX_RATING_INPUT_LABEL = "Maximum rating";
 const MAX_RATING_INPUT_HELP_TEXT =
   "Removes the most challenging 0% of active players";
 
-const MINUTE_SINGULAR = "Minute";
-const MINUTE_PLURAL = "Minutes";
-const HOUR_SINGULAR = "Hour";
-const HOUR_PLURAL = "Hours";
-const DAY_SINGULAR = "Day";
-const DAY_PLURAL = "Days";
 
 const CreateGame = (): React.ReactElement => {
   const { t } = useTranslation("common");
