@@ -42,6 +42,20 @@ const translateKeys = {
       label: "create-game.phase-length-unit-select.label",
     },
   },
+  nationAllocationOptions: {
+    random: "nation-allocation-options.random",
+    preference: "nation-allocation-options.preference",
+  },
+  nationPreferences: {
+    title: "nation-preferences.title",
+    prompt: "nation-preferences.prompt",
+    joinButton: {
+      label: "nation-preferences.join-button.label",
+    },
+    closeButton: {
+      label: "nation-preferences.close-button.label",
+    },
+  },
   durations: {
     minute: {
       singular: "durations.minute.singular",
@@ -56,10 +70,55 @@ const translateKeys = {
       plural: "durations.day.plural",
     },
   },
-  nationAllocationOptions: {
-    random: "nation-allocation-options.random",
-    preference: "nation-allocation-options.preference",
-  }
+  login: {
+    description: "login.description",
+    stayLoggedInCheckBox: {
+      label: "login.stay-logged-in-checkbox.label",
+    },
+    loginButton: {
+      label: "login.login-button.label",
+    },
+  },
+  settings: {
+    title: "settings.title",
+    notificationsSection: {
+      label: "settings.notifications-section.label",
+    },
+    pushNotificationsSwitch: {
+      label: "settings.push-notifications-switch.label",
+    },
+    emailNotificationsSwitch: {
+      label: "settings.email-notifications-switch.label",
+    },
+    phaseDeadlineReminder: {
+      inputLabel: "settings.phase-deadline-reminder.input-label",
+      helpText: "settings.phase-deadline-reminder.help-text",
+      notificationsPrompt:
+        "settings.phase-deadline-reminder.notifications-prompt",
+    },
+    colorNonSCsSwitch: {
+      label: "settings.color-non-scs-switch.label",
+      helpText: "settings.color-non-scs-switch.help-text",
+    },
+    mapColorsSection: {
+      label: "settings.map-colors-section.label",
+    },
+    variantSelect: {
+      label: "settings.variant-select.label",
+    },
+    resetSettingsButton: {
+      label: "settings.reset-settings-button.label",
+    },
+    errorNotifications: {
+      noToken: "settings.error-notifications.no-token",
+      noPermission: "settings.error-notifications.no-permission",
+      noPermissionPrompt: "settings.error-notifications.no-permission-prompt",
+      infoLink: "settings.error-notifications.info-link",
+      messagingNotStarted: "settings.error-notifications.messaging-not-started",
+      firebaseNotSupported:
+        "settings.error-notifications.firebase-not-supported",
+    },
+  },
 };
 
 export default translateKeys;
