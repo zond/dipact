@@ -403,18 +403,18 @@ const CreateGame = (): React.ReactElement => {
                   >
                     <MenuItem key={1} value={1}>
                       {singularAdjustmentPhaseLength
-                        ? MINUTE_SINGULAR
-                        : MINUTE_PLURAL}
+                        ? tk.durations.minute.singular
+                        : tk.durations.minute.plural}
                     </MenuItem>
                     <MenuItem key={60} value={60}>
                       {singularAdjustmentPhaseLength
-                        ? HOUR_SINGULAR
-                        : HOUR_PLURAL}
+                        ? tk.durations.hour.singular
+                        : tk.durations.hour.plural}
                     </MenuItem>
                     <MenuItem key={60 * 24} value={60 * 24}>
                       {singularAdjustmentPhaseLength
-                        ? DAY_SINGULAR
-                        : DAY_PLURAL}
+                        ? tk.durations.day.plural
+                        : tk.durations.day.plural}
                     </MenuItem>
                   </Select>
                 </Box>
