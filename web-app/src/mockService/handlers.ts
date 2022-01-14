@@ -123,6 +123,11 @@ const resolvers = {
       return res(ctx.status(200), ctx.text('<svg data-testid="variant-svg"'));
     },
   },
+  variantUnitSvg: {
+    success: (req: any, res: any, ctx: RestContext) => {
+      return res(ctx.status(200), ctx.text('<svg data-testid="variant-unit-svg"'));
+    },
+  },
   bans: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(bansSuccess));
@@ -350,12 +355,18 @@ const listGamesMyStagingUrl = `${API_ROOT}My/Games/staging`;
 const listGamesMasteredStagingUrl = `${API_ROOT}My/Mastered/Games/staging`;
 const getUserStatsUrl = `${API_ROOT}User/:userId/Stats`;
 const getVariantSVGUrl = `${API_ROOT}Variant/:variantName/Map.svg`;
+const getVariantUnitSVGUrl = `${API_ROOT}Variant/:variantName/Units/:unitName.svg`;
 
 export const handlers = {
   getVariantSVG: {
     success: rest.get(getVariantSVGUrl, resolvers.variantSvg.success),
     internalServerError: rest.get(getVariantSVGUrl, internalServerError),
     tokenTimeout: rest.get(getVariantSVGUrl, tokenTimeout),
+  },
+  getVariantUnitSVG: {
+    success: rest.get(getVariantUnitSVGUrl, resolvers.variantUnitSvg.success),
+    internalServerError: rest.get(getVariantUnitSVGUrl, internalServerError),
+    tokenTimeout: rest.get(getVariantUnitSVGUrl, tokenTimeout),
   },
   createGame: {
     success: rest.post(createGameUrl, resolvers.createGame.success),
@@ -661,4 +672,5 @@ export const handlersList = [
 
   handlers.getUserStats.successEmpty,
   handlers.getVariantSVG.success,
+  handlers.getVariantUnitSVG.success,
 ];
