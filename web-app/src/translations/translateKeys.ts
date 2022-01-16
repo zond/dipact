@@ -4,8 +4,8 @@ const translateKeys = {
     nameInput: {
       label: "create-game.name-input.label",
     },
-    privateCheckbox: {
-      label: "create-game.game-master-checkbox.label",
+    randomizeGameNameButton: {
+      title: "create-game.randomize-name-button.title",
     },
     gameMasterCheckbox: {
       label: "create-game.private-checkbox.label",
@@ -14,9 +14,50 @@ const translateKeys = {
         disabled: "create-game.private-checkbox.help-text.disabled",
       },
     },
-    randomizeGameNameButton: {
-      title: "create-game.randomize-name-button.title",
+    privateCheckbox: {
+      label: "create-game.game-master-checkbox.label",
     },
+    variantSelect: {
+      label: "create-game.variant-select.label",
+      optionLabel: "create-game.variant-select.option-label",
+    },
+    variantDescription : {
+      startYearLabel: "create-game.variant-description.start-year-label",
+      authorLabel: "create-game.variant-description.author-label",
+      rulesLabel: "create-game.variant-description.rules-label",
+    },
+    nationAllocationSection: {
+      label: "create-game.nation-allocation-section.label",
+    },
+    gameLengthSection: { 
+      label: "create-game.game-length-section.label",
+    },
+    phaseLengthMultiplierInput: {
+      label: "create-game.phase-length-multiplier-input.label",
+    },
+    phaseLengthUnitSelect: {
+      label: "create-game.phase-length-unit-select.label",
+    },
+    customAdjustmentPhaseLengthCheckbox: {
+      label: "create-game.custom-adjustment-phase-length-checkbox.label",
+    },
+    adjustmentPhaseLengthMultiplierInput: {
+      label: "create-game.adjustment-phase-length-multiplier-input.label",
+    },
+    skipGetReadyPhaseCheckbox: {
+      label: "create-game.skip-get-ready-phase-checkbox.label",
+      helpText: "create-game.skip-get-ready-phase-checkbox.help-text",
+    },
+    endAfterYearsCheckbox: {
+      label: "create-game.end-after-years-checkbox.label",
+    },
+    endAfterYearsInput: {
+      label: "create-game.end-after-years-input.label",
+    },
+
+
+
+
     maxRatingInput: {
       errorMessage: {
         lessThanUserRating:
@@ -25,21 +66,9 @@ const translateKeys = {
           "create-game.max-rating-input.error-message.more-than-user-rating",
       },
     },
-    variantSelect: {
-      label: "create-game.variant-select.label",
-      optionLabel: "create-game.variant-select.option-label",
-    },
+
     submitButton: {
       label: "create-game.submit-button.label",
-    },
-    nationAllocationSection: {
-      label: "create-game.nation-allocation-section.label",
-    },
-    phaseLengthMultiplierInput: {
-      label: "create-game.phase-length-multiplier-input.label",
-    },
-    phaseLengthUnitSelect: {
-      label: "create-game.phase-length-unit-select.label",
     },
   },
   nationAllocationOptions: {

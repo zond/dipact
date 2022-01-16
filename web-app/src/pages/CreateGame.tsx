@@ -84,13 +84,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VARIANT_START_YEAR_LABEL = "Start year";
-const VARIANT_AUTHOR_LABEL = "Original author";
-const VARIANT_RULES_LABEL = "Rules";
-const GAME_LENGTH_SECTION_LABEL = "Game length";
-const ADJUSTMENT_PHASE_LENGTH_LABEL = "Adjustment phase length";
-const CUSTOM_ADJUSTMENT_PHASE_LENGTH_CHECKBOX_LABEL =
-  "Shorter adjustment phases";
 const SKIP_GET_READY_PHASE_CHECKBOX_LABEL = "Skip get ready phase";
 const SKIP_GET_READY_PHASE_HELP_TEXT =
   "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game.";
@@ -268,19 +261,19 @@ const CreateGame = (): React.ReactElement => {
                       <List className={classes.variantDetailList}>
                         <ListItem>
                           <Typography variant="caption">
-                            {VARIANT_START_YEAR_LABEL}
+                            {t(tk.createGame.variantDescription.startYearLabel)}
                           </Typography>
                           <Typography>{selectedVariant.Start?.Year}</Typography>
                         </ListItem>
                         <ListItem>
                           <Typography variant="caption">
-                            {VARIANT_AUTHOR_LABEL}
+                            {t(tk.createGame.variantDescription.authorLabel)}
                           </Typography>
                           <Typography>{selectedVariant.CreatedBy}</Typography>
                         </ListItem>
                         <ListItem>
                           <Typography variant="caption">
-                            {VARIANT_RULES_LABEL}
+                            {t(tk.createGame.variantDescription.rulesLabel)}
                           </Typography>
                           <Typography>{selectedVariant.Rules}</Typography>
                         </ListItem>
@@ -325,7 +318,7 @@ const CreateGame = (): React.ReactElement => {
             </section>
             <section>
               <Typography variant="caption">
-                {GAME_LENGTH_SECTION_LABEL}
+                {t(tk.createGame.gameLengthSection.label)}
               </Typography>
 
               <Box display="flex">
@@ -374,7 +367,7 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={CUSTOM_ADJUSTMENT_PHASE_LENGTH_CHECKBOX_LABEL}
+                  label={t(tk.createGame.customAdjustmentPhaseLengthCheckbox.label) as string}
                 />
               </div>
               {/* TODO componentize */}
@@ -382,7 +375,7 @@ const CreateGame = (): React.ReactElement => {
                 <Box display="flex">
                   <TextField
                     name="adjustmentPhaseLengthMultiplier"
-                    label={ADJUSTMENT_PHASE_LENGTH_LABEL}
+                    label={t(tk.createGame.adjustmentPhaseLengthMultiplierInput.label)}
                     type="number"
                     inputProps={{ min: 1 }}
                     value={values.adjustmentPhaseLengthMultiplier}
@@ -397,18 +390,18 @@ const CreateGame = (): React.ReactElement => {
                   >
                     <MenuItem key={1} value={1}>
                       {singularAdjustmentPhaseLength
-                        ? tk.durations.minute.singular
-                        : tk.durations.minute.plural}
+                        ? t(tk.durations.minute.singular)
+                        : t(tk.durations.minute.plural)}
                     </MenuItem>
                     <MenuItem key={60} value={60}>
                       {singularAdjustmentPhaseLength
-                        ? tk.durations.hour.singular
-                        : tk.durations.hour.plural}
+                        ? t(tk.durations.hour.singular)
+                        : t(tk.durations.hour.plural)}
                     </MenuItem>
                     <MenuItem key={60 * 24} value={60 * 24}>
                       {singularAdjustmentPhaseLength
-                        ? tk.durations.day.plural
-                        : tk.durations.day.plural}
+                        ? t(tk.durations.day.plural)
+                        : t(tk.durations.day.plural)}
                     </MenuItem>
                   </Select>
                 </Box>
@@ -422,10 +415,10 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={SKIP_GET_READY_PHASE_CHECKBOX_LABEL}
+                  label={t(tk.createGame.skipGetReadyPhaseCheckbox.label) as string}
                 />
               </div>
-              <FormHelperText>{SKIP_GET_READY_PHASE_HELP_TEXT}</FormHelperText>
+              <FormHelperText>{t(tk.createGame.skipGetReadyPhaseCheckbox.helpText)}</FormHelperText>
               <div>
                 <FormControlLabel
                   control={
@@ -435,13 +428,13 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={END_AFTER_YEARS_CHECKBOX_LABEL}
+                  label={t(tk.createGame.endAfterYearsCheckbox.label) as string}
                 />
               </div>
               {values.endAfterYears && (
                 <TextField
                   name="endAfterYearsValue"
-                  label={END_AFTER_YEARS_VALUE_INPUT_LABEL}
+                  label={t(tk.createGame.endAfterYearsInput.label)}
                   type="number"
                   inputProps={{ min: minEndAfterYearsValue }}
                   value={values.endAfterYearsValue}

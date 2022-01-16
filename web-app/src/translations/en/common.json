@@ -4,8 +4,8 @@
         "name-input": {
             "label": "Name"
         },
-        "private-checkbox": {
-            "label": "Private"
+        "randomize-name-button": {
+            "title": "Randomize name"
         },
         "game-master-checkbox": {
             "label": "Game master",
@@ -14,13 +14,52 @@
                 "disabled": "Game master only allowed in private games (risk of abuse)"
             }
         },
+        "private-checkbox": {
+            "label": "Private"
+        },
         "variant-select": {
             "label": "Variant",
             "option-label": "{{ name }} ({{ numPlayers }} players)"
         },
-        "randomize-name-button": {
-            "title": "Randomize name"
+        "variant-description": {
+            "start-year-label": "Start year",
+            "author-label": "Original author",
+            "rules-label": "Rules"
         },
+        "nation-allocation-section": {
+            "label": "Nation selection"
+        },
+        "game-length-section": {
+            "label": "Game length"
+        },
+        "phase-length-multiplier-input": {
+            "label": "Phase length"
+        },
+        "phase-length-unit-select": {
+            "label": "Unit"
+        },
+        "custom-adjustment-phase-length-checkbox" : {
+            "label" : "Shorter adjustment phases"
+        },
+        "adjustment-phase-length-multiplier-input": {
+            "label": "Adjustment phase length"
+        },
+        "skip-get-ready-phase-checkbox" : {
+            "label": "Skip get ready phase",
+            "help-text": "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game."
+        },
+        "end-after-years-checkbox" : {
+            "label" : "End in draw after number of years"
+        },
+        "end-after-years-input" : {
+            "label" : "End after year"
+        },
+
+
+
+
+
+
         "max-rating-input": {
             "error-message": {
                 "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
@@ -33,15 +72,6 @@
         },
         "submit-button": {
             "label": "Create game"
-        },
-        "nation-allocation-section": {
-            "label": "Nation selection"
-        },
-        "phase-length-multiplier-input": {
-            "label": "Phase length"
-        },
-        "phase-length-unit-select": {
-            "label": "Unit"
         }
     },
     "nation-allocation-options": {
@@ -105,12 +135,12 @@
             "label": "Custom nation colours"
         },
         "variant-select": {
-            "label" : "Variant"
+            "label": "Variant"
         },
-        "reset-settings-button" : {
-            "label" : "Reset settings"
+        "reset-settings-button": {
+            "label": "Reset settings"
         },
-        "error-notifications" : {
+        "error-notifications": {
             "no-token": "Notifications disabled [Error: no token uploaded]",
             "no-permission": "No notification permission received.",
             "no-permission-prompt": "Allow this sites notifications in your browser settings.",
@@ -118,6 +148,5 @@
             "messaging-not-started": "Notifications disabled [Error: Notification system did not start]",
             "firebase-not-supported": "Notifications disabled [Error: Firebase Messaging not supported on your browser]"
         }
-
     }
 }
