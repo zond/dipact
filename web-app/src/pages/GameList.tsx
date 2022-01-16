@@ -22,6 +22,7 @@ import useGameList, { GameStatus } from "../hooks/useGameList";
 import useSearchParams from "../hooks/useSearchParams";
 import { CreateMessageIcon } from "../icons";
 import { RouteConfig } from "./RouteConfig";
+import { useTranslation } from "react-i18next";
 import tk from "../translations/translateKeys";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +54,7 @@ const gameStatusLabels = {
 };
 
 const GameList = () => {
+  const { t } = useTranslation("common");
   const classes = useStyles();
   const { getParam, setParam, removeParam } = useSearchParams();
   let status = getParam("status") as GameStatus;
@@ -108,8 +110,8 @@ const GameList = () => {
             aria-label="games filter"
             className={classes.tabs}
           >
-            <Tab value={"0"} label={tk.gameList.allGamesTab.label} {...a11yProps("0")} />
-            <Tab value={"1"} label={tk.gameList.myGamesTab.label} {...a11yProps("1")} />
+            <Tab value={"0"} label={t(tk.gameList.allGamesTab.label)} {...a11yProps("0")} />
+            <Tab value={"1"} label={t(tk.gameList.myGamesTab.label)} {...a11yProps("1")} />
           </Tabs>
         </div>
         {isFetching ? (
@@ -125,7 +127,7 @@ const GameList = () => {
                 >
                   {Object.values(GameStatus).map((opt) => (
                     <MenuItem key={opt} value={opt}>
-                      {gameStatusLabels[opt]}
+                      {t(gameStatusLabels[opt])}
                     </MenuItem>
                   ))}
                 </Select>
@@ -139,7 +141,7 @@ const GameList = () => {
                           onChange={handleMasteredCheckboxChange}
                         />
                       }
-                      label={tk.gameList.masteredGamesCheckbox.label as string}
+                      label={t(tk.gameList.masteredGamesCheckbox.label) as string}
                     />
                   </FormGroup>
                 )}
