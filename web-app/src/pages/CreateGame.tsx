@@ -84,36 +84,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SKIP_GET_READY_PHASE_CHECKBOX_LABEL = "Skip get ready phase";
-const SKIP_GET_READY_PHASE_HELP_TEXT =
-  "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game.";
-const END_AFTER_YEARS_CHECKBOX_LABEL = "End in draw after number of years";
-const END_AFTER_YEARS_VALUE_INPUT_LABEL = "End after year";
-const CHAT_SECTION_LABEL = "Chat";
-const ALLOW_CHATS_LABEL = "Allow chats";
-const CONFERENCE_CHAT_ENABLED_CHECKBOX_LABEL = "Conference (all players)";
-const GROUP_CHAT_ENABLED_CHECKBOX_LABEL = "Group";
-const INDIVIDUAL_CHAT_ENABLED_CHECKBOX_LABEL = "Individual";
-const ANONYMOUS_ENABLED_CHECKBOX_LABEL = "Anonymous";
-const ANONYMOUS_PRIVATE_EXPLANATION =
-  "Anonymous only allowed in private games (risk of abuse)";
-const CHAT_LANGUAGE_INPUT_LABEL = "Chat language";
-const PLAYERS_CHOICE_OPTION_LABEL = "Player's choice";
-const REQUIREMENTS_SECTION_LABEL = "Player requirements";
-const RELIABILITY_ENABLED_CHECKBOX_LABEL = "Reliability (important)";
-const RELIABILITY_ENABLED_CHECKBOX_HELP_TEXT = "Find players that keep playing";
-const MIN_RELIABILITY_INPUT_LABEL = "Minimum reliability score";
 
-const QUICKNESS_ENABLED_CHECKBOX_LABEL = "Quickness";
-const QUICKNESS_ENABLED_CHECKBOX_HELP_TEXT =
-  "Find players that confirm their orders before the deadline";
-const MIN_QUICKNESS_INPUT_LABEL = "Minimum quickness score";
 
-const MIN_RATING_ENABLED_CHECKBOX_LABEL = "Minimum rating";
-const MIN_RATING_ENABLED_CHECKBOX_HELP_TEXT =
-  "Find players that are challenging";
-const MIN_RATING_INPUT_LABEL = "Minimum rating";
-// TODO formatting and error message on too much
+// TODO formatting and error message on too much minRating
 const MIN_RATING_INPUT_HELP_TEXT =
   "Removes the least challenging 0% of active playrers";
 
@@ -444,8 +417,8 @@ const CreateGame = (): React.ReactElement => {
               )}
             </section>
             <section>
-              <Typography variant="caption">{CHAT_SECTION_LABEL}</Typography>
-              <Typography variant="caption">{ALLOW_CHATS_LABEL}</Typography>
+              <Typography variant="caption">{t(tk.createGame.chatSection.label)}</Typography>
+              <Typography variant="caption">{t(tk.createGame.allowChatsSwitch.label)}</Typography>
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -455,7 +428,7 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={CONFERENCE_CHAT_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.conferenceChatCheckbox.label) as string}
                 />
                 <FormControlLabel
                   control={
@@ -465,7 +438,7 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={GROUP_CHAT_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.groupChatCheckbox.label) as string}
                 />
                 <FormControlLabel
                   control={
@@ -475,7 +448,7 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={INDIVIDUAL_CHAT_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.individualChatCheckbox.label) as string}
                 />
                 <FormControlLabel
                   control={
@@ -486,17 +459,17 @@ const CreateGame = (): React.ReactElement => {
                       disabled={!values.privateGame}
                     />
                   }
-                  label={ANONYMOUS_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.anonymousChatCheckbox.label) as string}
                 />
                 {!values.privateGame && (
                   <FormHelperText>
-                    {ANONYMOUS_PRIVATE_EXPLANATION}
+                    {t(tk.createGame.anonymousChatCheckbox.explanation)}
                   </FormHelperText>
                 )}
               </FormGroup>
               <FormControl variant="standard">
                 <InputLabel id="chat-language-input-label">
-                  {CHAT_LANGUAGE_INPUT_LABEL}
+                  {t(tk.createGame.chatLanguageSelect.label)}
                 </InputLabel>
                 <Select
                   labelId="chat-language-input-label"
@@ -504,7 +477,7 @@ const CreateGame = (): React.ReactElement => {
                   onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
                 >
                   <MenuItem value="players_choice">
-                    {PLAYERS_CHOICE_OPTION_LABEL}
+                    {t(tk.createGame.chatLanguageSelect.defaultOption)}
                   </MenuItem>
                   {iso639_1Codes.map((lang) => {
                     return (
@@ -518,7 +491,7 @@ const CreateGame = (): React.ReactElement => {
             </section>
             <section>
               <Typography variant="caption">
-                {REQUIREMENTS_SECTION_LABEL}
+               {t(tk.createGame.requirementsSection.label)}
               </Typography>
               <div>
                 <FormControlLabel
@@ -529,15 +502,15 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={RELIABILITY_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.reliabilityEnabledCheckbox.label) as string}
                 />
                 <FormHelperText>
-                  {RELIABILITY_ENABLED_CHECKBOX_HELP_TEXT}
+                  {t(tk.createGame.reliabilityEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.reliabilityEnabled && (
                   <TextField
                     variant="standard"
-                    label={MIN_RELIABILITY_INPUT_LABEL}
+                    label={t(tk.createGame.minReliabilityInput.label) as string}
                     name="minReliability"
                     type="number"
                     margin="dense"
@@ -555,15 +528,15 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={QUICKNESS_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.quicknessEnabledCheckbox.label) as string}
                 />
                 <FormHelperText>
-                  {QUICKNESS_ENABLED_CHECKBOX_HELP_TEXT}
+                  {t(tk.createGame.quicknessEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.quicknessEnabled && (
                   <TextField
                     variant="standard"
-                    label={MIN_QUICKNESS_INPUT_LABEL}
+                    label={t(tk.createGame.minQuicknessInput.label) as string}
                     name="minQuickness"
                     type="number"
                     margin="dense"
@@ -581,16 +554,16 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={MIN_RATING_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.minRatingEnabledCheckbox.label) as string}
                 />
                 <FormHelperText>
-                  {MIN_RATING_ENABLED_CHECKBOX_HELP_TEXT}
+                  {t(tk.createGame.minRatingEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.minRatingEnabled && (
                   <>
                     <TextField
                       variant="standard"
-                      label={MIN_RATING_INPUT_LABEL}
+                      label={t(tk.createGame.minRatingInput.label) as string}
                       name="minRating"
                       type="number"
                       margin="dense"

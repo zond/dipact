@@ -54,11 +54,59 @@ const translateKeys = {
     endAfterYearsInput: {
       label: "create-game.end-after-years-input.label",
     },
-
-
-
-
+    chatSection: {
+      label: "create-game.chat-section.label",
+    },
+    allowChatsSwitch: {
+      label: "create-game.allow-chats-switch.label",
+    },
+    conferenceChatCheckbox: { 
+      label: "create-game.conference-chat-checkbox.label",
+    },
+    groupChatCheckbox: {
+      label: "create-game.group-chat-checkbox.label",
+    },
+    individualChatCheckbox: {
+      label: "create-game.individual-chat-checkbox.label",
+    },
+    anonymousChatCheckbox: {
+      label: "create-game.anonymous-chat-checkbox.label",
+      explanation: "create-game.anonymous-chat-checkbox.explanation",
+    },
+    chatLanguageSelect: {
+      label: "create-game.chat-language-select.label",
+      defaultOption: "create-game.chat-language-select.default-option",
+    },
+    requirementsSection: {
+      label: "create-game.requirements-section.label"
+    },
+    reliabilityEnabledCheckbox: {
+      label: "create-game.reliability-enabled-checkbox.label",
+      helpText: "create-game.reliability-enabled-checkbox.help-text"
+    },
+    minReliabilityInput: {
+      label: "create-game.min-reliability-input.label"
+    },
+    quicknessEnabledCheckbox: {
+      label: "create-game.quickness-enabled-checkbox.label",
+      helpText: "create-game.quickness-enabled-checkbox.help-text"
+    },
+    minQuicknessInput: {
+      label: "create-game.min-quickness-input.label"
+    },  
+    minRatingEnabledCheckbox: {
+      label: "create-game.min-rating-enabled-checkbox.label",
+      helpText: "create-game.min-rating-enabled-checkbox.help-text"
+    },
+    minRatingInput: {
+      label: "create-game.min-rating-input.label"
+    },
+    maxRatingEnabledCheckbox: {
+      label: "create-game.max-rating-enabled-checkbox.label",
+      helpText: "create-game.max-rating-enabled-checkbox.help-text"
+    },
     maxRatingInput: {
+      label: "create-game.max-rating-input.label",
       errorMessage: {
         lessThanUserRating:
           "create-game.max-rating-input.error-message.less-than-user-rating",

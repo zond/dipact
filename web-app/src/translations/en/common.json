@@ -38,27 +38,76 @@
         "phase-length-unit-select": {
             "label": "Unit"
         },
-        "custom-adjustment-phase-length-checkbox" : {
-            "label" : "Shorter adjustment phases"
+        "custom-adjustment-phase-length-checkbox": {
+            "label": "Shorter adjustment phases"
         },
         "adjustment-phase-length-multiplier-input": {
             "label": "Adjustment phase length"
         },
-        "skip-get-ready-phase-checkbox" : {
+        "skip-get-ready-phase-checkbox": {
             "label": "Skip get ready phase",
             "help-text": "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game."
         },
-        "end-after-years-checkbox" : {
-            "label" : "End in draw after number of years"
+        "end-after-years-checkbox": {
+            "label": "End in draw after number of years"
         },
-        "end-after-years-input" : {
-            "label" : "End after year"
+        "end-after-years-input": {
+            "label": "End after year"
         },
-
-
-
-
-
+        "chat-section": {
+            "label": "Chat"
+        },
+        "allow-chats-switch": {
+            "label": "Allow chats"
+        },
+        "conference-chat-checkbox": {
+            "label": "Conference (all players)"
+        },
+        "group-chat-checkbox": {
+            "label": "Group"
+        },
+        "individual-chat-checkbox": {
+            "label": "Individual"
+        },
+        "anonymous-chat-checkbox": {
+            "label": "Anonymous",
+            "explanation": "Anonymous only allowed in private games (risk of abuse)"
+        },
+        "chat-language-select": {
+            "label": "Chat language",
+            "default-option": "Player's choice"
+        },
+        "requirements-section": {
+            "label": "Player requirements"
+        },
+        "reliability-enabled-checkbox": {
+            "label": "Reliability (important)",
+            "help-text": "Find players that keep playing"
+        },
+        "min-reliability-input": {
+            "label": "Minimum reliability score "
+        },
+        "quickness-enabled-checkbox": {
+            "label": "Quickness",
+            "help-text": "Find players that confirm their orders before the deadline"
+        },
+        "min-quickness-input": {
+            "label": "Minimum quickness score "
+        },
+        "min-rating-enabled-checkbox": {
+            "label": "Minimum rating",
+            "help-text": "Find players that are challenging"
+        },
+        "min-rating-input": {
+            "label": "Minimum rating"
+        },
+        "max-rating-enabled-checkbox": {
+            "label": "Maximum rating",
+            "help-text": "Find players that aren't too challenging"
+        },
+        "max-rating-input": {
+            "label": "Maximum rating"
+        },
 
         "max-rating-input": {
             "error-message": {
