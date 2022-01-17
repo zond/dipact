@@ -580,7 +580,7 @@ const CreateGame = (): React.ReactElement => {
                       </FormHelperText>
                     ) : null}
                     <FormHelperText>
-                      {MIN_RATING_INPUT_HELP_TEXT}
+                      {t(tk.createGame.minRatingEnabledCheckbox.helpText)}
                     </FormHelperText>
                   </>
                 )}
@@ -594,17 +594,17 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={MAX_RATING_ENABLED_CHECKBOX_LABEL}
+                  label={t(tk.createGame.maxRatingEnabledCheckbox.label) as string}
                 />
                 <FormHelperText>
                   {/* TODO errors should disable create button */}
-                  {MAX_RATING_ENABLED_CHECKBOX_HELP_TEXT}
+                  {t(tk.createGame.maxRatingEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.maxRatingEnabled && (
                   <>
                     <TextField
                       variant="standard"
-                      label={MAX_RATING_INPUT_LABEL}
+                      label={t(tk.createGame.maxRatingInput.label) as string}
                       name="maxRating"
                       margin="dense"
                       type="number"
