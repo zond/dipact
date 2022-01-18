@@ -10042,6 +10042,13 @@ jest-environment-node@^26.6.2:
     jest-mock "^26.6.2"
     jest-util "^26.6.2"
 
+jest-fail-on-console@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/jest-fail-on-console/-/jest-fail-on-console-2.1.1.tgz#3e434a6f5f8183b6eac87ed0f2f1b804d7e06efc"
+  integrity sha512-oKUtNAJy2r2q4RaOrtGsqysOEPX7CPzS+ifmDjbQzl3/uysZ0+Ni+ZGQ/ERDHhNUemlo3w0KcbKOlLJwRPmnmA==
+  dependencies:
+    chalk "^4.1.0"
+
 jest-fetch-mock@^3.0.3:
   version "3.0.3"
   resolved "https://registry.npmjs.org/jest-fetch-mock/-/jest-fetch-mock-3.0.3.tgz"

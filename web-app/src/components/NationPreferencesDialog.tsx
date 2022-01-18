@@ -21,16 +21,13 @@ import {
 import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
 import { ArrowDownwardIcon, ArrowUpwardIcon } from "../icons";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 export const searchKey = "nation-preference-dialog";
 
-const NATION_PREFERENCES_DIALOG_TITLE = "Nation preferences";
-const NATION_PREFERENCES_DIALOG_PROMPT =
-  "Sort the possible nations in order of preference.";
-const JOIN_BUTTON_LABEL = "Join";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const NationPreferencesDialog = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
   const gameId = getParam(searchKey);
   const [sortedNations, setSortedNations] = useState<string[]>([]);
@@ -41,12 +38,7 @@ const NationPreferencesDialog = (): React.ReactElement => {
 
   useListVariantsQuery(undefined);
 
-  const [
-    getGameTrigger,
-    {
-      data: game,
-    },
-  ] = useLazyGetGameQuery();
+  const [getGameTrigger, { data: game }] = useLazyGetGameQuery();
 
   const variant = useSelectVariant(game?.Variant || "");
   const nations = variant?.Nations;
@@ -91,9 +83,9 @@ const NationPreferencesDialog = (): React.ReactElement => {
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>{NATION_PREFERENCES_DIALOG_TITLE}</DialogTitle>
+      <DialogTitle>{t(tk.nationPreferences.title)}</DialogTitle>
       <DialogContent>
-        <Typography>{NATION_PREFERENCES_DIALOG_PROMPT}</Typography>
+        <Typography>{t(tk.nationPreferences.prompt)}</Typography>
         <Paper elevation={3}>
           <List>
             {sortedNations.map((nation, idx) => {
@@ -126,9 +118,11 @@ const NationPreferencesDialog = (): React.ReactElement => {
           </List>
         </Paper>
         <DialogActions>
-          <Button onClick={close}>{CANCEL_BUTTON_LABEL}</Button>
+          <Button onClick={close}>
+            {t(tk.nationPreferences.closeButton.label)}
+          </Button>
           <Button onClick={onSelected} disabled={isLoading}>
-            {JOIN_BUTTON_LABEL}
+            {t(tk.nationPreferences.joinButton.label)}
           </Button>
         </DialogActions>
       </DialogContent>

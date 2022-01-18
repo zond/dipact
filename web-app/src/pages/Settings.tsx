@@ -19,6 +19,8 @@ import GoBackNav from "../components/GoBackNav";
 import { searchKey as resetSettingsSearchKey } from "../components/ResetSettingsDialog";
 import useSearchParams from "../hooks/useSearchParams";
 import useSettings from "../hooks/useSettings";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,35 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TITLE = "Settings";
-const NOTIFICATIONS_SECTION_LABEL = "Notifications";
-const MAP_COLORS_SECTION_LABEL = "Map colours";
-const COLOR_NON_SCS_SWITCH_LABEL = "Colour non-SC provinces";
-const COLOR_NON_SCS_HELP_TEXT =
-  "Colour provinces without supply centers based on the ownership of the supply centers around it.";
-const NATION_COLORS_SECTION_LABEL = "Custom nation colours";
-const PUSH_NOTIFICATIONS_SWITCH_LABEL = "Push notifications";
-const EMAIL_NOTIFICATIONS_SWITCH_LABEL = "Email notifications";
-const PHASE_DEADLINE_REMINDER_INPUT_LABEL = "Phase deadline reminder";
-const PHASE_DEADLINE_REMINDER_HELP_TEXT = "In minutes. 0 = off";
-const PHASE_DEADLINE_REMINDER_NOTIFICATIONS_PROMPT = "In minutes. 0 = off";
-const VARIANT_SELECT_LABEL = "Variant";
-const RESET_SETTINGS_BUTTON_LABEL = "Reset settings";
-
-const NOTIFICATIONS_ERROR_NO_TOKEN =
-  "Notifications disabled [Error: no token uploaded]";
-const NOTIFICATIONS_ERROR_NO_PERMISSION =
-  "No notification permission received.";
-const NOTIFICATIONS_ERROR_NO_PERMISSION_PROMPT =
-  "Allow this sites notifications in your browser settings.";
-const NOTIFICATIONS_INFO_LINK =
-  "Allow this sites notifications in your browser settings.";
-const NOTIFICATIONS_ERROR_MESSAGING_NOT_STARTED =
-  "Notifications disabled [Error: notification system did not start]";
-const NOTIFICATIONS_ERROR_FIREBASE_NOT_SUPPORTED =
-  "Notifications disabled [Error: Firebase Messaging not supported on your browser]";
-
 const Settings = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const { setParam } = useSearchParams();
 
   const pushNotificationsDisabled = false;
@@ -100,10 +75,10 @@ const Settings = (): React.ReactElement => {
   const classes = useStyles();
 
   return (
-    <GoBackNav title={TITLE}>
+    <GoBackNav title={t(tk.settings.title)}>
       <Container className={classes.root}>
         <Typography variant="subtitle2">
-          {NOTIFICATIONS_SECTION_LABEL}
+          {t(tk.settings.notificationsSection.label)}
         </Typography>
         <div className={classes.notificationSection}>
           <div>
@@ -116,28 +91,28 @@ const Settings = (): React.ReactElement => {
                   name={"enablePushNotifications"}
                 />
               }
-              label={PUSH_NOTIFICATIONS_SWITCH_LABEL}
+              label={t(tk.settings.pushNotificationsSwitch.label) as string}
             />
             <List className={classes.notificationErrorList} disablePadding>
               {pushNotificationsErrorNoToken && (
                 <ListItem disableGutters>
                   <Typography variant={notificationErrorsVariant}>
-                    {NOTIFICATIONS_ERROR_NO_TOKEN}
+                    {t(tk.settings.errorNotifications.noToken)}
                   </Typography>
                 </ListItem>
               )}
               {pushNotificationsErrorNoPermission && (
                 <ListItem disableGutters>
                   <Typography variant={notificationErrorsVariant}>
-                    {NOTIFICATIONS_ERROR_NO_PERMISSION}
+                    {t(tk.settings.errorNotifications.noPermission)}
                   </Typography>
                   <a
                     target={"_blank"}
                     rel="noreferrer"
-                    href={NOTIFICATIONS_INFO_LINK}
+                    href={t(tk.settings.errorNotifications.infoLink)}
                   >
                     <Typography variant={notificationErrorsVariant}>
-                      {NOTIFICATIONS_ERROR_NO_PERMISSION_PROMPT}
+                      {t(tk.settings.errorNotifications.noPermissionPrompt)}
                     </Typography>
                   </a>
                 </ListItem>
@@ -145,14 +120,14 @@ const Settings = (): React.ReactElement => {
               {pushNotificationsErrorNotStarted && (
                 <ListItem disableGutters>
                   <Typography variant={notificationErrorsVariant}>
-                    {NOTIFICATIONS_ERROR_MESSAGING_NOT_STARTED}
+                    {t(tk.settings.errorNotifications.messagingNotStarted)}
                   </Typography>
                 </ListItem>
               )}
               {pushNotificationsErrorFirebaseNotSupported && (
                 <ListItem disableGutters>
                   <Typography variant={notificationErrorsVariant}>
-                    {NOTIFICATIONS_ERROR_FIREBASE_NOT_SUPPORTED}
+                    {t(tk.settings.errorNotifications.firebaseNotSupported)}
                   </Typography>
                 </ListItem>
               )}
@@ -168,7 +143,7 @@ const Settings = (): React.ReactElement => {
                   name={"enableEmailNotifications"}
                 />
               }
-              label={EMAIL_NOTIFICATIONS_SWITCH_LABEL}
+              label={t(tk.settings.emailNotificationsSwitch.label) as string}
             />
           </div>
           <div>
@@ -180,11 +155,11 @@ const Settings = (): React.ReactElement => {
               value={values.phaseDeadline}
               onChange={handleChange}
               name="phaseDeadline"
-              label={PHASE_DEADLINE_REMINDER_INPUT_LABEL}
+              label={t(tk.settings.phaseDeadlineReminder.inputLabel) as string}
               helperText={
                 phaseDeadlineReminderDisabled
-                  ? PHASE_DEADLINE_REMINDER_HELP_TEXT
-                  : PHASE_DEADLINE_REMINDER_NOTIFICATIONS_PROMPT
+                  ? t(tk.settings.phaseDeadlineReminder.helpText)
+                  : t(tk.settings.phaseDeadlineReminder.notificationsPrompt)
               }
               margin="dense"
               // onChange={this.updatePhaseDeadline}
@@ -192,7 +167,9 @@ const Settings = (): React.ReactElement => {
             />
           </div>
         </div>
-        <Typography variant="subtitle2">{MAP_COLORS_SECTION_LABEL}</Typography>
+        <Typography variant="subtitle2">
+          {t(tk.settings.mapColorsSection.label)}
+        </Typography>
         <div>
           <FormControlLabel
             control={
@@ -203,19 +180,21 @@ const Settings = (): React.ReactElement => {
                 name={"enableColorNonSCs"}
               />
             }
-            label={COLOR_NON_SCS_SWITCH_LABEL}
+            label={t(tk.settings.colorNonSCsSwitch.label) as string}
           />
           <div>
-            <Typography variant="caption">{COLOR_NON_SCS_HELP_TEXT}</Typography>
+            <Typography variant="caption">
+              {t(tk.settings.colorNonSCsSwitch.helpText)}
+            </Typography>
           </div>
         </div>
         <Typography variant="subtitle2">
-          {NATION_COLORS_SECTION_LABEL}
+          {t(tk.settings.mapColorsSection.label)}
         </Typography>
         <div>
           <FormControl variant="standard">
             <InputLabel id="variantinputlabel">
-              {VARIANT_SELECT_LABEL}
+              {t(tk.settings.variantSelect.label)}
             </InputLabel>
             <Select labelId="variantinputlabel" value={variantName}>
               {Object.keys(variants).map((variant) => {
@@ -249,7 +228,7 @@ const Settings = (): React.ReactElement => {
         </div>
         <div>
           <Button onClick={onClickResetSettings}>
-            {RESET_SETTINGS_BUTTON_LABEL}
+            {t(tk.settings.resetSettingsButton.label)}
           </Button>
         </div>
       </Container>

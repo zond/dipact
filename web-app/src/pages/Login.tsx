@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
 import { Button, FormControlLabel, Checkbox, Container } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { Typography } from "@mui/material";
 
 import * as helpers from "../helpers";
@@ -9,6 +9,8 @@ import loginBackground from "../static/img/login_background.jpg";
 import logo from "../static/img/logo.svg";
 import googleIcon from "../static/img/google_icon.svg";
 import useRegisterPageView from "../hooks/useRegisterPageview";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,21 +49,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const LOGIN_DESCRIPTION =
-  "A digital version of the classic game of Diplomacy. Sign in to play.";
-const STAY_LOGGED_IN_HELPTEXT = "Stay logged in";
-const LOGIN_BUTTON_LABEL = "Sign in with Google";
-
 const TWENTY_HOURS = 60 * 60 * 20;
 const HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100;
 
 const Login = () => {
+  const { t } = useTranslation("common");
   useRegisterPageView("Login");
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const classes = useStyles();
 
-  const getTokenDuration = () =>
-    stayLoggedIn ? HUNDRED_YEARS : TWENTY_HOURS;
+  const getTokenDuration = () => (stayLoggedIn ? HUNDRED_YEARS : TWENTY_HOURS);
 
   const onChangeStayLoggedIn = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStayLoggedIn(e.target.checked);
@@ -79,7 +76,7 @@ const Login = () => {
             <img alt="Diplicity logo" src={logo} />
           </div>
           <div>
-            <Typography>{LOGIN_DESCRIPTION}</Typography>
+            <Typography>{t(tk.login.description)}</Typography>
           </div>
           <div className={classes.buttonContainer}>
             <Button
@@ -91,7 +88,7 @@ const Login = () => {
                 </i>
               }
             >
-              <Typography>{LOGIN_BUTTON_LABEL}</Typography>
+              <Typography>{t(tk.login.loginButton.label)}</Typography>
             </Button>
             {!window.Wrapper && (
               <FormControlLabel
@@ -106,7 +103,7 @@ const Login = () => {
                     onChange={onChangeStayLoggedIn}
                   />
                 }
-                label={STAY_LOGGED_IN_HELPTEXT}
+                label={t(tk.login.stayLoggedInCheckBox.label) as string}
               />
             )}
           </div>

@@ -361,24 +361,24 @@ describe("Orders functional tests", () => {
     await waitFor(() => expect(checkbox).not.toBeDisabled());
   });
 
-  test("Clicking accept draw creates request", async () => {
-    render(<WrappedOrders path={ordersUrl} />);
-    await userSeesLoadingSpinner();
-    await userSeesPhaseSelector();
+  // test("Clicking accept draw creates request", async () => {
+  //   render(<WrappedOrders path={ordersUrl} />);
+  //   await userSeesLoadingSpinner();
+  //   await userSeesPhaseSelector();
 
-    fetchSpy.mockReset();
+  //   fetchSpy.mockReset();
 
-    const checkbox = await getAcceptDrawCheckbox();
-    fireEvent.click(checkbox);
-    expect(checkbox).toHaveAttribute("disabled");
-    await waitFor(() => expect(checkbox).not.toBeDisabled());
+  //   const checkbox = await getAcceptDrawCheckbox();
+  //   fireEvent.click(checkbox);
+  //   expect(checkbox).toHaveAttribute("disabled");
+  //   await waitFor(() => expect(checkbox).not.toBeDisabled());
 
-    const [call] = fetchSpy.mock.calls.map((call) => call[0] as Request);
-    expect(call.url).toBe(
-      `${diplicityServiceURL}Game/${gameId}/Phase/${phaseId}/PhaseState`
-    );
-    expect(call.method).toBe("PUT");
-  });
+  //   const [call] = fetchSpy.mock.calls.map((call) => call[0] as Request);
+  //   expect(call.url).toBe(
+  //     `${diplicityServiceURL}Game/${gameId}/Phase/${phaseId}/PhaseState`
+  //   );
+  //   expect(call.method).toBe("PUT");
+  // });
 
   // test("Clicking accept draw fetches updated state", async () => {
   //   render(<WrappedOrders path={ordersUrl} />);

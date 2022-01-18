@@ -18,7 +18,9 @@ const server = setupServer(
   handlers.listChannels.success,
   handlers.getUser.success,
   handlers.listPhases.success,
-  handlers.listPhaseStates.success
+  handlers.listPhaseStates.success,
+  handlers.getVariantSVG.success,
+  handlers.getVariantUnitSVG.success,
 );
 
 beforeAll((): void => {
