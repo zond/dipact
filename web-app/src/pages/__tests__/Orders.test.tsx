@@ -32,6 +32,7 @@ import {
 } from "../../mockService/data/listPhaseStates";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import theme from "../../theme";
+import tk from "../../translations/translateKeys";
 
 const server = setupServer(
   handlers.variants.successShort,
@@ -96,18 +97,18 @@ const getSummaryForNation = (nation: string) => {
 };
 
 const getAcceptDrawButton = () => {
-  const button = screen.getByText("Accept draw");
+  const button = screen.getByText(tk.orders.toggleDiasButton.label);
   return button;
 };
 
 const getNextPhaseButton = () => screen.getByTitle("show next phase");
 
-const getAcceptDrawCheckbox = () => screen.getByLabelText("Accept draw");
+const getAcceptDrawCheckbox = () => screen.getByLabelText(tk.orders.toggleDiasButton.label);
 
 const userSeesAcceptDrawButton = () => getAcceptDrawButton();
 
-const getConfirmOrdersButton = () => screen.getByText("Confirm orders");
-const getConfirmOrdersCheckbox = () => screen.getByLabelText("Confirm orders");
+const getConfirmOrdersButton = () => screen.getByText(tk.orders.confirmOrdersButton.label);
+const getConfirmOrdersCheckbox = () => screen.getByLabelText(tk.orders.confirmOrdersButton.label);
 const userSeesConfirmOrdersButton = () => getConfirmOrdersButton();
 
 const supplyCentersMap = {
@@ -197,7 +198,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
     const summary = getSummaryForNation("Austria");
-    getByText(summary, "1 supply center", { exact: false });
+    getByText(summary, tk.orders.supplyCenterCount.singular, { exact: false });
   });
 
   test("Supply centers pluralized when multiple", async () => {
@@ -218,7 +219,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
     const summary = getSummaryForNation("Austria");
-    getByText(summary, "2 supply centers", { exact: false });
+    getByText(summary, tk.orders.supplyCenterCount.plural, { exact: false });
   });
 
   test("Nation status includes num supply centers to win for user", async () => {
@@ -251,7 +252,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
     const summary = getSummaryForNation("Austria");
-    getByText(summary, "0 builds", { exact: false });
+    getByText(summary, tk.orders.buildCount.plural, { exact: false });
   });
 
   test("Nation status shows num builds when builds", async () => {
@@ -276,7 +277,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
     const summary = getSummaryForNation("Austria");
-    getByText(summary, "1 build", { exact: false });
+    getByText(summary, tk.orders.buildCount.singular, { exact: false });
   });
 
   test("Nation status shows num disbands when disbands", async () => {
@@ -301,7 +302,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
     const summary = getSummaryForNation("Austria");
-    getByText(summary, "1 disband", { exact: false });
+    getByText(summary, tk.orders.disbandCount.singular, { exact: false });
   });
 
   test("Shows (You) beside player's nation", async () => {
@@ -479,7 +480,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
 
-    screen.getByText("When you're ready for the next turn");
+    screen.getByText(tk.orders.confirmOrdersButton.prompt);
   });
 
   test("Message appears if no orders to give", async () => {
@@ -501,7 +502,7 @@ describe("Orders functional tests", () => {
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
 
-    screen.getByText("You have no orders to give this turn");
+    screen.getByText(tk.orders.confirmOrdersButton.noOrders);
   });
 
   test("Shows turn navigator", async () => {

@@ -10,6 +10,8 @@ import useOrders from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
+import tk from "../translations/translateKeys";
+import { useTranslation } from "react-i18next";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -71,12 +73,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TOGGLE_DIAS_LABEL = "Accept draw";
-const CONFIRM_ORDERS_LABEL = "Confirm orders";
-const NO_ORDERS_LABEL = "You have no orders to give this turn";
-const CONFIRM_ORDERS_PROMPT = "When you're ready for the next turn";
-
 const Orders = () => {
+  const { t } = useTranslation("common");
   useRegisterPageView("Orders");
   // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();
@@ -112,7 +110,7 @@ const Orders = () => {
                     onClick={toggleAcceptDraw}
                   >
                     <FormControlLabel
-                      label={TOGGLE_DIAS_LABEL}
+                      label={t(tk.orders.toggleDiasButton.label) as string}
                       control={
                         <Checkbox
                           checked={nationStatus.wantsDraw}
@@ -150,7 +148,7 @@ const Orders = () => {
             className={classes.confirmOrdersButton}
           >
             <FormControlLabel
-              label={CONFIRM_ORDERS_LABEL}
+              label={t(tk.orders.confirmOrdersButton.label) as string}
               control={
                 <Checkbox
                   disabled={noOrders}
@@ -161,7 +159,11 @@ const Orders = () => {
             />
           </Button>
           <Typography variant="caption">
-            {noOrders ? NO_ORDERS_LABEL : CONFIRM_ORDERS_PROMPT}
+            {t(
+              noOrders
+                ? tk.orders.confirmOrdersButton.noOrders
+                : tk.orders.confirmOrdersButton.prompt
+            )}
           </Typography>
         </div>
       )}

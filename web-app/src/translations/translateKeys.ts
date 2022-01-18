@@ -151,6 +151,31 @@ const translateKeys = {
       plural: "durations.day.plural",
     },
   },
+  orders: {
+    confirmedIconTooltip: "orders.confirmed-icon-tooltip",
+    noOrdersGivenIconTooltip: "orders.no-orders-given-icon-tooltip",
+    wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
+    supplyCenterCount: {
+      singular: "orders.supply-center-count.singular",
+      plural: "orders.supply-center-count.plural;",
+    },
+    buildCount: {
+      singular: "orders.build-count.singular",
+      plural: "orders.build-count.plural",
+    },
+    disbandCount: {
+      singular: "orders.disband-count.singular",
+      plural: "orders.disband-count.plural",
+    },
+    toggleDiasButton: {
+      label: "orders.toggle-dias-button.label",
+    },
+    confirmOrdersButton: {
+      label: "orders.confirm-orders-button.label",
+      noOrders: "orders.confirm-orders-button.no-orders",
+      prompt: "orders.confirm-orders-button.prompt",
+    },
+  },
   login: {
     description: "login.description",
     stayLoggedInCheckBox: {
