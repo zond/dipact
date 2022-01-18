@@ -123,6 +123,10 @@ const translateKeys = {
       label: "create-game.submit-button.label",
     },
   },
+  chatMenu: {
+    title: "chat-menu.title",
+    noChannelsMessage: "chat-menu.no-channels-message",
+  },
   nationAllocationOptions: {
     random: "nation-allocation-options.random",
     preference: "nation-allocation-options.preference",

@@ -120,6 +120,10 @@
             "label": "Create game"
         }
     },
+    "chat-menu": {
+        "title": "Chat",
+        "no-channels-message": "No channels have been created"
+    },
     "nation-allocation-options": {
         "random": "Random",
         "preference": "Preference"
@@ -145,8 +149,8 @@
         },
         "confirm-orders-button": {
             "label": "Accept draw",
-            "no-orders" : "You have no orders to give this turn",
-            "prompt" : "When you're ready for the next turn"
+            "no-orders": "You have no orders to give this turn",
+            "prompt": "When you're ready for the next turn"
         }
     },
     "nation-preferences": {
