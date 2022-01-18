@@ -99,24 +99,21 @@
             "help-text": "Find players that are challenging"
         },
         "min-rating-input": {
-            "label": "Minimum rating"
+            "label": "Minimum rating",
+            "help-text": "Removes the least challenging {{ percentage }}% of players",
+            "error-message": {
+                "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
+            }
         },
         "max-rating-enabled-checkbox": {
             "label": "Maximum rating",
             "help-text": "Find players that aren't too challenging"
         },
         "max-rating-input": {
-            "label": "Maximum rating"
-        },
-
-        "max-rating-input": {
+            "label": "Maximum rating",
+            "help-text": "Removes the most challenging {{ percentage }}% of players",
             "error-message": {
                 "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
-            }
-        },
-        "min-rating-input": {
-            "error-message": {
-                "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
             }
         },
         "submit-button": {

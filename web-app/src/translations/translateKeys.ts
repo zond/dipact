@@ -8,20 +8,20 @@ const translateKeys = {
       title: "create-game.randomize-name-button.title",
     },
     gameMasterCheckbox: {
-      label: "create-game.private-checkbox.label",
+      label: "create-game.game-master-checkbox.label",
       helpText: {
-        default: "create-game.private-checkbox.help-text.default",
-        disabled: "create-game.private-checkbox.help-text.disabled",
+        default: "create-game.game-master-checkbox.help-text.default",
+        disabled: "create-game.game-master-checkbox.help-text.disabled",
       },
     },
     privateCheckbox: {
-      label: "create-game.game-master-checkbox.label",
+      label: "create-game.private-checkbox.label",
     },
     variantSelect: {
       label: "create-game.variant-select.label",
       optionLabel: "create-game.variant-select.option-label",
     },
-    variantDescription : {
+    variantDescription: {
       startYearLabel: "create-game.variant-description.start-year-label",
       authorLabel: "create-game.variant-description.author-label",
       rulesLabel: "create-game.variant-description.rules-label",
@@ -29,7 +29,7 @@ const translateKeys = {
     nationAllocationSection: {
       label: "create-game.nation-allocation-section.label",
     },
-    gameLengthSection: { 
+    gameLengthSection: {
       label: "create-game.game-length-section.label",
     },
     phaseLengthMultiplierInput: {
@@ -60,7 +60,7 @@ const translateKeys = {
     allowChatsSwitch: {
       label: "create-game.allow-chats-switch.label",
     },
-    conferenceChatCheckbox: { 
+    conferenceChatCheckbox: {
       label: "create-game.conference-chat-checkbox.label",
     },
     groupChatCheckbox: {
@@ -78,40 +78,44 @@ const translateKeys = {
       defaultOption: "create-game.chat-language-select.default-option",
     },
     requirementsSection: {
-      label: "create-game.requirements-section.label"
+      label: "create-game.requirements-section.label",
     },
     reliabilityEnabledCheckbox: {
       label: "create-game.reliability-enabled-checkbox.label",
-      helpText: "create-game.reliability-enabled-checkbox.help-text"
+      helpText: "create-game.reliability-enabled-checkbox.help-text",
     },
     minReliabilityInput: {
-      label: "create-game.min-reliability-input.label"
+      label: "create-game.min-reliability-input.label",
     },
     quicknessEnabledCheckbox: {
       label: "create-game.quickness-enabled-checkbox.label",
-      helpText: "create-game.quickness-enabled-checkbox.help-text"
+      helpText: "create-game.quickness-enabled-checkbox.help-text",
     },
     minQuicknessInput: {
-      label: "create-game.min-quickness-input.label"
-    },  
+      label: "create-game.min-quickness-input.label",
+    },
     minRatingEnabledCheckbox: {
       label: "create-game.min-rating-enabled-checkbox.label",
-      helpText: "create-game.min-rating-enabled-checkbox.help-text"
+      helpText: "create-game.min-rating-enabled-checkbox.help-text",
     },
     minRatingInput: {
-      label: "create-game.min-rating-input.label"
+      label: "create-game.min-rating-input.label",
+      helpText: "create-game.min-rating-input.help-text",
+      errorMessage: {
+        moreThanUserRating:
+          "create-game.min-rating-input.error-message.more-than-user-rating",
+      },
     },
     maxRatingEnabledCheckbox: {
       label: "create-game.max-rating-enabled-checkbox.label",
-      helpText: "create-game.max-rating-enabled-checkbox.help-text"
+      helpText: "create-game.max-rating-enabled-checkbox.help-text",
     },
     maxRatingInput: {
       label: "create-game.max-rating-input.label",
+      helpText: "create-game.max-rating-input.help-text",
       errorMessage: {
         lessThanUserRating:
           "create-game.max-rating-input.error-message.less-than-user-rating",
-        moreThanUserRating:
-          "create-game.max-rating-input.error-message.more-than-user-rating",
       },
     },
 

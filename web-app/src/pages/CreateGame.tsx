@@ -84,21 +84,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-// TODO formatting and error message on too much minRating
-const MIN_RATING_INPUT_HELP_TEXT =
-  "Removes the least challenging 0% of active playrers";
-
-const MAX_RATING_ENABLED_CHECKBOX_LABEL = "Maximum rating";
-const MAX_RATING_ENABLED_CHECKBOX_HELP_TEXT =
-  "Find players that aren't challenging";
-const MAX_RATING_INPUT_LABEL = "Maximum rating";
-// TODO formatting and error message on too much
-const MAX_RATING_INPUT_HELP_TEXT =
-  "Removes the most challenging 0% of active players";
-
-
 const CreateGame = (): React.ReactElement => {
   const { t } = useTranslation("common");
   const {
@@ -121,6 +106,10 @@ const CreateGame = (): React.ReactElement => {
   const singularAdjustmentPhaseLength =
     values.adjustmentPhaseLengthMultiplier === 1;
   const minEndAfterYearsValue = (selectedVariant?.Start?.Year || 0) + 1;
+
+  // TODO do properly
+  const maxPercentage = 10;
+  const minPercentage = 10;
 
   return (
     <GoBackNav title={t(tk.createGame.title)}>
@@ -309,7 +298,7 @@ const CreateGame = (): React.ReactElement => {
                 </InputLabel>
                 <Select
                   name="phaseLengthUnit"
-									labelId="phase-length-unit-input-label"
+                  labelId="phase-length-unit-input-label"
                   value={values.phaseLengthUnit}
                   onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
                   variant="standard"
@@ -340,7 +329,11 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.customAdjustmentPhaseLengthCheckbox.label) as string}
+                  label={
+                    t(
+                      tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+                    ) as string
+                  }
                 />
               </div>
               {/* TODO componentize */}
@@ -348,7 +341,9 @@ const CreateGame = (): React.ReactElement => {
                 <Box display="flex">
                   <TextField
                     name="adjustmentPhaseLengthMultiplier"
-                    label={t(tk.createGame.adjustmentPhaseLengthMultiplierInput.label)}
+                    label={t(
+                      tk.createGame.adjustmentPhaseLengthMultiplierInput.label
+                    )}
                     type="number"
                     inputProps={{ min: 1 }}
                     value={values.adjustmentPhaseLengthMultiplier}
@@ -388,10 +383,14 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.skipGetReadyPhaseCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.skipGetReadyPhaseCheckbox.label) as string
+                  }
                 />
               </div>
-              <FormHelperText>{t(tk.createGame.skipGetReadyPhaseCheckbox.helpText)}</FormHelperText>
+              <FormHelperText>
+                {t(tk.createGame.skipGetReadyPhaseCheckbox.helpText)}
+              </FormHelperText>
               <div>
                 <FormControlLabel
                   control={
@@ -417,8 +416,12 @@ const CreateGame = (): React.ReactElement => {
               )}
             </section>
             <section>
-              <Typography variant="caption">{t(tk.createGame.chatSection.label)}</Typography>
-              <Typography variant="caption">{t(tk.createGame.allowChatsSwitch.label)}</Typography>
+              <Typography variant="caption">
+                {t(tk.createGame.chatSection.label)}
+              </Typography>
+              <Typography variant="caption">
+                {t(tk.createGame.allowChatsSwitch.label)}
+              </Typography>
               <FormGroup>
                 <FormControlLabel
                   control={
@@ -428,7 +431,9 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.conferenceChatCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.conferenceChatCheckbox.label) as string
+                  }
                 />
                 <FormControlLabel
                   control={
@@ -448,7 +453,9 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.individualChatCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.individualChatCheckbox.label) as string
+                  }
                 />
                 <FormControlLabel
                   control={
@@ -491,7 +498,7 @@ const CreateGame = (): React.ReactElement => {
             </section>
             <section>
               <Typography variant="caption">
-               {t(tk.createGame.requirementsSection.label)}
+                {t(tk.createGame.requirementsSection.label)}
               </Typography>
               <div>
                 <FormControlLabel
@@ -502,7 +509,9 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.reliabilityEnabledCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.reliabilityEnabledCheckbox.label) as string
+                  }
                 />
                 <FormHelperText>
                   {t(tk.createGame.reliabilityEnabledCheckbox.helpText)}
@@ -528,7 +537,9 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.quicknessEnabledCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.quicknessEnabledCheckbox.label) as string
+                  }
                 />
                 <FormHelperText>
                   {t(tk.createGame.quicknessEnabledCheckbox.helpText)}
@@ -554,7 +565,9 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.minRatingEnabledCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.minRatingEnabledCheckbox.label) as string
+                  }
                 />
                 <FormHelperText>
                   {t(tk.createGame.minRatingEnabledCheckbox.helpText)}
@@ -580,7 +593,9 @@ const CreateGame = (): React.ReactElement => {
                       </FormHelperText>
                     ) : null}
                     <FormHelperText>
-                      {t(tk.createGame.minRatingEnabledCheckbox.helpText)}
+                      {t(tk.createGame.minRatingInput.helpText, {
+                        percentage: minPercentage,
+                      })}
                     </FormHelperText>
                   </>
                 )}
@@ -594,7 +609,9 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                     />
                   }
-                  label={t(tk.createGame.maxRatingEnabledCheckbox.label) as string}
+                  label={
+                    t(tk.createGame.maxRatingEnabledCheckbox.label) as string
+                  }
                 />
                 <FormHelperText>
                   {/* TODO errors should disable create button */}
@@ -621,7 +638,9 @@ const CreateGame = (): React.ReactElement => {
                       </FormHelperText>
                     ) : null}
                     <FormHelperText>
-                      {MAX_RATING_INPUT_HELP_TEXT}
+                      {t(tk.createGame.maxRatingInput.helpText, {
+                        percentage: maxPercentage,
+                      })}
                     </FormHelperText>
                   </>
                 )}
