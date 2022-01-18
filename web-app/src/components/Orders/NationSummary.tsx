@@ -9,6 +9,7 @@ import {
 } from "../../icons";
 import NationAvatar from "../NationAvatar";
 import tk from "../../translations/translateKeys";
+import { useTranslation } from "react-i18next";
 
 export interface Nation {
   abbreviation: string;
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const NationSummary = ({
   nationStatus,
 }: NationSummaryProps): React.ReactElement => {
+  const { t } = useTranslation("common");
   const {
     confirmedOrders,
     nation,
@@ -59,16 +61,20 @@ const NationSummary = ({
   } = nationStatus;
   const classes = useStyles();
 
-  const supplyCentersLabel =
+  const supplyCenterCountLabel =
     numSupplyCenters !== 1
-      ? tk.orders.supplyCenter.plural
-      : tk.orders.supplyCenter.singular;
+      ? tk.orders.supplyCenterCount.plural
+      : tk.orders.supplyCenterCount.singular;
 
-  const buildLabel =
-    numBuilds !== 1 ? tk.orders.build.plural : tk.orders.build.singular;
+  const buildCountLabel =
+    numBuilds !== 1
+      ? tk.orders.buildCount.plural
+      : tk.orders.buildCount.singular;
 
-  const disbandLabel =
-    numDisbands !== 1 ? tk.orders.disband.plural : tk.orders.disband.singular;
+  const disbandCountLabel =
+    numDisbands !== 1
+      ? tk.orders.disbandCount.plural
+      : tk.orders.disbandCount.singular;
 
   const supplyCentersToWinLabel = `${numSupplyCentersToWin} to win`;
 
@@ -88,36 +94,36 @@ const NationSummary = ({
         <div>
           <Typography variant="body1">{nationLabel}</Typography>
           <Typography variant="body2">
-            {numSupplyCenters} {supplyCentersLabel}
+            {t(supplyCenterCountLabel, { count: numSupplyCenters })}
           </Typography>
           {nation.isUser && (
             <Typography variant="body2">({supplyCentersToWinLabel})</Typography>
           )}
           {typeof numBuilds === "number" && (
             <Typography variant="body2">
-              {numBuilds} {buildLabel}
+              {t(buildCountLabel, { count: numBuilds })}
             </Typography>
           )}
           {typeof numDisbands === "number" && (
             <Typography variant="body2">
-              {numDisbands} {disbandLabel}
+              {t(disbandCountLabel, { count: numDisbands })}
             </Typography>
           )}
         </div>
       </div>
       <div className={classes.nationStatus}>
         {confirmedOrders && (
-          <Tooltip title={tk.orders.confirmedIconTooltip}>
+          <Tooltip title={t(tk.orders.confirmedIconTooltip) as string}>
             <OrdersConfirmedIcon />
           </Tooltip>
         )}
         {wantsDraw && (
-          <Tooltip title={tk.orders.wantsDrawIconTooltip}>
+          <Tooltip title={t(tk.orders.wantsDrawIconTooltip) as string}>
             <WantsDrawIcon />
           </Tooltip>
         )}
         {noOrdersGiven && (
-          <Tooltip title={tk.orders.noOrdersGivenIconTooltip}>
+          <Tooltip title={t(tk.orders.noOrdersGivenIconTooltip) as string}>
             <NoOrdersGivenIcon />
           </Tooltip>
         )}

@@ -15,6 +15,11 @@ ReactGA.initialize("foo", { testMode: true });
 
 require("jest-fetch-mock").enableMocks();
 
+// Mock react-i18next for all tests
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({t: (key) => key})
+}));
+
 failOnConsole({
   shouldFailOnWarn: true,
 });

@@ -39,10 +39,6 @@ jest.mock("../../helpers", () => ({
   randomGameName: () => randomGameName,
 }));
 
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({t: (key: string) => key})
-}));
-
 beforeAll((): void => {
   server.listen();
 });

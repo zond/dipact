@@ -155,17 +155,17 @@ const translateKeys = {
     confirmedIconTooltip: "orders.confirmed-icon-tooltip",
     noOrdersGivenIconTooltip: "orders.no-orders-given-icon-tooltip",
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
-    supplyCenter: {
-      singular: "orders.supply-center.singular",
-      plural: "orders.supply-center.plural;",
+    supplyCenterCount: {
+      singular: "orders.supply-center-count.singular",
+      plural: "orders.supply-center-count.plural;",
     },
-    build: {
-      singular: "orders.build.singular",
-      plural: "orders.build.plural",
+    buildCount: {
+      singular: "orders.build-count.singular",
+      plural: "orders.build-count.plural",
     },
-    disband: {
-      singular: "orders.disband.singular",
-      plural: "orders.disband.plural",
+    disbandCount: {
+      singular: "orders.disband-count.singular",
+      plural: "orders.disband-count.plural",
     },
     toggleDiasButton: {
       label: "orders.toggle-dias-button.label",

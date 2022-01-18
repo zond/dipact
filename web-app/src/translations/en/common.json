@@ -125,20 +125,20 @@
         "preference": "Preference"
     },
     "orders": {
-        "orders.confirmed-icon-tooltip": "Confirmed their orders",
-        "orders.no-orders-given-icon-tooltip": "Did not send orders",
-        "orders.wants-draw-icon-tooltip": "Wants a draw",
-        "supply-center": {
-            "orders.supply-center.singular": "supply center",
-            "orders.supply-center.plural": "supply centers"
+        "confirmed-icon-tooltip": "Confirmed their orders",
+        "no-orders-given-icon-tooltip": "Did not send orders",
+        "wants-draw-icon-tooltip": "Wants a draw",
+        "supply-center-count": {
+            "singular": "{{ count }} supply center",
+            "plural": "{{ count }} supply centers"
         },
-        "build": {
-            "orders.build.singular": "build",
-            "orders.build.plural": "builds"
+        "build-count": {
+            "singular": "{{ count }} build",
+            "plural": "{{ count }} builds"
         },
-        "disband": {
-            "orders.disband.singular": "disband",
-            "orders.disband.plural": "disbands"
+        "disband-count": {
+            "singular": "{{ count }} disband",
+            "plural": "{{ count }} disbands"
         },
         "toggle-dias-button": {
             "label": "Accept draw"

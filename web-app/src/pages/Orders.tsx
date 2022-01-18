@@ -11,6 +11,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
 import tk from "../translations/translateKeys";
+import { useTranslation } from "react-i18next";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -73,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Orders = () => {
+  const { t } = useTranslation("common");
   useRegisterPageView("Orders");
   // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();
@@ -108,7 +110,7 @@ const Orders = () => {
                     onClick={toggleAcceptDraw}
                   >
                     <FormControlLabel
-                      label={tk.orders.toggleDiasButton.label}
+                      label={t(tk.orders.toggleDiasButton.label) as string}
                       control={
                         <Checkbox
                           checked={nationStatus.wantsDraw}
@@ -146,7 +148,7 @@ const Orders = () => {
             className={classes.confirmOrdersButton}
           >
             <FormControlLabel
-              label={tk.orders.confirmOrdersButton.label}
+              label={t(tk.orders.confirmOrdersButton.label) as string}
               control={
                 <Checkbox
                   disabled={noOrders}
@@ -157,9 +159,11 @@ const Orders = () => {
             />
           </Button>
           <Typography variant="caption">
-            {noOrders
-              ? tk.orders.confirmOrdersButton.noOrders
-              : tk.orders.confirmOrdersButton.prompt}
+            {t(
+              noOrders
+                ? tk.orders.confirmOrdersButton.noOrders
+                : tk.orders.confirmOrdersButton.prompt
+            )}
           </Typography>
         </div>
       )}
