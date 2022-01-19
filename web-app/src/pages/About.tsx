@@ -1,13 +1,17 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import GoBackNav from "../components/GoBackNav";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 const TITLE = "About";
 
 export default class About extends React.Component {
+    const { t } = useTranslation("common");
+
   render() {
     return (
-      <GoBackNav title={TITLE}>
+      <GoBackNav title={t(tk.about.title)}>
         <div
           id="scroller"
           style={{

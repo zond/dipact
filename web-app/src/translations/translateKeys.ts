@@ -123,6 +123,9 @@ const translateKeys = {
       label: "create-game.submit-button.label",
     },
   },
+  about : { 
+    title: "about.title",
+  },
   nationAllocationOptions: {
     random: "nation-allocation-options.random",
     preference: "nation-allocation-options.preference",

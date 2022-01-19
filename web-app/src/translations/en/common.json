@@ -120,6 +120,9 @@
             "label": "Create game"
         }
     },
+    "about" : {
+        "title" : "Title"
+    },
     "nation-allocation-options": {
         "random": "Random",
         "preference": "Preference"
