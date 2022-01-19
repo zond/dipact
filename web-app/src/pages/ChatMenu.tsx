@@ -15,6 +15,8 @@ import Loading from "../components/Loading";
 import { RouteConfig } from "./RouteConfig";
 import * as helpers from "../helpers";
 import ErrorMessage from "../components/ErrorMessage";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 interface ChatMenuUrlParams {
   gameId: string;
@@ -49,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CHAT_MENU_TITLE = "Chat";
-export const NO_CHANNELS_MESSAGE = "No channels have been created";
-
 const useSearchParam = (
   paramName: string
 ): [value: boolean, setParam: () => void, removeParam: () => void] => {
@@ -75,6 +74,7 @@ const useSearchParam = (
 };
 
 const ChatMenu = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const { gameId } = useParams<ChatMenuUrlParams>();
   const {
     channels,
@@ -119,7 +119,7 @@ const ChatMenu = (): React.ReactElement => {
           {channels.length ? (
             <>
               <Typography className={classes.title}>
-                {CHAT_MENU_TITLE}
+                {t(tk.chatMenu.title)}
               </Typography>
               {channels.map((channel) => {
                 const channelPath = getChannelPath(channel.id);
@@ -140,12 +140,12 @@ const ChatMenu = (): React.ReactElement => {
               })}
             </>
           ) : (
-            <Typography>{NO_CHANNELS_MESSAGE}</Typography>
+            <Typography>{t(tk.chatMenu.noChannelsMessage)}</Typography>
           )}
           {userNation && (
             <div className={classes.buttonContainer}>
               <Fab
-                title="Create channel"
+                title={t(tk.chatMenu.createChannelButton.title)}
                 className={classes.createNewMessageButton}
                 color="secondary"
                 aria-label="edit"
