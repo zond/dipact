@@ -120,6 +120,12 @@
       "label": "Create game"
     }
   },
+  "reschedule-dialog" : {
+    "title" : "Reschedule next deadline",
+    "input-label" : "New next deadline in minutes",
+    "reschedule-button" : "Reschedule",
+    "cancel-button" : "Cancel"
+  },
   "chat-menu": {
     "title": "Chat",
     "no-channels-message": "No channels have been created",

@@ -123,6 +123,12 @@ const translateKeys = {
       label: "create-game.submit-button.label",
     },
   },
+  rescheduleDialog: { 
+    title: "reschedule-dialog.title",
+    inputLabel: "reschedule-dialog.input-label",
+    rescheduleButton: "reschedule-dialog.reschedule-button",
+    cancelButton: "reschedule-dialog.cancel-button"
+  },
   chatMenu: {
     title: "chat-menu.title",
     noChannelsMessage: "chat-menu.no-channels-message",
