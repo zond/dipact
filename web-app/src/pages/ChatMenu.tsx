@@ -145,7 +145,7 @@ const ChatMenu = (): React.ReactElement => {
           {userNation && (
             <div className={classes.buttonContainer}>
               <Fab
-                title="Create channel"
+                title={t(tk.chatMenu.createChannelButton.title)}
                 className={classes.createNewMessageButton}
                 color="secondary"
                 aria-label="edit"

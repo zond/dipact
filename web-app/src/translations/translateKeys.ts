@@ -126,6 +126,9 @@ const translateKeys = {
   chatMenu: {
     title: "chat-menu.title",
     noChannelsMessage: "chat-menu.no-channels-message",
+    createChannelButton: {
+      title: "chat-menu.create-channel-button.title",
+    },
   },
   nationAllocationOptions: {
     random: "nation-allocation-options.random",
