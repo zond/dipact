@@ -123,6 +123,10 @@ const translateKeys = {
       label: "create-game.submit-button.label",
     },
   },
+  phaseSelector: { 
+      previousButton: "phase-selector.previous-button",
+      nextButton: "phase-selector.next-button",
+  },
   chatMenu: {
     title: "chat-menu.title",
     noChannelsMessage: "chat-menu.no-channels-message",

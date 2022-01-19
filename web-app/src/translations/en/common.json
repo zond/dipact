@@ -120,6 +120,10 @@
       "label": "Create game"
     }
   },
+  "phase-selector": { 
+    "previous-button" : "Show previous phase",
+    "next-button" : "Show next phase"
+  },
   "chat-menu": {
     "title": "Chat",
     "no-channels-message": "No channels have been created",

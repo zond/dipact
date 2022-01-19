@@ -11,6 +11,8 @@ import makeStyles from "@mui/styles/makeStyles";
 import { NextIcon, PreviousIcon } from "../icons";
 import usePhaseSelector from "../hooks/usePhaseSelector";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 interface PhaseSelectorUrlParams {
   gameId: string;
@@ -27,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PhaseSelector = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const classes = useStyles();
   const { gameId } = useParams<PhaseSelectorUrlParams>();
   const {
@@ -50,7 +53,7 @@ const PhaseSelector = (): React.ReactElement => {
       <IconButton
         onClick={setPreviousPhase}
         disabled={selectedPhase === 1}
-        title="show previous phase"
+        title={t(tk.phaseSelector.previousButton)}
         size="large"
       >
         <PreviousIcon />
@@ -65,7 +68,7 @@ const PhaseSelector = (): React.ReactElement => {
       <IconButton
         onClick={setNextPhase}
         disabled={selectedPhase === phases.length}
-        title="show next phase"
+        title={t(tk.phaseSelector.nextButton)}
         size="large"
       >
         <NextIcon />
