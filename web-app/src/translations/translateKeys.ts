@@ -123,6 +123,12 @@ const translateKeys = {
       label: "create-game.submit-button.label",
     },
   },
+  resetSettingsDialog : {
+    title: "reset-settings-dialog.title",
+    prompt: "reset-settings-dialog.prompt",
+    resetButton: "reset-settings-dialog.reset-button",
+    cancelButton: "reset-settings-dialog.cancel-button"
+  },
   chatMenu: {
     title: "chat-menu.title",
     noChannelsMessage: "chat-menu.no-channels-message",

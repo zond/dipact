@@ -120,6 +120,12 @@
       "label": "Create game"
     }
   },
+  "reset-settings-dialog" : {
+    "title" : "Reset settings",
+    "prompt" : "Are you sure you want to reset settings? This will restore all settings to the default values.",
+    "reset-button" : "Reset settings",
+    "cancel-button" : "Cancel"
+  },
   "chat-menu": {
     "title": "Chat",
     "no-channels-message": "No channels have been created",
