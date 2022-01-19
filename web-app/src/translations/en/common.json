@@ -120,6 +120,12 @@
       "label": "Create game"
     }
   },
+  "rename-game-dialog": {
+    "title" : "Rename game",
+    "input-label" : "New name",
+    "renameButton" : "Rename",
+    "cancelButton" : "Cancel"
+  },
   "chat-menu": {
     "title": "Chat",
     "no-channels-message": "No channels have been created",
