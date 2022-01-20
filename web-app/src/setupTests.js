@@ -6,6 +6,8 @@ import { setGlobalConfig } from "@storybook/testing-react";
 import failOnConsole from "jest-fail-on-console";
 import * as globalStorybookConfig from "../.storybook/preview";
 
+process.env.TZ = "UTC";
+
 setGlobalConfig(globalStorybookConfig);
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -16,8 +18,8 @@ ReactGA.initialize("foo", { testMode: true });
 require("jest-fetch-mock").enableMocks();
 
 // Mock react-i18next for all tests
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({t: (key) => key})
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (key) => key }),
 }));
 
 failOnConsole({

@@ -59,6 +59,7 @@
     "@typescript-eslint/parser": "^4.28.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-loader": "8.1.0",
+    "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
@@ -73,8 +74,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test-ci": "react-scripts test --watchAll=false",
+    "test": "cross-env TZ=UTC && react-scripts test --env=jsdom",
+    "test-ci": "cross-env TZ=UTC && react-scripts test --watchAll=false --env=jsdom",
     "test-coverage": "react-scripts test --watchAll=false --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
