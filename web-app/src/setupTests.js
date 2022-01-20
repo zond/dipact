@@ -6,8 +6,6 @@ import { setGlobalConfig } from "@storybook/testing-react";
 import failOnConsole from "jest-fail-on-console";
 import * as globalStorybookConfig from "../.storybook/preview";
 
-process.env.TZ = "UTC";
-
 setGlobalConfig(globalStorybookConfig);
 
 Enzyme.configure({ adapter: new Adapter() });

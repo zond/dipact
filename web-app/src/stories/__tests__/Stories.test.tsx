@@ -5,6 +5,9 @@ import React from "react";
 
 import * as chatMessageStories from "../ChatMessage.stories";
 import { createSerializer } from "@emotion/jest";
+import timezoneMock from "timezone-mock";
+
+timezoneMock.register("US/Pacific");
 
 expect.addSnapshotSerializer(createSerializer());
 
