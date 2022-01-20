@@ -497,7 +497,7 @@ exports[`Storyshots components/ChatMessage Dark Color 1`] = `
   <span
     className="MuiTypography-root MuiTypography-caption makeStyles-status-4 message-status emotion-2"
   >
-    04:32:12 31/7/2021
+    undefined 31/7/2021
   </span>
 </div>
 `;
@@ -546,7 +546,7 @@ exports[`Storyshots components/ChatMessage Long 1`] = `
   <span
     className="MuiTypography-root MuiTypography-caption makeStyles-status-9 message-status emotion-2"
   >
-    04:32:12 31/7/2021
+    undefined 31/7/2021
   </span>
 </div>
 `;
@@ -595,7 +595,7 @@ exports[`Storyshots components/ChatMessage Medium 1`] = `
   <span
     className="MuiTypography-root MuiTypography-caption makeStyles-status-14 message-status emotion-2"
   >
-    04:32:12 31/7/2021
+    undefined 31/7/2021
   </span>
 </div>
 `;
@@ -644,7 +644,7 @@ exports[`Storyshots components/ChatMessage Selfish 1`] = `
   <span
     className="MuiTypography-root MuiTypography-caption makeStyles-status-19 message-status emotion-2"
   >
-    04:32:12 31/7/2021
+    undefined 31/7/2021
   </span>
 </div>
 `;
@@ -693,7 +693,7 @@ exports[`Storyshots components/ChatMessage Short 1`] = `
   <span
     className="MuiTypography-root MuiTypography-caption makeStyles-status-24 message-status emotion-2"
   >
-    04:32:12 31/7/2021
+    undefined 31/7/2021
   </span>
 </div>
 `;
@@ -1169,7 +1169,7 @@ exports[`Storyshots components/ChatMessageWithAvatar France 1`] = `
     <span
       className="MuiTypography-root MuiTypography-caption makeStyles-status-34 message-status emotion-2"
     >
-      04:32:12 31/7/2021
+      undefined 31/7/2021
     </span>
   </div>
   <div
@@ -1271,7 +1271,7 @@ exports[`Storyshots components/ChatMessageWithAvatar Selfish 1`] = `
     <span
       className="MuiTypography-root MuiTypography-caption makeStyles-status-39 message-status emotion-2"
     >
-      04:32:12 31/7/2021
+      undefined 31/7/2021
     </span>
   </div>
   <div

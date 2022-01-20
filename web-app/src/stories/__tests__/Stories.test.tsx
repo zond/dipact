@@ -8,6 +8,8 @@ import { createSerializer } from "@emotion/jest";
 import timezoneMock from "timezone-mock";
 
 timezoneMock.register("US/Pacific");
+jest.spyOn(Date.prototype, "toLocaleTimeString").mockReturnValue("");
+jest.spyOn(Date.prototype, "toLocaleTimeString").mockReturnValue("");
 
 expect.addSnapshotSerializer(createSerializer());
 
