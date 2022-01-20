@@ -9,7 +9,7 @@ import timezoneMock from "timezone-mock";
 
 timezoneMock.register("US/Pacific");
 jest.spyOn(Date.prototype, "toLocaleTimeString").mockReturnValue("");
-jest.spyOn(Date.prototype, "toLocaleTimeString").mockReturnValue("");
+jest.spyOn(Date.prototype, "toLocaleDateString").mockReturnValue("");
 
 expect.addSnapshotSerializer(createSerializer());
 
