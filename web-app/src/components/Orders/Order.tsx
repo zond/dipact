@@ -58,7 +58,7 @@ const Order = ({ order }: OrderProps) => {
       </div>
       <ul className={classes.orderInconsistencies}>
         {order.inconsistencies.map((inconsistency) => (
-          <li>
+          <li key={inconsistency}>
             <Typography variant="body2">{inconsistency}</Typography>
           </li>
         ))}
