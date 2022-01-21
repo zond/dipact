@@ -211,6 +211,12 @@ const translateKeys = {
     },
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
   },
+  resetSettingsDialog: {
+    title: "reset-settings-dialog.title",
+    prompt: "reset-settings-dialog.prompt",
+    resetButton: "reset-settings-dialog.reset-button",
+    cancelButton: "reset-settings-dialog.cancel-button",
+  },
   settings: {
     colorNonSCsSwitch: {
       helpText: "settings.color-non-scs-switch.help-text",
