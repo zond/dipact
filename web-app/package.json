@@ -40,6 +40,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@emotion/jest": "^11.7.1",
     "@storybook/addon-actions": "^6.3.7",
     "@storybook/addon-essentials": "^6.3.7",
     "@storybook/addon-links": "^6.3.7",
@@ -64,16 +65,17 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "jest": "26.6.0",
+    "jest-fail-on-console": "^2.1.1",
     "jest-fetch-mock": "^3.0.3",
     "msw": "^0.35.0",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "timezone-mock": "^1.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test-ci": "react-scripts test --watchAll=false",
-    "test-coverage": "react-scripts test --watchAll=false --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
+    "test": "react-scripts test --env=jsdom  --watchAll=false --maxWorkers=50% --isolatedModules=true",
+    "test-coverage": "react-scripts test --watchAll=false --env=jsdom --maxWorkers=50% --isolatedModules=true --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",

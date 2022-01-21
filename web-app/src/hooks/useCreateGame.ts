@@ -96,7 +96,7 @@ const useCreateGame = (): IUseCreateGame => {
             .number()
             .max(
               getUserStatsQuery.data.TrueSkill?.Rating as number,
-              tk.createGame.maxRatingInput.errorMessage.moreThanUserRating
+              tk.createGame.minRatingInput.errorMessage.moreThanUserRating
             ),
         })
       );

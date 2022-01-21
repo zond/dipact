@@ -11,13 +11,14 @@ import { ReduxWrapper } from "../../store/testUtils";
 import { RouteConfig } from "../../pages/RouteConfig";
 import { diplicityServiceURL } from "../../store/service";
 import { EVERYONE } from "../../hooks/utils";
-import ChatMenu, { NO_CHANNELS_MESSAGE } from "../ChatMenu";
+import ChatMenu from "../ChatMenu";
 import {
   userSeesInternalServerErrorMessage,
   userSeesLoadingSpinner,
 } from "../testUtils";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import theme from "../../theme";
+import tk from "../../translations/translateKeys";
 
 const server = setupServer(
   handlers.variants.successShort,
@@ -80,20 +81,20 @@ const userSeesChatChannelPreviews = async (): Promise<HTMLElement[]> => {
 };
 
 const userSeesNoChatChannelsMessage = async () => {
-  await waitFor(() => screen.getByText(NO_CHANNELS_MESSAGE));
+  await waitFor(() => screen.getByText(tk.chatMenu.noChannelsMessage));
 };
 
 const userDoesNotSeeCreateChannelButton = async () => {
-  const button = screen.queryByTitle("Create channel");
+  const button = screen.queryByTitle(tk.chatMenu.createChannelButton.title);
   expect(button).toBeNull();
 };
 
 const userSeesCreateChannelButton = async () => {
-  await waitFor(() => screen.getByTitle("Create channel"));
+  await waitFor(() => screen.getByTitle(tk.chatMenu.createChannelButton.title));
 };
 
 const userClicksCreateChannelButton = async () => {
-  const button = await waitFor(() => screen.getByTitle("Create channel"));
+  const button = await waitFor(() => screen.getByTitle(tk.chatMenu.createChannelButton.title));
   fireEvent.click(button);
 };
 

@@ -1,141 +1,252 @@
 const translateKeys = {
-  createGame: {
-    title: "create-game.title",
-    nameInput: {
-      label: "create-game.name-input.label",
+  chatMenu: {
+    createChannelButton: {
+      title: "chat-menu.create-channel-button.title"
     },
-    privateCheckbox: {
-      label: "create-game.game-master-checkbox.label",
+    noChannelsMessage: "chat-menu.no-channels-message",
+    title: "chat-menu.title"
+  },
+  createGame: {
+    adjustmentPhaseLengthMultiplierInput: {
+      label: "create-game.adjustment-phase-length-multiplier-input.label"
+    },
+    allowChatsSwitch: {
+      label: "create-game.allow-chats-switch.label"
+    },
+    anonymousChatCheckbox: {
+      explanation: "create-game.anonymous-chat-checkbox.explanation",
+      label: "create-game.anonymous-chat-checkbox.label"
+    },
+    chatLanguageSelect: {
+      defaultOption: "create-game.chat-language-select.default-option",
+      label: "create-game.chat-language-select.label"
+    },
+    chatSection: {
+      label: "create-game.chat-section.label"
+    },
+    conferenceChatCheckbox: {
+      label: "create-game.conference-chat-checkbox.label"
+    },
+    customAdjustmentPhaseLengthCheckbox: {
+      label: "create-game.custom-adjustment-phase-length-checkbox.label"
+    },
+    endAfterYearsCheckbox: {
+      label: "create-game.end-after-years-checkbox.label"
+    },
+    endAfterYearsInput: {
+      label: "create-game.end-after-years-input.label"
+    },
+    gameLengthSection: {
+      label: "create-game.game-length-section.label"
     },
     gameMasterCheckbox: {
-      label: "create-game.private-checkbox.label",
       helpText: {
-        default: "create-game.private-checkbox.help-text.default",
-        disabled: "create-game.private-checkbox.help-text.disabled",
+        default: "create-game.game-master-checkbox.help-text.default",
+        disabled: "create-game.game-master-checkbox.help-text.disabled"
       },
+      label: "create-game.game-master-checkbox.label"
     },
-    randomizeGameNameButton: {
-      title: "create-game.randomize-name-button.title",
+    groupChatCheckbox: {
+      label: "create-game.group-chat-checkbox.label"
+    },
+    individualChatCheckbox: {
+      label: "create-game.individual-chat-checkbox.label"
+    },
+    maxRatingEnabledCheckbox: {
+      helpText: "create-game.max-rating-enabled-checkbox.help-text",
+      label: "create-game.max-rating-enabled-checkbox.label"
     },
     maxRatingInput: {
       errorMessage: {
-        lessThanUserRating:
-          "create-game.max-rating-input.error-message.less-than-user-rating",
-        moreThanUserRating:
-          "create-game.max-rating-input.error-message.more-than-user-rating",
+        lessThanUserRating: "create-game.max-rating-input.error-message.less-than-user-rating"
       },
+      helpText: "create-game.max-rating-input.help-text",
+      label: "create-game.max-rating-input.label"
+    },
+    minQuicknessInput: {
+      label: "create-game.min-quickness-input.label"
+    },
+    minRatingEnabledCheckbox: {
+      helpText: "create-game.min-rating-enabled-checkbox.help-text",
+      label: "create-game.min-rating-enabled-checkbox.label"
+    },
+    minRatingInput: {
+      errorMessage: {
+        moreThanUserRating: "create-game.min-rating-input.error-message.more-than-user-rating"
+      },
+      helpText: "create-game.min-rating-input.help-text",
+      label: "create-game.min-rating-input.label"
+    },
+    minReliabilityInput: {
+      label: "create-game.min-reliability-input.label"
+    },
+    nameInput: {
+      label: "create-game.name-input.label"
+    },
+    nationAllocationSection: {
+      label: "create-game.nation-allocation-section.label"
+    },
+    phaseLengthMultiplierInput: {
+      label: "create-game.phase-length-multiplier-input.label"
+    },
+    phaseLengthUnitSelect: {
+      label: "create-game.phase-length-unit-select.label"
+    },
+    privateCheckbox: {
+      label: "create-game.private-checkbox.label"
+    },
+    quicknessEnabledCheckbox: {
+      helpText: "create-game.quickness-enabled-checkbox.help-text",
+      label: "create-game.quickness-enabled-checkbox.label"
+    },
+    randomizeGameNameButton: {
+      title: "create-game.randomize-name-button.title"
+    },
+    reliabilityEnabledCheckbox: {
+      helpText: "create-game.reliability-enabled-checkbox.help-text",
+      label: "create-game.reliability-enabled-checkbox.label"
+    },
+    requirementsSection: {
+      label: "create-game.requirements-section.label"
+    },
+    skipGetReadyPhaseCheckbox: {
+      helpText: "create-game.skip-get-ready-phase-checkbox.help-text",
+      label: "create-game.skip-get-ready-phase-checkbox.label"
+    },
+    submitButton: {
+      label: "create-game.submit-button.label"
+    },
+    title: "create-game.title",
+    variantDescription: {
+      authorLabel: "create-game.variant-description.author-label",
+      rulesLabel: "create-game.variant-description.rules-label",
+      startYearLabel: "create-game.variant-description.start-year-label"
     },
     variantSelect: {
       label: "create-game.variant-select.label",
-      optionLabel: "create-game.variant-select.option-label",
-    },
-    submitButton: {
-      label: "create-game.submit-button.label",
-    },
-    nationAllocationSection: {
-      label: "create-game.nation-allocation-section.label",
-    },
-    phaseLengthMultiplierInput: {
-      label: "create-game.phase-length-multiplier-input.label",
-    },
-    phaseLengthUnitSelect: {
-      label: "create-game.phase-length-unit-select.label",
-    },
-  },
-  nationAllocationOptions: {
-    random: "nation-allocation-options.random",
-    preference: "nation-allocation-options.preference",
-  },
-  nationPreferences: {
-    title: "nation-preferences.title",
-    prompt: "nation-preferences.prompt",
-    joinButton: {
-      label: "nation-preferences.join-button.label",
-    },
-    closeButton: {
-      label: "nation-preferences.close-button.label",
-    },
+      optionLabel: "create-game.variant-select.option-label"
+    }
   },
   durations: {
-    minute: {
-      singular: "durations.minute.singular",
-      plural: "durations.minute.plural",
+    day: {
+      plural: "durations.day.plural",
+      singular: "durations.day.singular"
     },
     hour: {
-      singular: "durations.hour.singular",
       plural: "durations.hour.plural",
+      singular: "durations.hour.singular"
     },
-    day: {
-      singular: "durations.day.singular",
-      plural: "durations.day.plural",
+    minute: {
+      plural: "durations.minute.plural",
+      singular: "durations.minute.singular"
+    }
+  },
+  gameList: {
+    allGamesTab: {
+      label: "game-list.all-games-tab.label"
     },
+    createGameButton: {
+      title: "game-list.create-game-button.title"
+    },
+    gameStatusLabels: {
+      finished: "game-list.game-status-labels.finished",
+      staging: "game-list.game-status-labels.staging",
+      started: "game-list.game-status-labels.started"
+    },
+    masteredGamesCheckbox: {
+      label: "game-list.mastered-games-checkbox.label"
+    },
+    myGamesTab: {
+      label: "game-list.my-games-tab.label"
+    },
+    noGamesMessage: "game-list.no-games-message"
   },
   login: {
     description: "login.description",
-    stayLoggedInCheckBox: {
-      label: "login.stay-logged-in-checkbox.label",
-    },
     loginButton: {
-      label: "login.login-button.label",
+      label: "login.login-button.label"
     },
+    stayLoggedInCheckBox: {
+      label: "login.stay-logged-in-checkbox.label"
+    }
   },
-  gameList: {
-    noGamesMessage: "game-list.no-games-message",
-    allGamesTab: {
-      label: "game-list.all-games-tab.label",
+  nationAllocationOptions: {
+    preference: "nation-allocation-options.preference",
+    random: "nation-allocation-options.random"
+  },
+  nationPreferences: {
+    closeButton: {
+      label: "nation-preferences.close-button.label"
     },
-    myGamesTab: {
-      label: "game-list.my-games-tab.label",
+    joinButton: {
+      label: "nation-preferences.join-button.label"
     },
-    masteredGamesCheckbox: {
-      label: "game-list.mastered-games-checkbox.label",
+    prompt: "nation-preferences.prompt",
+    title: "nation-preferences.title"
+  },
+  orders: {
+    buildCount: {
+      plural: "orders.build-count.plural",
+      singular: "orders.build-count.singular"
     },
-    gameStatusLabels: {
-      started: "game-list.game-status-labels.started",
-      staging: "game-list.game-status-labels.staging",
-      finished: "game-list.game-status-labels.finished"
+    confirmedIconTooltip: "orders.confirmed-icon-tooltip",
+    confirmOrdersButton: {
+      label: "orders.confirm-orders-button.label",
+      noOrders: "orders.confirm-orders-button.no-orders",
+      prompt: "orders.confirm-orders-button.prompt"
     },
+    disbandCount: {
+      plural: "orders.disband-count.plural",
+      singular: "orders.disband-count.singular"
+    },
+    noOrdersGivenIconTooltip: "orders.no-orders-given-icon-tooltip",
+    supplyCenterCount: {
+      plural: "orders.supply-center-count.plural;",
+      singular: "orders.supply-center-count.singular"
+    },
+    toggleDiasButton: {
+      label: "orders.toggle-dias-button.label"
+    },
+    wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip"
   },
   settings: {
-    title: "settings.title",
-    notificationsSection: {
-      label: "settings.notifications-section.label",
-    },
-    pushNotificationsSwitch: {
-      label: "settings.push-notifications-switch.label",
+    colorNonSCsSwitch: {
+      helpText: "settings.color-non-scs-switch.help-text",
+      label: "settings.color-non-scs-switch.label"
     },
     emailNotificationsSwitch: {
-      label: "settings.email-notifications-switch.label",
-    },
-    phaseDeadlineReminder: {
-      inputLabel: "settings.phase-deadline-reminder.input-label",
-      helpText: "settings.phase-deadline-reminder.help-text",
-      notificationsPrompt:
-        "settings.phase-deadline-reminder.notifications-prompt",
-    },
-    colorNonSCsSwitch: {
-      label: "settings.color-non-scs-switch.label",
-      helpText: "settings.color-non-scs-switch.help-text",
-    },
-    mapColorsSection: {
-      label: "settings.map-colors-section.label",
-    },
-    variantSelect: {
-      label: "settings.variant-select.label",
-    },
-    resetSettingsButton: {
-      label: "settings.reset-settings-button.label",
+      label: "settings.email-notifications-switch.label"
     },
     errorNotifications: {
-      noToken: "settings.error-notifications.no-token",
-      noPermission: "settings.error-notifications.no-permission",
-      noPermissionPrompt: "settings.error-notifications.no-permission-prompt",
+      firebaseNotSupported: "settings.error-notifications.firebase-not-supported",
       infoLink: "settings.error-notifications.info-link",
       messagingNotStarted: "settings.error-notifications.messaging-not-started",
-      firebaseNotSupported:
-        "settings.error-notifications.firebase-not-supported",
+      noPermission: "settings.error-notifications.no-permission",
+      noPermissionPrompt: "settings.error-notifications.no-permission-prompt",
+      noToken: "settings.error-notifications.no-token"
     },
-  },
+    mapColorsSection: {
+      label: "settings.map-colors-section.label"
+    },
+    notificationsSection: {
+      label: "settings.notifications-section.label"
+    },
+    phaseDeadlineReminder: {
+      helpText: "settings.phase-deadline-reminder.help-text",
+      inputLabel: "settings.phase-deadline-reminder.input-label",
+      notificationsPrompt: "settings.phase-deadline-reminder.notifications-prompt"
+    },
+    pushNotificationsSwitch: {
+      label: "settings.push-notifications-switch.label"
+    },
+    resetSettingsButton: {
+      label: "settings.reset-settings-button.label"
+    },
+    title: "settings.title",
+    variantSelect: {
+      label: "settings.variant-select.label"
+    }
+  }
 };
 
 export default translateKeys;
