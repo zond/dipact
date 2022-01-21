@@ -29,6 +29,8 @@ Translate string which include variables need to be formatted using curly braces
 
 To add a new language all we need to do is create a new translations file (copy the english translations file) and replace all the translation strings appropriately.
 
+**Note** to make the translation files easier to navigate we should keep the translation file keys in alphabetical order as well as the translationKeys file. Your editor probably has an extension to do this.
+
 #### Using translations in code
 
 The `CreateGame` component is a good example of how translations strings can be used in code.
