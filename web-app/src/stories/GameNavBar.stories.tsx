@@ -11,7 +11,7 @@ export default {
   title: "components/GameNavBar",
   component: Component,
   decorators: [
-    routerDecorator(generatePath(RouteConfig.Game), RouteConfig.Game),
+    routerDecorator(generatePath(RouteConfig.Game, { gameId: "123" }), RouteConfig.Game),
   ],
 } as ComponentMeta<typeof Component>;
 

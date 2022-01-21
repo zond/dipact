@@ -14,12 +14,6 @@ import tk from "../translations/translateKeys";
 
 export const searchKey = "reset-settings-dialog";
 
-export const RESET_SETTINGS_DIALOG_TITLE = "Reset settings";
-export const RESET_SETTINGS_DIALOG_PROMPT =
-  "Are you sure you want to reset settings? This will restore all settings to the default values.";
-export const RESET_BUTTON_LABEL = "Reset settings";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const ResetSettingsDialog = (): React.ReactElement => {
   const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
