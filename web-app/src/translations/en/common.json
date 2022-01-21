@@ -1,226 +1,304 @@
 {
-    "create-game": {
-        "title": "Create Game",
-        "name-input": {
-            "label": "Name"
-        },
-        "randomize-name-button": {
-            "title": "Randomize name"
-        },
-        "game-master-checkbox": {
-            "label": "Game master",
-            "help-text": {
-                "default": "As game master, you can pause/resume games and control who joins (and as what nation). To play yourself, you need to join as a player after creating your game.",
-                "disabled": "Game master only allowed in private games (risk of abuse)"
-            }
-        },
-        "private-checkbox": {
-            "label": "Private"
-        },
-        "variant-select": {
-            "label": "Variant",
-            "option-label": "{{ name }} ({{ numPlayers }} players)"
-        },
-        "variant-description": {
-            "start-year-label": "Start year",
-            "author-label": "Original author",
-            "rules-label": "Rules"
-        },
-        "nation-allocation-section": {
-            "label": "Nation selection"
-        },
-        "game-length-section": {
-            "label": "Game length"
-        },
-        "phase-length-multiplier-input": {
-            "label": "Phase length"
-        },
-        "phase-length-unit-select": {
-            "label": "Unit"
-        },
-        "custom-adjustment-phase-length-checkbox": {
-            "label": "Shorter adjustment phases"
-        },
-        "adjustment-phase-length-multiplier-input": {
-            "label": "Adjustment phase length"
-        },
-        "skip-get-ready-phase-checkbox": {
-            "label": "Skip get ready phase",
-            "help-text": "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game."
-        },
-        "end-after-years-checkbox": {
-            "label": "End in draw after number of years"
-        },
-        "end-after-years-input": {
-            "label": "End after year"
-        },
-        "chat-section": {
-            "label": "Chat"
-        },
-        "allow-chats-switch": {
-            "label": "Allow chats"
-        },
-        "conference-chat-checkbox": {
-            "label": "Conference (all players)"
-        },
-        "group-chat-checkbox": {
-            "label": "Group"
-        },
-        "individual-chat-checkbox": {
-            "label": "Individual"
-        },
-        "anonymous-chat-checkbox": {
-            "label": "Anonymous",
-            "explanation": "Anonymous only allowed in private games (risk of abuse)"
-        },
-        "chat-language-select": {
-            "label": "Chat language",
-            "default-option": "Player's choice"
-        },
-        "requirements-section": {
-            "label": "Player requirements"
-        },
-        "reliability-enabled-checkbox": {
-            "label": "Reliability (important)",
-            "help-text": "Find players that keep playing"
-        },
-        "min-reliability-input": {
-            "label": "Minimum reliability score "
-        },
-        "quickness-enabled-checkbox": {
-            "label": "Quickness",
-            "help-text": "Find players that confirm their orders before the deadline"
-        },
-        "min-quickness-input": {
-            "label": "Minimum quickness score "
-        },
-        "min-rating-enabled-checkbox": {
-            "label": "Minimum rating",
-            "help-text": "Find players that are challenging"
-        },
-        "min-rating-input": {
-            "label": "Minimum rating",
-            "help-text": "Removes the least challenging {{ percentage }}% of players",
-            "error-message": {
-                "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
-            }
-        },
-        "max-rating-enabled-checkbox": {
-            "label": "Maximum rating",
-            "help-text": "Find players that aren't too challenging"
-        },
-        "max-rating-input": {
-            "label": "Maximum rating",
-            "help-text": "Removes the most challenging {{ percentage }}% of players",
-            "error-message": {
-                "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
-            }
-        },
-        "submit-button": {
-            "label": "Create game"
-        }
+  "about": {
+    "nav-bar-title": "About",
+    "diplomacy-section": {
+      "title": "Diplomacy",
+      "paragraph-1": "<link1>Diplomacy</link1> is a game invented in the 50's by <link2>Allan Calhamer</link2>.",
+      "paragraph-2": "Here you can find an introduction on how to play.",
+      "paragraph-3": "It looks like Risk, with a war map and units, but unlike Risk has no element of chance. All units have equal strength; the only way to win is to convince other players to help you (and ultimately betray them). This real, human connection is more important than the tactical aspect.",
+      "paragraph-4": "During a turn, players play in parallel; firstly, during a fixed time, players just talk to each other (in groups or private); making alliances, agreements, pass information. During this phase they submit secret orders for their units.",
+      "paragraph-5": "After the time ends, all orders are revealed simultaneously, showing who supported or betrayed who. Battles are resolved, units build or destroyed, and the next turn starts, until one player controls enough of the board to be the winner.",
+      "paragraph-6": "This is why Diplicity games take a long time. 'Playing' is mostly chatting with others. Turns usually take a day or more."
     },
-    "about" : {
-        "title" : "Title"
-    },
-    "nation-allocation-options": {
-        "random": "Random",
-        "preference": "Preference"
-    },
-    "orders": {
-        "confirmed-icon-tooltip": "Confirmed their orders",
-        "no-orders-given-icon-tooltip": "Did not send orders",
-        "wants-draw-icon-tooltip": "Wants a draw",
-        "supply-center-count": {
-            "singular": "{{ count }} supply center",
-            "plural": "{{ count }} supply centers"
-        },
-        "build-count": {
-            "singular": "{{ count }} build",
-            "plural": "{{ count }} builds"
-        },
-        "disband-count": {
-            "singular": "{{ count }} disband",
-            "plural": "{{ count }} disbands"
-        },
-        "toggle-dias-button": {
-            "label": "Accept draw"
-        },
-        "confirm-orders-button": {
-            "label": "Accept draw",
-            "no-orders" : "You have no orders to give this turn",
-            "prompt" : "When you're ready for the next turn"
-        }
-    },
-    "nation-preferences": {
-        "title": "Nation preferences",
-        "prompt": "Sort the possible nations in order of preference.",
-        "join-button": {
-            "label": "Join"
-        },
-        "close-button": {
-            "label": "Close"
-        }
-    },
-    "durations": {
-        "minute": {
-            "singular": "Minute",
-            "plural": "Minutes"
-        },
-        "hour": {
-            "singular": "Hour",
-            "plural": "Hours"
-        },
-        "day": {
-            "singular": "Day",
-            "plural": "Days"
-        }
-    },
-    "login": {
-        "description": "A digital version of the classic game of Diplomacy. Sign in to play.",
-        "stay-logged-in-checkbox": {
-            "label": "Stay logged in"
-        },
-        "login-button": {
-            "label": "Sign in with Google"
-        }
-    },
-    "settings": {
-        "title": "Settings",
-        "notifications-section": {
-            "label": "Notifications"
-        },
-        "push-notifications-switch": {
-            "label": "Push notifications"
-        },
-        "email-notifications-switch": {
-            "label": "Email notifications"
-        },
-        "phase-deadline-reminder": {
-            "input-label": "Phase deadline reminder",
-            "help-text": "In minutes. 0 = off",
-            "notifications-prompt": "In minutes. 0 = off"
-        },
-        "color-non-scs-switch": {
-            "label": "Colour non-SC provinces",
-            "help-text": "Colour provinces without supply centers based on the ownership of the supply centers around it."
-        },
-        "map-colors-section": {
-            "label": "Custom nation colours"
-        },
-        "variant-select": {
-            "label": "Variant"
-        },
-        "reset-settings-button": {
-            "label": "Reset settings"
-        },
-        "error-notifications": {
-            "no-token": "Notifications disabled [Error: no token uploaded]",
-            "no-permission": "No notification permission received.",
-            "no-permission-prompt": "Allow this sites notifications in your browser settings.",
-            "info-link": "Allow this sites notifications in your browser settings.",
-            "messaging-not-started": "Notifications disabled [Error: Notification system did not start]",
-            "firebase-not-supported": "Notifications disabled [Error: Firebase Messaging not supported on your browser]"
-        }
+    "diplicity-section": {
+      "title": "Diplicity",
+      "paragraph-1": "Diplicity is an open-source project that allows your to play Diplomacy online via both an <link1>android app</link1> or <link2>www.diplicity.com<link2>.",
+      "paragraph-2": "(Both are made by hobbyists who built this for free, in their spare time).",
+      "subsection-1": {
+        "title": "How to start playing",
+        "paragraph-1": "You either create a new game or join one already created (we suggest an almost full one).",
+        "paragraph-2": "<i>Public games </i>are listed in the Open games list for anyone to join.",
+        "paragraph-3": "<i>Private</i> games are unlisted and require members to share a link for others to join.",
+        "paragraph-4": "Games will only start when full; this can sometimes take a long time.",
+        "paragraph-5": "You can always invite others to speed this up using the share game link."
+      },
+      "subsection-2": {
+        "title": "Finding good matches",
+        "paragraph-1": "To raise the quality of games, the system tracks a lot of stats and allows games to only allow players with certain stats. The most important is the <strong>reliability statistic</strong> (explained below).",
+        "paragraph-2": "<i>Public games </i>are listed in the Open games list for anyone to join.",
+        "paragraph-3": "<i>Private</i> games are unlisted and require members to share a link for others to join.",
+        "paragraph-4": "Games will only start when full; this can sometimes take a long time.",
+        "paragraph-5": "You can always invite others to speed this up using the share game link."
+      },
+      "subsection-3": {
+        "title": "Reliability",
+        "paragraph-1": "Diplomacy is a game where players who stop responding make it unbalanced, boring, and no fun for anyone. Reliability awards active players by letting them join other active players.",
+        "paragraph-2": "We recommend creating and joining games with a minimum reliability requirement of at least 10 (or as high as your reliability allows)."
+      },
+      "subsection-4": {
+        "title": "Raising reliability",
+        "paragraph-1": "Your first game might have some players who don't respond.",
+        "paragraph-2": "Even when losing, other players are assholes, or you don't feel like playing anymore, it's important to keep sending orders. This will raise your reliability so your next games can be of higher quality. Even submitting some random orders each turn is enough to make a huge positive difference to the game"
+      },
+      "subsection-5": {
+        "title": "Using Google Account Info",
+        "paragraph-1": "We use your account name and avatar to refer to you when you interact with other players. After a public game ends,this info (together with your message history) becomes accessible to all Diplicity players. Unfortunately, we had to do this to reduce verbal abuse and keep the atmosphere friendly.",
+        "paragraph-2": "If you do not want this, you can create a new, private game and play it with friends."
+      },
+      "subsection-6": {
+        "title": "Diplicity Development",
+        "paragraph-1": "This app actually consists of multiple open source projects:",
+        "paragraph-2": "<link>Dipact<link>, this user interface app that uses",
+        "paragraph-3": "<link>Diplicity<link>, a Diplomacy game service that uses",
+        "paragraph-4": "<link>Godip<link>, a Diplomacy judge service."
+      }
     }
+  },
+  "chat-menu": {
+    "create-channel-button": {
+      "title": "Create channel"
+    },
+    "no-channels-message": "No channels have been created",
+    "title": "Chat"
+  },
+  "create-game": {
+    "adjustment-phase-length-multiplier-input": {
+      "label": "Adjustment phase length"
+    },
+    "allow-chats-switch": {
+      "label": "Allow chats"
+    },
+    "anonymous-chat-checkbox": {
+      "explanation": "Anonymous only allowed in private games (risk of abuse)",
+      "label": "Anonymous"
+    },
+    "chat-language-select": {
+      "default-option": "Player's choice",
+      "label": "Chat language"
+    },
+    "chat-section": {
+      "label": "Chat"
+    },
+    "conference-chat-checkbox": {
+      "label": "Conference (all players)"
+    },
+    "custom-adjustment-phase-length-checkbox": {
+      "label": "Shorter adjustment phases"
+    },
+    "end-after-years-checkbox": {
+      "label": "End in draw after number of years"
+    },
+    "end-after-years-input": {
+      "label": "End after year"
+    },
+    "game-length-section": {
+      "label": "Game length"
+    },
+    "game-master-checkbox": {
+      "help-text": {
+        "default": "As game master, you can pause/resume games and control who joins (and as what nation). To play yourself, you need to join as a player after creating your game.",
+        "disabled": "Game master only allowed in private games (risk of abuse)"
+      },
+      "label": "Game master"
+    },
+    "group-chat-checkbox": {
+      "label": "Group"
+    },
+    "individual-chat-checkbox": {
+      "label": "Individual"
+    },
+    "max-rating-enabled-checkbox": {
+      "help-text": "Find players that aren't too challenging",
+      "label": "Maximum rating"
+    },
+    "max-rating-input": {
+      "error-message": {
+        "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
+      },
+      "help-text": "Removes the most challenging {{ percentage }}% of players",
+      "label": "Maximum rating"
+    },
+    "min-quickness-input": {
+      "label": "Minimum quickness score "
+    },
+    "min-rating-enabled-checkbox": {
+      "help-text": "Find players that are challenging",
+      "label": "Minimum rating"
+    },
+    "min-rating-input": {
+      "error-message": {
+        "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
+      },
+      "help-text": "Removes the least challenging {{ percentage }}% of players",
+      "label": "Minimum rating"
+    },
+    "min-reliability-input": {
+      "label": "Minimum reliability score "
+    },
+    "name-input": {
+      "label": "Name"
+    },
+    "nation-allocation-section": {
+      "label": "Nation selection"
+    },
+    "phase-length-multiplier-input": {
+      "label": "Phase length"
+    },
+    "phase-length-unit-select": {
+      "label": "Unit"
+    },
+    "private-checkbox": {
+      "label": "Private"
+    },
+    "quickness-enabled-checkbox": {
+      "help-text": "Find players that confirm their orders before the deadline",
+      "label": "Quickness"
+    },
+    "randomize-name-button": {
+      "title": "Randomize name"
+    },
+    "reliability-enabled-checkbox": {
+      "help-text": "Find players that keep playing",
+      "label": "Reliability (important)"
+    },
+    "requirements-section": {
+      "label": "Player requirements"
+    },
+    "skip-get-ready-phase-checkbox": {
+      "help-text": "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game.",
+      "label": "Skip get ready phase"
+    },
+    "submit-button": {
+      "label": "Create game"
+    },
+    "title": "Create Game",
+    "variant-description": {
+      "author-label": "Original author",
+      "rules-label": "Rules",
+      "start-year-label": "Start year"
+    },
+    "variant-select": {
+      "label": "Variant",
+      "option-label": "{{ name }} ({{ numPlayers }} players)"
+    }
+  },
+  "durations": {
+    "day": {
+      "plural": "Days",
+      "singular": "Day"
+    },
+    "hour": {
+      "plural": "Hours",
+      "singular": "Hour"
+    },
+    "minute": {
+      "plural": "Minutes",
+      "singular": "Minute"
+    }
+  },
+  "game-list": {
+    "all-games-tab": {
+      "label": "All games"
+    },
+    "create-game-button": {
+      "title": "Create Game"
+    },
+    "game-status-labels": {
+      "finished": "Finished games",
+      "staging": "Open to join",
+      "started": "Started games"
+    },
+    "mastered-games-checkbox": {
+      "label": "Managed by me"
+    },
+    "my-games-tab": {
+      "label": "My games"
+    }
+  },
+  "login": {
+    "description": "A digital version of the classic game of Diplomacy. Sign in to play.",
+    "login-button": {
+      "label": "Sign in with Google"
+    },
+    "stay-logged-in-checkbox": {
+      "label": "Stay logged in"
+    }
+  },
+  "nation-allocation-options": {
+    "preference": "Preference",
+    "random": "Random"
+  },
+  "nation-preferences": {
+    "close-button": {
+      "label": "Close"
+    },
+    "join-button": {
+      "label": "Join"
+    },
+    "prompt": "Sort the possible nations in order of preference.",
+    "title": "Nation preferences"
+  },
+  "orders": {
+    "build-count": {
+      "plural": "{{ count }} builds",
+      "singular": "{{ count }} build"
+    },
+    "confirm-orders-button": {
+      "label": "Accept draw",
+      "no-orders": "You have no orders to give this turn",
+      "prompt": "When you're ready for the next turn"
+    },
+    "confirmed-icon-tooltip": "Confirmed their orders",
+    "disband-count": {
+      "plural": "{{ count }} disbands",
+      "singular": "{{ count }} disband"
+    },
+    "no-orders-given-icon-tooltip": "Did not send orders",
+    "supply-center-count": {
+      "plural": "{{ count }} supply centers",
+      "singular": "{{ count }} supply center"
+    },
+    "toggle-dias-button": {
+      "label": "Accept draw"
+    },
+    "wants-draw-icon-tooltip": "Wants a draw"
+  },
+  "settings": {
+    "color-non-scs-switch": {
+      "help-text": "Colour provinces without supply centers based on the ownership of the supply centers around it.",
+      "label": "Colour non-SC provinces"
+    },
+    "email-notifications-switch": {
+      "label": "Email notifications"
+    },
+    "error-notifications": {
+      "firebase-not-supported": "Notifications disabled [Error: Firebase Messaging not supported on your browser]",
+      "info-link": "Allow this sites notifications in your browser settings.",
+      "messaging-not-started": "Notifications disabled [Error: Notification system did not start]",
+      "no-permission": "No notification permission received.",
+      "no-permission-prompt": "Allow this sites notifications in your browser settings.",
+      "no-token": "Notifications disabled [Error: no token uploaded]"
+    },
+    "map-colors-section": {
+      "label": "Custom nation colours"
+    },
+    "notifications-section": {
+      "label": "Notifications"
+    },
+    "phase-deadline-reminder": {
+      "help-text": "In minutes. 0 = off",
+      "input-label": "Phase deadline reminder",
+      "notifications-prompt": "In minutes. 0 = off"
+    },
+    "push-notifications-switch": {
+      "label": "Push notifications"
+    },
+    "reset-settings-button": {
+      "label": "Reset settings"
+    },
+    "title": "Settings",
+    "variant-select": {
+      "label": "Variant"
+    }
+  }
 }
