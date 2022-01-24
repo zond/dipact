@@ -211,6 +211,15 @@ const translateKeys = {
     },
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
   },
+  phaseSelector: { 
+    title: "phase-selector.title",
+      previousButton: {
+        title: "phase-selector.previous-button.title"
+      },
+      nextButton: {
+        title: "phase-selector.next-button.title"
+      },
+  },
   renameGameDialog: {
     title: "rename-game-dialog.title",
     renameInput: {

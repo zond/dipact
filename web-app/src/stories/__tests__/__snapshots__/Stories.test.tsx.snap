@@ -6675,7 +6675,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 <div
   className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-318 emotion-0"
-  title="phase selector"
+  title="phase-selector.title"
 >
   <button
     className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-1"
@@ -6694,7 +6694,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={-1}
-    title="show previous phase"
+    title="phase-selector.previous-button.title"
     type="button"
   >
     <svg
@@ -6780,7 +6780,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={0}
-    title="show next phase"
+    title="phase-selector.next-button.title"
     type="button"
   >
     <svg
@@ -7168,7 +7168,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 <div
   className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-319 emotion-0"
-  title="phase selector"
+  title="phase-selector.title"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
@@ -7187,7 +7187,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={0}
-    title="show previous phase"
+    title="phase-selector.previous-button.title"
     type="button"
   >
     <svg
@@ -7273,7 +7273,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={-1}
-    title="show next phase"
+    title="phase-selector.next-button.title"
     type="button"
   >
     <svg
@@ -7661,7 +7661,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 
 <div
   className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-320 emotion-0"
-  title="phase selector"
+  title="phase-selector.title"
 >
   <button
     className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-1"
@@ -7680,7 +7680,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={0}
-    title="show previous phase"
+    title="phase-selector.previous-button.title"
     type="button"
   >
     <svg
@@ -7766,7 +7766,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
     onTouchMove={[Function]}
     onTouchStart={[Function]}
     tabIndex={0}
-    title="show next phase"
+    title="phase-selector.next-button.title"
     type="button"
   >
     <svg
@@ -8552,7 +8552,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
     >
       <div
         className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-308 emotion-1"
-        title="phase selector"
+        title="phase-selector.title"
       >
         <button
           className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-2"
@@ -8571,7 +8571,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           onTouchMove={[Function]}
           onTouchStart={[Function]}
           tabIndex={0}
-          title="show previous phase"
+          title="phase-selector.previous-button.title"
           type="button"
         >
           <svg
@@ -8657,7 +8657,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
           onTouchMove={[Function]}
           onTouchStart={[Function]}
           tabIndex={-1}
-          title="show next phase"
+          title="phase-selector.next-button.title"
           type="button"
         >
           <svg

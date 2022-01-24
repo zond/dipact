@@ -208,6 +208,15 @@
     },
     "wants-draw-icon-tooltip": "Wants a draw"
   },
+  "phase-selector": {
+    "title": "Phase selector",
+    "previous-button": {
+      "title": "Show previous phase"
+    },
+    "next-button": {
+      "title": "Show next phase"
+    }
+  },
   "reschedule-game-dialog": {
     "title": "Reschedule game",
     "reschedule-input": {

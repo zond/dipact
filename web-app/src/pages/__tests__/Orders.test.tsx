@@ -101,7 +101,7 @@ const getAcceptDrawButton = () => {
   return button;
 };
 
-const getNextPhaseButton = () => screen.getByTitle("show next phase");
+const getNextPhaseButton = () => screen.getByTitle(tk.phaseSelector.nextButton.title);
 
 const getAcceptDrawCheckbox = () => screen.getByLabelText(tk.orders.toggleDiasButton.label);
 
