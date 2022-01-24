@@ -15,6 +15,8 @@ import {
 } from "../hooks/service";
 import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 export const searchKey = "rename-game-dialog";
 
@@ -25,12 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RENAME_GAME_DIALOG_TITLE = "Rename game";
-export const RENAME_INPUT_LABEL = "New name";
-export const RENAME_BUTTON_LABEL = "Rename";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const RenameGameDialog = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
   const gameId = getParam(searchKey);
   const open = Boolean(gameId);
@@ -73,19 +71,19 @@ const RenameGameDialog = (): React.ReactElement => {
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>{RENAME_GAME_DIALOG_TITLE}</DialogTitle>
+      <DialogTitle>{t(tk.renameGameDialog.title)}</DialogTitle>
       <DialogContent>
         <TextField
-          label={RENAME_INPUT_LABEL}
+          label={t(tk.renameGameDialog.renameInput.label)}
           className={classes.input}
           inputProps={{ min: 0, max: 60 * 24 * 30 }}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <DialogActions>
-          <Button onClick={close}>{CANCEL_BUTTON_LABEL}</Button>
+          <Button onClick={close}>{t(tk.renameGameDialog.cancelButton.label)}</Button>
           <Button onClick={onSelected} disabled={disabled}>
-            {RENAME_BUTTON_LABEL}
+            {t(tk.renameGameDialog.renameButton.label)}
           </Button>
         </DialogActions>
       </DialogContent>

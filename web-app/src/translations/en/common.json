@@ -208,6 +208,18 @@
     },
     "wants-draw-icon-tooltip": "Wants a draw"
   },
+  "rename-game-dialog": {
+    "title": "Rename game",
+    "rename-input": {
+      "label": "New name"
+    },
+    "rename-button": {
+      "label": "Rename"
+    },
+    "cancel-button": {
+      "label": "Cancel"
+    }
+  },
   "reset-settings-dialog": {
     "title": "Reset settings",
     "prompt": "Are you sure you want to reset settings? This will restore all settings to the default values.",

@@ -211,6 +211,18 @@ const translateKeys = {
     },
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
   },
+  renameGameDialog: {
+    title: "rename-game-dialog.title",
+    renameInput: {
+      label: "rename-game-dialog.rename-input.label",
+    },
+    renameButton: {
+      "label": "rename-game-dialog.rename-button.label",
+    },
+    cancelButton: {
+      "label": "rename-game-dialog.cancel-button.label",
+    },
+  },
   resetSettingsDialog: {
     title: "reset-settings-dialog.title",
     prompt: "reset-settings-dialog.prompt",
