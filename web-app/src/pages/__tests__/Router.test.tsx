@@ -6,7 +6,6 @@ import { MemoryRouter } from "react-router";
 import "@testing-library/jest-dom/extend-expect";
 
 enum MockStrings {
-  About = "AboutPageMock",
   CreateGame = "CreateGamePageMock",
   Donate = "DonatePageMock",
   GameRouter = "GameRouterMock",
@@ -14,7 +13,6 @@ enum MockStrings {
   Settings = "SettingsMock",
 }
 
-jest.mock("../About", () => () => <div>{MockStrings.About}</div>);
 jest.mock("../CreateGame", () => () => <div>{MockStrings.CreateGame}</div>);
 jest.mock("../Donate", () => () => <div>{MockStrings.Donate}</div>);
 jest.mock("../GameRouter", () => () => <div>{MockStrings.GameRouter}</div>);
@@ -39,11 +37,6 @@ describe("Router", () => {
   test("should render game list on unknown route", () => {
     renderRoute("fake-route");
     expect(screen.getByText(MockStrings.GameList)).toBeInTheDocument();
-  });
-
-  test("should render about on /about", () => {
-    renderRoute("/about");
-    expect(screen.getByText(MockStrings.About)).toBeInTheDocument();
   });
 
   test("should render game on /Game/:gameId", () => {

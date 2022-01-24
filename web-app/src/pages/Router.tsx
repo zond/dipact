@@ -10,7 +10,6 @@ import { useSelectIsLoggedIn } from "../hooks/selectors";
 import Donate from "./Donate";
 import GameList from "./GameList";
 import NationPreferencesDialog from "../components/NationPreferencesDialog";
-import About from "./About";
 import Settings from "./Settings";
 import RescheduleDialog from "../components/RescheduleDialog";
 import ManageInvitationsDialog from "../components/ManageInvitationsDialog";
@@ -37,9 +36,6 @@ export const Routes = (): React.ReactElement => {
       <Switch>
         <Route exact path={RouteConfig.Donate}>
           <Donate />
-        </Route>
-        <Route exact path={RouteConfig.About}>
-          <About />
         </Route>
         <Route exact path={RouteConfig.CreateGame}>
           <CreateGame />

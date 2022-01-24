@@ -27,11 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const RENAME_GAME_DIALOG_TITLE = "Rename game";
-export const RENAME_INPUT_LABEL = "New name";
-export const RENAME_BUTTON_LABEL = "Rename";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const RenameGameDialog = (): React.ReactElement => {
   const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
@@ -79,16 +74,16 @@ const RenameGameDialog = (): React.ReactElement => {
       <DialogTitle>{t(tk.renameGameDialog.title)}</DialogTitle>
       <DialogContent>
         <TextField
-          label={t(tk.renameGameDialog.inputLabel)}
+          label={t(tk.renameGameDialog.renameInput.label)}
           className={classes.input}
           inputProps={{ min: 0, max: 60 * 24 * 30 }}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <DialogActions>
-          <Button onClick={close}>{t(tk.renameGameDialog.cancelButton)}</Button>
+          <Button onClick={close}>{t(tk.renameGameDialog.cancelButton.label)}</Button>
           <Button onClick={onSelected} disabled={disabled}>
-            {t(tk.renameGameDialog.renameButton)}
+            {t(tk.renameGameDialog.renameButton.label)}
           </Button>
         </DialogActions>
       </DialogContent>

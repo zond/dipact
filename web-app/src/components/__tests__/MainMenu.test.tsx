@@ -11,6 +11,7 @@ import { RouteConfig } from "../../pages/RouteConfig";
 import { StyledEngineProvider } from "@mui/material";
 import { ThemeProvider } from "@mui/styles";
 import theme from "../../theme";
+import links from "../../utils/links";
 
 let history: MemoryHistory;
 const mockLogout = jest.fn();
@@ -151,7 +152,7 @@ describe("MainMenu", () => {
     const menuItem = screen.getByText("About");
     fireEvent.click(menuItem);
 
-    expect(history.location.pathname).toBe(RouteConfig.About);
+    expect(global.open).toBeCalledWith(links.notion, "_blank");
   });
   test("Click settings opens settings page", async () => {
     const MainMenu = getComponent(getDefaultProps());
@@ -173,7 +174,7 @@ describe("MainMenu", () => {
     const menuItem = screen.getByText("Chat");
     fireEvent.click(menuItem);
 
-    expect(global.open).toBeCalledWith("https://discord.gg/bu3JxYc", "_blank");
+    expect(global.open).toBeCalledWith(links.diplicityDiscord, "_blank");
   });
 
   test("Click forum opens forum link", async () => {
@@ -185,10 +186,7 @@ describe("MainMenu", () => {
     const menuItem = screen.getByText("Forum");
     fireEvent.click(menuItem);
 
-    expect(global.open).toBeCalledWith(
-      "https://groups.google.com/g/diplicity-talk",
-      "_blank"
-    );
+    expect(global.open).toBeCalledWith(links.diplicityForum, "_blank");
   });
 
   test("Click faq opens faq link", async () => {
@@ -200,10 +198,7 @@ describe("MainMenu", () => {
     const menuItem = screen.getByText("FAQ");
     fireEvent.click(menuItem);
 
-    expect(global.open).toBeCalledWith(
-      "https://diplicity.notion.site/diplicity/Diplicity-FAQ-7b4e0a119eb54c69b80b411f14d43bb9",
-      "_blank"
-    );
+    expect(global.open).toBeCalledWith(links.diplicityFAQ, "_blank");
   });
 
   test("Click GitHub opens GitHub link", async () => {
@@ -214,9 +209,7 @@ describe("MainMenu", () => {
     fireEvent.click(button);
     const menuItem = screen.getByTitle("GitHub repo for this project");
 
-    expect(menuItem.getAttribute("href")).toBe(
-      "https://github.com/zond/dipact"
-    );
+    expect(menuItem.getAttribute("href")).toBe(links.dipactGithub);
   });
   test("Click error log opens error log dialog", async () => {
     const MainMenu = getComponent(getDefaultProps());
