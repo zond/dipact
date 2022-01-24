@@ -223,6 +223,18 @@ const translateKeys = {
       "label": "rename-game-dialog.cancel-button.label",
     },
   },
+  rescheduleGameDialog: {
+    title: "reschedule-game-dialog.title",
+    rescheduleInput: {
+      label: "reschedule-game-dialog.reschedule-input.label",
+    },
+    rescheduleButton: {
+      "label": "reschedule-game-dialog.reschedule-button.label",
+    },
+    cancelButton: {
+      "label": "reschedule-game-dialog.cancel-button.label",
+    },
+  },
   resetSettingsDialog: {
     title: "reset-settings-dialog.title",
     prompt: "reset-settings-dialog.prompt",

@@ -208,6 +208,18 @@
     },
     "wants-draw-icon-tooltip": "Wants a draw"
   },
+  "reschedule-game-dialog": {
+    "title": "Reschedule game",
+    "reschedule-input": {
+      "label": "New name"
+    },
+    "reschedule-button": {
+      "label": "Reschedule"
+    },
+    "cancel-button": {
+      "label": "Cancel"
+    }
+  },
   "rename-game-dialog": {
     "title": "Rename game",
     "rename-input": {
