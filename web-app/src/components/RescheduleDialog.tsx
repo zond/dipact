@@ -34,10 +34,7 @@ const RescheduleDialog = (): React.ReactElement => {
   const [minutes, setMinutes] = useState(60);
   const classes = useStyles();
 
-  const [
-    getGameTrigger,
-    { data: game }
-  ] = useLazyGetGameQuery();
+  const [getGameTrigger, { data: game }] = useLazyGetGameQuery();
   const [
     rescheduleGame,
     { isLoading, isSuccess },
@@ -69,10 +66,10 @@ const RescheduleDialog = (): React.ReactElement => {
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>{t(tk.rescheduleDialog.title)}</DialogTitle>
+      <DialogTitle>{t(tk.rescheduleGameDialog.title)}</DialogTitle>
       <DialogContent>
         <TextField
-          label={t(tk.rescheduleDialog.inputLabel)}
+          label={t(tk.rescheduleGameDialog.rescheduleInput.label)}
           className={classes.input}
           type="number"
           inputProps={{ min: 0, max: 60 * 24 * 30 }}
@@ -80,9 +77,11 @@ const RescheduleDialog = (): React.ReactElement => {
           onChange={(e) => setMinutes(parseInt(e.target.value))}
         />
         <DialogActions>
-          <Button onClick={close}>{t(tk.rescheduleDialog.cancelButton)}</Button>
+          <Button onClick={close}>
+            {t(tk.rescheduleGameDialog.cancelButton.label)}
+          </Button>
           <Button onClick={onSelected} disabled={isLoading}>
-            {t(tk.rescheduleDialog.rescheduleButton)}
+            {t(tk.rescheduleGameDialog.rescheduleButton.label)}
           </Button>
         </DialogActions>
       </DialogContent>

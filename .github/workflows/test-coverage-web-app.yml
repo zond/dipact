@@ -15,3 +15,4 @@ jobs:
         package-manager: yarn
         threshold: 10
         annotations: none
+        skip-step: install

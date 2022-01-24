@@ -1,11 +1,10 @@
 import React from "react";
 import * as helpers from "../../helpers";
 
-import { Typography } from "@mui/material";
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { alpha } from "@mui/material/styles";
 import { Message } from "../../hooks/useChatMessagesList";
-import { DefaultTheme } from "@mui/styles";
 
 interface StyleProps {
   selfish: boolean;
@@ -18,7 +17,7 @@ interface ChatMessageProps {
   avatar: React.ReactElement;
 }
 
-const useStyles = makeStyles<DefaultTheme, StyleProps>((theme) => ({
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
