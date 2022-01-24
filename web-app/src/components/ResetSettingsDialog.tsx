@@ -9,16 +9,13 @@ import {
 import React, { useEffect } from "react";
 import { registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 export const searchKey = "reset-settings-dialog";
 
-export const RESET_SETTINGS_DIALOG_TITLE = "Reset settings";
-export const RESET_SETTINGS_DIALOG_PROMPT =
-  "Are you sure you want to reset settings? This will restore all settings to the default values.";
-export const RESET_BUTTON_LABEL = "Reset settings";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const ResetSettingsDialog = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
   const open = Boolean(getParam(searchKey));
 
@@ -44,13 +41,13 @@ const ResetSettingsDialog = (): React.ReactElement => {
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>{RESET_SETTINGS_DIALOG_TITLE}</DialogTitle>
+      <DialogTitle>{t(tk.resetSettingsDialog.title)}</DialogTitle>
       <DialogContent>
-        <Typography>{RESET_SETTINGS_DIALOG_PROMPT}</Typography>
+        <Typography>{t(tk.resetSettingsDialog.prompt)}</Typography>
         <DialogActions>
-          <Button onClick={close}>{CANCEL_BUTTON_LABEL}</Button>
+          <Button onClick={close}>{t(tk.resetSettingsDialog.cancelButton)}</Button>
           <Button onClick={onClickReset} disabled={disabled}>
-            {RESET_BUTTON_LABEL}
+            {t(tk.resetSettingsDialog.resetButton)}
           </Button>
         </DialogActions>
       </DialogContent>

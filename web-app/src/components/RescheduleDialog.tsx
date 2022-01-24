@@ -14,6 +14,8 @@ import {
 } from "../hooks/service";
 import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 export const searchKey = "reschedule-dialog";
 
@@ -24,22 +26,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RESCHEDULE_DIALOG_TITLE = "Reschedule game";
-const RESCHEDULE_DEADLINE_INPUT_LABEL = "New next deadline in minutes";
-const RESCHEDULE_BUTTON_LABEL = "Reschedule";
-const CANCEL_BUTTON_LABEL = "Cancel";
-
 const RescheduleDialog = (): React.ReactElement => {
+  const { t } = useTranslation("common");
   const { getParam, removeParam } = useSearchParams();
   const gameId = getParam(searchKey);
   const open = Boolean(gameId);
   const [minutes, setMinutes] = useState(60);
   const classes = useStyles();
 
-  const [
-    getGameTrigger,
-    { data: game }
-  ] = useLazyGetGameQuery();
+  const [getGameTrigger, { data: game }] = useLazyGetGameQuery();
   const [
     rescheduleGame,
     { isLoading, isSuccess },
@@ -71,10 +66,10 @@ const RescheduleDialog = (): React.ReactElement => {
 
   return (
     <Dialog open={open} onClose={close}>
-      <DialogTitle>{RESCHEDULE_DIALOG_TITLE}</DialogTitle>
+      <DialogTitle>{t(tk.rescheduleGameDialog.title)}</DialogTitle>
       <DialogContent>
         <TextField
-          label={RESCHEDULE_DEADLINE_INPUT_LABEL}
+          label={t(tk.rescheduleGameDialog.rescheduleInput.label)}
           className={classes.input}
           type="number"
           inputProps={{ min: 0, max: 60 * 24 * 30 }}
@@ -82,9 +77,11 @@ const RescheduleDialog = (): React.ReactElement => {
           onChange={(e) => setMinutes(parseInt(e.target.value))}
         />
         <DialogActions>
-          <Button onClick={close}>{CANCEL_BUTTON_LABEL}</Button>
+          <Button onClick={close}>
+            {t(tk.rescheduleGameDialog.cancelButton.label)}
+          </Button>
           <Button onClick={onSelected} disabled={isLoading}>
-            {RESCHEDULE_BUTTON_LABEL}
+            {t(tk.rescheduleGameDialog.rescheduleButton.label)}
           </Button>
         </DialogActions>
       </DialogContent>

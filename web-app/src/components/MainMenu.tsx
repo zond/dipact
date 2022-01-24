@@ -22,6 +22,7 @@ import { MenuIcon, GitHubIcon, BugReportIcon, DonateIcon } from "../icons";
 import { RouteConfig } from "../pages/RouteConfig";
 import useSearchParams from "../hooks/useSearchParams";
 import NavItem from "./NavItem";
+import links from "../utils/links";
 
 const DRAWER_TITLE = "Main menu drawer";
 const OPEN_USER_MENU_BUTTON_TITLE = "Open user menu";
@@ -40,12 +41,6 @@ const FAQ_MENU_ITEM = "FAQ";
 const GITHUB_BUTTON_LABEL = "GitHub repo for this project";
 const DONATE_BUTTON_LABEL = "Donate to this project";
 const ERROR_BUTTON_LABEL = "Report a bug";
-
-const CHAT_URL = "https://discord.gg/bu3JxYc";
-const FORUM_URL = "https://groups.google.com/g/diplicity-talk";
-const FAQ_URL =
-  "https://diplicity.notion.site/diplicity/Diplicity-FAQ-7b4e0a119eb54c69b80b411f14d43bb9";
-const DIPACT_GITHUB_URL = "https://github.com/zond/dipact";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -98,14 +93,14 @@ const MainMenu = ({ children }: MainMenuProps) => {
   const onClickAvatar = (e: React.MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(e.currentTarget);
   const onClickPlayerStats = () => setParam("player-stats", user.Id as string);
-  const onClickAbout = () => history.push(RouteConfig.About);
   const onClickCreateGame = () => history.push(RouteConfig.CreateGame);
   const onClickSettings = () => history.push(RouteConfig.Settings);
   const onClickErrorLog = () => setParam("error-log", "1");
 
-  const onClickChat = () => window.open(CHAT_URL, "_blank");
-  const onClickForum = () => window.open(FORUM_URL, "_blank");
-  const onClickFAQ = () => window.open(FAQ_URL, "_blank");
+  const onClickAbout = () => window.open(links.notion, "_blank");
+  const onClickChat = () => window.open(links.diplicityDiscord, "_blank");
+  const onClickForum = () => window.open(links.diplicityForum, "_blank");
+  const onClickFAQ = () => window.open(links.diplicityFAQ, "_blank");
 
   return <>
     <AppBar position="fixed">
@@ -211,7 +206,7 @@ const MainMenu = ({ children }: MainMenuProps) => {
           </List>
           <div className={classes.icons}>
             <NavItem
-              href={DIPACT_GITHUB_URL}
+              href={links.dipactGithub}
               label={GITHUB_BUTTON_LABEL}
               active
               external

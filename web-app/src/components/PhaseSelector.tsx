@@ -49,11 +49,11 @@ const PhaseSelector = (): React.ReactElement => {
   if (isLoading || isError || !phases || !selectedPhase) return <></>;
 
   return (
-    <Card className={classes.root} title="phase selector">
+    <Card className={classes.root} title={t(tk.phaseSelector.title)}>
       <IconButton
         onClick={setPreviousPhase}
         disabled={selectedPhase === 1}
-        title={t(tk.phaseSelector.previousButton)}
+        title={t(tk.phaseSelector.previousButton.title)}
         size="large"
       >
         <PreviousIcon />
@@ -68,7 +68,7 @@ const PhaseSelector = (): React.ReactElement => {
       <IconButton
         onClick={setNextPhase}
         disabled={selectedPhase === phases.length}
-        title={t(tk.phaseSelector.nextButton)}
+        title={t(tk.phaseSelector.nextButton.title)}
         size="large"
       >
         <NextIcon />

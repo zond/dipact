@@ -1,4 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
+import tk from "../translations/translateKeys";
 
 export const getLoadingSpinner = async () => {
   return await waitFor(() => screen.queryByRole("progressbar"));
@@ -16,6 +17,6 @@ export const userSeesInternalServerErrorMessage = async () => {
 
 export const userSeesPhaseSelector = async () => {
   await waitFor(() =>
-    screen.getByTitle("phase selector", { exact: false })
+    screen.getByTitle(tk.phaseSelector.title, { exact: false })
   );
 };
