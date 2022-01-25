@@ -163,6 +163,9 @@ const translateKeys = {
     },
     noGamesMessage: "game-list.no-games-message",
   },
+  loading: {
+    title: "loading.title",
+  },
   login: {
     description: "login.description",
     loginButton: {
@@ -211,14 +214,14 @@ const translateKeys = {
     },
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
   },
-  phaseSelector: { 
+  phaseSelector: {
     title: "phase-selector.title",
-      previousButton: {
-        title: "phase-selector.previous-button.title"
-      },
-      nextButton: {
-        title: "phase-selector.next-button.title"
-      },
+    previousButton: {
+      title: "phase-selector.previous-button.title",
+    },
+    nextButton: {
+      title: "phase-selector.next-button.title",
+    },
   },
   renameGameDialog: {
     title: "rename-game-dialog.title",
@@ -226,10 +229,10 @@ const translateKeys = {
       label: "rename-game-dialog.rename-input.label",
     },
     renameButton: {
-      "label": "rename-game-dialog.rename-button.label",
+      label: "rename-game-dialog.rename-button.label",
     },
     cancelButton: {
-      "label": "rename-game-dialog.cancel-button.label",
+      label: "rename-game-dialog.cancel-button.label",
     },
   },
   rescheduleGameDialog: {
@@ -238,10 +241,10 @@ const translateKeys = {
       label: "reschedule-game-dialog.reschedule-input.label",
     },
     rescheduleButton: {
-      "label": "reschedule-game-dialog.reschedule-button.label",
+      label: "reschedule-game-dialog.reschedule-button.label",
     },
     cancelButton: {
-      "label": "reschedule-game-dialog.cancel-button.label",
+      label: "reschedule-game-dialog.cancel-button.label",
     },
   },
   resetSettingsDialog: {

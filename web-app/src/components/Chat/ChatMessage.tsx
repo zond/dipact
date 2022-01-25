@@ -38,7 +38,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
   status: {
     alignSelf: "flex-end",
-    color: alpha(theme.palette.text.primary, 0.3),
   },
 }));
 

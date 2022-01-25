@@ -160,6 +160,9 @@
       "label": "My games"
     }
   },
+  "loading": {
+    "title": "Loading"
+  },
   "login": {
     "description": "A digital version of the classic game of Diplomacy. Sign in to play.",
     "login-button": {

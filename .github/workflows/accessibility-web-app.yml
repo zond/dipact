@@ -1,0 +1,11 @@
+name: Accessibility
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn --cwd ./web-app install -g --dev
+      - name: Run accessibility testing
+        run: yarn --cwd ./web-app storybook-axe
