@@ -3,7 +3,6 @@ import * as helpers from "../../helpers";
 
 import { Theme, Typography } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
-import { alpha } from "@mui/material/styles";
 import { Message } from "../../hooks/useChatMessagesList";
 
 interface StyleProps {
