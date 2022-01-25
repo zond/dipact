@@ -1,7 +1,7 @@
 import React from "react";
 import useRegisterPageView from "../hooks/useRegisterPageview";
 import useGame from "../hooks/useGame";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { AppBar, Toolbar, Container, Button } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';

@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 
 const useSearchParams = (): {
   getParam: (paramName: string) => string | null;

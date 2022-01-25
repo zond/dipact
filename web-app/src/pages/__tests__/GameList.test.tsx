@@ -12,7 +12,7 @@ import { handlers } from "../../mockService/handlers";
 // } from "@testing-library/react";
 // import { diplicityServiceURL } from "../../store/service";
 
-// import { generatePath, Router, Route, Switch } from "react-router";
+// import { generatePath, Router, Route, Switch } from "react-router-dom";
 // import "@testing-library/jest-dom/extend-expect";
 // import { createMemoryHistory, MemoryHistory } from "history";
 // import { ThemeProvider, StyledEngineProvider } from "@mui/material";

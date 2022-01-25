@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { generatePath } from "react-router";
+import { generatePath } from "react-router-dom";
 import GameCard from "../components/GameCard";
 import Loading from "../components/Loading";
 import MainMenu from "../components/MainMenu";

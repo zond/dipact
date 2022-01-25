@@ -56,8 +56,8 @@ const getActive = (path: string): string | null => {
 // TODO test
 const GameNavBar = ({ children }: GameNavBarProps): React.ReactElement => {
   const classes = useStyles();
-  const params = useParams<GameUrlParams>();
   const location = useLocation();
+  const params = useParams<GameUrlParams>();
   const activeChannel = getActive(location.pathname);
   const { gameId } = params;
 

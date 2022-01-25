@@ -14,7 +14,7 @@ import {
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { generatePath } from "react-router";
+import { generatePath } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Game, NationAllocation } from "../hooks/useGameList";
 import {

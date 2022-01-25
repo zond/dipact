@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { generatePath } from "react-router";
+import { generatePath } from "react-router-dom";
 
 import Component from "../components/GameNavBar";
 import { routerDecorator } from "./decorators";

@@ -6,7 +6,7 @@ import { createMemoryHistory, MemoryHistory } from "history";
 
 import MainMenuComponent from "../MainMenu";
 import { useDIContext } from "../../hooks/useMainMenu";
-import { Router, Route, Switch } from "react-router";
+import { Router, Route, Switch } from "react-router-dom";
 import { RouteConfig } from "../../pages/RouteConfig";
 import { StyledEngineProvider } from "@mui/material";
 import { ThemeProvider } from "@mui/styles";

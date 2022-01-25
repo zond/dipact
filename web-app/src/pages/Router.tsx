@@ -1,5 +1,5 @@
 import React from "react";
-import { Router as ReactRouter } from "react-router";
+import { Router as ReactRouter } from "react-router-dom";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { MemoryHistory } from "history";
 

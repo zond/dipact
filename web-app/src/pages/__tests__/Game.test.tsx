@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { generatePath, Router, Route, Switch } from "react-router";
+import { generatePath, Router, Route, Switch } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import { setupServer } from "msw/node";
 import { createMemoryHistory, MemoryHistory } from "history";

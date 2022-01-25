@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { RouteConfig } from "../pages/RouteConfig";
 import { GoBackIcon } from "../icons";
 

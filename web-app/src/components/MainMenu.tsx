@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import useRegisterPageView from "../hooks/useRegisterPageview";
 import useMainMenu, { useDIContext, IUseMainMenu } from "../hooks/useMainMenu";

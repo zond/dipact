@@ -3220,6 +3220,7 @@ exports[`Storyshots components/Loading Default 1`] = `
         "width": 40,
       }
     }
+    title="loading.title"
   >
     <svg
       className="MuiCircularProgress-svg emotion-1"
