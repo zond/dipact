@@ -12,8 +12,7 @@ import {
   ListItem,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { generatePath } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Game, NationAllocation } from "../hooks/useGameList";
@@ -31,12 +30,10 @@ import {
   StartedAtIcon,
 } from "../icons";
 import { RouteConfig } from "../pages/RouteConfig";
-import { copyToClipboard } from "../utils/general";
 import PlayerCount from "./PlayerCount";
-import { actions as feedbackActions } from "../store/feedback";
 import useSearchParams from "../hooks/useSearchParams";
-import { useDeleteGameMutation, useJoinGameMutation } from "../hooks/service";
 import { registerEvent } from "../hooks/useRegisterPageview";
+import useGameCard from "../hooks/useGameCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -140,8 +137,6 @@ const GAME_VARIANT_LABEL = "Game variant: ";
 const PHASE_DEADLINE_LABEL = "Phase deadline: ";
 const CREATED_AT_LABEL = "Created at: ";
 const NATION_ALLOCATION_LABEL = "Nation selection: ";
-const LINK_COPIED_TO_CLIPBOARD_FEEDBACK =
-  "Game URL copied to clipboard. Share it with other players.";
 
 const FAILED_REQUIREMENTS_LABEL = "You can't join this game:";
 const FAILED_REQUIREMENT_EXPLANATION_HATED =
@@ -200,35 +195,18 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const numMembers = players.length;
 
   const history = useHistory();
-  const dispatch = useDispatch();
   const { setParam } = useSearchParams();
+
+  const { deleteGame, isLoading, joinGame, onClickInvite } = useGameCard();
 
   const gameUrl = generatePath(RouteConfig.Game, { gameId: id });
   const onClickView = () => history.push(gameUrl);
-  const [joinGame, { isLoading, isSuccess }] = useJoinGameMutation();
-  const [deleteGame, deleteGameQuery] = useDeleteGameMutation();
-
-  const onClickInvite = () => {
-    if (false) {
-      // TODO do native share on native app
-    } else {
-      copyToClipboard(gameUrl)
-        .then(() => {
-          const message = LINK_COPIED_TO_CLIPBOARD_FEEDBACK;
-          dispatch(feedbackActions.add({ message, severity: "info" }));
-        })
-        .catch((error) => {
-          dispatch(feedbackActions.add({ message: error, severity: "error" }));
-        });
-      // TODO
-      // gtag("event", "game_share");
-    }
-  };
 
   const onClickJoin = () => {
     if (nationAllocation === NationAllocation.Preference) {
       setParam("nation-preference-dialog", id);
     } else {
+      // TODO move to middleware
       joinGame({ gameId: id as string, NationPreferences: "", GameAlias: "" });
     }
   };
@@ -237,16 +215,12 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const onClickRename = () => setParam("rename-game-dialog", id);
   const onClickManageInvitations = () =>
     setParam("manage-invitations-dialog", id);
+
+  // TODO move to middleware
   const onClickDelete = () => {
     deleteGame(id);
     registerEvent("game_list_element_delete");
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      registerEvent("game_list_element_join");
-    }
-  }, [isSuccess]);
 
   return (
     <Accordion
@@ -338,7 +312,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
               {VIEW_GAME_BUTTON_LABEL}
             </Button>
           </a>
-          <Button variant={"outlined"} onClick={onClickInvite}>
+          <Button variant={"outlined"} onClick={() => onClickInvite(gameUrl)}>
             {INVITE_BUTTON_LABEL}
           </Button>
           <Button
@@ -365,7 +339,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
               <Button
                 variant={"outlined"}
                 onClick={onClickDelete}
-                disabled={deleteGameQuery.isLoading}
+                disabled={isLoading}
               >
                 {DELETE_BUTTON_LABEL}
               </Button>

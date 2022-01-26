@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import Component from "../components/Chat/ChatPhaseDivider";
 
 export default {
-  title: "components/ChatPhaseDivider",
+  title: "components/Chat/ChatPhaseDivider",
   component: Component,
 } as ComponentMeta<typeof Component>;
 

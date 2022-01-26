@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import Component from "../components/Chat/ChatMessageInput";
 
 export default {
-  title: "components/ChatMessageInput",
+  title: "components/Chat/ChatMessageInput",
   component: Component,
   argTypes: {
     onSendMessage: { action: "clicked" },

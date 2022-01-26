@@ -1,8 +1,6 @@
 import { Alert, Snackbar } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useFeedback } from "../hooks/selectors";
-import { actions as feedbackActions } from "../store/feedback";
+import useFeedbackWrapper from "../hooks/useFeedbackWrapper";
 
 interface FeedbackWrapperProps {
   children: React.ReactNode;
@@ -11,10 +9,8 @@ interface FeedbackWrapperProps {
 const FeedbackWrapper = ({
   children,
 }: FeedbackWrapperProps): React.ReactElement => {
-  const feedback = useFeedback();
-  const dispatch = useDispatch();
 
-  const handleClose = (id: number) => dispatch(feedbackActions.clear(id));
+  const { feedback, handleClose } = useFeedbackWrapper();
 
   return (
     <>

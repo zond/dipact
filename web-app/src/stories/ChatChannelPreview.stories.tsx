@@ -7,7 +7,7 @@ import { Message } from "../store/types";
 import { Channel } from "../hooks/types";
 
 export default {
-  title: "components/ChatChannelPreview",
+  title: "components/Chat/ChatChannelPreview",
   component: Component,
 } as ComponentMeta<typeof Component>;
 

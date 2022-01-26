@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import Component from "../components/Chat/ChatCreateChannelDialog";
 
 export default {
-  title: "components/ChatCreateChannelDialog",
+  title: "components/Chat/ChatCreateChannelDialog",
   component: Component,
 } as ComponentMeta<typeof Component>;
 
