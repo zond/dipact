@@ -12,6 +12,7 @@ import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
 import tk from "../translations/translateKeys";
 import { useTranslation } from "react-i18next";
+import { CheckBoxIconChecked, CheckBoxIconUnchecked } from "../icons";
 
 interface OrdersUrlParams {
   gameId: string;
@@ -70,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
   confirmOrdersButton: {
     padding: theme.spacing(1, 2),
+    gap: theme.spacing(1),
   },
 }));
 
@@ -147,7 +149,7 @@ const Orders = () => {
             variant="contained"
             className={classes.confirmOrdersButton}
           >
-            <FormControlLabel
+            {/* <FormControlLabel
               label={t(tk.orders.confirmOrdersButton.label) as string}
               control={
                 <Checkbox
@@ -156,7 +158,13 @@ const Orders = () => {
                   color="primary"
                 />
               }
-            />
+            /> */}
+            {ordersConfirmed ? (
+              <CheckBoxIconChecked />
+            ) : (
+              <CheckBoxIconUnchecked />
+            )}
+            {t(tk.orders.confirmOrdersButton.label)}
           </Button>
           <Typography variant="caption">
             {t(
