@@ -138,23 +138,23 @@ class SettingsDialog extends React.Component {
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
 		if (localStorage.getItem("colourNonSCs") !== null) {
-		const colourNonSCs = localStorage.getItem("colourNonSCs");
-		if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
-			this.setState({ colourNonSCs: colourNonSCs })
-		}
-		if (
-			JSON.stringify(Globals.userConfig) !==
-			JSON.stringify(this.state.userConfig)
-		) {
-			this.setState({ userConfig: Globals.userConfig });
-		}
-		if (!prevState.open && this.state.open) {
-			gtag("set", {
-				page_title: "SettingsDialog",
-				page_location: location.href,
-			});
-			gtag("event", "page_view");
-		}
+			const colourNonSCs = localStorage.getItem("colourNonSCs");
+			if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
+				this.setState({ colourNonSCs: colourNonSCs != "false" })
+			}
+			if (
+				JSON.stringify(Globals.userConfig) !==
+				JSON.stringify(this.state.userConfig)
+			) {
+				this.setState({ userConfig: Globals.userConfig });
+			}
+			if (!prevState.open && this.state.open) {
+				gtag("set", {
+					page_title: "SettingsDialog",
+					page_location: location.href,
+				});
+				gtag("event", "page_view");
+			}
 		}
 	}
 	saveConfig() {
