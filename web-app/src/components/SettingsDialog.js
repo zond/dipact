@@ -140,7 +140,7 @@ class SettingsDialog extends React.Component {
 		if (localStorage.getItem("colourNonSCs") !== null) {
 		const colourNonSCs = localStorage.getItem("colourNonSCs");
 		if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
-			this.setState({ colourNonSCs: true })
+			this.setState({ colourNonSCs: colourNonSCs })
 		}
 		if (
 			JSON.stringify(Globals.userConfig) !==
