@@ -52,6 +52,15 @@ const styles = (theme) => ({
 	},
 });
 
+const getColorNonSCs = () => {
+	const value = localStorage.getItem("colourNonSCs");
+	return value === "true";
+}
+
+const setColorNonSCs = (value) => {
+	localStorage.setItem("colourNonSCs", value.toString());
+}
+
 
 class SettingsDialog extends React.Component {
 	constructor(props) {
@@ -61,7 +70,7 @@ class SettingsDialog extends React.Component {
 			userConfig: Globals.userConfig,
 			newColorOverrideVariant: "Classical",
 			resetSettingsChecked: false,
-			colourNonSCs: true,
+			colorNonSCs: getColorNonSCs(),
 		};
 		if (this.props.parentCB) {
 			this.props.parentCB(this);
@@ -77,8 +86,8 @@ class SettingsDialog extends React.Component {
 
 	handleChangeColourNonSCs(e) {
 		const value = e.currentTarget.checked;
-		localStorage.setItem("colourNonSCs", value.toString());
-		this.setState({ colourNonSCs: value });
+		setColorNonSCs(value);
+		this.setState({ ...this.state, colorNonSCs: value })
 	}
 
 	newColorDeleter(nation) {
@@ -137,11 +146,6 @@ class SettingsDialog extends React.Component {
 		this.setState({ open: false });
 	}
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (localStorage.getItem("colourNonSCs") !== null) {
-		const colourNonSCs = localStorage.getItem("colourNonSCs");
-		if (colourNonSCs.length && this.state.colourNonSCs.toString() !== colourNonSCs) {
-			this.setState({ colourNonSCs: true })
-		}
 		if (
 			JSON.stringify(Globals.userConfig) !==
 			JSON.stringify(this.state.userConfig)
@@ -154,7 +158,6 @@ class SettingsDialog extends React.Component {
 				page_location: location.href,
 			});
 			gtag("event", "page_view");
-		}
 		}
 	}
 	saveConfig() {
@@ -432,7 +435,7 @@ class SettingsDialog extends React.Component {
 										}}
 										control={
 											<Switch
-												checked={this.state.colourNonSCs}
+												checked={getColorNonSCs()}
 												onChange={this.handleChangeColourNonSCs}
 											/>
 										}
