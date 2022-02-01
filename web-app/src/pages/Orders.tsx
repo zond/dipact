@@ -148,17 +148,8 @@ const Orders = () => {
             color="secondary"
             variant="contained"
             className={classes.confirmOrdersButton}
+            title={t(tk.orders.confirmOrdersButton.label)}
           >
-            {/* <FormControlLabel
-              label={t(tk.orders.confirmOrdersButton.label) as string}
-              control={
-                <Checkbox
-                  disabled={noOrders}
-                  checked={ordersConfirmed || noOrders}
-                  color="primary"
-                />
-              }
-            /> */}
             {ordersConfirmed ? (
               <CheckBoxIconChecked />
             ) : (

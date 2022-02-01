@@ -108,7 +108,7 @@ const getAcceptDrawCheckbox = () => screen.getByLabelText(tk.orders.toggleDiasBu
 const userSeesAcceptDrawButton = () => getAcceptDrawButton();
 
 const getConfirmOrdersButton = () => screen.getByText(tk.orders.confirmOrdersButton.label);
-const getConfirmOrdersCheckbox = () => screen.getByLabelText(tk.orders.confirmOrdersButton.label);
+const getConfirmOrdersCheckbox = () => screen.getByTitle(tk.orders.confirmOrdersButton.label);
 const userSeesConfirmOrdersButton = () => getConfirmOrdersButton();
 
 const supplyCentersMap = {
