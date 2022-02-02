@@ -55,9 +55,8 @@ const RenameGameDialog = (): React.ReactElement => {
   useEffect(() => {
     if (renameGameQuery.isSuccess) {
       registerEvent("game_list_element_rename");
-      close();
     }
-  }, [renameGameQuery.isSuccess, close]);
+  }, [renameGameQuery.isSuccess]);
 
   const onSelected = () => {
     renameGame({
@@ -65,6 +64,7 @@ const RenameGameDialog = (): React.ReactElement => {
       userId: user?.Id as string,
       GameAlias: name,
     });
+    removeParam(searchKey);
   };
 
   const disabled = renameGameQuery.isLoading || name.length < 1;
