@@ -43,9 +43,9 @@ const NationPreferencesDialog = (): React.ReactElement => {
   const variant = useSelectVariant(game?.Variant || "");
   const nations = variant?.Nations;
 
-  const close = useCallback(() => {
+  const close = () => {
     removeParam(searchKey);
-  }, [removeParam]);
+  };
 
   useEffect(() => {
     if (gameId) registerPageView("NationPreferencesDialog");
@@ -60,9 +60,8 @@ const NationPreferencesDialog = (): React.ReactElement => {
   useEffect(() => {
     if (isSuccess) {
       registerEvent("game_list_element_join");
-      close();
     }
-  }, [close, isSuccess]);
+  }, [isSuccess, removeParam]);
 
   const onSelected = () => {
     joinGame({
@@ -70,6 +69,7 @@ const NationPreferencesDialog = (): React.ReactElement => {
       NationPreferences: sortedNations.join(","),
       GameAlias: "",
     });
+    removeParam(searchKey);
   };
 
   const updateOrder = (direction: "up" | "down", idx: number) => {

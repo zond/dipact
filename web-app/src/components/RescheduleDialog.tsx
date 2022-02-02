@@ -52,7 +52,6 @@ const RescheduleDialog = (): React.ReactElement => {
   useEffect(() => {
     if (isSuccess) {
       registerEvent("game_list_element_reschedule");
-      close();
     }
   }, [close, isSuccess]);
 
@@ -62,6 +61,7 @@ const RescheduleDialog = (): React.ReactElement => {
       PhaseOrdinal: game?.NewestPhaseMeta?.[0].PhaseOrdinal as number,
       NextPhaseDeadlineInMinutes: minutes,
     });
+    close();
   };
 
   return (
