@@ -6,6 +6,7 @@ import {
   waitFor,
   fireEvent,
   getByText,
+  getByTestId,
 } from "@testing-library/react";
 import { generatePath, Router, Route, Switch } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
@@ -108,7 +109,8 @@ const getAcceptDrawCheckbox = () => screen.getByLabelText(tk.orders.toggleDiasBu
 const userSeesAcceptDrawButton = () => getAcceptDrawButton();
 
 const getConfirmOrdersButton = () => screen.getByText(tk.orders.confirmOrdersButton.label);
-const getConfirmOrdersCheckbox = () => screen.getByLabelText(tk.orders.confirmOrdersButton.label);
+const getOrdersConfirmedIcon = (element: HTMLElement) => getByTestId(element, "CheckBoxIcon");
+const getOrdersNotConfirmedIcon = (element: HTMLElement) => getByTestId(element, "CheckBoxOutlineBlankIcon");
 const userSeesConfirmOrdersButton = () => getConfirmOrdersButton();
 
 const supplyCentersMap = {
@@ -427,8 +429,8 @@ describe("Orders functional tests", () => {
     render(<WrappedOrders path={ordersUrl} />);
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
-    const checkbox = await getConfirmOrdersCheckbox();
-    expect(checkbox).not.toHaveAttribute("checked");
+    const confirmOrdersButton = userSeesConfirmOrdersButton();
+    await getOrdersNotConfirmedIcon(confirmOrdersButton);
   });
 
   test("Confirm orders button is checked if orders are confirmed", async () => {
@@ -449,8 +451,8 @@ describe("Orders functional tests", () => {
     render(<WrappedOrders path={ordersUrl} />);
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
-    const checkbox = await getConfirmOrdersCheckbox();
-    expect(checkbox).toHaveAttribute("checked");
+    const confirmOrdersButton = userSeesConfirmOrdersButton();
+    await getOrdersConfirmedIcon(confirmOrdersButton);
   });
 
   test("Confirm orders button is checked if no orders to give", async () => {
@@ -471,8 +473,8 @@ describe("Orders functional tests", () => {
     render(<WrappedOrders path={ordersUrl} />);
     await userSeesLoadingSpinner();
     await userSeesPhaseSelector();
-    const checkbox = await getConfirmOrdersCheckbox();
-    expect(checkbox).toHaveAttribute("checked");
+    const confirmOrdersButton = userSeesConfirmOrdersButton();
+    await getOrdersConfirmedIcon(confirmOrdersButton);
   });
 
   test("Message appears if orders to give", async () => {

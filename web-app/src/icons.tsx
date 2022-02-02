@@ -10,6 +10,8 @@ export {
   AvTimer as PhaseDeadlineIcon,
   Cached as RandomGameNameIcon,
   Check as ConfirmedReadyIcon,
+  CheckBox as CheckBoxIconChecked,
+  CheckBoxOutlineBlank as CheckBoxIconUnchecked,
   ChatBubble as ChatLanguageIcon,
   Close as CloseIcon,
   ChevronLeft as PreviousIcon,
