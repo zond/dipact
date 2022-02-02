@@ -6,7 +6,6 @@ import {
   waitFor,
   fireEvent,
   getByText,
-  getByDisplayValue,
   waitForElementToBeRemoved,
   getByLabelText,
 } from "@testing-library/react";
