@@ -150,7 +150,7 @@ const Orders = () => {
             className={classes.confirmOrdersButton}
             title={t(tk.orders.confirmOrdersButton.label)}
           >
-            {ordersConfirmed ? (
+            {ordersConfirmed || noOrders ? (
               <CheckBoxIconChecked />
             ) : (
               <CheckBoxIconUnchecked />
