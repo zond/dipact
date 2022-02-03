@@ -79,7 +79,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom  --watchAll=false --maxWorkers=50% --isolatedModules=true",
+    "test": "react-scripts test --watchAll=false",
     "test-coverage": "react-scripts test --watchAll=false --env=jsdom --maxWorkers=50% --isolatedModules=true --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
