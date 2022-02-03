@@ -148,6 +148,78 @@
     "create-game-button": {
       "title": "Create Game"
     },
+    "game-card": {
+      "failed-requirements": {
+        "label": "You can't join this game:",
+        "hated": "You've been reported too often (hated score too high).",
+        "hater": "You banned others too often (hater score too high).",
+        "max-rating": "You're too good (rating too high).",
+        "min-rating": "You You're not good enough yet (rating too low).",
+        "min-reliability": "You haven't given any orders on too many turns (reliability too low).",
+        "min-quickness": "You haven't committed your orders often enough (quickness too low).",
+        "invitation-needed": "The game Master hasn't invited you."
+      },
+      "view-button": {
+        "label": "View"
+      },
+      "invite-button": {
+        "label": "Invite"
+      },
+      "join-button": {
+        "label": "Join"
+      },
+      "reschedule-button": {
+        "label": "Reschedule"
+      },
+      "rename-button": {
+        "label": "Rename"
+      },
+      "delete-button": {
+        "label": "Delete"
+      },
+      "manage-invitations-button": {
+        "label": "Manage invitations"
+      },
+      "rules": {
+        "label": "Rules:"
+      },
+      "players": {
+        "label": "Players:"
+      },
+      "chat-language-icon": {
+        "tooltip": "Chat language: {{ language }}"
+      },
+      "private-game-icon": {
+        "tooltip": "Private game"
+      },
+      "min-quickness-or-reliability-required-icon": {
+        "tooltip": "Minimum quickness or reliability required"
+      },
+      "min-rating-required-icon": {
+        "tooltip": "Minimum rating required"
+      },
+      "chat-disabled-icon": {
+        "tooltip": "Chat disabled"
+      },
+      "preference-base-nation-allocation-icon": {
+        "tooltip": "Preference based nation allocation"
+      },
+      "chat-language-rule": {
+        "label": "Chat language: {{ language }}"
+      },
+      "game-variant-rule": {
+        "label": "Game variant: {{ variant }}"
+      },
+      "phase-deadline-rule": {
+        "label": "Phase deadline: {{ deadline }}"
+      },
+      "created-at-rule": {
+        "label": "Created at: {{ createdAt }}"
+      },
+      "nation-allocation-rule": {
+        "label": "Nation allocation: {{ nationAllocation }}"
+      }
+    },
     "game-status-labels": {
       "finished": "Finished games",
       "staging": "Open to join",
