@@ -30,11 +30,6 @@ import RescheduleDialog from "../../components/RescheduleDialog";
 import ManageInvitationsDialog, {
   MANAGE_INVITATIONS_DIALOG_TITLE,
 } from "../../components/ManageInvitationsDialog";
-import {
-  DELETE_BUTTON_LABEL,
-  MANAGE_INVITATIONS_BUTTON_LABEL,
-  RENAME_BUTTON_LABEL,
-} from "../../components/GameCard";
 import RenameGameDialog from "../../components/RenameGameDialog";
 import tk from "../../translations/translateKeys";
 
@@ -265,11 +260,11 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStarted.successFailedRequirements);
     render(<WrappedGameList path={gameListUrl} />);
     await clickExpandButton();
-    await waitFor(() => screen.getByText("You can't join this game:"));
+    await waitFor(() => screen.getByText(tk.gameList.gameCard.failedRequirements.label));
     await waitFor(() =>
-      screen.getByText("You've been reported too often (hated score too high).")
+      screen.getByText(tk.gameList.gameCard.failedRequirements.hated)
     );
-    await waitFor(() => screen.getByText("You're too good (rating too high)."));
+    await waitFor(() => screen.getByText(tk.gameList.gameCard.failedRequirements.minRating));
   });
 
   test("If user can join game reasons are not shown", async () => {
@@ -277,7 +272,7 @@ describe("Game list functional tests", () => {
     render(<WrappedGameList path={gameListUrl} />);
     await clickExpandButton();
     await waitFor(() => screen.getByText("Name of started game"));
-    const text = screen.queryByText("You can't join this game:");
+    const text = screen.queryByText(tk.gameList.gameCard.failedRequirements.label);
     expect(text).toBeNull();
   });
 
@@ -285,7 +280,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStarted.successFailedRequirements);
     render(<WrappedGameList path={gameListUrl} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     expect(button).toHaveAttribute("disabled");
   });
 
@@ -293,7 +288,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
     await clickExpandButton();
-    const link = await waitFor(() => screen.getByText("View").closest("a"));
+    const link = await waitFor(() => screen.getByText(tk.gameList.gameCard.viewButton.label).closest("a"));
     expect(link?.href).toBe(
       "http://localhost" +
         generatePath(RouteConfig.Game, { gameId: "game-123" })
@@ -305,7 +300,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Invite"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.inviteButton.label));
     fireEvent.click(button);
     const gameUrl = generatePath(RouteConfig.Game, { gameId: "game-123" });
     expect(copyToClipboardSpy).toBeCalledWith(gameUrl);
@@ -315,7 +310,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStarted.success);
     render(<WrappedGameList path={gameListUrl} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.nationPreferences.title));
   });
@@ -327,7 +322,7 @@ describe("Game list functional tests", () => {
     );
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Couldn't join game."));
   });
@@ -336,7 +331,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStaging.successRandomAllocation);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
     const call = fetchSpy.mock.calls[3][0];
@@ -348,7 +343,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStaging.successRandomAllocation);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
     expect(gaEventSpy).toBeCalledWith({
@@ -361,7 +356,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.listGamesStaging.successRandomAllocation);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Joined game!"));
   });
@@ -369,7 +364,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog causes gtag page load event", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
     fireEvent.click(button);
@@ -388,7 +383,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog loads nations for game", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Join"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.nationPreferences.title));
     const nations = [
@@ -407,7 +402,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog submit button disables submit button", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const joinButton = await waitFor(() => screen.getByText("Join"));
+    const joinButton = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(joinButton);
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
@@ -418,7 +413,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog submit button calls endpoint", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const joinButton = await waitFor(() => screen.getByText("Join"));
+    const joinButton = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(joinButton);
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
@@ -431,7 +426,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog submit button causes gtag event", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const joinButton = await waitFor(() => screen.getByText("Join"));
+    const joinButton = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(joinButton);
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
@@ -446,7 +441,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog submission closes dialog", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const joinButton = await waitFor(() => screen.getByText("Join"));
+    const joinButton = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(joinButton);
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
@@ -460,7 +455,7 @@ describe("Game list functional tests", () => {
   test("Nation preference dialog close button closes dialog", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const joinButton = await waitFor(() => screen.getByText("Join"));
+    const joinButton = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(joinButton);
     const dialogCancelButton = await waitFor(() => screen.getByText(tk.nationPreferences.closeButton.label));
     expect(dialogCancelButton).not.toHaveAttribute("disabled");
@@ -474,7 +469,7 @@ describe("Game list functional tests", () => {
     server.use(handlers.joinGame.internalServerError);
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const joinButton = await waitFor(() => screen.getByText("Join"));
+    const joinButton = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(joinButton);
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     fireEvent.click(dialogJoinButton);
@@ -487,13 +482,13 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    await waitFor(() => screen.getByText("Reschedule"));
+    await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
   });
 
   test("Reschedule button does not appear if not game master", async () => {
     render(<WrappedGameList path={gameListUrl + "?status=staging"} />);
     await clickExpandButton();
-    const rescheduleButton = screen.queryByText("Reschedule");
+    const rescheduleButton = screen.queryByText(tk.gameList.gameCard.rescheduleButton.label);
     expect(rescheduleButton).toBeNull();
   });
 
@@ -503,7 +498,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
   });
@@ -514,7 +509,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
     fireEvent.click(button);
@@ -534,7 +529,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
     const dialogRescheduleButton = await waitFor(() =>
@@ -554,12 +549,11 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
     const dialogRescheduleButton = await waitFor(() =>
-      getByText(dialog, tk.rescheduleGameDialog.rescheduleButton.label)
+      screen.getByText(tk.rescheduleGameDialog.rescheduleButton.label)
     );
     expect(dialogRescheduleButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogRescheduleButton);
@@ -570,7 +564,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
     const dialogRescheduleButton = await waitFor(() =>
@@ -588,7 +582,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
     const dialogRescheduleButton = await waitFor(() =>
@@ -605,7 +599,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
     const dialogCancelButton = await waitFor(() =>
@@ -622,7 +616,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText("Reschedule"));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.rescheduleButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.rescheduleGameDialog.title));
     const dialogRescheduleButton = await waitFor(() =>
@@ -637,13 +631,13 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL));
+    await waitFor(() => screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label));
   });
 
   test("Manage invitations button does not appear if", async () => {
     render(<WrappedGameList path={gameListUrl + "?my=1&status=started"} />);
     await clickExpandButton();
-    const button = screen.queryByText(MANAGE_INVITATIONS_BUTTON_LABEL);
+    const button = screen.queryByText(tk.gameList.gameCard.manageInvitationsButton.label);
     expect(button).toBeNull();
   });
 
@@ -653,11 +647,10 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_DIALOG_TITLE));
   });
 
   test("Manage invitations dialog causes gtag page load event", async () => {
@@ -666,13 +659,12 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_DIALOG_TITLE));
     expect(gaSetSpy).toBeCalledWith({
       page_title: "ManageInvitationsDialog",
       page_location: "http://localhost/",
@@ -689,12 +681,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
-    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_DIALOG_TITLE));
+    const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     expect(dialogSubmitButton).toHaveAttribute("disabled");
   });
 
@@ -704,14 +695,13 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
-    const emailField = getByLabelText(dialog, "Email");
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_DIALOG_TITLE));
+    const emailField = screen.getByLabelText("Email");
     fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
-    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     expect(dialogSubmitButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogSubmitButton);
     await waitFor(() => screen.getByText("Invited!"));
@@ -726,14 +716,13 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    const emailField = getByLabelText(dialog, "Email");
+    const emailField = screen.getByLabelText("Email");
     fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
-    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
-    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_DIALOG_TITLE));
+    const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     expect(dialogSubmitButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogSubmitButton);
     expect(dialogSubmitButton).toHaveAttribute("disabled");
@@ -745,14 +734,13 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, MANAGE_INVITATIONS_DIALOG_TITLE));
-    const emailField = getByLabelText(dialog, "Email");
+    await waitFor(() => screen.getByText(MANAGE_INVITATIONS_DIALOG_TITLE));
+    const emailField = screen.getByLabelText("Email");
     fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
-    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     fireEvent.click(dialogSubmitButton);
     await waitFor(() => screen.getByText("Invited!"));
     expect(gaEventSpy).toBeCalledWith({
@@ -767,12 +755,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
     await waitFor(() =>
-      getByText(dialog, "You have not invited any players yet.")
+      screen.getByText("You have not invited any players yet.")
     );
   });
 
@@ -783,12 +770,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
-    await waitFor(() => getByText(dialog, "England"));
+    await waitFor(() => screen.getByText("fakeemail@gmail.com"));
+    await waitFor(() => screen.getByText("England"));
   });
 
   test("Manage invitations dialog un-invite button submits un-invite", async () => {
@@ -798,12 +784,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
-    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    await waitFor(() => screen.getByText("fakeemail@gmail.com"));
+    const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
     await waitFor(() => screen.getByText("Un-invited."));
   });
@@ -815,12 +800,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
-    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    await waitFor(() => screen.getByText("fakeemail@gmail.com"));
+    const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
     expect(unInviteButton).toHaveAttribute("disabled");
   });
@@ -831,12 +815,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
-    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    await waitFor(() => screen.getByText("fakeemail@gmail.com"));
+    const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
     await waitFor(() => screen.getByText("Un-invited."));
     expect(gaEventSpy).toBeCalledWith({
@@ -850,11 +833,10 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    const dialogCancelButton = await waitFor(() => getByText(dialog, "Cancel"));
+    const dialogCancelButton = await waitFor(() => screen.getByText("Cancel"));
     fireEvent.click(dialogCancelButton);
     await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
@@ -869,13 +851,12 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    const emailField = getByLabelText(dialog, "Email");
+    const emailField = screen.getByLabelText("Email");
     fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
-    const dialogSubmitButton = await waitFor(() => getByText(dialog, "Submit"));
+    const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     fireEvent.click(dialogSubmitButton);
     await waitFor(() => screen.getByText("Couldn't invite user."));
   });
@@ -890,12 +871,11 @@ describe("Game list functional tests", () => {
     );
     await clickExpandButton();
     const button = await waitFor(() =>
-      screen.getByText(MANAGE_INVITATIONS_BUTTON_LABEL)
+      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
     );
     fireEvent.click(button);
-    const dialog = await waitFor(() => screen.getByRole("dialog"));
-    await waitFor(() => getByText(dialog, "fakeemail@gmail.com"));
-    const unInviteButton = getByLabelText(dialog, "Un-invite");
+    await waitFor(() => screen.getByText("fakeemail@gmail.com"));
+    const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
     await waitFor(() => screen.getByText("Couldn't un-invite user."));
   });
@@ -905,7 +885,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
   });
 
   test("Rename button does not appear if user not member", async () => {
@@ -913,7 +893,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=0&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = screen.queryByText(RENAME_BUTTON_LABEL);
+    const button = screen.queryByText(tk.gameList.gameCard.renameButton.label);
     expect(button).toBeNull();
   });
 
@@ -922,7 +902,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText(tk.renameGameDialog.title));
   });
@@ -932,7 +912,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     gaEventSpy.mockClear();
     gaSetSpy.mockClear();
     fireEvent.click(button);
@@ -953,7 +933,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     fireEvent.click(button);
     const nameField = screen.getByLabelText(tk.renameGameDialog.renameInput.label);
     fireEvent.change(nameField, { target: { value: "new name" } });
@@ -973,7 +953,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     fireEvent.click(button);
     const nameField = screen.getByLabelText(tk.renameGameDialog.renameInput.label);
     fireEvent.change(nameField, { target: { value: "new name" } });
@@ -989,7 +969,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     fireEvent.click(button);
     const nameField = screen.getByLabelText(tk.renameGameDialog.renameInput.label);
     fireEvent.change(nameField, { target: { value: "new name" } });
@@ -1008,7 +988,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     fireEvent.click(button);
     const dialogCancelButton = await waitFor(() => screen.getByText(tk.renameGameDialog.cancelButton.label));
     fireEvent.click(dialogCancelButton);
@@ -1020,7 +1000,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(RENAME_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.renameButton.label));
     fireEvent.click(button);
     const nameField = screen.getByLabelText(tk.renameGameDialog.renameInput.label);
     fireEvent.change(nameField, { target: { value: "new name" } });
@@ -1036,7 +1016,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
   });
 
   test("Delete button does not appear if not game master", async () => {
@@ -1044,7 +1024,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started"} />
     );
     await clickExpandButton();
-    const button = screen.queryByText(DELETE_BUTTON_LABEL);
+    const button = screen.queryByText(tk.gameList.gameCard.deleteButton.label);
     expect(button).toBeNull();
   });
 
@@ -1053,7 +1033,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
     fetchSpy.mockClear();
     await waitFor(() => screen.getByText("Deleted!"));
@@ -1066,7 +1046,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Deleted!"));
     expect(gaEventSpy).toBeCalledWith({
@@ -1079,7 +1059,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
     expect(button).toHaveAttribute("disabled");
   });
@@ -1089,7 +1069,7 @@ describe("Game list functional tests", () => {
       <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
     );
     await clickExpandButton();
-    const button = await waitFor(() => screen.getByText(DELETE_BUTTON_LABEL));
+    const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
     await waitFor(() => screen.getByText("Couldn't delete game."));
   });

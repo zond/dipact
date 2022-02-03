@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GameList = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const classes = useStyles();
   const { getParam } = useSearchParams();
   let status = getParam("status") as GameStatus;

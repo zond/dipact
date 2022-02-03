@@ -4,6 +4,7 @@ module.exports = {
     "@storybook/addon-a11y",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
+    "storybook-react-i18next",
     "@storybook/preset-create-react-app",
   ],
 };

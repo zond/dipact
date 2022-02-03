@@ -667,7 +667,7 @@ export const handlersList = [
   handlers.rescheduleGame.success,
   handlers.renameGame.success,
   handlers.unInvite.success,
-  handlers.invite.success,
+  handlers.invite.internalServerError,
   handlers.deleteGame.success,
 
   handlers.getUserStats.successEmpty,

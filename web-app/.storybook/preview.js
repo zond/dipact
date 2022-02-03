@@ -4,8 +4,14 @@ import { addDecorator } from "@storybook/react";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 
 import theme from "../src/theme";
+import i18n from '../src/translations/i18n';
 
 export const parameters = {
+  i18n,
+  locale: 'en',
+  locales: {
+    en: 'English',
+  },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {

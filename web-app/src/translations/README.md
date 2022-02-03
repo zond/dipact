@@ -42,7 +42,7 @@ import tk from "../translations/translateKeys";
 
 A component which uses translations needs to fetch the `t` function as follows:
 ```
-const { t } = useTranslation("common");
+const { t } = useTranslation();
 ```
 
 To get the translated string for the current language we pass the translate key to the `t` function:

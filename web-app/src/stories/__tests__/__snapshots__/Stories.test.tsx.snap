@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots components/ChatChannelPreview Default 1`] = `
+exports[`Storyshots components/Chat/ChatChannelPreview Default 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -132,7 +132,7 @@ exports[`Storyshots components/ChatChannelPreview Default 1`] = `
 </button>
 `;
 
-exports[`Storyshots components/ChatChannelPreview Messages Since 1`] = `
+exports[`Storyshots components/Chat/ChatChannelPreview Messages Since 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-inline-box;
@@ -327,7 +327,7 @@ exports[`Storyshots components/ChatChannelPreview Messages Since 1`] = `
 </button>
 `;
 
-exports[`Storyshots components/ChatChannelPreview User Is Sender 1`] = `
+exports[`Storyshots components/Chat/ChatChannelPreview User Is Sender 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -447,13 +447,13 @@ exports[`Storyshots components/ChatChannelPreview User Is Sender 1`] = `
 </button>
 `;
 
-exports[`Storyshots components/ChatCreateChannelDialog Closed 1`] = `<div />`;
+exports[`Storyshots components/Chat/ChatCreateChannelDialog Closed 1`] = `<div />`;
 
-exports[`Storyshots components/ChatCreateChannelDialog Loading 1`] = `<div />`;
+exports[`Storyshots components/Chat/ChatCreateChannelDialog Loading 1`] = `<div />`;
 
-exports[`Storyshots components/ChatCreateChannelDialog Open 1`] = `<div />`;
+exports[`Storyshots components/Chat/ChatCreateChannelDialog Open 1`] = `<div />`;
 
-exports[`Storyshots components/ChatMessage Dark Color 1`] = `
+exports[`Storyshots components/Chat/ChatMessage Dark Color 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -502,7 +502,7 @@ exports[`Storyshots components/ChatMessage Dark Color 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessage Long 1`] = `
+exports[`Storyshots components/Chat/ChatMessage Long 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -551,7 +551,7 @@ exports[`Storyshots components/ChatMessage Long 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessage Medium 1`] = `
+exports[`Storyshots components/Chat/ChatMessage Medium 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -600,7 +600,7 @@ exports[`Storyshots components/ChatMessage Medium 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessage Selfish 1`] = `
+exports[`Storyshots components/Chat/ChatMessage Selfish 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -649,7 +649,7 @@ exports[`Storyshots components/ChatMessage Selfish 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessage Short 1`] = `
+exports[`Storyshots components/Chat/ChatMessage Short 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -698,7 +698,7 @@ exports[`Storyshots components/ChatMessage Short 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessage Undelivered 1`] = `
+exports[`Storyshots components/Chat/ChatMessage Undelivered 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -747,7 +747,7 @@ exports[`Storyshots components/ChatMessage Undelivered 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessageInput Default 1`] = `
+exports[`Storyshots components/Chat/ChatMessageInput Default 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -911,7 +911,7 @@ exports[`Storyshots components/ChatMessageInput Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessageInput Wide 1`] = `
+exports[`Storyshots components/Chat/ChatMessageInput Wide 1`] = `
 .emotion-0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -1083,7 +1083,7 @@ exports[`Storyshots components/ChatMessageInput Wide 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessageWithAvatar France 1`] = `
+exports[`Storyshots components/Chat/ChatMessageWithAvatar France 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -1185,7 +1185,7 @@ exports[`Storyshots components/ChatMessageWithAvatar France 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatMessageWithAvatar Selfish 1`] = `
+exports[`Storyshots components/Chat/ChatMessageWithAvatar Selfish 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -1287,7 +1287,7 @@ exports[`Storyshots components/ChatMessageWithAvatar Selfish 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatNewMessagesBanner Default 1`] = `
+exports[`Storyshots components/Chat/ChatNewMessagesBanner Default 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -1308,7 +1308,7 @@ exports[`Storyshots components/ChatNewMessagesBanner Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/ChatPhaseDivider Default 1`] = `
+exports[`Storyshots components/Chat/ChatPhaseDivider Default 1`] = `
 .emotion-0 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
@@ -1376,6 +1376,976 @@ exports[`Storyshots components/ErrorMessage Internal Server Error 1`] = `
       500
       )
     </p>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/FeedbackWrapper No Feedback 1`] = `<div />`;
+
+exports[`Storyshots components/GameCard Open 1`] = `
+.emotion-0 {
+  width: 100%;
+  margin-left: auto;
+  box-sizing: border-box;
+  margin-right: auto;
+  display: block;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width:600px) {
+  .emotion-0 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width:1200px) {
+  .emotion-0 {
+    max-width: 1200px;
+  }
+}
+
+.emotion-1 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: none;
+  position: relative;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  overflow-anchor: none;
+}
+
+.emotion-1:before {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  right: 0;
+  height: 1px;
+  content: "";
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.12);
+  -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-1:first-of-type:before {
+  display: none;
+}
+
+.emotion-1.Mui-expanded:before {
+  opacity: 0;
+}
+
+.emotion-1.Mui-expanded:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-1.Mui-expanded:last-of-type {
+  margin-bottom: 0;
+}
+
+.emotion-1.Mui-expanded+.emotion-1.Mui-expanded:before {
+  display: none;
+}
+
+.emotion-1.Mui-disabled {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-1.Mui-expanded {
+  margin: 16px 0;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 48px;
+  padding: 0px 16px;
+  -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-2::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-2.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-2 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-2.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-2.Mui-disabled {
+  opacity: 0.38;
+}
+
+.emotion-2:hover:not(.Mui-disabled) {
+  cursor: pointer;
+}
+
+.emotion-2.Mui-expanded {
+  min-height: 64px;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin: 12px 0;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-3.Mui-expanded {
+  margin: 20px 0;
+}
+
+.emotion-4 {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-5 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  box-sizing: border-box;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  min-width: 20px;
+  line-height: 1;
+  padding: 0 6px;
+  height: 20px;
+  border-radius: 10px;
+  z-index: 1;
+  -webkit-transition: -webkit-transform 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: transform 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #281A1A;
+  color: #FDE2B5;
+  top: 0;
+  right: 0;
+  -webkit-transform: scale(1) translate(50%, -50%);
+  -moz-transform: scale(1) translate(50%, -50%);
+  -ms-transform: scale(1) translate(50%, -50%);
+  transform: scale(1) translate(50%, -50%);
+  transform-origin: 100% 0%;
+}
+
+.emotion-6.MuiBadge-invisible {
+  -webkit-transform: scale(0) translate(50%, -50%);
+  -moz-transform: scale(0) translate(50%, -50%);
+  -ms-transform: scale(0) translate(50%, -50%);
+  transform: scale(0) translate(50%, -50%);
+}
+
+.emotion-7 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.5rem;
+}
+
+.emotion-9 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+}
+
+.emotion-10 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.25rem;
+}
+
+.emotion-15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-15.Mui-expanded {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+<div
+  className="MuiContainer-root MuiContainer-maxWidthLg emotion-0"
+>
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters makeStyles-root-93 emotion-1"
+  >
+    <div
+      aria-expanded={false}
+      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters makeStyles-accordionSummary-94 emotion-2"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <div
+        className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
+      >
+        <div
+          className="makeStyles-accordionSummaryContent-95"
+        >
+          <div>
+            <span
+              className="MuiBadge-root emotion-4"
+            >
+              <p
+                className="MuiTypography-root MuiTypography-body1 emotion-5"
+              >
+                Game name
+              </p>
+              <span
+                className="MuiBadge-colorPrimary MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopRightRectangular MuiBadge-invisible emotion-6"
+              />
+            </span>
+            <div
+              className="makeStyles-root-105"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+                data-testid="PeopleIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                />
+              </svg>
+              <p
+                className="MuiTypography-root MuiTypography-body1 emotion-5"
+              >
+                1
+                 / 
+                7
+              </p>
+            </div>
+          </div>
+          <div>
+            <span
+              className="MuiTypography-root MuiTypography-caption emotion-9"
+            >
+              Classical 2d
+            </span>
+            <div
+              className="makeStyles-phaseSummaryContainer-100"
+            >
+              <div
+                className="makeStyles-icons-98"
+              >
+                <div
+                  aria-label="game-list.game-card.chat-language-icon.tooltip"
+                  aria-labelledby={null}
+                  className="makeStyles-chatIconContainer-101"
+                  data-mui-internal-clone-element={true}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-10"
+                    data-testid="ChatBubbleIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                  <span
+                    className="MuiTypography-root MuiTypography-caption emotion-9"
+                  >
+                    en
+                  </span>
+                </div>
+                <svg
+                  aria-hidden={true}
+                  aria-label="game-list.game-card.min-quickness-or-reliability-required-icon.tooltip"
+                  aria-labelledby={null}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-10"
+                  data-mui-internal-clone-element={true}
+                  data-testid="TimerIcon"
+                  focusable="false"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 1h6v2H9zm10.03 6.39 1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM13 14h-2V8h2v6z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  aria-label="game-list.game-card.min-rating-required-icon.tooltip"
+                  aria-labelledby={null}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-10"
+                  data-mui-internal-clone-element={true}
+                  data-testid="StarBorderIcon"
+                  focusable="false"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
+                  />
+                </svg>
+              </div>
+              <span
+                className="MuiTypography-root MuiTypography-caption emotion-9"
+              >
+                Spring 1901 Movement
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="MuiAccordionSummary-expandIconWrapper emotion-15"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+          data-testid="ExpandMoreIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/GameCard Started 1`] = `
+.emotion-0 {
+  width: 100%;
+  margin-left: auto;
+  box-sizing: border-box;
+  margin-right: auto;
+  display: block;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width:600px) {
+  .emotion-0 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width:1200px) {
+  .emotion-0 {
+    max-width: 1200px;
+  }
+}
+
+.emotion-1 {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: none;
+  position: relative;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  overflow-anchor: none;
+}
+
+.emotion-1:before {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  right: 0;
+  height: 1px;
+  content: "";
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.12);
+  -webkit-transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-1:first-of-type:before {
+  display: none;
+}
+
+.emotion-1.Mui-expanded:before {
+  opacity: 0;
+}
+
+.emotion-1.Mui-expanded:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-1.Mui-expanded:last-of-type {
+  margin-bottom: 0;
+}
+
+.emotion-1.Mui-expanded+.emotion-1.Mui-expanded:before {
+  display: none;
+}
+
+.emotion-1.Mui-disabled {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-1.Mui-expanded {
+  margin: 16px 0;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 48px;
+  padding: 0px 16px;
+  -webkit-transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-2::-moz-focus-inner {
+  border-style: none;
+}
+
+.emotion-2.Mui-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media print {
+  .emotion-2 {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+.emotion-2.Mui-focusVisible {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.emotion-2.Mui-disabled {
+  opacity: 0.38;
+}
+
+.emotion-2:hover:not(.Mui-disabled) {
+  cursor: pointer;
+}
+
+.emotion-2.Mui-expanded {
+  min-height: 64px;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin: 12px 0;
+  -webkit-transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-3.Mui-expanded {
+  margin: 20px 0;
+}
+
+.emotion-4 {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-5 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  box-sizing: border-box;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  min-width: 20px;
+  line-height: 1;
+  padding: 0 6px;
+  height: 20px;
+  border-radius: 10px;
+  z-index: 1;
+  -webkit-transition: -webkit-transform 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: transform 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #281A1A;
+  color: #FDE2B5;
+  top: 0;
+  right: 0;
+  -webkit-transform: scale(1) translate(50%, -50%);
+  -moz-transform: scale(1) translate(50%, -50%);
+  -ms-transform: scale(1) translate(50%, -50%);
+  transform: scale(1) translate(50%, -50%);
+  transform-origin: 100% 0%;
+}
+
+.emotion-6.MuiBadge-invisible {
+  -webkit-transform: scale(0) translate(50%, -50%);
+  -moz-transform: scale(0) translate(50%, -50%);
+  -ms-transform: scale(0) translate(50%, -50%);
+  transform: scale(0) translate(50%, -50%);
+}
+
+.emotion-7 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.5rem;
+}
+
+.emotion-9 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+}
+
+.emotion-10 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.25rem;
+}
+
+.emotion-15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color: rgba(0, 0, 0, 0.54);
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.emotion-15.Mui-expanded {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+<div
+  className="MuiContainer-root MuiContainer-maxWidthLg emotion-0"
+>
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters makeStyles-root-106 emotion-1"
+  >
+    <div
+      aria-expanded={false}
+      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters makeStyles-accordionSummary-107 emotion-2"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <div
+        className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
+      >
+        <div
+          className="makeStyles-accordionSummaryContent-108"
+        >
+          <div>
+            <span
+              className="MuiBadge-root emotion-4"
+            >
+              <p
+                className="MuiTypography-root MuiTypography-body1 emotion-5"
+              >
+                Game name
+              </p>
+              <span
+                className="MuiBadge-colorPrimary MuiBadge-badge MuiBadge-standard MuiBadge-anchorOriginTopRightRectangular MuiBadge-invisible emotion-6"
+              />
+            </span>
+            <div
+              className="makeStyles-deadline-110"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+                data-testid="TimelapseIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.24 7.76C15.07 6.59 13.54 6 12 6v6l-4.24 4.24c2.34 2.34 6.14 2.34 8.49 0 2.34-2.34 2.34-6.14-.01-8.48zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                />
+              </svg>
+              <p
+                className="MuiTypography-root MuiTypography-body1 emotion-5"
+              >
+                &lt;2d
+              </p>
+            </div>
+          </div>
+          <div>
+            <span
+              className="MuiTypography-root MuiTypography-caption emotion-9"
+            >
+              Classical 2d
+            </span>
+            <div
+              className="makeStyles-phaseSummaryContainer-113"
+            >
+              <div
+                className="makeStyles-icons-111"
+              >
+                <div
+                  aria-label="game-list.game-card.chat-language-icon.tooltip"
+                  aria-labelledby={null}
+                  className="makeStyles-chatIconContainer-114"
+                  data-mui-internal-clone-element={true}
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                >
+                  <svg
+                    aria-hidden={true}
+                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-10"
+                    data-testid="ChatBubbleIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                  <span
+                    className="MuiTypography-root MuiTypography-caption emotion-9"
+                  >
+                    en
+                  </span>
+                </div>
+                <svg
+                  aria-hidden={true}
+                  aria-label="game-list.game-card.min-quickness-or-reliability-required-icon.tooltip"
+                  aria-labelledby={null}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-10"
+                  data-mui-internal-clone-element={true}
+                  data-testid="TimerIcon"
+                  focusable="false"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 1h6v2H9zm10.03 6.39 1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM13 14h-2V8h2v6z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden={true}
+                  aria-label="game-list.game-card.min-rating-required-icon.tooltip"
+                  aria-labelledby={null}
+                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-10"
+                  data-mui-internal-clone-element={true}
+                  data-testid="StarBorderIcon"
+                  focusable="false"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchStart={[Function]}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="m22 9.24-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
+                  />
+                </svg>
+              </div>
+              <span
+                className="MuiTypography-root MuiTypography-caption emotion-9"
+              >
+                Spring 1901 Movement
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="MuiAccordionSummary-expandIconWrapper emotion-15"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-7"
+          data-testid="ExpandMoreIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+          />
+        </svg>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -1554,17 +2524,17 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-93 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-118 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-94 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-119 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-95 makeStyles-root-96"
+            className="makeStyles-root-120 makeStyles-root-121"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -1607,7 +2577,7 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-95 makeStyles-root-97"
+            className="makeStyles-root-120 makeStyles-root-122"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -1648,7 +2618,7 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-95 makeStyles-root-98"
+            className="makeStyles-root-120 makeStyles-root-123"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -1689,7 +2659,7 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-95 makeStyles-root-99"
+            className="makeStyles-root-120 makeStyles-root-124"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -1909,17 +2879,17 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-100 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-125 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-101 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-126 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-102 makeStyles-root-103"
+            className="makeStyles-root-127 makeStyles-root-128"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -1962,7 +2932,7 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-102 makeStyles-root-104"
+            className="makeStyles-root-127 makeStyles-root-129"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -2003,7 +2973,7 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-102 makeStyles-root-105"
+            className="makeStyles-root-127 makeStyles-root-130"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -2044,7 +3014,7 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-102 makeStyles-root-106"
+            className="makeStyles-root-127 makeStyles-root-131"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -2264,17 +3234,17 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-107 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-132 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-108 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-133 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-109 makeStyles-root-110"
+            className="makeStyles-root-134 makeStyles-root-135"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -2317,7 +3287,7 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-109 makeStyles-root-111"
+            className="makeStyles-root-134 makeStyles-root-136"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -2358,7 +3328,7 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-109 makeStyles-root-112"
+            className="makeStyles-root-134 makeStyles-root-137"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -2399,7 +3369,7 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-109 makeStyles-root-113"
+            className="makeStyles-root-134 makeStyles-root-138"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -2619,17 +3589,17 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-114 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-139 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-115 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-140 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-116 makeStyles-root-117"
+            className="makeStyles-root-141 makeStyles-root-142"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -2672,7 +3642,7 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-116 makeStyles-root-118"
+            className="makeStyles-root-141 makeStyles-root-143"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -2713,7 +3683,7 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-116 makeStyles-root-119"
+            className="makeStyles-root-141 makeStyles-root-144"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -2754,7 +3724,7 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-116 makeStyles-root-120"
+            className="makeStyles-root-141 makeStyles-root-145"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -2974,17 +3944,17 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-121 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-146 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-122 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-147 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-123 makeStyles-root-124"
+            className="makeStyles-root-148 makeStyles-root-149"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -3027,7 +3997,7 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-123 makeStyles-root-125"
+            className="makeStyles-root-148 makeStyles-root-150"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -3068,7 +4038,7 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-123 makeStyles-root-126"
+            className="makeStyles-root-148 makeStyles-root-151"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -3109,7 +4079,7 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-123 makeStyles-root-127"
+            className="makeStyles-root-148 makeStyles-root-152"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -3209,7 +4179,7 @@ exports[`Storyshots components/Loading Default 1`] = `
 }
 
 <div
-  className="makeStyles-root-128 makeStyles-root-129"
+  className="makeStyles-root-153 makeStyles-root-154"
 >
   <span
     className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-0"
@@ -3240,7 +4210,7 @@ exports[`Storyshots components/Loading Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar England 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar England 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3281,7 +4251,7 @@ exports[`Storyshots components/NationAvatar England 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-130 makeStyles-avatar-131 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-155 makeStyles-avatar-156 emotion-0"
   title="England"
 >
   <img
@@ -3292,7 +4262,7 @@ exports[`Storyshots components/NationAvatar England 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar France 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar France 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3333,7 +4303,7 @@ exports[`Storyshots components/NationAvatar France 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-132 makeStyles-avatar-133 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-157 makeStyles-avatar-158 emotion-0"
   title="France"
 >
   <img
@@ -3344,7 +4314,7 @@ exports[`Storyshots components/NationAvatar France 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar Germany 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar Germany 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3385,7 +4355,7 @@ exports[`Storyshots components/NationAvatar Germany 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-134 makeStyles-avatar-135 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-159 makeStyles-avatar-160 emotion-0"
   title="Germany"
 >
   <img
@@ -3396,7 +4366,7 @@ exports[`Storyshots components/NationAvatar Germany 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar Muted 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar Muted 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-inline-box;
@@ -3514,7 +4484,7 @@ exports[`Storyshots components/NationAvatar Muted 1`] = `
   className="MuiBadge-root emotion-0"
 >
   <div
-    className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-136 makeStyles-avatar-137 emotion-1"
+    className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-161 makeStyles-avatar-162 emotion-1"
     title="France"
   >
     Fra
@@ -3537,7 +4507,7 @@ exports[`Storyshots components/NationAvatar Muted 1`] = `
 </span>
 `;
 
-exports[`Storyshots components/NationAvatar No Link Dark Color 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar No Link Dark Color 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3571,14 +4541,14 @@ exports[`Storyshots components/NationAvatar No Link Dark Color 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-138 makeStyles-avatar-139 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-163 makeStyles-avatar-164 emotion-0"
   title="France"
 >
   Fra
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar No Link Long Abbreviation 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar No Link Long Abbreviation 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3612,14 +4582,14 @@ exports[`Storyshots components/NationAvatar No Link Long Abbreviation 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-140 makeStyles-avatar-141 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-165 makeStyles-avatar-166 emotion-0"
   title="France"
 >
   Russ
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar No Link Short Abbreviation 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar No Link Short Abbreviation 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3653,14 +4623,14 @@ exports[`Storyshots components/NationAvatar No Link Short Abbreviation 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-142 makeStyles-avatar-143 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-167 makeStyles-avatar-168 emotion-0"
   title="France"
 >
   Fra
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar Otto 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar Otto 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3701,7 +4671,7 @@ exports[`Storyshots components/NationAvatar Otto 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-144 makeStyles-avatar-145 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-169 makeStyles-avatar-170 emotion-0"
   title="Diplicity"
 >
   <img
@@ -3712,7 +4682,7 @@ exports[`Storyshots components/NationAvatar Otto 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar Russia 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar Russia 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3753,7 +4723,7 @@ exports[`Storyshots components/NationAvatar Russia 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-146 makeStyles-avatar-147 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-171 makeStyles-avatar-172 emotion-0"
   title="Russia"
 >
   <img
@@ -3764,7 +4734,7 @@ exports[`Storyshots components/NationAvatar Russia 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatar Turkey 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatar Turkey 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3805,7 +4775,7 @@ exports[`Storyshots components/NationAvatar Turkey 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-148 makeStyles-avatar-149 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-173 makeStyles-avatar-174 emotion-0"
   title="Turkey"
 >
   <img
@@ -3816,7 +4786,7 @@ exports[`Storyshots components/NationAvatar Turkey 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3857,11 +4827,11 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-150 makeStyles-root-151"
+  className="makeStyles-root-175 makeStyles-root-176"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-153 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-178 emotion-0"
       title="France"
     >
       <img
@@ -3871,7 +4841,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-154 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-179 emotion-0"
       title="Russia"
     >
       <img
@@ -3881,7 +4851,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-155 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-180 emotion-0"
       title="Germany"
     >
       <img
@@ -3893,7 +4863,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-156 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-181 emotion-0"
       title="England"
     >
       <img
@@ -3903,7 +4873,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-157 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-182 emotion-0"
       title="Turkey"
     >
       <img
@@ -3913,7 +4883,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-158 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-183 emotion-0"
       title="France"
     >
       <img
@@ -3925,7 +4895,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-159 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-184 emotion-0"
       title="Russia"
     >
       <img
@@ -3935,7 +4905,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-152 makeStyles-avatar-160 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-185 emotion-0"
       title="Germany"
     >
       <img
@@ -3948,7 +4918,7 @@ exports[`Storyshots components/NationAvatarGroup Eight Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Five Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -3989,11 +4959,11 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-161 makeStyles-root-162"
+  className="makeStyles-root-186 makeStyles-root-187"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-163 makeStyles-avatar-164 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-189 emotion-0"
       title="France"
     >
       <img
@@ -4005,7 +4975,7 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-163 makeStyles-avatar-165 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-190 emotion-0"
       title="Russia"
     >
       <img
@@ -4015,7 +4985,7 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-163 makeStyles-avatar-166 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-191 emotion-0"
       title="Germany"
     >
       <img
@@ -4025,7 +4995,7 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-163 makeStyles-avatar-167 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-192 emotion-0"
       title="England"
     >
       <img
@@ -4037,7 +5007,7 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-163 makeStyles-avatar-168 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-193 emotion-0"
       title="Turkey"
     >
       <img
@@ -4050,7 +5020,7 @@ exports[`Storyshots components/NationAvatarGroup Five Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Four Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4091,11 +5061,11 @@ exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-169 makeStyles-root-170"
+  className="makeStyles-root-194 makeStyles-root-195"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-171 makeStyles-avatar-172 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-197 emotion-0"
       title="France"
     >
       <img
@@ -4105,7 +5075,7 @@ exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-171 makeStyles-avatar-173 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-198 emotion-0"
       title="Russia"
     >
       <img
@@ -4117,7 +5087,7 @@ exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-171 makeStyles-avatar-174 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-199 emotion-0"
       title="Germany"
     >
       <img
@@ -4127,7 +5097,7 @@ exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-171 makeStyles-avatar-175 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-200 emotion-0"
       title="England"
     >
       <img
@@ -4140,7 +5110,7 @@ exports[`Storyshots components/NationAvatarGroup Four Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4181,11 +5151,11 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-176 makeStyles-root-177"
+  className="makeStyles-root-201 makeStyles-root-202"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-179 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-204 emotion-0"
       title="France"
     >
       <img
@@ -4195,7 +5165,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-180 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-205 emotion-0"
       title="Russia"
     >
       <img
@@ -4205,7 +5175,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-181 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-206 emotion-0"
       title="Germany"
     >
       <img
@@ -4217,7 +5187,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-182 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-207 emotion-0"
       title="England"
     >
       <img
@@ -4227,7 +5197,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-183 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-208 emotion-0"
       title="Turkey"
     >
       <img
@@ -4237,7 +5207,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-184 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-209 emotion-0"
       title="France"
     >
       <img
@@ -4249,7 +5219,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-185 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-210 emotion-0"
       title="Russia"
     >
       <img
@@ -4259,7 +5229,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-186 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-211 emotion-0"
       title="Germany"
     >
       <img
@@ -4269,7 +5239,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-178 makeStyles-avatar-187 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-212 emotion-0"
       title="England"
     >
       <img
@@ -4282,7 +5252,7 @@ exports[`Storyshots components/NationAvatarGroup Nine Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup One Avatar 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup One Avatar 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4323,11 +5293,11 @@ exports[`Storyshots components/NationAvatarGroup One Avatar 1`] = `
 }
 
 <div
-  className="makeStyles-root-188 makeStyles-root-189"
+  className="makeStyles-root-213 makeStyles-root-214"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-190 makeStyles-avatar-191 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-215 makeStyles-avatar-216 emotion-0"
       title="France"
     >
       <img
@@ -4340,7 +5310,7 @@ exports[`Storyshots components/NationAvatarGroup One Avatar 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4381,11 +5351,11 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-192 makeStyles-root-193"
+  className="makeStyles-root-217 makeStyles-root-218"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-195 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-220 emotion-0"
       title="France"
     >
       <img
@@ -4395,7 +5365,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-196 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-221 emotion-0"
       title="Russia"
     >
       <img
@@ -4407,7 +5377,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-197 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-222 emotion-0"
       title="Germany"
     >
       <img
@@ -4417,7 +5387,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-198 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-223 emotion-0"
       title="England"
     >
       <img
@@ -4427,7 +5397,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-199 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-224 emotion-0"
       title="Turkey"
     >
       <img
@@ -4439,7 +5409,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-200 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-225 emotion-0"
       title="France"
     >
       <img
@@ -4449,7 +5419,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-194 makeStyles-avatar-201 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-226 emotion-0"
       title="Russia"
     >
       <img
@@ -4462,7 +5432,7 @@ exports[`Storyshots components/NationAvatarGroup Seven Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4503,11 +5473,11 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-202 makeStyles-root-203"
+  className="makeStyles-root-227 makeStyles-root-228"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-205 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-230 emotion-0"
       title="France"
     >
       <img
@@ -4517,7 +5487,7 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-206 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-231 emotion-0"
       title="Russia"
     >
       <img
@@ -4527,7 +5497,7 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-207 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-232 emotion-0"
       title="Germany"
     >
       <img
@@ -4539,7 +5509,7 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-208 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-233 emotion-0"
       title="England"
     >
       <img
@@ -4549,7 +5519,7 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-209 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-234 emotion-0"
       title="Turkey"
     >
       <img
@@ -4559,7 +5529,7 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-204 makeStyles-avatar-210 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-235 emotion-0"
       title="France"
     >
       <img
@@ -4572,7 +5542,7 @@ exports[`Storyshots components/NationAvatarGroup Six Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4613,11 +5583,11 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-211 makeStyles-root-212"
+  className="makeStyles-root-236 makeStyles-root-237"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-214 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-239 emotion-0"
       title="France"
     >
       <img
@@ -4627,7 +5597,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-215 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-240 emotion-0"
       title="Russia"
     >
       <img
@@ -4637,7 +5607,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-216 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-241 emotion-0"
       title="Germany"
     >
       <img
@@ -4649,7 +5619,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-217 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-242 emotion-0"
       title="England"
     >
       <img
@@ -4659,7 +5629,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-218 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-243 emotion-0"
       title="Turkey"
     >
       <img
@@ -4669,7 +5639,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-219 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-244 emotion-0"
       title="France"
     >
       <img
@@ -4681,7 +5651,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-220 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-245 emotion-0"
       title="Russia"
     >
       <img
@@ -4691,7 +5661,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-221 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-246 emotion-0"
       title="Germany"
     >
       <img
@@ -4701,7 +5671,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-213 makeStyles-avatar-222 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-247 emotion-0"
       title="England"
     >
       <img
@@ -4714,7 +5684,7 @@ exports[`Storyshots components/NationAvatarGroup Ten Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Three Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4755,11 +5725,11 @@ exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-223 makeStyles-root-224"
+  className="makeStyles-root-248 makeStyles-root-249"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-225 makeStyles-avatar-226 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-250 makeStyles-avatar-251 emotion-0"
       title="France"
     >
       <img
@@ -4771,7 +5741,7 @@ exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-225 makeStyles-avatar-227 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-250 makeStyles-avatar-252 emotion-0"
       title="Russia"
     >
       <img
@@ -4781,7 +5751,7 @@ exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-225 makeStyles-avatar-228 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-250 makeStyles-avatar-253 emotion-0"
       title="Germany"
     >
       <img
@@ -4794,7 +5764,7 @@ exports[`Storyshots components/NationAvatarGroup Three Avatars 1`] = `
 </div>
 `;
 
-exports[`Storyshots components/NationAvatarGroup Two Avatars 1`] = `
+exports[`Storyshots components/NationAvatar/NationAvatarGroup Two Avatars 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -4835,11 +5805,11 @@ exports[`Storyshots components/NationAvatarGroup Two Avatars 1`] = `
 }
 
 <div
-  className="makeStyles-root-229 makeStyles-root-230"
+  className="makeStyles-root-254 makeStyles-root-255"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-231 makeStyles-avatar-232 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-256 makeStyles-avatar-257 emotion-0"
       title="France"
     >
       <img
@@ -4849,7 +5819,7 @@ exports[`Storyshots components/NationAvatarGroup Two Avatars 1`] = `
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-231 makeStyles-avatar-233 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-256 makeStyles-avatar-258 emotion-0"
       title="Russia"
     >
       <img
@@ -4943,15 +5913,15 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
   }
 >
   <div
-    className="makeStyles-root-234"
+    className="makeStyles-root-259"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-235"
+      className="makeStyles-nationDetails-260"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-237 makeStyles-avatar-238 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-262 makeStyles-avatar-263 emotion-0"
           title="France"
         >
           <img
@@ -4970,7 +5940,7 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
         >
-          orders.supply-center-count.plural;
+          orders.supply-center-count.plural
         </p>
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -4985,7 +5955,7 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-236"
+      className="makeStyles-nationStatus-261"
     >
       <svg
         aria-hidden={true}
@@ -5093,15 +6063,15 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
   }
 >
   <div
-    className="makeStyles-root-239"
+    className="makeStyles-root-264"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-240"
+      className="makeStyles-nationDetails-265"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-242 makeStyles-avatar-243 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-267 makeStyles-avatar-268 emotion-0"
           title="France"
         >
           <img
@@ -5120,7 +6090,7 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
         >
-          orders.supply-center-count.plural;
+          orders.supply-center-count.plural
         </p>
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -5135,7 +6105,7 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-241"
+      className="makeStyles-nationStatus-266"
     >
       <svg
         aria-hidden={true}
@@ -5245,627 +6215,6 @@ exports[`Storyshots components/Orders/NationSummary Is User 1`] = `
   }
 >
   <div
-    className="makeStyles-root-244"
-    title="France summary"
-  >
-    <div
-      className="makeStyles-nationDetails-245"
-    >
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-247 makeStyles-avatar-248 emotion-0"
-          title="France"
-        >
-          <img
-            alt="France"
-            className="MuiAvatar-img emotion-1"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-          />
-        </div>
-      </div>
-      <div>
-        <p
-          className="MuiTypography-root MuiTypography-body1 emotion-2"
-        >
-          France (You)
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.supply-center-count.plural;
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          (
-          15 to win
-          )
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.build-count.plural
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.disband-count.plural
-        </p>
-      </div>
-    </div>
-    <div
-      className="makeStyles-nationStatus-246"
-    />
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/Orders/NationSummary No Orders Given 1`] = `
-.emotion-0 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  font-family: Cabin,Roboto,sans-serif;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.emotion-1 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  object-fit: cover;
-  color: transparent;
-  text-indent: 10000px;
-}
-
-.emotion-2 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.emotion-3 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-}
-
-.emotion-6 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  fill: currentColor;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-size: 1.5rem;
-}
-
-<div
-  style={
-    Object {
-      "width": "500px",
-    }
-  }
->
-  <div
-    className="makeStyles-root-249"
-    title="France summary"
-  >
-    <div
-      className="makeStyles-nationDetails-250"
-    >
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-252 makeStyles-avatar-253 emotion-0"
-          title="France"
-        >
-          <img
-            alt="France"
-            className="MuiAvatar-img emotion-1"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-          />
-        </div>
-      </div>
-      <div>
-        <p
-          className="MuiTypography-root MuiTypography-body1 emotion-2"
-        >
-          France
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.supply-center-count.plural;
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.build-count.plural
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.disband-count.plural
-        </p>
-      </div>
-    </div>
-    <div
-      className="makeStyles-nationStatus-251"
-    >
-      <svg
-        aria-hidden={true}
-        aria-label="orders.no-orders-given-icon-tooltip"
-        aria-labelledby={null}
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-        data-mui-internal-clone-element={true}
-        focusable="false"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseLeave={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        onTouchStart={[Function]}
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M2.98188996,2.24133335 L21.3666663,20.6261097 L20.0261097,21.9666663 L19.0573333,20.998 L19,21 L5,21 C3.95,21 3.0822314,20.1799587 3.00551277,19.1486946 L3,19 L3,5 L3.00233335,4.942 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M12,1 C13.235,1 14.2895,1.7581 14.75196,2.828465 L14.82,3 L19,3 C20.05,3 20.9177686,3.82004132 20.9944872,4.85130541 L21,5 L21,17.963 L16.037,13 L17,13 L17,11 L14.037,11 L12.037,9 L17,9 L17,7 L10.037,7 L6.037,3 L9.18,3 C9.579,1.898 10.5917,1.0848 11.80656,1.006235 L12,1 Z M13.0593333,15 L7,15 L7,17 L15.0593333,17 L13.0593333,15 Z M11.0593333,13 L9.06033335,11 L7,11 L7,13 L11.0593333,13 Z M12,3 C11.45,3 11,3.45 11,4 C11,4.55 11.45,5 12,5 C12.55,5 13,4.55 13,4 C13,3.45 12.55,3 12,3 Z"
-        />
-      </svg>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/Orders/NationSummary Supply Centers Plural 1`] = `
-.emotion-0 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  font-family: Cabin,Roboto,sans-serif;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.emotion-1 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  object-fit: cover;
-  color: transparent;
-  text-indent: 10000px;
-}
-
-.emotion-2 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.emotion-3 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-}
-
-<div
-  style={
-    Object {
-      "width": "500px",
-    }
-  }
->
-  <div
-    className="makeStyles-root-254"
-    title="France summary"
-  >
-    <div
-      className="makeStyles-nationDetails-255"
-    >
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-257 makeStyles-avatar-258 emotion-0"
-          title="France"
-        >
-          <img
-            alt="France"
-            className="MuiAvatar-img emotion-1"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-          />
-        </div>
-      </div>
-      <div>
-        <p
-          className="MuiTypography-root MuiTypography-body1 emotion-2"
-        >
-          France
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.supply-center-count.plural;
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.build-count.plural
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.disband-count.plural
-        </p>
-      </div>
-    </div>
-    <div
-      className="makeStyles-nationStatus-256"
-    />
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/Orders/NationSummary Supply Centers Singular 1`] = `
-.emotion-0 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  font-family: Cabin,Roboto,sans-serif;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.emotion-1 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  object-fit: cover;
-  color: transparent;
-  text-indent: 10000px;
-}
-
-.emotion-2 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.emotion-3 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-}
-
-<div
-  style={
-    Object {
-      "width": "500px",
-    }
-  }
->
-  <div
-    className="makeStyles-root-259"
-    title="France summary"
-  >
-    <div
-      className="makeStyles-nationDetails-260"
-    >
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-262 makeStyles-avatar-263 emotion-0"
-          title="France"
-        >
-          <img
-            alt="France"
-            className="MuiAvatar-img emotion-1"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-          />
-        </div>
-      </div>
-      <div>
-        <p
-          className="MuiTypography-root MuiTypography-body1 emotion-2"
-        >
-          France
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.supply-center-count.singular
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.build-count.plural
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.disband-count.plural
-        </p>
-      </div>
-    </div>
-    <div
-      className="makeStyles-nationStatus-261"
-    />
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/Orders/NationSummary Supply Centers Zero 1`] = `
-.emotion-0 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  font-family: Cabin,Roboto,sans-serif;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.emotion-1 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  object-fit: cover;
-  color: transparent;
-  text-indent: 10000px;
-}
-
-.emotion-2 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.emotion-3 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-}
-
-<div
-  style={
-    Object {
-      "width": "500px",
-    }
-  }
->
-  <div
-    className="makeStyles-root-264"
-    title="France summary"
-  >
-    <div
-      className="makeStyles-nationDetails-265"
-    >
-      <div>
-        <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-267 makeStyles-avatar-268 emotion-0"
-          title="France"
-        >
-          <img
-            alt="France"
-            className="MuiAvatar-img emotion-1"
-            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-          />
-        </div>
-      </div>
-      <div>
-        <p
-          className="MuiTypography-root MuiTypography-body1 emotion-2"
-        >
-          France
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.supply-center-count.plural;
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.build-count.plural
-        </p>
-        <p
-          className="MuiTypography-root MuiTypography-body2 emotion-3"
-        >
-          orders.disband-count.plural
-        </p>
-      </div>
-    </div>
-    <div
-      className="makeStyles-nationStatus-266"
-    />
-  </div>
-</div>
-`;
-
-exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
-.emotion-0 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  font-family: Cabin,Roboto,sans-serif;
-  font-size: 1.25rem;
-  line-height: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.emotion-1 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  object-fit: cover;
-  color: transparent;
-  text-indent: 10000px;
-}
-
-.emotion-2 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.emotion-3 {
-  margin: 0;
-  font-family: Cabin,Roboto,sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.43;
-}
-
-.emotion-6 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  fill: currentColor;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  font-size: 1.5rem;
-}
-
-<div
-  style={
-    Object {
-      "width": "500px",
-    }
-  }
->
-  <div
     className="makeStyles-root-269"
     title="France summary"
   >
@@ -5888,12 +6237,19 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
         <p
           className="MuiTypography-root MuiTypography-body1 emotion-2"
         >
-          France
+          France (You)
         </p>
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
         >
-          orders.supply-center-count.plural;
+          orders.supply-center-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          (
+          15 to win
+          )
         </p>
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -5909,32 +6265,12 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
     </div>
     <div
       className="makeStyles-nationStatus-271"
-    >
-      <svg
-        aria-hidden={true}
-        aria-label="orders.wants-draw-icon-tooltip"
-        aria-labelledby={null}
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
-        data-mui-internal-clone-element={true}
-        focusable="false"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseLeave={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        onTouchStart={[Function]}
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M2.98188996,2.24133335 L3.88833335,3.148 L3.8,3.23743687 L20.7705627,20.2079996 L20.8593333,20.119 L21.3666663,20.6261097 L20.0261097,21.9666663 L14.4292636,16.3704135 C14.0775047,16.5664056 13.6995541,16.7212717 13.301866,16.8285576 L13,16.9 L13,19.08 C15.489899,19.4617845 15.9132657,21.2212572 15.9852522,21.8085585 L16,22 L8,22 L8.00876781,21.8621764 C8.05962111,21.354459 8.40542355,19.5936066 10.7568801,19.1228674 L11,19.08 L11,16.9 C9.11538462,16.5153846 7.61908284,15.0767751 7.15117205,13.224249 L7.1,13 L4,13 C2.95,13 2.0822314,12.1799587 2.00551277,11.1486946 L2,11 L2,4 L2.06033335,4 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M17,2 L17,4 L22,4 L22,11 C22,12.05 21.1799587,12.9177686 20.1486946,12.9944872 L20,13 L16.9,13 C16.852859,13.2309911 16.7898842,13.4561487 16.7122542,13.6742943 L6.99933335,3.962 L7,2 L17,2 Z M4.06033335,6 L4,6 L4,11 L7,11 L6.99933335,8.939 L4.06033335,6 Z M20,6 L17,6 L17,11 L20,11 L20,6 Z"
-        />
-      </svg>
-    </div>
+    />
   </div>
 </div>
 `;
 
-exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Given 1`] = `
+exports[`Storyshots components/Orders/NationSummary No Orders Given 1`] = `
 .emotion-0 {
   position: relative;
   display: -webkit-box;
@@ -6042,7 +6378,7 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
         >
-          orders.supply-center-count.plural;
+          orders.supply-center-count.plural
         </p>
         <p
           className="MuiTypography-root MuiTypography-body2 emotion-3"
@@ -6058,6 +6394,640 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
     </div>
     <div
       className="makeStyles-nationStatus-276"
+    >
+      <svg
+        aria-hidden={true}
+        aria-label="orders.no-orders-given-icon-tooltip"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+        data-mui-internal-clone-element={true}
+        focusable="false"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        onTouchStart={[Function]}
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M2.98188996,2.24133335 L21.3666663,20.6261097 L20.0261097,21.9666663 L19.0573333,20.998 L19,21 L5,21 C3.95,21 3.0822314,20.1799587 3.00551277,19.1486946 L3,19 L3,5 L3.00233335,4.942 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M12,1 C13.235,1 14.2895,1.7581 14.75196,2.828465 L14.82,3 L19,3 C20.05,3 20.9177686,3.82004132 20.9944872,4.85130541 L21,5 L21,17.963 L16.037,13 L17,13 L17,11 L14.037,11 L12.037,9 L17,9 L17,7 L10.037,7 L6.037,3 L9.18,3 C9.579,1.898 10.5917,1.0848 11.80656,1.006235 L12,1 Z M13.0593333,15 L7,15 L7,17 L15.0593333,17 L13.0593333,15 Z M11.0593333,13 L9.06033335,11 L7,11 L7,13 L11.0593333,13 Z M12,3 C11.45,3 11,3.45 11,4 C11,4.55 11.45,5 12,5 C12.55,5 13,4.55 13,4 C13,3.45 12.55,3 12,3 Z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/Orders/NationSummary Supply Centers Plural 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  font-family: Cabin,Roboto,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-1 {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  object-fit: cover;
+  color: transparent;
+  text-indent: 10000px;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+}
+
+<div
+  style={
+    Object {
+      "width": "500px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-279"
+    title="France summary"
+  >
+    <div
+      className="makeStyles-nationDetails-280"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-282 makeStyles-avatar-283 emotion-0"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img emotion-1"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <p
+          className="MuiTypography-root MuiTypography-body1 emotion-2"
+        >
+          France
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.supply-center-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.build-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.disband-count.plural
+        </p>
+      </div>
+    </div>
+    <div
+      className="makeStyles-nationStatus-281"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/Orders/NationSummary Supply Centers Singular 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  font-family: Cabin,Roboto,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-1 {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  object-fit: cover;
+  color: transparent;
+  text-indent: 10000px;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+}
+
+<div
+  style={
+    Object {
+      "width": "500px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-284"
+    title="France summary"
+  >
+    <div
+      className="makeStyles-nationDetails-285"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-287 makeStyles-avatar-288 emotion-0"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img emotion-1"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <p
+          className="MuiTypography-root MuiTypography-body1 emotion-2"
+        >
+          France
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.supply-center-count.singular
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.build-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.disband-count.plural
+        </p>
+      </div>
+    </div>
+    <div
+      className="makeStyles-nationStatus-286"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/Orders/NationSummary Supply Centers Zero 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  font-family: Cabin,Roboto,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-1 {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  object-fit: cover;
+  color: transparent;
+  text-indent: 10000px;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+}
+
+<div
+  style={
+    Object {
+      "width": "500px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-289"
+    title="France summary"
+  >
+    <div
+      className="makeStyles-nationDetails-290"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-292 makeStyles-avatar-293 emotion-0"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img emotion-1"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <p
+          className="MuiTypography-root MuiTypography-body1 emotion-2"
+        >
+          France
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.supply-center-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.build-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.disband-count.plural
+        </p>
+      </div>
+    </div>
+    <div
+      className="makeStyles-nationStatus-291"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  font-family: Cabin,Roboto,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-1 {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  object-fit: cover;
+  color: transparent;
+  text-indent: 10000px;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+}
+
+.emotion-6 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.5rem;
+}
+
+<div
+  style={
+    Object {
+      "width": "500px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-294"
+    title="France summary"
+  >
+    <div
+      className="makeStyles-nationDetails-295"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-297 makeStyles-avatar-298 emotion-0"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img emotion-1"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <p
+          className="MuiTypography-root MuiTypography-body1 emotion-2"
+        >
+          France
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.supply-center-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.build-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.disband-count.plural
+        </p>
+      </div>
+    </div>
+    <div
+      className="makeStyles-nationStatus-296"
+    >
+      <svg
+        aria-hidden={true}
+        aria-label="orders.wants-draw-icon-tooltip"
+        aria-labelledby={null}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-6"
+        data-mui-internal-clone-element={true}
+        focusable="false"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        onTouchStart={[Function]}
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M2.98188996,2.24133335 L3.88833335,3.148 L3.8,3.23743687 L20.7705627,20.2079996 L20.8593333,20.119 L21.3666663,20.6261097 L20.0261097,21.9666663 L14.4292636,16.3704135 C14.0775047,16.5664056 13.6995541,16.7212717 13.301866,16.8285576 L13,16.9 L13,19.08 C15.489899,19.4617845 15.9132657,21.2212572 15.9852522,21.8085585 L16,22 L8,22 L8.00876781,21.8621764 C8.05962111,21.354459 8.40542355,19.5936066 10.7568801,19.1228674 L11,19.08 L11,16.9 C9.11538462,16.5153846 7.61908284,15.0767751 7.15117205,13.224249 L7.1,13 L4,13 C2.95,13 2.0822314,12.1799587 2.00551277,11.1486946 L2,11 L2,4 L2.06033335,4 L1.64133335,3.58188996 L2.98188996,2.24133335 Z M17,2 L17,4 L22,4 L22,11 C22,12.05 21.1799587,12.9177686 20.1486946,12.9944872 L20,13 L16.9,13 C16.852859,13.2309911 16.7898842,13.4561487 16.7122542,13.6742943 L6.99933335,3.962 L7,2 L17,2 Z M4.06033335,6 L4,6 L4,11 L7,11 L6.99933335,8.939 L4.06033335,6 Z M20,6 L17,6 L17,11 L20,11 L20,6 Z"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Given 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  font-family: Cabin,Roboto,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.emotion-1 {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  object-fit: cover;
+  color: transparent;
+  text-indent: 10000px;
+}
+
+.emotion-2 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.emotion-3 {
+  margin: 0;
+  font-family: Cabin,Roboto,sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+}
+
+.emotion-6 {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-size: 1.5rem;
+}
+
+<div
+  style={
+    Object {
+      "width": "500px",
+    }
+  }
+>
+  <div
+    className="makeStyles-root-299"
+    title="France summary"
+  >
+    <div
+      className="makeStyles-nationDetails-300"
+    >
+      <div>
+        <div
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-302 makeStyles-avatar-303 emotion-0"
+          title="France"
+        >
+          <img
+            alt="France"
+            className="MuiAvatar-img emotion-1"
+            src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <p
+          className="MuiTypography-root MuiTypography-body1 emotion-2"
+        >
+          France
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.supply-center-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.build-count.plural
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body2 emotion-3"
+        >
+          orders.disband-count.plural
+        </p>
+      </div>
+    </div>
+    <div
+      className="makeStyles-nationStatus-301"
     >
       <svg
         aria-hidden={true}
@@ -6119,7 +7089,7 @@ exports[`Storyshots components/Orders/Order Default 1`] = `
   }
 >
   <div
-    className="makeStyles-root-279"
+    className="makeStyles-root-304"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -6128,7 +7098,7 @@ exports[`Storyshots components/Orders/Order Default 1`] = `
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-281"
+    className="makeStyles-orderInconsistencies-306"
   />
 </div>
 `;
@@ -6158,7 +7128,7 @@ exports[`Storyshots components/Orders/Order Inconsistency 1`] = `
   }
 >
   <div
-    className="makeStyles-root-283"
+    className="makeStyles-root-308"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -6167,7 +7137,7 @@ exports[`Storyshots components/Orders/Order Inconsistency 1`] = `
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-285"
+    className="makeStyles-orderInconsistencies-310"
   >
     <li>
       <p
@@ -6205,7 +7175,7 @@ exports[`Storyshots components/Orders/Order Multiple Inconsistencies 1`] = `
   }
 >
   <div
-    className="makeStyles-root-287"
+    className="makeStyles-root-312"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -6214,7 +7184,7 @@ exports[`Storyshots components/Orders/Order Multiple Inconsistencies 1`] = `
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-289"
+    className="makeStyles-orderInconsistencies-314"
   >
     <li>
       <p
@@ -6251,7 +7221,7 @@ exports[`Storyshots components/Orders/Order Resolved Bounce 1`] = `
   }
 >
   <div
-    className="makeStyles-root-291"
+    className="makeStyles-root-316"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -6259,13 +7229,13 @@ exports[`Storyshots components/Orders/Order Resolved Bounce 1`] = `
       Trieste move to Adriatic Sea
     </p>
     <p
-      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-292 makeStyles-orderResolution-294 emotion-0"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-317 makeStyles-orderResolution-319 emotion-0"
     >
       Bounced
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-293"
+    className="makeStyles-orderInconsistencies-318"
   />
 </div>
 `;
@@ -6287,7 +7257,7 @@ exports[`Storyshots components/Orders/Order Resolved Success 1`] = `
   }
 >
   <div
-    className="makeStyles-root-295"
+    className="makeStyles-root-320"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -6295,13 +7265,13 @@ exports[`Storyshots components/Orders/Order Resolved Success 1`] = `
       Trieste move to Adriatic Sea
     </p>
     <p
-      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-296 makeStyles-orderResolution-298 emotion-0"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-321 makeStyles-orderResolution-323 emotion-0"
     >
       Success
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-297"
+    className="makeStyles-orderInconsistencies-322"
   />
 </div>
 `;
@@ -6675,7 +7645,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 <div
-  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-318 emotion-0"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-343 emotion-0"
   title="phase-selector.title"
 >
   <button
@@ -7168,7 +8138,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 <div
-  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-319 emotion-0"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-344 emotion-0"
   title="phase-selector.title"
 >
   <button
@@ -7661,7 +8631,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-4:focus::-ms-input-p
 }
 
 <div
-  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-320 emotion-0"
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-345 emotion-0"
   title="phase-selector.title"
 >
   <button
@@ -7814,7 +8784,7 @@ exports[`Storyshots components/PlayerCount Default 1`] = `
 }
 
 <div
-  className="makeStyles-root-322"
+  className="makeStyles-root-347"
 >
   <svg
     aria-hidden={true}
@@ -7864,7 +8834,7 @@ exports[`Storyshots components/PlayerCount Zero 1`] = `
 }
 
 <div
-  className="makeStyles-root-323"
+  className="makeStyles-root-348"
 >
   <svg
     aria-hidden={true}
@@ -7911,7 +8881,7 @@ exports[`Storyshots pages/Orders Default 1`] = `
   }
 }
 
-.emotion-1 {
+.emotion-2 {
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -7921,7 +8891,7 @@ exports[`Storyshots pages/Orders Default 1`] = `
   overflow: hidden;
 }
 
-.emotion-2 {
+.emotion-3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -7969,38 +8939,38 @@ exports[`Storyshots pages/Orders Default 1`] = `
   font-size: 1.75rem;
 }
 
-.emotion-2::-moz-focus-inner {
+.emotion-3::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-2.Mui-disabled {
+.emotion-3.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-2 {
+  .emotion-3 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-2:hover {
+.emotion-3:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
 @media (hover: none) {
-  .emotion-2:hover {
+  .emotion-3:hover {
     background-color: transparent;
   }
 }
 
-.emotion-2.Mui-disabled {
+.emotion-3.Mui-disabled {
   background-color: transparent;
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-3 {
+.emotion-4 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -8017,7 +8987,7 @@ exports[`Storyshots pages/Orders Default 1`] = `
   font-size: 1.5rem;
 }
 
-.emotion-4 {
+.emotion-5 {
   font-family: Cabin,Roboto,sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -8038,35 +9008,35 @@ exports[`Storyshots pages/Orders Default 1`] = `
   border-radius: 4px;
 }
 
-.emotion-4.Mui-disabled {
+.emotion-5.Mui-disabled {
   color: rgba(0, 0, 0, 0.38);
   cursor: default;
 }
 
-.emotion-4:hover .MuiOutlinedInput-notchedOutline {
+.emotion-5:hover .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
 @media (hover: none) {
-  .emotion-4:hover .MuiOutlinedInput-notchedOutline {
+  .emotion-5:hover .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.23);
   }
 }
 
-.emotion-4.Mui-focused .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #281A1A;
   border-width: 2px;
 }
 
-.emotion-4.Mui-error .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-error .MuiOutlinedInput-notchedOutline {
   border-color: #d32f2f;
 }
 
-.emotion-4.Mui-disabled .MuiOutlinedInput-notchedOutline {
+.emotion-5.Mui-disabled .MuiOutlinedInput-notchedOutline {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-5 {
+.emotion-6 {
   -moz-appearance: none;
   -webkit-appearance: none;
   -webkit-user-select: none;
@@ -8095,32 +9065,32 @@ exports[`Storyshots pages/Orders Default 1`] = `
   padding: 16.5px 14px;
 }
 
-.emotion-5:focus {
+.emotion-6:focus {
   border-radius: 4px;
 }
 
-.emotion-5::-ms-expand {
+.emotion-6::-ms-expand {
   display: none;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   cursor: default;
 }
 
-.emotion-5[multiple] {
+.emotion-6[multiple] {
   height: auto;
 }
 
-.emotion-5:not([multiple]) option,
-.emotion-5:not([multiple]) optgroup {
+.emotion-6:not([multiple]) option,
+.emotion-6:not([multiple]) optgroup {
   background-color: #fff;
 }
 
-.emotion-5.emotion-5.emotion-5 {
+.emotion-6.emotion-6.emotion-6 {
   padding-right: 32px;
 }
 
-.emotion-5.MuiSelect-select {
+.emotion-6.MuiSelect-select {
   height: auto;
   min-height: 1.4375em;
   text-overflow: ellipsis;
@@ -8128,95 +9098,95 @@ exports[`Storyshots pages/Orders Default 1`] = `
   overflow: hidden;
 }
 
-.emotion-5::-webkit-input-placeholder {
+.emotion-6::-webkit-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-moz-placeholder {
+.emotion-6::-moz-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5:-ms-input-placeholder {
+.emotion-6:-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5::-ms-input-placeholder {
+.emotion-6::-ms-input-placeholder {
   color: currentColor;
   opacity: 0.42;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.emotion-5:focus {
+.emotion-6:focus {
   outline: 0;
 }
 
-.emotion-5:invalid {
+.emotion-6:invalid {
   box-shadow: none;
 }
 
-.emotion-5::-webkit-search-decoration {
+.emotion-6::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6::-webkit-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6::-moz-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6::-ms-input-placeholder {
   opacity: 0!important;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-webkit-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-webkit-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-moz-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-moz-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus:-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus:-ms-input-placeholder {
   opacity: 0.42;
 }
 
-label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-placeholder {
+label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-placeholder {
   opacity: 0.42;
 }
 
-.emotion-5.Mui-disabled {
+.emotion-6.Mui-disabled {
   opacity: 1;
   -webkit-text-fill-color: rgba(0, 0, 0, 0.38);
 }
 
-.emotion-5:-webkit-autofill {
+.emotion-6:-webkit-autofill {
   -webkit-animation-duration: 5000s;
   animation-duration: 5000s;
   -webkit-animation-name: mui-auto-fill;
   animation-name: mui-auto-fill;
 }
 
-.emotion-5:-webkit-autofill {
+.emotion-6:-webkit-autofill {
   border-radius: inherit;
 }
 
-.emotion-6 {
+.emotion-7 {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -8226,7 +9196,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   box-sizing: border-box;
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -8248,11 +9218,11 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   color: rgba(0, 0, 0, 0.54);
 }
 
-.emotion-7.Mui-disabled {
+.emotion-8.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
 }
 
-.emotion-8 {
+.emotion-9 {
   text-align: left;
   position: absolute;
   bottom: 0;
@@ -8270,7 +9240,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   border-color: rgba(0, 0, 0, 0.23);
 }
 
-.emotion-9 {
+.emotion-10 {
   float: unset;
   padding: 0;
   line-height: 11px;
@@ -8278,7 +9248,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   transition: width 150ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 }
 
-.emotion-12 {
+.emotion-13 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -8308,7 +9278,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   user-select: none;
 }
 
-.emotion-13 {
+.emotion-14 {
   width: 100%;
   height: 100%;
   text-align: center;
@@ -8317,7 +9287,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   text-indent: 10000px;
 }
 
-.emotion-14 {
+.emotion-15 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
   font-weight: 400;
@@ -8325,7 +9295,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   line-height: 1.5;
 }
 
-.emotion-15 {
+.emotion-16 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
   font-weight: 400;
@@ -8333,7 +9303,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   line-height: 1.43;
 }
 
-.emotion-17 {
+.emotion-18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -8381,23 +9351,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-17::-moz-focus-inner {
+.emotion-18::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-17.Mui-disabled {
+.emotion-18.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-17 {
+  .emotion-18 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-17:hover {
+.emotion-18:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #006db3;
@@ -8405,26 +9375,26 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 }
 
 @media (hover: none) {
-  .emotion-17:hover {
+  .emotion-18:hover {
     background-color: #FDE2B5;
   }
 }
 
-.emotion-17:active {
+.emotion-18:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-17.Mui-focusVisible {
+.emotion-18.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-17.Mui-disabled {
+.emotion-18.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
 }
 
-.emotion-19 {
+.emotion-20 {
   margin: 0;
   font-family: Cabin,Roboto,sans-serif;
   font-weight: 400;
@@ -8433,246 +9403,250 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-5:focus::-ms-input-p
 }
 
 <div
-  className="makeStyles-root-299"
+  className="MuiContainer-root MuiContainer-maxWidthLg emotion-0"
 >
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-301 emotion-0"
+    className="makeStyles-root-324"
   >
     <div
-      className="makeStyles-phaseSelectorContainer-300"
+      className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-326 emotion-0"
     >
       <div
-        className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-308 emotion-1"
-        title="phase-selector.title"
+        className="makeStyles-phaseSelectorContainer-325"
       >
-        <button
-          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-2"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={0}
-          title="phase-selector.previous-button.title"
-          type="button"
-        >
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
-            data-testid="ChevronLeftIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-            />
-          </svg>
-        </button>
         <div
-          className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-4"
-          onClick={[Function]}
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-333 emotion-2"
+          title="phase-selector.title"
         >
-          <div
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-5"
+          <button
+            className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge emotion-3"
+            disabled={false}
             onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
+            onKeyUp={[Function]}
             onMouseDown={[Function]}
-            role="button"
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
             tabIndex={0}
+            title="phase-selector.previous-button.title"
+            type="button"
           >
-            Fall 1901, Adjustment
-          </div>
-          <input
-            aria-hidden={true}
-            className="MuiSelect-nativeInput emotion-6"
-            onAnimationStart={[Function]}
-            onChange={[Function]}
-            tabIndex={-1}
-            value={5}
-          />
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-7"
-            data-testid="ArrowDropDownIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M7 10l5 5 5-5z"
-            />
-          </svg>
-          <fieldset
-            aria-hidden={true}
-            className="MuiOutlinedInput-notchedOutline emotion-8"
-          >
-            <legend
-              className="emotion-9"
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-4"
+              data-testid="ChevronLeftIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <span
-                className="notranslate"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "&#8203;",
-                  }
-                }
+              <path
+                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
               />
-            </legend>
-          </fieldset>
-        </div>
-        <button
-          className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-2"
-          disabled={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          tabIndex={-1}
-          title="phase-selector.next-button.title"
-          type="button"
-        >
-          <svg
-            aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
-            data-testid="ChevronRightIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
+            </svg>
+          </button>
+          <div
+            className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary emotion-5"
+            onClick={[Function]}
           >
-            <path
-              d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input emotion-6"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onMouseDown={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              Fall 1901, Adjustment
+            </div>
+            <input
+              aria-hidden={true}
+              className="MuiSelect-nativeInput emotion-7"
+              onAnimationStart={[Function]}
+              onChange={[Function]}
+              tabIndex={-1}
+              value={5}
             />
-          </svg>
-        </button>
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined emotion-8"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden={true}
+              className="MuiOutlinedInput-notchedOutline emotion-9"
+            >
+              <legend
+                className="emotion-10"
+              >
+                <span
+                  className="notranslate"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "&#8203;",
+                    }
+                  }
+                />
+              </legend>
+            </fieldset>
+          </div>
+          <button
+            className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge emotion-3"
+            disabled={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={-1}
+            title="phase-selector.next-button.title"
+            type="button"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-4"
+              data-testid="ChevronRightIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        className="makeStyles-nationSummaryList-327"
+      >
+        <div>
+          <div
+            className="makeStyles-nationSummaryContainer-328"
+          >
+            <div
+              className="makeStyles-root-334"
+              title="France summary"
+            >
+              <div
+                className="makeStyles-nationDetails-335"
+              >
+                <div>
+                  <div
+                    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-338 emotion-13"
+                    title="France"
+                  >
+                    <img
+                      alt="France"
+                      className="MuiAvatar-img emotion-14"
+                      src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <p
+                    className="MuiTypography-root MuiTypography-body1 emotion-15"
+                  >
+                    France
+                  </p>
+                  <p
+                    className="MuiTypography-root MuiTypography-body2 emotion-16"
+                  >
+                    orders.supply-center-count.plural
+                  </p>
+                </div>
+              </div>
+              <div
+                className="makeStyles-nationStatus-336"
+              />
+            </div>
+          </div>
+          <ul
+            className="makeStyles-ordersList-329"
+          >
+            <li>
+              <div
+                className="makeStyles-root-339"
+              >
+                <p
+                  className="MuiTypography-root MuiTypography-body1 emotion-15"
+                >
+                  Trieste move to Albania
+                </p>
+              </div>
+              <ul
+                className="makeStyles-orderInconsistencies-341"
+              />
+            </li>
+          </ul>
+          <ul
+            className="makeStyles-homelessInconsistenciesList-330"
+          />
+        </div>
       </div>
     </div>
     <div
-      className="makeStyles-nationSummaryList-302"
+      className="makeStyles-bottomBar-331"
     >
-      <div>
-        <div
-          className="makeStyles-nationSummaryContainer-303"
-        >
-          <div
-            className="makeStyles-root-309"
-            title="France summary"
-          >
-            <div
-              className="makeStyles-nationDetails-310"
-            >
-              <div>
-                <div
-                  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-312 makeStyles-avatar-313 emotion-12"
-                  title="France"
-                >
-                  <img
-                    alt="France"
-                    className="MuiAvatar-img emotion-13"
-                    src="https://diplicity-engine.appspot.com/Variant/Classical/Flags/France.svg"
-                  />
-                </div>
-              </div>
-              <div>
-                <p
-                  className="MuiTypography-root MuiTypography-body1 emotion-14"
-                >
-                  France
-                </p>
-                <p
-                  className="MuiTypography-root MuiTypography-body2 emotion-15"
-                >
-                  orders.supply-center-count.plural;
-                </p>
-              </div>
-            </div>
-            <div
-              className="makeStyles-nationStatus-311"
-            />
-          </div>
-        </div>
-        <ul
-          className="makeStyles-ordersList-304"
-        >
-          <li>
-            <div
-              className="makeStyles-root-314"
-            >
-              <p
-                className="MuiTypography-root MuiTypography-body1 emotion-14"
-              >
-                Trieste move to Albania
-              </p>
-            </div>
-            <ul
-              className="makeStyles-orderInconsistencies-316"
-            />
-          </li>
-        </ul>
-        <ul
-          className="makeStyles-homelessInconsistenciesList-305"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    className="makeStyles-bottomBar-306"
-  >
-    <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root makeStyles-confirmOrdersButton-307 emotion-17"
-      disabled={false}
-      onBlur={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      title="orders.confirm-orders-button.label"
-      type="button"
-    >
-      <svg
-        aria-hidden={true}
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-3"
-        data-testid="CheckBoxOutlineBlankIcon"
-        focusable="false"
-        viewBox="0 0 24 24"
+      <button
+        className="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root makeStyles-confirmOrdersButton-332 emotion-18"
+        disabled={false}
+        onBlur={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        title="orders.confirm-orders-button.label"
+        type="button"
       >
-        <path
-          d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-        />
-      </svg>
-      orders.confirm-orders-button.label
-    </button>
-    <span
-      className="MuiTypography-root MuiTypography-caption emotion-19"
-    >
-      orders.confirm-orders-button.prompt
-    </span>
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-4"
+          data-testid="CheckBoxOutlineBlankIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+          />
+        </svg>
+        orders.confirm-orders-button.label
+      </button>
+      <span
+        className="MuiTypography-root MuiTypography-caption emotion-20"
+      >
+        orders.confirm-orders-button.prompt
+      </span>
+    </div>
   </div>
 </div>
 `;

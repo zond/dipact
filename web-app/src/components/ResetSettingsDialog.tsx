@@ -15,7 +15,7 @@ import tk from "../translations/translateKeys";
 export const searchKey = "reset-settings-dialog";
 
 const ResetSettingsDialog = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { getParam, removeParam } = useSearchParams();
   const open = Boolean(getParam(searchKey));
 

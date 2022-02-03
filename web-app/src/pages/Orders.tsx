@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Orders = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   useRegisterPageView("Orders");
   // useSelectPhaseQuerystringParams();
   const { gameId } = useParams<OrdersUrlParams>();

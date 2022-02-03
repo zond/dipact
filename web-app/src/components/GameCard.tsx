@@ -130,7 +130,7 @@ const failedRequirementExplanationMap: { [key: string]: string } = {
 
 const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const classes = useStyles();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const {
     chatDisabled,
     chatLanguage,

@@ -278,7 +278,7 @@ const translateKeys = {
     },
     noOrdersGivenIconTooltip: "orders.no-orders-given-icon-tooltip",
     supplyCenterCount: {
-      plural: "orders.supply-center-count.plural;",
+      plural: "orders.supply-center-count.plural",
       singular: "orders.supply-center-count.singular",
     },
     toggleDiasButton: {

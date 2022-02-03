@@ -24,23 +24,23 @@ const Template: ComponentStory<typeof Component> = (args) => (
 
 const defaultGame = {
   chatDisabled: false,
-  chatLanguage: "en-US",
+  chatLanguage: "en",
   chatLanguageDisplay: "English",
-  createdAtDisplay: "",
-  deadlineDisplay: "",
+  createdAtDisplay: "09/09/2021",
+  deadlineDisplay: "<2d",
   failedRequirements: [],
   gameVariant: "Classical",
   id: "123",
-  minQuickness: null,
-  minRating: null,
-  minReliability: null,
+  minQuickness: 10,
+  minRating: 5,
+  minReliability: 4,
   name: "Game name",
   nationAllocation: NationAllocation.Random,
   numUnreadMessages: 0,
-  phaseSummary: "",
+  phaseSummary: "Spring 1901 Movement",
   privateGame: false,
-  players: [],
-  rulesSummary: "",
+  players: [{ username: "johnpooch", image: "" }],
+  rulesSummary: "Classical 2d",
   started: true,
   userIsMember: false,
   userIsGameMaster: false,
@@ -60,11 +60,21 @@ const defaultUseGameCardValues = {
   isLoading: false,
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const Started = Template.bind({});
+Started.args = {
   game: { ...defaultGame },
 };
-Default.decorators = [
+Started.decorators = [
+  gameCardDecorator({
+    ...defaultUseGameCardValues,
+  }),
+];
+
+export const Open = Template.bind({});
+Open.args = {
+  game: { ...defaultGame, started: false },
+};
+Open.decorators = [
   gameCardDecorator({
     ...defaultUseGameCardValues,
   }),
