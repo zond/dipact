@@ -2,9 +2,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  Button,
-  Typography,
   Checkbox,
   FormControlLabel,
   TableContainer,
@@ -15,21 +12,17 @@ import {
 import React, { useEffect } from "react";
 import useSearchParams from "../hooks/useSearchParams";
 import { useTranslation } from "react-i18next";
-import { actions as uiActions, PageName } from "../store/ui";
+import { PageName } from "../store/ui";
 import tk from "../translations/translateKeys";
 import {
-  useGetRootQuery,
   useLazyGetGameQuery,
   useLazyGetGameStateQuery,
   useLazyGetRootQuery,
-  useLazyGetUserConfigQuery,
   useLazyGetUserStatsQuery,
-  useLazyListGameStatesQuery,
   useLazyListUserBansQuery,
 } from "../hooks/service";
 import { useLazyPageLoad } from "../hooks/usePageLoad";
 import { User, UserStats } from "../store/types";
-import Globals from "../Globals";
 import {
   ratingPercentile as getRatingPercentile,
   twoDecimals,
