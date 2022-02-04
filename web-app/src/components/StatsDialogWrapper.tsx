@@ -71,14 +71,14 @@ const StatsDialogContextWrapper = ({
   return (
     <StatsDialogContext.Provider value={statsDialogOptions}>
       {isOpen && (
-        <StatsDialog
-          open={isOpen}
-          user={user}
-          onClose={close}
-          game={game}
-          gameState={gameState}
-          onNewGameState={onNewGameState}
-        />
+        // <StatsDialog
+        //   open={isOpen}
+        //   user={user}
+        //   onClose={close}
+        //   game={game}
+        //   gameState={gameState}
+        //   onNewGameState={onNewGameState}
+        // />
       )}
       {children}
     </StatsDialogContext.Provider>
