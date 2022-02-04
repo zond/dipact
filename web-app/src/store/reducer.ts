@@ -6,7 +6,6 @@ import feedback from "./feedback";
 import latestForumMail from "./latestForumMail";
 import messaging from "./messaging";
 import phase from "./phase";
-import userBans from "./userBans";
 import { diplicityService } from "./service";
 
 export default combineReducers({
@@ -17,5 +16,4 @@ export default combineReducers({
   latestForumMail,
   messaging,
   phase,
-  userBans,
 });

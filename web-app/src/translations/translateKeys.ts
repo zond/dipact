@@ -157,54 +157,58 @@ const translateKeys = {
         hater: "game-list.game-card.failed-requirements.hater",
         maxRating: "game-list.game-card.failed-requirements.max-rating",
         minRating: "game-list.game-card.failed-requirements.min-rating",
-        minReliability: "game-list.game-card.failed-requirements.min-reliability",
+        minReliability:
+          "game-list.game-card.failed-requirements.min-reliability",
         minQuickness: "game-list.game-card.failed-requirements.min-quickness",
-        invitationNeeded: "game-list.game-card.failed-requirements.invitation-needed",
+        invitationNeeded:
+          "game-list.game-card.failed-requirements.invitation-needed",
       },
       viewButton: {
-        label: "game-list.game-card.view-button.label"
+        label: "game-list.game-card.view-button.label",
       },
       inviteButton: {
-        label: "game-list.game-card.invite-button.label"
+        label: "game-list.game-card.invite-button.label",
       },
       joinButton: {
-        label: "game-list.game-card.join-button.label"
+        label: "game-list.game-card.join-button.label",
       },
       rescheduleButton: {
-        label: "game-list.game-card.reschedule-button.label"
+        label: "game-list.game-card.reschedule-button.label",
       },
       renameButton: {
-        label: "game-list.game-card.rename-button.label"
+        label: "game-list.game-card.rename-button.label",
       },
       deleteButton: {
-        label: "game-list.game-card.delete-button.label"
+        label: "game-list.game-card.delete-button.label",
       },
       manageInvitationsButton: {
-        label: "game-list.game-card.manage-invitations-button.label"
+        label: "game-list.game-card.manage-invitations-button.label",
       },
       rules: {
-        label: "game-list.game-card.rules.label"
+        label: "game-list.game-card.rules.label",
       },
       players: {
-        label: "game-list.game-card.players.label"
+        label: "game-list.game-card.players.label",
       },
       chatLanguageIcon: {
         tooltip: "game-list.game-card.chat-language-icon.tooltip",
       },
       privateGameIcon: {
-        tooltip: "game-list.game-card.private-game-icon.tooltip"
+        tooltip: "game-list.game-card.private-game-icon.tooltip",
       },
       minQuicknessOrReliabilityRequiredIcon: {
-        tooltip: "game-list.game-card.min-quickness-or-reliability-required-icon.tooltip"
+        tooltip:
+          "game-list.game-card.min-quickness-or-reliability-required-icon.tooltip",
       },
       minRatingRequiredIcon: {
-        tooltip: "game-list.game-card.min-rating-required-icon.tooltip"
+        tooltip: "game-list.game-card.min-rating-required-icon.tooltip",
       },
       chatDisabledIcon: {
-        tooltip: "game-list.game-card.chat-disabled-icon.tooltip"
+        tooltip: "game-list.game-card.chat-disabled-icon.tooltip",
       },
       preferenceBaseNationAllocationIcon: {
-        tooltip: "game-list.game-card.preference-based-nation-allocation-icon.tooltip"
+        tooltip:
+          "game-list.game-card.preference-based-nation-allocation-icon.tooltip",
       },
       chatLanguageRule: {
         label: "game-list.game-card.chat-language-rule.label",
@@ -364,6 +368,26 @@ const translateKeys = {
     variantSelect: {
       label: "settings.variant-select.label",
     },
+  },
+  statsDialog: {
+    title: "stats-dialog.title",
+    mutedCheckbox: {
+      label: "stats-dialog.muted-checkbox.label",
+    },
+    ranking: {
+      label: "stats-dialog.ranking.label",
+      value: "stats-dialog.ranking.value",
+    },
+    rating: {
+      label: "stats-dialog.rating.label",
+    },
+    ratingPercentile: {
+      label: "stats-dialog.rating-percentile.label",
+      value: "stats-dialog.rating-percentile.value",
+    },
+    // prompt: "reset-settings-dialog.prompt",
+    // resetButton: "reset-settings-dialog.reset-button",
+    // cancelButton: "reset-settings-dialog.cancel-button",
   },
 };
 

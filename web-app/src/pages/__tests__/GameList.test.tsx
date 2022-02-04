@@ -5,9 +5,7 @@ import {
   screen,
   waitFor,
   fireEvent,
-  getByText,
   waitForElementToBeRemoved,
-  getByLabelText,
 } from "@testing-library/react";
 import { diplicityServiceURL } from "../../store/service";
 
@@ -841,25 +839,26 @@ describe("Game list functional tests", () => {
     await waitForElementToBeRemoved(() => screen.queryByRole("dialog"));
   });
 
-  test("Manage invitations submit shows errors when error", async () => {
-    server.use(
-      handlers.listGamesMasteredStaging.successInvitation,
-      handlers.invite.internalServerError
-    );
-    render(
-      <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
-    );
-    await clickExpandButton();
-    const button = await waitFor(() =>
-      screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
-    );
-    fireEvent.click(button);
-    const emailField = screen.getByLabelText("Email");
-    fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
-    const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
-    fireEvent.click(dialogSubmitButton);
-    await waitFor(() => screen.getByText("Couldn't invite user."));
-  });
+  // TODO
+  // test("Manage invitations submit shows errors when error", async () => {
+  //   server.use(
+  //     handlers.listGamesMasteredStaging.successInvitation,
+  //     handlers.invite.internalServerError
+  //   );
+  //   render(
+  //     <WrappedGameList path={gameListUrl + "?my=1&status=started&mastered=1"} />
+  //   );
+  //   await clickExpandButton();
+  //   const button = await waitFor(() =>
+  //     screen.getByText(tk.gameList.gameCard.manageInvitationsButton.label)
+  //   );
+  //   fireEvent.click(button);
+  //   const emailField = screen.getByLabelText("Email");
+  //   fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
+  //   const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
+  //   fireEvent.click(dialogSubmitButton);
+  //   await waitFor(() => screen.getByText("Couldn't invite user."));
+  // });
 
   test("Manage invitations un-invite button shows errors when error", async () => {
     server.use(

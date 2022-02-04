@@ -16,8 +16,6 @@ import {
 	DialogActions,
 } from "@mui/material";
 
-import UserAvatar from "./UserAvatar";
-
 export default class LeaderboardDialog extends React.Component {
 	constructor(props) {
 		super(props);
@@ -32,7 +30,7 @@ export default class LeaderboardDialog extends React.Component {
 			<TableRow key={user.Id}>
 				<TableCell>{pos}</TableCell>
 				<TableCell>
-					<UserAvatar user={user} />
+					{/* <UserAvatar user={user} /> */}
 				</TableCell>
 				<TableCell>{user.Name}</TableCell>
 			</TableRow>

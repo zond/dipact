@@ -9,14 +9,20 @@ interface FeedbackWrapperProps {
 const FeedbackWrapper = ({
   children,
 }: FeedbackWrapperProps): React.ReactElement => {
-
   const { feedback, handleClose } = useFeedbackWrapper();
 
   return (
     <>
       {children}
       {feedback.map(({ id, message, severity }) => (
-        <Snackbar key={id} open={true} onClose={() => handleClose(id)} message={message}>
+        <Snackbar
+          key={id}
+          open={true}
+          onClose={() => handleClose(id)}
+          message={message}
+          // Note, default TransitionComponent causes tests to fail. Not sure why.
+          TransitionComponent={({ children }) => children}
+        >
           <Alert severity={severity}>{message}</Alert>
         </Snackbar>
       ))}

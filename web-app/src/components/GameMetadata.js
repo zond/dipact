@@ -19,7 +19,7 @@ import gtag from "ga-gtag";
 import AnonymousSvgPath from "../static/img/anon.svg";
 
 import * as helpers from "../helpers";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "./OldUserAvatar";
 
 export default class GameMetadata extends React.Component {
 	constructor(props) {

@@ -359,5 +359,22 @@
     "variant-select": {
       "label": "Variant"
     }
+  },
+  "stats-dialog": {
+    "title": "{{ username }}",
+    "muted-checkbox": {
+      "label": "Muted"
+    },
+    "ranking": {
+      "label": "Ranking (position in server wide leaderboard)",
+      "value": "#{{ value }}"
+    },
+    "rating": {
+      "label": "Rating (calculation based on win/loss history)"
+    },
+    "rating-percentile": {
+      "label": "Rating percentile (percentage of active players as good or better)",
+      "value": "{{ value }}%"
+    }
   }
 }
