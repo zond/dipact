@@ -13,6 +13,7 @@ import {
   Nations,
 } from "./base";
 import { NationStatus } from "../hooks/useOrders";
+import { Container } from "@mui/material";
 
 export default {
   title: "pages/Orders",
@@ -26,8 +27,11 @@ export default {
   },
 } as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof Component> = () => <Component />;
-
+const Template: ComponentStory<typeof Component> = () => (
+  <Container>
+    <Component />
+  </Container>
+);
 const defaultUseOrdersArgs = {
   combinedQueryState: defaultCombinedQuerystate,
   nationStatuses: [],

@@ -35,6 +35,10 @@ import {
   Member,
   GameMasterInvitation,
   UserStats,
+  GameState,
+  ListGameStatesResponse,
+  GameStateResponse,
+  Ban,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -116,7 +120,7 @@ export const diplicityService = createApi({
     getForumMail: builder.query<ForumMailResponse, undefined>({
       query: () => "/ForumMail",
     }),
-    getUserBans: builder.query<UserBanResponse, string>({
+    listUserBans: builder.query<Ban[], string>({
       query: (id) => `/User/${id}/Bans`,
       transformResponse: (response: UserBanResponse, meta) => {
         // Bit of a hack to extract the userId from the request to filter bans by userId
@@ -128,7 +132,7 @@ export const diplicityService = createApi({
             response.userId = match.groups?.id;
           }
         }
-        return response;
+        return response.Properties.map(banResponse => banResponse.Properties);
       },
     }),
     getUserConfig: builder.query<UserConfig, string>({
@@ -208,6 +212,22 @@ export const diplicityService = createApi({
       transformResponse: (response: ListGamesResponse) => {
         return response.Properties.map(
           (gameResponse) => gameResponse.Properties
+        );
+      },
+      providesTags: [TagType.ListGames],
+    }),
+    getGameState: builder.query<GameState, { gameId: string, userId: string }>({
+      query: ({ gameId, userId }) => `/Game/${gameId}/GameStates/${userId}`,
+      transformResponse: (response: GameStateResponse) => {
+        return response.Properties;
+      },
+      providesTags: [TagType.ListGames],
+    }),
+    listGameStates: builder.query<GameState[], string>({
+      query: (gameId) => `/Game/${gameId}/GameStates`,
+      transformResponse: (response: ListGameStatesResponse) => {
+        return response.Properties.map(
+          (gameStateResponse) => gameStateResponse.Properties
         );
       },
       providesTags: [TagType.ListGames],

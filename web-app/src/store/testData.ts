@@ -119,7 +119,6 @@ export const initialState: RootState = {
   feedback: { ids: [], entities: {} },
   latestForumMail: {},
   messaging,
-  userBans: {},
   phase: null,
 };
 

@@ -355,7 +355,7 @@ export interface PhaseMeta {
 export type GameMasterInvitation = {
   Email: string;
   Nation: string;
-}
+};
 
 export type Game = NewGame & {
   Closed: boolean;
@@ -379,6 +379,20 @@ export type Game = NewGame & {
   StartedAgo: string;
   FinishedAt: string;
   FinishedAgo: string;
+};
+
+export type GameState = {
+  GameID: string;
+  Nation: string;
+  Muted: null | string[];
+};
+
+export type GameStateResponse = ApiResponse & {
+  Properties: GameState;
+};
+
+export type ListGameStatesResponse = ApiResponse & {
+  Properties: GameStateResponse[];
 };
 
 export type UnitState = {

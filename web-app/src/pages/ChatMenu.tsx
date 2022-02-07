@@ -74,7 +74,7 @@ const useSearchParam = (
 };
 
 const ChatMenu = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { gameId } = useParams<ChatMenuUrlParams>();
   const {
     channels,

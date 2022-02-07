@@ -53,7 +53,7 @@ const TWENTY_HOURS = 60 * 60 * 20;
 const HUNDRED_YEARS = 60 * 60 * 24 * 365 * 100;
 
 const Login = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   useRegisterPageView("Login");
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
   const classes = useStyles();

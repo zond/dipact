@@ -18,7 +18,7 @@ import {
 import withStyles from '@mui/styles/withStyles';
 
 import { ExpandIcon } from "../icons";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "./OldUserAvatar";
 import GameMetadata from "./GameMetadata";
 import Globals from "../Globals";
 

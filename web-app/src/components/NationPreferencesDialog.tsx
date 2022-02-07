@@ -27,7 +27,7 @@ import tk from "../translations/translateKeys";
 export const searchKey = "nation-preference-dialog";
 
 const NationPreferencesDialog = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { getParam, removeParam } = useSearchParams();
   const gameId = getParam(searchKey);
   const [sortedNations, setSortedNations] = useState<string[]>([]);
