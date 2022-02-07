@@ -6,7 +6,7 @@ import NationAvatar from "../components/NationAvatar";
 import Component from "../components/NationAvatarGroup";
 
 export default {
-  title: "components/NationAvatarGroup",
+  title: "components/NationAvatar/NationAvatarGroup",
   component: Component,
 } as ComponentMeta<typeof Component>;
 

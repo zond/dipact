@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RescheduleDialog = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { getParam, removeParam } = useSearchParams();
   const gameId = getParam(searchKey);
   const open = Boolean(gameId);

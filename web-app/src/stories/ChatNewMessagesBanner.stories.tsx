@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import Component from "../components/Chat/ChatNewMessagesBanner";
 
 export default {
-  title: "components/ChatNewMessagesBanner",
+  title: "components/Chat/ChatNewMessagesBanner",
   component: Component,
 } as ComponentMeta<typeof Component>;
 

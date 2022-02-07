@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const NationSummary = ({
   nationStatus,
 }: NationSummaryProps): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const {
     confirmedOrders,
     nation,

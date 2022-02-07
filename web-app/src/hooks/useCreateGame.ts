@@ -8,7 +8,7 @@ import {
   useLazyGetVariantSVGQuery,
   useListVariantsQuery,
 } from "./service";
-import { actions as uiActions } from "../store/ui";
+import { actions as uiActions, PageName } from "../store/ui";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import tk from "../translations/translateKeys";
@@ -73,7 +73,7 @@ const useCreateGame = (): IUseCreateGame => {
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [validationSchema, setValidationSchema] = useState<any>();
   const dispatch = useDispatch();
-  usePageLoad("CreateGame");
+  usePageLoad(PageName.CreateGame);
 
   useEffect(() => {
     if (getRootQuery.data) {

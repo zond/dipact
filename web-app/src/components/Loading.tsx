@@ -24,7 +24,7 @@ type StyleProps = LoadingProps;
 
 const Loading = ({ space }: LoadingProps): React.ReactElement => {
     const classes = useStyles({ space });
-    const { t } = useTranslation("common");
+    const { t } = useTranslation();
   return (
     <div className={classes.root}>
 	    <CircularProgress title={t(tk.loading.title)} />

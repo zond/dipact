@@ -8,7 +8,7 @@ import ChatMessage from "../components/Chat/ChatMessage";
 import NationAvatar from "../components/NationAvatar";
 
 export default {
-  title: "components/ChatMessageWithAvatar",
+  title: "components/Chat/ChatMessageWithAvatar",
   component: Component,
 } as ComponentMeta<typeof Component>;
 

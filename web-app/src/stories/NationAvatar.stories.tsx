@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import Component, { withMuted } from "../components/NationAvatar";
 
 export default {
-  title: "components/NationAvatar",
+  title: "components/NationAvatar/NationAvatar",
   component: Component,
   argTypes: { onClick: { action: 'clicked' } },
 } as ComponentMeta<typeof Component>;

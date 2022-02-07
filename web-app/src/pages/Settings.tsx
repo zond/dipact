@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Settings = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const { setParam } = useSearchParams();
 
   const pushNotificationsDisabled = false;

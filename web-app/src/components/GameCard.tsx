@@ -12,8 +12,7 @@ import {
   ListItem,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { generatePath } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Game, NationAllocation } from "../hooks/useGameList";
@@ -31,12 +30,12 @@ import {
   StartedAtIcon,
 } from "../icons";
 import { RouteConfig } from "../pages/RouteConfig";
-import { copyToClipboard } from "../utils/general";
 import PlayerCount from "./PlayerCount";
-import { actions as feedbackActions } from "../store/feedback";
 import useSearchParams from "../hooks/useSearchParams";
-import { useDeleteGameMutation, useJoinGameMutation } from "../hooks/service";
 import { registerEvent } from "../hooks/useRegisterPageview";
+import useGameCard from "../hooks/useGameCard";
+import { useTranslation } from "react-i18next";
+import tk from "../translations/translateKeys";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,59 +118,19 @@ const defaultProps = {
   space: 1,
 };
 
-const PRIVATE_GAME_TOOLTIP = "Private game";
-const CHAT_LANGUAGE_TOOLTIP = "Chat language: "; // TODO template when translating
-const CHAT_LANGUAGE_LABEL = "Chat language: "; // TODO template when translating
-const MIN_QUICKNESS_OR_RELIABILITY_REQUIRED_TOOLTIP =
-  "Mininum quickness or reliability required";
-const MIN_RATING_REQUIRED_TOOLTIP = "Minumum rating required";
-const PREFERENCE_BASED_NATION_ALLOCATION_TOOLTIP =
-  "Preference based nation allocation";
-const CHAT_DISABLED_TOOLTIP = "Chat disabled";
-const VIEW_GAME_BUTTON_LABEL = "View";
-const INVITE_BUTTON_LABEL = "Invite";
-const JOIN_BUTTON_LABEL = "Join";
-const RESCHEDULE_BUTTON_LABEL = "Reschedule";
-export const RENAME_BUTTON_LABEL = "Rename";
-export const DELETE_BUTTON_LABEL = "Delete";
-const RULES_LABEL = "Rules:";
-const PLAYERS_LABEL = "Players:";
-const GAME_VARIANT_LABEL = "Game variant: ";
-const PHASE_DEADLINE_LABEL = "Phase deadline: ";
-const CREATED_AT_LABEL = "Created at: ";
-const NATION_ALLOCATION_LABEL = "Nation selection: ";
-const LINK_COPIED_TO_CLIPBOARD_FEEDBACK =
-  "Game URL copied to clipboard. Share it with other players.";
-
-const FAILED_REQUIREMENTS_LABEL = "You can't join this game:";
-const FAILED_REQUIREMENT_EXPLANATION_HATED =
-  "You've been reported too often (hated score too high).";
-const FAILED_REQUIREMENT_EXPLANATION_HATER =
-  "You banned others too often (hater score too high).";
-const FAILED_REQUIREMENT_EXPLANATION_MAX_RATING =
-  "You're too good (rating too high).";
-const FAILED_REQUIREMENT_EXPLANATION_MIN_RATING =
-  "You're not good enough yet (rating too low).";
-const FAILED_REQUIREMENT_EXPLANATION_MIN_RELIABILITY =
-  "You haven't given any orders on too many turns (reliability too low).";
-const FAILED_REQUIREMENT_EXPLANATION_MIN_QUICKNESS =
-  "You haven't committed your orders often enough (quickness too low).";
-const FAILED_REQUIREMENT_EXPLANATION_INVITATION_NEEDED =
-  "The game Master hasn't invited you.";
-export const MANAGE_INVITATIONS_BUTTON_LABEL = "Manage invitations";
-
 const failedRequirementExplanationMap: { [key: string]: string } = {
-  Hated: FAILED_REQUIREMENT_EXPLANATION_HATED,
-  Hater: FAILED_REQUIREMENT_EXPLANATION_HATER,
-  MaxRating: FAILED_REQUIREMENT_EXPLANATION_MIN_RATING,
-  MinRating: FAILED_REQUIREMENT_EXPLANATION_MAX_RATING,
-  MinReliability: FAILED_REQUIREMENT_EXPLANATION_MIN_RELIABILITY,
-  MinQuickness: FAILED_REQUIREMENT_EXPLANATION_MIN_QUICKNESS,
-  InvitationNeeded: FAILED_REQUIREMENT_EXPLANATION_INVITATION_NEEDED,
+  Hated: tk.gameList.gameCard.failedRequirements.hated,
+  Hater: tk.gameList.gameCard.failedRequirements.hater,
+  MaxRating: tk.gameList.gameCard.failedRequirements.maxRating,
+  MinRating: tk.gameList.gameCard.failedRequirements.minRating,
+  MinReliability: tk.gameList.gameCard.failedRequirements.minReliability,
+  MinQuickness: tk.gameList.gameCard.failedRequirements.minQuickness,
+  InvitationNeeded: tk.gameList.gameCard.failedRequirements.invitationNeeded,
 };
 
 const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const {
     chatDisabled,
     chatLanguage,
@@ -200,35 +159,18 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const numMembers = players.length;
 
   const history = useHistory();
-  const dispatch = useDispatch();
   const { setParam } = useSearchParams();
+
+  const { deleteGame, isLoading, joinGame, onClickInvite } = useGameCard();
 
   const gameUrl = generatePath(RouteConfig.Game, { gameId: id });
   const onClickView = () => history.push(gameUrl);
-  const [joinGame, { isLoading, isSuccess }] = useJoinGameMutation();
-  const [deleteGame, deleteGameQuery] = useDeleteGameMutation();
-
-  const onClickInvite = () => {
-    if (false) {
-      // TODO do native share on native app
-    } else {
-      copyToClipboard(gameUrl)
-        .then(() => {
-          const message = LINK_COPIED_TO_CLIPBOARD_FEEDBACK;
-          dispatch(feedbackActions.add({ message, severity: "info" }));
-        })
-        .catch((error) => {
-          dispatch(feedbackActions.add({ message: error, severity: "error" }));
-        });
-      // TODO
-      // gtag("event", "game_share");
-    }
-  };
 
   const onClickJoin = () => {
     if (nationAllocation === NationAllocation.Preference) {
       setParam("nation-preference-dialog", id);
     } else {
+      // TODO move to middleware
       joinGame({ gameId: id as string, NationPreferences: "", GameAlias: "" });
     }
   };
@@ -237,16 +179,12 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const onClickRename = () => setParam("rename-game-dialog", id);
   const onClickManageInvitations = () =>
     setParam("manage-invitations-dialog", id);
+
+  // TODO move to middleware
   const onClickDelete = () => {
     deleteGame(id);
     registerEvent("game_list_element_delete");
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      registerEvent("game_list_element_join");
-    }
-  }, [isSuccess]);
 
   return (
     <Accordion
@@ -285,7 +223,13 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
             <div className={classes.phaseSummaryContainer}>
               <div className={classes.icons}>
                 {Boolean(chatLanguage) && (
-                  <Tooltip title={CHAT_LANGUAGE_TOOLTIP + chatLanguageDisplay}>
+                  <Tooltip
+                    title={
+                      t(tk.gameList.gameCard.chatLanguageIcon.tooltip, {
+                        language: chatLanguageDisplay,
+                      }) as string
+                    }
+                  >
                     <div className={classes.chatIconContainer}>
                       <ChatLanguageIcon fontSize={"small"} />
                       <Typography variant={"caption"}>
@@ -295,29 +239,55 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
                   </Tooltip>
                 )}
                 {privateGame && (
-                  <Tooltip title={PRIVATE_GAME_TOOLTIP}>
+                  <Tooltip
+                    title={
+                      t(tk.gameList.gameCard.privateGameIcon.tooltip) as string
+                    }
+                  >
                     <PrivateGameIcon fontSize={"small"} />
                   </Tooltip>
                 )}
                 {Boolean(minQuickness || minReliability) && (
                   <Tooltip
-                    title={MIN_QUICKNESS_OR_RELIABILITY_REQUIRED_TOOLTIP}
+                    title={
+                      t(
+                        tk.gameList.gameCard
+                          .minQuicknessOrReliabilityRequiredIcon.tooltip
+                      ) as string
+                    }
                   >
                     <ReliabilityIcon fontSize={"small"} />
                   </Tooltip>
                 )}
                 {nationAllocation === NationAllocation.Preference && (
-                  <Tooltip title={PREFERENCE_BASED_NATION_ALLOCATION_TOOLTIP}>
+                  <Tooltip
+                    title={
+                      t(
+                        tk.gameList.gameCard.preferenceBaseNationAllocationIcon
+                          .tooltip
+                      ) as string
+                    }
+                  >
                     <NationAllocationIcon fontSize={"small"} />
                   </Tooltip>
                 )}
                 {Boolean(minRating) && (
-                  <Tooltip title={MIN_RATING_REQUIRED_TOOLTIP}>
+                  <Tooltip
+                    title={
+                      t(
+                        tk.gameList.gameCard.minRatingRequiredIcon.tooltip
+                      ) as string
+                    }
+                  >
                     <RatingIcon fontSize={"small"} />
                   </Tooltip>
                 )}
                 {chatDisabled && (
-                  <Tooltip title={CHAT_DISABLED_TOOLTIP}>
+                  <Tooltip
+                    title={
+                      t(tk.gameList.gameCard.chatDisabledIcon.tooltip) as string
+                    }
+                  >
                     <ChatDisabledIcon fontSize={"small"} />
                   </Tooltip>
                 )}
@@ -335,57 +305,59 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
             rel="noreferrer"
           >
             <Button variant={"outlined"} onClick={onClickView}>
-              {VIEW_GAME_BUTTON_LABEL}
+              {t(tk.gameList.gameCard.viewButton.label)}
             </Button>
           </a>
-          <Button variant={"outlined"} onClick={onClickInvite}>
-            {INVITE_BUTTON_LABEL}
+          <Button variant={"outlined"} onClick={() => onClickInvite(gameUrl)}>
+            {t(tk.gameList.gameCard.inviteButton.label)}
           </Button>
           <Button
             variant={"outlined"}
             onClick={onClickJoin}
             disabled={Boolean(failedRequirements.length) || isLoading}
           >
-            {JOIN_BUTTON_LABEL}
+            {t(tk.gameList.gameCard.joinButton.label)}
           </Button>
           {/* // if len(g.NewestPhaseMeta) == 1 && !g.NewestPhaseMeta[0].Resolved */}
           {userIsMember && (
             <Button variant={"outlined"} onClick={onClickRename}>
-              {RENAME_BUTTON_LABEL}
+              {t(tk.gameList.gameCard.renameButton.label)}
             </Button>
           )}
           {userIsGameMaster && (
             <>
               <Button variant={"outlined"} onClick={onClickReschedule}>
-                {RESCHEDULE_BUTTON_LABEL}
+                {t(tk.gameList.gameCard.rescheduleButton.label)}
               </Button>
               <Button variant={"outlined"} onClick={onClickManageInvitations}>
-                {MANAGE_INVITATIONS_BUTTON_LABEL}
+                {t(tk.gameList.gameCard.manageInvitationsButton.label)}
               </Button>
               <Button
                 variant={"outlined"}
                 onClick={onClickDelete}
-                disabled={deleteGameQuery.isLoading}
+                disabled={isLoading}
               >
-                {DELETE_BUTTON_LABEL}
+                {t(tk.gameList.gameCard.deleteButton.label)}
               </Button>
             </>
           )}
         </div>
         <div>
           {Boolean(failedRequirements.length) && (
-            <Typography>{FAILED_REQUIREMENTS_LABEL}</Typography>
+            <Typography>{t(tk.gameList.gameCard.failedRequirements.label)}</Typography>
           )}
           <List>
             {failedRequirements.map((req) => (
               <ListItem dense key={req}>
-                <Typography>{failedRequirementExplanationMap[req]}</Typography>
+                <Typography>{t(failedRequirementExplanationMap[req])}</Typography>
               </ListItem>
             ))}
           </List>
         </div>
         <div>
-          <Typography variant={"caption"}>{RULES_LABEL}</Typography>
+          <Typography variant={"caption"}>
+            {t(tk.gameList.gameCard.rules.label)}
+          </Typography>
           <div className={classes.rules}>
             <div>
               <div className={classes.chatIconContainer}>
@@ -393,31 +365,49 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
                 <Typography variant={"caption"}>{chatLanguage}</Typography>
               </div>
               <Typography>
-                {CHAT_LANGUAGE_LABEL + chatLanguageDisplay}
+                {t(tk.gameList.gameCard.chatLanguageRule.label, {
+                  language: chatLanguageDisplay,
+                })}
               </Typography>
             </div>
             <div>
               <GameVariantIcon fontSize={"small"} />
-              <Typography>{GAME_VARIANT_LABEL + gameVariant}</Typography>
+              <Typography>
+                {t(tk.gameList.gameCard.gameVariantRule.label, {
+                  variant: gameVariant,
+                })}
+              </Typography>
             </div>
             <div>
               <PhaseDeadlineIcon fontSize={"small"} />
-              <Typography>{PHASE_DEADLINE_LABEL + deadlineDisplay}</Typography>
+              <Typography>
+                {t(tk.gameList.gameCard.phaseDeadlineRule.label, {
+                  deadline: deadlineDisplay,
+                })}
+              </Typography>
             </div>
             <div>
               <CreatedAtIcon fontSize={"small"} />
-              <Typography>{CREATED_AT_LABEL + createdAtDisplay}</Typography>
+              <Typography>
+                {t(tk.gameList.gameCard.createdAtRule.label, {
+                  createdAt: createdAtDisplay,
+                })}
+              </Typography>
             </div>
             <div>
               <NationAllocationIcon fontSize={"small"} />
               <Typography>
-                {NATION_ALLOCATION_LABEL + nationAllocation}
+                {t(tk.gameList.gameCard.nationAllocationRule.label, {
+                  nationAllocation,
+                })}
               </Typography>
             </div>
           </div>
         </div>
         <div>
-          <Typography variant={"caption"}>{PLAYERS_LABEL}</Typography>
+          <Typography variant={"caption"}>
+            {t(tk.gameList.gameCard.players.label)}
+          </Typography>
           <div className={classes.players}>
             {players.map(({ username, image }) => (
               <div key={username}>

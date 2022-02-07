@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PhaseSelector = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const classes = useStyles();
   const { gameId } = useParams<PhaseSelectorUrlParams>();
   const {

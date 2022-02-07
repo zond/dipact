@@ -1,13 +1,21 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { actions as uiActions } from "../store/ui";
+import { actions as uiActions, PageName } from "../store/ui";
 
-const usePageLoad = (pageTitle: string): void => {
+const usePageLoad = (pageName: PageName): void => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(uiActions.pageLoad(pageTitle));
-  }, [dispatch, pageTitle]);
+    dispatch(uiActions.pageLoad(pageName));
+  }, [dispatch, pageName]);
+};
+
+export const useLazyPageLoad = (pageName: PageName): (() => void) => {
+  const dispatch = useDispatch();
+  const trigger = useCallback(() => {
+    dispatch(uiActions.pageLoad(pageName));
+  }, [dispatch, pageName]);
+  return trigger;
 };
 
 export default usePageLoad;

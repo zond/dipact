@@ -7,7 +7,7 @@ import { Phase } from "../store/types";
 import { phase } from "../store/testData";
 
 export default {
-  title: "components/ChatMessage",
+  title: "components/Chat/ChatMessage",
   component: Component,
 } as ComponentMeta<typeof Component>;
 

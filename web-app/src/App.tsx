@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
 import ErrorDialogWrapper from "./components/ErrorsDialog";
 
-import StatsDialogWrapper from "./components/StatsDialogWrapper";
 import FeedbackWrapper from "./components/FeedbackWrapper";
 import TokenHandler from "./components/TokenHandler";
 import { useGetRootQuery, useListVariantsQuery } from "./hooks/service";
@@ -17,9 +16,7 @@ const App = (): React.ReactElement => {
         <TokenHandler>
           <FeedbackWrapper>
             <ErrorDialogWrapper>
-              <StatsDialogWrapper>
                 <Router />
-              </StatsDialogWrapper>
             </ErrorDialogWrapper>
           </FeedbackWrapper>
         </TokenHandler>

@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateGame = (): React.ReactElement => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
   const {
     handleChange,
     handleSubmit,
