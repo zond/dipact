@@ -6,6 +6,8 @@ import {
   waitFor,
   fireEvent,
   getByText,
+  getByTitle,
+  queryByTitle,
 } from "@testing-library/react";
 import { generatePath, Router, Route, Switch } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
@@ -113,7 +115,7 @@ const userClicksSendButton = async () => {
 
 const getAvatarFromTopBar = async (nation: string): Promise<Element | null> => {
   const topBar = screen.getByTestId("channel-top-bar");
-  return topBar.querySelector(`img[alt="${nation}"]`);
+  return queryByTitle(topBar, nation);
 };
 
 const getChannelTitle = async (): Promise<string | undefined> => {
@@ -205,12 +207,12 @@ describe("ChatChannel functional tests", () => {
     expect(backButton.nodeName).toBe("A");
   });
 
-  // test("Shows member avatar in channel", async () => {
-  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
-  //   await userSeesMessages();
-  //   const avatar = await getAvatarFromTopBar("Russia");
-  //   expect(avatar).toBeTruthy();
-  // });
+  test("Shows member avatar in channel", async () => {
+    render(<WrappedChannel path={chatChannelUrl} history={history} />);
+    await userSeesMessages();
+    const avatar = await getAvatarFromTopBar("Russia");
+    expect(avatar).toBeTruthy();
+  });
 
   test("Does not show other avatar in channel", async () => {
     render(<WrappedChannel path={chatChannelUrl} history={history} />);
@@ -230,7 +232,8 @@ describe("ChatChannel functional tests", () => {
     render(<WrappedChannel path={everyoneChannelUrl} history={history} />);
     await userSeesMessages();
     const avatar = await getAvatarFromTopBar("Everyone");
-    expect(avatar?.getAttribute("src")).toContain("un_logo");
+    const img = avatar?.querySelector('img');
+    expect(img?.getAttribute("src")).toContain("un_logo");
   });
 
   test("Shows nation in channel title", async () => {
@@ -261,12 +264,12 @@ describe("ChatChannel functional tests", () => {
     getByText(message, "Russia");
   });
 
-  // test("Shows avatar beside message", async () => {
-  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
-  //   const messages = await userSeesMessages();
-  //   const message = messages[1];
-  //   getByAltText(message.parentNode as HTMLElement, "Russia");
-  // });
+  test("Shows avatar beside message", async () => {
+    render(<WrappedChannel path={chatChannelUrl} history={history} />);
+    const messages = await userSeesMessages();
+    const message = messages[1];
+    getByTitle(message.parentNode as HTMLElement, "Russia");
+  });
 
   test("Shows other user's messages on the left", async () => {
     render(<WrappedChannel path={chatChannelUrl} history={history} />);
@@ -293,15 +296,6 @@ describe("ChatChannel functional tests", () => {
     await userSeesMessages();
     screen.getByText("Spring 1901, Movement", { exact: false });
   });
-
-  test.todo("Shows phase before first message of each phase");
-  // test("Shows phase before first message of each phase", async () => {
-  //   server.use(handlers.messages.successMultiplePhases);
-  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
-  //   await userSeesMessages();
-  //   screen.getByText("Spring 1901, Movement", { exact: false });
-  //   screen.getByText("Fall 1901, Movement", { exact: false });
-  // });
 
   test("Text input appears when user is member of channel", async () => {
     render(<WrappedChannel path={chatChannelUrl} history={history} />);
@@ -339,59 +333,6 @@ describe("ChatChannel functional tests", () => {
     );
   });
 
-  // test("Clicking on send button loads messages", async () => {
-  //   server.use(
-  //     handlers.getGame.success,
-  //     handlers.getUser.success,
-  //     handlers.listChannels.success,
-  //     handlers.listPhases.success,
-  //     handlers.messages.success,
-  //     handlers.variants.successShort,
-  //     handlers.createMessage.success,
-  //   );
-  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
-  //   await userSeesMessages();
-  //   await userFillsMessageInput("Test message");
-  //   server.resetHandlers(
-  //     handlers.getGame.success,
-  //     handlers.getUser.success,
-  //     handlers.listChannels.success,
-  //     handlers.listPhases.success,
-  //     handlers.messages.successNewMessage,
-  //     handlers.variants.successShort,
-  //     handlers.createMessage.success,
-  //   );
-  //   await userClicksSendButton();
-  //   const messages = await userSeesMessages();
-  //   expect(messages.length).toBe(4);
-  //   await userSeesUndeliveredMessage();
-  //   await userSeesNewMessage();
-  //   const call = fetchSpy.mock.calls.map((call) => call[0] as Request)[7];
-  //   expect(fetchSpy.mock.calls.length).toBe(1);
-  //   expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Messages`);
-  //   expect(call.method).toBe("GET");
-  // });
-
-  test.todo("Input is disabled when message is being sent");
-  // test("Input is disabled when message is being sent", async () => {
-  //   render(<WrappedChannel path={chatChannelUrl} history={history} />);
-  //   await userSeesMessages();
-  //   await userFillsMessageInput("Test message");
-  //   await userClicksSendButton();
-  //   expect(fetchSpy).toBeCalledTimes(7);
-  //   const input = await getMessageInput();
-  //   expect(input.hasAttribute("disabled")).toBe(true);
-  // });
-
-  // TODO
-  test("Input is cleared when message is sent", async () => {});
-
-  // TODO
-  test("Input is not cleared when message is unsuccessful", async () => {});
-
-  // TODO
-  test("Clicking on send button does not send message if empty", async () => {});
-
   test("Clicking on send button does not send message if whitespace", async () => {
     render(<WrappedChannel path={chatChannelUrl} history={history} />);
     await userSeesMessages();
@@ -400,11 +341,17 @@ describe("ChatChannel functional tests", () => {
     expect(fetchSpy).toBeCalledTimes(6);
   });
 
-  // TODO
-  test("Ctrl + Enter sends message", async () => {});
+  test.todo("Input is disabled when message is being sent");
 
-  // TODO
-  test("Shows 'sending...' for undelivered message", async () => {});
+  test.todo("Input is cleared when message is sent");
+
+  test.todo("Input is not cleared when message is unsuccessful");
+
+  test.todo("Clicking on send button does not send message if empty");
+
+  test.todo("Ctrl + Enter sends message");
+
+  test.todo("Shows 'sending...' for undelivered message");
 
   test("Chat channel list variants api error", async () => {
     server.use(handlers.variants.internalServerError);
