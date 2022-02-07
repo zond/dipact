@@ -2,7 +2,8 @@ import { createAction } from "@reduxjs/toolkit";
 import { CreateGameFormValues } from "./types";
 
 export enum PageName {
-  StatsDialog,
+  CreateGame = "CreateGame",
+  StatsDialog = "StatsDialog",
 }
 
 const domain = "ui";
