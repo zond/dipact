@@ -141,6 +141,32 @@
       "singular": "Minute"
     }
   },
+  "feedback": {
+    "join-game": {
+      "fulfilled": "Joined game!",
+      "rejected": "Couldn't join game."
+    },
+    "reschedule-game": {
+      "fulfilled": "Rescheduled game!",
+      "rejected": "Couldn't reschedule game."
+    },
+    "renameGame": {
+      "fulfilled": "Renamed game!",
+      "rejected": "Couldn't rename game."
+    },
+    "deleteGame": {
+      "fulfilled": "Deleted game!",
+      "rejected": "Couldn't delete game."
+    },
+    "invite": {
+      "fulfilled": "Invited!",
+      "rejected": "Couldn't invite user."
+    },
+    "unInvite": {
+      "fulfilled": "Un-invited!",
+      "rejected": "Couldn't un-invite user."
+    }
+  },
   "game-list": {
     "all-games-tab": {
       "label": "All games"

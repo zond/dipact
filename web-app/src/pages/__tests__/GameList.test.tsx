@@ -322,7 +322,7 @@ describe("Game list functional tests", () => {
     await clickExpandButton();
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
-    await waitFor(() => screen.getByText("Couldn't join game."));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.rejected));
   });
 
   test("Join button hits endpoint correctly", async () => {
@@ -331,7 +331,7 @@ describe("Game list functional tests", () => {
     await clickExpandButton();
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
-    await waitFor(() => screen.getByText("Joined game!"));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.fulfilled));
     const call = fetchSpy.mock.calls[3][0];
     expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Member`);
     expect(call.method).toBe("POST");
@@ -343,7 +343,7 @@ describe("Game list functional tests", () => {
     await clickExpandButton();
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
-    await waitFor(() => screen.getByText("Joined game!"));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "game_list_element_join",
@@ -356,7 +356,7 @@ describe("Game list functional tests", () => {
     await clickExpandButton();
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.joinButton.label));
     fireEvent.click(button);
-    await waitFor(() => screen.getByText("Joined game!"));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.fulfilled));
   });
 
   test("Nation preference dialog causes gtag page load event", async () => {
@@ -416,7 +416,7 @@ describe("Game list functional tests", () => {
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogJoinButton);
-    await waitFor(() => screen.getByText("Joined game!"));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.fulfilled));
     const call = fetchSpy.mock.calls[4][0] as Request;
     expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}/Member`);
   });
@@ -429,7 +429,7 @@ describe("Game list functional tests", () => {
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogJoinButton);
-    await waitFor(() => screen.getByText("Joined game!"));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "game_list_element_join",
@@ -444,7 +444,7 @@ describe("Game list functional tests", () => {
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     expect(dialogJoinButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogJoinButton);
-    await waitFor(() => screen.getByText("Joined game!"));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.fulfilled));
     await waitForElementToBeRemoved(() =>
       screen.queryByText(tk.nationPreferences.title)
     );
@@ -471,7 +471,7 @@ describe("Game list functional tests", () => {
     fireEvent.click(joinButton);
     const dialogJoinButton = await waitFor(() => screen.getByText(tk.nationPreferences.joinButton.label));
     fireEvent.click(dialogJoinButton);
-    await waitFor(() => screen.getByText("Couldn't join game."));
+    await waitFor(() => screen.getByText(tk.feedback.joinGame.rejected));
   });
 
   test("Reschedule button appears if", async () => {
@@ -534,7 +534,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.rescheduleGameDialog.rescheduleButton.label)
     );
     fireEvent.click(dialogRescheduleButton);
-    await waitFor(() => screen.getByText("Rescheduled game!"));
+    await waitFor(() => screen.getByText(tk.feedback.rescheduleGame.fulfilled));
     const call = fetchSpy.mock.calls[4][0];
     expect(call.url).toBe(
       `${diplicityServiceURL}Game/${gameId}/Phase/${phaseOrdinal}/DeadlineAt`
@@ -569,7 +569,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.rescheduleGameDialog.rescheduleButton.label)
     );
     fireEvent.click(dialogRescheduleButton);
-    await waitFor(() => screen.getByText("Rescheduled game!"));
+    await waitFor(() => screen.getByText(tk.feedback.rescheduleGame.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "game_list_element_reschedule",
@@ -587,7 +587,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.rescheduleGameDialog.rescheduleButton.label)
     );
     fireEvent.click(dialogRescheduleButton);
-    await waitFor(() => screen.getByText("Rescheduled game!"));
+    await waitFor(() => screen.getByText(tk.feedback.rescheduleGame.fulfilled));
     await waitForElementToBeRemoved(() =>
       screen.queryByText(tk.rescheduleGameDialog.title)
     );
@@ -621,7 +621,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.rescheduleGameDialog.rescheduleButton.label)
     );
     fireEvent.click(dialogRescheduleButton);
-    await waitFor(() => screen.getByText("Couldn't reschedule game."));
+    await waitFor(() => screen.getByText(tk.feedback.rescheduleGame.rejected));
   });
 
   test("Manage invitations button appears if game master", async () => {
@@ -702,7 +702,7 @@ describe("Game list functional tests", () => {
     const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     expect(dialogSubmitButton).not.toHaveAttribute("disabled");
     fireEvent.click(dialogSubmitButton);
-    await waitFor(() => screen.getByText("Invited!"));
+    await waitFor(() => screen.getByText(tk.feedback.invite.fulfilled));
     const call = fetchSpy.mock.calls[4][0];
     expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}`);
     expect(call.method).toBe("POST");
@@ -740,7 +740,7 @@ describe("Game list functional tests", () => {
     fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
     const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
     fireEvent.click(dialogSubmitButton);
-    await waitFor(() => screen.getByText("Invited!"));
+    await waitFor(() => screen.getByText(tk.feedback.invite.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "manage_invitations_dialog_invite_user",
@@ -788,7 +788,7 @@ describe("Game list functional tests", () => {
     await waitFor(() => screen.getByText("fakeemail@gmail.com"));
     const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
-    await waitFor(() => screen.getByText("Un-invited."));
+    await waitFor(() => screen.getByText(tk.feedback.unInvite.fulfilled));
   });
 
   test("Manage invitations dialog un-invite button disables un-invite button", async () => {
@@ -819,7 +819,7 @@ describe("Game list functional tests", () => {
     await waitFor(() => screen.getByText("fakeemail@gmail.com"));
     const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
-    await waitFor(() => screen.getByText("Un-invited."));
+    await waitFor(() => screen.getByText(tk.feedback.unInvite.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "manage_invitations_dialog_uninvite_user",
@@ -857,7 +857,7 @@ describe("Game list functional tests", () => {
   //   fireEvent.change(emailField, { target: { value: "fakeemail@fake.com" } });
   //   const dialogSubmitButton = await waitFor(() => screen.getByText("Submit"));
   //   fireEvent.click(dialogSubmitButton);
-  //   await waitFor(() => screen.getByText("Couldn't invite user."));
+  //   await waitFor(() => screen.getByText(tk.feedback.invite.rejected));
   // });
 
   test("Manage invitations un-invite button shows errors when error", async () => {
@@ -876,7 +876,7 @@ describe("Game list functional tests", () => {
     await waitFor(() => screen.getByText("fakeemail@gmail.com"));
     const unInviteButton = screen.getByLabelText("Un-invite");
     fireEvent.click(unInviteButton);
-    await waitFor(() => screen.getByText("Couldn't un-invite user."));
+    await waitFor(() => screen.getByText(tk.feedback.unInvite.rejected));
   });
 
   test("Rename button appears if user is member", async () => {
@@ -940,7 +940,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.renameGameDialog.renameButton.label)
     );
     fireEvent.click(dialogSubmitButton);
-    await waitFor(() => screen.getByText("Renamed!"));
+    await waitFor(() => screen.getByText(tk.feedback.renameGame.fulfilled));
     const call = fetchSpy.mock.calls[4][0];
     expect(call.url).toBe(
       `${diplicityServiceURL}Game/${gameId}/Member/123456789`
@@ -976,7 +976,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.renameGameDialog.renameButton.label)
     );
     fireEvent.click(dialogSubmitButton);
-    await waitFor(() => screen.getByText("Renamed!"));
+    await waitFor(() => screen.getByText(tk.feedback.renameGame.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "game_list_element_rename",
@@ -1007,7 +1007,7 @@ describe("Game list functional tests", () => {
       screen.getByText(tk.renameGameDialog.renameButton.label)
     );
     fireEvent.click(dialogSubmitButton);
-    await waitFor(() => screen.getByText("Couldn't rename game."));
+    await waitFor(() => screen.getByText(tk.feedback.renameGame.rejected));
   });
 
   test("Delete button appears if game master", async () => {
@@ -1035,7 +1035,7 @@ describe("Game list functional tests", () => {
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
     fetchSpy.mockClear();
-    await waitFor(() => screen.getByText("Deleted!"));
+    await waitFor(() => screen.getByText(tk.feedback.deleteGame.fulfilled));
     const call = fetchSpy.mock.calls[0][0];
     expect(call.url).toBe(`${diplicityServiceURL}Game/${gameId}`);
     expect(call.method).toBe("DELETE");
@@ -1047,7 +1047,7 @@ describe("Game list functional tests", () => {
     await clickExpandButton();
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
-    await waitFor(() => screen.getByText("Deleted!"));
+    await waitFor(() => screen.getByText(tk.feedback.deleteGame.fulfilled));
     expect(gaEventSpy).toBeCalledWith({
       category: "(not set)",
       action: "game_list_element_delete",
@@ -1070,7 +1070,7 @@ describe("Game list functional tests", () => {
     await clickExpandButton();
     const button = await waitFor(() => screen.getByText(tk.gameList.gameCard.deleteButton.label));
     fireEvent.click(button);
-    await waitFor(() => screen.getByText("Couldn't delete game."));
+    await waitFor(() => screen.getByText(tk.feedback.deleteGame.rejected));
   });
 
   test.todo("Scroll to bottom of page triggers list request (infinite scroll)");
