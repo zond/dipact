@@ -1,5 +1,6 @@
 import { Alert, Snackbar } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import useFeedbackWrapper from "../hooks/useFeedbackWrapper";
 
 interface FeedbackWrapperProps {
@@ -9,6 +10,7 @@ interface FeedbackWrapperProps {
 const FeedbackWrapper = ({
   children,
 }: FeedbackWrapperProps): React.ReactElement => {
+  const { t } = useTranslation();
   const { feedback, handleClose } = useFeedbackWrapper();
 
   return (
@@ -23,7 +25,7 @@ const FeedbackWrapper = ({
           // Note, default TransitionComponent causes tests to fail. Not sure why.
           TransitionComponent={({ children }) => children}
         >
-          <Alert severity={severity}>{message}</Alert>
+          <Alert severity={severity}>{t(message)}</Alert>
         </Snackbar>
       ))}
     </>

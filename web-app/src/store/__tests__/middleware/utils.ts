@@ -1,5 +1,10 @@
 import { Middleware, AnyAction } from "@reduxjs/toolkit";
 
+export enum RequestStatus {
+  Fulfilled = "fulfilled",
+  Rejected = "rejected",
+}
+
 export const otherActionType = "other/action";
 
 /**
@@ -19,3 +24,24 @@ export const createMiddlewareAPI = (middleware: Middleware) => {
 
   return { store, next, invoke };
 };
+
+export const ignoresOtherAction = (middleware: Middleware) => {
+  const { invoke, next, store } = createMiddlewareAPI(middleware);
+  const { dispatch } = store;
+  const action = { type: otherActionType };
+  invoke(action);
+  expect(dispatch).not.toBeCalled();
+  expect(next).toBeCalledWith(action);
+};
+
+export const diplicityServiceExecuteQueryActionTypePrefix =
+  "diplicityService/executeQuery/";
+
+export const createThunkAction = (
+  endpointName: string,
+  requestStatus: RequestStatus
+) => ({
+  type: `${diplicityServiceExecuteQueryActionTypePrefix}${requestStatus}`,
+  meta: { arg: { endpointName }, requestStatus, requestId: "" },
+  payload: { status: 200 },
+});

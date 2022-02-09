@@ -143,6 +143,32 @@ const translateKeys = {
       singular: "durations.minute.singular",
     },
   },
+  feedback: {
+    joinGame: {
+      fulfilled: "feedback.join-game.fulfilled",
+      rejected: "feedback.join-game.rejected",
+    },
+    rescheduleGame: {
+      fulfilled: "feedback.reschedule-game.fulfilled",
+      rejected: "feedback.reschedule-game.rejected",
+    },
+    renameGame: {
+      fulfilled: "feedback.rename-game.fulfilled",
+      rejected: "feedback.rename-game.rejected",
+    },
+    deleteGame: {
+      fulfilled: "feedback.delete-game.fulfilled",
+      rejected: "feedback.delete-game.rejected",
+    },
+    invite: {
+      fulfilled: "feedback.invite.fulfilled",
+      rejected: "feedback.invite.rejected",
+    },
+    unInvite: {
+      fulfilled: "feedback.un-invite.fulfilled",
+      rejected: "feedback.un-invite.rejected",
+    },
+  },
   gameList: {
     allGamesTab: {
       label: "game-list.all-games-tab.label",
