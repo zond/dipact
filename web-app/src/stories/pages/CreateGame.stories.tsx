@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Component from "../../pages/CreateGame";
 import { routerDecorator } from "../decorators";
-import { Container } from "@mui/material";
 
 import tk from "../../translations/translateKeys";
 
