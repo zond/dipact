@@ -350,8 +350,12 @@ const CreateGame = (): React.ReactElement => {
                     onChange={handleChange}
                     variant="standard"
                   />
+                  <InputLabel id="adjustment-phase-length-unit-input-label">
+                    {t(tk.createGame.adjustmentPhaseLengthUnitSelect.label)}
+                  </InputLabel>
                   <Select
                     name="adjustmentPhaseLengthUnit"
+                    labelId="adjustment-phase-length-unit-input-label"
                     value={values.adjustmentPhaseLengthUnit}
                     onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
                     variant="standard"

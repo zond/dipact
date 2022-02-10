@@ -23,11 +23,7 @@ export default {
   },
 } as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof Component> = () => (
-  <Container>
-    <Component />
-  </Container>
-);
+const Template: ComponentStory<typeof Component> = () => <Component />;
 
 const defaultVariant: Partial<Variant> = {
   CreatedBy: "Johnpooch",
@@ -133,7 +129,7 @@ export const SubmitButtonDisabled = Template.bind({});
 SubmitButtonDisabled.decorators = [
   createGameDecorator({
     ...defaultUseCreateGameValues,
-    submitDisabled: true
+    submitDisabled: true,
   }),
 ];
 
@@ -143,8 +139,8 @@ ValidationErrorMaxRating.decorators = [
     ...defaultUseCreateGameValues,
     values: { ...defaultFormValues, maxRatingEnabled: true },
     validationErrors: {
-      maxRating: tk.createGame.maxRatingInput.errorMessage.lessThanUserRating
-    }
+      maxRating: tk.createGame.maxRatingInput.errorMessage.lessThanUserRating,
+    },
   }),
 ];
 
@@ -154,7 +150,7 @@ ValidationErrorMinRating.decorators = [
     ...defaultUseCreateGameValues,
     values: { ...defaultFormValues, minRatingEnabled: true },
     validationErrors: {
-      minRating: tk.createGame.minRatingInput.errorMessage.moreThanUserRating
-    }
+      minRating: tk.createGame.minRatingInput.errorMessage.moreThanUserRating,
+    },
   }),
 ];

@@ -4,7 +4,7 @@ import {
   screen,
   waitFor,
   fireEvent,
-
+  getByText,
 } from "@testing-library/react";
 import { diplicityServiceURL } from "../../store/service";
 
@@ -162,7 +162,9 @@ describe("Create game functional tests", () => {
     await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
     await waitFor(() => screen.getByDisplayValue(randomGameName));
     const input = screen.getByLabelText(tk.createGame.nameInput.label);
-    const button = screen.getByTitle(tk.createGame.randomizeGameNameButton.title);
+    const button = screen.getByTitle(
+      tk.createGame.randomizeGameNameButton.title
+    );
     fireEvent.change(input, { target: { value: "Some string" } });
     await waitFor(() => screen.getByDisplayValue("Some string"));
     fireEvent.click(button);
@@ -271,19 +273,112 @@ describe("Create game functional tests", () => {
   //   )) as HTMLInputElement;
   //   expect(phaseLengthUnitInput.value).toBe(tk.DurationsHourSingular);
   // });
-
-  test.todo("Increasing game length makes unit plural");
-  test.todo("Shorter adjustment phases false by default");
-  test.todo("Adjustment phase selects not present");
-  test.todo(
-    "Clicking shorter adjustment phases shows adjustment phase selects"
-  );
-  test.todo("Adjustment phase length value defaults to 1");
-  test.todo("Adjustment phase length unit defaults to hour");
-  test.todo("Increasing adjustment phase length makes unit plural");
-  test.todo("Skip get ready phase checked by default");
-  test.todo("Skip get ready phase help text appears");
-  test.todo("End after year input not present");
+  test("Increasing game length makes unit plural", async () => {
+    await renderPage(createGameUrl);
+    const phaseLengthMultiplierInput = await waitFor(() =>
+      screen.getByLabelText(tk.createGame.phaseLengthMultiplierInput.label)
+    );
+    const val = screen.queryByText(tk.durations.hour.plural);
+    expect(val).toBeNull();
+    fireEvent.change(phaseLengthMultiplierInput, { target: { value: 2 } });
+    await waitFor(() => screen.getByText(tk.durations.hour.plural));
+  });
+  test("Shorter adjustment phases false by default", async () => {
+    await renderPage(createGameUrl);
+    const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+      )
+    )) as HTMLInputElement;
+    expect(shorterAdjustmentPhaseCheckbox.checked).toBe(false);
+  });
+  test("Adjustment phase selects not present", async () => {
+    await renderPage(createGameUrl);
+    const shorterAdjustmentPhaseMultiplierInput = screen.queryByLabelText(
+      tk.createGame.adjustmentPhaseLengthMultiplierInput.label
+    );
+    expect(shorterAdjustmentPhaseMultiplierInput).toBeNull();
+  });
+  test("Clicking shorter adjustment phases shows adjustment phase selects", async () => {
+    await renderPage(createGameUrl);
+    const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+      )
+    )) as HTMLInputElement;
+    fireEvent.click(shorterAdjustmentPhaseCheckbox);
+    await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.adjustmentPhaseLengthMultiplierInput.label
+      )
+    );
+  });
+  test("Adjustment phase length value defaults to 1", async () => {
+    await renderPage(createGameUrl);
+    const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+      )
+    )) as HTMLInputElement;
+    fireEvent.click(shorterAdjustmentPhaseCheckbox);
+    const adjustmentPhaseLengthMultiplierInput = await waitFor(
+      () =>
+        screen.getByLabelText(
+          tk.createGame.adjustmentPhaseLengthMultiplierInput.label
+        ) as HTMLInputElement
+    );
+    expect(adjustmentPhaseLengthMultiplierInput.value).toBe("1");
+  });
+  test("Adjustment phase length unit defaults to hour", async () => {
+    await renderPage(createGameUrl);
+    const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+      )
+    )) as HTMLInputElement;
+    fireEvent.click(shorterAdjustmentPhaseCheckbox);
+    const adjustmentPhaseLengthUnitSelect = await waitFor(() =>
+      screen.getByLabelText(tk.createGame.adjustmentPhaseLengthUnitSelect.label)
+    );
+    getByText(adjustmentPhaseLengthUnitSelect, tk.durations.hour.singular);
+  });
+  test("Increasing adjustment phase length makes unit plural", async () => {
+    await renderPage(createGameUrl);
+    const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+      )
+    )) as HTMLInputElement;
+    fireEvent.click(shorterAdjustmentPhaseCheckbox);
+    const adjustmentPhaseLengthMultiplierInput = await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.adjustmentPhaseLengthMultiplierInput.label
+      )
+    );
+    const adjustmentPhaseLengthUnitSelect = await waitFor(() =>
+      screen.getByLabelText(tk.createGame.adjustmentPhaseLengthUnitSelect.label)
+    );
+    fireEvent.change(adjustmentPhaseLengthMultiplierInput, {
+      target: { value: 2 },
+    });
+    await waitFor(() =>
+      getByText(adjustmentPhaseLengthUnitSelect, tk.durations.hour.plural)
+    );
+  });
+  test("Skip get ready phase checked by default", async () => {
+    await renderPage(createGameUrl);
+    const skipGetReadyPhaseCheckbox = await waitFor(() => screen.getByLabelText(tk.createGame.skipGetReadyPhaseCheckbox.label) as HTMLInputElement)
+    expect(skipGetReadyPhaseCheckbox.checked).toBe(true);
+  });
+  test("Skip get ready phase help text appears", async () => {
+    await renderPage(createGameUrl);
+    await waitFor(() => screen.getByText(tk.createGame.skipGetReadyPhaseCheckbox.helpText))
+  });
+  test("End after year input not present", async () => {
+    await renderPage(createGameUrl);
+    const input = screen.queryByLabelText(tk.createGame.endAfterYearsInput.label)
+    expect(input).toBeNull();
+  });
   test.todo("End in draw after years checkbox unchecked by default");
   test.todo(
     "Clicking end in draw after years checkbox show end after year input"

@@ -10,6 +10,9 @@ const translateKeys = {
     adjustmentPhaseLengthMultiplierInput: {
       label: "create-game.adjustment-phase-length-multiplier-input.label",
     },
+    adjustmentPhaseLengthUnitSelect: {
+      label: "create-game.adjustment-phase-length-unit-select.label",
+    },
     allowChatsSwitch: {
       label: "create-game.allow-chats-switch.label",
     },
