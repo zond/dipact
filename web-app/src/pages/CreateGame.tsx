@@ -97,7 +97,7 @@ const CreateGame = (): React.ReactElement => {
     userStats,
     values,
     variants,
-    variantSVGIsFetching,
+    isFetchingVariantSVG,
     validationErrors,
   } = useCreateGame();
 
@@ -205,7 +205,7 @@ const CreateGame = (): React.ReactElement => {
                       ))}
                     </Select>
                   </FormControl>
-                  {variantSVGIsFetching ? (
+                  {isFetchingVariantSVG ? (
                     <Loading />
                   ) : (
                     <>
