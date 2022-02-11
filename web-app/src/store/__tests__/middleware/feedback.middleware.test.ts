@@ -2,40 +2,16 @@ import { feedbackRequestMiddleware } from "../../middleware";
 import { actions } from "../../feedback";
 import {
   createMiddlewareAPI,
+  mockGetQueryMatchers,
   createThunkAction,
   ignoresOtherAction,
   RequestStatus,
 } from "./utils";
 import { Severity } from "../../types";
-import { AnyAction } from "@reduxjs/toolkit";
 import tk from "../../../translations/translateKeys";
 
-const createTestMatcher =
-  (endpointName: string, requestStatus: string) => (action: AnyAction) =>
-    action.meta?.arg?.endpointName === endpointName &&
-    action.meta?.requestStatus === requestStatus;
-
 jest.mock("../../utils", () => ({
-  getQueryMatchers: () => ({
-    matchJoinGameFulfilled: createTestMatcher("joinGame", "fulfilled"),
-    matchJoinGameRejected: createTestMatcher("joinGame", "rejected"),
-    matchRescheduleGameFulfilled: createTestMatcher(
-      "rescheduleGame",
-      "fulfilled"
-    ),
-    matchRescheduleGameRejected: createTestMatcher(
-      "rescheduleGame",
-      "rejected"
-    ),
-    matchInviteFulfilled: createTestMatcher("invite", "fulfilled"),
-    matchInviteRejected: createTestMatcher("invite", "rejected"),
-    matchUnInviteFulfilled: createTestMatcher("unInvite", "fulfilled"),
-    matchUnInviteRejected: createTestMatcher("unInvite", "rejected"),
-    matchRenameGameFulfilled: createTestMatcher("renameGame", "fulfilled"),
-    matchRenameGameRejected: createTestMatcher("renameGame", "rejected"),
-    matchDeleteGameFulfilled: createTestMatcher("deleteGame", "fulfilled"),
-    matchDeleteGameRejected: createTestMatcher("deleteGame", "rejected"),
-  }),
+  getQueryMatchers: () => mockGetQueryMatchers,
 }));
 
 describe("feedbackRequestMiddleware", () => {
@@ -116,7 +92,10 @@ describe("feedbackRequestMiddleware", () => {
     const action = createThunkAction("invite", RequestStatus.Fulfilled);
     invoke(action);
     expect(dispatch).toBeCalledWith(
-      actions.add({ severity: Severity.Success, message: tk.feedback.invite.fulfilled })
+      actions.add({
+        severity: Severity.Success,
+        message: tk.feedback.invite.fulfilled,
+      })
     );
     expect(next).toBeCalledWith(action);
   });

@@ -1,4 +1,4 @@
-import { isRejected } from "@reduxjs/toolkit";
+import { isRejected, PayloadAction } from "@reduxjs/toolkit";
 import { Action, Middleware } from "redux";
 import ReactGA from "react-ga";
 
@@ -8,7 +8,7 @@ import { actions as authActions } from "./auth";
 import { actions as feedbackActions } from "./feedback";
 import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
-import { Severity } from "./types";
+import { CreateGameFormValues, NewGame, Severity } from "./types";
 import { getQueryMatchers } from "./utils";
 import tk from "../translations/translateKeys";
 
@@ -26,6 +26,58 @@ export const uiSubmitSettingsFormMiddleware: Middleware<{}, any> =
       if (!userConfig) return;
       dispatch<any>(
         diplicityService.endpoints.updateUserConfig.initiate(userConfig, {
+          track: true,
+        })
+      );
+    }
+  };
+
+// TODO test
+// TODO move to transformers
+const transformCreateGameValuesToNewGame = (
+  values: CreateGameFormValues
+): NewGame => {
+  const adjustmentPhaseLengthMinutes =
+    values.adjustmentPhaseLengthMultiplier * values.adjustmentPhaseLengthUnit;
+  const phaseLengthMinutes =
+    values.phaseLengthMultiplier * values.phaseLengthUnit;
+  const chatLanguage =
+    values.chatLanguage === "players_choice" ? "" : values.chatLanguage;
+  return {
+    Anonymous: values.anonymousEnabled,
+    ChatLanguageISO639_1: chatLanguage,
+    Desc: values.name,
+    DisableConferenceChat: !values.conferenceChatEnabled,
+    DisableGroupChat: !values.groupChatEnabled,
+    DisablePrivateChat: !values.individualChatEnabled,
+    GameMasterEnabled: values.gameMaster,
+    LastYear: values.endAfterYearsValue,
+    MaxHated: 0,
+    MaxHater: 0,
+    MaxRating: values.maxRating,
+    MinQuickness: values.minQuickness,
+    MinRating: values.minRating,
+    MinReliability: values.minReliability,
+    NationAllocation: values.nationAllocation,
+    NonMovementPhaseLengthMinutes: adjustmentPhaseLengthMinutes,
+    PhaseLengthMinutes: phaseLengthMinutes,
+    Private: values.privateGame,
+    RequireGameMasterInvitation: values.requireGameMasterInvitation,
+    SkipMuster: false,
+    Variant: values.variant,
+  };
+};
+
+export const uiSubmitCreateGameFormMiddleware: Middleware<{}, any> =
+  ({ dispatch }) =>
+  (next) =>
+  (action: PayloadAction<CreateGameFormValues>) => {
+    next(action);
+    if (action.type === uiActions.submitCreateGameForm.type) {
+      const values = action.payload;
+      const newGame = transformCreateGameValuesToNewGame(values);
+      dispatch<any>(
+        diplicityService.endpoints.createGame.initiate(newGame, {
           track: true,
         })
       );
@@ -55,13 +107,43 @@ export const gaRegisterPageViewMiddleware: Middleware<{}, any> =
     }
   };
 
+export const gaRegisterEventMiddleware: Middleware<{}, any> =
+  () => (next) => (action) => {
+    next(action);
+    if (action.type === gaActions.registerEvent.type) {
+      // eslint-disable-next-line no-restricted-globals
+      ReactGA.event({
+        category: GTAG_DEFAULT_CATEGORY,
+        action: action.payload,
+      });
+    }
+  };
+
+const getGAEventForRequest = (action: Action<any>) => {
+  const queryMatchers = getQueryMatchers();
+  if (queryMatchers.matchCreateGameFulfilled(action)) {
+    return "create_game";
+  }
+}
+
+export const gaRequestRegisterEventMiddleware: Middleware<{}, any> =
+  ({ dispatch }) => (next) => (action) => {
+    const event = getGAEventForRequest(action);
+    if (event) dispatch(gaActions.registerEvent(event));
+    next(action);
+  }
+
 const getFeedbackForRequest = (action: Action<any>) => {
   const getFeedback = (severity: Severity, message: string) => ({
     severity,
     message,
   });
   const queryMatchers = getQueryMatchers();
-  if (queryMatchers.matchJoinGameFulfilled(action)) {
+  if (queryMatchers.matchCreateGameRejected(action)) {
+    return getFeedback(Severity.Error, tk.feedback.createGame.rejected);
+  } else if (queryMatchers.matchCreateGameFulfilled(action)) {
+    return getFeedback(Severity.Success, tk.feedback.createGame.fulfilled);
+  } else if (queryMatchers.matchJoinGameFulfilled(action)) {
     return getFeedback(Severity.Success, tk.feedback.joinGame.fulfilled);
   } else if (queryMatchers.matchJoinGameRejected(action)) {
     return getFeedback(Severity.Error, tk.feedback.joinGame.rejected);
@@ -112,8 +194,11 @@ export const authLogoutMiddleware: Middleware<{}, any> =
 const middleware = [
   feedbackRequestMiddleware,
   gaRegisterPageViewMiddleware,
+  gaRegisterEventMiddleware,
+  gaRequestRegisterEventMiddleware,
   authLogoutMiddleware,
   uiPageLoadMiddleware,
+  uiSubmitCreateGameFormMiddleware,
   uiSubmitSettingsFormMiddleware,
 ];
 export default middleware;

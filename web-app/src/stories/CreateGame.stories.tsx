@@ -1,17 +1,17 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component from "../../pages/CreateGame";
-import { routerDecorator } from "../decorators";
+import Component from "../pages/CreateGame";
+import { routerDecorator } from "./decorators";
 
-import tk from "../../translations/translateKeys";
+import tk from "../translations/translateKeys";
 
 import {
   initialFormValues,
   IUseCreateGame,
   createGameDecorator,
-} from "../../hooks/useCreateGame";
-import { Variant } from "../../store/types";
+} from "../hooks/useCreateGame";
+import { Variant } from "../store/types";
 
 export default {
   title: "pages/CreateGame",
@@ -38,6 +38,8 @@ const defaultVariant: Partial<Variant> = {
 const defaultFormValues = { ...initialFormValues, name: "Game name" };
 
 const defaultUseCreateGameValues: IUseCreateGame = {
+  error: null,
+  isError: false,
   handleChange: () => {},
   handleSubmit: () => {},
   isLoading: false,
@@ -151,5 +153,14 @@ ValidationErrorMinRating.decorators = [
     validationErrors: {
       minRating: tk.createGame.minRatingInput.errorMessage.moreThanUserRating,
     },
+  }),
+];
+
+export const Error = Template.bind({});
+Error.decorators = [
+  createGameDecorator({
+    ...defaultUseCreateGameValues,
+    isError: true,
+    error: { message: "Internal server error" },
   }),
 ];

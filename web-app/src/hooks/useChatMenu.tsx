@@ -93,7 +93,6 @@ const useChatMenu = (gameId: string) => {
         return;
       }
     });
-    console.log("Creating channel");
   };
 
   const isLoading =

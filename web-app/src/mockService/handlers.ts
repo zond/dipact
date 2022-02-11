@@ -649,7 +649,7 @@ export const handlersList = [
   handlers.messages.successNewMessage,
   handlers.createMessage.success,
   handlers.updateUserConfig.success,
-  handlers.variants.successShort,
+  handlers.variants.internalServerError,
 
   handlers.listGamesStarted.success,
   handlers.listGamesMyStarted.success,
@@ -673,4 +673,6 @@ export const handlersList = [
   handlers.getUserStats.successEmpty,
   handlers.getVariantSVG.success,
   handlers.getVariantUnitSVG.success,
+
+  handlers.createGame.success,
 ];

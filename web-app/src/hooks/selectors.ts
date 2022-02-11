@@ -34,6 +34,9 @@ export const useUserId = (): string | undefined =>
 export const useUpdateUserConfigStatus = (): MutationStatus =>
   useAppSelector(selectors.selectUpdateUserConfigStatus);
 
+export const useCreateGameStatus = (): MutationStatus =>
+  useAppSelector(selectors.selectCreateGameStatus);
+
 export const useSelectVariant = (variant: string): Variant | null =>
   useAppSelector((state: RootState) => selectors.selectVariant(state, variant));
 

@@ -32,6 +32,7 @@ import {
 } from "../hooks/useGameList";
 import { useTranslation } from "react-i18next";
 import tk from "../translations/translateKeys";
+import ErrorMessage from "../components/ErrorMessage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,18 +88,20 @@ const useStyles = makeStyles((theme) => ({
 const CreateGame = (): React.ReactElement => {
   const { t } = useTranslation();
   const {
+    error,
     handleChange,
     handleSubmit,
+    isError,
+    isFetchingVariantSVG,
     isLoading,
     randomizeName,
     selectedVariant,
     selectedVariantSVG,
     submitDisabled,
     userStats,
+    validationErrors,
     values,
     variants,
-    isFetchingVariantSVG,
-    validationErrors,
   } = useCreateGame();
 
   const classes = useStyles();
@@ -115,6 +118,8 @@ const CreateGame = (): React.ReactElement => {
     <GoBackNav title={t(tk.createGame.title)}>
       {isLoading ? (
         <Loading />
+      ) : (isError && error) ? (
+        <ErrorMessage error={error} />
       ) : (
         <Container className={classes.root}>
           <form onSubmit={handleSubmit}>
@@ -168,6 +173,29 @@ const CreateGame = (): React.ReactElement => {
                   <FormHelperText>
                     {t(tk.createGame.gameMasterCheckbox.helpText.disabled)}
                   </FormHelperText>
+                )}
+                {/* TODO TEST */}
+                {values.privateGame && values.gameMaster && (
+                  <>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="requireGameMasterInvititation"
+                          checked={values.requireGameMasterInvitation}
+                          onChange={handleChange}
+                          disabled={!values.gameMaster}
+                        />
+                      }
+                      label={
+                        t(
+                          tk.createGame.requireGameMasterInvitation.label
+                        ) as string
+                      }
+                    />
+                    <FormHelperText>
+                      {t(tk.createGame.requireGameMasterInvitation.helpText)}
+                    </FormHelperText>
+                  </>
                 )}
               </FormGroup>
             </section>
@@ -521,15 +549,27 @@ const CreateGame = (): React.ReactElement => {
                   {t(tk.createGame.reliabilityEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.reliabilityEnabled && (
-                  <TextField
-                    variant="standard"
-                    label={t(tk.createGame.minReliabilityInput.label) as string}
-                    name="minReliability"
-                    type="number"
-                    margin="dense"
-                    value={values.minReliability}
-                    onChange={handleChange}
-                  />
+                  <>
+                    <TextField
+                      variant="standard"
+                      label={
+                        t(tk.createGame.minReliabilityInput.label) as string
+                      }
+                      name="minReliability"
+                      type="number"
+                      margin="dense"
+                      value={values.minReliability}
+                      onChange={handleChange}
+                    />
+                    {validationErrors.minReliability ? (
+                      <FormHelperText error={true}>
+                        {t(validationErrors.minReliability, {
+                          // TODO simplify when all data in component
+                          reliability: userStats?.Reliability?.toFixed(2),
+                        })}
+                      </FormHelperText>
+                    ) : null}
+                  </>
                 )}
               </div>
               <div>
@@ -549,15 +589,25 @@ const CreateGame = (): React.ReactElement => {
                   {t(tk.createGame.quicknessEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.quicknessEnabled && (
-                  <TextField
-                    variant="standard"
-                    label={t(tk.createGame.minQuicknessInput.label) as string}
-                    name="minQuickness"
-                    type="number"
-                    margin="dense"
-                    value={values.minQuickness}
-                    onChange={handleChange}
-                  />
+                  <>
+                    <TextField
+                      variant="standard"
+                      label={t(tk.createGame.minQuicknessInput.label) as string}
+                      name="minQuickness"
+                      type="number"
+                      margin="dense"
+                      value={values.minQuickness}
+                      onChange={handleChange}
+                    />
+                    {validationErrors.minQuickness ? (
+                      <FormHelperText error={true}>
+                        {t(validationErrors.minQuickness, {
+                          // TODO simplify when all data in component
+                          quickness: userStats?.Quickness?.toFixed(2),
+                        })}
+                      </FormHelperText>
+                    ) : null}
+                  </>
                 )}
               </div>
               <div>
