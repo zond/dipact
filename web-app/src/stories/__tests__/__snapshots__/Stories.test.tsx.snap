@@ -1353,7 +1353,7 @@ exports[`Storyshots components/ErrorMessage Internal Server Error 1`] = `
 }
 
 <div
-  className="makeStyles-root-92"
+  className="makeStyles-root-200"
 >
   <div>
     <svg
@@ -2193,11 +2193,11 @@ exports[`Storyshots components/GameCard Open 1`] = `
   className="MuiContainer-root MuiContainer-maxWidthLg emotion-0"
 >
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters makeStyles-root-93 emotion-1"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters makeStyles-root-201 emotion-1"
   >
     <div
       aria-expanded={false}
-      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters makeStyles-accordionSummary-94 emotion-2"
+      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters makeStyles-accordionSummary-202 emotion-2"
       onBlur={[Function]}
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -2218,7 +2218,7 @@ exports[`Storyshots components/GameCard Open 1`] = `
         className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
       >
         <div
-          className="makeStyles-accordionSummaryContent-95"
+          className="makeStyles-accordionSummaryContent-203"
         >
           <div>
             <span
@@ -2234,7 +2234,7 @@ exports[`Storyshots components/GameCard Open 1`] = `
               />
             </span>
             <div
-              className="makeStyles-root-105"
+              className="makeStyles-root-213"
             >
               <svg
                 aria-hidden={true}
@@ -2263,15 +2263,15 @@ exports[`Storyshots components/GameCard Open 1`] = `
               Classical 2d
             </span>
             <div
-              className="makeStyles-phaseSummaryContainer-100"
+              className="makeStyles-phaseSummaryContainer-208"
             >
               <div
-                className="makeStyles-icons-98"
+                className="makeStyles-icons-206"
               >
                 <div
                   aria-label="game-list.game-card.chat-language-icon.tooltip"
                   aria-labelledby={null}
-                  className="makeStyles-chatIconContainer-101"
+                  className="makeStyles-chatIconContainer-209"
                   data-mui-internal-clone-element={true}
                   onBlur={[Function]}
                   onFocus={[Function]}
@@ -2678,11 +2678,11 @@ exports[`Storyshots components/GameCard Started 1`] = `
   className="MuiContainer-root MuiContainer-maxWidthLg emotion-0"
 >
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters makeStyles-root-106 emotion-1"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAccordion-root MuiAccordion-gutters makeStyles-root-214 emotion-1"
   >
     <div
       aria-expanded={false}
-      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters makeStyles-accordionSummary-107 emotion-2"
+      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters makeStyles-accordionSummary-215 emotion-2"
       onBlur={[Function]}
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -2703,7 +2703,7 @@ exports[`Storyshots components/GameCard Started 1`] = `
         className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters emotion-3"
       >
         <div
-          className="makeStyles-accordionSummaryContent-108"
+          className="makeStyles-accordionSummaryContent-216"
         >
           <div>
             <span
@@ -2719,7 +2719,7 @@ exports[`Storyshots components/GameCard Started 1`] = `
               />
             </span>
             <div
-              className="makeStyles-deadline-110"
+              className="makeStyles-deadline-218"
             >
               <svg
                 aria-hidden={true}
@@ -2746,15 +2746,15 @@ exports[`Storyshots components/GameCard Started 1`] = `
               Classical 2d
             </span>
             <div
-              className="makeStyles-phaseSummaryContainer-113"
+              className="makeStyles-phaseSummaryContainer-221"
             >
               <div
-                className="makeStyles-icons-111"
+                className="makeStyles-icons-219"
               >
                 <div
                   aria-label="game-list.game-card.chat-language-icon.tooltip"
                   aria-labelledby={null}
-                  className="makeStyles-chatIconContainer-114"
+                  className="makeStyles-chatIconContainer-222"
                   data-mui-internal-clone-element={true}
                   onBlur={[Function]}
                   onFocus={[Function]}
@@ -3024,17 +3024,17 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-118 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-226 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-119 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-227 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-120 makeStyles-root-121"
+            className="makeStyles-root-228 makeStyles-root-229"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -3077,7 +3077,7 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-120 makeStyles-root-122"
+            className="makeStyles-root-228 makeStyles-root-230"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -3118,7 +3118,7 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-120 makeStyles-root-123"
+            className="makeStyles-root-228 makeStyles-root-231"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -3159,7 +3159,7 @@ exports[`Storyshots components/GameNavBar Extra Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-120 makeStyles-root-124"
+            className="makeStyles-root-228 makeStyles-root-232"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -3379,17 +3379,17 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-125 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-233 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-126 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-234 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-127 makeStyles-root-128"
+            className="makeStyles-root-235 makeStyles-root-236"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -3432,7 +3432,7 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-127 makeStyles-root-129"
+            className="makeStyles-root-235 makeStyles-root-237"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -3473,7 +3473,7 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-127 makeStyles-root-130"
+            className="makeStyles-root-235 makeStyles-root-238"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -3514,7 +3514,7 @@ exports[`Storyshots components/GameNavBar Extra Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-127 makeStyles-root-131"
+            className="makeStyles-root-235 makeStyles-root-239"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -3734,17 +3734,17 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-132 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-240 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-133 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-241 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-134 makeStyles-root-135"
+            className="makeStyles-root-242 makeStyles-root-243"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -3787,7 +3787,7 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-134 makeStyles-root-136"
+            className="makeStyles-root-242 makeStyles-root-244"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -3828,7 +3828,7 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-134 makeStyles-root-137"
+            className="makeStyles-root-242 makeStyles-root-245"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -3869,7 +3869,7 @@ exports[`Storyshots components/GameNavBar Large 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-134 makeStyles-root-138"
+            className="makeStyles-root-242 makeStyles-root-246"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -4089,17 +4089,17 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-139 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-247 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-140 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-248 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-141 makeStyles-root-142"
+            className="makeStyles-root-249 makeStyles-root-250"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -4142,7 +4142,7 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-141 makeStyles-root-143"
+            className="makeStyles-root-249 makeStyles-root-251"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -4183,7 +4183,7 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-141 makeStyles-root-144"
+            className="makeStyles-root-249 makeStyles-root-252"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -4224,7 +4224,7 @@ exports[`Storyshots components/GameNavBar Medium 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-141 makeStyles-root-145"
+            className="makeStyles-root-249 makeStyles-root-253"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -4444,17 +4444,17 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
   }
 >
   <header
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-146 emotion-0"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic makeStyles-appBar-254 emotion-0"
   >
     <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-dense emotion-1"
     >
       <div
-        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-147 emotion-2"
+        className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-255 emotion-2"
       >
         <div>
           <a
-            className="makeStyles-root-148 makeStyles-root-149"
+            className="makeStyles-root-256 makeStyles-root-257"
             href="/"
             onClick={[Function]}
             rel="noreferrer"
@@ -4497,7 +4497,7 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
         </div>
         <div>
           <a
-            className="makeStyles-root-148 makeStyles-root-150"
+            className="makeStyles-root-256 makeStyles-root-258"
             href="/game/123"
             onClick={[Function]}
             rel="noreferrer"
@@ -4538,7 +4538,7 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-148 makeStyles-root-151"
+            className="makeStyles-root-256 makeStyles-root-259"
             href="/game/123/chat"
             onClick={[Function]}
             rel="noreferrer"
@@ -4579,7 +4579,7 @@ exports[`Storyshots components/GameNavBar Small 1`] = `
             </button>
           </a>
           <a
-            className="makeStyles-root-148 makeStyles-root-152"
+            className="makeStyles-root-256 makeStyles-root-260"
             href="/game/123/orders"
             onClick={[Function]}
             rel="noreferrer"
@@ -4679,7 +4679,7 @@ exports[`Storyshots components/Loading Default 1`] = `
 }
 
 <div
-  className="makeStyles-root-153 makeStyles-root-154"
+  className="makeStyles-root-261 makeStyles-root-262"
 >
   <span
     className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-0"
@@ -4751,7 +4751,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar England 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-155 makeStyles-avatar-156 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-263 makeStyles-avatar-264 emotion-0"
   title="England"
 >
   <img
@@ -4803,7 +4803,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar France 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-157 makeStyles-avatar-158 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-265 makeStyles-avatar-266 emotion-0"
   title="France"
 >
   <img
@@ -4855,7 +4855,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar Germany 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-159 makeStyles-avatar-160 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-267 makeStyles-avatar-268 emotion-0"
   title="Germany"
 >
   <img
@@ -4984,7 +4984,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar Muted 1`] = `
   className="MuiBadge-root emotion-0"
 >
   <div
-    className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-161 makeStyles-avatar-162 emotion-1"
+    className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-269 makeStyles-avatar-270 emotion-1"
     title="France"
   >
     Fra
@@ -5041,7 +5041,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar No Link Dark Color 1`] 
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-163 makeStyles-avatar-164 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-271 makeStyles-avatar-272 emotion-0"
   title="France"
 >
   Fra
@@ -5082,7 +5082,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar No Link Long Abbreviati
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-165 makeStyles-avatar-166 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-273 makeStyles-avatar-274 emotion-0"
   title="France"
 >
   Russ
@@ -5123,7 +5123,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar No Link Short Abbreviat
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-167 makeStyles-avatar-168 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault makeStyles-avatar-275 makeStyles-avatar-276 emotion-0"
   title="France"
 >
   Fra
@@ -5171,7 +5171,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar Otto 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-169 makeStyles-avatar-170 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-277 makeStyles-avatar-278 emotion-0"
   title="Diplicity"
 >
   <img
@@ -5223,7 +5223,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar Russia 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-171 makeStyles-avatar-172 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-279 makeStyles-avatar-280 emotion-0"
   title="Russia"
 >
   <img
@@ -5275,7 +5275,7 @@ exports[`Storyshots components/NationAvatar/NationAvatar Turkey 1`] = `
 }
 
 <div
-  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-173 makeStyles-avatar-174 emotion-0"
+  className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-281 makeStyles-avatar-282 emotion-0"
   title="Turkey"
 >
   <img
@@ -5327,11 +5327,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
 }
 
 <div
-  className="makeStyles-root-175 makeStyles-root-176"
+  className="makeStyles-root-283 makeStyles-root-284"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-178 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-286 emotion-0"
       title="France"
     >
       <img
@@ -5341,7 +5341,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-179 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-287 emotion-0"
       title="Russia"
     >
       <img
@@ -5351,7 +5351,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-180 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-288 emotion-0"
       title="Germany"
     >
       <img
@@ -5363,7 +5363,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-181 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-289 emotion-0"
       title="England"
     >
       <img
@@ -5373,7 +5373,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-182 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-290 emotion-0"
       title="Turkey"
     >
       <img
@@ -5383,7 +5383,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-183 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-291 emotion-0"
       title="France"
     >
       <img
@@ -5395,7 +5395,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-184 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-292 emotion-0"
       title="Russia"
     >
       <img
@@ -5405,7 +5405,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Eight Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-177 makeStyles-avatar-185 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-285 makeStyles-avatar-293 emotion-0"
       title="Germany"
     >
       <img
@@ -5459,11 +5459,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Five Avatars 1`] =
 }
 
 <div
-  className="makeStyles-root-186 makeStyles-root-187"
+  className="makeStyles-root-294 makeStyles-root-295"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-189 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-296 makeStyles-avatar-297 emotion-0"
       title="France"
     >
       <img
@@ -5475,7 +5475,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Five Avatars 1`] =
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-190 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-296 makeStyles-avatar-298 emotion-0"
       title="Russia"
     >
       <img
@@ -5485,7 +5485,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Five Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-191 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-296 makeStyles-avatar-299 emotion-0"
       title="Germany"
     >
       <img
@@ -5495,7 +5495,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Five Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-192 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-296 makeStyles-avatar-300 emotion-0"
       title="England"
     >
       <img
@@ -5507,7 +5507,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Five Avatars 1`] =
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-188 makeStyles-avatar-193 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-296 makeStyles-avatar-301 emotion-0"
       title="Turkey"
     >
       <img
@@ -5561,11 +5561,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Four Avatars 1`] =
 }
 
 <div
-  className="makeStyles-root-194 makeStyles-root-195"
+  className="makeStyles-root-302 makeStyles-root-303"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-197 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-304 makeStyles-avatar-305 emotion-0"
       title="France"
     >
       <img
@@ -5575,7 +5575,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Four Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-198 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-304 makeStyles-avatar-306 emotion-0"
       title="Russia"
     >
       <img
@@ -5587,7 +5587,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Four Avatars 1`] =
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-199 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-304 makeStyles-avatar-307 emotion-0"
       title="Germany"
     >
       <img
@@ -5597,7 +5597,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Four Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-196 makeStyles-avatar-200 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-304 makeStyles-avatar-308 emotion-0"
       title="England"
     >
       <img
@@ -5651,11 +5651,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
 }
 
 <div
-  className="makeStyles-root-201 makeStyles-root-202"
+  className="makeStyles-root-309 makeStyles-root-310"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-204 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-312 emotion-0"
       title="France"
     >
       <img
@@ -5665,7 +5665,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-205 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-313 emotion-0"
       title="Russia"
     >
       <img
@@ -5675,7 +5675,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-206 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-314 emotion-0"
       title="Germany"
     >
       <img
@@ -5687,7 +5687,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-207 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-315 emotion-0"
       title="England"
     >
       <img
@@ -5697,7 +5697,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-208 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-316 emotion-0"
       title="Turkey"
     >
       <img
@@ -5707,7 +5707,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-209 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-317 emotion-0"
       title="France"
     >
       <img
@@ -5719,7 +5719,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-210 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-318 emotion-0"
       title="Russia"
     >
       <img
@@ -5729,7 +5729,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-211 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-319 emotion-0"
       title="Germany"
     >
       <img
@@ -5739,7 +5739,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Nine Avatars 1`] =
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-203 makeStyles-avatar-212 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-311 makeStyles-avatar-320 emotion-0"
       title="England"
     >
       <img
@@ -5793,11 +5793,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup One Avatar 1`] = `
 }
 
 <div
-  className="makeStyles-root-213 makeStyles-root-214"
+  className="makeStyles-root-321 makeStyles-root-322"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-215 makeStyles-avatar-216 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-323 makeStyles-avatar-324 emotion-0"
       title="France"
     >
       <img
@@ -5851,11 +5851,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
 }
 
 <div
-  className="makeStyles-root-217 makeStyles-root-218"
+  className="makeStyles-root-325 makeStyles-root-326"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-220 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-328 emotion-0"
       title="France"
     >
       <img
@@ -5865,7 +5865,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-221 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-329 emotion-0"
       title="Russia"
     >
       <img
@@ -5877,7 +5877,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-222 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-330 emotion-0"
       title="Germany"
     >
       <img
@@ -5887,7 +5887,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-223 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-331 emotion-0"
       title="England"
     >
       <img
@@ -5897,7 +5897,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-224 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-332 emotion-0"
       title="Turkey"
     >
       <img
@@ -5909,7 +5909,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-225 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-333 emotion-0"
       title="France"
     >
       <img
@@ -5919,7 +5919,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Seven Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-219 makeStyles-avatar-226 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-327 makeStyles-avatar-334 emotion-0"
       title="Russia"
     >
       <img
@@ -5973,11 +5973,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = 
 }
 
 <div
-  className="makeStyles-root-227 makeStyles-root-228"
+  className="makeStyles-root-335 makeStyles-root-336"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-230 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-338 emotion-0"
       title="France"
     >
       <img
@@ -5987,7 +5987,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-231 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-339 emotion-0"
       title="Russia"
     >
       <img
@@ -5997,7 +5997,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-232 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-340 emotion-0"
       title="Germany"
     >
       <img
@@ -6009,7 +6009,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-233 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-341 emotion-0"
       title="England"
     >
       <img
@@ -6019,7 +6019,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-234 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-342 emotion-0"
       title="Turkey"
     >
       <img
@@ -6029,7 +6029,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Six Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-229 makeStyles-avatar-235 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-343 emotion-0"
       title="France"
     >
       <img
@@ -6083,11 +6083,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
 }
 
 <div
-  className="makeStyles-root-236 makeStyles-root-237"
+  className="makeStyles-root-344 makeStyles-root-345"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-239 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-347 emotion-0"
       title="France"
     >
       <img
@@ -6097,7 +6097,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-240 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-348 emotion-0"
       title="Russia"
     >
       <img
@@ -6107,7 +6107,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-241 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-349 emotion-0"
       title="Germany"
     >
       <img
@@ -6119,7 +6119,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-242 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-350 emotion-0"
       title="England"
     >
       <img
@@ -6129,7 +6129,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-243 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-351 emotion-0"
       title="Turkey"
     >
       <img
@@ -6139,7 +6139,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-244 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-352 emotion-0"
       title="France"
     >
       <img
@@ -6151,7 +6151,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-245 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-353 emotion-0"
       title="Russia"
     >
       <img
@@ -6161,7 +6161,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-246 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-354 emotion-0"
       title="Germany"
     >
       <img
@@ -6171,7 +6171,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Ten Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-238 makeStyles-avatar-247 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-346 makeStyles-avatar-355 emotion-0"
       title="England"
     >
       <img
@@ -6225,11 +6225,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Three Avatars 1`] 
 }
 
 <div
-  className="makeStyles-root-248 makeStyles-root-249"
+  className="makeStyles-root-356 makeStyles-root-357"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-250 makeStyles-avatar-251 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-358 makeStyles-avatar-359 emotion-0"
       title="France"
     >
       <img
@@ -6241,7 +6241,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Three Avatars 1`] 
   </div>
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-250 makeStyles-avatar-252 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-358 makeStyles-avatar-360 emotion-0"
       title="Russia"
     >
       <img
@@ -6251,7 +6251,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Three Avatars 1`] 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-250 makeStyles-avatar-253 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-358 makeStyles-avatar-361 emotion-0"
       title="Germany"
     >
       <img
@@ -6305,11 +6305,11 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Two Avatars 1`] = 
 }
 
 <div
-  className="makeStyles-root-254 makeStyles-root-255"
+  className="makeStyles-root-362 makeStyles-root-363"
 >
   <div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-256 makeStyles-avatar-257 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-364 makeStyles-avatar-365 emotion-0"
       title="France"
     >
       <img
@@ -6319,7 +6319,7 @@ exports[`Storyshots components/NationAvatar/NationAvatarGroup Two Avatars 1`] = 
       />
     </div>
     <div
-      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-256 makeStyles-avatar-258 emotion-0"
+      className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-364 makeStyles-avatar-366 emotion-0"
       title="Russia"
     >
       <img
@@ -6413,15 +6413,15 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
   }
 >
   <div
-    className="makeStyles-root-259"
+    className="makeStyles-root-367"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-260"
+      className="makeStyles-nationDetails-368"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-262 makeStyles-avatar-263 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-370 makeStyles-avatar-371 emotion-0"
           title="France"
         >
           <img
@@ -6455,7 +6455,7 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders 1`] = `
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-261"
+      className="makeStyles-nationStatus-369"
     >
       <svg
         aria-hidden={true}
@@ -6563,15 +6563,15 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
   }
 >
   <div
-    className="makeStyles-root-264"
+    className="makeStyles-root-372"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-265"
+      className="makeStyles-nationDetails-373"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-267 makeStyles-avatar-268 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-375 makeStyles-avatar-376 emotion-0"
           title="France"
         >
           <img
@@ -6605,7 +6605,7 @@ exports[`Storyshots components/Orders/NationSummary Confirmed Orders And Wants D
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-266"
+      className="makeStyles-nationStatus-374"
     >
       <svg
         aria-hidden={true}
@@ -6715,15 +6715,15 @@ exports[`Storyshots components/Orders/NationSummary Is User 1`] = `
   }
 >
   <div
-    className="makeStyles-root-269"
+    className="makeStyles-root-377"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-270"
+      className="makeStyles-nationDetails-378"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-272 makeStyles-avatar-273 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-380 makeStyles-avatar-381 emotion-0"
           title="France"
         >
           <img
@@ -6764,7 +6764,7 @@ exports[`Storyshots components/Orders/NationSummary Is User 1`] = `
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-271"
+      className="makeStyles-nationStatus-379"
     />
   </div>
 </div>
@@ -6851,15 +6851,15 @@ exports[`Storyshots components/Orders/NationSummary No Orders Given 1`] = `
   }
 >
   <div
-    className="makeStyles-root-274"
+    className="makeStyles-root-382"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-275"
+      className="makeStyles-nationDetails-383"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-277 makeStyles-avatar-278 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-385 makeStyles-avatar-386 emotion-0"
           title="France"
         >
           <img
@@ -6893,7 +6893,7 @@ exports[`Storyshots components/Orders/NationSummary No Orders Given 1`] = `
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-276"
+      className="makeStyles-nationStatus-384"
     >
       <svg
         aria-hidden={true}
@@ -6983,15 +6983,15 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Plural 1`] = 
   }
 >
   <div
-    className="makeStyles-root-279"
+    className="makeStyles-root-387"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-280"
+      className="makeStyles-nationDetails-388"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-282 makeStyles-avatar-283 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-390 makeStyles-avatar-391 emotion-0"
           title="France"
         >
           <img
@@ -7025,7 +7025,7 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Plural 1`] = 
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-281"
+      className="makeStyles-nationStatus-389"
     />
   </div>
 </div>
@@ -7095,15 +7095,15 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Singular 1`] 
   }
 >
   <div
-    className="makeStyles-root-284"
+    className="makeStyles-root-392"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-285"
+      className="makeStyles-nationDetails-393"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-287 makeStyles-avatar-288 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-395 makeStyles-avatar-396 emotion-0"
           title="France"
         >
           <img
@@ -7137,7 +7137,7 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Singular 1`] 
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-286"
+      className="makeStyles-nationStatus-394"
     />
   </div>
 </div>
@@ -7207,15 +7207,15 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Zero 1`] = `
   }
 >
   <div
-    className="makeStyles-root-289"
+    className="makeStyles-root-397"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-290"
+      className="makeStyles-nationDetails-398"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-292 makeStyles-avatar-293 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-400 makeStyles-avatar-401 emotion-0"
           title="France"
         >
           <img
@@ -7249,7 +7249,7 @@ exports[`Storyshots components/Orders/NationSummary Supply Centers Zero 1`] = `
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-291"
+      className="makeStyles-nationStatus-399"
     />
   </div>
 </div>
@@ -7336,15 +7336,15 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
   }
 >
   <div
-    className="makeStyles-root-294"
+    className="makeStyles-root-402"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-295"
+      className="makeStyles-nationDetails-403"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-297 makeStyles-avatar-298 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-405 makeStyles-avatar-406 emotion-0"
           title="France"
         >
           <img
@@ -7378,7 +7378,7 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw 1`] = `
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-296"
+      className="makeStyles-nationStatus-404"
     >
       <svg
         aria-hidden={true}
@@ -7485,15 +7485,15 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
   }
 >
   <div
-    className="makeStyles-root-299"
+    className="makeStyles-root-407"
     title="France summary"
   >
     <div
-      className="makeStyles-nationDetails-300"
+      className="makeStyles-nationDetails-408"
     >
       <div>
         <div
-          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-302 makeStyles-avatar-303 emotion-0"
+          className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-410 makeStyles-avatar-411 emotion-0"
           title="France"
         >
           <img
@@ -7527,7 +7527,7 @@ exports[`Storyshots components/Orders/NationSummary Wants Draw And No Orders Giv
       </div>
     </div>
     <div
-      className="makeStyles-nationStatus-301"
+      className="makeStyles-nationStatus-409"
     >
       <svg
         aria-hidden={true}
@@ -7589,7 +7589,7 @@ exports[`Storyshots components/Orders/Order Default 1`] = `
   }
 >
   <div
-    className="makeStyles-root-304"
+    className="makeStyles-root-412"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -7598,7 +7598,7 @@ exports[`Storyshots components/Orders/Order Default 1`] = `
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-306"
+    className="makeStyles-orderInconsistencies-414"
   />
 </div>
 `;
@@ -7628,7 +7628,7 @@ exports[`Storyshots components/Orders/Order Inconsistency 1`] = `
   }
 >
   <div
-    className="makeStyles-root-308"
+    className="makeStyles-root-416"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -7637,7 +7637,7 @@ exports[`Storyshots components/Orders/Order Inconsistency 1`] = `
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-310"
+    className="makeStyles-orderInconsistencies-418"
   >
     <li>
       <p
@@ -7675,7 +7675,7 @@ exports[`Storyshots components/Orders/Order Multiple Inconsistencies 1`] = `
   }
 >
   <div
-    className="makeStyles-root-312"
+    className="makeStyles-root-420"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -7684,7 +7684,7 @@ exports[`Storyshots components/Orders/Order Multiple Inconsistencies 1`] = `
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-314"
+    className="makeStyles-orderInconsistencies-422"
   >
     <li>
       <p
@@ -7721,7 +7721,7 @@ exports[`Storyshots components/Orders/Order Resolved Bounce 1`] = `
   }
 >
   <div
-    className="makeStyles-root-316"
+    className="makeStyles-root-424"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -7729,13 +7729,13 @@ exports[`Storyshots components/Orders/Order Resolved Bounce 1`] = `
       Trieste move to Adriatic Sea
     </p>
     <p
-      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-317 makeStyles-orderResolution-319 emotion-0"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-425 makeStyles-orderResolution-427 emotion-0"
     >
       Bounced
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-318"
+    className="makeStyles-orderInconsistencies-426"
   />
 </div>
 `;
@@ -7757,7 +7757,7 @@ exports[`Storyshots components/Orders/Order Resolved Success 1`] = `
   }
 >
   <div
-    className="makeStyles-root-320"
+    className="makeStyles-root-428"
   >
     <p
       className="MuiTypography-root MuiTypography-body1 emotion-0"
@@ -7765,13 +7765,13 @@ exports[`Storyshots components/Orders/Order Resolved Success 1`] = `
       Trieste move to Adriatic Sea
     </p>
     <p
-      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-321 makeStyles-orderResolution-323 emotion-0"
+      className="MuiTypography-root MuiTypography-body1 makeStyles-orderResolution-429 makeStyles-orderResolution-431 emotion-0"
     >
       Success
     </p>
   </div>
   <ul
-    className="makeStyles-orderInconsistencies-322"
+    className="makeStyles-orderInconsistencies-430"
   />
 </div>
 `;
@@ -10769,14 +10769,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-343 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-92 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-344"
+          className="makeStyles-nameInputContainer-93"
         >
           <div />
           <button
@@ -10918,7 +10918,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-345 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-94 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -10967,13 +10967,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-348 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-97 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-347 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-96 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -11029,7 +11029,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-349 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-98 emotion-9"
           role="radiogroup"
         >
           <label
@@ -11830,7 +11830,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-350"
+        className="makeStyles-buttonContainer-99"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-131"
@@ -13270,14 +13270,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-351 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-100 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-352"
+          className="makeStyles-nameInputContainer-101"
         >
           <div />
           <button
@@ -13419,7 +13419,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-353 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-102 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -13468,13 +13468,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-356 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-105 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-355 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-104 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -13530,7 +13530,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-357 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-106 emotion-9"
           role="radiogroup"
         >
           <label
@@ -14332,7 +14332,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-358"
+        className="makeStyles-buttonContainer-107"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-131"
@@ -15774,14 +15774,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-359 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-108 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-360"
+          className="makeStyles-nameInputContainer-109"
         >
           <div />
           <button
@@ -15923,7 +15923,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-361 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-110 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -15972,7 +15972,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
           </div>
         </div>
         <div
-          className="makeStyles-root-367 makeStyles-root-368"
+          className="makeStyles-root-116 makeStyles-root-117"
         >
           <span
             className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-26"
@@ -16009,7 +16009,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-365 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-114 emotion-9"
           role="radiogroup"
         >
           <label
@@ -16810,7 +16810,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-49:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-366"
+        className="makeStyles-buttonContainer-115"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-123"
@@ -17127,7 +17127,7 @@ exports[`Storyshots pages/CreateGame Is Loading 1`] = `
     </div>
   </header>
   <div
-    className="makeStyles-root-377 makeStyles-root-378"
+    className="makeStyles-root-126 makeStyles-root-127"
   >
     <span
       className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-6"
@@ -18571,14 +18571,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-379 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-128 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-380"
+          className="makeStyles-nameInputContainer-129"
         >
           <div />
           <button
@@ -18720,7 +18720,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-381 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-130 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -18769,13 +18769,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-384 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-133 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-383 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-132 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -18831,7 +18831,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-385 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-134 emotion-9"
           role="radiogroup"
         >
           <label
@@ -19638,7 +19638,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-386"
+        className="makeStyles-buttonContainer-135"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-132"
@@ -21078,14 +21078,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-387 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-136 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-388"
+          className="makeStyles-nameInputContainer-137"
         >
           <div />
           <button
@@ -21227,7 +21227,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-389 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-138 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -21276,13 +21276,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-392 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-141 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-391 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-140 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -21338,7 +21338,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-393 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-142 emotion-9"
           role="radiogroup"
         >
           <label
@@ -22145,7 +22145,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-394"
+        className="makeStyles-buttonContainer-143"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-132"
@@ -23585,14 +23585,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-395 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-144 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-396"
+          className="makeStyles-nameInputContainer-145"
         >
           <div />
           <button
@@ -23733,7 +23733,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-397 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-146 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -23782,13 +23782,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-400 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-149 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-399 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-148 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -23844,7 +23844,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-401 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-150 emotion-9"
           role="radiogroup"
         >
           <label
@@ -24639,7 +24639,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-402"
+        className="makeStyles-buttonContainer-151"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-130"
@@ -26079,14 +26079,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-403 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-152 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-404"
+          className="makeStyles-nameInputContainer-153"
         >
           <div />
           <button
@@ -26228,7 +26228,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-405 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-154 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -26277,13 +26277,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-408 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-157 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-407 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-156 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -26339,7 +26339,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-409 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-158 emotion-9"
           role="radiogroup"
         >
           <label
@@ -27139,7 +27139,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-410"
+        className="makeStyles-buttonContainer-159"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-131"
@@ -28579,14 +28579,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-411 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-160 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-412"
+          className="makeStyles-nameInputContainer-161"
         >
           <div />
           <button
@@ -28728,7 +28728,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-413 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-162 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -28777,13 +28777,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-416 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-165 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-415 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-164 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -28839,7 +28839,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-417 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-166 emotion-9"
           role="radiogroup"
         >
           <label
@@ -29639,7 +29639,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-418"
+        className="makeStyles-buttonContainer-167"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-131"
@@ -31079,14 +31079,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-419 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-168 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-420"
+          className="makeStyles-nameInputContainer-169"
         >
           <div />
           <button
@@ -31228,7 +31228,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-421 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-170 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -31277,13 +31277,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-424 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-173 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-423 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-172 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -31339,7 +31339,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-425 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-174 emotion-9"
           role="radiogroup"
         >
           <label
@@ -32185,7 +32185,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-426"
+        className="makeStyles-buttonContainer-175"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-136"
@@ -33625,14 +33625,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-427 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-176 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-428"
+          className="makeStyles-nameInputContainer-177"
         >
           <div />
           <button
@@ -33774,7 +33774,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-429 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-178 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -33823,13 +33823,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-432 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-181 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-431 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-180 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -33885,7 +33885,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-433 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-182 emotion-9"
           role="radiogroup"
         >
           <label
@@ -34686,7 +34686,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-434"
+        className="makeStyles-buttonContainer-183"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root Mui-disabled  emotion-131"
@@ -36126,14 +36126,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-435 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-184 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-436"
+          className="makeStyles-nameInputContainer-185"
         >
           <div />
           <button
@@ -36275,7 +36275,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-437 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-186 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -36324,13 +36324,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-440 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-189 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-439 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-188 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -36386,7 +36386,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-441 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-190 emotion-9"
           role="radiogroup"
         >
           <label
@@ -37198,7 +37198,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-442"
+        className="makeStyles-buttonContainer-191"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-133"
@@ -38638,14 +38638,14 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
     </div>
   </header>
   <div
-    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-443 emotion-0"
+    className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-root-192 emotion-0"
   >
     <form
       onSubmit={[Function]}
     >
       <section>
         <div
-          className="makeStyles-nameInputContainer-444"
+          className="makeStyles-nameInputContainer-193"
         >
           <div />
           <button
@@ -38787,7 +38787,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
       </section>
       <section>
         <div
-          className="MuiFormControl-root makeStyles-variantSelect-445 emotion-21"
+          className="MuiFormControl-root makeStyles-variantSelect-194 emotion-21"
         >
           <label
             className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -38836,13 +38836,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           </div>
         </div>
         <p
-          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-448 emotion-14"
+          className="MuiTypography-root MuiTypography-body1 makeStyles-variantDescription-197 emotion-14"
         >
           Variant description
         </p>
         
         <ul
-          className="MuiList-root MuiList-padding makeStyles-variantDetailList-447 emotion-27"
+          className="MuiList-root MuiList-padding makeStyles-variantDetailList-196 emotion-27"
         >
           <li
             className="MuiListItem-root MuiListItem-gutters MuiListItem-padding emotion-28"
@@ -38898,7 +38898,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
           create-game.nation-allocation-section.label
         </span>
         <div
-          className="MuiFormGroup-root makeStyles-nationAllocationContainer-449 emotion-9"
+          className="MuiFormGroup-root makeStyles-nationAllocationContainer-198 emotion-9"
           role="radiogroup"
         >
           <label
@@ -39710,7 +39710,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-57:focus::-ms-input-
         </div>
       </section>
       <div
-        className="makeStyles-buttonContainer-450"
+        className="makeStyles-buttonContainer-199"
       >
         <button
           className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-133"
@@ -40287,16 +40287,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
   className="MuiContainer-root MuiContainer-maxWidthLg emotion-0"
 >
   <div
-    className="makeStyles-root-324"
+    className="makeStyles-root-432"
   >
     <div
-      className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-326 emotion-0"
+      className="MuiContainer-root MuiContainer-maxWidthLg makeStyles-container-434 emotion-0"
     >
       <div
-        className="makeStyles-phaseSelectorContainer-325"
+        className="makeStyles-phaseSelectorContainer-433"
       >
         <div
-          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-333 emotion-2"
+          className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root makeStyles-root-441 emotion-2"
           title="phase-selector.title"
         >
           <button
@@ -40420,22 +40420,22 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
         </div>
       </div>
       <div
-        className="makeStyles-nationSummaryList-327"
+        className="makeStyles-nationSummaryList-435"
       >
         <div>
           <div
-            className="makeStyles-nationSummaryContainer-328"
+            className="makeStyles-nationSummaryContainer-436"
           >
             <div
-              className="makeStyles-root-334"
+              className="makeStyles-root-442"
               title="France summary"
             >
               <div
-                className="makeStyles-nationDetails-335"
+                className="makeStyles-nationDetails-443"
               >
                 <div>
                   <div
-                    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-337 makeStyles-avatar-338 emotion-13"
+                    className="MuiAvatar-root MuiAvatar-circular makeStyles-avatar-445 makeStyles-avatar-446 emotion-13"
                     title="France"
                   >
                     <img
@@ -40459,16 +40459,16 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 </div>
               </div>
               <div
-                className="makeStyles-nationStatus-336"
+                className="makeStyles-nationStatus-444"
               />
             </div>
           </div>
           <ul
-            className="makeStyles-ordersList-329"
+            className="makeStyles-ordersList-437"
           >
             <li>
               <div
-                className="makeStyles-root-339"
+                className="makeStyles-root-447"
               >
                 <p
                   className="MuiTypography-root MuiTypography-body1 emotion-15"
@@ -40477,21 +40477,21 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-6:focus::-ms-input-p
                 </p>
               </div>
               <ul
-                className="makeStyles-orderInconsistencies-341"
+                className="makeStyles-orderInconsistencies-449"
               />
             </li>
           </ul>
           <ul
-            className="makeStyles-homelessInconsistenciesList-330"
+            className="makeStyles-homelessInconsistenciesList-438"
           />
         </div>
       </div>
     </div>
     <div
-      className="makeStyles-bottomBar-331"
+      className="makeStyles-bottomBar-439"
     >
       <button
-        className="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root makeStyles-confirmOrdersButton-332 emotion-18"
+        className="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root makeStyles-confirmOrdersButton-440 emotion-18"
         disabled={false}
         onBlur={[Function]}
         onContextMenu={[Function]}

@@ -1,18 +1,18 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Component from "../../pages/CreateGame";
-import { routerDecorator } from "../decorators";
+import Component from "../pages/CreateGame";
+import { routerDecorator } from "./decorators";
 import { Container } from "@mui/material";
 
-import tk from "../../translations/translateKeys";
+import tk from "../translations/translateKeys";
 
 import {
   initialFormValues,
   IUseCreateGame,
   createGameDecorator,
-} from "../../hooks/useCreateGame";
-import { Variant } from "../../store/types";
+} from "../hooks/useCreateGame";
+import { Variant } from "../store/types";
 
 export default {
   title: "pages/CreateGame",
