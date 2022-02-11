@@ -1,5 +1,5 @@
-import { FormikErrors, FormikTouched, useFormik } from "formik";
-import { FormEvent, useEffect, useState } from "react";
+import { FormikErrors, useFormik } from "formik";
+import { createContext, FormEvent, useContext, useEffect, useState } from "react";
 import { randomGameName } from "../helpers";
 import { CreateGameFormValues, UserStats, Variant } from "../store/types";
 import {
@@ -17,7 +17,7 @@ import usePageLoad from "./usePageLoad";
 // TODO de-dupe with useSettings
 const CLASSICAL = "Classical";
 
-interface IUseCreateGame {
+export interface IUseCreateGame {
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
   isLoading: boolean;
@@ -25,15 +25,14 @@ interface IUseCreateGame {
   selectedVariant: Variant | null;
   selectedVariantSVG: string | undefined;
   submitDisabled: boolean;
-  touched: FormikTouched<CreateGameFormValues>;
   userStats?: UserStats;
   validationErrors: FormikErrors<CreateGameFormValues>;
   values: CreateGameFormValues;
   variants: Variant[];
-  variantSVGIsFetching: boolean;
+  isFetchingVariantSVG: boolean;
 }
 
-const getInitialFormValues = (): CreateGameFormValues => ({
+export const initialFormValues = {
   nationAllocation: 0,
   name: randomGameName(),
   privateGame: false,
@@ -60,7 +59,9 @@ const getInitialFormValues = (): CreateGameFormValues => ({
   minRating: 0,
   maxRatingEnabled: false,
   maxRating: 0,
-});
+}
+
+const getInitialFormValues = (): CreateGameFormValues => initialFormValues;
 
 const useCreateGame = (): IUseCreateGame => {
   const getRootQuery = useGetRootQuery(undefined);
@@ -109,7 +110,6 @@ const useCreateGame = (): IUseCreateGame => {
     handleSubmit,
     setFieldValue,
     errors: validationErrors,
-    touched,
   } = useFormik({
     initialValues: getInitialFormValues(),
     onSubmit: (vals) => {
@@ -175,9 +175,8 @@ const useCreateGame = (): IUseCreateGame => {
     selectedVariant,
     selectedVariantSVG: getVariantsSVGQuery.data,
     values,
-    variantSVGIsFetching: getVariantsSVGQuery.isFetching,
+    isFetchingVariantSVG: getVariantsSVGQuery.isFetching,
     variants: listVariantsQuery.data || [],
-    touched,
     userStats: getUserStatsQuery.data,
     validationErrors,
     submitDisabled,
@@ -185,4 +184,20 @@ const useCreateGame = (): IUseCreateGame => {
   };
 };
 
-export default useCreateGame;
+export const useCreateGameContext = createContext<null | typeof useCreateGame>(null);
+
+const createDIContext = <T,>() => createContext<null | T>(null);
+export const useDIContext = createDIContext<typeof useCreateGame>();
+
+const useGetHook = () => useContext(useDIContext) || useCreateGame;
+const useDIHook = (): IUseCreateGame => useGetHook()();
+
+export const createGameDecorator = (values: IUseCreateGame) => {
+  return (Component: () => JSX.Element) => (
+    <useDIContext.Provider value={() => values}>
+      <Component />
+    </useDIContext.Provider>
+  );
+};
+
+export default useDIHook;
