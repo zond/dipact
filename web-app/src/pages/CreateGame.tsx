@@ -111,14 +111,15 @@ const CreateGame = (): React.ReactElement => {
   const minEndAfterYearsValue = (selectedVariant?.Start?.Year || 0) + 1;
 
   // TODO do properly
-  const maxPercentage = 10;
-  const minPercentage = 10;
+  // const maxPercentage = 10;
+  // const minPercentage = 10;
+  const { rating, reliability, quickness } = userStats;
 
   return (
     <GoBackNav title={t(tk.createGame.title)}>
       {isLoading ? (
         <Loading />
-      ) : (isError && error) ? (
+      ) : isError && error ? (
         <ErrorMessage error={error} />
       ) : (
         <Container className={classes.root}>
@@ -563,10 +564,7 @@ const CreateGame = (): React.ReactElement => {
                     />
                     {validationErrors.minReliability ? (
                       <FormHelperText error={true}>
-                        {t(validationErrors.minReliability, {
-                          // TODO simplify when all data in component
-                          reliability: userStats?.Reliability?.toFixed(2),
-                        })}
+                        {t(validationErrors.minReliability, { reliability })}
                       </FormHelperText>
                     ) : null}
                   </>
@@ -601,10 +599,7 @@ const CreateGame = (): React.ReactElement => {
                     />
                     {validationErrors.minQuickness ? (
                       <FormHelperText error={true}>
-                        {t(validationErrors.minQuickness, {
-                          // TODO simplify when all data in component
-                          quickness: userStats?.Quickness?.toFixed(2),
-                        })}
+                        {t(validationErrors.minQuickness, { quickness })}
                       </FormHelperText>
                     ) : null}
                   </>
@@ -640,17 +635,14 @@ const CreateGame = (): React.ReactElement => {
                     />
                     {validationErrors.minRating ? (
                       <FormHelperText error={true}>
-                        {t(validationErrors.minRating, {
-                          // TODO simplify when all data in component
-                          rating: userStats?.TrueSkill?.Rating?.toFixed(2),
-                        })}
+                        {t(validationErrors.minRating, { rating })}
                       </FormHelperText>
                     ) : null}
-                    <FormHelperText>
+                    {/* <FormHelperText>
                       {t(tk.createGame.minRatingInput.helpText, {
                         percentage: minPercentage,
                       })}
-                    </FormHelperText>
+                    </FormHelperText> */}
                   </>
                 )}
               </div>
@@ -685,17 +677,14 @@ const CreateGame = (): React.ReactElement => {
                     />
                     {validationErrors.maxRating ? (
                       <FormHelperText error={true}>
-                        {t(validationErrors.maxRating, {
-                          // TODO simplify when all data in component
-                          rating: userStats?.TrueSkill?.Rating?.toFixed(2),
-                        })}
+                        {t(validationErrors.maxRating, { rating })}
                       </FormHelperText>
                     ) : null}
-                    <FormHelperText>
+                    {/* <FormHelperText>
                       {t(tk.createGame.maxRatingInput.helpText, {
                         percentage: maxPercentage,
                       })}
-                    </FormHelperText>
+                    </FormHelperText> */}
                   </>
                 )}
               </div>

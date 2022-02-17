@@ -186,6 +186,11 @@ const resolvers = {
       return res(ctx.status(200), ctx.json(getGameSuccessUserNotMember));
     },
   },
+  getGameState: {
+    success: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json({}));
+    },
+  },
   listChannels: {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(listChannelsSuccess));
@@ -330,6 +335,7 @@ const resolvers = {
 
 const variantsUrl = `${API_ROOT}Variants`;
 const getGameUrl = `${API_ROOT}Game/:gameId`;
+const getGameStateUrl = `${API_ROOT}Game/:gameId/GameStates/:userId`;
 const messagesUrl = `${API_ROOT}Game/:gameId/Channel/:channelId/Messages`;
 const listChannelsUrl = `${API_ROOT}Game/:gameId/Channels`;
 const createGameUrl = `${API_ROOT}Game`;
@@ -416,6 +422,11 @@ export const handlers = {
     ),
     internalServerError: rest.get(getGameUrl, internalServerError),
     tokenTimeout: rest.get(messagesUrl, tokenTimeout),
+  },
+  getGameState: {
+    success: rest.get(getGameStateUrl, resolvers.getGameState.success),
+    internalServerError: rest.get(getGameStateUrl, internalServerError),
+    tokenTimeout: rest.get(getGameStateUrl, tokenTimeout),
   },
   getUser: {
     success: rest.get(getUserUrl, resolvers.getUser.success),
@@ -640,6 +651,7 @@ export const handlersList = [
   rest.get(`${API_ROOT}Users/Ratings/Histogram`, resolvers.histogram.success),
 
   handlers.getGame.success,
+  handlers.getGameState.success,
   handlers.getUser.success,
   handlers.getUserConfig.success,
   handlers.listChannels.success,

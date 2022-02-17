@@ -8,25 +8,15 @@ import {
   Table,
   TableCell,
   TableRow,
+  TableBody,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import useSearchParams from "../hooks/useSearchParams";
 import { useTranslation } from "react-i18next";
-import { PageName } from "../store/ui";
 import tk from "../translations/translateKeys";
-import {
-  useLazyGetGameQuery,
-  useLazyGetGameStateQuery,
-  useLazyGetRootQuery,
-  useLazyGetUserStatsQuery,
-  useLazyListUserBansQuery,
-} from "../hooks/service";
-import { useLazyPageLoad } from "../hooks/usePageLoad";
-import { User, UserStats } from "../store/types";
-import {
-  ratingPercentile as getRatingPercentile,
-  twoDecimals,
-} from "../helpers";
+import useStatsDialog from "../hooks/useStatsDialog";
+import Loading from "./Loading";
+import ErrorMessage from "./ErrorMessage";
 
 export const searchKey = "user-stats";
 
@@ -38,7 +28,7 @@ const decodeSearchValue = (
   return [userId, gameId];
 };
 
-const ResetSettingsDialog = (): React.ReactElement => {
+const StatsDialog = (): React.ReactElement => {
   const { t } = useTranslation();
   const { getParam, removeParam } = useSearchParams();
   const searchValue = getParam(searchKey);
@@ -48,117 +38,158 @@ const ResetSettingsDialog = (): React.ReactElement => {
     removeParam(searchKey);
   };
 
-  const pageLoadTrigger = useLazyPageLoad(PageName.StatsDialog);
-  const [getUserStatsTrigger, getUserStatsQuery] = useLazyGetUserStatsQuery();
-  const [getUserTrigger, getUserQuery] = useLazyGetRootQuery();
-  const [getGameTrigger, getGameQuery] = useLazyGetGameQuery();
-  const [getGameStateTrigger, getGameStateQuery] = useLazyGetGameStateQuery();
-  const [getUserBansTrigger, getUserBansQuery] = useLazyListUserBansQuery();
-
-  useEffect(() => {
-    if (userId) {
-      pageLoadTrigger();
-      getUserStatsTrigger(userId);
-      getUserTrigger(undefined);
-      if (gameId) {
-        getGameTrigger(gameId);
-        getGameStateTrigger({ gameId, userId });
-      }
-    }
-  }, [
-    pageLoadTrigger,
-    userId,
-    getUserStatsTrigger,
-    gameId,
-    getUserTrigger,
-    getGameTrigger,
-    getGameStateTrigger,
-  ]);
-
-  useEffect(() => {
-    if (getUserQuery.data?.Id) getUserBansTrigger(getUserQuery.data.Id);
-  }, [getUserBansTrigger, getUserQuery]);
-
-  const currentUser = getUserQuery.data as User;
-  const user = getUserStatsQuery.data?.User as User;
-  const userStats = getUserStatsQuery.data as UserStats;
-  const currentUserBans = getUserBansQuery.data;
-  const game = getGameQuery.data;
-  const gameState = getGameStateQuery.data;
-  const currentUserNation = game?.Members.find(
-    (member) => member.User.Id === user.Id
-  )?.Nation;
-  const ranking = (userStats.TrueSkill?.HigherRatedCount as number) + 1;
-  const rating = twoDecimals(userStats.TrueSkill?.Rating as number);
-  const ratingPercentile = getRatingPercentile(
-    userStats.TrueSkill?.Rating as number
-  );
-
-  const isBanned =
-    currentUserBans?.some((ban) => ban.UserIds.includes(user.Id || "")) ||
-    false;
-
-  const toggleMuted = () => {
-    return;
-  };
+  const {
+    abandonedGames,
+    banIsLoading,
+    draws,
+    eliminations,
+    error,
+    finishedGames,
+    hated,
+    hater,
+    isBanned,
+    isCurrentUser,
+    isError,
+    isLoading,
+    isMuted,
+    joinedGames,
+    nation,
+    quickness,
+    ranking,
+    rating,
+    ratingPercentile,
+    reliability,
+    showIsMuted,
+    soloWins,
+    startedGames,
+    toggleBanned,
+    toggleMuted,
+    username,
+  } = useStatsDialog(userId, gameId);
 
   return (
     <Dialog open={Boolean(userId)} onClose={close}>
-      <DialogTitle>
-        {t(tk.statsDialog.title, { username: user.Name })}
-      </DialogTitle>
-      <DialogContent>
-        <FormControlLabel
-          control={
-            <Checkbox
-              disabled={user.Id === currentUser.Id}
-              checked={isBanned}
-              onClick={toggleMuted}
+      {isLoading ? (
+        <DialogContent>
+          <Loading />
+        </DialogContent>
+      ) : isError && error ? (
+        <ErrorMessage error={error} />
+      ) : (
+        <>
+          <DialogTitle>
+            {nation
+              ? t(tk.statsDialog.titleWithNation, { username, nation })
+              : t(tk.statsDialog.title, { username })}
+          </DialogTitle>
+          <DialogContent>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  disabled={isCurrentUser || banIsLoading}
+                  checked={isBanned}
+                  onClick={toggleBanned}
+                />
+              }
+              label={t(tk.statsDialog.bannedCheckbox.label) as string}
             />
-          }
-          label={t(tk.statsDialog.mutedCheckbox.label) as string}
-        />
-        {gameState && currentUserNation && (
-          <FormControlLabel
-            control={
-              <Checkbox
-                disabled={user.Id === currentUser.Id}
-                checked={(gameState.Muted || []).includes(currentUserNation)}
-                onClick={toggleMuted}
+            {showIsMuted && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={isCurrentUser}
+                    checked={isMuted}
+                    onClick={toggleMuted}
+                  />
+                }
+                label={t(tk.statsDialog.mutedCheckbox.label) as string}
               />
-            }
-            label={t(tk.statsDialog.mutedCheckbox.label) as string}
-          />
-        )}
-        <TableContainer>
-          <Table>
-            <TableRow>
-              <TableCell>{t(tk.statsDialog.ranking.label)}</TableCell>
-              <TableCell>
-                {t(tk.statsDialog.ranking.value, {
-                  value: ranking,
-                })}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>{t(tk.statsDialog.rating.label)}</TableCell>
-              <TableCell>{rating}</TableCell>
-              <TableRow>
-                <TableCell>
-                  {t(tk.statsDialog.ratingPercentile.label)}
-                </TableCell>
-                <TableCell>
-                  {t(tk.statsDialog.ratingPercentile.value, {
-                    value: ratingPercentile,
-                  })}
-                </TableCell>
-              </TableRow>
-            </TableRow>
-          </Table>
-        </TableContainer>
-      </DialogContent>
+            )}
+            <TableContainer>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.ranking.label)}</TableCell>
+                    <TableCell>
+                      {t(tk.statsDialog.ranking.value, {
+                        value: ranking,
+                      })}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.rating.label)}</TableCell>
+                    <TableCell>{rating}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      {t(tk.statsDialog.ratingPercentile.label)}
+                    </TableCell>
+                    <TableCell>
+                      {t(tk.statsDialog.ratingPercentile.value, {
+                        value: ratingPercentile,
+                      })}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.reliability.label)}</TableCell>
+                    <TableCell>{reliability}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.quickness.label)}</TableCell>
+                    <TableCell>{quickness}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.hated.label)}</TableCell>
+                    <TableCell>{hated}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.hater.label)}</TableCell>
+                    <TableCell>{hater}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.joinedGames.label)}</TableCell>
+                    <TableCell>{joinedGames}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      {t(tk.statsDialog.startedGames.label)}
+                    </TableCell>
+                    <TableCell>{startedGames}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      {t(tk.statsDialog.finishedGames.label)}
+                    </TableCell>
+                    <TableCell>{finishedGames}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      {t(tk.statsDialog.abandonedGames.label)}
+                    </TableCell>
+                    <TableCell>{abandonedGames}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.soloWins.label)}</TableCell>
+                    <TableCell>{soloWins}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>{t(tk.statsDialog.draws.label)}</TableCell>
+                    <TableCell>{draws}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      {t(tk.statsDialog.eliminations.label)}
+                    </TableCell>
+                    <TableCell>{eliminations}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </DialogContent>
+        </>
+      )}
     </Dialog>
   );
 };
 
-export default ResetSettingsDialog;
+export default StatsDialog;

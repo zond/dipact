@@ -30,4 +30,6 @@ export const {
   useUnInviteMutation,
   useUpdatePhaseStateMutation,
   useUpdateUserConfigMutation,
+  useDeleteBanMutation,
+  useCreateBanMutation,
 } = diplicityService;

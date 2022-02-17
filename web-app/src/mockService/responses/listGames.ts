@@ -90,7 +90,7 @@ const getGame = (
                   Gender: "",
                   GivenName: "MonKers",
                   Hd: "",
-                  Id: options?.userId || "",
+                  Id: options?.userId || "fake-id-123",
                   Link: "",
                   Locale: "ca",
                   Name: "MonKers MasNet",

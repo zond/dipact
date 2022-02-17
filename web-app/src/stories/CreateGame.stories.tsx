@@ -48,7 +48,11 @@ const defaultUseCreateGameValues: IUseCreateGame = {
   selectedVariant: defaultVariant as Variant,
   selectedVariantSVG: "",
   submitDisabled: false,
-  userStats: undefined,
+  userStats: {
+    rating: 10,
+    quickness: 10,
+    reliability: 10
+  },
   values: { ...initialFormValues, name: "Game name" },
   variants: [defaultVariant as Variant],
   validationErrors: {},

@@ -260,11 +260,13 @@ export type UserStatsResponse = ApiResponse & {
   Properties: UserStats;
 };
 
+export type UserRatingHistogram = {
+  FirstBucketRating: number;
+  Counts: number[];
+};
+
 export type UserRatingHistogramResponse = ApiResponse & {
-  Properties: {
-    FirstBucketRating: number;
-    Counts: number[];
-  };
+  Properties: UserRatingHistogram;
 };
 
 export type ListVariantsResponse = ApiResponse & {

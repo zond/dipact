@@ -408,6 +408,10 @@
   },
   "stats-dialog": {
     "title": "{{ username }}",
+    "title-with-nation": "{{ username }} playing as {{ nation }}",
+    "banned-checkbox": {
+      "label": "Banned"
+    },
     "muted-checkbox": {
       "label": "Muted"
     },
@@ -421,6 +425,39 @@
     "rating-percentile": {
       "label": "Rating percentile (percentage of active players as good or better)",
       "value": "{{ value }}%"
+    },
+    "reliability": {
+      "label": "Reliability (ratio of non NMR phases)"
+    },
+    "quickness": {
+      "label": "Quickness (ratio of committed phases)"
+    },
+    "hated": {
+      "label": "Hated (ratio of games resulting in being banned)"
+    },
+    "hater": {
+      "label": "Hater (ratio of games resulting in banning someone)"
+    },
+    "joined-games": {
+      "label": "Joined games"
+    },
+    "started-games": {
+      "label": "Started games"
+    },
+    "finished-games": {
+      "label": "Finished games"
+    },
+    "abandoned-games": {
+      "label": "Abandoned games"
+    },
+    "solo-wins": {
+      "label": "Solo wins"
+    },
+    "draws": {
+      "label": "Draws"
+    },
+    "eliminations": {
+      "label": "Eliminations"
     }
   }
 }

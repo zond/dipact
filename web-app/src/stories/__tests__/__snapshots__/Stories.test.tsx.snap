@@ -9357,6 +9357,26 @@ exports[`Storyshots components/PlayerCount Zero 1`] = `
 </div>
 `;
 
+exports[`Storyshots components/StatsDialog Ban Is Loading 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Closed 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Default 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Is Banned 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Is Current User 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Is Error 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Is Loading 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Is Muted 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Is Nation 1`] = `<div />`;
+
+exports[`Storyshots components/StatsDialog Show Is Muted 1`] = `<div />`;
+
 exports[`Storyshots pages/CreateGame Default 1`] = `
 Array [
   .emotion-0 {
@@ -18762,7 +18782,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   color: #d32f2f;
 }
 
-.emotion-126 {
+.emotion-125 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -18810,23 +18830,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-126::-moz-focus-inner {
+.emotion-125::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-126.Mui-disabled {
+.emotion-125.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-126 {
+  .emotion-125 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-126:hover {
+.emotion-125:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #006db3;
@@ -18834,20 +18854,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
 }
 
 @media (hover: none) {
-  .emotion-126:hover {
+  .emotion-125:hover {
     background-color: #281A1A;
   }
 }
 
-.emotion-126:active {
+.emotion-125:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-126.Mui-focusVisible {
+.emotion-125.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-126.Mui-disabled {
+.emotion-125.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
@@ -19913,18 +19933,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
             create-game.max-rating-enabled-checkbox.help-text
           </p>
           <div />
-          <p
-            className="MuiFormHelperText-root emotion-14"
-          >
-            create-game.max-rating-input.help-text
-          </p>
         </div>
       </section>
       <div
         className="makeStyles-buttonContainer-144"
       >
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-126"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-125"
           disabled={false}
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -21284,7 +21299,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   color: #d32f2f;
 }
 
-.emotion-126 {
+.emotion-125 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -21332,23 +21347,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-126::-moz-focus-inner {
+.emotion-125::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-126.Mui-disabled {
+.emotion-125.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-126 {
+  .emotion-125 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-126:hover {
+.emotion-125:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #006db3;
@@ -21356,20 +21371,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
 }
 
 @media (hover: none) {
-  .emotion-126:hover {
+  .emotion-125:hover {
     background-color: #281A1A;
   }
 }
 
-.emotion-126:active {
+.emotion-125:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-126.Mui-focusVisible {
+.emotion-125.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-126.Mui-disabled {
+.emotion-125.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
@@ -22383,11 +22398,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
             create-game.min-rating-enabled-checkbox.help-text
           </p>
           <div />
-          <p
-            className="MuiFormHelperText-root emotion-14"
-          >
-            create-game.min-rating-input.help-text
-          </p>
         </div>
         <div>
           <label
@@ -22446,7 +22456,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
         className="makeStyles-buttonContainer-152"
       >
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-126"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-125"
           disabled={false}
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -36428,7 +36438,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   color: #d32f2f;
 }
 
-.emotion-127 {
+.emotion-126 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -36476,23 +36486,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-127::-moz-focus-inner {
+.emotion-126::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-127.Mui-disabled {
+.emotion-126.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-127 {
+  .emotion-126 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-127:hover {
+.emotion-126:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #006db3;
@@ -36500,20 +36510,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
 }
 
 @media (hover: none) {
-  .emotion-127:hover {
+  .emotion-126:hover {
     background-color: #281A1A;
   }
 }
 
-.emotion-127:active {
+.emotion-126:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-127.Mui-focusVisible {
+.emotion-126.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-127.Mui-disabled {
+.emotion-126.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
@@ -37584,18 +37594,13 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
           >
             create-game.max-rating-input.error-message.less-than-user-rating
           </p>
-          <p
-            className="MuiFormHelperText-root emotion-14"
-          >
-            create-game.max-rating-input.help-text
-          </p>
         </div>
       </section>
       <div
         className="makeStyles-buttonContainer-200"
       >
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-127"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-126"
           disabled={false}
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -38955,7 +38960,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   color: #d32f2f;
 }
 
-.emotion-127 {
+.emotion-126 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -39003,23 +39008,23 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
   box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-127::-moz-focus-inner {
+.emotion-126::-moz-focus-inner {
   border-style: none;
 }
 
-.emotion-127.Mui-disabled {
+.emotion-126.Mui-disabled {
   pointer-events: none;
   cursor: default;
 }
 
 @media print {
-  .emotion-127 {
+  .emotion-126 {
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
   }
 }
 
-.emotion-127:hover {
+.emotion-126:hover {
   -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #006db3;
@@ -39027,20 +39032,20 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
 }
 
 @media (hover: none) {
-  .emotion-127:hover {
+  .emotion-126:hover {
     background-color: #281A1A;
   }
 }
 
-.emotion-127:active {
+.emotion-126:active {
   box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12);
 }
 
-.emotion-127.Mui-focusVisible {
+.emotion-126.Mui-focusVisible {
   box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
 }
 
-.emotion-127.Mui-disabled {
+.emotion-126.Mui-disabled {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0.12);
@@ -40059,11 +40064,6 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
           >
             create-game.min-rating-input.error-message.more-than-user-rating
           </p>
-          <p
-            className="MuiFormHelperText-root emotion-14"
-          >
-            create-game.min-rating-input.help-text
-          </p>
         </div>
         <div>
           <label
@@ -40122,7 +40122,7 @@ label[data-shrink=false]+.MuiInputBase-formControl .emotion-51:focus::-ms-input-
         className="makeStyles-buttonContainer-208"
       >
         <button
-          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-127"
+          className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  emotion-126"
           disabled={false}
           onBlur={[Function]}
           onContextMenu={[Function]}

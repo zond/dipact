@@ -6,6 +6,7 @@ import { selectToken } from "./selectors";
 import { RootState } from "./store";
 import {
   UserRatingHistogramResponse,
+  UserRatingHistogram,
   ListVariantsResponse,
   ForumMailResponse,
   UserStatsResponse,
@@ -53,6 +54,7 @@ export enum TagType {
   PhaseState = "PhaseState",
   Game = "Game",
   ListGames = "ListGames",
+  ListUserBans = "ListUserBans",
 }
 
 export interface ListGameFilters {
@@ -71,6 +73,7 @@ export const diplicityService = createApi({
     TagType.Messages,
     TagType.Game,
     TagType.ListGames,
+    TagType.ListUserBans,
     TagType.PhaseState,
   ],
   reducerPath: "diplicityService",
@@ -132,8 +135,9 @@ export const diplicityService = createApi({
             response.userId = match.groups?.id;
           }
         }
-        return response.Properties.map(banResponse => banResponse.Properties);
+        return response.Properties.map((banResponse) => banResponse.Properties);
       },
+      providesTags: [TagType.ListUserBans],
     }),
     getUserConfig: builder.query<UserConfig, string>({
       query: (id) => `/User/${id}/UserConfig`,
@@ -144,11 +148,10 @@ export const diplicityService = createApi({
       query: (id) => `/User/${id}/Stats`,
       transformResponse: (response: UserStatsResponse) => response.Properties,
     }),
-    getUserRatingHistogram: builder.query<
-      UserRatingHistogramResponse,
-      undefined
-    >({
+    getUserRatingHistogram: builder.query<UserRatingHistogram, undefined>({
       query: () => "/Users/Ratings/Histogram",
+      transformResponse: (response: UserRatingHistogramResponse) =>
+        response.Properties,
     }),
     listVariants: builder.query<Variant[], undefined>({
       query: () => "/Variants",
@@ -216,7 +219,7 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.ListGames],
     }),
-    getGameState: builder.query<GameState, { gameId: string, userId: string }>({
+    getGameState: builder.query<GameState, { gameId: string; userId: string }>({
       query: ({ gameId, userId }) => `/Game/${gameId}/GameStates/${userId}`,
       transformResponse: (response: GameStateResponse) => {
         return response.Properties;
@@ -357,6 +360,27 @@ export const diplicityService = createApi({
         method: "DELETE",
       }),
       invalidatesTags: [TagType.ListGames],
+    }),
+    deleteBan: builder.mutation<
+      undefined,
+      { userId: string; bannedUserId: string }
+    >({
+      query: ({ userId, bannedUserId }) => ({
+        url: `/User/${userId}/Ban/${bannedUserId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [TagType.ListUserBans],
+    }),
+    createBan: builder.mutation<
+      undefined,
+      { userId: string; bannedUserId: string }
+    >({
+      query: ({ userId, bannedUserId }) => ({
+        url: `/User/${userId}/Ban`,
+        method: "POST",
+        body: JSON.stringify([userId, bannedUserId]),
+      }),
+      invalidatesTags: [TagType.ListUserBans],
     }),
   }),
 });

@@ -175,6 +175,10 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
     }
   };
 
+  const onClickUserAvatar = (userId: string, gameId: string) => {
+    setParam("user-stats", `${userId}:${gameId}`);
+  }
+
   const onClickReschedule = () => setParam("reschedule-dialog", id);
   const onClickRename = () => setParam("rename-game-dialog", id);
   const onClickManageInvitations = () =>
@@ -409,9 +413,9 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
             {t(tk.gameList.gameCard.players.label)}
           </Typography>
           <div className={classes.players}>
-            {players.map(({ username, image }) => (
+            {players.map(({ username, image, id: userId }) => (
               <div key={username}>
-                <IconButton onClick={() => {}} size="large">
+                <IconButton onClick={() => onClickUserAvatar(userId, id)} size="large">
                   <Avatar src={image} alt={username} />
                 </IconButton>
                 <Typography>{username}</Typography>

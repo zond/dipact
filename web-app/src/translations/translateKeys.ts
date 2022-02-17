@@ -419,6 +419,10 @@ const translateKeys = {
   },
   statsDialog: {
     title: "stats-dialog.title",
+    titleWithNation: "stats-dialog.title-with-nation",
+    bannedCheckbox: {
+      label: "stats-dialog.banned-checkbox.label",
+    },
     mutedCheckbox: {
       label: "stats-dialog.muted-checkbox.label",
     },
@@ -432,6 +436,39 @@ const translateKeys = {
     ratingPercentile: {
       label: "stats-dialog.rating-percentile.label",
       value: "stats-dialog.rating-percentile.value",
+    },
+    reliability: {
+      label: "stats-dialog.reliability.label",
+    },
+    quickness: {
+      label: "stats-dialog.quickness.label",
+    },
+    hated: {
+      label: "stats-dialog.hated.label",
+    },
+    hater: {
+      label: "stats-dialog.hater.label",
+    },
+    joinedGames: {
+      label: "stats-dialog.joined-games.label",
+    },
+    startedGames: {
+      label: "stats-dialog.started-games.label",
+    },
+    finishedGames: {
+      label: "stats-dialog.finished-games.label",
+    },
+    abandonedGames: {
+      label: "stats-dialog.abandoned-games.label",
+    },
+    soloWins: {
+      label: "stats-dialog.solo-wins.label",
+    },
+    draws: {
+      label: "stats-dialog.draws.label",
+    },
+    eliminations: {
+      label: "stats-dialog.eliminations.label",
     },
     // prompt: "reset-settings-dialog.prompt",
     // resetButton: "reset-settings-dialog.reset-button",

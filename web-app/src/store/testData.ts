@@ -103,6 +103,7 @@ export const initialState: RootState = {
       [TagType.Game]: {},
       [TagType.PhaseState]: {},
       [TagType.ListGames]: {},
+      [TagType.ListUserBans]: {},
     },
     subscriptions: {},
     config: {

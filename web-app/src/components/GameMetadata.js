@@ -19,7 +19,7 @@ import gtag from "ga-gtag";
 import AnonymousSvgPath from "../static/img/anon.svg";
 
 import * as helpers from "../helpers";
-import UserAvatar from "./OldUserAvatar";
+// import UserAvatar from "./OldUserAvatar";
 
 export default class GameMetadata extends React.Component {
 	constructor(props) {
@@ -732,7 +732,7 @@ export default class GameMetadata extends React.Component {
 							marginBottom: "4px",
 						}}
 					>
-						<UserAvatar user={member.User} />
+						{/* <UserAvatar user={member.User} /> */}
 						<Typography>
 							{member.User.GivenName} {member.User.FamilyName}
 						</Typography>

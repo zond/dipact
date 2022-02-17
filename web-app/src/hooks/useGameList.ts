@@ -37,6 +37,7 @@ export const nationAllocationTranslations: { [key: string]: string } = {
 
 interface Player {
   username: string;
+  id: string;
   image: string;
 }
 
@@ -101,6 +102,7 @@ const transformGame = (game: StoreGame, user: User): Game => {
     players: game.Members.map((member) => ({
       username: member.User.Name as string,
       image: member.User.Picture as string,
+      id: member.User.Id as string,
     })),
     privateGame: game.Private,
     rulesSummary: game.Variant + " " + phaseLengthDisplay(game),

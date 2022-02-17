@@ -16,6 +16,7 @@ import ManageInvitationsDialog from "../components/ManageInvitationsDialog";
 import RenameGameDialog from "../components/RenameGameDialog";
 import ResetSettingsDialog from "../components/ResetSettingsDialog";
 import CreateGame from "./CreateGame";
+import StatsDialog from "../components/StatsDialog";
 
 // TODO test
 export const LoggedOutRoutes = (): React.ReactElement => {
@@ -68,6 +69,7 @@ const Router = (): React.ReactElement => {
           <ManageInvitationsDialog />
           <RenameGameDialog />
           <ResetSettingsDialog />
+          <StatsDialog />
         </>
       ) : (
         <LoggedOutRoutes />

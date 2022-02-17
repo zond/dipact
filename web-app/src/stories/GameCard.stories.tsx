@@ -39,7 +39,7 @@ const defaultGame = {
   numUnreadMessages: 0,
   phaseSummary: "Spring 1901 Movement",
   privateGame: false,
-  players: [{ username: "johnpooch", image: "" }],
+  players: [{ username: "johnpooch", image: "", id: "123" }],
   rulesSummary: "Classical 2d",
   started: true,
   userIsMember: false,

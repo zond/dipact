@@ -4,10 +4,11 @@ import {
   FormEvent,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { randomGameName } from "../helpers";
-import { CreateGameFormValues, UserStats, Variant } from "../store/types";
+import { CreateGameFormValues, Variant } from "../store/types";
 import {
   useGetRootQuery,
   useLazyGetUserStatsQuery,
@@ -37,7 +38,11 @@ export interface IUseCreateGame {
   selectedVariant: Variant | null;
   selectedVariantSVG: string | undefined;
   submitDisabled: boolean;
-  userStats?: UserStats;
+  userStats: {
+    rating: number | undefined;
+    quickness: number | undefined;
+    reliability: number | undefined;
+  };
   validationErrors: FormikErrors<CreateGameFormValues>;
   values: CreateGameFormValues;
   variants: Variant[];
@@ -86,6 +91,15 @@ const useCreateGame = (): IUseCreateGame => {
   const dispatch = useDispatch();
   usePageLoad(PageName.CreateGame);
 
+  const userStats = useMemo(
+    () => ({
+      rating: getUserStatsQuery.data?.TrueSkill?.Rating,
+      quickness: getUserStatsQuery.data?.Quickness,
+      reliability: getUserStatsQuery.data?.Reliability,
+    }),
+    [getUserStatsQuery]
+  );
+
   useEffect(() => {
     if (getRootQuery.data) {
       getUserStatsTrigger(getRootQuery.data.Id as string);
@@ -99,27 +113,26 @@ const useCreateGame = (): IUseCreateGame => {
           minReliability: yup
             .number()
             .max(
-              getUserStatsQuery.data.Reliability as number,
+              userStats.reliability as number,
               tk.createGame.minReliabilityInput.errorMessage
                 .moreThanUserReliability
             ),
           minQuickness: yup
             .number()
             .max(
-              getUserStatsQuery.data.Quickness as number,
+              userStats.quickness as number,
               tk.createGame.minQuicknessInput.errorMessage.moreThanUserQuickness
             ),
           maxRating: yup
             .number()
             .min(
-              ((getUserStatsQuery.data.TrueSkill?.Rating || 0) -
-                0.01) as number,
+              ((userStats.rating || 0) - 0.01) as number,
               tk.createGame.maxRatingInput.errorMessage.lessThanUserRating
             ),
           minRating: yup
             .number()
             .max(
-              getUserStatsQuery.data.TrueSkill?.Rating as number,
+              userStats.rating as number,
               tk.createGame.minRatingInput.errorMessage.moreThanUserRating
             ),
           endAfterYearsValue: yup
@@ -131,13 +144,7 @@ const useCreateGame = (): IUseCreateGame => {
         })
       );
     }
-  }, [
-    getUserStatsQuery.isSuccess,
-    getUserStatsQuery.data?.TrueSkill?.Rating,
-    selectedVariant,
-    getUserStatsQuery.data?.Reliability,
-    getUserStatsQuery.data?.Quickness,
-  ]);
+  }, [getUserStatsQuery.isSuccess, userStats, selectedVariant]);
 
   const {
     values,
@@ -230,7 +237,7 @@ const useCreateGame = (): IUseCreateGame => {
     selectedVariant,
     selectedVariantSVG: getVariantsSVGQuery.data,
     submitDisabled,
-    userStats: getUserStatsQuery.data,
+    userStats,
     validationErrors,
     values,
     variants: listVariantsQuery.data || [],
