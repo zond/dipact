@@ -23,9 +23,6 @@ const getListVariantsSelector = () =>
 const getGetRootSelector = () =>
   diplicityService.endpoints.getRoot.select(undefined);
 
-export const selectColorOverrides = (state: RootState): ColorOverrides =>
-  state.colorOverrides;
-
 const selectUserStats = (state: RootState): UserStats | undefined => {
   const userId = selectUserId(state);
   if (!userId) return;

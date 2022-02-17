@@ -99,6 +99,7 @@ export const diplicityService = createApi({
         responseHandler: (response) => response.text(),
       }),
     }),
+
     getVariantUnitSVG: builder.query<
       string,
       { variantName: string; unitType: string }
@@ -108,6 +109,7 @@ export const diplicityService = createApi({
         responseHandler: (response) => response.text(),
       }),
     }),
+
     getRoot: builder.query<User | null, undefined>({
       query: () => "/",
       transformResponse: (response: RootResponse, meta) => {
@@ -120,39 +122,36 @@ export const diplicityService = createApi({
         } catch (err) {}
       },
     }),
+
     getForumMail: builder.query<ForumMailResponse, undefined>({
       query: () => "/ForumMail",
     }),
+
     listUserBans: builder.query<Ban[], string>({
       query: (id) => `/User/${id}/Bans`,
       transformResponse: (response: UserBanResponse, meta) => {
-        // Bit of a hack to extract the userId from the request to filter bans by userId
-        const url = meta?.request?.url;
-        if (url) {
-          const re = /User\/(?<id>.+)\/Bans/g;
-          const match = re.exec(url);
-          if (match) {
-            response.userId = match.groups?.id;
-          }
-        }
         return response.Properties.map((banResponse) => banResponse.Properties);
       },
       providesTags: [TagType.ListUserBans],
     }),
+
     getUserConfig: builder.query<UserConfig, string>({
       query: (id) => `/User/${id}/UserConfig`,
       transformResponse: (response: UserConfigResponse) => response.Properties,
       providesTags: [TagType.UserConfig],
     }),
+
     getUserStats: builder.query<UserStats, string>({
       query: (id) => `/User/${id}/Stats`,
       transformResponse: (response: UserStatsResponse) => response.Properties,
     }),
+
     getUserRatingHistogram: builder.query<UserRatingHistogram, undefined>({
       query: () => "/Users/Ratings/Histogram",
       transformResponse: (response: UserRatingHistogramResponse) =>
         response.Properties,
     }),
+
     listVariants: builder.query<Variant[], undefined>({
       query: () => "/Variants",
       transformResponse: (response: ListVariantsResponse) => {
@@ -165,6 +164,7 @@ export const diplicityService = createApi({
         return transformedResponse;
       },
     }),
+
     // TODO test
     listMessages: builder.query<
       Message[],
@@ -180,13 +180,11 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.Messages],
     }),
+
     listPhases: builder.query<Phase[], string>({
       query: (gameId) => `/Game/${gameId}/Phases`,
-      transformResponse: (response: ListPhasesResponse) => {
-        return response.Properties.map(
-          (phaseResponse) => phaseResponse.Properties
-        );
-      },
+      transformResponse: (response: ListPhasesResponse) =>
+        response.Properties.map((phaseResponse) => phaseResponse.Properties),
     }),
     listPhaseStates: builder.query<
       PhaseState[],

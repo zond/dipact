@@ -87,13 +87,6 @@ export const initialState: RootState = {
   auth: {
     isLoggedIn: false,
   },
-  colorOverrides: {
-    nationCodes: {},
-    variantCodes: {},
-    positions: [],
-    variants: {},
-    nations: {},
-  },
   diplicityService: {
     queries: {},
     mutations: {},
@@ -118,7 +111,6 @@ export const initialState: RootState = {
     },
   },
   feedback: { ids: [], entities: {} },
-  latestForumMail: {},
   messaging,
   phase: null,
 };

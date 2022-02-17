@@ -3,7 +3,6 @@ import * as selectors from "../store/selectors";
 import { RootState } from "../store/store";
 import {
   Channel,
-  ColorOverrides,
   Feedback,
   Messaging,
   MutationStatus,
@@ -12,9 +11,6 @@ import {
 } from "../store/types";
 
 import { useAppSelector } from "./store";
-
-export const useColorOverrides = (): ColorOverrides =>
-  useAppSelector(selectors.selectColorOverrides);
 
 export const useFeedback = (): Feedback[] =>
   useAppSelector(feedbackSelectors.selectAll);

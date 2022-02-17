@@ -1,6 +1,6 @@
-import fetchMock from "jest-fetch-mock";
-import { diplicityService, diplicityServiceURL } from "../service";
-import { Headers } from "../types";
+import fetchMock, { FetchMock } from "jest-fetch-mock";
+import { diplicityService, diplicityServiceURL } from "../../service";
+import { Headers } from "../../types";
 import {
   createGameResponse,
   getGameResponse,
@@ -9,10 +9,10 @@ import {
   userConfig,
   userConfigResponse,
   variant,
-} from "../testData";
-import authReducer from "../auth";
-import { setupApiStore } from "../testUtils";
-import { actions as authActions } from "../auth";
+} from "../../testData";
+import authReducer from "../../auth";
+import { setupApiStore } from "../../testUtils";
+import { actions as authActions } from "../../auth";
 
 beforeEach((): void => {
   fetchMock.resetMocks();
@@ -39,6 +39,144 @@ const validateHeaders = (
     expect(headers.get(key)).toBe(value);
   });
 };
+
+const storeRef = setupApiStore(diplicityService, { auth: authReducer });
+const getRequestFromMock = (mock: FetchMock): Request =>
+  fetchMock.mock.calls[0][0] as Request;
+let authorized = true;
+
+beforeEach(() => {
+  if (authorized) {
+    storeRef.store.dispatch(authActions.login(testToken));
+  }
+});
+
+const validateRequest = (
+  fetchMock: FetchMock,
+  expectedMethod: string,
+  expectedUrl: string,
+  options: { authorized: boolean } = { authorized: true }
+) => {
+  const { method, headers, url } = getRequestFromMock(fetchMock);
+  expect(fetchMock).toBeCalledTimes(1);
+  expect(method).toBe(expectedMethod);
+  expect(url).toBe(`${diplicityServiceURL}${expectedUrl}`);
+  if (options.authorized) {
+    validateHeaders(headers, expectedHeadersAuthorized);
+  } else {
+    validateHeaders(headers, expectedHeadersUnauthorized);
+  }
+};
+
+const setFetchMock = (response: any) => {
+  fetchMock.mockResponse(JSON.stringify(response));
+};
+
+describe("getVariantSVG", () => {
+  const endpoint = diplicityService.endpoints.getVariantSVG;
+
+  test("Request is correct", async () => {
+    const action = endpoint.initiate("Classical");
+    await storeRef.store.dispatch<any>(action);
+    validateRequest(fetchMock, "GET", `Variant/Classical/Map.svg`);
+  });
+});
+
+describe("getVariantUnitSVG", () => {
+  const endpoint = diplicityService.endpoints.getVariantUnitSVG;
+
+  test("Request is correct", async () => {
+    const action = endpoint.initiate({
+      variantName: "Classical",
+      unitType: "Army",
+    });
+    await storeRef.store.dispatch<any>(action);
+    validateRequest(fetchMock, "GET", `Variant/Classical/Units/Army.svg`);
+  });
+});
+
+describe("getUserConfig", () => {
+  const userId = "user-id";
+  const endpoint = diplicityService.endpoints.getUserConfig;
+
+  beforeEach(() => {
+    setFetchMock({ Properties: { Id: userId } });
+  })
+
+  test("Request is correct", async () => {
+    const action = endpoint.initiate(userId);
+    await storeRef.store.dispatch<any>(action);
+    validateRequest(fetchMock, "GET", `User/${userId}/UserConfig`);
+  });
+
+  test("Transform response is correct", async () => {
+    const action = endpoint.initiate(userId);
+    const { data } = await storeRef.store.dispatch<any>(action);
+    expect(data).toEqual({ Id: userId });
+  });
+});
+
+describe("getUserStats", () => {
+  const userId = "user-id";
+  const endpoint = diplicityService.endpoints.getUserStats;
+
+  beforeEach(() => {
+    setFetchMock({ Properties: { Id: userId } });
+  })
+
+  test("Request is correct", async () => {
+    const action = endpoint.initiate(userId);
+    await storeRef.store.dispatch<any>(action);
+    validateRequest(fetchMock, "GET", `User/${userId}/Stats`);
+  });
+
+  test("Transform response is correct", async () => {
+    const action = endpoint.initiate(userId);
+    const { data } = await storeRef.store.dispatch<any>(action);
+    expect(data).toEqual({ Id: userId });
+  });
+});
+
+describe("listUserBans", () => {
+  const userId = "user-id";
+  const endpoint = diplicityService.endpoints.listUserBans;
+
+  beforeEach(() => {
+    setFetchMock({ Properties: [{ Properties: { Id: userId } }] });
+  })
+
+  test("Request is correct", async () => {
+    const action = endpoint.initiate(userId);
+    await storeRef.store.dispatch<any>(action);
+    validateRequest(fetchMock, "GET", `User/${userId}/Bans`);
+  });
+
+  test("Transform response is correct", async () => {
+    const action = endpoint.initiate(userId);
+    const { data } = await storeRef.store.dispatch<any>(action);
+    expect(data).toEqual([{ Id: userId }]);
+  });
+});
+
+describe("getUserRatingHistogram", () => {
+  const endpoint = diplicityService.endpoints.getUserRatingHistogram;
+
+  beforeEach(() => {
+    setFetchMock({ Properties: { Id: 1 } });
+  })
+
+  test("Request is correct", async () => {
+    const action = endpoint.initiate(undefined);
+    await storeRef.store.dispatch<any>(action);
+    validateRequest(fetchMock, "GET", `Users/Ratings/Histogram`);
+  });
+
+  test("Transform response is correct", async () => {
+    const action = endpoint.initiate(undefined);
+    const { data } = await storeRef.store.dispatch<any>(action);
+    expect(data).toEqual({ Id: 1 });
+  });
+});
 
 describe("ListVariants", () => {
   const storeRef = setupApiStore(diplicityService, { auth: authReducer });
@@ -91,7 +229,6 @@ describe("ListVariants", () => {
 });
 
 describe("GetGame", () => {
-
   const storeRef = setupApiStore(diplicityService, { auth: authReducer });
 
   test("request is correct", () => {

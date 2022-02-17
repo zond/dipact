@@ -1,6 +1,5 @@
 import {
   configureStore,
-  getDefaultMiddleware,
   ThunkAction,
   Action,
 } from "@reduxjs/toolkit";
@@ -12,8 +11,8 @@ import middleware from "./middleware";
 
 export const store = configureStore({
   reducer,
-  middleware: [
-    ...getDefaultMiddleware({ serializableCheck: false })
+  middleware: (gdm) => [
+    ...gdm({ serializableCheck: false })
       .concat(diplicityService.middleware)
       .concat(middleware),
   ],
@@ -22,8 +21,8 @@ export const store = configureStore({
 export const createTestStore = (preloadedState?: RootState) =>
   configureStore({
     reducer,
-    middleware: [
-      ...getDefaultMiddleware({ serializableCheck: false })
+    middleware: (gdm) => [
+      ...gdm({ serializableCheck: false })
         .concat(diplicityService.middleware)
         .concat(middleware),
     ],

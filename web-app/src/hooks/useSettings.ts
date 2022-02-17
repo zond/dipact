@@ -3,9 +3,6 @@ import { FormEvent, useEffect, useState } from "react";
 import Globals from "../Globals";
 import { ColorOverrides, SettingsFormValues, UserConfig, Variant } from "../store/types";
 import {
-  useColorOverrides,
-} from "./selectors";
-import {
   useGetRootQuery,
   useLazyGetUserConfigQuery,
   useListVariantsQuery,
@@ -88,7 +85,9 @@ const useSettings = (): IUseSettings => {
   const [triggerUserConfigQuery, userConfigQuery] = useLazyGetUserConfigQuery();
   const listVariantsQuery = useListVariantsQuery(undefined);
   const variants = transformVariants(listVariantsQuery.data);
-	const colorOverrides = useColorOverrides();
+	// const colorOverrides = useColorOverrides();
+  // TODO
+  const colorOverrides = {};
   // const { hasPermission, tokenEnabled } = useMessaging();
   // const colorOverrides = useColorOverrides();
 
@@ -100,7 +99,7 @@ const useSettings = (): IUseSettings => {
 
   useEffect(() => {
     if (userConfigQuery.data) {
-      const vals = getInitialFormValues(colorOverrides, userConfigQuery.data, listVariantsQuery.data);
+      const vals = getInitialFormValues(colorOverrides as ColorOverrides, userConfigQuery.data, listVariantsQuery.data);
       resetForm({ values: { ...values, ...vals } });
       setVariant(CLASSICAL);
     }

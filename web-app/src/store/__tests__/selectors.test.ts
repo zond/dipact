@@ -20,14 +20,6 @@ const createGetRootSlice = (data: any) => ({
   },
 });
 
-describe("selectColorOverrides", () => {
-  test("gets color overrides", () => {
-    const state = { ...initialState };
-    const result = selectors.selectColorOverrides(state);
-    expect(result).toStrictEqual(state.colorOverrides);
-  });
-});
-
 describe("selectUser", () => {
   test("gets user", () => {
     const user = {
