@@ -6,7 +6,7 @@ import reducer, { actions } from "../../feedback";
 const message = "Message!";
 const initialState = { entities: {}, ids: [] };
 
-describe("error slice", () => {
+describe("feedback slice", () => {
   test("should return the initial state", () => {
     expect(reducer(undefined, {} as AnyAction)).toEqual(initialState);
   });
