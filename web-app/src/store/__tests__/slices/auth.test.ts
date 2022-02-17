@@ -1,6 +1,6 @@
-import { setupApiStore } from "../testUtils";
-import authReducer, { actions as authActions } from "../auth";
-import { diplicityService } from "../service";
+import { setupApiStore } from "../../testUtils";
+import authReducer, { actions as authActions } from "../../auth";
+import { diplicityService } from "../../service";
 
 const testToken = "test-token-123";
 

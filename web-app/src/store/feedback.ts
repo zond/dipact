@@ -33,6 +33,7 @@ const feedbackSlice = createSlice({
 		clearAll: feedbackAdapter.removeAll,
 	},
 	extraReducers: (builder) => {
+		// TODO move to middleware
 		builder.addMatcher(
 			diplicityService.endpoints.updateUserConfig.matchFulfilled,
 			(state) => {
