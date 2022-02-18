@@ -608,3 +608,13 @@ export interface CreateGameFormValues {
   maxRatingEnabled: boolean;
   maxRating: number;
 }
+
+export interface Player {
+  id: string;
+  image: string;
+  isBanned: boolean;
+  isCurrentUser: boolean;
+  isMuted: boolean;
+  nation: string;
+  username: string;
+}

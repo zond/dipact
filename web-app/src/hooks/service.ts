@@ -30,4 +30,5 @@ export const {
   useUnInviteMutation,
   useUpdatePhaseStateMutation,
   useUpdateUserConfigMutation,
+  useLazyListVariantsQuery,
 } = diplicityService;

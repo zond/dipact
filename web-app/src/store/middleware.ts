@@ -6,7 +6,7 @@ import { selectUserConfig } from "./selectors";
 import { diplicityService } from "./service";
 import { actions as authActions } from "./auth";
 import { actions as feedbackActions } from "./feedback";
-import { actions as uiActions } from "./ui";
+import { actions as uiActions, PageName } from "./ui";
 import { actions as gaActions } from "./ga";
 import { Severity } from "./types";
 import { getQueryMatchers } from "./utils";
@@ -35,10 +35,26 @@ export const uiSubmitSettingsFormMiddleware: Middleware<{}, any> =
 export const uiPageLoadMiddleware: Middleware<{}, any> =
   ({ dispatch }) =>
   (next) =>
-  (action) => {
+  (action: ReturnType<typeof uiActions.pageLoad>) => {
     next(action);
     if (action.type === uiActions.pageLoad.type) {
-      dispatch(gaActions.registerPageView(action.payload));
+      dispatch(gaActions.registerPageView(action.payload.pageName));
+    }
+  };
+
+// TODO test
+export const uiGamePlayersPageLoadMiddleware: Middleware<{}, any> =
+  ({ dispatch }) =>
+  (next) =>
+  (action: ReturnType<typeof uiActions.pageLoad>) => {
+    next(action);
+    if (
+      action.type === uiActions.pageLoad.type &&
+      action.payload.pageName === PageName.GamePlayersDialog
+    ) {
+      const gameId = action.payload.data;
+      dispatch<any>(diplicityService.endpoints.getGame.initiate(gameId));
+      dispatch<any>(diplicityService.endpoints.listVariants.initiate(undefined));
     }
   };
 

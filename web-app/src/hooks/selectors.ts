@@ -34,7 +34,7 @@ export const useUserId = (): string | undefined =>
 export const useUpdateUserConfigStatus = (): MutationStatus =>
   useAppSelector(selectors.selectUpdateUserConfigStatus);
 
-export const useSelectVariant = (variant: string): Variant | null =>
+export const useSelectVariant = (variant: string): Variant | undefined =>
   useAppSelector((state: RootState) => selectors.selectVariant(state, variant));
 
 export const useSelectNationColor = (variant: string, nation: string): string =>
@@ -81,7 +81,13 @@ export const useSelectVariantUnitSvgs = (
 };
 
 export const useSelectUser = () => {
-  return useAppSelector((state: RootState) =>
-    selectors.selectUser(state) || {}
+  return useAppSelector(
+    (state: RootState) => selectors.selectUser(state) || {}
   );
 };
+
+export const useSelectGamePlayersView = (gameId: string) => {
+  return useAppSelector((state: RootState) =>
+    selectors.selectGamePlayersView(state, gameId)
+  );
+}

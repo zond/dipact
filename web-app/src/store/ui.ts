@@ -9,7 +9,7 @@ export enum PageName {
 
 const domain = "ui";
 
-const pageLoad = createAction<PageName>(`${domain}/pageLoad`);
+const pageLoad = createAction<{ pageName: PageName, data: any }>(`${domain}/pageLoad`);
 const submitCreateGameForm = createAction<CreateGameFormValues>(
   `${domain}/submitCreateGameForm`
 );
@@ -17,10 +17,14 @@ const resetUserSettings = createAction(`${domain}/resetUserSettings`);
 const submitSettingsForm = createAction<SettingsFormValues>(
   `${domain}/submitSettingsForm`
 );
+const toggleBanned = createAction<string>(`${domain}/toggleBanned`)
+const toggleMuted = createAction<string>(`${domain}/toggleMuted`)
 
 export const actions = {
   pageLoad,
   resetUserSettings,
   submitCreateGameForm,
   submitSettingsForm,
+  toggleBanned,
+  toggleMuted,
 };
