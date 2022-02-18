@@ -265,6 +265,28 @@ const translateKeys = {
     },
     noGamesMessage: "game-list.no-games-message",
   },
+  gamePlayersDialog: {
+    title: "game-players-dialog.title",
+    closeButton: {
+      label: "game-players-dialog.close-button.label",
+    },
+    gameMetaDataSection: {
+      title: "game-players-dialog.game-meta-data-section.title"
+    },
+    playersSection: {
+      title: "game-players-dialog.players-section.title",
+      subtitle: "game-players-dialog.players-section.subtitle",
+      banCheckbox: {
+        label: "game-players-dialog.players-section.ban-checkbox.label"
+      },
+      muteCheckbox: {
+        label: "game-players-dialog.players-section.mute-checkbox.label"
+      }
+    },
+    variantRulesSection: {
+      title: "game-players-dialog.variant-rules-section.title"
+    }
+  },
   loading: {
     title: "loading.title",
   },
