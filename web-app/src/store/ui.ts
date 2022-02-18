@@ -3,6 +3,7 @@ import { CreateGameFormValues, SettingsFormValues } from "./types";
 
 export enum PageName {
   CreateGame = "CreateGame",
+  GamePlayersDialog = "GamePlayersDialog",
   StatsDialog = "StatsDialog",
 }
 
