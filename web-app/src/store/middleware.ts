@@ -10,7 +10,7 @@ import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
 import { Severity } from "./types";
 import { getQueryMatchers } from "./utils";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const GTAG_DEFAULT_CATEGORY = "(not set)";
 const PAGE_VIEW_ACTION = "page_view";

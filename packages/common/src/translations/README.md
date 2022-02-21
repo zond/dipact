@@ -37,7 +37,7 @@ The `CreateGame` component is a good example of how translations strings can be 
 
 We can import `translateKeys` using `tk` for convenience as follows:
 ```
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 ```
 
 A component which uses translations needs to fetch the `t` function as follows:

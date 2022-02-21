@@ -11,7 +11,7 @@ import {
 import { actions as uiActions, PageName } from "../store/ui";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 import usePageLoad from "./usePageLoad";
 
 // TODO de-dupe with useSettings

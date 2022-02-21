@@ -4,7 +4,7 @@ import { addDecorator } from "@storybook/react";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 
 import theme from "../src/theme";
-import i18n from '../src/translations/i18n';
+import { i18n } from "@diplicity/common";
 
 export const parameters = {
   i18n,

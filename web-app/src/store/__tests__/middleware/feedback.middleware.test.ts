@@ -8,7 +8,7 @@ import {
 } from "./utils";
 import { Severity } from "../../types";
 import { AnyAction } from "@reduxjs/toolkit";
-import tk from "../../../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const createTestMatcher =
   (endpointName: string, requestStatus: string) => (action: AnyAction) =>

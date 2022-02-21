@@ -31,7 +31,7 @@ import {
   nationAllocationTranslations,
 } from "../hooks/useGameList";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {

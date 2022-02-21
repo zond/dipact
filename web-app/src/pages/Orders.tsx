@@ -10,7 +10,7 @@ import useOrders from "../hooks/useOrders";
 import ErrorMessage from "../components/ErrorMessage";
 import Loading from "../components/Loading";
 import PhaseSelector from "../components/PhaseSelector";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 import { CheckBoxIconChecked, CheckBoxIconUnchecked } from "../icons";
 

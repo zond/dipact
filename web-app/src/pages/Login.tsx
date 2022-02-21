@@ -10,7 +10,7 @@ import logo from "../static/img/logo.svg";
 import googleIcon from "../static/img/google_icon.svg";
 import useRegisterPageView from "../hooks/useRegisterPageview";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {

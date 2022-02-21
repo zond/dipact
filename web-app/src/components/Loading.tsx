@@ -2,7 +2,7 @@ import { CircularProgress, Theme } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     root: {

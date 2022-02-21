@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@diplicity/common": "^0.0.5",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@fontsource/cabin": "^4.4.5",
@@ -120,6 +121,8 @@
     "workerDirectory": "public"
   },
   "jest": {
-    "testMatch": ["**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"]
+    "testMatch": [
+      "**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"
+    ]
   }
 }

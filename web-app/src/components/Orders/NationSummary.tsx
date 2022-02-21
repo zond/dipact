@@ -8,7 +8,7 @@ import {
   WantsDrawIcon,
 } from "../../icons";
 import NationAvatar from "../NationAvatar";
-import tk from "../../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 
 export interface Nation {

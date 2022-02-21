@@ -15,7 +15,7 @@ import useSearchParams from "../hooks/useSearchParams";
 import { CreateMessageIcon } from "../icons";
 import { RouteConfig } from "./RouteConfig";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles((theme) => ({
   createGame: {

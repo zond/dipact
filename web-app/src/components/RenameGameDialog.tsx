@@ -16,7 +16,7 @@ import {
 import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 export const searchKey = "rename-game-dialog";
 
