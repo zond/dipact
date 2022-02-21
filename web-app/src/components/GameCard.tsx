@@ -35,7 +35,7 @@ import useSearchParams from "../hooks/useSearchParams";
 import { registerEvent } from "../hooks/useRegisterPageview";
 import useGameCard from "../hooks/useGameCard";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {

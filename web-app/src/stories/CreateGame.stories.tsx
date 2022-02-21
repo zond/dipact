@@ -5,7 +5,7 @@ import Component from "../pages/CreateGame";
 import { routerDecorator } from "./decorators";
 import { Container } from "@mui/material";
 
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 import {
   initialFormValues,

@@ -12,7 +12,7 @@ import { NextIcon, PreviousIcon } from "../icons";
 import usePhaseSelector from "../hooks/usePhaseSelector";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 interface PhaseSelectorUrlParams {
   gameId: string;

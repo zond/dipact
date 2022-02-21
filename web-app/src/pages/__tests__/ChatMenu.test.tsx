@@ -18,7 +18,7 @@ import {
 } from "../testUtils";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import theme from "../../theme";
-import tk from "../../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const server = setupServer(
   handlers.variants.successShort,

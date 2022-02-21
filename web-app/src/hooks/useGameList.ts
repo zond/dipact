@@ -9,7 +9,7 @@ import {
   timeStrToDate,
 } from "../utils/general";
 import { ListGameFilters } from "../store/service";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 // TODO move to types
 export enum GameStatus {

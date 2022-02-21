@@ -16,7 +16,7 @@ import { RouteConfig } from "./RouteConfig";
 import * as helpers from "../helpers";
 import ErrorMessage from "../components/ErrorMessage";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 interface ChatMenuUrlParams {
   gameId: string;

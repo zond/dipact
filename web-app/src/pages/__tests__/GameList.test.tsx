@@ -29,7 +29,7 @@ import ManageInvitationsDialog, {
   MANAGE_INVITATIONS_DIALOG_TITLE,
 } from "../../components/ManageInvitationsDialog";
 import RenameGameDialog from "../../components/RenameGameDialog";
-import tk from "../../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const server = setupServer(
   handlers.deleteGame.success,

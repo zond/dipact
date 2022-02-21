@@ -23,7 +23,7 @@ import FeedbackWrapper from "../../components/FeedbackWrapper";
 import { Provider } from "react-redux";
 import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
-import tk from "../../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const server = setupServer(
   handlers.getUser.success,

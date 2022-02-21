@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 export const getLoadingSpinner = async () => {
   return await waitFor(() => screen.queryByRole("progressbar"));

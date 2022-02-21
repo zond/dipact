@@ -20,7 +20,7 @@ import { searchKey as resetSettingsSearchKey } from "../components/ResetSettings
 import useSearchParams from "../hooks/useSearchParams";
 import useSettings from "../hooks/useSettings";
 import { useTranslation } from "react-i18next";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {

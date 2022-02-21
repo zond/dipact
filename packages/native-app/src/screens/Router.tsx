@@ -8,7 +8,6 @@ import {
 } from "@react-navigation/drawer";
 
 import GameList from "./GameList";
-import About from "./About";
 import Settings from "./Settings";
 import { Button } from "react-native";
 import { useTheme } from "../hooks";
@@ -40,11 +39,6 @@ const Router = () => {
 		<NavigationContainer theme={navigationTheme}>
 			<Drawer.Navigator>
 				<Drawer.Screen name="Games" component={GameList} options={screenOptions} />
-				<Drawer.Screen
-					name="About"
-					component={About}
-					options={screenOptions}
-				/>
 				<Drawer.Screen
 					name="Settings"
 					component={Settings}

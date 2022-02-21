@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 import useSearchParams from "../hooks/useSearchParams";
 import { useTranslation } from "react-i18next";
 import { PageName } from "../store/ui";
-import tk from "../translations/translateKeys";
+import { translateKeys as tk } from "@diplicity/common";
 import {
   useLazyGetGameQuery,
   useLazyGetGameStateQuery,
