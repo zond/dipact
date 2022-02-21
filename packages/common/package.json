@@ -1,0 +1,14 @@
+{
+  "name": "@diplicity/common",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "typings": "src/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "bugs": {},
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}

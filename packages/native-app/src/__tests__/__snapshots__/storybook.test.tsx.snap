@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots components/Switch False 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F5FCFF",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="#fef1da"
+      style={
+        Array [
+          Object {
+            "height": 31,
+            "width": 51,
+          },
+          Object {
+            "alignSelf": "flex-start",
+            "display": "flex",
+          },
+        ]
+      }
+      testID="switch"
+      thumbTintColor="#FFF"
+      tintColor="#AAA"
+      value={false}
+    />
+    <Text />
+  </View>
+</View>
+`;
+
+exports[`Storyshots components/Switch False with label 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F5FCFF",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="#fef1da"
+      style={
+        Array [
+          Object {
+            "height": 31,
+            "width": 51,
+          },
+          Object {
+            "alignSelf": "flex-start",
+            "display": "flex",
+          },
+        ]
+      }
+      testID="switch"
+      thumbTintColor="#FFF"
+      tintColor="#AAA"
+      value={false}
+    />
+    <Text>
+      Push notifications
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Storyshots components/Switch True 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F5FCFF",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="#fef1da"
+      style={
+        Array [
+          Object {
+            "height": 31,
+            "width": 51,
+          },
+          Object {
+            "alignSelf": "flex-start",
+            "display": "flex",
+          },
+        ]
+      }
+      testID="switch"
+      thumbTintColor="#FDE2B5"
+      tintColor="#AAA"
+      value={true}
+    />
+    <Text />
+  </View>
+</View>
+`;
+
+exports[`Storyshots components/Switch True with label 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F5FCFF",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <RCTSwitch
+      accessibilityRole="switch"
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onTintColor="#fef1da"
+      style={
+        Array [
+          Object {
+            "height": 31,
+            "width": 51,
+          },
+          Object {
+            "alignSelf": "flex-start",
+            "display": "flex",
+          },
+        ]
+      }
+      testID="switch"
+      thumbTintColor="#FDE2B5"
+      tintColor="#AAA"
+      value={true}
+    />
+    <Text>
+      Push notifications
+    </Text>
+  </View>
+</View>
+`;
