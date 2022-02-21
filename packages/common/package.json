@@ -1,6 +1,6 @@
 {
   "name": "@diplicity/common",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "src/index.ts",
   "typings": "src/index.d.ts",
@@ -10,5 +10,9 @@
   "bugs": {},
   "devDependencies": {
     "typescript": "^4.3.5"
+  },
+  "peerDependencies": {
+    "i18next": "^21.6.11",
+    "react-i18next": "^11.15.4"
   }
 }
