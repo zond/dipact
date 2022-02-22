@@ -1,6 +1,4 @@
-import { feedbackSelectors } from "../store/feedback";
-import * as selectors from "../store/selectors";
-import { RootState } from "../store/store";
+import { selectors, RootState } from "@diplicity/common"
 import {
   Channel,
   ColorOverrides,
@@ -9,7 +7,7 @@ import {
   MutationStatus,
   User,
   Variant,
-} from "../store/types";
+} from "@diplicity/common";
 
 import { useAppSelector } from "./store";
 
@@ -17,7 +15,7 @@ export const useColorOverrides = (): ColorOverrides =>
   useAppSelector(selectors.selectColorOverrides);
 
 export const useFeedback = (): Feedback[] =>
-  useAppSelector(feedbackSelectors.selectAll);
+  useAppSelector(selectors.feedback.selectAll);
 
 export const useHasPlayed = (): boolean =>
   useAppSelector(selectors.selectHasPlayed);

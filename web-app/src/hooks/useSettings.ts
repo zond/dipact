@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { FormEvent, useEffect, useState } from "react";
 import Globals from "../Globals";
-import { ColorOverrides, SettingsFormValues, UserConfig, Variant } from "../store/types";
+import { ColorOverrides, SettingsFormValues, UserConfig, Variant } from "@diplicity/common";
 import {
   useColorOverrides,
 } from "./selectors";

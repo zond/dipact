@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { Game, Message as StoreMessage, Phase, Variant } from "../store/types";
+import { Game, Message as StoreMessage, Phase, Variant } from "@diplicity/common";
 import { getNationAbbreviation, getNationColor, getNationFlagLink } from "../utils/general";
 import { useSelectVariant } from "./selectors";
 import {

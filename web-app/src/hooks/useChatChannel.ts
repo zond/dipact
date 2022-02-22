@@ -7,7 +7,7 @@ import {
   Phase,
   User,
   Variant,
-} from "../store/types";
+} from "@diplicity/common";
 import {
   getNationAbbreviation,
   getNationColor,

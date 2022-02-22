@@ -57,6 +57,7 @@ export const Routes = (): React.ReactElement => {
 
 const Router = (): React.ReactElement => {
   const isLoggedIn = useSelectIsLoggedIn();
+  console.log("HEREA;");
 
   return (
     <BrowserRouter>

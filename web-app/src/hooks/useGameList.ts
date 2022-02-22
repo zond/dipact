@@ -1,14 +1,14 @@
 import { useContext, createContext, useEffect, useState } from "react";
 import { useGetRootQuery, useListGamesQuery } from "./service";
 import { ApiError } from "./types";
-import { Game as StoreGame, User } from "../store/types";
+import { Game as StoreGame, User } from "@diplicity/common";
 import isoCodes from "../utils/isoCodes";
 import {
   getPhaseDisplay,
   phaseLengthDisplay,
   timeStrToDate,
 } from "../utils/general";
-import { ListGameFilters } from "../store/service";
+import { ListGameFilters } from "@diplicity/common";
 import { translateKeys as tk } from "@diplicity/common";
 
 // TODO move to types

@@ -1,6 +1,4 @@
-import Messaging from "./static/js/messaging";
-
-import { User } from "@diplicity/common";
+import { User } from ".";
 import contrastColors from "./utils/contrastColors";
 
 // eslint-disable-next-line no-restricted-globals
@@ -49,7 +47,7 @@ window.Globals = {
 	snackbar: null,
 	variants: [],
 	memoizeCache: {},
-	messaging: Messaging,
+	// messaging: Messaging,
 	contrastColors: contrastColors,
 	colorOverrides: {
 		nationCodes: {},

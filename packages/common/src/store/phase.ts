@@ -8,10 +8,10 @@ const phaseSlice = createSlice({
   name: "phase",
   initialState: initialState as PhaseState,
   reducers: {
-    set: (state, action: PayloadAction<number>) => {
+    set: (_, action: PayloadAction<number>) => {
       return action.payload;
     },
-    clear: (state) => {
+    clear: () => {
       return null;
     },
   },

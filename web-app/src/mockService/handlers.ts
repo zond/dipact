@@ -5,7 +5,7 @@ import {
   ListPhaseStatesResponse,
   PhaseState,
   PhaseStateResponse,
-} from "../store/types";
+} from "@diplicity/common";
 
 import bansSuccess from "./responses/bansSuccess.json";
 import createGameSuccess from "./responses/createGameSuccess.json";

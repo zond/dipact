@@ -10,7 +10,7 @@ import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
 import { Severity } from "./types";
 import { getQueryMatchers } from "./utils";
-import { translateKeys as tk } from "@diplicity/common";
+import { translateKeys as tk } from "../translations";
 
 const GTAG_DEFAULT_CATEGORY = "(not set)";
 const PAGE_VIEW_ACTION = "page_view";
@@ -86,6 +86,7 @@ const getFeedbackForRequest = (action: Action<any>) => {
   } else if (queryMatchers.matchDeleteGameRejected(action)) {
     return getFeedback(Severity.Error, tk.feedback.deleteGame.rejected);
   }
+  return;
 };
 
 export const feedbackRequestMiddleware: Middleware<{}, any> =

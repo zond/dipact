@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-
-import { actions as uiActions, PageName } from "../store/ui";
+import { uiActions, PageName } from "@diplicity/common";
 
 const usePageLoad = (pageName: PageName): void => {
   const dispatch = useDispatch();

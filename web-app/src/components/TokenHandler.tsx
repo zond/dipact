@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import Globals from "../Globals";
 
-import { actions as authActions } from "../store/auth";
+import { authActions } from "@diplicity/common";
 
 interface TokenHandlerProps {
   children: React.ReactNode;
@@ -20,16 +20,16 @@ const TokenHandler = ({ children }: TokenHandlerProps): React.ReactElement => {
     const searchParams = new URLSearchParams(location.search);
     const token = searchParams.get("token");
     if (token) {
-        searchParams.delete("token");
-        history.replace({
-            search: searchParams.toString(),
-        })
+      searchParams.delete("token");
+      history.replace({
+        search: searchParams.toString(),
+      });
     }
     if (token) {
-        dispatch(authActions.login(token));
-        Globals.serverRequest.headers.set("Authorization", "bearer " + token);
+      dispatch(authActions.login(token));
+      Globals.serverRequest.headers.set("Authorization", "bearer " + token);
     }
-  }, [dispatch, history, location.search])
+  }, [dispatch, history, location.search]);
   return <>{children}</>;
 };
 

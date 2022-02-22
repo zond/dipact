@@ -1,4 +1,4 @@
-import { ListPhaseStatesResponse, PhaseStateResponse } from "../../store/types";
+import { ListPhaseStatesResponse, PhaseStateResponse } from "@diplicity/common";
 
 const NAME = "phase-states";
 const TYPE = "PhaseState";

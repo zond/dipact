@@ -1,7 +1,7 @@
 import murmurhash from "murmurhash-js";
 
 import Globals from "../Globals";
-import { ColorOverrides, Game, Phase, Variant } from "../store/types";
+import { ColorOverrides, Game, Phase, Variant } from "@diplicity/common";
 
 const DiplicitySender = "Diplicity";
 const OttoURL = "https://diplicity-engine.appspot.com/img/otto.png";

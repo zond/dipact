@@ -5,7 +5,7 @@ import {
   Channel as StoreChannel,
   Variant,
   Phase,
-} from "../store/types";
+} from "@diplicity/common";
 import {
   getNationAbbreviation,
   getNationColor,

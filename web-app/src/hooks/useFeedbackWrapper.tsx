@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { Feedback } from "../store/types";
+import { Feedback, feedbackActions } from "@diplicity/common";
 import { useFeedback } from "./selectors";
-import { actions as feedbackActions } from "../store/feedback";
+import {} from "@diplicity/common";
 
 interface IUseFeedbackWrapper {
     feedback: Feedback[];
@@ -11,7 +11,10 @@ interface IUseFeedbackWrapper {
 
 const useFeedbackWrapper = (): IUseFeedbackWrapper => {
   const feedback = useFeedback();
+  console.log("HERE");
   const dispatch = useDispatch();
+
+  console.log("HERE");
 
   const handleClose = (id: number) => dispatch(feedbackActions.clear(id));
 

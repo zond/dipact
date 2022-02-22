@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { Nation } from "../components/Orders/NationSummary";
 import { OrderDisplay } from "../components/Orders/Order";
 
-import { Game, Member, Phase, PhaseState, User, Variant } from "../store/types";
+import { Game, Member, Phase, PhaseState, User, Variant } from "@diplicity/common";
 import { useSelectPhase, useSelectVariant } from "./selectors";
 import {
   useGetGameQuery,

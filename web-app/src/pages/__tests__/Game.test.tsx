@@ -5,7 +5,7 @@ import { setupServer } from "msw/node";
 import { createMemoryHistory, MemoryHistory } from "history";
 
 import { handlers } from "../../mockService/handlers";
-import { ReduxWrapper } from "../../store/testUtils";
+import { ReduxWrapper } from "@diplicity/common";
 import { RouteConfig } from "../../pages/RouteConfig";
 import { userSeesLoadingSpinner } from "../testUtils";
 import Game from "../Game";

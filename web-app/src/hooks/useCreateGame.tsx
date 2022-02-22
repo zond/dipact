@@ -1,14 +1,14 @@
 import { FormikErrors, useFormik } from "formik";
 import { createContext, FormEvent, useContext, useEffect, useState } from "react";
 import { randomGameName } from "../helpers";
-import { CreateGameFormValues, UserStats, Variant } from "../store/types";
+import { CreateGameFormValues, UserStats, Variant } from "@diplicity/common";
 import {
   useGetRootQuery,
   useLazyGetUserStatsQuery,
   useLazyGetVariantSVGQuery,
   useListVariantsQuery,
 } from "./service";
-import { actions as uiActions, PageName } from "../store/ui";
+import { uiActions, PageName } from "@diplicity/common";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import { translateKeys as tk } from "@diplicity/common";

@@ -3,8 +3,8 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Component from "../components/Chat/ChatMessage";
 import { Message } from "../hooks/useChatMessagesList";
-import { Phase } from "../store/types";
-import { phase } from "../store/testData";
+import { Phase } from "@diplicity/common";
+import { phase } from "@diplicity/common";
 
 export default {
   title: "components/Chat/ChatMessage",

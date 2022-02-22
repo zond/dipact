@@ -4,7 +4,7 @@ import {
   Channel as StoreChannel,
   Message as StoreMessage,
   Phase,
-} from "../store/types";
+} from "@diplicity/common";
 
 export type Message = StoreMessage & {
   phase: Phase;

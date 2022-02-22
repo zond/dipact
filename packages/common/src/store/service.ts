@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Globals from "../Globals";
 
 import { selectToken } from "./selectors";
 import { RootState } from "./store";
@@ -107,14 +106,8 @@ export const diplicityService = createApi({
     }),
     getRoot: builder.query<User | null, undefined>({
       query: () => "/",
-      transformResponse: (response: RootResponse, meta) => {
+      transformResponse: (response: RootResponse) => {
         return response.Properties?.User || null;
-      },
-      onQueryStarted: async (arg, { queryFulfilled }) => {
-        try {
-          const { data } = await queryFulfilled;
-          Globals.user = data;
-        } catch (err) {}
       },
     }),
     getForumMail: builder.query<ForumMailResponse, undefined>({

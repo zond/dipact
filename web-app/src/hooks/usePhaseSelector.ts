@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 
-import { Phase } from "../store/types";
+import { Phase } from "@diplicity/common";
 import { useSelectPhase } from "./selectors";
 import { useListPhasesQuery } from "./service";
 import { getPhaseName, getCombinedQueryState } from "./utils";
-import { actions as phaseActions } from "../store/phase";
+import { phaseActions } from "@diplicity/common";
 import { ApiResponse } from "./types";
 import { createContext, useContext } from "react";
 

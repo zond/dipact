@@ -1,4 +1,4 @@
-import { Order, Phase, SCState, Unit, UnitState } from "../store/types";
+import { Order, Phase, SCState, Unit, UnitState } from "@diplicity/common";
 
 type MapPhase = Omit<Phase, "Units"> & {
   SupplyCenters: { [key: string]: string };
