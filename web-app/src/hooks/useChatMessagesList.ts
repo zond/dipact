@@ -1,7 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { Game, Message as StoreMessage, Phase, Variant } from "@diplicity/common";
-import { getNationAbbreviation, getNationColor, getNationFlagLink } from "../utils/general";
+import {
+  Game,
+  Message as StoreMessage,
+  Phase,
+  Variant,
+  getNationAbbreviation,
+  getNationColor,
+  getNationFlagLink,
+} from "@diplicity/common";
 import { useSelectVariant } from "./selectors";
 import {
   useGetGameQuery,
@@ -105,9 +112,8 @@ const useChatMessagesList = (
   };
 };
 
-export const ChatMessagesListStub = createContext<
-  null | typeof useChatMessagesList
->(null);
+export const ChatMessagesListStub =
+  createContext<null | typeof useChatMessagesList>(null);
 
 const useGetHook = (): ((
   gameId: string,

@@ -4,7 +4,7 @@ import {
   PhaseResponse,
   SCState,
 } from "@diplicity/common";
-import { getPhaseName } from "../../utils/general";
+import { getPhaseName } from "@diplicity/common";
 
 const NAME = "phases";
 const TYPE = "Phase";

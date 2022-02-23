@@ -7,11 +7,11 @@ import {
   Phase,
   User,
   Variant,
-} from "@diplicity/common";
-import {
   getNationAbbreviation,
   getNationColor,
   getNationFlagLink,
+} from "@diplicity/common";
+import {
 } from "../utils/general";
 import { useSelectChannel, useSelectVariant } from "./selectors";
 import {

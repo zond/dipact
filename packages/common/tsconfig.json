@@ -20,6 +20,6 @@
     "types": ["jest", "node"],
     "typeRoots": ["./types", "./node_modules/@types"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "lib", "**/*.spec.ts", "**/*.test.ts"]
+  "include": ["src", "jest.config.ts"],
+  "exclude": ["node_modules", "lib"]
 }

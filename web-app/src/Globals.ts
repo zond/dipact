@@ -1,7 +1,6 @@
 import Messaging from "./static/js/messaging";
 
-import { User } from "@diplicity/common";
-import contrastColors from "./utils/contrastColors";
+import { contrastColors, User } from "@diplicity/common";
 
 // eslint-disable-next-line no-restricted-globals
 const hrefURL = new URL(location.href);
