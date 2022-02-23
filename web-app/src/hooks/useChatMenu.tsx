@@ -1,5 +1,5 @@
 import { useEffect, createContext, useContext, useState } from "react";
-import { Game, Variant } from "../store/types";
+import { Game, Variant } from "@diplicity/common";
 import { useSelectVariant } from "./selectors";
 import {
   useGetGameQuery,

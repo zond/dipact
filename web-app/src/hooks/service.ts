@@ -1,4 +1,4 @@
-import { diplicityService } from "../store/service";
+import { diplicityService } from "@diplicity/common";
 
 export const {
   useCreateGameMutation,

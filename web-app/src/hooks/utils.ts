@@ -5,12 +5,10 @@ import {
   Channel as StoreChannel,
   Variant,
   Phase,
-} from "../store/types";
-import {
   getNationAbbreviation,
   getNationColor,
   getNationFlagLink,
-} from "../utils/general";
+} from "@diplicity/common";
 import { ApiError, Channel, CombinedQuery, CombinedQueryState, DiplicityError } from "./types";
 
 export const EVERYONE = "Everyone";

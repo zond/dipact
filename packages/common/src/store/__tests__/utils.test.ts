@@ -18,6 +18,9 @@ const defaultVariant: Variant = {
 	Description: "",
 	Rules: "",
 	OrderTypes: [""],
+	Graph: { Nodes: {} },
+	Links: null,
+	ExtraDominanceRules: {},
 };
 
 const defaultVariantResponse: VariantResponse = {

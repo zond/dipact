@@ -18,9 +18,8 @@ import {
   createListPhaseStateHandler,
   handlers,
 } from "../../mockService/handlers";
-import { ReduxWrapper } from "../../store/testUtils";
+import { diplicityServiceURL, ReduxWrapper } from "@diplicity/common";
 import { RouteConfig } from "../../pages/RouteConfig";
-import { diplicityServiceURL } from "../../store/service";
 import Orders from "../Orders";
 import { userSeesLoadingSpinner, userSeesPhaseSelector } from "../testUtils";
 import {

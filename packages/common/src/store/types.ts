@@ -11,6 +11,17 @@ type Link = {
   JSONschema: string; // TODO
 };
 
+export enum GameStatus {
+  Started = "started",
+  Staging = "staging",
+  Finished = "finished",
+}
+
+export enum NationAllocation {
+  Random = "Random",
+  Preference = "Preference",
+}
+
 export type Unit = {
   Type: string;
   Nation: string;
@@ -380,6 +391,36 @@ export type Game = NewGame & {
   FinishedAt: string;
   FinishedAgo: string;
 };
+
+interface Player {
+  username: string;
+  image: string;
+}
+
+export interface GameDisplay {
+  chatDisabled: boolean;
+  chatLanguage: string;
+  chatLanguageDisplay: string;
+  createdAtDisplay: string;
+  deadlineDisplay: string;
+  failedRequirements: string[];
+  gameVariant: string;
+  id: string;
+  minQuickness: number | null;
+  minRating: number | null;
+  minReliability: number | null;
+  name: string;
+  nationAllocation: NationAllocation;
+  numUnreadMessages: number;
+  phaseSummary: string;
+  players: Player[];
+  privateGame: boolean;
+  rulesSummary: string;
+  started: boolean;
+  userIsMember: boolean;
+  userIsGameMaster: boolean;
+  variantNumNations: number;
+}
 
 export type GameState = {
   GameID: string;

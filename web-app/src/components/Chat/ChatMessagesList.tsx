@@ -4,7 +4,7 @@ import ChatMessage from "./ChatMessage";
 import ChatNewMessagesBanner from "./ChatNewMessagesBanner";
 import ChatPhaseDivider from "./ChatPhaseDivider";
 import NationAvatar, { withMuted } from "../NationAvatar";
-import { getPhaseName } from "../../utils/general";
+import { getPhaseName } from "@diplicity/common";
 import ChatMessageWithAvatar from "./ChatMessageWithAvatar";
 import { Message } from "../../hooks/types";
 

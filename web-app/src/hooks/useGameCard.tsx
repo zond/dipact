@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { actions as feedbackActions } from "../store/feedback";
+import { feedbackActions } from "@diplicity/common";
 import { useDeleteGameMutation, useJoinGameMutation } from "../hooks/service";
 import { copyToClipboard } from "../utils/general";
 import { registerEvent } from "./useRegisterPageview";

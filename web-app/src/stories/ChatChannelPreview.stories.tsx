@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import Component from "../components/Chat/ChatChannelPreview";
 import * as NationAvatarStories from "./NationAvatar.stories";
-import { Message } from "../store/types";
+import { Message } from "@diplicity/common";
 import { Channel } from "../hooks/types";
 
 export default {

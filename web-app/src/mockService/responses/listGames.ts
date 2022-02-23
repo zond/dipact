@@ -1,5 +1,5 @@
-import { GameStatus } from "../../hooks/useGameList";
-import { GameMasterInvitation } from "../../store/types";
+import { GameStatus } from "@diplicity/common";
+import { GameMasterInvitation } from "@diplicity/common";
 
 interface Options {
   failedRequirements?: string[];

@@ -8,7 +8,7 @@ import {
   Phase,
   Unit,
   UnitState,
-} from "../store/types";
+} from "@diplicity/common";
 import { dippyMap } from "../static/js/dippymap";
 import {
   CommandType,

@@ -16,7 +16,6 @@ import { createMemoryHistory } from "history";
 
 import { handlers } from "../../mockService/handlers";
 import { RouteConfig } from "../../pages/RouteConfig";
-import { diplicityServiceURL } from "../../store/service";
 import { MemoryHistory } from "history";
 import ChatChannel from "../ChatChannel";
 import {
@@ -26,7 +25,7 @@ import {
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import theme from "../../theme";
 import { Provider } from "react-redux";
-import { createTestStore } from "../../store";
+import { createTestStore, diplicityServiceURL } from "@diplicity/common";
 
 const server = setupServer(
   handlers.getGame.success,

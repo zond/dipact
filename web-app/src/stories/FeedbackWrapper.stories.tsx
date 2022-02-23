@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Component from "../components/FeedbackWrapper";
 import { feedbackWrapperDecorator } from "../hooks/useFeedbackWrapper";
-import { Severity } from "../store/types";
+import { Severity } from "@diplicity/common";
 
 export default {
   title: "components/FeedbackWrapper",

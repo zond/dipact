@@ -1,4 +1,4 @@
-name: Linting
+name: Lint web app
 on: push
 jobs:
   build:

@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { Feedback } from "../store/types";
+import { Feedback, feedbackActions } from "@diplicity/common";
 import { useFeedback } from "./selectors";
-import { actions as feedbackActions } from "../store/feedback";
+import {} from "@diplicity/common";
 
 interface IUseFeedbackWrapper {
     feedback: Feedback[];

@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { useEffect, useMemo } from "react";
 
-import { actions as phaseActions } from "../store/phase";
+import { phaseActions } from "@diplicity/common";
 import { useSelectPhase } from "./selectors";
 
 // TODO test

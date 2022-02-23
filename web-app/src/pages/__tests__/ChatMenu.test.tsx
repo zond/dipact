@@ -7,9 +7,8 @@ import { setupServer } from "msw/node";
 import { createMemoryHistory, MemoryHistory } from "history";
 
 import { handlers } from "../../mockService/handlers";
-import { ReduxWrapper } from "../../store/testUtils";
 import { RouteConfig } from "../../pages/RouteConfig";
-import { diplicityServiceURL } from "../../store/service";
+import { diplicityServiceURL, ReduxWrapper } from "@diplicity/common";
 import { EVERYONE } from "../../hooks/utils";
 import ChatMenu from "../ChatMenu";
 import {

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react-hooks";
 import useRegisterPageView from "../useRegisterPageview";
-import { mockFunction } from "../../utils/test";
+import { mockFunction } from "@diplicity/common";
 import { set, event } from "react-ga";
 
 // Mock ReactGA

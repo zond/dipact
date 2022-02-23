@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
-import { Variant } from "../store/types";
+import { Variant } from "@diplicity/common";
 
 import { useSelectPhase, useSelectVariant, useSelectVariantUnitSvgs } from "./selectors";
 import {

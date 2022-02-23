@@ -7,7 +7,7 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-import { diplicityServiceURL } from "../../store/service";
+import { createTestStore, diplicityServiceURL } from "@diplicity/common";
 
 import { generatePath, Router, Route, Switch } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
@@ -22,7 +22,6 @@ import * as generalUtils from "../../utils/general";
 import NationPreferencesDialog from "../../components/NationPreferencesDialog";
 import FeedbackWrapper from "../../components/FeedbackWrapper";
 import { Provider } from "react-redux";
-import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
 import RescheduleDialog from "../../components/RescheduleDialog";
 import ManageInvitationsDialog, {

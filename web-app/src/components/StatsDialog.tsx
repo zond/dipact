@@ -12,7 +12,7 @@ import {
 import React, { useEffect } from "react";
 import useSearchParams from "../hooks/useSearchParams";
 import { useTranslation } from "react-i18next";
-import { PageName } from "../store/ui";
+import { PageName } from "@diplicity/common";
 import { translateKeys as tk } from "@diplicity/common";
 import {
   useLazyGetGameQuery,
@@ -22,7 +22,7 @@ import {
   useLazyListUserBansQuery,
 } from "../hooks/service";
 import { useLazyPageLoad } from "../hooks/usePageLoad";
-import { User, UserStats } from "../store/types";
+import { User, UserStats } from "@diplicity/common";
 import {
   ratingPercentile as getRatingPercentile,
   twoDecimals,

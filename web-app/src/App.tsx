@@ -16,7 +16,7 @@ const App = (): React.ReactElement => {
         <TokenHandler>
           <FeedbackWrapper>
             <ErrorDialogWrapper>
-                <Router />
+              <Router />
             </ErrorDialogWrapper>
           </FeedbackWrapper>
         </TokenHandler>

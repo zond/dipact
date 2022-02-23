@@ -2,7 +2,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Component from "../components/GameCard";
-import { NationAllocation } from "../hooks/useGameList";
+import { NationAllocation } from "@diplicity/common";
 import { routerDecorator } from "./decorators";
 import { gameCardDecorator } from "../hooks/useGameCard";
 import { Container } from "@mui/material";

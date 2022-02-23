@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-
-} from "@testing-library/react";
-import { diplicityServiceURL } from "../../store/service";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 
 import { generatePath, Router, Route, Switch } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
@@ -21,9 +14,8 @@ import CreateGame from "../CreateGame";
 import theme from "../../theme";
 import FeedbackWrapper from "../../components/FeedbackWrapper";
 import { Provider } from "react-redux";
-import { createTestStore } from "../../store";
 import ReactGA from "react-ga";
-import { translateKeys as tk } from "@diplicity/common";
+import { createTestStore, diplicityServiceURL, translateKeys as tk } from "@diplicity/common";
 
 const server = setupServer(
   handlers.getUser.success,
@@ -162,7 +154,9 @@ describe("Create game functional tests", () => {
     await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
     await waitFor(() => screen.getByDisplayValue(randomGameName));
     const input = screen.getByLabelText(tk.createGame.nameInput.label);
-    const button = screen.getByTitle(tk.createGame.randomizeGameNameButton.title);
+    const button = screen.getByTitle(
+      tk.createGame.randomizeGameNameButton.title
+    );
     fireEvent.change(input, { target: { value: "Some string" } });
     await waitFor(() => screen.getByDisplayValue("Some string"));
     fireEvent.click(button);

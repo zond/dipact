@@ -1,7 +1,7 @@
 import { useContext, createContext } from "react";
 import { useDispatch } from "react-redux";
 
-import { actions as authActions } from "../store/auth";
+import { authActions } from "@diplicity/common";
 import { useSelectUser } from "./selectors";
 
 export interface IUseMainMenu {

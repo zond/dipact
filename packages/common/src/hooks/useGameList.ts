@@ -1,80 +1,25 @@
 import { useContext, createContext, useEffect, useState } from "react";
-import { useGetRootQuery, useListGamesQuery } from "./service";
-import { ApiError } from "./types";
-import { Game as StoreGame, User } from "../store/types";
-import isoCodes from "../utils/isoCodes";
+import { diplicityService } from "../store/service";
+import { Game as StoreGame, User, GameDisplay } from "../store/types";
+import { ListGameFilters } from "../store/service";
 import {
   getPhaseDisplay,
+  nationAllocationMap,
   phaseLengthDisplay,
   timeStrToDate,
 } from "../utils/general";
-import { ListGameFilters } from "../store/service";
-import { translateKeys as tk } from "@diplicity/common";
-
-// TODO move to types
-export enum GameStatus {
-  Started = "started",
-  Staging = "staging",
-  Finished = "finished",
-}
-
-// TODO move to types
-export enum NationAllocation {
-  Random = "Random",
-  Preference = "Preference",
-}
-
-// TODO move to types
-export const nationAllocationMap: { [key: number]: NationAllocation } = {
-  0: NationAllocation.Random,
-  1: NationAllocation.Preference,
-};
-
-export const nationAllocationTranslations: { [key: string]: string } = {
-  [NationAllocation.Random]: tk.nationAllocationOptions.random,
-  [NationAllocation.Preference]: tk.nationAllocationOptions.preference,
-}
-
-interface Player {
-  username: string;
-  image: string;
-}
-
-export interface Game {
-  chatDisabled: boolean;
-  chatLanguage: string;
-  chatLanguageDisplay: string;
-  createdAtDisplay: string;
-  deadlineDisplay: string;
-  failedRequirements: string[];
-  gameVariant: string;
-  id: string;
-  minQuickness: number | null;
-  minRating: number | null;
-  minReliability: number | null;
-  name: string;
-  nationAllocation: NationAllocation;
-  numUnreadMessages: number;
-  phaseSummary: string;
-  players: Player[];
-  privateGame: boolean;
-  rulesSummary: string;
-  started: boolean;
-  userIsMember: boolean;
-  userIsGameMaster: boolean;
-  variantNumNations: number;
-}
+import isoCodes from "../utils/isoCodes";
 
 interface IUseGameList {
-  games: Game[];
+  games: GameDisplay[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
   isSuccess: boolean;
-  error?: ApiError;
+  error?: any;
 }
 
-const transformGame = (game: StoreGame, user: User): Game => {
+const transformGame = (game: StoreGame, user: User): GameDisplay => {
   const userIsGameMaster = game.GameMaster.Id === user.Id;
   const userIsMember = Boolean(
     game.Members.find((member) => member.User.Id === user.Id)
@@ -112,11 +57,10 @@ const transformGame = (game: StoreGame, user: User): Game => {
 };
 
 const useGameList = (filters: ListGameFilters) => {
-  const userQuery = useGetRootQuery(undefined);
-  const { isLoading, isError, isSuccess, isFetching, data } = useListGamesQuery(
-    filters
-  );
-  const [games, setGames] = useState<Game[]>([]);
+  const userQuery = diplicityService.useGetRootQuery(undefined);
+  const { isLoading, isError, isSuccess, isFetching, data } =
+    diplicityService.useListGamesQuery(filters);
+  const [games, setGames] = useState<GameDisplay[]>([]);
 
   useEffect(() => {
     if (userQuery.isSuccess && isSuccess && userQuery.data) {

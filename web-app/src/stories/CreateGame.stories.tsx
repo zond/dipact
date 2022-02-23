@@ -12,7 +12,7 @@ import {
   IUseCreateGame,
   createGameDecorator,
 } from "../hooks/useCreateGame";
-import { Variant } from "../store/types";
+import { Variant } from "@diplicity/common";
 
 export default {
   title: "pages/CreateGame",

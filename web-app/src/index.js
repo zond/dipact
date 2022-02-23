@@ -7,15 +7,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import { Provider } from "react-redux";
-import { store } from "./store";
 import theme from "./theme";
 import Globals from "./Globals";
 import "@fontsource/cabin";
 import worker from "./mockService/browser";
 import { I18nextProvider } from "react-i18next";
-import i18next from "i18next";
-// eslint-disable-next-line no-unused-vars
-import { i18n } from "@diplicity/common";
+import { i18n, store } from "@diplicity/common";
 
 if (process.env.NODE_ENV === "development") {
   worker.start();
@@ -26,7 +23,7 @@ ReactDOM.render(
     <Provider store={store}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <I18nextProvider i18n={i18next}>
+          <I18nextProvider i18n={i18n}>
             <App />
           </I18nextProvider>
         </ThemeProvider>

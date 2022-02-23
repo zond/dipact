@@ -10,7 +10,7 @@ import { generatePath } from "react-router-dom";
 import GameCard from "../components/GameCard";
 import Loading from "../components/Loading";
 import MainMenu from "../components/MainMenu";
-import useGameList, { GameStatus } from "../hooks/useGameList";
+import { useGameList, GameStatus } from "@diplicity/common";
 import useSearchParams from "../hooks/useSearchParams";
 import { CreateMessageIcon } from "../icons";
 import { RouteConfig } from "./RouteConfig";

@@ -2,7 +2,7 @@ import $ from "jquery";
 import makeStyles from "@mui/styles/makeStyles";
 import { useEffect, useState, useRef } from "react";
 
-import { Variant } from "../store/types";
+import { Variant } from "@diplicity/common";
 import { DippyMap, Order as MapOrder } from "../utils/DippyMap";
 
 interface MapProps {
