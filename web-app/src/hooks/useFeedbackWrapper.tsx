@@ -11,10 +11,7 @@ interface IUseFeedbackWrapper {
 
 const useFeedbackWrapper = (): IUseFeedbackWrapper => {
   const feedback = useFeedback();
-  console.log("HERE");
   const dispatch = useDispatch();
-
-  console.log("HERE");
 
   const handleClose = (id: number) => dispatch(feedbackActions.clear(id));
 

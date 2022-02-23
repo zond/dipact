@@ -12,8 +12,7 @@ import Globals from "./Globals";
 import "@fontsource/cabin";
 import worker from "./mockService/browser";
 import { I18nextProvider } from "react-i18next";
-import i18next from "i18next";
-import { store } from "@diplicity/common";
+import { i18n, store } from "@diplicity/common";
 
 if (process.env.NODE_ENV === "development") {
   worker.start();
@@ -24,7 +23,7 @@ ReactDOM.render(
     <Provider store={store}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-          <I18nextProvider i18n={i18next}>
+          <I18nextProvider i18n={i18n}>
             <App />
           </I18nextProvider>
         </ThemeProvider>
