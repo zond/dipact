@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",
-    "@diplicity/common": "^0.0.5",
+    "@diplicity/common": "^0.0.8",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@fontsource/cabin": "^4.4.5",

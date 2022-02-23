@@ -29,7 +29,7 @@ import Loading from "../components/Loading";
 import {
   nationAllocationMap,
   nationAllocationTranslations,
-} from "../hooks/useGameList";
+} from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 import { translateKeys as tk } from "@diplicity/common";
 

@@ -1,4 +1,4 @@
-import { GameStatus } from "../../hooks/useGameList";
+import { GameStatus } from "@diplicity/common";
 import { GameMasterInvitation } from "@diplicity/common";
 
 interface Options {

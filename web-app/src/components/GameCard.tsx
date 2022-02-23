@@ -15,7 +15,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { generatePath } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { Game, NationAllocation } from "../hooks/useGameList";
+import { GameDisplay, NationAllocation } from "@diplicity/common";
 import {
   ChatDisabledIcon,
   ChatLanguageIcon,
@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface GameCardProps {
-  game: Game;
+  game: GameDisplay;
 }
 
 const defaultProps = {

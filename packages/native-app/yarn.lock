@@ -1156,10 +1156,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@diplicity/common@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.5.tgz#06cff2e75bad3b5ee7540592146bf1ac18789bd1"
-  integrity sha512-93PQO2ICFrcC0LaYriLaiHpP5vsz8OgHlNZhYG/Jase549h9nyHmqBfjHHifPcUf1PaMhLbw6P+AgMH7mCu12g==
+"@diplicity/common@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.6.tgz#77006f713022ef3e15c18672635e9ea971931d5d"
+  integrity sha512-hG2df0TvtNY2iEdA0Cl5VrqRpGIw5XwFuDuABnmLIa8+c3KRKwIM/GfkbxVedynYnfJwOjnCn7BPsFbmS0T7jQ==
 
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"

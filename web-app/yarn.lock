@@ -1420,10 +1420,10 @@
   dependencies:
     "@date-io/core" "^2.11.0"
 
-"@diplicity/common@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.5.tgz#06cff2e75bad3b5ee7540592146bf1ac18789bd1"
-  integrity sha512-93PQO2ICFrcC0LaYriLaiHpP5vsz8OgHlNZhYG/Jase549h9nyHmqBfjHHifPcUf1PaMhLbw6P+AgMH7mCu12g==
+"@diplicity/common@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.7.tgz#e93c13e2b45f9c33abc475707d53ecd01164473f"
+  integrity sha512-r0GqB7qxA6m2mZX0UAA+l2D6YdgUj0FQGwF+3JBzd1RPVJ0dYFR+X/t8MIHWKoCZiB663Njwf+JvYhbadQPP5Q==
 
 "@discoveryjs/json-ext@^0.5.3":
   version "0.5.6"

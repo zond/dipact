@@ -23,7 +23,7 @@ import {
   useListVariantsQuery,
   useUnInviteMutation,
 } from "../hooks/service";
-import { nationAllocationMap } from "../hooks/useGameList";
+import { nationAllocationMap } from "@diplicity/common";
 import { registerEvent, registerPageView } from "../hooks/useRegisterPageview";
 import useSearchParams from "../hooks/useSearchParams";
 import { DeleteIcon } from "../icons";
