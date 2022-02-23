@@ -21,6 +21,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { theme } from "./theme";
 import StorybookUI from "./storybook";
+import "localstorage-polyfill";
 
 const LOAD_STORYBOOK: boolean = false;
 
