@@ -12,6 +12,8 @@ import React from "react";
 import { StyleSheet, Text, useColorScheme, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from "react-native-elements";
+import { Provider } from "react-redux";
+import { store } from "@diplicity/common";
 
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import Router from "./screens/Router";
@@ -23,13 +25,15 @@ import StorybookUI from "./storybook";
 const LOAD_STORYBOOK: boolean = false;
 
 const App = () => {
-	return (
-		<SafeAreaProvider>
-			<ThemeProvider theme={theme}>
-				<Router />
-			</ThemeProvider>
-		</SafeAreaProvider>
-	);
+  return (
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Router />
+        </ThemeProvider>
+      </Provider>
+    </SafeAreaProvider>
+  );
 };
 
 export default LOAD_STORYBOOK ? StorybookUI : App;
