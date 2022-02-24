@@ -13,8 +13,8 @@
     "build:esm": "tsc -p tsconfig.build.json",
     "build:cjs": "tsc -p tsconfig.build.json --module commonjs --outDir lib/cjs",
     "lint": "eslint src/**/*.{js,ts,tsx}",
-    "test": "jest",
-    "test-coverage": "jest --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\""
+    "test": "jest --detectOpenHandles",
+    "test-coverage": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\""
   },
   "bugs": {},
   "devDependencies": {

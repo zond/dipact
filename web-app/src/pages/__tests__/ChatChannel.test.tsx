@@ -25,7 +25,8 @@ import {
 import { ThemeProvider, StyledEngineProvider } from "@mui/material";
 import theme from "../../theme";
 import { Provider } from "react-redux";
-import { createTestStore, diplicityServiceURL } from "@diplicity/common";
+import { diplicityServiceURL } from "@diplicity/common";
+import { createTestStore } from "../../store";
 
 const server = setupServer(
   handlers.getGame.success,

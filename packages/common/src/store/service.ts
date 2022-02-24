@@ -2,7 +2,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { selectToken } from "./selectors";
-import { RootState } from "./store";
 import {
   UserRatingHistogramResponse,
   ListVariantsResponse,
@@ -60,9 +59,8 @@ export interface ListGameFilters {
   mastered: boolean;
 }
 
-const hrefURL = new URL(location.href);
 export const diplicityServiceURL = "https://diplicity-engine.appspot.com/";
-const serviceURL = localStorage.getItem("serverURL") || diplicityServiceURL;
+const serviceURL = diplicityServiceURL;
 
 export const diplicityService = createApi({
   tagTypes: [
@@ -76,13 +74,13 @@ export const diplicityService = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: serviceURL,
     prepareHeaders: (headers, { getState }) => {
-      const token = selectToken(getState() as RootState);
+      const token = selectToken(getState() as any);
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set(Headers.Authorization, `Bearer ${token}`);
       }
       headers.set(Headers.XDiplicityAPILevel, "8");
-      headers.set(Headers.XDiplicityClientName, "dipact@" + hrefURL.host);
+      headers.set(Headers.XDiplicityClientName, "dipact@"); // TODO
       headers.set(Headers.Accept, "application/json");
       return headers;
     },
@@ -125,7 +123,7 @@ export const diplicityService = createApi({
             response.userId = match.groups?.id;
           }
         }
-        return response.Properties.map(banResponse => banResponse.Properties);
+        return response.Properties.map((banResponse) => banResponse.Properties);
       },
     }),
     getUserConfig: builder.query<UserConfig, string>({
@@ -209,7 +207,7 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.ListGames],
     }),
-    getGameState: builder.query<GameState, { gameId: string, userId: string }>({
+    getGameState: builder.query<GameState, { gameId: string; userId: string }>({
       query: ({ gameId, userId }) => `/Game/${gameId}/GameStates/${userId}`,
       transformResponse: (response: GameStateResponse) => {
         return response.Properties;

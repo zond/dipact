@@ -1,4 +1,5 @@
-import { selectors, RootState } from "@diplicity/common"
+import { RootState } from "../store";
+import { selectors } from "@diplicity/common"
 import {
   Channel,
   ColorOverrides,

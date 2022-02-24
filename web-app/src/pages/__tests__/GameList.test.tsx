@@ -7,7 +7,8 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-import { createTestStore, diplicityServiceURL } from "@diplicity/common";
+import { diplicityServiceURL } from "@diplicity/common";
+import { createTestStore } from "../../store";
 
 import { generatePath, Router, Route, Switch } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";

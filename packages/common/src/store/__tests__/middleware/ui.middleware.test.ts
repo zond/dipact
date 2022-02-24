@@ -4,7 +4,7 @@ import {
 } from "../../middleware";
 import { actions, PageName } from "../../ui";
 import { actions as gaActions } from "../../ga";
-import { createMiddlewareAPI, ignoresOtherAction } from "./utils";
+import { createMiddlewareAPI, ignoresOtherAction } from "../../../utils/test";
 
 const userConfig = {};
 

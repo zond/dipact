@@ -1,4 +1,3 @@
-import { RootState } from "./store";
 import {
   CreateGameResponse,
   Game,
@@ -83,7 +82,7 @@ export const messaging: Messaging = {
   tokenOnServer: false,
 };
 
-export const initialState: RootState = {
+export const initialState: any = {
   auth: {
     isLoggedIn: false,
   },

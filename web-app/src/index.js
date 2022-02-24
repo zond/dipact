@@ -12,7 +12,8 @@ import Globals from "./Globals";
 import "@fontsource/cabin";
 import worker from "./mockService/browser";
 import { I18nextProvider } from "react-i18next";
-import { i18n, store } from "@diplicity/common";
+import { i18n } from "@diplicity/common";
+import { store } from "./store";
 
 if (process.env.NODE_ENV === "development") {
   worker.start();

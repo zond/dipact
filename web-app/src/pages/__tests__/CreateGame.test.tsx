@@ -15,7 +15,8 @@ import theme from "../../theme";
 import FeedbackWrapper from "../../components/FeedbackWrapper";
 import { Provider } from "react-redux";
 import ReactGA from "react-ga";
-import { createTestStore, diplicityServiceURL, translateKeys as tk } from "@diplicity/common";
+import { diplicityServiceURL, translateKeys as tk } from "@diplicity/common";
+import { createTestStore } from "../../store";
 
 const server = setupServer(
   handlers.getUser.success,

@@ -5,7 +5,7 @@ import {
   createThunkAction,
   ignoresOtherAction,
   RequestStatus,
-} from "./utils";
+} from "../../../utils/test";
 import { Severity } from "../../types";
 import { AnyAction } from "@reduxjs/toolkit";
 import tk from "../../../translations/translateKeys";

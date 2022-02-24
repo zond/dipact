@@ -1,6 +1,6 @@
 import { authLogoutMiddleware } from "../../middleware";
 import { actions } from "../../auth";
-import { createMiddlewareAPI, createThunkAction, ignoresOtherAction, RequestStatus } from "./utils";
+import { createMiddlewareAPI, createThunkAction, ignoresOtherAction, RequestStatus } from "../../../utils/test";
 
 describe("authLogoutMiddleware", () => {
   const middleware = authLogoutMiddleware;
