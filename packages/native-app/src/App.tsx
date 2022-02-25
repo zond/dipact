@@ -9,6 +9,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { theme } from "./theme";
 import StorybookUI from "./storybook";
+import Login from "./screens/Login";
 
 const LOAD_STORYBOOK: boolean = false;
 
@@ -17,7 +18,8 @@ const App = () => {
     <SafeAreaProvider>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <Router />
+          <Login />
+          {/* <Router /> */}
         </ThemeProvider>
       </Provider>
     </SafeAreaProvider>
