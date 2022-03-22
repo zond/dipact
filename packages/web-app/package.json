@@ -28,6 +28,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test  --watchAll=false --maxWorkers=50% --isolatedModules=true",
+    "test-unit": "craco test -t unit.test --watchAll=false --maxWorkers=50% --isolatedModules=true",
     "test-coverage": "craco test --watchAll=false --maxWorkers=50% --isolatedModules=true --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "eject": "craco eject",
     "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0"
@@ -53,5 +54,10 @@
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "craco-alias": "^3.0.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ]
   }
 }
