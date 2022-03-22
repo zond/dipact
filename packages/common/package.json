@@ -12,7 +12,7 @@
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc -p tsconfig.build.json",
     "build:cjs": "tsc -p tsconfig.build.json --module commonjs --outDir lib/cjs",
-    "lint": "eslint src/**/*.{js,ts,tsx}",
+    "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0",
     "test": "jest --detectOpenHandles",
     "test-coverage": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\""
   },
