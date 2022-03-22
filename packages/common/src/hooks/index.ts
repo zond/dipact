@@ -1,0 +1,1 @@
+export { default as useGameList } from "./useGameList";

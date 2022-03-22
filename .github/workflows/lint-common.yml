@@ -1,0 +1,11 @@
+name: Lint common
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn --cwd ./packages/common install -g --dev
+      - name: Run ESLint
+        run: yarn --cwd ./packages/common run lint
