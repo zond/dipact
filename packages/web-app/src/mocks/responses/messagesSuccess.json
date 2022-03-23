@@ -1,0 +1,70 @@
+{
+  "Name": "messages",
+  "Properties": [
+    {
+      "Name": "Austria",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQAsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIOQXVzdHJpYSxSdXNzaWEMCxIHTWVzc2FnZRiAgICf_p_zCAw",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Austria",
+          "Russia"
+        ],
+        "Sender": "Austria",
+        "Body": "Yep Rumania is all yours",
+        "CreatedAt": "2021-07-29T13:50:21.099982Z",
+        "Age": 4067528748454713
+      },
+      "Type": "Message",
+      "Links": null
+    },
+    {
+      "Name": "Russia",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQAsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIOQXVzdHJpYSxSdXNzaWEMCxIHTWVzc2FnZRiAgICv5ofGCAw",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Austria",
+          "Russia"
+        ],
+        "Sender": "Russia",
+        "Body": "If you help me into Romania you can have the rest of the Balkans I want to get out of the black sea",
+        "CreatedAt": "2021-07-29T13:48:50.424205Z",
+        "Age": 4067619424232260
+      },
+      "Type": "Message",
+      "Links": null
+    },
+    {
+      "Name": "Diplicity",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQAsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIOQXVzdHJpYSxSdXNzaWEMCxIHTWVzc2FnZRiAgICv5ofGCgw",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Austria",
+          "Russia"
+        ],
+        "Sender": "Diplicity",
+        "Body": "Please note that all messages become public after the game ends.",
+        "CreatedAt": "2021-07-29T13:48:49.424205Z",
+        "Age": 4067620424232399
+      },
+      "Type": "Message",
+      "Links": null
+    }
+  ],
+  "Desc": [
+    [
+      "Limiting messages",
+      "Messages normally contain all messages for the chosen channel, but if you provide a `since` query parameter they will only contain new messages since that time."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Austria,Russia/Messages",
+      "Method": "GET"
+    }
+  ]
+}

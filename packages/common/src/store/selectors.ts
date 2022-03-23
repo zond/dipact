@@ -37,7 +37,6 @@ const selectUserStats = (state: RootState): UserStats | undefined => {
 
 const selectJoinedGames = (state: RootState): number | undefined => {
   const userStats = selectUserStats(state);
-  console.log(userStats);
   return userStats?.JoinedGames || userStats?.PrivateStats?.JoinedGames;
 }
 

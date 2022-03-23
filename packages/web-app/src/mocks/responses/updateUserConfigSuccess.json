@@ -1,0 +1,263 @@
+{
+  "Name": "user-config",
+  "Properties": {
+    "UserId": "123456789",
+    "FCMTokens": [
+      {
+        "Value": "f5DEgC-746L6inCSji4kHw:APA91bGD3jhLzijLkFsDHlPXsCx7xS3b877cHvlk-s0LIEAySHCGDRXxaddfmedYdfs2nOBVzy9yYj_MWZ33NssgHOE01WOqotEzSGwlztUkEefGx9OGuDEBQPzkNRLW1xC29Z07bppY",
+        "Disabled": false,
+        "Note": "Created via dipact configuration on Fri Jul 30 2021 09:07:41 GMT+0100 (Irish Standard Time)",
+        "App": "dipact-v1@Browser/Random/1624289317589_0.7865896844750662",
+        "MessageConfig": {
+          "ClickActionTemplate": "",
+          "TitleTemplate": "",
+          "BodyTemplate": "",
+          "DontSendData": false,
+          "DontSendNotification": true
+        },
+        "PhaseConfig": {
+          "ClickActionTemplate": "",
+          "TitleTemplate": "",
+          "BodyTemplate": "",
+          "DontSendData": false,
+          "DontSendNotification": true
+        },
+        "ReplaceToken": ""
+      }
+    ],
+    "MailConfig": {
+      "Enabled": false,
+      "UnsubscribeConfig": {
+        "RedirectTemplate": "",
+        "HTMLTemplate": ""
+      },
+      "MessageConfig": {
+        "SubjectTemplate": "",
+        "TextBodyTemplate": "",
+        "HTMLBodyTemplate": ""
+      },
+      "PhaseConfig": {
+        "SubjectTemplate": "",
+        "TextBodyTemplate": "",
+        "HTMLBodyTemplate": ""
+      }
+    },
+    "Colors": [
+      "Classical/Austria/#b83229",
+      "Classical/England/#1d83d4"
+    ],
+    "PhaseDeadlineWarningMinutesAhead": 60
+  },
+  "Desc": [
+    [
+      "User configuration",
+      "Each diplicity user has exactly one user configuration. User configurations defined user selected configuration for all of diplicty, such as which FCM tokens should be notified of new press or new phases."
+    ],
+    [
+      "FCM tokens",
+      "Each FCM token has several fields.",
+      "A value, which is the registration ID received when registering with FCM.",
+      "A disabled flag which will turn notification to that token off, and which the server toggles if FCM returns errors when notifications are sent to that token.",
+      "A note field, which the server will populate with the reason the token was disabled.",
+      "An app field, which the app populating the token can use to identify tokens belonging to it to avoid removing/updating tokens belonging to other apps.",
+      "Two template fields, one for phase and one for message notifications.",
+      "Each token also has a `ReplaceToken` defined by the client. Defining a `ReplaceToken` other than the empty string allows the client to replace the `Value` in the token without requiring a regular authentication token."
+    ],
+    [
+      "ReplaceToken",
+      "To use the `ReplaceToken` to replace the `Value` of your FCM token, `PUT` a JSON body containing `{ 'Value': 'new token value' }` to `/User/{user_id}/FCMToken/{replace_token}/Replace`."
+    ],
+    [
+      "FCM templates",
+      "The FCM templates define the title, body and click action of the FCM notifications sent out.",
+      "They are parsed by a Handlebars parser (https://github.com/aymerick/raymond)."
+    ],
+    [
+      "New phase FCM notifications",
+      "FCM notifications for new phases will have the payload `{ DiplicityJSON: DATA }` where DATA is `{ phaseMeta: [phase JSON], gameID: [game ID], type: 'phase' }` compressed with libz. The on click action will open an HTML page displaying the map of the new phase."
+    ],
+    [
+      "New message FCM notifications",
+      "FCM notifications for new messages will have the payload `{ DiplicityJSON: DATA }` where DATA is `{ message: [message JSON], type: 'message' }` compressed with libz."
+    ],
+    [
+      "Email config",
+      "A user has an email config, defining if and how this user should receive email about new phases and messages.",
+      "The email config contains several fields.",
+      "An enabled flag which turns email notifications on.",
+      "Information about whether the unsubscribe link in the email should render some HTML or redirect to another host, defined by two Handlebars templates, one for the redirect link and one for the HTML to display.",
+      "Two template fields, one for phase and one for message notifications.",
+      "All templates will be parsed by the same parser as the FCM templates."
+    ]
+  ],
+  "Type": "UserConfig",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/UserConfig",
+      "Method": "GET"
+    },
+    {
+      "Rel": "update",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/UserConfig",
+      "Method": "PUT",
+      "JSONSchema": {
+        "type": "object",
+        "properties": {
+          "Colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "title": "Colors"
+          },
+          "FCMTokens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "App": {
+                  "type": "string",
+                  "title": "App"
+                },
+                "Disabled": {
+                  "type": "boolean",
+                  "title": "Disabled"
+                },
+                "MessageConfig": {
+                  "type": "object",
+                  "properties": {
+                    "BodyTemplate": {
+                      "type": "string",
+                      "title": "BodyTemplate"
+                    },
+                    "ClickActionTemplate": {
+                      "type": "string",
+                      "title": "ClickActionTemplate"
+                    },
+                    "DontSendData": {
+                      "type": "boolean",
+                      "title": "DontSendData"
+                    },
+                    "DontSendNotification": {
+                      "type": "boolean",
+                      "title": "DontSendNotification"
+                    },
+                    "TitleTemplate": {
+                      "type": "string",
+                      "title": "TitleTemplate"
+                    }
+                  },
+                  "title": "MessageConfig"
+                },
+                "Note": {
+                  "type": "string",
+                  "title": "Note"
+                },
+                "PhaseConfig": {
+                  "type": "object",
+                  "properties": {
+                    "BodyTemplate": {
+                      "type": "string",
+                      "title": "BodyTemplate"
+                    },
+                    "ClickActionTemplate": {
+                      "type": "string",
+                      "title": "ClickActionTemplate"
+                    },
+                    "DontSendData": {
+                      "type": "boolean",
+                      "title": "DontSendData"
+                    },
+                    "DontSendNotification": {
+                      "type": "boolean",
+                      "title": "DontSendNotification"
+                    },
+                    "TitleTemplate": {
+                      "type": "string",
+                      "title": "TitleTemplate"
+                    }
+                  },
+                  "title": "PhaseConfig"
+                },
+                "ReplaceToken": {
+                  "type": "string",
+                  "title": "ReplaceToken"
+                },
+                "Value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "title": "FCMTokens"
+          },
+          "MailConfig": {
+            "type": "object",
+            "properties": {
+              "Enabled": {
+                "type": "boolean",
+                "title": "Enabled"
+              },
+              "MessageConfig": {
+                "type": "object",
+                "properties": {
+                  "HTMLBodyTemplate": {
+                    "type": "string",
+                    "title": "HTMLBodyTemplate"
+                  },
+                  "SubjectTemplate": {
+                    "type": "string",
+                    "title": "SubjectTemplate"
+                  },
+                  "TextBodyTemplate": {
+                    "type": "string",
+                    "title": "TextBodyTemplate"
+                  }
+                },
+                "title": "MessageConfig"
+              },
+              "PhaseConfig": {
+                "type": "object",
+                "properties": {
+                  "HTMLBodyTemplate": {
+                    "type": "string",
+                    "title": "HTMLBodyTemplate"
+                  },
+                  "SubjectTemplate": {
+                    "type": "string",
+                    "title": "SubjectTemplate"
+                  },
+                  "TextBodyTemplate": {
+                    "type": "string",
+                    "title": "TextBodyTemplate"
+                  }
+                },
+                "title": "PhaseConfig"
+              },
+              "UnsubscribeConfig": {
+                "type": "object",
+                "properties": {
+                  "HTMLTemplate": {
+                    "type": "string",
+                    "title": "HTMLTemplate"
+                  },
+                  "RedirectTemplate": {
+                    "type": "string",
+                    "title": "RedirectTemplate"
+                  }
+                },
+                "title": "UnsubscribeConfig"
+              }
+            },
+            "title": "MailConfig"
+          },
+          "PhaseDeadlineWarningMinutesAhead": {
+            "type": "integer",
+            "title": "PhaseDeadlineWarningMinutesAhead"
+          }
+        }
+      }
+    }
+  ]
+}

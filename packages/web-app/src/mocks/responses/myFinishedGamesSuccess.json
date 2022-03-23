@@ -1,0 +1,409 @@
+{
+  "Name": "my-finished-games",
+  "Properties": [
+    {
+      "Name": "The Competition of the Craven Drain",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM",
+        "Started": true,
+        "Mustered": true,
+        "Closed": true,
+        "Finished": true,
+        "Desc": "The Competition of the Craven Drain",
+        "Variant": "Classical",
+        "PhaseLengthMinutes": 1440,
+        "NonMovementPhaseLengthMinutes": 720,
+        "MaxHated": 0,
+        "MaxHater": 0,
+        "MinRating": 0,
+        "MaxRating": 0,
+        "MinReliability": 4,
+        "MinQuickness": 0,
+        "Private": false,
+        "NoMerge": false,
+        "DisableConferenceChat": false,
+        "DisableGroupChat": false,
+        "DisablePrivateChat": false,
+        "NationAllocation": 0,
+        "Anonymous": false,
+        "LastYear": 1908,
+        "SkipMuster": true,
+        "ChatLanguageISO639_1": "",
+        "GameMasterEnabled": false,
+        "RequireGameMasterInvitation": false,
+        "GameMasterInvitations": null,
+        "GameMaster": {
+          "Email": "",
+          "FamilyName": "",
+          "Gender": "",
+          "GivenName": "",
+          "Hd": "",
+          "Id": "",
+          "Link": "",
+          "Locale": "",
+          "Name": "",
+          "Picture": "",
+          "VerifiedEmail": false,
+          "ValidUntil": "0001-01-01T00:00:00Z"
+        },
+        "NMembers": 7,
+        "Members": [
+          {
+            "User": {
+              "Email": "fake-email@gmail.com",
+              "FamilyName": "Baker",
+              "Gender": "other",
+              "GivenName": "Chet",
+              "Hd": "",
+              "Id": "123456789",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Chet Baker",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T21:04:24.250159Z"
+            },
+            "Nation": "Germany",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM",
+              "PhaseOrdinal": 41,
+              "Nation": "Germany",
+              "ReadyToResolve": false,
+              "WantsDIAS": true,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": "",
+              "Note": "Auto generated due to phase change at /Game,5761910202957824/40: wasReady = true, wantedDIAS = true, wantedConcede = false, onProbation = false, hadOrders = false, newOptionsCount = 13, wasEliminated = false"
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          },
+          {
+            "User": {
+              "Email": "",
+              "FamilyName": "Evans",
+              "Gender": "",
+              "GivenName": "Bill",
+              "Hd": "",
+              "Id": "987654321",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Bill Evans",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T21:06:21.962323Z"
+            },
+            "Nation": "France",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": null,
+              "PhaseOrdinal": 0,
+              "Nation": "",
+              "ReadyToResolve": false,
+              "WantsDIAS": false,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": null,
+              "Note": ""
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          },
+          {
+            "User": {
+              "Email": "",
+              "FamilyName": "Holiday",
+              "Gender": "",
+              "GivenName": "Billie",
+              "Hd": "",
+              "Id": "987654321",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Billie Holiday",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T20:57:00.348871Z"
+            },
+            "Nation": "Russia",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": null,
+              "PhaseOrdinal": 0,
+              "Nation": "",
+              "ReadyToResolve": false,
+              "WantsDIAS": false,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": null,
+              "Note": ""
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          },
+          {
+            "User": {
+              "Email": "",
+              "FamilyName": "Charles",
+              "Gender": "",
+              "GivenName": "Ray",
+              "Hd": "",
+              "Id": "987654321",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Ray Charles",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T21:07:29.28564Z"
+            },
+            "Nation": "Turkey",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": null,
+              "PhaseOrdinal": 0,
+              "Nation": "",
+              "ReadyToResolve": false,
+              "WantsDIAS": false,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": null,
+              "Note": ""
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          },
+          {
+            "User": {
+              "Email": "",
+              "FamilyName": "Peterson",
+              "Gender": "other",
+              "GivenName": "Oscar",
+              "Hd": "",
+              "Id": "987654321",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Oscar Peterson",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T21:08:29.898556Z"
+            },
+            "Nation": "Austria",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": null,
+              "PhaseOrdinal": 0,
+              "Nation": "",
+              "ReadyToResolve": false,
+              "WantsDIAS": false,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": null,
+              "Note": ""
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          },
+          {
+            "User": {
+              "Email": "",
+              "FamilyName": "Powell",
+              "Gender": "other",
+              "GivenName": "Bud",
+              "Hd": "",
+              "Id": "987654321",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Bud Powell",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T21:10:42.065847Z"
+            },
+            "Nation": "Italy",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": null,
+              "PhaseOrdinal": 0,
+              "Nation": "",
+              "ReadyToResolve": false,
+              "WantsDIAS": false,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": null,
+              "Note": ""
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          },
+          {
+            "User": {
+              "Email": "",
+              "FamilyName": "Desmond",
+              "Gender": "",
+              "GivenName": "Paul",
+              "Hd": "",
+              "Id": "987654321",
+              "Link": "",
+              "Locale": "en",
+              "Name": "Paul Desmond",
+              "Picture": "",
+              "VerifiedEmail": true,
+              "ValidUntil": "2017-01-13T21:31:51.479578Z"
+            },
+            "Nation": "England",
+            "GameAlias": "",
+            "NationPreferences": "",
+            "NewestPhaseState": {
+              "GameID": null,
+              "PhaseOrdinal": 0,
+              "Nation": "",
+              "ReadyToResolve": false,
+              "WantsDIAS": false,
+              "WantsConcede": false,
+              "OnProbation": false,
+              "NoOrders": false,
+              "Eliminated": false,
+              "Messages": "",
+              "ZippedOptions": null,
+              "Note": ""
+            },
+            "UnreadMessages": 0,
+            "Replaceable": false
+          }
+        ],
+        "StartETA": "2021-04-05T15:18:54.198761Z",
+        "NewestPhaseMeta": [
+          {
+            "PhaseOrdinal": 41,
+            "Season": "Spring",
+            "Year": 1909,
+            "Type": "Movement",
+            "Resolved": true,
+            "CreatedAt": "2021-04-25T18:07:49.823197Z",
+            "CreatedAgo": -7337919102550144,
+            "ResolvedAt": "2021-04-25T18:07:50.00554Z",
+            "ResolvedAgo": -7337918920207336,
+            "DeadlineAt": "2021-04-26T18:07:49.823197Z",
+            "NextDeadlineIn": -7251519102549260,
+            "UnitsJSON": "[{\"Province\":\"tyr\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"tri\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}},{\"Province\":\"bud\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}},{\"Province\":\"ber\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"tun\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"France\"}},{\"Province\":\"lvn\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"stp\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"mos\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"lon\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Germany\"}},{\"Province\":\"ion\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Turkey\"}},{\"Province\":\"boh\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"lvp\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"France\"}},{\"Province\":\"bar\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Germany\"}},{\"Province\":\"war\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"sil\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"bel\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"ser\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}},{\"Province\":\"par\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"ank\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}},{\"Province\":\"ven\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"pie\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"nrg\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Germany\"}},{\"Province\":\"rom\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"mun\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"kie\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"mar\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"France\"}},{\"Province\":\"sev\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}},{\"Province\":\"vie\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Germany\"}},{\"Province\":\"con\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}},{\"Province\":\"nap\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Turkey\"}},{\"Province\":\"tys\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"France\"}},{\"Province\":\"bla\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Turkey\"}},{\"Province\":\"adr\",\"Unit\":{\"Type\":\"Fleet\",\"Nation\":\"Turkey\"}},{\"Province\":\"rum\",\"Unit\":{\"Type\":\"Army\",\"Nation\":\"Turkey\"}}]",
+            "SCsJSON": "[{\"Province\":\"lon\",\"Owner\":\"Germany\"},{\"Province\":\"spa\",\"Owner\":\"France\"},{\"Province\":\"nwy\",\"Owner\":\"Germany\"},{\"Province\":\"edi\",\"Owner\":\"Germany\"},{\"Province\":\"sev\",\"Owner\":\"Turkey\"},{\"Province\":\"mos\",\"Owner\":\"Germany\"},{\"Province\":\"bel\",\"Owner\":\"France\"},{\"Province\":\"bud\",\"Owner\":\"Turkey\"},{\"Province\":\"por\",\"Owner\":\"France\"},{\"Province\":\"ank\",\"Owner\":\"Turkey\"},{\"Province\":\"smy\",\"Owner\":\"Turkey\"},{\"Province\":\"swe\",\"Owner\":\"Germany\"},{\"Province\":\"lvp\",\"Owner\":\"France\"},{\"Province\":\"con\",\"Owner\":\"Turkey\"},{\"Province\":\"mun\",\"Owner\":\"Germany\"},{\"Province\":\"tri\",\"Owner\":\"Turkey\"},{\"Province\":\"bul\",\"Owner\":\"Turkey\"},{\"Province\":\"nap\",\"Owner\":\"Turkey\"},{\"Province\":\"ser\",\"Owner\":\"Turkey\"},{\"Province\":\"stp\",\"Owner\":\"Germany\"},{\"Province\":\"rom\",\"Owner\":\"France\"},{\"Province\":\"ven\",\"Owner\":\"France\"},{\"Province\":\"tun\",\"Owner\":\"France\"},{\"Province\":\"bre\",\"Owner\":\"France\"},{\"Province\":\"ber\",\"Owner\":\"Germany\"},{\"Province\":\"kie\",\"Owner\":\"Germany\"},{\"Province\":\"par\",\"Owner\":\"France\"},{\"Province\":\"mar\",\"Owner\":\"France\"},{\"Province\":\"war\",\"Owner\":\"Germany\"},{\"Province\":\"rum\",\"Owner\":\"Turkey\"},{\"Province\":\"vie\",\"Owner\":\"Germany\"},{\"Province\":\"den\",\"Owner\":\"Germany\"},{\"Province\":\"hol\",\"Owner\":\"Germany\"},{\"Province\":\"gre\",\"Owner\":\"Turkey\"}]"
+          }
+        ],
+        "ActiveBans": null,
+        "FailedRequirements": null,
+        "CreatedAt": "2021-04-04T08:54:54.629955Z",
+        "CreatedAgo": -9185494295792796,
+        "StartedAt": "2021-04-05T15:18:54.198761Z",
+        "StartedAgo": -9076054726986944,
+        "FinishedAt": "2021-04-25T18:07:50.00554Z",
+        "FinishedAgo": -7337918920208088
+      },
+      "Type": "Game",
+      "Links": [
+        {
+          "Rel": "self",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM",
+          "Method": "GET"
+        },
+        {
+          "Rel": "update-membership",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM/Member/123456789",
+          "Method": "PUT",
+          "JSONSchema": {
+            "type": "object",
+            "properties": {
+              "GameAlias": {
+                "type": "string",
+                "title": "GameAlias"
+              },
+              "NationPreferences": {
+                "type": "string",
+                "title": "NationPreferences"
+              }
+            }
+          }
+        },
+        {
+          "Rel": "channels",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM/Channels",
+          "Method": "GET"
+        },
+        {
+          "Rel": "phases",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM/Phases",
+          "Method": "GET"
+        },
+        {
+          "Rel": "game-result",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM/GameResult",
+          "Method": "GET"
+        },
+        {
+          "Rel": "game-states",
+          "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICAl9SNngoM/GameStates",
+          "Method": "GET"
+        }
+      ]
+    }
+  ],
+  "Desc": [
+    [
+      "My finished games",
+      "Finished games you are a member of, sorted with newest first."
+    ],
+    [
+      "Cursor and limit",
+      "The list contains at most 128 games.",
+      "If there are additional matching games, a 'next' link will be available with a 'cursor' query parameter.",
+      "Use the 'next' link to list the next batch of matching games.",
+      "To list fewer than 128 games, add an explicit 'limit' query parameter."
+    ],
+    [
+      "Filters",
+      "To show only games matching certain criteria, add query parameter filters.",
+      "`variant=X` filters on variant X.",
+      "`min-reliability=X:Y` filters on min reliability between X and Y.",
+      "`min-quickness=X:Y` filters on min quickness between X and Y.",
+      "`max-hated=X:Y` filters on max hated between X and Y.",
+      "`max-hater=X:Y` filters on max hater between X and Y.",
+      "`min-rating=X:Y` filters on min rating between X and Y.",
+      "`max-rating=X:Y` filters on max rating between X and Y."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Games/My/Finished",
+      "Method": "GET"
+    },
+    {
+      "Rel": "next",
+      "URL": "https://diplicity-engine.appspot.com/Games/My/Finished?cursor=CkYKFwoKRmluaXNoZWRBdBIJCNq_t4SKl-8CEidqEnN-ZGlwbGljaXR5LWVuZ2luZXIRCxIER2FtZRiAgICHkPDaCgwYACAB&limit=8",
+      "Method": "GET"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "Austria",
+  "Properties": {
+    "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQAsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIOQXVzdHJpYSxSdXNzaWEMCxIHTWVzc2FnZRiAgID_xNC8Cww",
+    "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+    "ChannelMembers": [
+      "Austria",
+      "Russia"
+    ],
+    "Sender": "Austria",
+    "Body": "Hi just doing some testing here (I'm one of the devs on the app). Please mute me if this gives you annoying notifications.",
+    "CreatedAt": "2021-09-16T13:30:31.228815041Z",
+    "Age": 0
+  },
+  "Type": "Message",
+  "Links": null
+}
