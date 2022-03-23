@@ -10,6 +10,9 @@ const translateKeys = {
     adjustmentPhaseLengthMultiplierInput: {
       label: "create-game.adjustment-phase-length-multiplier-input.label",
     },
+    adjustmentPhaseLengthUnitSelect: {
+      label: "create-game.adjustment-phase-length-unit-select.label",
+    },
     allowChatsSwitch: {
       label: "create-game.allow-chats-switch.label",
     },
@@ -66,6 +69,10 @@ const translateKeys = {
     },
     minQuicknessInput: {
       label: "create-game.min-quickness-input.label",
+      errorMessage: {
+        moreThanUserQuickness:
+          "create-game.min-quickness-input.error-message.more-than-user-quickness",
+      },
     },
     minRatingEnabledCheckbox: {
       helpText: "create-game.min-rating-enabled-checkbox.help-text",
@@ -81,6 +88,10 @@ const translateKeys = {
     },
     minReliabilityInput: {
       label: "create-game.min-reliability-input.label",
+      errorMessage: {
+        moreThanUserReliability:
+          "create-game.min-reliability-input.error-message.more-than-user-reliability",
+      },
     },
     nameInput: {
       label: "create-game.name-input.label",
@@ -144,6 +155,10 @@ const translateKeys = {
     },
   },
   feedback: {
+    createGame: {
+      fulfilled: "feedback.create-game.fulfilled",
+      rejected: "feedback.create-game.rejected",
+    },
     joinGame: {
       fulfilled: "feedback.join-game.fulfilled",
       rejected: "feedback.join-game.rejected",

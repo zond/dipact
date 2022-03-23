@@ -11,7 +11,8 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import Globals from "./Globals";
 import "@fontsource/cabin";
-import { i18n, store } from "@diplicity/common";
+import { i18n } from "@diplicity/common";
+import { store } from "./store";
 import { I18nextProvider } from "react-i18next";
 import { Provider } from "react-redux";
 

@@ -2,6 +2,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import type { RootState } from "@diplicity/common";
+import type { RootState } from "../store";
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

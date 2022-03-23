@@ -10,6 +10,9 @@
     "adjustment-phase-length-multiplier-input": {
       "label": "Adjustment phase length"
     },
+    "adjustment-phase-length-unit-select": {
+      "label": "Unit"
+    },
     "allow-chats-switch": {
       "label": "Allow chats"
     },
@@ -64,7 +67,10 @@
       "label": "Maximum rating"
     },
     "min-quickness-input": {
-      "label": "Minimum quickness score "
+      "label": "Minimum quickness score",
+      "error-message": {
+        "more-than-user-quickness": "Can't be higher than your own quickness ({{ reliability }})"
+      }
     },
     "min-rating-enabled-checkbox": {
       "help-text": "Find players that are challenging",
@@ -78,7 +84,10 @@
       "label": "Minimum rating"
     },
     "min-reliability-input": {
-      "label": "Minimum reliability score "
+      "label": "Minimum reliability score",
+      "error-message": {
+        "more-than-user-reliability": "Can't be higher than your own reliability ({{ reliability }})"
+      }
     },
     "name-input": {
       "label": "Name"
@@ -142,6 +151,10 @@
     }
   },
   "feedback": {
+    "create-game": {
+      "fulfilled": "Game created!",
+      "rejected": "Couldn't create game."
+    },
     "join-game": {
       "fulfilled": "Joined game!",
       "rejected": "Couldn't join game."

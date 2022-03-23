@@ -18,8 +18,6 @@ import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import usePageLoad from "./usePageLoad";
 
-// TODO de-dupe with useSettings
-const CLASSICAL = "Classical";
 const {
   useGetRootQuery,
   useLazyGetUserStatsQuery,
@@ -27,9 +25,15 @@ const {
   useListVariantsQuery,
 } = diplicityService;
 
+// TODO de-dupe with useSettings
+const CLASSICAL = "Classical";
+
 export interface IUseCreateGame {
+  error: ApiError | null;
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
+  isError: boolean;
+  isFetchingVariantSVG: boolean;
   isLoading: boolean;
   randomizeName: () => void;
   selectedVariant: Variant | null;
@@ -39,36 +43,36 @@ export interface IUseCreateGame {
   validationErrors: FormikErrors<CreateGameFormValues>;
   values: CreateGameFormValues;
   variants: Variant[];
-  isFetchingVariantSVG: boolean;
 }
 
 export const initialFormValues = {
-  nationAllocation: 0,
-  name: randomGameName(),
-  privateGame: false,
-  gameMaster: false,
-  variant: "",
-  phaseLengthMultiplier: 1,
-  phaseLengthUnit: 60,
-  customAdjustmentPhaseLength: false,
   adjustmentPhaseLengthMultiplier: 1,
   adjustmentPhaseLengthUnit: 60,
-  skipGetReadyPhase: true,
-  endAfterYears: false,
-  endAfterYearsValue: 1,
-  conferenceChatEnabled: true,
-  groupChatEnabled: true,
-  individualChatEnabled: true,
   anonymousEnabled: false,
   chatLanguage: "players_choice",
-  minReliability: 0,
-  reliabilityEnabled: true,
-  minQuickness: 0,
-  quicknessEnabled: true,
-  minRatingEnabled: false,
-  minRating: 0,
-  maxRatingEnabled: false,
+  conferenceChatEnabled: true,
+  customAdjustmentPhaseLength: false,
+  endAfterYears: false,
+  endAfterYearsValue: 1,
+  gameMaster: false,
+  groupChatEnabled: true,
+  individualChatEnabled: true,
   maxRating: 0,
+  maxRatingEnabled: false,
+  minQuickness: 0,
+  minRating: 0,
+  minRatingEnabled: false,
+  minReliability: 0,
+  name: randomGameName(),
+  nationAllocation: 0,
+  phaseLengthMultiplier: 1,
+  phaseLengthUnit: 60,
+  privateGame: false,
+  quicknessEnabled: true,
+  reliabilityEnabled: true,
+  requireGameMasterInvitation: false,
+  skipGetReadyPhase: true,
+  variant: "",
 };
 
 const getInitialFormValues = (): CreateGameFormValues => initialFormValues;
@@ -94,6 +98,19 @@ const useCreateGame = (): IUseCreateGame => {
     if (getUserStatsQuery.isSuccess) {
       setValidationSchema(
         yup.object().shape({
+          minReliability: yup
+            .number()
+            .max(
+              getUserStatsQuery.data.Reliability as number,
+              tk.createGame.minReliabilityInput.errorMessage
+                .moreThanUserReliability
+            ),
+          minQuickness: yup
+            .number()
+            .max(
+              getUserStatsQuery.data.Quickness as number,
+              tk.createGame.minQuicknessInput.errorMessage.moreThanUserQuickness
+            ),
           maxRating: yup
             .number()
             .min(
@@ -107,10 +124,22 @@ const useCreateGame = (): IUseCreateGame => {
               getUserStatsQuery.data.TrueSkill?.Rating as number,
               tk.createGame.minRatingInput.errorMessage.moreThanUserRating
             ),
+          endAfterYearsValue: yup
+            .number()
+            .min(
+              selectedVariant?.Start?.Year as number,
+              tk.createGame.endAfterYearsInput.errorMessage.lessThanVariantStart
+            ),
         })
       );
     }
-  }, [getUserStatsQuery.isSuccess, getUserStatsQuery.data?.TrueSkill?.Rating]);
+  }, [
+    getUserStatsQuery.isSuccess,
+    getUserStatsQuery.data?.TrueSkill?.Rating,
+    selectedVariant,
+    getUserStatsQuery.data?.Reliability,
+    getUserStatsQuery.data?.Quickness,
+  ]);
 
   const {
     values,
@@ -120,11 +149,13 @@ const useCreateGame = (): IUseCreateGame => {
     errors: validationErrors,
   } = useFormik({
     initialValues: getInitialFormValues(),
-    onSubmit: (vals) => {
-      dispatch(uiActions.submitCreateGameForm(vals));
+    onSubmit: (values) => {
+      dispatch(uiActions.submitCreateGameForm(values));
     },
     validationSchema,
   });
+
+  const { isLoading: createGameIsLoading } = useCreateGameStatus();
 
   useEffect(() => {
     if (getUserStatsQuery.isSuccess) {
@@ -172,31 +203,44 @@ const useCreateGame = (): IUseCreateGame => {
   const randomizeName = () => setFieldValue("name", randomGameName());
   const submitDisabled =
     Object.keys(validationErrors).length !== 0 ||
-    getVariantsSVGQuery.isFetching;
+    getVariantsSVGQuery.isFetching ||
+    createGameIsLoading;
   const isLoading =
     listVariantsQuery.isLoading ||
     getUserStatsQuery.isLoading ||
     getVariantsSVGQuery.isLoading;
+  const isError =
+    listVariantsQuery.isError ||
+    getUserStatsQuery.isError ||
+    getVariantsSVGQuery.isError;
+  const error = isError
+    ? mergeErrors(
+        listVariantsQuery.error as ApiError,
+        getUserStatsQuery.error as ApiError,
+        getVariantsSVGQuery.error as ApiError
+      )
+    : null;
 
   return {
+    error,
     handleChange,
     handleSubmit,
+    isError,
+    isFetchingVariantSVG: getVariantsSVGQuery.isFetching,
+    isLoading,
     randomizeName,
     selectedVariant,
     selectedVariantSVG: getVariantsSVGQuery.data,
-    values,
-    isFetchingVariantSVG: getVariantsSVGQuery.isFetching,
-    variants: listVariantsQuery.data || [],
+    submitDisabled,
     userStats: getUserStatsQuery.data,
     validationErrors,
-    submitDisabled,
-    isLoading,
+    values,
+    variants: listVariantsQuery.data || [],
   };
 };
 
-export const useCreateGameContext = createContext<null | typeof useCreateGame>(
-  null
-);
+export const useCreateGameContext =
+  createContext<null | typeof useCreateGame>(null);
 
 const createDIContext = <T,>() => createContext<null | T>(null);
 export const useDIContext = createDIContext<typeof useCreateGame>();

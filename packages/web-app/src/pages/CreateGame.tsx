@@ -125,6 +125,7 @@ const CreateGame = (): React.ReactElement => {
                   variant="standard"
                   label={t(tk.createGame.nameInput.label)}
                   name="name"
+                  id="name"
                   margin="dense"
                   value={values.name}
                   onChange={handleChange}
@@ -286,6 +287,7 @@ const CreateGame = (): React.ReactElement => {
 
               <Box display="flex">
                 <TextField
+                  id="phaseLengthMultiplier"
                   name="phaseLengthMultiplier"
                   label={t(tk.createGame.phaseLengthMultiplierInput.label)}
                   type="number"
@@ -354,6 +356,7 @@ const CreateGame = (): React.ReactElement => {
                   <Select
                     name="adjustmentPhaseLengthUnit"
                     value={values.adjustmentPhaseLengthUnit}
+                    label={tk.createGame.adjustmentPhaseLengthUnitSelect}
                     onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
                     variant="standard"
                   >
