@@ -10,9 +10,20 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { setupServer } from "msw/node";
+import {
+  MemoryRouter as Router,
+  BrowserRouter,
+} from "react-router-dom";
 
 import App from "../App";
 import { handlers } from "../mocks/handlers";
+import { Provider } from "react-redux";
+import {
+  createTestStore,
+  PageName,
+  translateKeys as tk,
+} from "@diplicity/common";
+import ReactGA from "react-ga";
 
 const server = setupServer(
   handlers.bans.success,
@@ -26,13 +37,6 @@ const server = setupServer(
   handlers.getUserStats.successEmpty,
   handlers.variants.successShort
 );
-
-// const randomGameName = "Random game name";
-
-// jest.mock("../../helpers", () => ({
-//   ...jest.requireActual("../../helpers"),
-//   randomGameName: () => randomGameName,
-// }));
 
 beforeAll((): void => {
   server.listen();
@@ -48,57 +52,7 @@ afterAll((): void => {
   server.close();
 });
 
-// interface WrappedGameProps {
-//   path?: string;
-// }
-
-// let history: MemoryHistory<unknown>;
-
-// const WrappedGameList = ({ path }: WrappedGameProps) => {
-//   history = createMemoryHistory();
-//   history.push(path || "/");
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <StyledEngineProvider injectFirst>
-//         <Router history={history}>
-//           <Switch>
-//             <Route path={RouteConfig.CreateGame}>
-//               <Provider store={createTestStore()}>
-//                 <FeedbackWrapper>
-//                   <CreateGame />
-//                 </FeedbackWrapper>
-//               </Provider>
-//             </Route>
-//           </Switch>
-//         </Router>
-//       </StyledEngineProvider>
-//     </ThemeProvider>
-//   );
-// };
-
-// const createGameUrl = generatePath(RouteConfig.CreateGame);
-// const userId = "123456789";
-
-// const renderPage = async (path: string) => {
-//   render(<WrappedGameList path={createGameUrl} />);
-//   await userSeesLoadingSpinner();
-// };
-
-// // TODO use in other tests
-// const pageLoadGAEventHappens = (
-//   gaSetSpy: jest.SpyInstance,
-//   gaEventSpy: jest.SpyInstance,
-//   title: string
-// ) => {
-//   expect(gaSetSpy).toBeCalledWith({
-//     page_title: title,
-//     page_location: "http://localhost/",
-//   });
-//   expect(gaEventSpy).toBeCalledWith({
-//     category: "(not set)",
-//     action: "page_view",
-//   });
-// };
+const randomGameName = "Random game name";
 
 // TODO remove when chart.js is gone
 jest.mock("chart.js", () => ({
@@ -114,68 +68,78 @@ jest.mock("ga-gtag", () => ({
   default: jest.fn(),
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  BrowserRouter: jest.fn(),
+}));
+
 jest.mock("../helpers", () => ({
   ...jest.requireActual("../helpers"),
   incProgress: jest.fn(),
   decProgress: jest.fn(),
+  // randomGameName: () => randomGameName,
+  randomGameName: jest.fn(() => randomGameName),
 }));
 
 const renderApp = () => {
-  render(<App />);
+  render(
+    <Provider store={createTestStore()}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  );
+};
+
+const pageLoadGAEventHappens = (
+  gaSetSpy: jest.SpyInstance,
+  gaEventSpy: jest.SpyInstance,
+  title: string
+) => {
+  expect(gaSetSpy).toBeCalledWith({
+    page_title: title,
+    page_location: "http://localhost/",
+  });
+  expect(gaEventSpy).toBeCalledWith({
+    category: "(not set)",
+    action: "page_view",
+  });
 };
 
 describe("Create game functional tests", () => {
-  let fetchSpy: jest.SpyInstance;
   let gaEventSpy: jest.SpyInstance;
   let gaSetSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    // fetchSpy = jest.spyOn(global, "fetch");
-    // gaEventSpy = jest.spyOn(ReactGA, "event");
-    // gaSetSpy = jest.spyOn(ReactGA, "set");
+    (BrowserRouter as jest.Mock).mockImplementation(({ children }) => (
+      <div>{children}</div>
+    ));
+    gaEventSpy = jest.spyOn(ReactGA, "event");
+    gaSetSpy = jest.spyOn(ReactGA, "set");
   });
+
+  const navigateToCreateGame = async () => {
+    const createGameButton = await waitFor(() =>
+      screen.getByText("Create game")
+    );
+    fireEvent.click(createGameButton);
+    await waitFor(() => screen.getByText(tk.createGame.title));
+  };
 
   test("Navigate to CreateGame", async () => {
     await renderApp();
-    screen.debug();
-    const createGameButton = await waitFor(() => screen.getByText("Create game"));
-    fireEvent.click(createGameButton);
-    await waitFor(() => screen.getByText("Create new game"));
+    await navigateToCreateGame();
   });
-
-  //   test("Page load causes ga event", async () => {
-  //     await renderPage(createGameUrl);
-  //     await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
-  //     pageLoadGAEventHappens(gaSetSpy, gaEventSpy, "CreateGame");
-  //   });
-
-  //   test("Hits endpoints correctly", async () => {
-  //     await renderPage(createGameUrl);
-  //     await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
-  //     const calls = fetchSpy.mock.calls.map((call) => call[0] as Request);
-  //     expect(
-  //       calls.find((call) => call.url === `${diplicityServiceURL}`)
-  //     ).toBeTruthy();
-  //     expect(
-  //       calls.find((call) => call.url === `${diplicityServiceURL}Variants`)
-  //     ).toBeTruthy();
-  //     expect(
-  //       calls.find(
-  //         (call) => call.url === `${diplicityServiceURL}User/${userId}/Stats`
-  //       )
-  //     ).toBeTruthy();
-  //     expect(
-  //       calls.find(
-  //         (call) => call.url === `${diplicityServiceURL}Variant/Classical/Map.svg`
-  //       )
-  //     ).toBeTruthy();
-  //   });
-
-  //   test("Name input has random name by default", async () => {
-  //     await renderPage(createGameUrl);
-  //     await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
-  //     await waitFor(() => screen.getByDisplayValue(randomGameName));
-  //   });
+  test("Page load causes ga event", async () => {
+    await renderApp();
+    await navigateToCreateGame();
+    pageLoadGAEventHappens(gaSetSpy, gaEventSpy, PageName.CreateGame);
+  });
+  test("Name input has random name by default", async () => {
+    await renderApp();
+    await navigateToCreateGame();
+    await waitFor(() => screen.getByDisplayValue(randomGameName));
+  });
 
   //   test("Clicking randomize button creates new random name", async () => {
   //     await renderPage(createGameUrl);
