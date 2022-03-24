@@ -8,3 +8,17 @@ jest.mock("react-i18next", () => ({
   ...jest.requireActual("react-i18next"),
   useTranslation: () => ({ t: (key) => key }),
 }));
+
+// TODO remove when chart.js is gone
+jest.mock("chart.js", () => ({
+  Chart: {
+    register: jest.fn(),
+  },
+  registerables: [],
+}));
+
+// TODO remove when ga-gtag is gone
+jest.mock("ga-gtag", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));

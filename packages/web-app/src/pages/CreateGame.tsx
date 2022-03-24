@@ -33,6 +33,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { translateKeys as tk } from "@diplicity/common";
 import { RouteConfig } from "./Router";
+import ErrorMessage from "../components/ErrorMessage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,22 +88,24 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateGame = (): React.ReactElement => {
   const { t } = useTranslation();
-  const classes = useStyles();
   const {
+    error,
     handleChange,
     handleSubmit,
+    isError,
+    isFetchingVariantSVG,
     isLoading,
     randomizeName,
     selectedVariant,
     selectedVariantSVG,
     submitDisabled,
     userStats,
+    validationErrors,
     values,
     variants,
-    isFetchingVariantSVG,
-    validationErrors,
   } = useCreateGame();
 
+  const classes = useStyles();
   const singularPhaseLength = values.phaseLengthMultiplier === 1;
   const singularAdjustmentPhaseLength =
     values.adjustmentPhaseLengthMultiplier === 1;
@@ -116,6 +119,8 @@ const CreateGame = (): React.ReactElement => {
     <GoBackNav title={t(tk.createGame.title)} href={RouteConfig.Home}>
       {isLoading ? (
         <Loading />
+      ) : isError && error ? (
+        <ErrorMessage error={error} />
       ) : (
         <Container className={classes.root}>
           <form onSubmit={handleSubmit}>
@@ -133,7 +138,6 @@ const CreateGame = (): React.ReactElement => {
                 <IconButton
                   title={t(tk.createGame.randomizeGameNameButton.title)}
                   onClick={randomizeName}
-                  size="medium"
                 >
                   <RandomGameNameIcon />
                 </IconButton>
@@ -170,6 +174,29 @@ const CreateGame = (): React.ReactElement => {
                   <FormHelperText>
                     {t(tk.createGame.gameMasterCheckbox.helpText.disabled)}
                   </FormHelperText>
+                )}
+                {/* TODO TEST */}
+                {values.privateGame && values.gameMaster && (
+                  <>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="requireGameMasterInvititation"
+                          checked={values.requireGameMasterInvitation}
+                          onChange={handleChange}
+                          disabled={!values.gameMaster}
+                        />
+                      }
+                      label={
+                        t(
+                          tk.createGame.requireGameMasterInvitation.label
+                        ) as string
+                      }
+                    />
+                    <FormHelperText>
+                      {t(tk.createGame.requireGameMasterInvitation.helpText)}
+                    </FormHelperText>
+                  </>
                 )}
               </FormGroup>
             </section>
@@ -287,8 +314,8 @@ const CreateGame = (): React.ReactElement => {
 
               <Box display="flex">
                 <TextField
-                  id="phaseLengthMultiplier"
                   name="phaseLengthMultiplier"
+                  id="phaseLengthMultiplier"
                   label={t(tk.createGame.phaseLengthMultiplierInput.label)}
                   type="number"
                   inputProps={{ min: 1 }}
@@ -344,6 +371,7 @@ const CreateGame = (): React.ReactElement => {
                 <Box display="flex">
                   <TextField
                     name="adjustmentPhaseLengthMultiplier"
+                    id="adjustmentPhaseLengthMultiplier"
                     label={t(
                       tk.createGame.adjustmentPhaseLengthMultiplierInput.label
                     )}
@@ -353,10 +381,13 @@ const CreateGame = (): React.ReactElement => {
                     onChange={handleChange}
                     variant="standard"
                   />
+                  <InputLabel id="adjustment-phase-length-unit-input-label">
+                    {t(tk.createGame.adjustmentPhaseLengthUnitSelect.label)}
+                  </InputLabel>
                   <Select
                     name="adjustmentPhaseLengthUnit"
+                    labelId="adjustment-phase-length-unit-input-label"
                     value={values.adjustmentPhaseLengthUnit}
-                    label={tk.createGame.adjustmentPhaseLengthUnitSelect}
                     onChange={(e) => handleChange(e as React.ChangeEvent<any>)}
                     variant="standard"
                   >
@@ -410,6 +441,7 @@ const CreateGame = (): React.ReactElement => {
               {values.endAfterYears && (
                 <TextField
                   name="endAfterYearsValue"
+                  id="endAfterYearsValue"
                   label={t(tk.createGame.endAfterYearsInput.label)}
                   type="number"
                   inputProps={{ min: minEndAfterYearsValue }}
@@ -521,15 +553,28 @@ const CreateGame = (): React.ReactElement => {
                   {t(tk.createGame.reliabilityEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.reliabilityEnabled && (
-                  <TextField
-                    variant="standard"
-                    label={t(tk.createGame.minReliabilityInput.label) as string}
-                    name="minReliability"
-                    type="number"
-                    margin="dense"
-                    value={values.minReliability}
-                    onChange={handleChange}
-                  />
+                  <>
+                    <TextField
+                      variant="standard"
+                      label={
+                        t(tk.createGame.minReliabilityInput.label) as string
+                      }
+                      name="minReliability"
+                      id="minReliability"
+                      type="number"
+                      margin="dense"
+                      value={values.minReliability}
+                      onChange={handleChange}
+                    />
+                    {validationErrors.minReliability ? (
+                      <FormHelperText error={true}>
+                        {t(validationErrors.minReliability, {
+                          // TODO simplify when all data in component
+                          reliability: userStats?.Reliability?.toFixed(2),
+                        })}
+                      </FormHelperText>
+                    ) : null}
+                  </>
                 )}
               </div>
               <div>
@@ -549,15 +594,26 @@ const CreateGame = (): React.ReactElement => {
                   {t(tk.createGame.quicknessEnabledCheckbox.helpText)}
                 </FormHelperText>
                 {values.quicknessEnabled && (
-                  <TextField
-                    variant="standard"
-                    label={t(tk.createGame.minQuicknessInput.label) as string}
-                    name="minQuickness"
-                    type="number"
-                    margin="dense"
-                    value={values.minQuickness}
-                    onChange={handleChange}
-                  />
+                  <>
+                    <TextField
+                      variant="standard"
+                      label={t(tk.createGame.minQuicknessInput.label) as string}
+                      name="minQuickness"
+                      id="minQuickness"
+                      type="number"
+                      margin="dense"
+                      value={values.minQuickness}
+                      onChange={handleChange}
+                    />
+                    {validationErrors.minQuickness ? (
+                      <FormHelperText error={true}>
+                        {t(validationErrors.minQuickness, {
+                          // TODO simplify when all data in component
+                          quickness: userStats?.Quickness?.toFixed(2),
+                        })}
+                      </FormHelperText>
+                    ) : null}
+                  </>
                 )}
               </div>
               <div>
@@ -582,6 +638,7 @@ const CreateGame = (): React.ReactElement => {
                       variant="standard"
                       label={t(tk.createGame.minRatingInput.label) as string}
                       name="minRating"
+                      id="minRating"
                       type="number"
                       margin="dense"
                       value={values.minRating}
@@ -626,6 +683,7 @@ const CreateGame = (): React.ReactElement => {
                     <TextField
                       variant="standard"
                       label={t(tk.createGame.maxRatingInput.label) as string}
+                      id="maxRating"
                       name="maxRating"
                       margin="dense"
                       type="number"

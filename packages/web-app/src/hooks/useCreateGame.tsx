@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { randomGameName } from "../helpers";
-import { CreateGameFormValues, UserStats, Variant } from "@diplicity/common";
+import { CreateGameFormValues, MutationStatus, selectors, UserStats, Variant } from "@diplicity/common";
 import {
   diplicityService,
   uiActions,
@@ -17,6 +17,9 @@ import {
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import usePageLoad from "./usePageLoad";
+import { mergeErrors } from "./utils";
+import { ApiError } from "./types";
+import { useAppSelector } from "./useAppSelector";
 
 const {
   useGetRootQuery,
@@ -76,6 +79,10 @@ export const initialFormValues = {
 };
 
 const getInitialFormValues = (): CreateGameFormValues => initialFormValues;
+
+// TODO move somewhere else
+export const useCreateGameStatus = (): MutationStatus =>
+  useAppSelector(selectors.selectCreateGameStatus);
 
 const useCreateGame = (): IUseCreateGame => {
   const getRootQuery = useGetRootQuery(undefined);

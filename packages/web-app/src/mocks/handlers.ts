@@ -1,11 +1,5 @@
 // See: https://mswjs.io/docs/getting-started/mocks/rest-api
 import { ResponseComposition, rest, RestContext, RestRequest } from "msw";
-import {
-  ListPhasesResponse,
-  ListPhaseStatesResponse,
-  PhaseState,
-  PhaseStateResponse,
-} from "@diplicity/common";
 
 import bansSuccess from "./responses/bansSuccess.json";
 import createGameSuccess from "./responses/createGameSuccess.json";
@@ -27,9 +21,6 @@ import variantsSuccess from "./responses/variantsSuccess.json";
 import variantsSuccessShort from "./responses/variantsSuccessShort.json";
 import listChannelsSuccess from "./responses/listChannelsSuccess.json";
 import listChannelsSuccessNoChannels from "./responses/listChannelsSuccessNoChannels.json";
-
-import listPhases from "./data/listPhases";
-import listPhaseStates from "./data/listPhaseStates";
 
 import {
   finishedGames,
@@ -73,19 +64,19 @@ const tokenTimeout = (
   return res(ctx.status(401), ctx.json("token timed out"));
 };
 
-interface listPhasesRequestParams {
-  gameId: string;
-}
+// interface listPhasesRequestParams {
+//   gameId: string;
+// }
 
-interface listPhaseStatesRequestParams {
-  gameId: string;
-  phaseId: string;
-}
+// interface listPhaseStatesRequestParams {
+//   gameId: string;
+//   phaseId: string;
+// }
 
-interface UpdatePhaseStateRequestParams {
-  gameId: string;
-  phaseId: string;
-}
+// interface UpdatePhaseStateRequestParams {
+//   gameId: string;
+//   phaseId: string;
+// }
 
 // const listPhasesUrl = `${API_ROOT}Game/:gameId/Phases`;
 // export const createListPhasesHandler = (
@@ -648,6 +639,7 @@ export const handlersList = [
   handlers.histogram.success,
   handlers.forumMail.success,
 
+  handlers.createGame.success,
   handlers.getGame.success,
   handlers.getUser.success,
   handlers.getUserConfig.success,

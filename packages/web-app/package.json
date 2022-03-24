@@ -62,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.4.1",
     "@types/react-router-dom": "^5.3.3",
     "craco-alias": "^3.0.1",

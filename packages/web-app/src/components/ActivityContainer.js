@@ -15,6 +15,9 @@ export default class ActivityContainer extends React.Component {
 		);
 	}
 	render() {
-		return this.renderActivity();
+		const activity = this.renderActivity();
+		return (
+			<div id="pseudo-root">{activity}</div>
+		)
 	}
 }

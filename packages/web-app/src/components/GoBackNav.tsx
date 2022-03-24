@@ -2,7 +2,6 @@ import React from "react";
 
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { RouteConfig } from "../pages/Router";
 import { GoBackIcon } from "../icons";
 
 const TITLE = "Go back";
