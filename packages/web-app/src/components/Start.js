@@ -303,11 +303,7 @@ class Start extends React.Component {
 										variant="outlined"
 										color="secondary"
 										key="create"
-										onClick={(_) => {
-											this.createGameDialog.setState({
-												open: true,
-											});
-										}}
+										onClick={onClickCreateGame}
 									>
 										Create game
 									</Button>

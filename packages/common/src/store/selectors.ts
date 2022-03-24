@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit";
 import {
   getNationAbbreviation,
   getNationColor,
@@ -18,8 +19,9 @@ import {
 
 // TODO use memoized selectors
 
-const getListVariantsSelector = () =>
-  diplicityService.endpoints.listVariants.select(undefined);
+const selectListVariants = (state: RootState) =>
+  diplicityService.endpoints.listVariants.select(undefined)(state);
+
 const getGetRootSelector = () =>
   diplicityService.endpoints.getRoot.select(undefined);
 
@@ -29,16 +31,15 @@ export const selectColorOverrides = (state: RootState): ColorOverrides =>
 const selectUserStats = (state: RootState): UserStats | undefined => {
   const userId = selectUserId(state);
   if (!userId) return;
-  const userStats = diplicityService.endpoints.getUserStats.select(userId)(
-    state
-  ).data;
+  const userStats =
+    diplicityService.endpoints.getUserStats.select(userId)(state).data;
   return userStats;
 };
 
 const selectJoinedGames = (state: RootState): number | undefined => {
   const userStats = selectUserStats(state);
   return userStats?.JoinedGames || userStats?.PrivateStats?.JoinedGames;
-}
+};
 
 export const selectHasPlayed = (state: RootState): boolean =>
   Boolean(selectJoinedGames(state));
@@ -55,7 +56,7 @@ export const selectVariant = (
   state: RootState,
   variantName: string
 ): Variant | null => {
-  const { data } = getListVariantsSelector()(state);
+  const { data } = selectListVariants(state);
   return data?.find((variant) => variant.Name === variantName) || null;
 };
 
@@ -65,8 +66,8 @@ export const selectChannel = (
   channelId: string
 ): Channel | null => {
   const names = channelId.split(",");
-  const channels = diplicityService.endpoints.listChannels.select(gameId)(state)
-    .data;
+  const channels =
+    diplicityService.endpoints.listChannels.select(gameId)(state).data;
   if (!channels) return null;
   const sortedNames = names.sort();
   const foundChannel =
@@ -187,21 +188,36 @@ export const selectPhase = (state: RootState): null | number => {
 
 // TODO make generic
 // TODO test
-export const selectCreateGameStatus = (
-  state: RootState
-): MutationStatus => {
+export const selectCreateGameStatus = (state: RootState): MutationStatus => {
   const defaultResponse = { isLoading: false, isError: false };
   const userId = selectUserId(state);
   if (!userId) return defaultResponse;
   const { mutations } = state.diplicityService;
   const mutation = Object.values(mutations || {})
     .sort(sortMutationsByTimestamp)
-    .find(
-      (mutation: any) =>
-        mutation.endpointName === "createGame"
-    );
+    .find((mutation: any) => mutation.endpointName === "createGame");
   return {
     isLoading: mutation?.status === "pending",
     isError: false, // TODO
   };
 };
+
+// TODO test
+// TODO move
+const transformVariant = (variant: Variant) => ({
+  nations: variant.Nations,
+});
+
+// TODO test
+export const selectNationPreferencesDialogView = (
+  state: RootState,
+  variantName: string
+) =>
+  createSelector(
+    (state: RootState) => selectVariant(state, variantName),
+    (variant) => {
+      if (!variant) return { nations: [] };
+      const { nations } = transformVariant(variant);
+      return { nations };
+    }
+  )(state);

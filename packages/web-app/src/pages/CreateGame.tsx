@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent } from "react";
 
 import {
   Container,
@@ -27,13 +27,15 @@ import { RandomGameNameIcon } from "../icons";
 import useCreateGame from "../hooks/useCreateGame";
 import Loading from "../components/Loading";
 import {
-  nationAllocationMap,
+  NationAllocation,
   nationAllocationTranslations,
 } from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 import { translateKeys as tk } from "@diplicity/common";
 import { RouteConfig } from "./Router";
 import ErrorMessage from "../components/ErrorMessage";
+import NationPreferencesDialog, { searchKey } from "../components/NationPreferencesDialog.new";
+import useSearchParams from "../hooks/useSearchParams";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,7 +90,9 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateGame = (): React.ReactElement => {
   const { t } = useTranslation();
+  const { setParam } = useSearchParams();
   const {
+    createGameWithPreferences,
     error,
     handleChange,
     handleSubmit,
@@ -96,6 +100,7 @@ const CreateGame = (): React.ReactElement => {
     isFetchingVariantSVG,
     isLoading,
     randomizeName,
+    percentages,
     selectedVariant,
     selectedVariantSVG,
     submitDisabled,
@@ -111,11 +116,17 @@ const CreateGame = (): React.ReactElement => {
     values.adjustmentPhaseLengthMultiplier === 1;
   const minEndAfterYearsValue = (selectedVariant?.Start?.Year || 0) + 1;
 
-  // TODO do properly
-  const maxPercentage = 10;
-  const minPercentage = 10;
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (values.nationAllocation === NationAllocation.Preference) {
+      setParam(searchKey, values.variant);
+    } else {
+      handleSubmit();
+    }
+  };
 
   return (
+    <>
     <GoBackNav title={t(tk.createGame.title)} href={RouteConfig.Home}>
       {isLoading ? (
         <Loading />
@@ -123,7 +134,7 @@ const CreateGame = (): React.ReactElement => {
         <ErrorMessage error={error} />
       ) : (
         <Container className={classes.root}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={onFormSubmit}>
             <section>
               <div className={classes.nameInputContainer}>
                 <TextField
@@ -288,20 +299,20 @@ const CreateGame = (): React.ReactElement => {
                 className={classes.nationAllocationContainer}
               >
                 <FormControlLabel
-                  value={0}
+                  value={NationAllocation.Random}
                   control={<Radio />}
                   label={
                     t(
-                      nationAllocationTranslations[nationAllocationMap[0]]
+                      nationAllocationTranslations[NationAllocation.Random]
                     ) as string
                   }
                 />
                 <FormControlLabel
-                  value={1}
+                  value={NationAllocation.Preference}
                   control={<Radio />}
                   label={
                     t(
-                      nationAllocationTranslations[nationAllocationMap[1]]
+                      nationAllocationTranslations[NationAllocation.Preference]
                     ) as string
                   }
                 />
@@ -655,7 +666,8 @@ const CreateGame = (): React.ReactElement => {
                     ) : null}
                     <FormHelperText>
                       {t(tk.createGame.minRatingInput.helpText, {
-                        percentage: minPercentage,
+                        // TODO test
+                        percentage: percentages.minPercentage,
                       })}
                     </FormHelperText>
                   </>
@@ -701,7 +713,8 @@ const CreateGame = (): React.ReactElement => {
                     ) : null}
                     <FormHelperText>
                       {t(tk.createGame.maxRatingInput.helpText, {
-                        percentage: maxPercentage,
+                        // TODO test
+                        percentage: percentages.maxPercentage,
                       })}
                     </FormHelperText>
                   </>
@@ -712,6 +725,7 @@ const CreateGame = (): React.ReactElement => {
               <Button
                 type="submit"
                 variant="contained"
+                color="primary"
                 disabled={submitDisabled}
               >
                 {t(tk.createGame.submitButton.label)}
@@ -721,6 +735,8 @@ const CreateGame = (): React.ReactElement => {
         </Container>
       )}
     </GoBackNav>
+    <NationPreferencesDialog handleSubmit={createGameWithPreferences} />
+    </>
   );
 };
 

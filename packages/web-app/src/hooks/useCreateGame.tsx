@@ -1,13 +1,15 @@
 import { FormikErrors, useFormik } from "formik";
-import {
-  createContext,
-  FormEvent,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { randomGameName } from "../helpers";
-import { CreateGameFormValues, MutationStatus, selectors, UserStats, Variant } from "@diplicity/common";
+import {
+  CreateGameFormValues,
+  MutationStatus,
+  NationAllocation,
+  selectors,
+  UserRatingHistogram,
+  UserStats,
+  Variant,
+} from "@diplicity/common";
 import {
   diplicityService,
   uiActions,
@@ -32,6 +34,7 @@ const {
 const CLASSICAL = "Classical";
 
 export interface IUseCreateGame {
+  createGameWithPreferences: (preferences: string[]) => void;
   error: ApiError | null;
   handleChange: (e: React.ChangeEvent<any>) => void;
   handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
@@ -39,6 +42,7 @@ export interface IUseCreateGame {
   isFetchingVariantSVG: boolean;
   isLoading: boolean;
   randomizeName: () => void;
+  percentages: { minPercentage: number; maxPercentage: number };
   selectedVariant: Variant | null;
   selectedVariantSVG: string | undefined;
   submitDisabled: boolean;
@@ -67,7 +71,7 @@ export const initialFormValues = {
   minRatingEnabled: false,
   minReliability: 0,
   name: randomGameName(),
-  nationAllocation: 0,
+  nationAllocation: NationAllocation.Random,
   phaseLengthMultiplier: 1,
   phaseLengthUnit: 60,
   privateGame: false,
@@ -85,7 +89,11 @@ export const useCreateGameStatus = (): MutationStatus =>
   useAppSelector(selectors.selectCreateGameStatus);
 
 const useCreateGame = (): IUseCreateGame => {
+  usePageLoad(PageName.CreateGame);
+
   const getRootQuery = useGetRootQuery(undefined);
+  const getUserRatingHistogramQuery =
+    diplicityService.useGetUserRatingHistogramQuery(undefined);
   const listVariantsQuery = useListVariantsQuery(undefined);
   const [triggerGetVariantSVGQuery, getVariantsSVGQuery] =
     useLazyGetVariantSVGQuery();
@@ -93,7 +101,6 @@ const useCreateGame = (): IUseCreateGame => {
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [validationSchema, setValidationSchema] = useState<any>();
   const dispatch = useDispatch();
-  usePageLoad(PageName.CreateGame);
 
   useEffect(() => {
     if (getRootQuery.data) {
@@ -157,6 +164,7 @@ const useCreateGame = (): IUseCreateGame => {
   } = useFormik({
     initialValues: getInitialFormValues(),
     onSubmit: (values) => {
+      console.log(values);
       dispatch(uiActions.submitCreateGameForm(values));
     },
     validationSchema,
@@ -207,6 +215,38 @@ const useCreateGame = (): IUseCreateGame => {
     }
   }, [selectedVariant, triggerGetVariantSVGQuery, setFieldValue]);
 
+  // TODO move to selectors/transformers
+  const [percentages, setPercentages] = useState<{
+    minPercentage: number;
+    maxPercentage: number;
+  }>({ minPercentage: 0, maxPercentage: 0 });
+  const ratingPercentile = (
+    userRatingHistogram: UserRatingHistogram,
+    rating: number
+  ): number => {
+    let totalCount = 0;
+    let belowCount = 0;
+    userRatingHistogram.Counts.forEach((count, idx) => {
+      totalCount += count;
+      if (idx + userRatingHistogram.FirstBucketRating < rating) {
+        belowCount += count;
+      }
+    });
+    return Math.floor(100 - 100 * (belowCount / totalCount));
+  };
+  useEffect(() => {
+    if (getUserRatingHistogramQuery.isSuccess) {
+      const minPercentage =
+        100 -
+        ratingPercentile(getUserRatingHistogramQuery.data, values.minRating);
+      const maxPercentage = ratingPercentile(
+        getUserRatingHistogramQuery.data,
+        values.maxRating
+      );
+      setPercentages({ minPercentage, maxPercentage });
+    }
+  }, [getUserRatingHistogramQuery, values.maxRating, values.minRating]);
+
   const randomizeName = () => setFieldValue("name", randomGameName());
   const submitDisabled =
     Object.keys(validationErrors).length !== 0 ||
@@ -228,7 +268,14 @@ const useCreateGame = (): IUseCreateGame => {
       )
     : null;
 
+  const createGameWithPreferences = (preferences: string[]) => {
+    dispatch(
+      uiActions.submitCreateGameFormWithPreferences({ values, preferences })
+    );
+  };
+
   return {
+    createGameWithPreferences,
     error,
     handleChange,
     handleSubmit,
@@ -236,6 +283,7 @@ const useCreateGame = (): IUseCreateGame => {
     isFetchingVariantSVG: getVariantsSVGQuery.isFetching,
     isLoading,
     randomizeName,
+    percentages,
     selectedVariant,
     selectedVariantSVG: getVariantsSVGQuery.data,
     submitDisabled,
@@ -246,21 +294,4 @@ const useCreateGame = (): IUseCreateGame => {
   };
 };
 
-export const useCreateGameContext =
-  createContext<null | typeof useCreateGame>(null);
-
-const createDIContext = <T,>() => createContext<null | T>(null);
-export const useDIContext = createDIContext<typeof useCreateGame>();
-
-const useGetHook = () => useContext(useDIContext) || useCreateGame;
-const useDIHook = (): IUseCreateGame => useGetHook()();
-
-export const createGameDecorator = (values: IUseCreateGame) => {
-  return (Component: () => JSX.Element) => (
-    <useDIContext.Provider value={() => values}>
-      <Component />
-    </useDIContext.Provider>
-  );
-};
-
-export default useDIHook;
+export default useCreateGame;

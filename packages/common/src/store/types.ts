@@ -271,11 +271,13 @@ export type UserStatsResponse = ApiResponse & {
   Properties: UserStats;
 };
 
+export type UserRatingHistogram = {
+  FirstBucketRating: number;
+  Counts: number[];
+};
+
 export type UserRatingHistogramResponse = ApiResponse & {
-  Properties: {
-    FirstBucketRating: number;
-    Counts: number[];
-  };
+  Properties: UserRatingHistogram;
 };
 
 export type ListVariantsResponse = ApiResponse & {
@@ -294,6 +296,7 @@ export type Auth = {
 export enum Headers {
   Authorization = "authorization",
   Accept = "Accept",
+  ContentType = "content-type",
   XDiplicityAPILevel = "X-Diplicity-API-Level",
   XDiplicityClientName = "X-Diplicity-Client-Name",
 }
@@ -305,6 +308,7 @@ export type NewGame = {
   DisableConferenceChat: boolean;
   DisableGroupChat: boolean;
   DisablePrivateChat: boolean;
+  FirstMember?: Pick<Member, "NationPreferences">;
   GameMasterEnabled: boolean;
   LastYear: number;
   MaxHated: number | null;
@@ -368,7 +372,7 @@ export type GameMasterInvitation = {
   Nation: string;
 };
 
-export type Game = NewGame & {
+export type Game = Omit<NewGame, "FirstMember"> & {
   Closed: boolean;
   Finished: boolean;
   ID: string;
@@ -640,7 +644,7 @@ export interface CreateGameFormValues {
   minRatingEnabled: boolean;
   minReliability: number;
   name: string;
-  nationAllocation: number;
+  nationAllocation: string;
   phaseLengthMultiplier: number;
   phaseLengthUnit: number;
   privateGame: boolean;

@@ -23,6 +23,7 @@ const FeedbackWrapper = ({
           open={true}
           onClose={() => handleClose(id)}
           message={message}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         >
           <Alert severity={severity}>{t(message)}</Alert>
         </Snackbar>

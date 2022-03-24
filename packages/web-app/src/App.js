@@ -6,8 +6,10 @@ import ActivityContainer from "./components/ActivityContainer";
 import Globals from "./Globals";
 import Router from "./pages/Router";
 import FeedbackWrapper from "./components/FeedbackWrapper";
+import { connect } from "react-redux";
+import { authActions } from "@diplicity/common";
 
-export class LegacyApp extends ActivityContainer {
+class LegacyAppComponent extends ActivityContainer {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,6 +44,7 @@ export class LegacyApp extends ActivityContainer {
 
     if (foundToken) {
       helpers.storeToken(foundToken);
+      this.props.login(foundToken);
     }
   }
   handleVariants(variants) {
@@ -231,6 +234,12 @@ export class LegacyApp extends ActivityContainer {
     });
   }
 }
+
+const mapDispatch = (dispatch) => ({
+    login: (token) => dispatch(authActions.login(token)),
+});
+
+export const LegacyApp = connect(null, mapDispatch)(LegacyAppComponent)
 
 const App = () => {
   return (

@@ -3,6 +3,7 @@ import { CreateGameFormValues, SettingsFormValues } from "./types";
 
 export enum PageName {
   CreateGame = "CreateGame",
+  NationPreferencesDialog = "NationPreferencesDialog",
   StatsDialog = "StatsDialog",
 }
 
@@ -12,6 +13,10 @@ const pageLoad = createAction<PageName>(`${domain}/pageLoad`);
 const submitCreateGameForm = createAction<CreateGameFormValues>(
   `${domain}/submitCreateGameForm`
 );
+const submitCreateGameFormWithPreferences = createAction<{
+  values: CreateGameFormValues;
+  preferences: string[];
+}>(`${domain}/submitCreateGameFormWithPreferences`);
 const resetUserSettings = createAction(`${domain}/resetUserSettings`);
 const submitSettingsForm = createAction<SettingsFormValues>(
   `${domain}/submitSettingsForm`
@@ -21,5 +26,6 @@ export const actions = {
   pageLoad,
   resetUserSettings,
   submitCreateGameForm,
+  submitCreateGameFormWithPreferences,
   submitSettingsForm,
 };

@@ -8,7 +8,12 @@ import { actions as authActions } from "./auth";
 import { actions as feedbackActions } from "./feedback";
 import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
-import { CreateGameFormValues, NewGame, Severity } from "./types";
+import {
+  CreateGameFormValues,
+  NationAllocation,
+  NewGame,
+  Severity,
+} from "./types";
 import { getQueryMatchers } from "./utils";
 import { translateKeys as tk } from "../translations";
 
@@ -20,10 +25,11 @@ const PAGE_VIEW_ACTION = "page_view";
 const transformCreateGameValuesToNewGame = (
   values: CreateGameFormValues
 ): NewGame => {
-  const adjustmentPhaseLengthMinutes =
-    values.adjustmentPhaseLengthMultiplier * values.adjustmentPhaseLengthUnit;
   const phaseLengthMinutes =
     values.phaseLengthMultiplier * values.phaseLengthUnit;
+  const adjustmentPhaseLengthMinutes = values.customAdjustmentPhaseLength
+    ? values.adjustmentPhaseLengthMultiplier * values.adjustmentPhaseLengthUnit
+    : 0;
   const chatLanguage =
     values.chatLanguage === "players_choice" ? "" : values.chatLanguage;
   return {
@@ -33,20 +39,22 @@ const transformCreateGameValuesToNewGame = (
     DisableConferenceChat: !values.conferenceChatEnabled,
     DisableGroupChat: !values.groupChatEnabled,
     DisablePrivateChat: !values.individualChatEnabled,
+    FirstMember: { NationPreferences: "" },
     GameMasterEnabled: values.gameMaster,
-    LastYear: values.endAfterYearsValue,
+    LastYear: values.endAfterYears ? values.endAfterYearsValue : 0,
     MaxHated: 0,
     MaxHater: 0,
-    MaxRating: values.maxRating,
+    MaxRating: values.maxRatingEnabled ? values.maxRating : 0,
     MinQuickness: values.minQuickness,
     MinRating: values.minRating,
     MinReliability: values.minReliability,
-    NationAllocation: values.nationAllocation,
+    NationAllocation:
+      values.nationAllocation === NationAllocation.Random ? 0 : 1,
     NonMovementPhaseLengthMinutes: adjustmentPhaseLengthMinutes,
     PhaseLengthMinutes: phaseLengthMinutes,
     Private: values.privateGame,
     RequireGameMasterInvitation: values.requireGameMasterInvitation,
-    SkipMuster: false,
+    SkipMuster: true,
     Variant: values.variant,
   };
 };
@@ -59,6 +67,31 @@ export const uiSubmitCreateGameFormMiddleware: Middleware<{}, any> =
     if (action.type === uiActions.submitCreateGameForm.type) {
       const values = action.payload;
       const newGame = transformCreateGameValuesToNewGame(values);
+      dispatch<any>(
+        diplicityService.endpoints.createGame.initiate(newGame, {
+          track: true,
+        })
+      );
+    }
+  };
+
+export const uiSubmitCreateGameFormWithPreferencesMiddleware: Middleware<
+  {},
+  any
+> =
+  ({ dispatch }) =>
+  (next) =>
+  (
+    action: PayloadAction<{
+      values: CreateGameFormValues;
+      preferences: string[];
+    }>
+  ) => {
+    next(action);
+    if (action.type === uiActions.submitCreateGameFormWithPreferences.type) {
+      const { values, preferences } = action.payload;
+      const newGame = transformCreateGameValuesToNewGame(values);
+      newGame.FirstMember = { NationPreferences: preferences.join(",") };
       dispatch<any>(
         diplicityService.endpoints.createGame.initiate(newGame, {
           track: true,
@@ -123,6 +156,9 @@ const getGAEventForRequest = (action: Action<any>): string | undefined => {
   const queryMatchers = getQueryMatchers();
   if (queryMatchers.matchCreateGameFulfilled(action)) {
     return "create_game";
+  }
+  if (queryMatchers.matchJoinGameFulfilled(action)) {
+    return "game_list_element_join";
   }
   return;
 };
@@ -203,6 +239,7 @@ const middleware = [
   authLogoutMiddleware,
   uiPageLoadMiddleware,
   uiSubmitCreateGameFormMiddleware,
+  uiSubmitCreateGameFormWithPreferencesMiddleware,
   uiSubmitSettingsFormMiddleware,
 ];
 export default middleware;
