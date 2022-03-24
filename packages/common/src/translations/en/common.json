@@ -37,7 +37,10 @@
       "label": "End in draw after number of years"
     },
     "end-after-years-input": {
-      "label": "End after year"
+      "label": "End after year",
+      "error-message": {
+        "less-than-variant-start": "Must be a year after the variant start year"
+      }
     },
     "game-length-section": {
       "label": "Game length"
@@ -114,6 +117,10 @@
     "reliability-enabled-checkbox": {
       "help-text": "Find players that keep playing",
       "label": "Reliability (important)"
+    },
+    "require-game-master-invitation": {
+      "label": "Require game master invitation",
+      "help-text": "Game master must allow players to join"
     },
     "requirements-section": {
       "label": "Player requirements"

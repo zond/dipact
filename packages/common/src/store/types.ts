@@ -1,6 +1,3 @@
-import { SerializedError } from "@reduxjs/toolkit";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-
 type Edge = {
   Flags: {
     [key: string]: boolean;
@@ -310,7 +307,7 @@ export type NewGame = {
   DisablePrivateChat: boolean;
   GameMasterEnabled: boolean;
   LastYear: number;
-  MaxHated: number;
+  MaxHated: number | null;
   MaxHater: number;
   MaxRating: number;
   MinQuickness: number;
@@ -625,30 +622,31 @@ export type CorroborationResponse = ApiResponse & {
 };
 
 export interface CreateGameFormValues {
-  name: string;
-  privateGame: boolean;
+  adjustmentPhaseLengthMultiplier: number;
+  adjustmentPhaseLengthUnit: number;
+  anonymousEnabled: boolean;
+  chatLanguage: string;
+  conferenceChatEnabled: boolean;
+  customAdjustmentPhaseLength: boolean;
+  endAfterYears: boolean;
+  endAfterYearsValue: number;
   gameMaster: boolean;
-  variant: string;
+  groupChatEnabled: boolean;
+  individualChatEnabled: boolean;
+  maxRating: number;
+  maxRatingEnabled: boolean;
+  minQuickness: number;
+  minRating: number;
+  minRatingEnabled: boolean;
+  minReliability: number;
+  name: string;
   nationAllocation: number;
   phaseLengthMultiplier: number;
   phaseLengthUnit: number;
-  customAdjustmentPhaseLength: boolean;
-  adjustmentPhaseLengthMultiplier: number;
-  adjustmentPhaseLengthUnit: number;
-  skipGetReadyPhase: boolean;
-  endAfterYears: boolean;
-  endAfterYearsValue: number;
-  conferenceChatEnabled: boolean;
-  groupChatEnabled: boolean;
-  individualChatEnabled: boolean;
-  anonymousEnabled: boolean;
-  chatLanguage: string;
-  reliabilityEnabled: boolean;
-  minReliability: number;
+  privateGame: boolean;
   quicknessEnabled: boolean;
-  minQuickness: number;
-  minRatingEnabled: boolean;
-  minRating: number;
-  maxRatingEnabled: boolean;
-  maxRating: number;
+  reliabilityEnabled: boolean;
+  requireGameMasterInvitation: boolean;
+  skipGetReadyPhase: boolean;
+  variant: string;
 }

@@ -184,3 +184,24 @@ export const selectVariantUnitSvgs = (
 export const selectPhase = (state: RootState): null | number => {
   return state.phase;
 };
+
+// TODO make generic
+// TODO test
+export const selectCreateGameStatus = (
+  state: RootState
+): MutationStatus => {
+  const defaultResponse = { isLoading: false, isError: false };
+  const userId = selectUserId(state);
+  if (!userId) return defaultResponse;
+  const { mutations } = state.diplicityService;
+  const mutation = Object.values(mutations || {})
+    .sort(sortMutationsByTimestamp)
+    .find(
+      (mutation: any) =>
+        mutation.endpointName === "createGame"
+    );
+  return {
+    isLoading: mutation?.status === "pending",
+    isError: false, // TODO
+  };
+};

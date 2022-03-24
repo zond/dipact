@@ -113,6 +113,9 @@ export const addNationAbbreviationsToVariant = (variant: Variant): Variant => {
 
 // Note, RTK Query doesn't make it easy to mock this so we create this object to be easily mocked
 export const getQueryMatchers = () => ({
+  matchCreateGameFulfilled:
+    diplicityService.endpoints.createGame.matchFulfilled,
+  matchCreateGameRejected: diplicityService.endpoints.createGame.matchRejected,
   matchJoinGameFulfilled: diplicityService.endpoints.joinGame.matchFulfilled,
   matchJoinGameRejected: diplicityService.endpoints.joinGame.matchRejected,
   matchRescheduleGameFulfilled:

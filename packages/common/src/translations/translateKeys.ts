@@ -38,6 +38,10 @@ const translateKeys = {
     },
     endAfterYearsInput: {
       label: "create-game.end-after-years-input.label",
+      errorMessage: {
+        lessThanVariantStart:
+          "create-game.end-after-years-input.error-message.less-than-variant-start",
+      },
     },
     gameLengthSection: {
       label: "create-game.game-length-section.label",
@@ -118,6 +122,10 @@ const translateKeys = {
     reliabilityEnabledCheckbox: {
       helpText: "create-game.reliability-enabled-checkbox.help-text",
       label: "create-game.reliability-enabled-checkbox.label",
+    },
+    requireGameMasterInvitation: {
+      label: "create-game.require-game-master-invitation.label",
+      helpText: "create-game.require-game-master-invitation.help-text",
     },
     requirementsSection: {
       label: "create-game.requirements-section.label",
