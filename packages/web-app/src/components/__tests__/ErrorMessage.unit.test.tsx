@@ -10,6 +10,10 @@ describe("ErrorMessage", () => {
     const error = { status: 500 } as ApiError;
     render(<ErrorMessage error={error} />);
   });
+  test("Shows empty string when no status", () => {
+    const error = {} as ApiError;
+    render(<ErrorMessage error={error} />);
+  });
   test("Shows error code", () => {
     const error = { status: 500 } as ApiError;
     render(<ErrorMessage error={error} />);

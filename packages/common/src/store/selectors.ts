@@ -7,6 +7,7 @@ import {
 import { diplicityService } from "./service";
 import { RootState } from "./store";
 import {
+  Auth,
   Channel,
   ColorOverrides,
   Messaging,
@@ -48,9 +49,6 @@ export const selectMessaging = (state: RootState): Messaging => state.messaging;
 
 export const selectIsLoggedIn = (state: RootState): boolean =>
   state.auth.isLoggedIn;
-
-export const selectToken = (state: RootState): string | undefined =>
-  state.auth.token;
 
 export const selectVariant = (
   state: RootState,
@@ -133,26 +131,6 @@ const sortMutationsByTimestamp = (x: any, y: any) => {
   return y.startedTimeStamp - x.startedTimeStamp;
 };
 
-export const selectUpdateUserConfigStatus = (
-  state: RootState
-): MutationStatus => {
-  const defaultResponse = { isLoading: false, isError: false };
-  const userId = selectUserId(state);
-  if (!userId) return defaultResponse;
-  const { mutations } = state.diplicityService;
-  const mutation = Object.values(mutations || {})
-    .sort(sortMutationsByTimestamp)
-    .find(
-      (mutation: any) =>
-        mutation.originalArgs.UserId === userId &&
-        mutation.endpointName === "updateUserConfig"
-    );
-  return {
-    isLoading: mutation?.status === "pending",
-    isError: false, // TODO
-  };
-};
-
 export const selectVariantUnitSvg = (
   state: RootState,
   variantName: string,
@@ -189,7 +167,7 @@ export const selectPhase = (state: RootState): null | number => {
 // TODO make generic
 // TODO test
 export const selectCreateGameStatus = (state: RootState): MutationStatus => {
-  const defaultResponse = { isLoading: false, isError: false };
+  const defaultResponse = { isLoading: false, isError: false, isSuccess: false };
   const userId = selectUserId(state);
   if (!userId) return defaultResponse;
   const { mutations } = state.diplicityService;
@@ -198,9 +176,32 @@ export const selectCreateGameStatus = (state: RootState): MutationStatus => {
     .find((mutation: any) => mutation.endpointName === "createGame");
   return {
     isLoading: mutation?.status === "pending",
+    isSuccess: mutation?.status === "fulfilled",
     isError: false, // TODO
   };
 };
+
+export const selectUpdateUserConfigStatus = (
+  state: RootState
+): MutationStatus => {
+  const defaultResponse = { isLoading: false, isError: false, isSuccess: false };
+  const userId = selectUserId(state);
+  if (!userId) return defaultResponse;
+  const { mutations } = state.diplicityService;
+  const mutation = Object.values(mutations || {})
+    .sort(sortMutationsByTimestamp)
+    .find(
+      (mutation: any) =>
+        mutation.originalArgs.UserId === userId &&
+        mutation.endpointName === "updateUserConfig"
+    );
+  return {
+    isLoading: mutation?.status === "pending",
+    isSuccess: mutation?.status === "fulfilled",
+    isError: false, // TODO
+  };
+};
+
 
 // TODO test
 // TODO move
@@ -221,3 +222,10 @@ export const selectNationPreferencesDialogView = (
       return { nations };
     }
   )(state);
+
+// TODO test
+export const selectAuth = (state: RootState): Auth => state.auth;
+
+// TODO test
+export const selectToken = (state: RootState) =>
+  createSelector(selectAuth, (auth) => auth.token)(state);

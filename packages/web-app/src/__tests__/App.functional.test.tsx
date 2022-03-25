@@ -11,7 +11,8 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { setupServer } from "msw/node";
-import { MemoryRouter as Router, BrowserRouter } from "react-router-dom";
+import { MemoryRouter as Router } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
 
 import App from "../App";
 import { handlers } from "../mocks/handlers";
@@ -49,16 +50,15 @@ afterAll((): void => {
 
 const randomGameName = "Random game name";
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  BrowserRouter: jest.fn(),
+jest.mock("connected-react-router", () => ({
+  ...jest.requireActual("connected-react-router"),
+  ConnectedRouter: jest.fn(),
 }));
 
 jest.mock("../helpers", () => ({
   ...jest.requireActual("../helpers"),
   incProgress: jest.fn(),
   decProgress: jest.fn(),
-  // randomGameName: () => randomGameName,
   randomGameName: jest.fn(() => randomGameName),
 }));
 
@@ -108,7 +108,7 @@ describe("Create game functional tests", () => {
   };
 
   beforeEach(async () => {
-    (BrowserRouter as jest.Mock).mockImplementation(({ children }) => (
+    (ConnectedRouter as jest.Mock).mockImplementation(({ children }) => (
       <div>{children}</div>
     ));
     gaEventSpy = jest.spyOn(ReactGA, "event");
@@ -179,18 +179,6 @@ describe("Create game functional tests", () => {
     fireEvent.change(select, { target: { value: "Twenty Twenty" } });
     await waitFor(() => screen.getByRole("progressbar"));
   });
-  // test("Changing variant select disables submit button while loading", async () => {
-  //   await renderPage(createGameUrl);
-  //   const select = await waitFor(() =>
-  //     screen.getByLabelText(tk.CreateGameVariantSelectLabel)
-  //   );
-  //   fireEvent.change(select, { target: { value: "Twenty Twenty" } });
-  //   const button = await waitFor(() =>
-  //     screen.getByText(tk.CreateGameSubmitButtonLabel)
-  //   );
-  //   await waitFor(() => screen.getByRole("progressbar"));
-  //   expect(button).toHaveAttribute("disabled");
-  // });
   test("Nation selection options appear", async () => {
     await navigateToCreateGame();
     await waitFor(() =>
@@ -731,17 +719,6 @@ describe("Create game functional tests", () => {
       )
     );
   });
-  // test("Click submit button disables submit button", async () => {
-  //   await navigateToCreateGame();
-  //   const submitButton = await waitFor(
-  //     () =>
-  //       screen.getByText(tk.createGame.submitButton.label) as HTMLButtonElement
-  //   );
-  //   await act(async () => {
-  //     fireEvent.click(submitButton);
-  //   });
-  //   await waitFor(() => expect(submitButton.disabled).toBe(true));
-  // });
   test("Click submit button triggers ga event if successful", async () => {
     await navigateToCreateGame();
     const submitButton = await waitFor(
@@ -805,8 +782,44 @@ describe("Create game functional tests", () => {
     await navigateToCreateGame();
     await userSeesInternalServerErrorMessage();
   });
-  test.todo("Click submit button shows preference dialog if preference");
-  test.todo(
-    "Click submit button on preference dialog calls create game endpoint with preferences"
-  );
+  test("Click submit button shows preference dialog if preference", async () => {
+    await navigateToCreateGame();
+    const preferenceOption = await waitFor(() =>
+      screen.getByLabelText(tk.nationAllocationOptions.preference)
+    );
+    act(() => {
+      fireEvent.click(preferenceOption);
+    });
+    const submitButton = await waitFor(
+      () =>
+        screen.getByText(tk.createGame.submitButton.label) as HTMLButtonElement
+    );
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    await waitFor(() => screen.getByText(tk.nationPreferences.title));
+  });
+  test("Click submit button on preference dialog calls create game endpoint with preferences", async () => {
+    await navigateToCreateGame();
+    const preferenceOption = await waitFor(() =>
+      screen.getByLabelText(tk.nationAllocationOptions.preference)
+    );
+    act(() => {
+      fireEvent.click(preferenceOption);
+    });
+    const submitButton = await waitFor(
+      () =>
+        screen.getByText(tk.createGame.submitButton.label) as HTMLButtonElement
+    );
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    const submitPreferencesButton = await waitFor(() =>
+      screen.getByText(tk.nationPreferences.joinButton.label)
+    );
+    await act(() => {
+      fireEvent.click(submitPreferencesButton);
+    });
+    await waitFor(() => screen.getByText(tk.feedback.createGame.fulfilled));
+  });
 });

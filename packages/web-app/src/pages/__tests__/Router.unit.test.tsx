@@ -1,18 +1,24 @@
 import React from "react";
 
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
 import "@testing-library/jest-dom/extend-expect";
 import Router from "../Router";
+import AuthWrapper from "../../components/AuthWrapper";
 
 enum MockStrings {
   LegacyApp = "LegacyApp",
   CreateGame = "CreateGame",
 }
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  BrowserRouter: jest.fn(),
+jest.mock("connected-react-router", () => ({
+  ...jest.requireActual("connected-react-router"),
+  ConnectedRouter: jest.fn(),
+}));
+jest.mock("../../components/AuthWrapper", () => ({
+  __esModule: true,
+  default: jest.fn(),
 }));
 jest.mock("../../App", () => ({
   LegacyApp: () => <div>{MockStrings.LegacyApp}</div>,
@@ -20,7 +26,10 @@ jest.mock("../../App", () => ({
 jest.mock("../CreateGame", () => () => <div>{MockStrings.CreateGame}</div>);
 
 const renderRoute = (route: string): void => {
-  (BrowserRouter as jest.Mock).mockImplementation(({ children }) => (
+  (AuthWrapper as jest.Mock).mockImplementation(({ children }) => (
+    <div>{children}</div>
+  ));
+  (ConnectedRouter as jest.Mock).mockImplementation(({ children }) => (
     <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
   ));
   render(<Router />);

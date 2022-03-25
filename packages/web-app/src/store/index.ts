@@ -6,18 +6,29 @@ import {
   middleware as commonMiddleware,
   diplicityService,
 } from "@diplicity/common";
+import middleware from "./middleware";
+import { connectRouter, routerMiddleware } from "connected-react-router";
+import { createBrowserHistory } from "history";
 
-const reducer = combineReducers({ ...commonReducers });
+export const history = createBrowserHistory();
 
-export const createStore = () => configureStore({
-  reducer: reducer,
-  middleware: (gdm) => [
-    ...gdm({ serializableCheck: false })
-      .concat(diplicityService.middleware)
-      .concat(commonMiddleware),
-  ],
-});
+const createRootReducer = (history: any) =>
+  combineReducers({
+    router: connectRouter(history),
+    ...commonReducers,
+  });
 
+export const createStore = () =>
+  configureStore({
+    reducer: createRootReducer(history),
+    middleware: (gdm) => [
+      ...gdm({ serializableCheck: false })
+        .concat(routerMiddleware(history))
+        .concat(diplicityService.middleware)
+        .concat(commonMiddleware)
+        .concat(middleware),
+    ],
+  });
 
 export const store = createStore();
 

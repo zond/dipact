@@ -32,7 +32,7 @@ import {
 } from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 import { translateKeys as tk } from "@diplicity/common";
-import { RouteConfig } from "./Router";
+import { RouteConfig } from "./RouteConfig";
 import ErrorMessage from "../components/ErrorMessage";
 import NationPreferencesDialog, { searchKey } from "../components/NationPreferencesDialog.new";
 import useSearchParams from "../hooks/useSearchParams";

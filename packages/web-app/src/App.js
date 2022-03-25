@@ -6,10 +6,8 @@ import ActivityContainer from "./components/ActivityContainer";
 import Globals from "./Globals";
 import Router from "./pages/Router";
 import FeedbackWrapper from "./components/FeedbackWrapper";
-import { connect } from "react-redux";
-import { authActions } from "@diplicity/common";
 
-class LegacyAppComponent extends ActivityContainer {
+export class LegacyApp extends ActivityContainer {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,23 +27,6 @@ class LegacyAppComponent extends ActivityContainer {
       history.pushState("", "", path);
       this.setActivity(MainMenu, { urls: this.state.urls });
     });
-  }
-  processToken() {
-    let hrefURL = new URL(location.href);
-    let foundToken = hrefURL.searchParams.get("token");
-    if (foundToken) {
-      hrefURL.searchParams.delete("token");
-      history.pushState("", "", hrefURL.toString());
-    }
-
-    if (!foundToken) {
-      foundToken = localStorage.getItem("token");
-    }
-
-    if (foundToken) {
-      helpers.storeToken(foundToken);
-      this.props.login(foundToken);
-    }
   }
   handleVariants(variants) {
     // Order the variants so that Classical is first and the rest are alphabetical.
@@ -89,6 +70,22 @@ class LegacyAppComponent extends ActivityContainer {
       helpers.parseUserConfigColors();
     }
   }
+  processToken() {
+    let hrefURL = new URL(location.href);
+    let foundToken = hrefURL.searchParams.get("token");
+    if (foundToken) {
+      hrefURL.searchParams.delete("token");
+      history.pushState("", "", hrefURL.toString());
+    }
+
+    if (!foundToken) {
+      foundToken = localStorage.getItem("token");
+    }
+
+    if (foundToken) {
+      helpers.storeToken(foundToken);
+    }
+  }
   presentContent(rootJS) {
     this.setState((state, props) => {
       state = Object.assign({}, state);
@@ -118,7 +115,7 @@ class LegacyAppComponent extends ActivityContainer {
       linkSetter("started-games");
       linkSetter("finished-games");
 
-      if (Globals.user) {
+      if (rootJS.Properties.User) {
         if (
           window.Wrapper &&
           window.Wrapper.pendingAction &&
@@ -147,8 +144,9 @@ class LegacyAppComponent extends ActivityContainer {
     }
   }
   handleRoot(rootJS) {
-    Globals.user = rootJS.Properties.User;
-    if (Globals.user) {
+    const user = rootJS.Properties.User;
+    Globals.user = user;
+    if (user) {
       helpers
         .safeFetch(
           helpers.createRequest(
@@ -234,12 +232,6 @@ class LegacyAppComponent extends ActivityContainer {
     });
   }
 }
-
-const mapDispatch = (dispatch) => ({
-    login: (token) => dispatch(authActions.login(token)),
-});
-
-export const LegacyApp = connect(null, mapDispatch)(LegacyAppComponent)
 
 const App = () => {
   return (

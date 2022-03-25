@@ -41,6 +41,7 @@ export interface IUseCreateGame {
   isError: boolean;
   isFetchingVariantSVG: boolean;
   isLoading: boolean;
+  isSuccess: boolean;
   randomizeName: () => void;
   percentages: { minPercentage: number; maxPercentage: number };
   selectedVariant: Variant | null;
@@ -164,13 +165,12 @@ const useCreateGame = (): IUseCreateGame => {
   } = useFormik({
     initialValues: getInitialFormValues(),
     onSubmit: (values) => {
-      console.log(values);
       dispatch(uiActions.submitCreateGameForm(values));
     },
     validationSchema,
   });
 
-  const { isLoading: createGameIsLoading } = useCreateGameStatus();
+  const { isLoading: createGameIsLoading, isSuccess } = useCreateGameStatus();
 
   useEffect(() => {
     if (getUserStatsQuery.isSuccess) {
@@ -282,6 +282,7 @@ const useCreateGame = (): IUseCreateGame => {
     isError,
     isFetchingVariantSVG: getVariantsSVGQuery.isFetching,
     isLoading,
+    isSuccess,
     randomizeName,
     percentages,
     selectedVariant,

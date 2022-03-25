@@ -603,6 +603,7 @@ export interface Feedback {
 export interface MutationStatus {
   isLoading: boolean;
   isError: boolean;
+  isSuccess: boolean;
 }
 
 export type CreateMessageResponse = ApiResponse & {

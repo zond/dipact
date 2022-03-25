@@ -22,7 +22,7 @@ import NewsDialog from "./NewsDialog";
 import { ExpandIcon } from "../icons";
 import LogoDarkSvgPath from "../static/img/logo_dark.svg";
 import SoldiersSvgPath from "../static/img/soldiers.svg";
-import { RouteConfig } from "../pages/Router";
+import { RouteConfig } from "../pages/RouteConfig";
 
 const latestNews = 1;
 const latestNewsShownKey = "latestNewsShownKey";
