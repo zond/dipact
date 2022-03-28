@@ -11,6 +11,7 @@ import {
 	Toolbar,
 	Typography,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom"
 
 import Globals from "../Globals";
 import ErrorsDialog from "./ErrorsDialog";
@@ -21,11 +22,12 @@ import NewsDialog from "./NewsDialog";
 import { ExpandIcon } from "../icons";
 import LogoDarkSvgPath from "../static/img/logo_dark.svg";
 import SoldiersSvgPath from "../static/img/soldiers.svg";
+import { RouteConfig } from "../pages/RouteConfig";
 
 const latestNews = 1;
 const latestNewsShownKey = "latestNewsShownKey";
 
-export default class Start extends React.Component {
+class Start extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -58,6 +60,7 @@ export default class Start extends React.Component {
 		gtag("event", "page_view");
 	}
 	render() {
+		const onClickCreateGame = () => this.props.history.push(RouteConfig.CreateGame);
 		return (
 			<React.Fragment>
 				{this.hasPlayed() ? (
@@ -300,11 +303,7 @@ export default class Start extends React.Component {
 										variant="outlined"
 										color="secondary"
 										key="create"
-										onClick={(_) => {
-											this.createGameDialog.setState({
-												open: true,
-											});
-										}}
+										onClick={onClickCreateGame}
 									>
 										Create game
 									</Button>
@@ -418,11 +417,7 @@ export default class Start extends React.Component {
 										variant="outlined"
 										color="secondary"
 										key="create"
-										onClick={(_) => {
-											this.createGameDialog.setState({
-												open: true,
-											});
-										}}
+										onClick={onClickCreateGame}
 									>
 										Create game
 									</Button>
@@ -455,3 +450,5 @@ export default class Start extends React.Component {
 		);
 	}
 }
+
+export default withRouter(Start);

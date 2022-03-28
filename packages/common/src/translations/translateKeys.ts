@@ -10,6 +10,9 @@ const translateKeys = {
     adjustmentPhaseLengthMultiplierInput: {
       label: "create-game.adjustment-phase-length-multiplier-input.label",
     },
+    adjustmentPhaseLengthUnitSelect: {
+      label: "create-game.adjustment-phase-length-unit-select.label",
+    },
     allowChatsSwitch: {
       label: "create-game.allow-chats-switch.label",
     },
@@ -35,6 +38,10 @@ const translateKeys = {
     },
     endAfterYearsInput: {
       label: "create-game.end-after-years-input.label",
+      errorMessage: {
+        lessThanVariantStart:
+          "create-game.end-after-years-input.error-message.less-than-variant-start",
+      },
     },
     gameLengthSection: {
       label: "create-game.game-length-section.label",
@@ -66,6 +73,10 @@ const translateKeys = {
     },
     minQuicknessInput: {
       label: "create-game.min-quickness-input.label",
+      errorMessage: {
+        moreThanUserQuickness:
+          "create-game.min-quickness-input.error-message.more-than-user-quickness",
+      },
     },
     minRatingEnabledCheckbox: {
       helpText: "create-game.min-rating-enabled-checkbox.help-text",
@@ -81,6 +92,10 @@ const translateKeys = {
     },
     minReliabilityInput: {
       label: "create-game.min-reliability-input.label",
+      errorMessage: {
+        moreThanUserReliability:
+          "create-game.min-reliability-input.error-message.more-than-user-reliability",
+      },
     },
     nameInput: {
       label: "create-game.name-input.label",
@@ -107,6 +122,10 @@ const translateKeys = {
     reliabilityEnabledCheckbox: {
       helpText: "create-game.reliability-enabled-checkbox.help-text",
       label: "create-game.reliability-enabled-checkbox.label",
+    },
+    requireGameMasterInvitation: {
+      label: "create-game.require-game-master-invitation.label",
+      helpText: "create-game.require-game-master-invitation.help-text",
     },
     requirementsSection: {
       label: "create-game.requirements-section.label",
@@ -144,6 +163,10 @@ const translateKeys = {
     },
   },
   feedback: {
+    createGame: {
+      fulfilled: "feedback.create-game.fulfilled",
+      rejected: "feedback.create-game.rejected",
+    },
     joinGame: {
       fulfilled: "feedback.join-game.fulfilled",
       rejected: "feedback.join-game.rejected",

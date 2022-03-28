@@ -37,6 +37,7 @@ import {
   ListGameStatesResponse,
   GameStateResponse,
   Ban,
+  UserRatingHistogram,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -82,6 +83,7 @@ export const diplicityService = createApi({
       headers.set(Headers.XDiplicityAPILevel, "8");
       headers.set(Headers.XDiplicityClientName, "dipact@"); // TODO
       headers.set(Headers.Accept, "application/json");
+      headers.set(Headers.ContentType, "application/json");
       return headers;
     },
     mode: "cors",
@@ -136,10 +138,11 @@ export const diplicityService = createApi({
       transformResponse: (response: UserStatsResponse) => response.Properties,
     }),
     getUserRatingHistogram: builder.query<
-      UserRatingHistogramResponse,
+      UserRatingHistogram,
       undefined
     >({
       query: () => "/Users/Ratings/Histogram",
+      transformResponse: (response: UserRatingHistogramResponse) => response.Properties,
     }),
     listVariants: builder.query<Variant[], undefined>({
       query: () => "/Variants",
@@ -244,7 +247,7 @@ export const diplicityService = createApi({
       query: (data) => ({
         url: "/Game",
         method: "POST",
-        body: JSON.stringify(data),
+        body: data,
       }),
     }),
     createMessage: builder.mutation<

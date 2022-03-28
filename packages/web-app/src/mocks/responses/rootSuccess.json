@@ -1,0 +1,321 @@
+{
+  "Name": "diplicity",
+  "Properties": {
+    "User": {
+      "Email": "fakeemail@gmail.com",
+      "FamilyName": "",
+      "Gender": "",
+      "GivenName": "",
+      "Hd": "",
+      "Id": "123456789",
+      "Link": "",
+      "Locale": "en",
+      "Name": "",
+      "Picture": "",
+      "VerifiedEmail": true,
+      "ValidUntil": "2121-07-05T19:46:29.731800159Z"
+    }
+  },
+  "Desc": [
+    [
+      "Usage",
+      "Use the `Accept` header or `accept` query parameter to choose `text/html` or `application/json` as output.",
+      "Use the `login` link to log in to the system.",
+      "CORS requests are allowed."
+    ],
+    [
+      "Authentication",
+      "The `login` link redirects to the Google OAuth2 login flow, and then back the `redirect-to` query param used when loading the `login` link.",
+      "In the final redirect, the query parameter `token` will be your OAuth2 token.",
+      "Use this token as the URL parameter `token`, or use it inside an `Authorization: Bearer ...` header to authenticate requests."
+    ],
+    [
+      "Source code",
+      "The source code for this service can be found at https://github.com/zond/diplicity.",
+      "Patches are welcome!"
+    ],
+    [
+      "Creating games",
+      "Most fields when creating games are self explanatory, but some of them require a bit of extra help.",
+      "FirstMember.GameAlias is the alias that will be saved for the user that created the game. This is the same GameAlias as when updating a game membership.",
+      "FirstMember.NationPreferences is the nations the game creator wants to play, in order of preference. This is the same NationPreferences as when updating a game membership.",
+      "NoMerge should be set to true if the game should _not_ be merged with another open public game with the same settings.",
+      "Private should be set to true if the game should _not_ show up in any game lists other than 'My ...'."
+    ]
+  ],
+  "Type": "Diplicity",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/",
+      "Method": "GET"
+    },
+    {
+      "Rel": "variants",
+      "URL": "https://diplicity-engine.appspot.com/Variants",
+      "Method": "GET"
+    },
+    {
+      "Rel": "ratings-histogram",
+      "URL": "https://diplicity-engine.appspot.com/Users/Ratings/Histogram",
+      "Method": "GET"
+    },
+    {
+      "Rel": "global-stats",
+      "URL": "https://diplicity-engine.appspot.com/GlobalStats",
+      "Method": "GET"
+    },
+    {
+      "Rel": "rss",
+      "URL": "https://diplicity-engine.appspot.com/Rss",
+      "Method": "GET"
+    },
+    {
+      "Rel": "test-allocation",
+      "URL": "https://diplicity-engine.appspot.com/Allocation",
+      "Method": "POST",
+      "JSONSchema": {
+        "type": "object",
+        "properties": {
+          "Members": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Prefs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Prefs"
+                }
+              }
+            },
+            "title": "Members"
+          },
+          "Variant": {
+            "type": "string",
+            "title": "Variant"
+          }
+        }
+      }
+    },
+    {
+      "Rel": "latest-forum-mail",
+      "URL": "https://diplicity-engine.appspot.com/ForumMail",
+      "Method": "GET"
+    },
+    {
+      "Rel": "logout",
+      "URL": "https://diplicity-engine.appspot.com/Auth/Logout?redirect-to=%2F",
+      "Method": "GET"
+    },
+    {
+      "Rel": "top-rated-players",
+      "URL": "https://diplicity-engine.appspot.com/Users/TopRated",
+      "Method": "GET"
+    },
+    {
+      "Rel": "top-reliable-players",
+      "URL": "https://diplicity-engine.appspot.com/Users/TopReliable",
+      "Method": "GET"
+    },
+    {
+      "Rel": "top-hated-players",
+      "URL": "https://diplicity-engine.appspot.com/Users/TopHated",
+      "Method": "GET"
+    },
+    {
+      "Rel": "top-hater-players",
+      "URL": "https://diplicity-engine.appspot.com/Users/TopHater",
+      "Method": "GET"
+    },
+    {
+      "Rel": "top-quick-players",
+      "URL": "https://diplicity-engine.appspot.com/Users/TopQuick",
+      "Method": "GET"
+    },
+    {
+      "Rel": "mastered-staging-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/Mastered/Staging",
+      "Method": "GET"
+    },
+    {
+      "Rel": "mastered-started-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/Mastered/Started",
+      "Method": "GET"
+    },
+    {
+      "Rel": "mastered-finished-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/Mastered/Finished",
+      "Method": "GET"
+    },
+    {
+      "Rel": "my-staging-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/My/Staging",
+      "Method": "GET"
+    },
+    {
+      "Rel": "my-started-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/My/Started",
+      "Method": "GET"
+    },
+    {
+      "Rel": "my-finished-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/My/Finished",
+      "Method": "GET"
+    },
+    {
+      "Rel": "open-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/Open",
+      "Method": "GET"
+    },
+    {
+      "Rel": "started-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/Started",
+      "Method": "GET"
+    },
+    {
+      "Rel": "finished-games",
+      "URL": "https://diplicity-engine.appspot.com/Games/Finished",
+      "Method": "GET"
+    },
+    {
+      "Rel": "flagged-messages",
+      "URL": "https://diplicity-engine.appspot.com/FlaggedMessages",
+      "Method": "GET"
+    },
+    {
+      "Rel": "approved-frontends",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/RedirectURLs",
+      "Method": "GET"
+    },
+    {
+      "Rel": "create-game",
+      "URL": "https://diplicity-engine.appspot.com/Game",
+      "Method": "POST",
+      "JSONSchema": {
+        "type": "object",
+        "properties": {
+          "Anonymous": {
+            "type": "boolean",
+            "title": "Anonymous"
+          },
+          "ChatLanguageISO639_1": {
+            "type": "string",
+            "title": "ChatLanguageISO639_1"
+          },
+          "Desc": {
+            "type": "string",
+            "title": "Desc"
+          },
+          "DisableConferenceChat": {
+            "type": "boolean",
+            "title": "DisableConferenceChat"
+          },
+          "DisableGroupChat": {
+            "type": "boolean",
+            "title": "DisableGroupChat"
+          },
+          "DisablePrivateChat": {
+            "type": "boolean",
+            "title": "DisablePrivateChat"
+          },
+          "FirstMember": {
+            "type": "object",
+            "properties": {
+              "GameAlias": {
+                "type": "string",
+                "title": "GameAlias"
+              },
+              "NationPreferences": {
+                "type": "string",
+                "title": "NationPreferences"
+              }
+            },
+            "title": "FirstMember"
+          },
+          "GameMasterEnabled": {
+            "type": "boolean",
+            "title": "GameMasterEnabled"
+          },
+          "LastYear": {
+            "type": "integer",
+            "title": "LastYear"
+          },
+          "MaxHated": {
+            "type": "number",
+            "title": "MaxHated"
+          },
+          "MaxHater": {
+            "type": "number",
+            "title": "MaxHater"
+          },
+          "MaxRating": {
+            "type": "number",
+            "title": "MaxRating"
+          },
+          "MinQuickness": {
+            "type": "number",
+            "title": "MinQuickness"
+          },
+          "MinRating": {
+            "type": "number",
+            "title": "MinRating"
+          },
+          "MinReliability": {
+            "type": "number",
+            "title": "MinReliability"
+          },
+          "NationAllocation": {
+            "type": "integer",
+            "title": "NationAllocation"
+          },
+          "NoMerge": {
+            "type": "boolean",
+            "title": "NoMerge"
+          },
+          "NonMovementPhaseLengthMinutes": {
+            "type": "integer",
+            "title": "NonMovementPhaseLengthMinutes"
+          },
+          "PhaseLengthMinutes": {
+            "type": "integer",
+            "title": "PhaseLengthMinutes"
+          },
+          "Private": {
+            "type": "boolean",
+            "title": "Private"
+          },
+          "RequireGameMasterInvitation": {
+            "type": "boolean",
+            "title": "RequireGameMasterInvitation"
+          },
+          "SkipMuster": {
+            "type": "boolean",
+            "title": "SkipMuster"
+          },
+          "Variant": {
+            "type": "string",
+            "title": "Variant"
+          }
+        }
+      }
+    },
+    {
+      "Rel": "user-config",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/UserConfig",
+      "Method": "GET"
+    },
+    {
+      "Rel": "bans",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/Bans",
+      "Method": "GET"
+    },
+    {
+      "Rel": "user-stats",
+      "URL": "https://diplicity-engine.appspot.com/User/123456789/Stats",
+      "Method": "GET"
+    }
+  ]
+}

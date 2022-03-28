@@ -1,4 +1,4 @@
-import { User } from ".";
+import { User } from "./store";
 import contrastColors from "./utils/contrastColors";
 
 const serverURL = new URL("https://diplicity-engine.appspot.com/");

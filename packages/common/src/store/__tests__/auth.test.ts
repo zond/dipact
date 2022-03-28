@@ -1,20 +1,20 @@
-import { setupApiStore } from "../testUtils";
 import authReducer, { actions as authActions } from "../auth";
-import { diplicityService } from "../service";
+import { Auth } from "../types";
 
 const testToken = "test-token-123";
+const initialState: Auth = { isLoggedIn: false };
 
 describe("Auth actions", () => {
-  it("login", () => {
-    const { store } = setupApiStore(diplicityService, { auth: authReducer });
-    const stateBeforeAction = store.getState();
-    store.dispatch(authActions.login(testToken));
-    const stateAfterAction = store.getState();
-
-    expect(stateBeforeAction.auth.token).toBe(undefined);
-    expect(stateBeforeAction.auth.isLoggedIn).toBe(false);
-
-    expect(stateAfterAction.auth.token).toBe(testToken);
-    expect(stateAfterAction.auth.isLoggedIn).toBe(true);
+  test("login", () => {
+    const state = { ...initialState }
+    const updatedState = authReducer(state, authActions.login(testToken));
+    expect(updatedState.token).toBe(testToken);
+    expect(updatedState.isLoggedIn).toBe(true);
+  });
+  test("logout", () => {
+    const state = { ...initialState, isLoggedIn: true, token: testToken }
+    const updatedState = authReducer(state, authActions.logout());
+    expect(updatedState.token).toBeUndefined();
+    expect(updatedState.isLoggedIn).toBe(false);
   });
 });

@@ -1,9 +1,9 @@
 import { Middleware, AnyAction } from "@reduxjs/toolkit";
 
 export function mockFunction<T extends (...args: any[]) => any>(
-	fn: T
+  fn: T
 ): jest.MockedFunction<T> {
-	return fn as jest.MockedFunction<T>;
+  return fn as jest.MockedFunction<T>;
 }
 
 export enum RequestStatus {
@@ -51,3 +51,28 @@ export const createThunkAction = (
   meta: { arg: { endpointName }, requestStatus, requestId: "" },
   payload: { status: 200 },
 });
+
+export const createTestMatcher =
+  (endpointName: string, requestStatus: string) => (action: AnyAction) =>
+    action.meta?.arg?.endpointName === endpointName &&
+    action.meta?.requestStatus === requestStatus;
+
+export const mockGetQueryMatchers = {
+  matchCreateGameFulfilled: createTestMatcher("createGame", "fulfilled"),
+  matchCreateGameRejected: createTestMatcher("createGame", "rejected"),
+  matchJoinGameFulfilled: createTestMatcher("joinGame", "fulfilled"),
+  matchJoinGameRejected: createTestMatcher("joinGame", "rejected"),
+  matchRescheduleGameFulfilled: createTestMatcher(
+    "rescheduleGame",
+    "fulfilled"
+  ),
+  matchRescheduleGameRejected: createTestMatcher("rescheduleGame", "rejected"),
+  matchInviteFulfilled: createTestMatcher("invite", "fulfilled"),
+  matchInviteRejected: createTestMatcher("invite", "rejected"),
+  matchUnInviteFulfilled: createTestMatcher("unInvite", "fulfilled"),
+  matchUnInviteRejected: createTestMatcher("unInvite", "rejected"),
+  matchRenameGameFulfilled: createTestMatcher("renameGame", "fulfilled"),
+  matchRenameGameRejected: createTestMatcher("renameGame", "rejected"),
+  matchDeleteGameFulfilled: createTestMatcher("deleteGame", "fulfilled"),
+  matchDeleteGameRejected: createTestMatcher("deleteGame", "rejected"),
+};

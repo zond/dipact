@@ -10,6 +10,9 @@
     "adjustment-phase-length-multiplier-input": {
       "label": "Adjustment phase length"
     },
+    "adjustment-phase-length-unit-select": {
+      "label": "Unit"
+    },
     "allow-chats-switch": {
       "label": "Allow chats"
     },
@@ -34,7 +37,10 @@
       "label": "End in draw after number of years"
     },
     "end-after-years-input": {
-      "label": "End after year"
+      "label": "End after year",
+      "error-message": {
+        "less-than-variant-start": "Must be a year after the variant start year"
+      }
     },
     "game-length-section": {
       "label": "Game length"
@@ -64,7 +70,10 @@
       "label": "Maximum rating"
     },
     "min-quickness-input": {
-      "label": "Minimum quickness score "
+      "label": "Minimum quickness score",
+      "error-message": {
+        "more-than-user-quickness": "Can't be higher than your own quickness ({{ reliability }})"
+      }
     },
     "min-rating-enabled-checkbox": {
       "help-text": "Find players that are challenging",
@@ -78,7 +87,10 @@
       "label": "Minimum rating"
     },
     "min-reliability-input": {
-      "label": "Minimum reliability score "
+      "label": "Minimum reliability score",
+      "error-message": {
+        "more-than-user-reliability": "Can't be higher than your own reliability ({{ reliability }})"
+      }
     },
     "name-input": {
       "label": "Name"
@@ -105,6 +117,10 @@
     "reliability-enabled-checkbox": {
       "help-text": "Find players that keep playing",
       "label": "Reliability (important)"
+    },
+    "require-game-master-invitation": {
+      "label": "Require game master invitation",
+      "help-text": "Game master must allow players to join"
     },
     "requirements-section": {
       "label": "Player requirements"
@@ -142,6 +158,10 @@
     }
   },
   "feedback": {
+    "create-game": {
+      "fulfilled": "Game created!",
+      "rejected": "Couldn't create game."
+    },
     "join-game": {
       "fulfilled": "Joined game!",
       "rejected": "Couldn't join game."

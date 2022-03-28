@@ -1,5 +1,6 @@
-import { isRejected } from "@reduxjs/toolkit";
+import { isRejected, PayloadAction } from "@reduxjs/toolkit";
 import { Action, Middleware } from "redux";
+import ReactGA from "react-ga";
 
 import { selectUserConfig } from "./selectors";
 import { diplicityService } from "./service";
@@ -7,9 +8,97 @@ import { actions as authActions } from "./auth";
 import { actions as feedbackActions } from "./feedback";
 import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
-import { Severity } from "./types";
+import {
+  CreateGameFormValues,
+  NationAllocation,
+  NewGame,
+  Severity,
+} from "./types";
 import { getQueryMatchers } from "./utils";
 import { translateKeys as tk } from "../translations";
+
+const GTAG_DEFAULT_CATEGORY = "(not set)";
+const PAGE_VIEW_ACTION = "page_view";
+
+// TODO test
+// TODO move to transformers
+const transformCreateGameValuesToNewGame = (
+  values: CreateGameFormValues
+): NewGame => {
+  const phaseLengthMinutes =
+    values.phaseLengthMultiplier * values.phaseLengthUnit;
+  const adjustmentPhaseLengthMinutes = values.customAdjustmentPhaseLength
+    ? values.adjustmentPhaseLengthMultiplier * values.adjustmentPhaseLengthUnit
+    : 0;
+  const chatLanguage =
+    values.chatLanguage === "players_choice" ? "" : values.chatLanguage;
+  return {
+    Anonymous: values.anonymousEnabled,
+    ChatLanguageISO639_1: chatLanguage,
+    Desc: values.name,
+    DisableConferenceChat: !values.conferenceChatEnabled,
+    DisableGroupChat: !values.groupChatEnabled,
+    DisablePrivateChat: !values.individualChatEnabled,
+    FirstMember: { NationPreferences: "" },
+    GameMasterEnabled: values.gameMaster,
+    LastYear: values.endAfterYears ? values.endAfterYearsValue : 0,
+    MaxHated: 0,
+    MaxHater: 0,
+    MaxRating: values.maxRatingEnabled ? values.maxRating : 0,
+    MinQuickness: values.minQuickness,
+    MinRating: values.minRating,
+    MinReliability: values.minReliability,
+    NationAllocation:
+      values.nationAllocation === NationAllocation.Random ? 0 : 1,
+    NonMovementPhaseLengthMinutes: adjustmentPhaseLengthMinutes,
+    PhaseLengthMinutes: phaseLengthMinutes,
+    Private: values.privateGame,
+    RequireGameMasterInvitation: values.requireGameMasterInvitation,
+    SkipMuster: true,
+    Variant: values.variant,
+  };
+};
+
+export const uiSubmitCreateGameFormMiddleware: Middleware<{}, any> =
+  ({ dispatch }) =>
+  (next) =>
+  (action: PayloadAction<CreateGameFormValues>) => {
+    next(action);
+    if (action.type === uiActions.submitCreateGameForm.type) {
+      const values = action.payload;
+      const newGame = transformCreateGameValuesToNewGame(values);
+      dispatch<any>(
+        diplicityService.endpoints.createGame.initiate(newGame, {
+          track: true,
+        })
+      );
+    }
+  };
+
+export const uiSubmitCreateGameFormWithPreferencesMiddleware: Middleware<
+  {},
+  any
+> =
+  ({ dispatch }) =>
+  (next) =>
+  (
+    action: PayloadAction<{
+      values: CreateGameFormValues;
+      preferences: string[];
+    }>
+  ) => {
+    next(action);
+    if (action.type === uiActions.submitCreateGameFormWithPreferences.type) {
+      const { values, preferences } = action.payload;
+      const newGame = transformCreateGameValuesToNewGame(values);
+      newGame.FirstMember = { NationPreferences: preferences.join(",") };
+      dispatch<any>(
+        diplicityService.endpoints.createGame.initiate(newGame, {
+          track: true,
+        })
+      );
+    }
+  };
 
 export const uiSubmitSettingsFormMiddleware: Middleware<{}, any> =
   ({ getState, dispatch }) =>
@@ -38,13 +127,62 @@ export const uiPageLoadMiddleware: Middleware<{}, any> =
     }
   };
 
+export const gaRegisterPageViewMiddleware: Middleware<{}, any> =
+  () => (next) => (action) => {
+    next(action);
+    if (action.type === gaActions.registerPageView.type) {
+      // eslint-disable-next-line no-restricted-globals
+      ReactGA.set({ page_title: action.payload, page_location: location.href });
+      ReactGA.event({
+        category: GTAG_DEFAULT_CATEGORY,
+        action: PAGE_VIEW_ACTION,
+      });
+    }
+  };
+
+export const gaRegisterEventMiddleware: Middleware<{}, any> =
+  () => (next) => (action) => {
+    next(action);
+    if (action.type === gaActions.registerEvent.type) {
+      // eslint-disable-next-line no-restricted-globals
+      ReactGA.event({
+        category: GTAG_DEFAULT_CATEGORY,
+        action: action.payload,
+      });
+    }
+  };
+
+const getGAEventForRequest = (action: Action<any>): string | undefined => {
+  const queryMatchers = getQueryMatchers();
+  if (queryMatchers.matchCreateGameFulfilled(action)) {
+    return "create_game";
+  }
+  if (queryMatchers.matchJoinGameFulfilled(action)) {
+    return "game_list_element_join";
+  }
+  return;
+};
+
+export const gaRequestRegisterEventMiddleware: Middleware<{}, any> =
+  ({ dispatch }) =>
+  (next) =>
+  (action) => {
+    const event = getGAEventForRequest(action);
+    if (event) dispatch(gaActions.registerEvent(event));
+    next(action);
+  };
+
 const getFeedbackForRequest = (action: Action<any>) => {
   const getFeedback = (severity: Severity, message: string) => ({
     severity,
     message,
   });
   const queryMatchers = getQueryMatchers();
-  if (queryMatchers.matchJoinGameFulfilled(action)) {
+  if (queryMatchers.matchCreateGameRejected(action)) {
+    return getFeedback(Severity.Error, tk.feedback.createGame.rejected);
+  } else if (queryMatchers.matchCreateGameFulfilled(action)) {
+    return getFeedback(Severity.Success, tk.feedback.createGame.fulfilled);
+  } else if (queryMatchers.matchJoinGameFulfilled(action)) {
     return getFeedback(Severity.Success, tk.feedback.joinGame.fulfilled);
   } else if (queryMatchers.matchJoinGameRejected(action)) {
     return getFeedback(Severity.Error, tk.feedback.joinGame.rejected);
@@ -95,8 +233,13 @@ export const authLogoutMiddleware: Middleware<{}, any> =
 
 const middleware = [
   feedbackRequestMiddleware,
+  gaRegisterPageViewMiddleware,
+  gaRegisterEventMiddleware,
+  gaRequestRegisterEventMiddleware,
   authLogoutMiddleware,
   uiPageLoadMiddleware,
+  uiSubmitCreateGameFormMiddleware,
+  uiSubmitCreateGameFormWithPreferencesMiddleware,
   uiSubmitSettingsFormMiddleware,
 ];
 export default middleware;

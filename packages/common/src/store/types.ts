@@ -271,11 +271,13 @@ export type UserStatsResponse = ApiResponse & {
   Properties: UserStats;
 };
 
+export type UserRatingHistogram = {
+  FirstBucketRating: number;
+  Counts: number[];
+};
+
 export type UserRatingHistogramResponse = ApiResponse & {
-  Properties: {
-    FirstBucketRating: number;
-    Counts: number[];
-  };
+  Properties: UserRatingHistogram;
 };
 
 export type ListVariantsResponse = ApiResponse & {
@@ -294,6 +296,7 @@ export type Auth = {
 export enum Headers {
   Authorization = "authorization",
   Accept = "Accept",
+  ContentType = "content-type",
   XDiplicityAPILevel = "X-Diplicity-API-Level",
   XDiplicityClientName = "X-Diplicity-Client-Name",
 }
@@ -305,9 +308,10 @@ export type NewGame = {
   DisableConferenceChat: boolean;
   DisableGroupChat: boolean;
   DisablePrivateChat: boolean;
+  FirstMember?: Pick<Member, "NationPreferences">;
   GameMasterEnabled: boolean;
   LastYear: number;
-  MaxHated: number;
+  MaxHated: number | null;
   MaxHater: number;
   MaxRating: number;
   MinQuickness: number;
@@ -368,7 +372,7 @@ export type GameMasterInvitation = {
   Nation: string;
 };
 
-export type Game = NewGame & {
+export type Game = Omit<NewGame, "FirstMember"> & {
   Closed: boolean;
   Finished: boolean;
   ID: string;
@@ -599,6 +603,7 @@ export interface Feedback {
 export interface MutationStatus {
   isLoading: boolean;
   isError: boolean;
+  isSuccess: boolean;
 }
 
 export type CreateMessageResponse = ApiResponse & {
@@ -622,30 +627,31 @@ export type CorroborationResponse = ApiResponse & {
 };
 
 export interface CreateGameFormValues {
-  name: string;
-  privateGame: boolean;
-  gameMaster: boolean;
-  variant: string;
-  nationAllocation: number;
-  phaseLengthMultiplier: number;
-  phaseLengthUnit: number;
-  customAdjustmentPhaseLength: boolean;
   adjustmentPhaseLengthMultiplier: number;
   adjustmentPhaseLengthUnit: number;
-  skipGetReadyPhase: boolean;
-  endAfterYears: boolean;
-  endAfterYearsValue: number;
-  conferenceChatEnabled: boolean;
-  groupChatEnabled: boolean;
-  individualChatEnabled: boolean;
   anonymousEnabled: boolean;
   chatLanguage: string;
-  reliabilityEnabled: boolean;
-  minReliability: number;
-  quicknessEnabled: boolean;
-  minQuickness: number;
-  minRatingEnabled: boolean;
-  minRating: number;
-  maxRatingEnabled: boolean;
+  conferenceChatEnabled: boolean;
+  customAdjustmentPhaseLength: boolean;
+  endAfterYears: boolean;
+  endAfterYearsValue: number;
+  gameMaster: boolean;
+  groupChatEnabled: boolean;
+  individualChatEnabled: boolean;
   maxRating: number;
+  maxRatingEnabled: boolean;
+  minQuickness: number;
+  minRating: number;
+  minRatingEnabled: boolean;
+  minReliability: number;
+  name: string;
+  nationAllocation: string;
+  phaseLengthMultiplier: number;
+  phaseLengthUnit: number;
+  privateGame: boolean;
+  quicknessEnabled: boolean;
+  reliabilityEnabled: boolean;
+  requireGameMasterInvitation: boolean;
+  skipGetReadyPhase: boolean;
+  variant: string;
 }

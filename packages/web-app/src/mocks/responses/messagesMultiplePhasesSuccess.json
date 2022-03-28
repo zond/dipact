@@ -1,0 +1,70 @@
+{
+  "Name": "messages",
+  "Properties": [
+    {
+      "Name": "Diplicity",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQQsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIPRGlwbGljaXR5LEl0YWx5DAsSB01lc3NhZ2UYgICA7_HigQgM",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Diplicity",
+          "Italy"
+        ],
+        "Sender": "Diplicity",
+        "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 31 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+        "CreatedAt": "2021-07-31T11:32:07.837222Z",
+        "Age": 3989191974826499
+      },
+      "Type": "Message",
+      "Links": null
+    },
+    {
+      "Name": "Diplicity",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQQsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIPRGlwbGljaXR5LEl0YWx5DAsSB01lc3NhZ2UYgICA38aatggM",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Diplicity",
+          "Italy"
+        ],
+        "Sender": "Diplicity",
+        "Body": "This is a reminder that the current phase will resolve in 1h0m0s (at 30 Jul 21 12:32 UTC), and you haven't declared that you are ready for the next phase. If you don't declare ready you will lose Quickness score. If you don't declare ready and don't provide any orders you will lose Reliability score, and be evicted from all staging game queues.",
+        "CreatedAt": "2021-07-30T11:32:10.649214Z",
+        "Age": 4075589162835291
+      },
+      "Type": "Message",
+      "Links": null
+    },
+    {
+      "Name": "Diplicity",
+      "Properties": {
+        "ID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyQQsSBEdhbWUYgICA77jB9wgMCxIHQ2hhbm5lbCIPRGlwbGljaXR5LEl0YWx5DAsSB01lc3NhZ2UYgICA38aatgoM",
+        "GameID": "ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM",
+        "ChannelMembers": [
+          "Diplicity",
+          "Italy"
+        ],
+        "Sender": "Diplicity",
+        "Body": "Please note that all messages become public after the game ends.",
+        "CreatedAt": "2021-07-30T11:32:09.649214Z",
+        "Age": 4075590162835424
+      },
+      "Type": "Message",
+      "Links": null
+    }
+  ],
+  "Desc": [
+    [
+      "Limiting messages",
+      "Messages normally contain all messages for the chosen channel, but if you provide a `since` query parameter they will only contain new messages since that time."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgICA77jB9wgM/Channel/Diplicity,Italy/Messages",
+      "Method": "GET"
+    }
+  ]
+}
