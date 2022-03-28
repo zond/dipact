@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& input": {
       minWidth: "250px",
-    }
+    },
   },
   nameInputContainer: {
     display: "flex",
@@ -396,7 +396,7 @@ const CreateGame = (): React.ReactElement => {
                 </div>
                 {/* TODO componentize */}
                 {values.customAdjustmentPhaseLength && (
-                  <Box display="flex">
+                  <Box display="flex" className={classes.inputSelectContainer}>
                     <TextField
                       name="adjustmentPhaseLengthMultiplier"
                       id="adjustmentPhaseLengthMultiplier"
@@ -409,34 +409,36 @@ const CreateGame = (): React.ReactElement => {
                       onChange={handleChange}
                       variant="standard"
                     />
-                    <InputLabel id="adjustment-phase-length-unit-input-label">
-                      {t(tk.createGame.adjustmentPhaseLengthUnitSelect.label)}
-                    </InputLabel>
-                    <Select
-                      name="adjustmentPhaseLengthUnit"
-                      labelId="adjustment-phase-length-unit-input-label"
-                      value={values.adjustmentPhaseLengthUnit}
-                      onChange={(e) =>
-                        handleChange(e as React.ChangeEvent<any>)
-                      }
-                      variant="standard"
-                    >
-                      <MenuItem key={1} value={1}>
-                        {singularAdjustmentPhaseLength
-                          ? t(tk.durations.minute.singular)
-                          : t(tk.durations.minute.plural)}
-                      </MenuItem>
-                      <MenuItem key={60} value={60}>
-                        {singularAdjustmentPhaseLength
-                          ? t(tk.durations.hour.singular)
-                          : t(tk.durations.hour.plural)}
-                      </MenuItem>
-                      <MenuItem key={60 * 24} value={60 * 24}>
-                        {singularAdjustmentPhaseLength
-                          ? t(tk.durations.day.plural)
-                          : t(tk.durations.day.plural)}
-                      </MenuItem>
-                    </Select>
+                    <div className={classes.inputSelectSelectWrapper}>
+                      <InputLabel id="adjustment-phase-length-unit-input-label">
+                        {t(tk.createGame.adjustmentPhaseLengthUnitSelect.label)}
+                      </InputLabel>
+                      <Select
+                        name="adjustmentPhaseLengthUnit"
+                        labelId="adjustment-phase-length-unit-input-label"
+                        value={values.adjustmentPhaseLengthUnit}
+                        onChange={(e) =>
+                          handleChange(e as React.ChangeEvent<any>)
+                        }
+                        variant="standard"
+                      >
+                        <MenuItem key={1} value={1}>
+                          {singularAdjustmentPhaseLength
+                            ? t(tk.durations.minute.singular)
+                            : t(tk.durations.minute.plural)}
+                        </MenuItem>
+                        <MenuItem key={60} value={60}>
+                          {singularAdjustmentPhaseLength
+                            ? t(tk.durations.hour.singular)
+                            : t(tk.durations.hour.plural)}
+                        </MenuItem>
+                        <MenuItem key={60 * 24} value={60 * 24}>
+                          {singularAdjustmentPhaseLength
+                            ? t(tk.durations.day.singular)
+                            : t(tk.durations.day.plural)}
+                        </MenuItem>
+                      </Select>
+                    </div>
                   </Box>
                 )}
                 <div>
@@ -484,9 +486,7 @@ const CreateGame = (): React.ReactElement => {
                 )}
               </section>
               <section>
-                <Typography>
-                  {t(tk.createGame.chatSection.label)}
-                </Typography>
+                <Typography>{t(tk.createGame.chatSection.label)}</Typography>
                 <Typography variant="caption">
                   {t(tk.createGame.allowChatsSwitch.label)}
                 </Typography>

@@ -202,22 +202,22 @@ describe("Create game functional tests", () => {
     )) as HTMLInputElement;
     expect(phaseLengthMultiplierInput.value).toBe("1");
   });
-  test("Phase length unit defaults to hour", async () => {
+  test("Phase length unit defaults to day", async () => {
     await navigateToCreateGame();
     const phaseLengthUnitSelect = await waitFor(() =>
       screen.getByLabelText(tk.createGame.phaseLengthUnitSelect.label)
     );
-    getByText(phaseLengthUnitSelect, tk.durations.hour.singular);
+    getByText(phaseLengthUnitSelect, tk.durations.day.singular);
   });
   test("Increasing game length makes unit plural", async () => {
     await navigateToCreateGame();
     const phaseLengthMultiplierInput = await waitFor(() =>
       screen.getByLabelText(tk.createGame.phaseLengthMultiplierInput.label)
     );
-    const val = screen.queryByText(tk.durations.hour.plural);
+    const val = screen.queryByText(tk.durations.day.plural);
     expect(val).toBeNull();
     fireEvent.change(phaseLengthMultiplierInput, { target: { value: 2 } });
-    await waitFor(() => screen.getByText(tk.durations.hour.plural));
+    await waitFor(() => screen.getByText(tk.durations.day.plural));
   });
   test("Shorter adjustment phases false by default", async () => {
     await navigateToCreateGame();
@@ -265,7 +265,7 @@ describe("Create game functional tests", () => {
     );
     expect(adjustmentPhaseLengthMultiplierInput.value).toBe("1");
   });
-  test("Adjustment phase length unit defaults to hour", async () => {
+  test("Adjustment phase length unit defaults to day", async () => {
     await navigateToCreateGame();
     const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
       screen.getByLabelText(
@@ -276,7 +276,7 @@ describe("Create game functional tests", () => {
     const adjustmentPhaseLengthUnitSelect = await waitFor(() =>
       screen.getByLabelText(tk.createGame.adjustmentPhaseLengthUnitSelect.label)
     );
-    getByText(adjustmentPhaseLengthUnitSelect, tk.durations.hour.singular);
+    getByText(adjustmentPhaseLengthUnitSelect, tk.durations.day.singular);
   });
   test("Increasing adjustment phase length makes unit plural", async () => {
     await navigateToCreateGame();
@@ -298,7 +298,7 @@ describe("Create game functional tests", () => {
       target: { value: 2 },
     });
     await waitFor(() =>
-      getByText(adjustmentPhaseLengthUnitSelect, tk.durations.hour.plural)
+      getByText(adjustmentPhaseLengthUnitSelect, tk.durations.day.plural)
     );
   });
   test("Skip get ready phase checked by default", async () => {

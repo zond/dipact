@@ -1,7 +1,4 @@
-import {
-  createThunkAction,
-  RequestStatus,
-} from "@diplicity/common/lib/esm/utils/test"; // TODO should be exported top-level
+import { createThunkAction, RequestStatus } from "@diplicity/common";
 import { Middleware, AnyAction } from "redux";
 import { push } from "connected-react-router";
 

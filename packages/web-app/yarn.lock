@@ -1250,10 +1250,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@diplicity/common@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.8.tgz#837408e4fd10d34bbb456ab9851662ea84ce7dbe"
-  integrity sha512-xnkbQJsM3gVLFidjZBrcch0HD3xW7kYVODc5HhTd6QHHTaHS7UecIFaa2zBggkaQlEkrlSUll6xaTAR2WN0KvA==
+"@diplicity/common@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.10.tgz#4b0b8b0d7f05bd664656053c46d338525759a44c"
+  integrity sha512-DEGthhvqH1ycvSZWLnv0z+noyDvvw6dpH4e/calFTMjRorBHrH4ap+up9J+7gGXO2OdXlhOSEQVG1t2cJ3lpeA==
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"

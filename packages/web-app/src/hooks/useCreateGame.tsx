@@ -55,7 +55,7 @@ export interface IUseCreateGame {
 
 export const initialFormValues = {
   adjustmentPhaseLengthMultiplier: 1,
-  adjustmentPhaseLengthUnit: 60,
+  adjustmentPhaseLengthUnit: 60 * 24,
   anonymousEnabled: false,
   chatLanguage: "players_choice",
   conferenceChatEnabled: true,
@@ -74,7 +74,7 @@ export const initialFormValues = {
   name: randomGameName(),
   nationAllocation: NationAllocation.Random,
   phaseLengthMultiplier: 1,
-  phaseLengthUnit: 60,
+  phaseLengthUnit: 60 * 24,
   privateGame: false,
   quicknessEnabled: true,
   reliabilityEnabled: true,
