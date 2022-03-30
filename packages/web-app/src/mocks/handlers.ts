@@ -8,6 +8,7 @@ import getGameSuccessUserNotMember from "./responses/getGameSuccessUserNotMember
 import forumMailSuccess from "./responses/forumMailSuccess.json";
 import histogramSuccess from "./responses/histogramSuccess.json";
 import rootSuccess from "./responses/rootSuccess.json";
+import { getUserEmpty } from "./data/getUser";
 import updateUserConfigSuccess from "./responses/updateUserConfigSuccess.json";
 import userConfigSuccessZond from "./responses/userConfigSuccessZond.json";
 import userStatsSuccessNoGames from "./responses/userStatsSuccessNoGames.json";
@@ -275,6 +276,9 @@ const resolvers = {
     success: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(rootSuccess));
     },
+    successEmpty: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(getUserEmpty));
+    },
   },
   updateUserConfig: {
     success: (req: any, res: any, ctx: any) => {
@@ -410,6 +414,7 @@ export const handlers = {
   },
   getUser: {
     success: rest.get(getUserUrl, resolvers.getUser.success),
+    successEmpty: rest.get(getUserUrl, resolvers.getUser.successEmpty),
     internalServerError: rest.get(getUserUrl, internalServerError),
     tokenTimeout: rest.get(getUserUrl, tokenTimeout),
   },
@@ -625,6 +630,7 @@ export const handlers = {
   },
   histogram: {
     success: rest.get(`${API_ROOT}Users/Ratings/Histogram`, resolvers.histogram.success),
+    tokenTimeout: rest.get(`${API_ROOT}Users/Ratings/Histogram`, tokenTimeout),
   },
   bans: {
     success: rest.get(`${API_ROOT}User/:userId/Bans`, resolvers.bans.success),
@@ -641,7 +647,7 @@ export const handlersList = [
 
   handlers.createGame.success,
   handlers.getGame.success,
-  handlers.getUser.success,
+  handlers.getUser.successEmpty,
   handlers.getUserConfig.success,
   handlers.listChannels.success,
   // handlers.listPhases.success,

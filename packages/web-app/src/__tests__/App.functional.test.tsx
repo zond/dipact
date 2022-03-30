@@ -1,3 +1,4 @@
+import "jest-location-mock";
 import React from "react";
 import {
   render,
@@ -20,17 +21,17 @@ import { Provider } from "react-redux";
 import { PageName, translateKeys as tk } from "@diplicity/common";
 import ReactGA from "react-ga";
 import { createStore } from "../store";
+import ProgressDialog from "../components/ProgressDialog";
 
 const server = setupServer(
   handlers.bans.success,
   handlers.createGame.success,
   handlers.forumMail.success,
   handlers.getUser.success,
+  handlers.getUserConfig.success,
   handlers.getUserStats.successEmpty,
   handlers.getVariantSVG.success,
   handlers.histogram.success,
-  handlers.getUserConfig.success,
-  handlers.getUserStats.successEmpty,
   handlers.variants.successShort
 );
 
@@ -66,6 +67,7 @@ const renderApp = () => {
   render(
     <Provider store={createStore()}>
       <Router>
+        <ProgressDialog />
         <App />
       </Router>
     </Provider>
@@ -93,7 +95,60 @@ const userSeesInternalServerErrorMessage = async () => {
   );
 };
 
-describe("Create game functional tests", () => {
+interface IGlobals {
+  [key: string]: any;
+}
+
+interface IWrapper {}
+
+declare global {
+  interface Window {
+    Globals: IGlobals;
+    Wrapper?: IWrapper;
+  }
+}
+
+describe("Login", () => {
+  const loginUrl =
+    "https://diplicity-engine.appspot.com/Auth/Login?redirect-to=http%3A%2F%2Flocalhost%2F&token-duration=72000";
+  const getLoginButton = async () => {
+    return await waitFor(() => screen.getByText("Sign in with Google"));
+  };
+  beforeEach(async () => {
+    (ConnectedRouter as jest.Mock).mockImplementation(({ children }) => (
+      <div>{children}</div>
+    ));
+  });
+  test("Renders withouth error", async () => {
+    server.use(handlers.getUser.successEmpty);
+    await renderApp();
+  });
+  test("Clicking login on web pushes user to login url", async () => {
+    server.use(handlers.getUser.successEmpty);
+    await renderApp();
+    const loginButton = await getLoginButton();
+    fireEvent.click(loginButton);
+    expect(window.location).toBeAt(loginUrl);
+  });
+  test("WrapperCallback.getToken is defined when Wrapper.getToken is called during Android login", async () => {
+    server.use(handlers.getUser.successEmpty);
+    let callbackWasDefined = false;
+    const mockGetToken = jest.fn(() => {
+      if (typeof window.Globals.WrapperCallbacks.getToken === "function") {
+        callbackWasDefined = true;
+      }
+    });
+    window.Wrapper = { getToken: mockGetToken };
+    await renderApp();
+    const loginButton = await getLoginButton();
+    expect(callbackWasDefined).toBe(false);
+    fireEvent.click(loginButton);
+    expect(mockGetToken).toBeCalled();
+    expect(callbackWasDefined).toBe(true);
+  });
+});
+
+describe("CreateGame", () => {
   let gaEventSpy: jest.SpyInstance;
   let gaSetSpy: jest.SpyInstance;
 

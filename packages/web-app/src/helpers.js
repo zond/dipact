@@ -1110,7 +1110,7 @@ export function safeFetch(req, opts = {}) {
 
 export function login(tokenDuration = 60 * 60 * 20) {
 	if (window.Wrapper && window.Wrapper.getToken) {
-		Globals.WrapperCallbacks.getToken = (resp) => {
+		window.Globals.WrapperCallbacks.getToken = (resp) => {
 			if (resp.error) {
 				decProgress();
 				snackbar("Error logging in: " + resp.error);
@@ -1130,7 +1130,7 @@ export function login(tokenDuration = 60 * 60 * 20) {
 		const loginURL = new URL(Globals.loginURL.toString());
 		loginURL.searchParams.set("redirect-to", hrefURL.toString());
 		loginURL.searchParams.set("token-duration", "" + tokenDuration);
-		location.href = loginURL;
+		location.assign(loginURL);
 	} else {
 		location.reload();
 	}

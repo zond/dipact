@@ -67,6 +67,7 @@
     "@types/jest": "^27.4.1",
     "@types/react-router-dom": "^5.3.3",
     "craco-alias": "^3.0.1",
+    "jest-location-mock": "^1.0.9",
     "miragejs": "^0.1.43",
     "msw": "^0.39.2"
   },
