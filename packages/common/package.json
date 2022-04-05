@@ -1,6 +1,6 @@
 {
   "name": "@diplicity/common",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
