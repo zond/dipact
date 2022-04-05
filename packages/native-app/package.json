@@ -12,15 +12,18 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@diplicity/common": "^0.0.10",
+    "@diplicity/common": "^0.0.17",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^5.0.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-google-signin/google-signin": "^7.1.0",
+    "@react-native-picker/picker": "^2.4.0",
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.7",
     "@reduxjs/toolkit": "^1.7.2",
+    "@rneui/base": "^4.0.0-rc.1",
+    "@rneui/themed": "^4.0.0-rc.1",
     "@storybook/react": "^6.3.7",
     "babel-plugin-module-resolver": "^4.1.0",
     "formik": "^2.2.9",
@@ -32,12 +35,11 @@
     "react-i18next": "^11.15.4",
     "react-native": "0.64.1",
     "react-native-config": "^1.4.3",
-    "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-screens": "^3.5.0",
-    "react-native-vector-icons": "^8.1.0",
+    "react-native-vector-icons": "^9.1.0",
     "react-redux": "^7.2.6"
   },
   "devDependencies": {
@@ -53,7 +55,8 @@
     "@storybook/addon-storyshots": "^6.3.7",
     "@storybook/react-native": "^5.3.25",
     "@storybook/react-native-server": "^5.3.23",
-    "@testing-library/react-native": "^7.2.0",
+    "@testing-library/jest-native": "^4.0.4",
+    "@testing-library/react-native": "^9.1.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.64.5",
     "@types/react-native-dotenv": "^0.2.0",
@@ -81,7 +84,7 @@
       "node"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(-community)?)/)"
+      "node_modules/(?!((jest-)?react-native(-.*)?|@rneui?|@react-native(-community)?)/)"
     ]
   }
 }

@@ -24,7 +24,7 @@ import { makeStyles } from "@material-ui/core";
 import GoBackNav from "../components/GoBackNav";
 import { iso639_1Codes } from "../helpers";
 import { RandomGameNameIcon } from "../icons";
-import useCreateGame from "../hooks/useCreateGame";
+import { useCreateGame } from "@diplicity/common";
 import Loading from "../components/Loading";
 import {
   NationAllocation,

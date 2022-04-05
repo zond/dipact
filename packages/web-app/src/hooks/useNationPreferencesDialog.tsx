@@ -2,7 +2,7 @@ import { PageName, selectors } from "@diplicity/common";
 import { useState, useEffect } from "react";
 import { RootState } from "../store";
 import { useAppSelector } from "./useAppSelector";
-import { useLazyPageLoad } from "./usePageLoad";
+import { useLazyPageLoad } from "@diplicity/common";
 
 const useNationPreferencesDialog = (variantName: string | null) => {
   const [preferences, setPreferences] = useState<string[]>([]);

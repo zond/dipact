@@ -1,18 +1,10 @@
-import React from "react";
-import { StyleProp, StyleSheet, Text, TextInput, View } from "react-native";
-import { Button, CheckBox, Input } from "react-native-elements";
-import { useTheme } from "../hooks";
-import Switch from "../components/Switch";
-import TextInputContainer from "../components/TextInputContainer";
-import { translateKeys as tk } from "@diplicity/common";
-
-const values = {
-  enableEmailNotifications: false,
-  enablePushNotifications: true,
-  phaseDeadline: "60",
-};
-
-const onValueChange = () => {};
+import React, { SyntheticEvent, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { CheckBox, Input } from "@rneui/themed";
+import { useTheme } from "../hooks/useTheme";
+import { translateKeys as tk, useCreateGame } from "@diplicity/common";
+import { useTranslation } from "react-i18next";
 
 const useStyles = () => {
   const theme = useTheme();
@@ -28,47 +20,116 @@ const useStyles = () => {
   });
 };
 
+type HandleChange = (
+  fieldName: string
+) => (value: string | boolean | number) => void;
+
 const CreateGame = () => {
   const styles = useStyles();
+  const { t } = useTranslation();
 
-  const isLoading = false;
-  const isError = false;
-  const error = null;
-
-  const handleBlur = (valueName: string) => {};
-  const handleChange = (valueName: string) => {};
-
-  const values = {
-    name: "The Game's name",
-    privateGame: true,
-    gameMaster: true,
+  const getMoviesFromApiAsync = async () => {
+    try {
+      const response = await fetch("https://diplicity-engine.appspot.com/", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-Diplicity-API-Level": "8",
+        "X-Diplicity-Client-Name": "dipact@",
+      },
+      });
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  getMoviesFromApiAsync();
+
+  const {
+    error,
+    isError,
+    isLoading,
+    handleChange: unTypedHandleChange,
+    setFieldValue,
+    values,
+    variants,
+  } = useCreateGame();
+  const handleChange = unTypedHandleChange as HandleChange;
 
   return (
     <View style={styles.root}>
       {isLoading ? (
-        <View></View>
+        <View>
+          <Text>Loading...</Text>
+        </View>
       ) : isError && error ? (
-        <View></View>
+        <View>
+          <Text>Error!</Text>
+        </View>
       ) : (
         <View>
           <View>
             <Input
-              label={<Text>{tk.createGame.nameInput.label}</Text>}
-              placeholder={tk.createGame.nameInput.label}
+              label={<Text>{t(tk.createGame.nameInput.label)}</Text>}
+              accessibilityLabel={t(tk.createGame.nameInput.label)}
+              placeholder={t(tk.createGame.nameInput.label)}
               value={values.name}
-              onChangeText={() => handleChange("name")}
+              onChangeText={handleChange("name")}
+              shake={() => {}}
             />
             <CheckBox
-              title={tk.createGame.privateCheckbox.label}
+              title={t(tk.createGame.privateCheckbox.label)}
+              accessibilityLabel={t(tk.createGame.privateCheckbox.label)}
               checked={values.privateGame}
-              onPress={() => handleChange("privateGame")}
+              onPress={() => setFieldValue("privateGame", !values.privateGame)}
             />
             <CheckBox
-              title={tk.createGame.gameMasterCheckbox.label}
+              title={t(tk.createGame.gameMasterCheckbox.label)}
+              accessibilityLabel={t(tk.createGame.gameMasterCheckbox.label)}
               checked={values.gameMaster}
-              onPress={() => handleChange("gameMaster")}
+              disabled={!values.privateGame}
+              onPress={() => setFieldValue("gameMaster", !values.gameMaster)}
             />
+            {values.privateGame ? (
+              <Text>
+                {t(tk.createGame.gameMasterCheckbox.helpText.default)}
+              </Text>
+            ) : (
+              <Text>
+                {t(tk.createGame.gameMasterCheckbox.helpText.disabled)}
+              </Text>
+            )}
+
+            {values.privateGame && values.gameMaster && (
+              <>
+                <CheckBox
+                  title={t(tk.createGame.requireGameMasterInvitation.label)}
+                  accessibilityLabel={t(
+                    tk.createGame.requireGameMasterInvitation.label
+                  )}
+                  checked={values.requireGameMasterInvitation}
+                  disabled={!values.gameMaster}
+                  onPress={() =>
+                    setFieldValue(
+                      "requireGameMasterInvitation",
+                      !values.requireGameMasterInvitation
+                    )
+                  }
+                />
+                <Text>
+                  {t(tk.createGame.requireGameMasterInvitation.helpText)}
+                </Text>
+              </>
+            )}
+          </View>
+          <View>
+            <Picker selectedValue={values.variant}>
+              {variants.map((variant) => (
+                <Picker.Item label={variant.Name} value={variant.Name} />
+              ))}
+            </Picker>
           </View>
         </View>
       )}

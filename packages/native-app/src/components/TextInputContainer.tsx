@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleProp, Text, View } from "react-native";
-import { useTheme } from "../hooks";
+import { useTheme } from "../hooks/useTheme";
 
 const useStyles = (): StyleProp<any> => {
   const theme = useTheme();

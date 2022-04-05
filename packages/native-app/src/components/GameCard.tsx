@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleProp, Text, View } from "react-native";
-import { Card } from "react-native-elements";
-import { useTheme } from "../hooks";
+import { Card } from "@rneui/themed";
+import { useTheme } from "../hooks/useTheme";
 import TextSecondary from "./TextSecondary";
 
 const game = {

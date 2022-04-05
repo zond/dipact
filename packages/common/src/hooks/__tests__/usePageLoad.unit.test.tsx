@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { PageName, uiActions } from "@diplicity/common";
+import { PageName, uiActions } from "../../store";
 import usePageLoad, { useLazyPageLoad } from "../usePageLoad";
 
 const mockUseDispatch = jest.fn();

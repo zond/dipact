@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleProp, StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
-import { useTheme } from "../hooks";
+import { StyleProp, Text, View } from "react-native";
+import { Button } from "@rneui/themed";
+import { useTheme } from "../hooks/useTheme";
 import Switch from "../components/Switch";
 import TextInput from "../components/TextInput";
 

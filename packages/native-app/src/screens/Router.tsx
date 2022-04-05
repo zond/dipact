@@ -10,17 +10,19 @@ import {
 import GameList from "./GameList";
 import Settings from "./Settings";
 import { Button } from "react-native";
-import { useTheme } from "../hooks";
+import { useTheme } from "../hooks/useTheme";
 import Login from "./Login";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { selectors } from "@diplicity/common";
+import { selectors, translateKeys as tk } from "@diplicity/common";
 import CreateGame from "./CreateGame";
+import { useTranslation } from "react-i18next";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const Router = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const loggedIn = useAppSelector(selectors.selectIsLoggedIn);
   const navigationTheme: Theme = {
     dark: false,
@@ -51,12 +53,12 @@ const Router = () => {
               options={screenOptions}
             />
             <Drawer.Screen
-              name="Create Game"
+              name={t(tk.createGame.title)}
               component={CreateGame}
               options={screenOptions}
             />
             <Drawer.Screen
-              name="Settings"
+              name={t(tk.settings.title)}
               component={Settings}
               options={screenOptions}
             />

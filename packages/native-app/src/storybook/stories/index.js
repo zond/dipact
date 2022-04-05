@@ -1,1 +1,0 @@
-import './Switch.stories';

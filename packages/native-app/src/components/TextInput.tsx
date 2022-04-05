@@ -6,7 +6,7 @@ import {
 	TextInput as RNTextInput,
 	View,
 } from "react-native";
-import { useTheme } from "../hooks";
+import { useTheme } from "../hooks/useTheme";
 
 const useStyles = (): StyleProp<any> => {
 	const theme = useTheme();

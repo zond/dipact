@@ -1,6 +1,5 @@
 import { isRejected, PayloadAction } from "@reduxjs/toolkit";
 import { Action, Middleware } from "redux";
-import ReactGA from "react-ga";
 
 import { selectUserConfig } from "./selectors";
 import { diplicityService } from "./service";
@@ -16,9 +15,6 @@ import {
 } from "./types";
 import { getQueryMatchers } from "./utils";
 import { translateKeys as tk } from "../translations";
-
-const GTAG_DEFAULT_CATEGORY = "(not set)";
-const PAGE_VIEW_ACTION = "page_view";
 
 // TODO test
 // TODO move to transformers
@@ -127,31 +123,6 @@ export const uiPageLoadMiddleware: Middleware<{}, any> =
     }
   };
 
-export const gaRegisterPageViewMiddleware: Middleware<{}, any> =
-  () => (next) => (action) => {
-    next(action);
-    if (action.type === gaActions.registerPageView.type) {
-      // eslint-disable-next-line no-restricted-globals
-      ReactGA.set({ page_title: action.payload, page_location: location.href });
-      ReactGA.event({
-        category: GTAG_DEFAULT_CATEGORY,
-        action: PAGE_VIEW_ACTION,
-      });
-    }
-  };
-
-export const gaRegisterEventMiddleware: Middleware<{}, any> =
-  () => (next) => (action) => {
-    next(action);
-    if (action.type === gaActions.registerEvent.type) {
-      // eslint-disable-next-line no-restricted-globals
-      ReactGA.event({
-        category: GTAG_DEFAULT_CATEGORY,
-        action: action.payload,
-      });
-    }
-  };
-
 const getGAEventForRequest = (action: Action<any>): string | undefined => {
   const queryMatchers = getQueryMatchers();
   if (queryMatchers.matchCreateGameFulfilled(action)) {
@@ -233,8 +204,6 @@ export const authLogoutMiddleware: Middleware<{}, any> =
 
 const middleware = [
   feedbackRequestMiddleware,
-  gaRegisterPageViewMiddleware,
-  gaRegisterEventMiddleware,
   gaRequestRegisterEventMiddleware,
   authLogoutMiddleware,
   uiPageLoadMiddleware,

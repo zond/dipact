@@ -1,6 +1,6 @@
 import { StyleProp, TextStyle } from "react-native";
 
-declare module "react-native-elements" {
+declare module "@rneui/themed" {
 	export type Palette = {
 		[key: string]: {
 			main: string;

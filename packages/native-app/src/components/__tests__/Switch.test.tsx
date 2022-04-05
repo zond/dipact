@@ -1,7 +1,7 @@
 import "react-native";
 import React from "react";
 import renderer from "react-test-renderer";
-import { ThemeProvider } from "react-native-elements";
+import { ThemeProvider } from "@rneui/themed";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 import Switch from "../Switch";

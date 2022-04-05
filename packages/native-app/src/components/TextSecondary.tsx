@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleProp, Text, View } from "react-native";
-import { useTheme } from "../hooks";
+import { useTheme } from "../hooks/useTheme";
 
 interface ITextProps {
   children: React.ReactNode;
