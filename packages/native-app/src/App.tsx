@@ -12,6 +12,7 @@ import AuthWrapper from "./components/AuthWrapper";
 import { I18nextProvider } from "react-i18next";
 import { Text } from "react-native";
 import i18n from "./i18n";
+import FeedbackWrapper from "./components/FeedbackWrapper";
 
 const App = () => {
   return (
@@ -20,9 +21,11 @@ const App = () => {
         <Suspense fallback={<Text>"Loading..."</Text>}>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
-              <AuthWrapper>
-                <Router />
-              </AuthWrapper>
+              <FeedbackWrapper>
+                <AuthWrapper>
+                  <Router />
+                </AuthWrapper>
+              </FeedbackWrapper>
             </ThemeProvider>
           </Provider>
         </Suspense>

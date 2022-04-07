@@ -1275,10 +1275,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@diplicity/common@^0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.20.tgz#7eb8cbdc78efc8426edd2a5d7152d2c36a9158d0"
-  integrity sha512-h5kDWZJ0c9HQ8czHlxm5wjIQAwmrFlZkNgBpQF02vCET5yJLYk43Qld76bJgkmSxd4wLNZZD8KOULC972/CNqA==
+"@diplicity/common@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.21.tgz#dbdd76d6d8bda63bb3cb6d0e7ea9d680a82db24d"
+  integrity sha512-tS5tWKCZa2/Fpcj4H6QaKTlVRSFvilHiMy/cFFpv02U4qlWRUgqclhsrXPe/vy9VKICOtOepBl9I2DWqHwj73A==
   dependencies:
     formik "^2.2.9"
     yup "^0.32.11"
@@ -12031,6 +12031,11 @@ react-native-swipe-gestures@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
+
+react-native-toast-message@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-toast-message/-/react-native-toast-message-2.1.5.tgz#550acb9c6c0f1ee49c6b57b65a56d34e297eb723"
+  integrity sha512-mk3rELtBEhrhWBCN6CTaw0gypgL9ZNauX3xx1LUs4uee9vc0pVsghrKxO57vroUCcNL2hDeZSLJWdQNMCkGeaQ==
 
 react-native-vector-icons@^9.1.0:
   version "9.1.0"

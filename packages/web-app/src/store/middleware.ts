@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import { AnyAction, Middleware } from "@reduxjs/toolkit";
+import { AnyAction } from "@reduxjs/toolkit";
 import { RouteConfig } from "../pages/RouteConfig";
 import { createMiddleware } from "./base";
 import { push } from "connected-react-router";
