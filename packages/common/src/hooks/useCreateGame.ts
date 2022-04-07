@@ -48,6 +48,7 @@ export interface IUseCreateGame {
     shouldValidate?: boolean | undefined
   ) => Promise<void> | Promise<FormikErrors<CreateGameFormValues>>;
   submitDisabled: boolean;
+  submitForm: () => Promise<void>;
   userStats?: UserStats;
   validationErrors: FormikErrors<CreateGameFormValues>;
   values: CreateGameFormValues;
@@ -161,6 +162,7 @@ const useCreateGame = (): IUseCreateGame => {
     values,
     handleChange,
     handleSubmit,
+    submitForm,
     setFieldValue,
     errors: validationErrors,
   } = useFormik({
@@ -290,6 +292,7 @@ const useCreateGame = (): IUseCreateGame => {
     selectedVariantSVG: getVariantsSVGQuery.data,
     setFieldValue,
     submitDisabled,
+    submitForm,
     userStats: getUserStatsQuery.data,
     validationErrors,
     values,

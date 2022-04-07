@@ -1,4 +1,4 @@
-import { createTheme, FullTheme } from "@rneui/themed";
+import { createTheme } from "@rneui/themed";
 
 const gridSize = 8;
 
@@ -33,15 +33,6 @@ const palette = {
     light: "#57606a",
   },
 };
-
-// export const theme: Partial<FullTheme> = {
-//   colors: {
-// 	  primary: palette.primary.main,
-// 	  secondary: palette.secondary.main,
-//   },
-//   palette,
-//   spacing: (value: number) => value * gridSize,
-// }
 
 export const theme = createTheme({
   Button: {

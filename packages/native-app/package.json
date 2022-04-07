@@ -7,12 +7,14 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "test-coverage": "jest --silent --detectOpenHandles --ci --coverage",
+    "test-coverage-ci": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
+    "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0",
     "storybook": "start-storybook -p 7007",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@diplicity/common": "^0.0.17",
+    "@diplicity/common": "^0.0.20",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^5.0.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -39,6 +41,7 @@
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-screens": "^3.5.0",
+    "react-native-svg": "^12.3.0",
     "react-native-vector-icons": "^9.1.0",
     "react-redux": "^7.2.6"
   },
@@ -74,6 +77,12 @@
     "@types/react": "^17"
   },
   "jest": {
+    "setupFiles": [
+      "<rootDir>/src/setup.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
     "preset": "react-native",
     "moduleFileExtensions": [
       "ts",
@@ -84,7 +93,16 @@
       "node"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native(-.*)?|@rneui?|@react-native(-community)?)/)"
+      "node_modules/(?!((jest-)?react-native(-.*)?|@rneui?|@react-navigation|@react-native(-community)?)/)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/src/react-app-env.d.ts",
+      "<rootDir>/src/mocks",
+      "<rootDir>/src/App.tsx"
     ]
   }
 }

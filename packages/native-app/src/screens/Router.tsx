@@ -1,15 +1,11 @@
-import "react-native-gesture-handler";
 import * as React from "react";
 import { NavigationContainer, Theme } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import {
   createDrawerNavigator,
   DrawerNavigationOptions,
 } from "@react-navigation/drawer";
 
 import GameList from "./GameList";
-import Settings from "./Settings";
-import { Button } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import Login from "./Login";
 import { useAppSelector } from "../hooks/useAppSelector";
@@ -17,7 +13,6 @@ import { selectors, translateKeys as tk } from "@diplicity/common";
 import CreateGame from "./CreateGame";
 import { useTranslation } from "react-i18next";
 
-const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const Router = () => {
@@ -55,11 +50,6 @@ const Router = () => {
             <Drawer.Screen
               name={t(tk.createGame.title)}
               component={CreateGame}
-              options={screenOptions}
-            />
-            <Drawer.Screen
-              name={t(tk.settings.title)}
-              component={Settings}
               options={screenOptions}
             />
           </Drawer.Navigator>

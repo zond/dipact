@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { authActions, selectors } from "@diplicity/common";
@@ -9,11 +9,10 @@ interface AuthWrapperProps {
   children: React.ReactNode;
 }
 
-const key = "token";
-
 const getTokenFromUrl = (url: string): string | null => {
+  const decodedUrl = decodeURIComponent(url);
   const reg = /[?&]token=([^&#]*)/g;
-  const match = reg.exec(url);
+  const match = reg.exec(decodedUrl);
   const token = match ? match[1] : null;
   return token;
 };
@@ -21,10 +20,19 @@ const getTokenFromUrl = (url: string): string | null => {
 const AuthWrapper = ({ children }: AuthWrapperProps): React.ReactElement => {
   const dispatch = useDispatch();
   const token = useAppSelector(selectors.selectToken);
-  Linking.addEventListener("url", ({ url }) => {
-    const qsToken = getTokenFromUrl(url);
-    if (qsToken && !token) dispatch(authActions.login(qsToken));
-  });
+  const callback = useCallback(
+    ({ url }: { url: string }) => {
+      const qsToken = getTokenFromUrl(url);
+      if (qsToken && !token) {
+        dispatch(authActions.login(qsToken));
+      }
+    },
+    [dispatch, token]
+  );
+  useEffect(() => {
+    Linking.removeAllListeners("url");
+    Linking.addEventListener("url", callback);
+  }, [callback]);
   return <>{children}</>;
 };
 

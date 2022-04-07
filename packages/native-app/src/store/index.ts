@@ -6,7 +6,6 @@ import {
   middleware as commonMiddleware,
   diplicityService,
 } from "@diplicity/common";
-import middleware from "./middleware";
 
 const reducer = combineReducers({ ...commonReducers });
 
@@ -15,8 +14,7 @@ export const store = configureStore({
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })
       .concat(diplicityService.middleware)
-      .concat(commonMiddleware)
-      .concat(middleware)
+      .concat(commonMiddleware),
   ],
 });
 
@@ -34,4 +32,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-

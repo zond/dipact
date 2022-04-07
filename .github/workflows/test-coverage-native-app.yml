@@ -1,0 +1,18 @@
+name: Test coverage native app
+on: push
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install modules
+      run: yarn --cwd ./packages/native-app install
+    - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: packages/native-app
+        test-script: yarn run test-coverage-ci
+        package-manager: yarn
+        threshold: 100
+        annotations: none
+        skip-step: install

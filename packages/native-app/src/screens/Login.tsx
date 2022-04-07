@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Linking, StyleProp, View } from "react-native";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { getLoginUrl } from "../utils";
@@ -14,8 +14,8 @@ const useStyles = (): StyleProp<any> => {
     buttonContainer: {
       display: "flex",
       alignItems: "center",
-      width: "100%"
-    }
+      width: "100%",
+    },
   };
 };
 
@@ -24,14 +24,14 @@ const url = getLoginUrl();
 const Login = () => {
   const styles = useStyles();
 
-  const handlePress = useCallback(async () => {
-    await Linking.openURL(url);
-  }, [url]);
+  const handlePress = () => {
+    Linking.openURL(url);
+  };
 
   return (
     <View style={styles.root}>
       <View style={styles.buttonContainer}>
-        <GoogleSigninButton size={GoogleSigninButton.Size.Wide} onPress={handlePress} />
+        <GoogleSigninButton size={1} onPress={handlePress} />
       </View>
     </View>
   );

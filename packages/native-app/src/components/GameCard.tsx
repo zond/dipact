@@ -2,7 +2,6 @@ import React from "react";
 import { StyleProp, Text, View } from "react-native";
 import { Card } from "@rneui/themed";
 import { useTheme } from "../hooks/useTheme";
-import TextSecondary from "./TextSecondary";
 
 const game = {
   deadlineDisplay: "<2d",
@@ -37,12 +36,12 @@ const GameCard = ({}) => {
   return (
     <Card>
       <View style={styles.nameRow}>
-        <Text style={{ fontSize: 16 }}>{name}</Text>
-        <Text style={{ fontSize: 16 }}>{deadlineDisplay}</Text>
+        <Text>{name}</Text>
+        <Text>{deadlineDisplay}</Text>
       </View>
       <View style={styles.rulesRow}>
-        <TextSecondary>{rulesSummary}</TextSecondary>
-        <TextSecondary>{phaseSummary}</TextSecondary>
+        <Text>{rulesSummary}</Text>
+        <Text>{phaseSummary}</Text>
       </View>
     </Card>
   );
