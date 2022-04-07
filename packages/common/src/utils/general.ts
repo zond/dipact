@@ -6,7 +6,10 @@ import {
   ColorOverrides,
   NationAllocation,
   Game,
+  DiplicityError,
 } from "../store/types";
+import { adjectives, conflictSynonyms, nouns } from "./terms";
+import contrastColors from "./contrastColors";
 
 const DiplicitySender = "Diplicity";
 export const OttoURL = "https://diplicity-engine.appspot.com/img/otto.png";
@@ -94,7 +97,7 @@ export const getNationColor = (variant: Variant, nation: string): string => {
     );
   }
   const index = variant.Nations.indexOf(nation);
-  return Globals.contrastColors[index];
+  return contrastColors[index];
 };
 
 export const getNationAbbreviation = (
@@ -133,4 +136,125 @@ export const nationAllocationTranslations: { [key: string]: string } = {
 
 export const timeStrToDate = (s: string): string => {
   return new Date(Date.parse(s)).toLocaleDateString();
+};
+
+function randomOf(ary: any[]) {
+  return ary[Math.floor(Math.random() * ary.length)];
+}
+
+// Copied from https://gist.github.com/andrei-m/982927
+function dziemba_levenshtein(a: string, b: string) {
+	var tmp;
+	if (a.length === 0) {
+		return b.length;
+	}
+	if (b.length === 0) {
+		return a.length;
+	}
+	if (a.length > b.length) {
+		tmp = a;
+		a = b;
+		b = tmp;
+	}
+
+	var i,
+		j,
+		res,
+		alen = a.length,
+		blen = b.length,
+		row = Array(alen);
+	for (i = 0; i <= alen; i++) {
+		row[i] = i;
+	}
+
+	for (i = 1; i <= blen; i++) {
+		res = i;
+		for (j = 1; j <= alen; j++) {
+			tmp = row[j - 1];
+			row[j - 1] = res;
+			res =
+				b[i - 1] === a[j - 1]
+					? tmp
+					: Math.min(tmp + 1, Math.min(res + 1, row[j] + 1));
+		}
+	}
+	return res;
+}
+
+function funkyFactor(s1: string, s2: string) {
+	if (s1.length < 3 || s2.length < 3) {
+		return dziemba_levenshtein(s1, s2);
+	}
+	return (
+		dziemba_levenshtein(s1.slice(0, 3), s2.slice(0, 3)) +
+		dziemba_levenshtein(s1.slice(-3), s2.slice(-3))
+	);
+}
+
+
+function randomOfFunky(basis: string, ary: any[]) {
+  const options = [];
+  for (let i = 0; i < Math.floor(ary.length / 10); i++) {
+    const option = randomOf(ary);
+    options.push({
+      option: option,
+      score: funkyFactor(basis, option),
+    });
+  }
+  options.sort((a, b) => {
+    return a.score < b.score ? -1 : 1;
+  });
+  return options[0].option;
+}
+
+function capitalize(s: string) {
+	return s.slice(0, 1).toUpperCase() + s.slice(1);
+}
+
+// TODO test
+export function randomGameName() {
+  const synonym = randomOf(conflictSynonyms);
+  const adjective = randomOfFunky(synonym, adjectives);
+  const noun = randomOfFunky(adjective, nouns);
+  return (
+    "The " +
+    capitalize(synonym) +
+    " of the " +
+    capitalize(adjective) +
+    " " +
+    capitalize(noun)
+  );
+}
+
+type SimplifiedQueryResult = {
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  error?: DiplicityError;
+};
+
+export type CombinedQueryState = SimplifiedQueryResult;
+
+export type CombinedQuery = {
+  [key: string]: Partial<SimplifiedQueryResult>;
+};
+
+export const mergeErrors = (
+  ...errorsOrUndefined: (DiplicityError | undefined)[]
+): DiplicityError => {
+  const errors: DiplicityError[] = [];
+  errorsOrUndefined.forEach((error) => {
+    if (error) errors.push(error as DiplicityError);
+  });
+  return errors.reduce(
+    (mergedErrors, e) => {
+      const error = e as DiplicityError & { status: number; data: any };
+      const newError = {
+        status: error?.status || mergedErrors.status,
+        data: error?.data || mergedErrors.data,
+      };
+      return newError as DiplicityError & { status: number; data: any };
+    },
+    { status: 0, data: {} } as DiplicityError
+  );
 };

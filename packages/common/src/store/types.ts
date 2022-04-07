@@ -655,3 +655,8 @@ export interface CreateGameFormValues {
   skipGetReadyPhase: boolean;
   variant: string;
 }
+
+export type DiplicityError = {
+  status: number;
+  [key: string]: any;
+};

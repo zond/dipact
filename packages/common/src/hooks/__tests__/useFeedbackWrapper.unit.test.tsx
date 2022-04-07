@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { feedbackActions } from "@diplicity/common";
 import useFeedbackWrapper from "../useFeedbackWrapper";
 import { useSelector } from "react-redux";
+import { feedbackActions } from "../../store";
 
 const mockUseDispatch = jest.fn();
 jest.mock("react-redux", () => ({

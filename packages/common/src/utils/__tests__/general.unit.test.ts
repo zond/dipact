@@ -88,7 +88,15 @@ describe("getPhaseName", () => {
   });
 });
 
-const colorOverrides = { variants: { Classical: { france: "#54321" } } };
+// jest.mock("../../Globals", () => () => ({
+//   colorOverrides: { variants: { Classical: { france: "#54321" } } },
+// }));
+jest.mock("../../Globals", () => ({
+  __esModule: true,
+  default: {
+    colorOverrides: { variants: { Classical: { france: "#54321" } } },
+  },
+}));
 
 describe("getNationColor", () => {
   const england = "england";
@@ -100,7 +108,6 @@ describe("getNationColor", () => {
   } as unknown as Variant;
 
   test("Gets color override", () => {
-    window.Globals.colorOverrides = colorOverrides;
     const result = getNationColor(variant, "france");
     expect(result).toBe("#54321");
   });

@@ -60,6 +60,10 @@ jest.mock("../helpers", () => ({
   ...jest.requireActual("../helpers"),
   incProgress: jest.fn(),
   decProgress: jest.fn(),
+}));
+
+jest.mock("@diplicity/common", () => ({
+  ...jest.requireActual("@diplicity/common"),
   randomGameName: jest.fn(() => randomGameName),
 }));
 
@@ -175,10 +179,6 @@ describe("CreateGame", () => {
   test("Page load causes ga event", async () => {
     await navigateToCreateGame();
     pageLoadGAEventHappens(gaSetSpy, gaEventSpy, PageName.CreateGame);
-  });
-  test("Name input has random name by default", async () => {
-    await navigateToCreateGame();
-    await waitFor(() => screen.getByDisplayValue(randomGameName));
   });
   test("Clicking randomize button creates new random name", async () => {
     await navigateToCreateGame();

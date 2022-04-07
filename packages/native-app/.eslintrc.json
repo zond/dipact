@@ -1,0 +1,11 @@
+{
+  "extends": "@react-native-community/eslint-config",
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "endOfLine": "off"
+  },
+  "env": {
+    "jest/globals": true
+  }
+}

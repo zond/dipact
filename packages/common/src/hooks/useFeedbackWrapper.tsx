@@ -1,6 +1,5 @@
-import { useDispatch } from "react-redux";
-import { Feedback, feedbackActions, selectors } from "@diplicity/common";
-import { useAppSelector } from "./useAppSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { Feedback, selectors, feedbackActions } from "../store";
 
 interface IUseFeedbackWrapper {
   feedback: Feedback[];
@@ -8,7 +7,7 @@ interface IUseFeedbackWrapper {
 }
 
 const useFeedbackWrapper = (): IUseFeedbackWrapper => {
-  const feedback = useAppSelector(selectors.feedback.selectAll);
+  const feedback = useSelector(selectors.feedback.selectAll);
   const dispatch = useDispatch();
   const handleClose = (id: number) => dispatch(feedbackActions.clear(id));
   return { feedback, handleClose };

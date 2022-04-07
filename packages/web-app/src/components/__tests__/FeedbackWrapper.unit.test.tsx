@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import FeedbackWrapper from "../FeedbackWrapper";
-import useFeedbackWrapper from "../../hooks/useFeedbackWrapper";
+import { useFeedbackWrapper } from "@diplicity/common";
 
-jest.mock("../../hooks/useFeedbackWrapper", () => ({
-  __esModule: true,
-  default: jest.fn(),
+jest.mock("@diplicity/common", () => ({
+  ...jest.requireActual("@diplicity/common"),
+  useFeedbackWrapper: jest.fn(),
 }));
 
 const childText = "childText";
@@ -59,10 +59,10 @@ describe("FeedbackWrapper", () => {
         </FeedbackWrapper>
       </>
     );
-    jest.runAllTimers()
+    jest.runAllTimers();
     const outsideElement = screen.getByText("outside");
     fireEvent.click(outsideElement);
-    jest.runAllTimers()
+    jest.runAllTimers();
     expect(mockHandleClose).toBeCalledWith(1);
   });
 });

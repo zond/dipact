@@ -1,6 +1,6 @@
+import { DiplicityError } from "@diplicity/common";
 import { makeStyles, Typography } from "@material-ui/core";
 import React from "react";
-import { ApiError } from "../hooks/types";
 import { WarningIcon } from "../icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface ErrorMessageProps {
-  error: ApiError;
+  error: DiplicityError;
 }
 
 interface ApiErrorWithStatus {

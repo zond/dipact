@@ -1,27 +1,23 @@
 import { FormikErrors, useFormik } from "formik";
 import { FormEvent, useEffect, useState } from "react";
-import { randomGameName } from "../helpers";
+import { useDispatch, useSelector } from "react-redux";
+import * as yup from "yup";
 import {
+  diplicityService,
   CreateGameFormValues,
   MutationStatus,
   NationAllocation,
-  selectors,
+  PageName,
   UserRatingHistogram,
   UserStats,
   Variant,
-} from "@diplicity/common";
-import {
-  diplicityService,
+  selectors,
   uiActions,
-  PageName,
-  translateKeys as tk,
-} from "@diplicity/common";
-import { useDispatch } from "react-redux";
-import * as yup from "yup";
+  DiplicityError,
+} from "../store";
+import { mergeErrors, randomGameName } from "../utils/general";
+import { translateKeys as tk } from "../translations";
 import usePageLoad from "./usePageLoad";
-import { mergeErrors } from "./utils";
-import { ApiError } from "./types";
-import { useAppSelector } from "./useAppSelector";
 
 const {
   useGetRootQuery,
@@ -35,8 +31,8 @@ const CLASSICAL = "Classical";
 
 export interface IUseCreateGame {
   createGameWithPreferences: (preferences: string[]) => void;
-  error: ApiError | null;
-  handleChange: (e: React.ChangeEvent<any>) => void;
+  error: DiplicityError | null;
+  handleChange: (e: string | React.ChangeEvent<any>) => void;
   handleSubmit: (e?: FormEvent<HTMLFormElement> | undefined) => void;
   isError: boolean;
   isFetchingVariantSVG: boolean;
@@ -46,7 +42,13 @@ export interface IUseCreateGame {
   percentages: { minPercentage: number; maxPercentage: number };
   selectedVariant: Variant | null;
   selectedVariantSVG: string | undefined;
+  setFieldValue: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => Promise<void> | Promise<FormikErrors<CreateGameFormValues>>;
   submitDisabled: boolean;
+  submitForm: () => Promise<void>;
   userStats?: UserStats;
   validationErrors: FormikErrors<CreateGameFormValues>;
   values: CreateGameFormValues;
@@ -87,7 +89,7 @@ const getInitialFormValues = (): CreateGameFormValues => initialFormValues;
 
 // TODO move somewhere else
 export const useCreateGameStatus = (): MutationStatus =>
-  useAppSelector(selectors.selectCreateGameStatus);
+  useSelector(selectors.selectCreateGameStatus);
 
 const useCreateGame = (): IUseCreateGame => {
   usePageLoad(PageName.CreateGame);
@@ -160,6 +162,7 @@ const useCreateGame = (): IUseCreateGame => {
     values,
     handleChange,
     handleSubmit,
+    submitForm,
     setFieldValue,
     errors: validationErrors,
   } = useFormik({
@@ -262,9 +265,9 @@ const useCreateGame = (): IUseCreateGame => {
     getVariantsSVGQuery.isError;
   const error = isError
     ? mergeErrors(
-        listVariantsQuery.error as ApiError,
-        getUserStatsQuery.error as ApiError,
-        getVariantsSVGQuery.error as ApiError
+        listVariantsQuery.error as DiplicityError,
+        getUserStatsQuery.error as DiplicityError,
+        getVariantsSVGQuery.error as DiplicityError
       )
     : null;
 
@@ -287,7 +290,9 @@ const useCreateGame = (): IUseCreateGame => {
     percentages,
     selectedVariant,
     selectedVariantSVG: getVariantsSVGQuery.data,
+    setFieldValue,
     submitDisabled,
+    submitForm,
     userStats: getUserStatsQuery.data,
     validationErrors,
     values,

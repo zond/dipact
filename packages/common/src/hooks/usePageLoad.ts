@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { uiActions, PageName } from "@diplicity/common";
+import { PageName, uiActions } from "../store";
 
 const usePageLoad = (pageName: PageName): void => {
   const dispatch = useDispatch();
@@ -18,3 +18,4 @@ export const useLazyPageLoad = (pageName: PageName): (() => void) => {
 };
 
 export default usePageLoad;
+

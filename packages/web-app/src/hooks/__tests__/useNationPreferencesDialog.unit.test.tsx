@@ -7,7 +7,8 @@ const mockTriggerPageLoad = jest.fn();
 jest.mock("react-redux", () => ({
   useSelector: jest.fn(),
 }));
-jest.mock("../usePageLoad", () => ({
+jest.mock("@diplicity/common", () => ({
+  ...jest.requireActual("@diplicity/common"),
   useLazyPageLoad: () => mockTriggerPageLoad,
 }));
 

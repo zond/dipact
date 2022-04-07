@@ -1,7 +1,5 @@
 import { User } from "./store";
-import contrastColors from "./utils/contrastColors";
 
-const serverURL = new URL("https://diplicity-engine.appspot.com/");
 interface IGlobals {
   user: User | null;
   [key: string]: any;
@@ -16,15 +14,7 @@ declare global {
   }
 }
 
-window.Globals = {
-  serverRequest: new Request(serverURL.toString(), {
-    headers: {
-      "X-Diplicity-API-Level": "8",
-      Accept: "application/json",
-      "X-Diplicity-Client-Name": "dipact@", // TODO
-    },
-    mode: "cors",
-  }),
+const Globals = {
   user: null,
   onNewForumMail: (fm: any) => {
     window.Globals.latestForumMail = fm;
@@ -39,7 +29,6 @@ window.Globals = {
   variants: [],
   memoizeCache: {},
   // messaging: Messaging,
-  contrastColors: contrastColors,
   colorOverrides: {
     nationCodes: {},
     variantCodes: {},
@@ -55,4 +44,4 @@ window.Globals = {
   fakeID: {},
 };
 
-export default window.Globals;
+export default Globals;
