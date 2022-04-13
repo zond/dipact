@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { AnyAction, combineReducers, Middleware } from "redux";
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import {
@@ -9,12 +9,22 @@ import {
 
 const reducer = combineReducers({ ...commonReducers });
 
+// export const debugMiddleware: Middleware<{}, any> =
+//   ({ getState }) =>
+//   (next) =>
+//   (action: AnyAction) => {
+//     next(action);
+//     console.log(getState().auth.token);
+//     console.log(action);
+//   };
+
 export const store = configureStore({
   reducer,
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })
       .concat(diplicityService.middleware)
       .concat(commonMiddleware),
+    // .concat([debugMiddleware]),
   ],
 });
 

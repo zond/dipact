@@ -197,9 +197,9 @@ export const diplicityService = createApi({
         const titleStatus = status.charAt(0).toUpperCase() + status.slice(1);
         if (my) {
           if (mastered) {
-            return `/My/Mastered/Games/${titleStatus}`;
+            return `/Games/Mastered/${titleStatus}`;
           }
-          return `/My/Games/${titleStatus}`;
+          return `/Games/My/${titleStatus}`;
         }
         return `/Games/${titleStatus}`;
       },

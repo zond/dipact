@@ -32,6 +32,9 @@ const palette = {
     main: "#000",
     light: "#57606a",
   },
+  highlight: {
+    main: "#DDDDDD",
+  },
 };
 
 export const theme = createTheme({

@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import { useGameList } from "@diplicity/common";
 
-import GameList from "../GameList";
+import BrowseGames from "../BrowseGames";
 
 interface ArrangeOptions {}
 
@@ -20,7 +20,7 @@ describe("GameList", () => {
     (useGameList as jest.Mock).mockImplementation(() =>
       createUseGameListMock(options)
     );
-    return render(<GameList />);
+    return render(<BrowseGames />);
   };
   beforeEach(() => {
     (useGameList as jest.Mock).mockImplementation(() =>

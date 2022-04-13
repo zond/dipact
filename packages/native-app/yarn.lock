@@ -1275,10 +1275,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@diplicity/common@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.21.tgz#dbdd76d6d8bda63bb3cb6d0e7ea9d680a82db24d"
-  integrity sha512-tS5tWKCZa2/Fpcj4H6QaKTlVRSFvilHiMy/cFFpv02U4qlWRUgqclhsrXPe/vy9VKICOtOepBl9I2DWqHwj73A==
+"@diplicity/common@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.23.tgz#78621ea4c24fb57d58b64862edffc3c1c05fb0ed"
+  integrity sha512-AFwvbQc5UKdWdUY2yVWx8JwpvYLEPJa8WAYLK4rkp7VRrZtXTRn8XHeeXRH8l7kpMi7N4KRs9j3YOt39GdfSxA==
   dependencies:
     formik "^2.2.9"
     yup "^0.32.11"
@@ -1982,6 +1982,19 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.1.0.tgz#483155ccf5a8f18d015db283bed34cc2255e2e9e"
   integrity sha512-jZncciZPGuoP6B6f+Wpf6MYSSYy86B2HJDbFTCtT5xZV0w6V9GgCeqvSTOEAxifZrmKl8uDxsr0GrIxgQE8NxA==
+
+"@react-navigation/elements@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.3.3.tgz#9f56b650a9a1a8263a271628be7342c8121d1788"
+  integrity sha512-Lv2lR7si5gNME8dRsqz57d54m4FJtrwHRjNQLOyQO546ZxO+g864cSvoLC6hQedQU0+IJnPTsZiEI2hHqfpEpw==
+
+"@react-navigation/native-stack@^6.6.1":
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-6.6.1.tgz#b0fc0dfc6fb21704062ec2820a53f982584feef2"
+  integrity sha512-JQfM3VWTH241ZQhp+UDJ6dZ/WiKJpGxNO4NFNW9AT+D1mxA3GFC3BBiGZfacPrtMOlLmn9FHf0Kh5rD9JYlvhg==
+  dependencies:
+    "@react-navigation/elements" "^1.3.3"
+    warn-once "^0.1.0"
 
 "@react-navigation/native@^6.0.2":
   version "6.0.2"
