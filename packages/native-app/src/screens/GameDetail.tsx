@@ -61,7 +61,7 @@ const GameDetail = () => {
   const [playersAccordionExpanded, setPlayersAccordionExpanded] =
     useState(false);
   const styles = useStyles();
-  const { game, isLoading, joinGame } = useGameCard(gameId);
+  const { game, isLoading } = useGameCard(gameId);
 
   const onPressView = () => {
     navigation.navigate("Game", { gameId });
@@ -161,7 +161,7 @@ const GameDetail = () => {
                   ))}
                 </View>
               </ListItem.Accordion>
-              <View>
+              {/* <View>
                 {Boolean(game.failedRequirements.length) && (
                   <Text>
                     {t(tk.gameList.gameCard.failedRequirements.label)}
@@ -170,22 +170,18 @@ const GameDetail = () => {
                 <View>
                   {game.failedRequirements.map((req) => (
                     <ListItem key={req}>
-                      {/* <Text>{t(failedRequirementExplanationMap[req])}</Text> */}
+                      <Text>{t(failedRequirementExplanationMap[req])}</Text>
                     </ListItem>
                   ))}
                 </View>
-              </View>
+              </View> */}
             </View>
             <View style={styles.buttons}>
               <Button
                 onPress={onPressView}
                 title={t(tk.gameList.gameCard.viewButton.label)}
+                accessibilityLabel={t(tk.gameList.gameCard.viewButton.label)}
                 iconProps={{ name: "eye" }}
-              />
-              <Button
-                onPress={() => joinGame()}
-                title={t(tk.gameList.gameCard.joinButton.label)}
-                iconProps={{ name: "plus" }}
               />
             </View>
           </View>

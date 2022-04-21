@@ -5,10 +5,8 @@ import Router from "../Router";
 import { useSelector } from "react-redux";
 import { translateKeys as tk } from "@diplicity/common";
 
-interface ArrangeOptions {}
-
 jest.mock("../Login", () => () => <>Login</>);
-jest.mock("../GameList", () => () => <>GameList</>);
+jest.mock("../MyGames", () => () => <>MyGames</>);
 jest.mock("../CreateGame", () => () => <>CreateGame</>);
 
 jest.mock("react-redux", () => ({
@@ -28,7 +26,9 @@ describe("Router", () => {
   test("Logged in", () => {
     (useSelector as jest.Mock).mockImplementation(() => true);
     const { getByText, getAllByText } = arrange();
-    expect(getAllByText("Games").length).toBeGreaterThan(0);
+    expect(getAllByText(tk.gameList.myGamesTab.label).length).toBeGreaterThan(
+      0
+    );
     getByText(tk.createGame.title);
   });
   test("Logged out", () => {

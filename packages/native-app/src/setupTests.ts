@@ -16,6 +16,7 @@ jest.mock("@rneui/themed", () => ({
         notification: {},
         background: {},
         paper: {},
+        highlight: {},
       },
     },
   })),

@@ -77,7 +77,7 @@ const GameCard = ({ game }: GameCardProps) => {
   } = game;
   const navigation = useNavigation<"Home">();
   const onPressGame = () => {
-    navigation.navigate("GameDetail", { gameId: id, name });
+    navigation.navigate("GameDetail", { gameId: id });
   };
   const onPressView = () => {
     navigation.navigate("Game", { gameId: id });
@@ -99,17 +99,53 @@ const GameCard = ({ game }: GameCardProps) => {
         <View style={styles.bottomRow}>
           <View style={styles.icons}>
             {Boolean(chatLanguage) && <Text>{chatLanguage}</Text>}
-            {privateGame && <Icon name="lock" />}
-            {Boolean(minQuickness || minReliability) && <Icon name={"timer"} />}
-            {nationAllocation === NationAllocation.Preference && (
-              <Icon name={"playlist-add-check"} />
+            {privateGame && (
+              <Icon
+                name="lock"
+                accessibilityLabel={t(
+                  tk.gameList.gameCard.privateGameIcon.tooltip
+                )}
+              />
             )}
-            {Boolean(minRating) && <Icon name="star-border" />}
-            {chatDisabled && <Icon name="comments-disabled" />}
+            {Boolean(minQuickness || minReliability) && (
+              <Icon
+                name={"timer"}
+                accessibilityLabel={t(
+                  tk.gameList.gameCard.minQuicknessOrReliabilityRequiredIcon
+                    .tooltip
+                )}
+              />
+            )}
+            {nationAllocation === NationAllocation.Preference && (
+              <Icon
+                name={"playlist-add-check"}
+                accessibilityLabel={t(
+                  tk.gameList.gameCard.preferenceBaseNationAllocationIcon
+                    .tooltip
+                )}
+              />
+            )}
+            {Boolean(minRating) && (
+              <Icon
+                name="star-border"
+                accessibilityLabel={t(
+                  tk.gameList.gameCard.minRatingRequiredIcon.tooltip
+                )}
+              />
+            )}
+            {chatDisabled && (
+              <Icon
+                name="closed-caption-disabled"
+                accessibilityLabel={t(
+                  tk.gameList.gameCard.chatDisabledIcon.tooltip
+                )}
+              />
+            )}
           </View>
           <View>
             <Button
               onPress={onPressView}
+              accessibilityLabel={t(tk.gameList.gameCard.viewButton.label)}
               title={t(tk.gameList.gameCard.viewButton.label)}
               iconProps={{ name: "eye" }}
             />

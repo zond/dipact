@@ -1,10 +1,6 @@
-import React, { useState } from "react";
-import { Alert, Modal, Pressable, ScrollView, Text, View } from "react-native";
-import {
-  GameDisplay,
-  GameStatus,
-  translateKeys as tk,
-} from "@diplicity/common";
+import React from "react";
+import { ScrollView } from "react-native";
+import { GameStatus, translateKeys as tk } from "@diplicity/common";
 import GameList from "../components/GameList";
 import { useTranslation } from "react-i18next";
 

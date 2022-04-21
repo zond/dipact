@@ -104,7 +104,8 @@
       "/node_modules/",
       "<rootDir>/src/react-app-env.d.ts",
       "<rootDir>/src/mocks",
-      "<rootDir>/src/App.tsx"
+      "<rootDir>/src/App.tsx",
+      "<rootDir>/src/screens/Router.tsx"
     ]
   }
 }
