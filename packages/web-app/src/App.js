@@ -6,6 +6,9 @@ import ActivityContainer from "./components/ActivityContainer";
 import Globals from "./Globals";
 import Router from "./pages/Router";
 import FeedbackWrapper from "./components/FeedbackWrapper";
+import actions from "./store/actions";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 export class LegacyApp extends ActivityContainer {
   constructor(props) {
@@ -233,7 +236,20 @@ export class LegacyApp extends ActivityContainer {
   }
 }
 
-const App = () => {
+const useInitialized = () => {
+  const dispatch = useDispatch();
+  const [isInitialized, setIsInitialized] = useState(false);
+  useEffect(() => {
+    dispatch(actions.initialize());
+    setIsInitialized(true);
+  }, [dispatch]);
+  return isInitialized;
+};
+
+const App = ({ initialize }) => {
+  // Ensure that initialize action is dispatched before rendering app
+  const isInitialized = useInitialized();
+  if (!isInitialized) return null;
   return (
     <FeedbackWrapper>
       <Router />

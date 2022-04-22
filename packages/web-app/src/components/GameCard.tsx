@@ -10,8 +10,8 @@ import {
   IconButton,
   List,
   ListItem,
-} from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+  makeStyles,
+} from "@material-ui/core";
 import React from "react";
 import { generatePath } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -32,26 +32,35 @@ import {
 import { RouteConfig } from "../pages/RouteConfig";
 import PlayerCount from "./PlayerCount";
 import useSearchParams from "../hooks/useSearchParams";
-import { registerEvent } from "../hooks/useRegisterPageview";
-import useGameCard from "../hooks/useGameCard";
 import { useTranslation } from "react-i18next";
-import { translateKeys as tk } from "@diplicity/common";
+import { useGameCard, translateKeys as tk } from "@diplicity/common";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     border: "none",
   },
-  accordionSummary: {
-    width: "100%",
-  },
   accordionSummaryContent: {
-    width: "100%",
     "& > div": {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
       width: "100%",
     },
+  },
+  gameSummaryButton: {
+    cursor: "pointer",
+    background: "inherit",
+    border: "inherit",
+    width: "inherit",
+    padding: 0,
+    borderTop: "1px solid",
+    borderColor: "rgba(0, 0, 0, 0.08)",
+    "& :hover": {
+      background: "#DDDDDD",
+    },
+    "& > div": {
+      padding: theme.spacing(2),
+    }
   },
   accordionDetails: {
     flexDirection: "column",
@@ -112,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface GameCardProps {
   game: GameDisplay;
+  summaryOnly?: true;
 }
 
 const defaultProps = {
@@ -129,7 +139,7 @@ const failedRequirementExplanationMap: { [key: string]: string } = {
   InvitationNeeded: tk.gameList.gameCard.failedRequirements.invitationNeeded,
 };
 
-const GameCard = ({ game }: GameCardProps): React.ReactElement => {
+const GameCard = ({ game, summaryOnly }: GameCardProps): React.ReactElement => {
   const classes = useStyles();
   const { t } = useTranslation();
   const {
@@ -162,9 +172,10 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const history = useHistory();
   const { setParam } = useSearchParams();
 
-  const { deleteGame, isLoading, joinGame, onClickInvite } = useGameCard();
+  const { deleteGame, isLoading, joinGame } = useGameCard(id);
 
   const gameUrl = generatePath(RouteConfig.Game, { gameId: id });
+  console.log(gameUrl);
   const onClickView = () => history.push(gameUrl);
 
   const onClickJoin = () => {
@@ -172,7 +183,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
       setParam("nation-preference-dialog", id);
     } else {
       // TODO move to middleware
-      joinGame({ gameId: id as string, NationPreferences: "", GameAlias: "" });
+      joinGame({ NationPreferences: "", GameAlias: "" });
     }
   };
 
@@ -181,11 +192,112 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
   const onClickManageInvitations = () =>
     setParam("manage-invitations-dialog", id);
 
-  // TODO move to middleware
-  const onClickDelete = () => {
-    deleteGame(id);
-    registerEvent("game_list_element_delete");
-  };
+  const GameSummary = (
+    <div className={classes.accordionSummaryContent}>
+      <div>
+        <Badge
+          badgeContent={numUnreadMessages}
+          color="primary"
+          invisible={!Boolean(numUnreadMessages)}
+        >
+          <Typography>{name}</Typography>
+        </Badge>
+        {started ? (
+          <div className={classes.deadline}>
+            <StartedAtIcon />
+            <Typography>{deadlineDisplay}</Typography>
+          </div>
+        ) : (
+          <PlayerCount
+            numPlayers={numMembers}
+            maxNumPlayers={variantNumNations}
+          />
+        )}
+      </div>
+      <div>
+        <Typography variant={"caption"}>{rulesSummary}</Typography>
+        <div className={classes.phaseSummaryContainer}>
+          <div className={classes.icons}>
+            {Boolean(chatLanguage) && (
+              <Tooltip
+                title={
+                  t(tk.gameList.gameCard.chatLanguageIcon.tooltip, {
+                    language: chatLanguageDisplay,
+                  }) as string
+                }
+              >
+                <div className={classes.chatIconContainer}>
+                  <ChatLanguageIcon fontSize={"small"} />
+                  <Typography variant={"caption"}>{chatLanguage}</Typography>
+                </div>
+              </Tooltip>
+            )}
+            {privateGame && (
+              <Tooltip
+                title={
+                  t(tk.gameList.gameCard.privateGameIcon.tooltip) as string
+                }
+              >
+                <PrivateGameIcon fontSize={"small"} />
+              </Tooltip>
+            )}
+            {Boolean(minQuickness || minReliability) && (
+              <Tooltip
+                title={
+                  t(
+                    tk.gameList.gameCard.minQuicknessOrReliabilityRequiredIcon
+                      .tooltip
+                  ) as string
+                }
+              >
+                <ReliabilityIcon fontSize={"small"} />
+              </Tooltip>
+            )}
+            {nationAllocation === NationAllocation.Preference && (
+              <Tooltip
+                title={
+                  t(
+                    tk.gameList.gameCard.preferenceBaseNationAllocationIcon
+                      .tooltip
+                  ) as string
+                }
+              >
+                <NationAllocationIcon fontSize={"small"} />
+              </Tooltip>
+            )}
+            {Boolean(minRating) && (
+              <Tooltip
+                title={
+                  t(
+                    tk.gameList.gameCard.minRatingRequiredIcon.tooltip
+                  ) as string
+                }
+              >
+                <RatingIcon fontSize={"small"} />
+              </Tooltip>
+            )}
+            {chatDisabled && (
+              <Tooltip
+                title={
+                  t(tk.gameList.gameCard.chatDisabledIcon.tooltip) as string
+                }
+              >
+                <ChatDisabledIcon fontSize={"small"} />
+              </Tooltip>
+            )}
+          </div>
+          <Typography variant={"caption"}>{phaseSummary}</Typography>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (summaryOnly)
+    return (
+      <button type="button" className={classes.gameSummaryButton} onClick={onClickView}>
+        {GameSummary}
+      </button>
+    );
 
   return (
     <Accordion
@@ -194,109 +306,8 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
       TransitionProps={{ unmountOnExit: true }}
       square
     >
-      <AccordionSummary
-        expandIcon={<ExpandIcon />}
-        className={classes.accordionSummary}
-      >
-        <div className={classes.accordionSummaryContent}>
-          <div>
-            <Badge
-              badgeContent={numUnreadMessages}
-              color="primary"
-              invisible={!Boolean(numUnreadMessages)}
-            >
-              <Typography>{name}</Typography>
-            </Badge>
-            {started ? (
-              <div className={classes.deadline}>
-                <StartedAtIcon />
-                <Typography>{deadlineDisplay}</Typography>
-              </div>
-            ) : (
-              <PlayerCount
-                numPlayers={numMembers}
-                maxNumPlayers={variantNumNations}
-              />
-            )}
-          </div>
-          <div>
-            <Typography variant={"caption"}>{rulesSummary}</Typography>
-            <div className={classes.phaseSummaryContainer}>
-              <div className={classes.icons}>
-                {Boolean(chatLanguage) && (
-                  <Tooltip
-                    title={
-                      t(tk.gameList.gameCard.chatLanguageIcon.tooltip, {
-                        language: chatLanguageDisplay,
-                      }) as string
-                    }
-                  >
-                    <div className={classes.chatIconContainer}>
-                      <ChatLanguageIcon fontSize={"small"} />
-                      <Typography variant={"caption"}>
-                        {chatLanguage}
-                      </Typography>
-                    </div>
-                  </Tooltip>
-                )}
-                {privateGame && (
-                  <Tooltip
-                    title={
-                      t(tk.gameList.gameCard.privateGameIcon.tooltip) as string
-                    }
-                  >
-                    <PrivateGameIcon fontSize={"small"} />
-                  </Tooltip>
-                )}
-                {Boolean(minQuickness || minReliability) && (
-                  <Tooltip
-                    title={
-                      t(
-                        tk.gameList.gameCard
-                          .minQuicknessOrReliabilityRequiredIcon.tooltip
-                      ) as string
-                    }
-                  >
-                    <ReliabilityIcon fontSize={"small"} />
-                  </Tooltip>
-                )}
-                {nationAllocation === NationAllocation.Preference && (
-                  <Tooltip
-                    title={
-                      t(
-                        tk.gameList.gameCard.preferenceBaseNationAllocationIcon
-                          .tooltip
-                      ) as string
-                    }
-                  >
-                    <NationAllocationIcon fontSize={"small"} />
-                  </Tooltip>
-                )}
-                {Boolean(minRating) && (
-                  <Tooltip
-                    title={
-                      t(
-                        tk.gameList.gameCard.minRatingRequiredIcon.tooltip
-                      ) as string
-                    }
-                  >
-                    <RatingIcon fontSize={"small"} />
-                  </Tooltip>
-                )}
-                {chatDisabled && (
-                  <Tooltip
-                    title={
-                      t(tk.gameList.gameCard.chatDisabledIcon.tooltip) as string
-                    }
-                  >
-                    <ChatDisabledIcon fontSize={"small"} />
-                  </Tooltip>
-                )}
-              </div>
-              <Typography variant={"caption"}>{phaseSummary}</Typography>
-            </div>
-          </div>
-        </div>
+      <AccordionSummary expandIcon={<ExpandIcon />}>
+        {GameSummary}
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
         <div className={classes.buttons}>
@@ -309,9 +320,9 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
               {t(tk.gameList.gameCard.viewButton.label)}
             </Button>
           </a>
-          <Button variant={"outlined"} onClick={() => onClickInvite(gameUrl)}>
+          {/* <Button variant={"outlined"} onClick={() => onClickInvite(gameUrl)}>
             {t(tk.gameList.gameCard.inviteButton.label)}
-          </Button>
+          </Button> */}
           <Button
             variant={"outlined"}
             onClick={onClickJoin}
@@ -335,7 +346,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
               </Button>
               <Button
                 variant={"outlined"}
-                onClick={onClickDelete}
+                onClick={deleteGame}
                 disabled={isLoading}
               >
                 {t(tk.gameList.gameCard.deleteButton.label)}
@@ -345,12 +356,16 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
         </div>
         <div>
           {Boolean(failedRequirements.length) && (
-            <Typography>{t(tk.gameList.gameCard.failedRequirements.label)}</Typography>
+            <Typography>
+              {t(tk.gameList.gameCard.failedRequirements.label)}
+            </Typography>
           )}
           <List>
             {failedRequirements.map((req) => (
               <ListItem dense key={req}>
-                <Typography>{t(failedRequirementExplanationMap[req])}</Typography>
+                <Typography>
+                  {t(failedRequirementExplanationMap[req])}
+                </Typography>
               </ListItem>
             ))}
           </List>
@@ -412,7 +427,7 @@ const GameCard = ({ game }: GameCardProps): React.ReactElement => {
           <div className={classes.players}>
             {players.map(({ username, image }) => (
               <div key={username}>
-                <IconButton onClick={() => {}} size="large">
+                <IconButton onClick={() => {}} size="medium">
                   <Avatar src={image} alt={username} />
                 </IconButton>
                 <Typography>{username}</Typography>

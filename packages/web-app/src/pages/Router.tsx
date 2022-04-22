@@ -7,8 +7,10 @@ import AuthWrapper from "../components/AuthWrapper";
 import CreateGame from "./CreateGame";
 import { history } from "../store";
 import { RouteConfig } from "./RouteConfig";
+import MyGames from "./MyGames";
 
 const Router = (): React.ReactElement => {
+  console.log("ROUTING");
   return (
     <ConnectedRouter history={history}>
       <AuthWrapper>
@@ -18,6 +20,9 @@ const Router = (): React.ReactElement => {
           </Route>
           <Route exact path={RouteConfig.CreateGame}>
             <CreateGame />
+          </Route>
+          <Route exact path={RouteConfig.MyGames}>
+            <MyGames />
           </Route>
           <Redirect to="/" />
         </Switch>

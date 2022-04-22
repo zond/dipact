@@ -27,7 +27,7 @@ global.fetch = function (uri, options, ...args) {
 
 if (process.env.NODE_ENV === "development") {
   const { worker } = require("./mocks/browser");
-  worker.start();
+  // worker.start();
 }
 
 ReactDOM.render(<ProgressDialog />, document.getElementById("progress"));

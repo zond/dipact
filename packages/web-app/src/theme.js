@@ -1,6 +1,5 @@
 // See https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
-import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
-
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   typography: {
@@ -20,6 +19,10 @@ const theme = createMuiTheme({
       dark: "#006db3",
       contrastText: "#000",
     },
+    // TODO
+    // highlight: {
+    //   main: "#DDDDDD",
+    // },
   },
 });
 
