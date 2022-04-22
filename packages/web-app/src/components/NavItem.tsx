@@ -17,11 +17,12 @@ const useNavStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-interface NavItemProps {
+type IconButtonProps = Parameters<typeof IconButton>[0];
+
+interface NavItemProps extends IconButtonProps {
   children: React.ReactNode;
   href: string;
   label: string;
-  edge?: "end" | "start";
   active: boolean;
   external?: true;
   text?: boolean;

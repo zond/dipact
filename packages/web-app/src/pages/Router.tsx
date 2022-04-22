@@ -10,7 +10,6 @@ import { RouteConfig } from "./RouteConfig";
 import MyGames from "./MyGames";
 
 const Router = (): React.ReactElement => {
-  console.log("ROUTING");
   return (
     <ConnectedRouter history={history}>
       <AuthWrapper>
