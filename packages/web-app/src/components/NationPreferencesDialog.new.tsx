@@ -56,6 +56,7 @@ const NationPreferencesDialog = ({
                       <IconButton
                         onClick={() => updateOrder("down", idx)}
                         disabled={!(idx < preferences.length - 1)}
+                        title="Move down"
                       >
                         <ArrowDownwardIcon />
                       </IconButton>
@@ -64,6 +65,7 @@ const NationPreferencesDialog = ({
                       <IconButton
                         onClick={() => updateOrder("up", idx)}
                         disabled={!(idx > 0)}
+                        title="Move up"
                       >
                         <ArrowUpwardIcon />
                       </IconButton>

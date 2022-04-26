@@ -246,7 +246,7 @@ const useInitialized = () => {
   return isInitialized;
 };
 
-const App = ({ initialize }) => {
+const App = () => {
   // Ensure that initialize action is dispatched before rendering app
   const isInitialized = useInitialized();
   if (!isInitialized) return null;

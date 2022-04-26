@@ -38,9 +38,10 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test  --watchAll=false --maxWorkers=50% --isolatedModules=true",
+    "test": "craco test --watchAll=false --maxWorkers=50% --isolatedModules=true",
     "test-unit": "craco test -t unit.test --watchAll=false --maxWorkers=50% --isolatedModules=true",
-    "test-coverage": "craco test --watchAll=false --maxWorkers=50% --isolatedModules=true --silent --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
+    "test-coverage": "craco test --watchAll=false --maxWorkers=50% --isolatedModules=true --ci --coverage",
+    "test-coverage-ci": "craco test --watchAll=false --maxWorkers=50% --isolatedModules=true --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "eject": "craco eject",
     "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0"
   },
@@ -78,7 +79,9 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/src/react-app-env.d.ts",
-      "<rootDir>/src/mocks"
+      "<rootDir>/src/mocks",
+      "<rootDir>/src/hooks/utils.ts",
+      "<rootDir>/src/store/base.ts"
     ]
   },
   "msw": {

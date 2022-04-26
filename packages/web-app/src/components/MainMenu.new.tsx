@@ -1,7 +1,6 @@
 import {
   AppBar,
   Avatar,
-  ClickAwayListener,
   Divider,
   Drawer,
   IconButton,
@@ -17,28 +16,13 @@ import {
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import useMainMenu from "../hooks/useMainMenu";
-import { MenuIcon, GitHubIcon, BugReportIcon } from "../icons";
+import { useMainMenu } from "../hooks/useMainMenu";
+import { MenuIcon, GitHubIcon } from "../icons";
 import { RouteConfig } from "../pages/RouteConfig";
 import useSearchParams from "../hooks/useSearchParams";
 import NavItem from "./NavItem";
-import { links } from "@diplicity/common";
-
-const DRAWER_TITLE = "Main menu drawer";
-const OPEN_USER_MENU_BUTTON_TITLE = "Open user menu";
-const OPEN_DRAWER_BUTTON_TITLE = "Open drawer";
-const USER_AVATAR_ALT_TEXT = "Your avatar";
-const PLAYER_STATS_MENU_ITEM = "Player stats";
-const LOGOUT_MENU_ITEM = "Logout";
-const ABOUT_MENU_ITEM = "About";
-const MY_DIPLICITY_MENU_ITEM = "My Diplicity";
-const CREATE_GAME_MENU_ITEM = "Create game";
-const COMMUNITY_MENU_ITEM = "Community";
-const CHAT_MENU_ITEM = "Chat";
-const FORUM_MENU_ITEM = "Forum";
-const FAQ_MENU_ITEM = "FAQ";
-const GITHUB_BUTTON_LABEL = "GitHub repo for this project";
-const ERROR_BUTTON_LABEL = "Report a bug";
+import { links, translateKeys as tk } from "@diplicity/common";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -80,24 +64,17 @@ interface MainMenuProps {
 
 const MainMenu = ({ children, title }: MainMenuProps) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [drawerOpenedAt, setDrawerOpenedAt] = useState(0);
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const history = useHistory();
   const classes = useStyles();
+  const { t } = useTranslation();
   const { setParam } = useSearchParams();
   const { logout, user } = useMainMenu();
-
-  const openDrawer = () => {
-    setDrawerOpenedAt(new Date().getTime());
-    setDrawerOpen(true);
-  };
-  const closeDrawer = () => setDrawerOpen(false);
 
   const onClickAvatar = (e: React.MouseEvent<HTMLButtonElement>) =>
     setMenuAnchorEl(e.currentTarget);
   const onClickPlayerStats = () => setParam("player-stats", user?.Id as string);
   const onClickCreateGame = () => history.push(RouteConfig.CreateGame);
-  const onClickErrorLog = () => setParam("error-log", "1");
 
   const onClickAbout = () => window.open(links.notion, "_blank");
   const onClickChat = () => window.open(links.diplicityDiscord, "_blank");
@@ -111,9 +88,9 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
           <div className={classes.menuButtonTitleContainer}>
             <IconButton
               edge="start"
-              onClick={openDrawer}
+              onClick={() => setDrawerOpen(true)}
               color="secondary"
-              title={OPEN_DRAWER_BUTTON_TITLE}
+              title={t(tk.mainMenu.drawer.button.title)}
             >
               <MenuIcon />
             </IconButton>
@@ -125,11 +102,11 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
                 edge="end"
                 onClick={onClickAvatar}
                 color="secondary"
-                title={OPEN_USER_MENU_BUTTON_TITLE}
+                title={t(tk.mainMenu.userMenu.button.title)}
               >
                 <Avatar
-                  alt={USER_AVATAR_ALT_TEXT}
-                  src={user?.Picture}
+                  alt={t(tk.mainMenu.userMenu.userAvatar.altText)}
+                  src={user.Picture}
                   className={classes.avatar}
                 />
               </IconButton>
@@ -143,6 +120,7 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
                   vertical: "top",
                   horizontal: "right",
                 }}
+                /* istanbul ignore next */ 
                 onClose={() => setMenuAnchorEl(null)}
                 open={!!menuAnchorEl}
               >
@@ -150,81 +128,64 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
                   {user.Email}
                 </MenuItem>
                 <MenuItem key="stats" onClick={onClickPlayerStats}>
-                  {PLAYER_STATS_MENU_ITEM}
+                  {t(tk.mainMenu.userMenu.playerStatsMenuItem.label)}
                 </MenuItem>
 
                 <MenuItem key="logout" onClick={logout}>
-                  {LOGOUT_MENU_ITEM}
+                  {t(tk.mainMenu.userMenu.logoutMenuItem.label)}
                 </MenuItem>
               </Menu>
             </>
           )}
         </Toolbar>
       </AppBar>
-      <Drawer open={drawerOpen}>
-        <ClickAwayListener
-          onClickAway={() => {
-            if (drawerOpenedAt && new Date().getTime() > drawerOpenedAt + 100) {
-              closeDrawer();
-            }
-          }}
-        >
-          <div
-            onClick={closeDrawer}
-            className={classes.drawer}
-            title={DRAWER_TITLE}
-          >
-            <List component="nav">
-              <ListItem className={classes.menuItemSectionHeader}>
-                <ListItemText
-                  primary={MY_DIPLICITY_MENU_ITEM}
-                  disableTypography
-                />
-              </ListItem>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <div className={classes.drawer} title={t(tk.mainMenu.drawer.title)}>
+          <List component="nav">
 
-              <ListItem button onClick={onClickCreateGame}>
-                <ListItemText primary={CREATE_GAME_MENU_ITEM} />
-              </ListItem>
+            <ListItem className={classes.menuItemSectionHeader}>
+              <ListItemText primary={t(tk.mainMenu.drawer.myDiplicitySection.title)} disableTypography />
+            </ListItem>
 
-              <Divider />
+            <ListItem button onClick={onClickCreateGame}>
+              <ListItemText primary={t(tk.mainMenu.drawer.createGameMenuItem.title)} />
+            </ListItem>
 
-              <ListItem className={classes.menuItemSectionHeader}>
-                <ListItemText primary={COMMUNITY_MENU_ITEM} disableTypography />
-              </ListItem>
+            <Divider />
 
-              <ListItem button onClick={onClickChat}>
-                <ListItemText primary={CHAT_MENU_ITEM} />
-              </ListItem>
+            <ListItem className={classes.menuItemSectionHeader}>
+              <ListItemText primary={t(tk.mainMenu.drawer.communitySection.title)} disableTypography />
+            </ListItem>
 
-              <ListItem button onClick={onClickForum}>
-                <ListItemText primary={FORUM_MENU_ITEM} />
-              </ListItem>
+            <ListItem button onClick={onClickChat}>
+              <ListItemText primary={t(tk.mainMenu.drawer.chatMenuItem.title)} />
+            </ListItem>
 
-              <Divider />
+            <ListItem button onClick={onClickForum}>
+              <ListItemText primary={t(tk.mainMenu.drawer.forumMenuItem.title)} />
+            </ListItem>
 
-              <ListItem button onClick={onClickFAQ}>
-                <ListItemText primary={FAQ_MENU_ITEM} />
-              </ListItem>
+            <Divider />
 
-              <ListItem button onClick={onClickAbout}>
-                <ListItemText primary={ABOUT_MENU_ITEM} />
-              </ListItem>
-            </List>
-            <div className={classes.icons}>
-              <NavItem
-                href={links.dipactGithub}
-                label={GITHUB_BUTTON_LABEL}
-                active
-                external
-              >
-                <GitHubIcon />
-              </NavItem>
-              <IconButton onClick={onClickErrorLog} title={ERROR_BUTTON_LABEL}>
-                <BugReportIcon />
-              </IconButton>
-            </div>
+            <ListItem button onClick={onClickFAQ}>
+              <ListItemText primary={t(tk.mainMenu.drawer.faqMenuItem.title)} />
+            </ListItem>
+
+            <ListItem button onClick={onClickAbout}>
+              <ListItemText primary={t(tk.mainMenu.drawer.aboutMenuItem.title)} />
+            </ListItem>
+          </List>
+          <div className={classes.icons}>
+            <NavItem
+              href={links.dipactGithub}
+              label={t(tk.mainMenu.drawer.githubButton.title)}
+              active
+              external
+            >
+              <GitHubIcon />
+            </NavItem>
           </div>
-        </ClickAwayListener>
+        </div>
       </Drawer>
       <Toolbar />
       {children}

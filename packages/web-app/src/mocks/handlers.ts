@@ -20,6 +20,7 @@ import messagesSuccessNewMessage from "./responses/messagesSuccessNewMessage.jso
 import messagesMultiplePhasesSuccess from "./responses/messagesMultiplePhasesSuccess.json";
 import variantsSuccess from "./responses/variantsSuccess.json";
 import variantsSuccessShort from "./responses/variantsSuccessShort.json";
+import variantsSuccessNoClassical from "./responses/variantsSuccessNoClassical.json";
 import listChannelsSuccess from "./responses/listChannelsSuccess.json";
 import listChannelsSuccessNoChannels from "./responses/listChannelsSuccessNoChannels.json";
 
@@ -308,6 +309,9 @@ const resolvers = {
     successShort: (req: any, res: any, ctx: any) => {
       return res(ctx.status(200), ctx.json(variantsSuccessShort));
     },
+    successNoClassical: (req: any, res: any, ctx: any) => {
+      return res(ctx.status(200), ctx.json(variantsSuccessNoClassical));
+    },
   },
 
   messages: {
@@ -430,6 +434,7 @@ export const handlers = {
   variants: {
     success: rest.get(variantsUrl, resolvers.variants.success),
     successShort: rest.get(variantsUrl, resolvers.variants.successShort),
+    successNoClassical: rest.get(variantsUrl, resolvers.variants.successNoClassical),
     internalServerError: rest.get(variantsUrl, internalServerError),
     tokenTimeout: rest.get(variantsUrl, tokenTimeout),
   },

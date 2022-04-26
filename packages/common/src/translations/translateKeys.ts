@@ -300,6 +300,52 @@ const translateKeys = {
       label: "login.stay-logged-in-checkbox.label",
     },
   },
+  mainMenu: {
+    drawer: {
+      title: "main-menu.drawer.title",
+      button: {
+        title: "main-menu.drawer.button.title",
+      },
+      aboutMenuItem: {
+        title: "main-menu.drawer.about-menu-item.title",
+      },
+      createGameMenuItem: {
+        title: "main-menu.drawer.create-game-menu-item.title",
+      },
+      communitySection: {
+        title: "main-menu.drawer.community-section.title",
+      },
+      myDiplicitySection: {
+        title: "main-menu.drawer.my-diplicity-section.title",
+      },
+      chatMenuItem: {
+        title: "main-menu.drawer.chat-menu-item.title",
+      },
+      forumMenuItem: {
+        title: "main-menu.drawer.forum-menu-item.title",
+      },
+      faqMenuItem: {
+        title: "main-menu.drawer.faq-menu-item.title",
+      },
+      githubButton: {
+        title: "main-menu.drawer.github-button.title",
+      },
+    },
+    userMenu: {
+      button: {
+        title: "main-menu.user-menu.button.title",
+      },
+      logoutMenuItem: {
+        label: "main-menu.user-menu.logout-menu-item.label",
+      },
+      playerStatsMenuItem: {
+        label: "main-menu.user-menu.player-stats-menu-item.label",
+      },
+      userAvatar: {
+        altText: "main-menu.user-menu.user-avatar.alt-text",
+      },
+    },
+  },
   nationAllocationOptions: {
     preference: "nation-allocation-options.preference",
     random: "nation-allocation-options.random",

@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& > div": {
       padding: theme.spacing(2),
-    }
+    },
   },
   accordionDetails: {
     flexDirection: "column",
@@ -175,7 +175,6 @@ const GameCard = ({ game, summaryOnly }: GameCardProps): React.ReactElement => {
   const { deleteGame, isLoading, joinGame } = useGameCard(id);
 
   const gameUrl = generatePath(RouteConfig.Game, { gameId: id });
-  console.log(gameUrl);
   const onClickView = () => history.push(gameUrl);
 
   const onClickJoin = () => {
@@ -294,7 +293,12 @@ const GameCard = ({ game, summaryOnly }: GameCardProps): React.ReactElement => {
 
   if (summaryOnly)
     return (
-      <button type="button" className={classes.gameSummaryButton} onClick={onClickView}>
+      <button
+        type="button"
+        className={classes.gameSummaryButton}
+        onClick={onClickView}
+        title={game.name}
+      >
         {GameSummary}
       </button>
     );
@@ -306,7 +310,7 @@ const GameCard = ({ game, summaryOnly }: GameCardProps): React.ReactElement => {
       TransitionProps={{ unmountOnExit: true }}
       square
     >
-      <AccordionSummary expandIcon={<ExpandIcon />}>
+      <AccordionSummary expandIcon={<ExpandIcon />} title={"Expand"}>
         {GameSummary}
       </AccordionSummary>
       <AccordionDetails className={classes.accordionDetails}>
@@ -427,7 +431,7 @@ const GameCard = ({ game, summaryOnly }: GameCardProps): React.ReactElement => {
           <div className={classes.players}>
             {players.map(({ username, image }) => (
               <div key={username}>
-                <IconButton onClick={() => {}} size="medium">
+                <IconButton size="medium">
                   <Avatar src={image} alt={username} />
                 </IconButton>
                 <Typography>{username}</Typography>

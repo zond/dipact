@@ -35,7 +35,7 @@ const messageMap: IMessageMap = {
 
 const ErrorMessage = (props: ErrorMessageProps): React.ReactElement => {
   const error = props.error as ApiErrorWithStatus;
-  const message = error.status ? messageMap[error.status] || "" : "";
+  const message = messageMap[error.status] || "";
   const classes = useStyles();
   return (
     <div className={classes.root}>

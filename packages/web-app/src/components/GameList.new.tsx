@@ -38,7 +38,7 @@ const GameList = ({
   summaryOnly,
 }: GameListProps) => {
   const classes = useStyles();
-  const { games, isLoading, isSuccess, isError } = useGameList(filters);
+  const { games, isLoading, isSuccess } = useGameList(filters);
   if (isLoading || (isSuccess && !games.length)) {
     return null;
   }

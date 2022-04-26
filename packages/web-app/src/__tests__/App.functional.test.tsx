@@ -9,6 +9,8 @@ import {
   getByRole,
   waitForElementToBeRemoved,
   act,
+  within,
+  findByRole,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { setupServer } from "msw/node";
@@ -22,6 +24,7 @@ import { PageName, translateKeys as tk } from "@diplicity/common";
 import ReactGA from "react-ga";
 import { createStore } from "../store";
 import ProgressDialog from "../components/ProgressDialog";
+import userEvent from "@testing-library/user-event";
 
 const server = setupServer(
   handlers.bans.success,
@@ -123,7 +126,7 @@ describe("Login", () => {
       <div>{children}</div>
     ));
   });
-  test("Renders withouth error", async () => {
+  test("Renders without error", async () => {
     server.use(handlers.getUser.successEmpty);
     await renderApp();
   });
@@ -250,6 +253,38 @@ describe("CreateGame", () => {
     );
     expect(randomOption).toHaveAttribute("checked");
   });
+  test("Require game master invitation hidden by default", async () => {
+    await navigateToCreateGame();
+    await waitFor(() => screen.getByLabelText(tk.createGame.nameInput.label));
+    expect(
+      screen.queryByLabelText(tk.createGame.requireGameMasterInvitation.label)
+    ).not.toBeInTheDocument();
+  });
+  test("Require game master invitation shows when private and game master", async () => {
+    await navigateToCreateGame();
+    const privateCheckbox = await waitFor(() =>
+      screen.getByLabelText(tk.createGame.privateCheckbox.label)
+    );
+    fireEvent.click(privateCheckbox);
+    const gameMasterCheckbox = await waitFor(() =>
+      screen.getByLabelText(tk.createGame.gameMasterCheckbox.label)
+    );
+    fireEvent.click(gameMasterCheckbox);
+    const requireGameMasterInvitationCheckbox = await screen.findByLabelText(
+      tk.createGame.requireGameMasterInvitation.label
+    );
+    expect(requireGameMasterInvitationCheckbox).toBeInTheDocument();
+  });
+  test("Default variant not present", async () => {
+    server.use(handlers.variants.successNoClassical);
+    await navigateToCreateGame();
+    await waitFor(() =>
+      screen.getByLabelText(tk.createGame.privateCheckbox.label)
+    );
+    expect(
+      screen.queryByLabelText(tk.createGame.variantSelect.label)
+    ).not.toBeInTheDocument();
+  });
   test("Phase length value defaults to 1", async () => {
     await navigateToCreateGame();
     const phaseLengthMultiplierInput = (await waitFor(() =>
@@ -263,6 +298,28 @@ describe("CreateGame", () => {
       screen.getByLabelText(tk.createGame.phaseLengthUnitSelect.label)
     );
     getByText(phaseLengthUnitSelect, tk.durations.day.singular);
+  });
+  test("Can change phase length unit", async () => {
+    await navigateToCreateGame();
+    const selectEl = await screen.findByLabelText(
+      tk.createGame.phaseLengthUnitSelect.label
+    );
+    expect(selectEl).toBeInTheDocument();
+    userEvent.click(selectEl);
+    const optionsPopupEl = await screen.findByRole("listbox", {
+      name: tk.createGame.phaseLengthUnitSelect.label,
+    });
+    userEvent.click(
+      within(optionsPopupEl).getByText(tk.durations.hour.singular)
+    );
+    const input = (await findByRole(
+      selectEl.parentElement as HTMLElement,
+      "textbox",
+      {
+        hidden: true,
+      }
+    )) as HTMLInputElement;
+    expect(input.value).toBe((60).toString());
   });
   test("Increasing game length makes unit plural", async () => {
     await navigateToCreateGame();
@@ -332,6 +389,34 @@ describe("CreateGame", () => {
       screen.getByLabelText(tk.createGame.adjustmentPhaseLengthUnitSelect.label)
     );
     getByText(adjustmentPhaseLengthUnitSelect, tk.durations.day.singular);
+  });
+  test("Can change adjustment phase length unit", async () => {
+    await navigateToCreateGame();
+    const shorterAdjustmentPhaseCheckbox = (await waitFor(() =>
+      screen.getByLabelText(
+        tk.createGame.customAdjustmentPhaseLengthCheckbox.label
+      )
+    )) as HTMLInputElement;
+    fireEvent.click(shorterAdjustmentPhaseCheckbox);
+    const selectEl = await screen.findByLabelText(
+      tk.createGame.adjustmentPhaseLengthUnitSelect.label
+    );
+    expect(selectEl).toBeInTheDocument();
+    userEvent.click(selectEl);
+    const optionsPopupEl = await screen.findByRole("listbox", {
+      name: tk.createGame.adjustmentPhaseLengthUnitSelect.label,
+    });
+    userEvent.click(
+      within(optionsPopupEl).getByText(tk.durations.hour.singular)
+    );
+    const input = (await findByRole(
+      selectEl.parentElement as HTMLElement,
+      "textbox",
+      {
+        hidden: true,
+      }
+    )) as HTMLInputElement;
+    expect(input.value).toBe((60).toString());
   });
   test("Increasing adjustment phase length makes unit plural", async () => {
     await navigateToCreateGame();
@@ -543,6 +628,27 @@ describe("CreateGame", () => {
         }) as HTMLInputElement
     );
     expect(input.value).toBe("players_choice");
+  });
+  test("Can change chat language", async () => {
+    await navigateToCreateGame();
+    const selectEl = await screen.findByLabelText(
+      tk.createGame.chatLanguageSelect.label
+    );
+    expect(selectEl).toBeInTheDocument();
+    userEvent.click(selectEl);
+    const optionsPopupEl = await screen.findByRole("listbox", {
+      name: tk.createGame.chatLanguageSelect.label,
+    });
+
+    userEvent.click(within(optionsPopupEl).getByText(/English/i));
+    const input = (await findByRole(
+      selectEl.parentElement as HTMLElement,
+      "textbox",
+      {
+        hidden: true,
+      }
+    )) as HTMLInputElement;
+    expect(input.value).toBe("en");
   });
   test("Reliability checked by default", async () => {
     await navigateToCreateGame();

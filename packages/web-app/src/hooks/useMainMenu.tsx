@@ -8,11 +8,9 @@ interface UseMainMenu {
   user: ReturnType<typeof selectors.selectUser>;
 }
 
-const useMainMenu = (): UseMainMenu => {
+export const useMainMenu = (): UseMainMenu => {
   const dispatch = useDispatch();
   const logout = () => dispatch(authActions.logout());
   const user = useAppSelector(selectors.selectUser);
   return { user, logout };
 };
-
-export default useMainMenu;

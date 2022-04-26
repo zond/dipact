@@ -1,0 +1,92 @@
+{
+  "Name": "variants",
+  "Properties": [
+    {
+      "Name": "Twenty Twenty",
+      "Properties": {
+        "Name": "Twenty Twenty",
+        "Nations": [
+          "Brazil",
+          "Canada",
+          "Australia",
+          "Italy",
+          "USA",
+          "Kenya",
+          "Egypt",
+          "Thailand",
+          "Turkey",
+          "South Africa",
+          "India",
+          "Russia",
+          "Pakistan",
+          "China",
+          "UK",
+          "Japan",
+          "Germany",
+          "Argentina",
+          "Nigeria",
+          "Spain"
+        ],
+        "PhaseTypes": ["Movement", "Retreat", "Adjustment"],
+        "Seasons": ["Spring", "Fall"],
+        "UnitTypes": ["Army", "Fleet"],
+        "SVGVersion": "8",
+        "ProvinceLongNames": {},
+        "NationColors": null,
+        "CreatedBy": "TTTPPP",
+        "Version": "1",
+        "Description": "Twenty nations race to conquer the world by the year 2020.",
+        "Rules": "To win, a nation needs a number of Supply Centers (SC) more than any other nation at the end of a year. This starts with 20, but is reduced by 1 each year (in 2015 a nation needs six SC more, in 2020 only one). \nAlternatively, first to 49 SC wins.\nUnits may be built on any captured home SC (but not previously neutral ones).\nUnits & fleets can move between Anchorage & Vladivostok, New Orleans & Cuba, Cuba & Dominican Republic, Ethiopia & Yemen, Korea & Nagasaki, and Indonesia & Darwin.\nThirteen provinces have dual coasts: Whitehorse, Los Angeles, Mexico, Colombia, Bordeaux, Milan, Rome, Finland, Bulgaria, Ankara, Iraq, Mecca, and Shenyang.",
+        "OrderTypes": [
+          "Move",
+          "MoveViaConvoy",
+          "Hold",
+          "Support",
+          "Build",
+          "Disband",
+          "Convoy"
+        ],
+        "Start": {
+          "Year": 2001,
+          "Season": "Spring",
+          "Type": "Movement",
+          "SCs": {},
+          "Units": {},
+          "Map": ""
+        },
+        "Graph": {
+          "Nodes": {}
+        }
+      },
+      "Type": "Variant",
+      "Links": []
+    }
+  ],
+  "Desc": [
+    [
+      "Variants",
+      "This lists the supported variants on the server. Graph logically represents the map, while the rest of the fields should be fairly self explanatory."
+    ],
+    [
+      "Variant services",
+      "Variants can provide clients with a start state as a JSON blob via the `start-state` link.",
+      "Note: The start state is contained in the `Properties` field of the object presented at `start-state`.",
+      "To get the resolved result of a state plus some orders, the client `POST`s the same state plus the orders as a map `{ NATION: { PROVINCE: []WORD } }`, e.g. `{ 'England': { 'lon': ['Move', 'nth'] } }`.",
+      "Unfortunately the auto generated HTML interface isn't powerful enough to create an easy to use form for this, so interested parties might have to use `curl` or similar tools to experiment."
+    ],
+    [
+      "Phase types",
+      "Note that the phase types used for the variant service (`/Variants` and `/Variant/...`) is not the same as the phase type presented in the regular game service (`/Games/...` and `/Game/...`).",
+      "The variant service targets independent dippy service developers, not players or front end developers, and does not provide anything other than simple start-state and resolve-state functionality."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Variants",
+      "Method": "GET"
+    }
+  ]
+}
+

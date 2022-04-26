@@ -30,9 +30,7 @@ export const loginFromLocalStorageMiddleware = createMiddleware<AnyAction>({
 export const redirectMiddleware = createMiddleware<AnyAction>({
   match: (action: AnyAction) => matchCreateGameFulfilled(action),
   afterAction: (action, { dispatch }) => {
-    if (matchCreateGameFulfilled(action)) {
-      dispatch(push(RouteConfig.Home));
-    }
+    dispatch(push(RouteConfig.Home));
   },
 });
 
