@@ -1,4 +1,4 @@
-import { AnyAction, combineReducers, Middleware } from "redux";
+import { combineReducers } from "redux";
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import {
