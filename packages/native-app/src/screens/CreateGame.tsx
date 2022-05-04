@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { CheckBox, Input, ListItem } from "@rneui/themed";
+import { CheckBox, Input, ListItem } from "@rneui/base";
 import { useTheme } from "../hooks/useTheme";
 import {
   isoCodes,
@@ -74,6 +74,9 @@ const CreateGame = () => {
     variants,
   } = useCreateGame();
   const handleChange = unTypedHandleChange as HandleChange;
+  const handleChangeFloatInput = (fieldName: string) => (value: string) => {
+    setFieldValue(fieldName, parseFloat(value));
+  };
 
   // TODO move to common
   const singularPhaseLength = values.phaseLengthMultiplier === 1;
@@ -561,8 +564,8 @@ const CreateGame = () => {
                   accessibilityLabel={t(tk.createGame.minRatingInput.label)}
                   placeholder={t(tk.createGame.minRatingInput.label)}
                   keyboardType={"numeric"}
-                  value={values.minRating.toFixed(2).toString()}
-                  onChangeText={handleChange("minRating")}
+                  value={Math.floor(values.minRating).toString()}
+                  onChangeText={handleChangeFloatInput("minRating")}
                   shake={shake}
                 />
                 {validationErrors.minRating && (
@@ -597,8 +600,8 @@ const CreateGame = () => {
                   accessibilityLabel={t(tk.createGame.maxRatingInput.label)}
                   placeholder={t(tk.createGame.maxRatingInput.label)}
                   keyboardType={"numeric"}
-                  value={values.maxRating.toFixed(2).toString()}
-                  onChangeText={handleChange("maxRating")}
+                  value={Math.floor(values.maxRating).toString()}
+                  onChangeText={handleChangeFloatInput("maxRating")}
                   shake={shake}
                 />
                 {validationErrors.maxRating && (
