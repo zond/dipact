@@ -528,6 +528,21 @@ describe("CreateGame", () => {
     const input = queryByLabelText(tk.createGame.maxRatingInput.label);
     expect(input).toBe(null);
   });
+  test("maxRating float works correctly", () => {
+    const { getByLabelText } = arrange({
+      values: { maxRatingEnabled: true, maxRating: 10.5 },
+    });
+    const input = getByLabelText(tk.createGame.maxRatingInput.label);
+    expect(input.props.value).toBe("10");
+  });
+  test("change maxRating calls setFieldValue with number", () => {
+    const { getByLabelText } = arrange({
+      values: { maxRatingEnabled: true },
+    });
+    const input = getByLabelText(tk.createGame.maxRatingInput.label);
+    fireEvent.changeText(input, "11");
+    expect(mockSetFieldValue).toBeCalledWith("maxRating", 11);
+  });
   test("Press submit button calls submitForm", () => {
     const { getByLabelText } = arrange();
     const button = getByLabelText(tk.createGame.submitButton.label);
