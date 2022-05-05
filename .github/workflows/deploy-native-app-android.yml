@@ -1,0 +1,34 @@
+name: Deploy native app
+on:
+  push
+  # push:
+  #   branches:
+  #     - beta
+  #   tags:        
+  #     - v*
+defaults:
+ run:
+  working-directory: ./packages/native-app/android
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate Release APK
+        run: ./gradlew assembleRelease
+      - uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_SIGNING_KEY }}
+          alias: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD }}
+      - uses: actions/upload-artifact@master
+        with:
+          name: release.apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      - uses: actions/upload-artifact@master
+        with:
+          name: mapping.txt
+          path: app/build/outputs/mapping/release/mapping.txt
