@@ -11,8 +11,12 @@ import { selectors, translateKeys as tk } from "@diplicity/common";
 import CreateGame from "./CreateGame";
 import { useTranslation } from "react-i18next";
 import GameDetail from "./GameDetail";
-import Game from "./Game";
 import BrowseGames from "./BrowseGames";
+import Map from "./Map";
+import Chat from "./Chat";
+import Orders from "./Orders";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useParams } from "../hooks/useParams";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -47,6 +51,7 @@ const useNavigationTheme = () => {
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator();
 
 const Home = () => {
   const { t } = useTranslation();
@@ -69,6 +74,27 @@ const Home = () => {
         options={screenOptions}
       />
     </Drawer.Navigator>
+  );
+};
+
+const Game = () => {
+  const options = {
+    headerShown: false,
+  };
+  // TODO translations
+  const { gameId } = useParams<"Game">();
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Map" options={options}>
+        {() => <Map gameId={gameId} />}
+      </Tab.Screen>
+      <Tab.Screen name="Chat" options={options}>
+        {() => <Chat gameId={gameId} />}
+      </Tab.Screen>
+      <Tab.Screen name="Orders" options={options}>
+        {() => <Orders gameId={gameId} />}
+      </Tab.Screen>
+    </Tab.Navigator>
   );
 };
 
@@ -102,6 +128,10 @@ const Router = () => {
               name="Game"
               component={Game}
               initialParams={{ gameId: undefined }}
+              options={{
+                headerTransparent: true,
+                title: "",
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>
