@@ -16,8 +16,19 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install modules
         run: yarn install
+      - name: Copy keystore to file
+        id: copy_keystore_to_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'diplicity_native_keystore.jks'
+          encodedString: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_SIGNING_KEY }}
       - name: Generate Release APK
         run: ./gradlew assembleRelease
+        env:
+          DIPLICITY_NATIVE_UPLOAD_STORE_FILE: ${{ steps.copy_keystore_to_file.outputs.filePath }}
+          DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS }}
+          DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD }}
+          DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD }}
       - uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:

@@ -153,12 +153,10 @@ android {
             keyPassword 'android'
         }
         release {
-            if (project.hasProperty('DIPLICITY_NATIVE_UPLOAD_STORE_FILE')) {
-                storeFile file(DIPLICITY_NATIVE_UPLOAD_STORE_FILE)
-                storePassword DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD
-                keyAlias DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS
-                keyPassword DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD
-            }
+            storeFile = file(System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_FILE"))
+            storePassword System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD")
+            keyAlias System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS")
+            keyPassword System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD")
         }
     }
     buildTypes {
