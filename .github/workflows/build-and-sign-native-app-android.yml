@@ -1,4 +1,4 @@
-name: Deploy native app
+name: Build and sign Android app
 on:
   push
   # push:
