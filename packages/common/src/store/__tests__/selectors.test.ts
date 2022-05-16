@@ -283,3 +283,6 @@ describe("selectNationFlagLink", () => {
     expect(result).toBeUndefined();
   });
 });
+
+describe("selectOrdersView", () => {
+})

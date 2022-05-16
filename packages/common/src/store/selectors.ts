@@ -12,6 +12,8 @@ import {
   ColorOverrides,
   Messaging,
   MutationStatus,
+  Query,
+  QueryMap,
   User,
   UserConfig,
   UserStats,
@@ -22,6 +24,9 @@ import {
 
 const selectListVariants = (state: RootState) =>
   diplicityService.endpoints.listVariants.select(undefined)(state);
+
+const selectListPhases = (state: RootState, gameId: string) =>
+  diplicityService.endpoints.listPhases.select(gameId)(state);
 
 const getGetRootSelector = () =>
   diplicityService.endpoints.getRoot.select(undefined);
@@ -167,7 +172,11 @@ export const selectPhase = (state: RootState): null | number => {
 // TODO make generic
 // TODO test
 export const selectCreateGameStatus = (state: RootState): MutationStatus => {
-  const defaultResponse = { isLoading: false, isError: false, isSuccess: false };
+  const defaultResponse = {
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+  };
   const userId = selectUserId(state);
   if (!userId) return defaultResponse;
   const { mutations } = state.diplicityService;
@@ -184,7 +193,11 @@ export const selectCreateGameStatus = (state: RootState): MutationStatus => {
 export const selectUpdateUserConfigStatus = (
   state: RootState
 ): MutationStatus => {
-  const defaultResponse = { isLoading: false, isError: false, isSuccess: false };
+  const defaultResponse = {
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+  };
   const userId = selectUserId(state);
   if (!userId) return defaultResponse;
   const { mutations } = state.diplicityService;
@@ -201,7 +214,6 @@ export const selectUpdateUserConfigStatus = (
     isError: false, // TODO
   };
 };
-
 
 // TODO test
 // TODO move
@@ -229,3 +241,29 @@ export const selectAuth = (state: RootState): Auth => state.auth;
 // TODO test
 export const selectToken = (state: RootState) =>
   createSelector(selectAuth, (auth) => auth.token)(state);
+
+
+const combineQueries = (queryMap: QueryMap): [Query, QueryMap] => {
+  const queries = Object.values(queryMap);
+  return [
+    {
+      isError: queries.some((query) => query.isError),
+      isLoading: queries.some((query) => query.isLoading),
+      isSuccess: queries.every((query) => query.isSuccess),
+    },
+    queryMap,
+  ];
+};
+
+export const selectOrdersView = (state: RootState, gameId: string) =>
+  createSelector(
+    (state: RootState) => selectListVariants(state),
+    (state: RootState) => selectListPhases(state, gameId),
+    (variantsQuery, phasesQuery) => {
+      const combinedQueries = combineQueries({
+        variants: variantsQuery,
+        phases: phasesQuery,
+      });
+      return combinedQueries;
+    }
+  )(state);

@@ -1,5 +1,5 @@
 import { isRejected, PayloadAction } from "@reduxjs/toolkit";
-import { Action, Middleware } from "redux";
+import { Action, AnyAction, Middleware } from "redux";
 
 import { selectUserConfig } from "./selectors";
 import { diplicityService } from "./service";
@@ -15,6 +15,7 @@ import {
 } from "./types";
 import { getQueryMatchers } from "./utils";
 import { translateKeys as tk } from "../translations";
+import { actions as viewActions } from "./views";
 
 // TODO test
 // TODO move to transformers
@@ -202,6 +203,25 @@ export const authLogoutMiddleware: Middleware<{}, any> =
     return next(action);
   };
 
+export const ordersViewMiddleware: Middleware<any, any> =
+  ({ dispatch }) =>
+  (next) =>
+  (action: PayloadAction<string>) => {
+    if (action.type === viewActions.initializeOrdersView.type) {
+      dispatch(
+        diplicityService.endpoints.listVariants.initiate(
+          undefined
+        ) as unknown as AnyAction
+      );
+      dispatch(
+        diplicityService.endpoints.listPhases.initiate(
+          action.payload
+        ) as unknown as AnyAction
+      );
+    }
+    return next(action);
+  };
+
 const middleware = [
   feedbackRequestMiddleware,
   gaRequestRegisterEventMiddleware,
@@ -210,5 +230,6 @@ const middleware = [
   uiSubmitCreateGameFormMiddleware,
   uiSubmitCreateGameFormWithPreferencesMiddleware,
   uiSubmitSettingsFormMiddleware,
+  ordersViewMiddleware,
 ];
 export default middleware;

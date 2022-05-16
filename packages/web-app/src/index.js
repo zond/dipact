@@ -16,15 +16,6 @@ import { store } from "./store";
 import { I18nextProvider } from "react-i18next";
 import { Provider } from "react-redux";
 
-  // fetch logger
-global._fetch = fetch;
-global.fetch = function (uri, options, ...args) {
-  return global._fetch(uri, options, ...args).then((response) => {
-    console.log('Fetch', { request: { uri, options, ...args }, response });
-    return response;
-  });
-};
-
 if (process.env.NODE_ENV === "development") {
   const { worker } = require("./mocks/browser");
   // worker.start();

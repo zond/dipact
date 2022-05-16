@@ -384,6 +384,11 @@ const translateKeys = {
       label: "orders.toggle-dias-button.label",
     },
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
+    resolution: {
+      success: "orders.resolution.success",
+      bounced: "orders.resolution.bounced",
+      supportBroken: "orders.resolution.support-broken",
+    }
   },
   phaseSelector: {
     title: "phase-selector.title",

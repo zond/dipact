@@ -152,12 +152,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-        release {
-            storeFile = file(System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_FILE"))
-            storePassword System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD")
-            keyAlias System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS")
-            keyPassword System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD")
-        }
+        // release {
+        //     storeFile = file(System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_FILE"))
+        //     storePassword System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD")
+        //     keyAlias System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS")
+        //     keyPassword System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD")
+        // }
     }
     buildTypes {
         debug {
@@ -168,7 +168,7 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
 

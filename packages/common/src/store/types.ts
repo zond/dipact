@@ -618,7 +618,7 @@ export type Order = {
 };
 
 export type Corroboration = {
-  Orders: Order[];
+  Orders: Order[] | null;
   Inconsistencies: string[];
 };
 
@@ -660,3 +660,45 @@ export type DiplicityError = {
   status: number;
   [key: string]: any;
 };
+
+export interface Query {
+  isError: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+}
+
+export type QueryMap = { [key: string]: Query };
+
+export type PhasesDisplay = [number, string][];
+
+export interface NationDisplay {
+  abbreviation: string;
+  color: string;
+  flagLink: string;
+  name: string;
+  isUser: boolean;
+}
+
+export type ResolutionDisplay = {
+  message: string;
+  province?: string;
+};
+
+export interface OrderDisplay {
+  label: string;
+  inconsistencies: string[];
+  resolution: ResolutionDisplay | null;
+}
+
+export interface NationStatusDisplay {
+  confirmedOrders: boolean;
+  noOrdersGiven: boolean;
+  numBuilds: number | null;
+  numDisbands: number | null;
+  numSupplyCenters: number;
+  numSupplyCentersToWin: number;
+  wantsDraw: boolean;
+  nation: NationDisplay;
+  orders: OrderDisplay[];
+  homelessInconsistencies: string[];
+}

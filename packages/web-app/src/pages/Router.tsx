@@ -8,6 +8,7 @@ import CreateGame from "./CreateGame";
 import { history } from "../store";
 import { RouteConfig } from "./RouteConfig";
 import MyGames from "./MyGames";
+import Orders from "./Orders";
 
 const Router = (): React.ReactElement => {
   return (
@@ -22,6 +23,9 @@ const Router = (): React.ReactElement => {
           </Route>
           <Route exact path={RouteConfig.MyGames}>
             <MyGames />
+          </Route>
+          <Route exact path={RouteConfig.Orders}>
+            <Orders />
           </Route>
           <Redirect to="/" />
         </Switch>

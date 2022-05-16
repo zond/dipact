@@ -38,6 +38,8 @@ import {
   GameStateResponse,
   Ban,
   UserRatingHistogram,
+  Corroboration,
+  CorroborationResponse,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -137,12 +139,10 @@ export const diplicityService = createApi({
       query: (id) => `/User/${id}/Stats`,
       transformResponse: (response: UserStatsResponse) => response.Properties,
     }),
-    getUserRatingHistogram: builder.query<
-      UserRatingHistogram,
-      undefined
-    >({
+    getUserRatingHistogram: builder.query<UserRatingHistogram, undefined>({
       query: () => "/Users/Ratings/Histogram",
-      transformResponse: (response: UserRatingHistogramResponse) => response.Properties,
+      transformResponse: (response: UserRatingHistogramResponse) =>
+        response.Properties,
     }),
     listVariants: builder.query<Variant[], undefined>({
       query: () => "/Variants",
@@ -235,7 +235,12 @@ export const diplicityService = createApi({
         return sortListChannels(channels);
       },
     }),
-    // TODO test
+    listOrders: builder.query<Corroboration, { gameId: string; phaseId: string }>({
+      query: ({ gameId, phaseId }) => `/Game/${gameId}/Phase/${phaseId}/Corroborate`,
+      transformResponse: (response: CorroborationResponse) => {
+        return response.Properties;
+      },
+    }),
     getGame: builder.query<Game, string>({
       query: (id) => `/Game/${id}`,
       transformResponse: (response: GameResponse) => {
