@@ -20,6 +20,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-google-signin/google-signin": "^7.1.0",
     "@react-native-picker/picker": "^2.4.0",
+    "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.6.1",
@@ -94,6 +95,7 @@
       "json",
       "node"
     ],
+    "testRegex": "(/__tests__/.*test).tsx?$",
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native(-.*)?|@rneui?|@react-navigation|@react-native(-community)?)/)"
     ],
