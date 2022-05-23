@@ -17,6 +17,8 @@ import Chat from "./Chat";
 import Orders from "./Orders";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useParams } from "../hooks/useParams";
+import { Text, View } from "react-native";
+import PhaseSelector from "../components/PhaseSelector";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -78,11 +80,13 @@ const Home = () => {
 };
 
 const Game = () => {
-  const options = {
-    headerShown: false,
-  };
   // TODO translations
   const { gameId } = useParams<"Game">();
+  const screenOptions = useHeaderStyleOptions();
+  const options = {
+    title: "",
+    ...screenOptions,
+  };
   return (
     <Tab.Navigator>
       <Tab.Screen name="Map" options={options}>
@@ -131,6 +135,7 @@ const Router = () => {
               options={{
                 headerTransparent: true,
                 title: "",
+                ...screenOptions,
               }}
             />
           </Stack.Navigator>

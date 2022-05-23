@@ -35,6 +35,12 @@ const palette = {
   highlight: {
     main: "#DDDDDD",
   },
+  success: {
+    main: "#4caf50",
+  },
+  error: {
+    main: "#f44336",
+  },
 };
 
 export const theme = createTheme({
