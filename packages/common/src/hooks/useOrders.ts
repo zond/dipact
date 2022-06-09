@@ -23,6 +23,7 @@ export type PhasesDisplay = [number, string][];
 interface IUseOrders {
   isLoading: boolean;
   isError: boolean;
+  isFetching: boolean;
   error: DiplicityError | null;
   nationStatuses: NationStatusDisplay[];
   noOrders: boolean;
@@ -86,9 +87,8 @@ const getNationStatus = (
   variant: Variant,
   member: Member | undefined
 ): NationStatusDisplay => {
-
   const numBuilds = phaseState ? getNumBuilds(phaseState, member) : null;
-  const numDisbands = phaseState ? getNumDisbands(phaseState, member): null;
+  const numDisbands = phaseState ? getNumDisbands(phaseState, member) : null;
 
   const numSupplyCentersToWin = phase.SoloSCCount || 0;
   const numSupplyCenters =
@@ -144,6 +144,8 @@ const useOrders = (gameId: string): IUseOrders => {
     combinedQuery.user.isLoading ||
     combinedQuery.orders.isLoading ||
     combinedQuery.game.isLoading;
+  const isFetching =
+    combinedQuery.phaseStates.isFetching || combinedQuery.orders.isFetching;
   const isError =
     combinedQuery.variants.isError ||
     combinedQuery.phases.isError ||
@@ -189,24 +191,37 @@ const useOrders = (gameId: string): IUseOrders => {
   ]);
 
   useEffect(() => {
-    if (phases && game && variant && user && phaseStates && orders && selectedPhase) {
+    if (
+      phases &&
+      game &&
+      variant &&
+      user &&
+      phaseStates &&
+      orders &&
+      selectedPhase
+    ) {
       const member = getMember(game, user);
-      const phase = phases.find((phase) => phase.PhaseOrdinal === selectedPhase) as Phase;
-      setNationStatuses(
-        variant.Nations.map((nation) => {
-          const phaseState = phaseStates.find(
-            (phaseState) => phaseState.Nation === nation
-          );
-          return getNationStatus(
-            nation,
-            phaseState,
-            phase,
-            orders,
-            variant,
-            member
-          );
-        })
+      const phase = phases.find(
+        (phase) => phase.PhaseOrdinal === selectedPhase
+      ) as Phase;
+
+      const nationStatuses = variant.Nations.map((nation) => {
+        const phaseState = phaseStates.find(
+          (phaseState) => phaseState.Nation === nation
+        );
+        return getNationStatus(
+          nation,
+          phaseState,
+          phase,
+          orders,
+          variant,
+          member
+        );
+      });
+      const sortedNationStatuses = nationStatuses.sort((a) =>
+        a.nation.isUser ? -1 : 0
       );
+      setNationStatuses(sortedNationStatuses);
     }
   }, [phases, game, variant, user, phaseStates, orders, selectedPhase]);
 
@@ -249,11 +264,13 @@ const useOrders = (gameId: string): IUseOrders => {
   const phaseState = getPhaseState(game, user, phaseStates || []);
   const ordersConfirmed = phaseState?.ReadyToResolve || false;
   const noOrders = phaseState?.NoOrders || false;
-  const isCurrentPhase = phaseState?.PhaseOrdinal === currentPhase?.PhaseOrdinal;
+  const isCurrentPhase =
+    phaseState?.PhaseOrdinal === currentPhase?.PhaseOrdinal;
 
   return {
     isLoading,
     isError,
+    isFetching,
     error,
     nationStatuses,
     noOrders,

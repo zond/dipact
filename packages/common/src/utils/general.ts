@@ -271,3 +271,14 @@ export const mergeErrors = (
     { status: 0, data: {} } as DiplicityError
   );
 };
+
+// TODO test
+export const brightnessByColor = (color: string): number => {
+  const m = color
+    .substr(1)
+    .match(color.length === 7 ? /(\S{2})/g : /(\S{1})/g) as RegExpMatchArray;
+  const r = parseInt(m[0], 16),
+    g = parseInt(m[1], 16),
+    b = parseInt(m[2], 16);
+  return (r * 299 + g * 587 + b * 114) / 1000;
+};

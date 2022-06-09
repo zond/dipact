@@ -31,6 +31,7 @@ const palette = {
   text: {
     main: "#000",
     light: "#57606a",
+    contrastText: "#FFF",
   },
   highlight: {
     main: "#DDDDDD",

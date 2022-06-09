@@ -17,8 +17,7 @@ import Chat from "./Chat";
 import Orders from "./Orders";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useParams } from "../hooks/useParams";
-import { Text, View } from "react-native";
-import PhaseSelector from "../components/PhaseSelector";
+import { Icon } from "@rneui/base";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -83,19 +82,52 @@ const Game = () => {
   // TODO translations
   const { gameId } = useParams<"Game">();
   const screenOptions = useHeaderStyleOptions();
+  const theme = useTheme();
   const options = {
     title: "",
     ...screenOptions,
+    tabBarActiveBackgroundColor: theme.palette.primary.main,
+    tabBarActiveTintColor: theme.palette.secondary.main,
   };
+  const getIconColor = (focused: boolean) =>
+    focused ? theme.palette.secondary.main : theme.palette.primary.main;
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Map" options={options}>
+      <Tab.Screen
+        name="Map"
+        options={{
+          ...options,
+          tabBarIcon: ({ focused }) => (
+            // TODO use outlined and non-outlined for active inactive
+            <Icon name="map" color={getIconColor(focused)} />
+          ),
+          title: "Map",
+        }}
+      >
         {() => <Map gameId={gameId} />}
       </Tab.Screen>
-      <Tab.Screen name="Chat" options={options}>
+      <Tab.Screen
+        name="Chat"
+        options={{
+          ...options,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="chat" color={getIconColor(focused)} />
+          ),
+          title: "Chat",
+        }}
+      >
         {() => <Chat gameId={gameId} />}
       </Tab.Screen>
-      <Tab.Screen name="Orders" options={options}>
+      <Tab.Screen
+        name="Orders"
+        options={{
+          ...options,
+          tabBarIcon: ({ focused }) => (
+            <Icon name="article" color={getIconColor(focused)} />
+          ),
+          title: "Orders",
+        }}
+      >
         {() => <Orders gameId={gameId} />}
       </Tab.Screen>
     </Tab.Navigator>

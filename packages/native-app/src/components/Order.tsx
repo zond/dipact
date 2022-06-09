@@ -23,12 +23,16 @@ const useStyles = ({ resolution }: StyleProps) => {
       flexDirection: "row",
     },
     orderResolution: {
-      display: "flex",
       justifyContent: "flex-end",
+      textAlign: "right",
       color:
         resolution?.message === tk.orders.resolution.success
           ? theme.palette.success.main
           : theme.palette.error.main,
+    },
+    column: {
+      flex: 1,
+      flexWrap: "wrap",
     },
   });
 };
@@ -39,25 +43,18 @@ interface OrderProps {
 
 const Order = ({ order }: OrderProps) => {
   const { t } = useTranslation();
-  const { label, resolution, inconsistencies } = order;
+  const { label, resolution } = order;
   const styles = useStyles({ resolution });
 
   return (
     <View style={styles.root}>
-      <Text>{label}</Text>
+      <Text style={styles.column}>{label}</Text>
       {resolution && (
-        <Text style={styles.orderResolution}>
+        <Text style={[styles.orderResolution, styles.column]}>
           {t(resolution.message, { province: resolution.province })}
         </Text>
       )}
     </View>
-    //   <ul className={classes.orderInconsistencies}>
-    //     {inconsistencies.map((inconsistency) => (
-    //       <li key={inconsistency}>
-    //         <Typography variant="body2">{inconsistency}</Typography>
-    //       </li>
-    //     ))}
-    //   </ul>
   );
 };
 

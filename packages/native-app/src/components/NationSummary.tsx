@@ -1,9 +1,10 @@
 import React from "react";
-// import NationAvatar from "./NationAvatar.new";
 import { translateKeys as tk, NationStatusDisplay } from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../hooks/useTheme";
 import { StyleSheet, Text, View } from "react-native";
+import NationAvatar from "./NationAvatar";
+import { Icon } from "@rneui/base";
 
 export interface Nation {
   abbreviation: string;
@@ -17,22 +18,28 @@ interface NationSummaryProps {
   nationStatus: NationStatusDisplay;
 }
 
-// const useStyles = makeStyles((theme) => ({
-// }));
-
 const useStyles = () => {
   const theme = useTheme();
   return StyleSheet.create({
     root: {
       display: "flex",
+      flexDirection: "column",
       justifyContent: "space-between",
-      width: "100%",
     },
     nationDetails: {
       display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    nationAvatar: {
+      paddingRight: theme.spacing(2),
+    },
+    nationName: {
+      fontWeight: "bold",
     },
     nationStatus: {
       display: "flex",
+      flexDirection: "row",
     },
   });
 };
@@ -75,16 +82,17 @@ const NationSummary = ({
   return (
     <View style={styles.root}>
       <View style={styles.nationDetails}>
-        <View>
-          {/* <NationAvatar
+        <View style={styles.nationAvatar}>
+          <NationAvatar
             color={nation.color}
             nationAbbreviation={nation.abbreviation}
             nation={nation.name}
             link={nation.flagLink}
-          /> */}
+          />
         </View>
         <View>
-          <Text>{nationLabel}</Text>
+          <Text style={styles.nationName}>{nationLabel}</Text>
+
           <Text>{t(supplyCenterCountLabel, { count: numSupplyCenters })}</Text>
           {nation.isUser && <Text>{supplyCentersToWinLabel}</Text>}
           {typeof numBuilds === "number" && (
@@ -93,24 +101,12 @@ const NationSummary = ({
           {typeof numDisbands === "number" && (
             <Text>{t(disbandCountLabel, { count: numDisbands })}</Text>
           )}
+          <View style={styles.nationStatus}>
+            {confirmedOrders && <Icon name="fact-check" size={16} />}
+            {wantsDraw && <Icon name="emoji-flags" size={16} />}
+            {noOrdersGiven && <Icon name="do-not-disturb" size={16} />}
+          </View>
         </View>
-      </View>
-      <View style={styles.nationStatus}>
-        {/* {confirmedOrders && (
-          <Tooltip title={t(tk.orders.confirmedIconTooltip) as string}>
-            <OrdersConfirmedIcon />
-          </Tooltip>
-        )}
-        {wantsDraw && (
-          <Tooltip title={t(tk.orders.wantsDrawIconTooltip) as string}>
-            <WantsDrawIcon />
-          </Tooltip>
-        )}
-        {noOrdersGiven && (
-          <Tooltip title={t(tk.orders.noOrdersGivenIconTooltip) as string}>
-            <NoOrdersGivenIcon />
-          </Tooltip>
-        )} */}
       </View>
     </View>
   );

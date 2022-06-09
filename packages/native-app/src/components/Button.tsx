@@ -27,12 +27,10 @@ const Button = (props: ButtonProps) => {
   const styles = useStyles();
   const theme = useTheme();
   const iconProps = props.iconProps || {};
+  const upperCaseTitle = props.title?.toString().toUpperCase();
   return (
     <RneButton
       raised
-      containerStyle={styles.buttonContainer}
-      buttonStyle={styles.button}
-      titleStyle={styles.buttonTitle}
       icon={{
         size: 15,
         color: theme.palette.secondary.main,
@@ -40,6 +38,10 @@ const Button = (props: ButtonProps) => {
         ...iconProps,
       }}
       {...props}
+      title={upperCaseTitle}
+      containerStyle={[styles.buttonContainer, props.containerStyle]}
+      buttonStyle={[styles.button, props.buttonStyle]}
+      titleStyle={[styles.buttonTitle, props.titleStyle]}
     />
   );
 };

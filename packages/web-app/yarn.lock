@@ -1250,10 +1250,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@diplicity/common@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.24.tgz#86963365661e94e60fefcfae6bae211ec457507e"
-  integrity sha512-RJghdrfkUFHBK5tAuTUzGJF0qy/BRpzUOW/uOmbwF6CEz/NE83Aoc/MYw2KiL29Qu93yYgHUiM38LigF7h4LMg==
+"@diplicity/common@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.25.tgz#11d889364a937606a8f852d65a6ffc9debf84562"
+  integrity sha512-Z5Wtr49jZkOS9gNLtgB7G6dAsZh81n4/+lkxqvWHEzb0KtfwnfPlB3Ve/IeRdgz1/esxNVJqm+rKFeNLi3YW4w==
   dependencies:
     formik "^2.2.9"
     yup "^0.32.11"
