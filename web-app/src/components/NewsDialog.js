@@ -50,6 +50,12 @@ export default class NewsDialog extends React.Component {
 								variant="body2"
 								paragraph
 							>
+								The Tournament is a multi-platform event: Diplicity users are encouraged to join.
+							</Typography>
+							<Typography
+								variant="body2"
+								paragraph
+							>
 								Registration to CW5 will open on June 4th and end on June 26th. The Tournament will start on July 1st. 
 							</Typography>
 							<Typography
