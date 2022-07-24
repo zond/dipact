@@ -22,7 +22,10 @@ const submitSettingsForm = createAction<SettingsFormValues>(
   `${domain}/submitSettingsForm`
 );
 
+const clickProvince = createAction(`${domain}/clickProvince`);
+
 export const actions = {
+  clickProvince,
   pageLoad,
   resetUserSettings,
   submitCreateGameForm,

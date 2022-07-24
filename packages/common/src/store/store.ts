@@ -3,6 +3,7 @@ import {
   ThunkAction,
   Action,
   combineReducers,
+  Store,
 } from "@reduxjs/toolkit";
 
 import { reducers } from ".";
@@ -11,7 +12,7 @@ import middleware from "./middleware";
 
 const reducer = combineReducers(reducers);
 
-export const store = configureStore({
+export const store: Store = configureStore({
   reducer: reducer,
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })

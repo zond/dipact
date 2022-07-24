@@ -4,4 +4,5 @@ export const RouteConfig = {
   Home: "/",
   MyGames: "/my-games",
   Orders: "/orders/:gameId",
+  Map: "/map/:gameId",
 };

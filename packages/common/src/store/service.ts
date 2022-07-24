@@ -40,6 +40,8 @@ import {
   UserRatingHistogram,
   Corroboration,
   CorroborationResponse,
+  ListOptionsResponse,
+  Options,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -238,6 +240,12 @@ export const diplicityService = createApi({
     listOrders: builder.query<Corroboration, { gameId: string; phaseId: string }>({
       query: ({ gameId, phaseId }) => `/Game/${gameId}/Phase/${phaseId}/Corroborate`,
       transformResponse: (response: CorroborationResponse) => {
+        return response.Properties;
+      },
+    }),
+    listOptions: builder.query<Options, { gameId: string, phaseId: string }>({
+      query: ({ gameId, phaseId }) => `/Game/${gameId}/Phase/${phaseId}/Options`,
+      transformResponse: (response: ListOptionsResponse) => {
         return response.Properties;
       },
     }),

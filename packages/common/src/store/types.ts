@@ -702,3 +702,54 @@ export interface NationStatusDisplay {
   orders: OrderDisplay[];
   homelessInconsistencies: string[];
 }
+
+export enum UnitType {
+  Fleet,
+  Army,
+}
+
+export enum OrderType {
+  Buid = "Build",
+  Convoy = "Convoy",
+  Disband = "Disband",
+  Hold = "Hold",
+  Move = "Move",
+  MoveViaConvoy = "MoveViaConvoy",
+  Support = "Support",
+}
+
+export enum OrderMenuOption {
+  Hold,
+  Move,
+  MoveViaConvoy,
+  Convoy
+  Support,
+  Clear,
+  Cancel,
+}
+export interface UnitDisplay {
+  type: UnitType;
+  color: string;
+}
+
+export interface ProvinceDisplay {
+  name: string;
+  id: string;
+  color: string;
+  unit: UnitDisplay | null;
+  dislodgedUnit: UnitDisplay | null;
+  highlight: boolean;
+}
+
+export interface Option {
+  Next: { [key: string]: Option };
+  Type: string;
+}
+
+export interface Options {
+  [key: string]: Option;
+}
+
+export interface ListOptionsResponse extends ApiResponse {
+  Properties: Options;
+}

@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector, Selector } from "@reduxjs/toolkit";
 import {
   getNationAbbreviation,
   getNationColor,
@@ -10,8 +10,11 @@ import {
   Auth,
   Channel,
   ColorOverrides,
+  Game,
   Messaging,
   MutationStatus,
+  OrderType,
+  ProvinceDisplay,
   Query,
   QueryMap,
   User,
@@ -55,12 +58,9 @@ export const selectMessaging = (state: RootState): Messaging => state.messaging;
 export const selectIsLoggedIn = (state: RootState): boolean =>
   state.auth.isLoggedIn;
 
-export const selectVariant = (
-  state: RootState,
-  variantName: string
-): Variant | null => {
+export const selectVariant = (state: RootState, variantName: string) => {
   const { data } = selectListVariants(state);
-  return data?.find((variant) => variant.Name === variantName) || null;
+  return data?.find((variant) => variant.Name === variantName) || undefined;
 };
 
 export const selectChannel = (
@@ -242,7 +242,6 @@ export const selectAuth = (state: RootState): Auth => state.auth;
 export const selectToken = (state: RootState) =>
   createSelector(selectAuth, (auth) => auth.token)(state);
 
-
 const combineQueries = (queryMap: QueryMap): [Query, QueryMap] => {
   const queries = Object.values(queryMap);
   return [
@@ -267,3 +266,145 @@ export const selectOrdersView = (state: RootState, gameId: string) =>
       return combinedQueries;
     }
   )(state);
+
+// TODO test
+export const selectGame = (state: RootState, gameId: string) => {
+  const endpoint = diplicityService.endpoints.getGame;
+  const selector = endpoint.select(gameId);
+  const query = selector(state);
+  return query.data;
+};
+
+// TODO test
+export const selectOptions = (
+  state: RootState,
+  gameId: string,
+  phaseId: number
+) => {
+  const endpoint = diplicityService.endpoints.listOptions;
+  const selector = endpoint.select({ gameId, phaseId: phaseId.toString() });
+  const query = selector(state);
+  return query.data;
+};
+
+// TODO test
+export const selectPhaseIdFromGameId = createSelector(selectGame, (game) => {
+  if (game && game.NewestPhaseMeta && game.NewestPhaseMeta.length)
+    return game.NewestPhaseMeta[0].PhaseOrdinal;
+  return undefined;
+});
+
+const selectState = (state: RootState): RootState => state;
+const selectSecondParam = (_: RootState, second: string) => second;
+const selectThirdParam = (_: RootState, _second: any, third: string) => third;
+const selectFourthParam = (
+  _: RootState,
+  _second: any,
+  _third: any,
+  fourth: string
+) => fourth;
+
+// TODO test
+const selectOptionsFromGameId = createSelector(
+  selectState,
+  selectSecondParam,
+  selectPhaseIdFromGameId,
+  (state, gameId, phaseId) => {
+    if (!phaseId) return undefined;
+    return selectOptions(state, gameId, phaseId);
+  }
+);
+
+// // TODO test
+// // export const selectSourceProvinces = (state: RootState, gameId: string) => {
+// //   createSelector(
+// //     (state: RootState) => selectGame(state, gameId),
+// //     (game) => game
+// //   );
+// // };
+
+// TODO test
+export const selectVariantFromGameId = createSelector(
+  selectState,
+  selectGame,
+  (state, game) => {
+    if (!game) return undefined;
+    return selectVariant(state, game.Variant);
+  }
+);
+
+type ProvinceEntries = { [key: string]: Partial<ProvinceDisplay> };
+
+// TODO test
+export const selectProvinceEntries = createSelector(
+  selectVariantFromGameId,
+  (variant) => {
+    if (!variant) return undefined;
+    return Object.entries(variant.ProvinceLongNames).reduce<ProvinceEntries>(
+      (previous, [id, name]) => {
+        previous[id] = { id, name };
+        return previous;
+      },
+      {}
+    );
+  }
+);
+
+// TODO test
+export const selectProvince = createSelector(
+  selectProvinceEntries,
+  selectThirdParam,
+  (provinceEntries, provinceId) => {
+    if (!provinceEntries) return undefined;
+    return provinceEntries[provinceId];
+  }
+);
+
+// TODO test
+export const selectSourceProvinces = createSelector(
+  selectProvinceEntries,
+  selectOptionsFromGameId,
+  (provinceEntries, options) => {
+    if (!options || !provinceEntries) return undefined;
+    return Object.keys(options).map((id) => provinceEntries[id]);
+  }
+);
+
+// TODO test
+export const selectOrderTypes = createSelector(
+  selectOptionsFromGameId,
+  selectThirdParam,
+  (options, provinceId) => {
+    if (!options) return undefined;
+    return Object.keys(options[provinceId].Next);
+  }
+);
+
+// TODO test
+export const selectAuxProvinces = createSelector(
+  selectProvinceEntries,
+  selectOptionsFromGameId,
+  (_: RootState, orderType: OrderType.Convoy | OrderType.Support) => orderType,
+  selectThirdParam,
+  (provinceEntries, options, orderType, sourceId) => {
+    if (!options || !provinceEntries) return undefined;
+    return Object.keys(
+      options[sourceId].Next[orderType].Next[sourceId].Next
+    ).map((id) => provinceEntries[id]);
+  }
+);
+
+// TODO test
+export const selectAuxTargetProvince = createSelector(
+  selectProvinceEntries,
+  selectOptionsFromGameId,
+  (_: RootState, orderType: OrderType.Convoy | OrderType.Support) => orderType,
+  selectThirdParam,
+  selectFourthParam,
+  (provinceEntries, options, orderType, sourceId, auxId) => {
+    if (!options || !provinceEntries) return undefined;
+    return Object.keys(
+      options[sourceId].Next[orderType].Next[sourceId].Next[auxId].Next
+    ).map((id) => provinceEntries[id]);
+  }
+);
