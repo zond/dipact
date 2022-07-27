@@ -1,6 +1,6 @@
 {
   "name": "@diplicity/common",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -18,7 +18,7 @@
   },
   "bugs": {},
   "devDependencies": {
-    "@reduxjs/toolkit": "^1.8.0",
+    "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.4.1",
     "@types/jquery": "^3.5.13",
