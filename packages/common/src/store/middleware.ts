@@ -1,21 +1,32 @@
 import { isRejected, PayloadAction } from "@reduxjs/toolkit";
 import { Action, AnyAction, Middleware } from "redux";
 
-import { selectUserConfig } from "./selectors";
+import {
+  selectCreateOrderIsComplete,
+  selectCreateOrderParts,
+  selectCreateOrderStep,
+  selectGame,
+  selectNewestPhaseId,
+  selectUserConfig,
+} from "./selectors";
 import { diplicityService } from "./service";
 import { actions as authActions } from "./auth";
+import { actions as createOrderActions } from "./createOrder";
 import { actions as feedbackActions } from "./feedback";
 import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
 import {
   CreateGameFormValues,
+  CreateOrderStep,
   NationAllocation,
   NewGame,
+  OrderType,
   Severity,
 } from "./types";
 import { getQueryMatchers } from "./utils";
 import { translateKeys as tk } from "../translations";
 import { actions as viewActions } from "./views";
+import { gameActions } from ".";
 
 // TODO test
 // TODO move to transformers
@@ -72,6 +83,36 @@ export const uiSubmitCreateGameFormMiddleware: Middleware<{}, any> =
     }
   };
 
+export const uiSelectCreateOrderOptionMiddleware: Middleware<{}, any> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: PayloadAction<string>) => {
+    next(action);
+    if (action.type === uiActions.selectCreateOrderOption.type) {
+      const state = getState();
+      const step = selectCreateOrderStep(state);
+      switch (step) {
+        case CreateOrderStep.SelectSource:
+          dispatch(createOrderActions.setSource(action.payload));
+          break;
+        case CreateOrderStep.SelectType:
+          dispatch(createOrderActions.setType(action.payload as OrderType));
+          break;
+        case CreateOrderStep.SelectAux:
+          dispatch(createOrderActions.setAux(action.payload));
+          break;
+        case CreateOrderStep.SelectTarget:
+          dispatch(createOrderActions.setTarget(action.payload));
+          break;
+        case CreateOrderStep.SelectAuxTarget:
+          dispatch(createOrderActions.setAuxTarget(action.payload));
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
 export const uiSubmitCreateGameFormWithPreferencesMiddleware: Middleware<
   {},
   any
@@ -94,6 +135,47 @@ export const uiSubmitCreateGameFormWithPreferencesMiddleware: Middleware<
           track: true,
         })
       );
+    }
+  };
+
+export const submitOrderMiddleware: Middleware<{}, any> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: AnyAction) => {
+    next(action);
+    if (
+      [
+        createOrderActions.setTarget.type,
+        createOrderActions.setType.type,
+      ].includes(action.type)
+    ) {
+      const createOrderIsComplete = selectCreateOrderIsComplete(getState());
+      if (createOrderIsComplete) {
+        const state = getState();
+        const parts = selectCreateOrderParts(state);
+        const { gameId, newestPhaseId } = selectGame(state);
+        dispatch(createOrderActions.clear());
+        dispatch(
+          diplicityService.endpoints.createOrder.initiate({
+            Parts: parts,
+            gameId: gameId,
+            phaseId: newestPhaseId,
+          }) as unknown as AnyAction
+        );
+      }
+    }
+  };
+
+export const setNewestPhaseIdMiddleware: Middleware<{}, any> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: AnyAction) => {
+    next(action);
+    if (diplicityService.endpoints.getGame.matchFulfilled(action)) {
+      const phaseId = selectNewestPhaseId(getState());
+      if (phaseId) {
+        dispatch(gameActions.setNewestPhaseId(phaseId.toString()));
+      }
     }
   };
 
@@ -178,6 +260,8 @@ const getFeedbackForRequest = (action: Action<any>) => {
     return getFeedback(Severity.Success, tk.feedback.deleteGame.fulfilled);
   } else if (queryMatchers.matchDeleteGameRejected(action)) {
     return getFeedback(Severity.Error, tk.feedback.deleteGame.rejected);
+  } else if (queryMatchers.matchCreateOrderFulfilled(action)) {
+    return getFeedback(Severity.Success, tk.feedback.createOrder.fulfilled);
   }
   return;
 };
@@ -227,9 +311,12 @@ const middleware = [
   gaRequestRegisterEventMiddleware,
   authLogoutMiddleware,
   uiPageLoadMiddleware,
+  uiSelectCreateOrderOptionMiddleware,
   uiSubmitCreateGameFormMiddleware,
   uiSubmitCreateGameFormWithPreferencesMiddleware,
   uiSubmitSettingsFormMiddleware,
+  submitOrderMiddleware,
+  setNewestPhaseIdMiddleware,
   ordersViewMiddleware,
 ];
 export default middleware;

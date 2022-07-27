@@ -3,7 +3,7 @@ import {
   ThunkAction,
   Action,
   combineReducers,
-  Store,
+  CombinedState,
 } from "@reduxjs/toolkit";
 
 import { reducers } from ".";
@@ -12,7 +12,7 @@ import middleware from "./middleware";
 
 const reducer = combineReducers(reducers);
 
-export const store: Store = configureStore({
+export const store = configureStore({
   reducer: reducer,
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })
@@ -22,7 +22,7 @@ export const store: Store = configureStore({
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = CombinedState<ReturnType<typeof reducer>>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 

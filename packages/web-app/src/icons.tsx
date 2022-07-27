@@ -4,6 +4,7 @@ import { SvgIcon } from "@material-ui/core";
 export {
   AccessTime as CreatedAtIcon,
   Add as CreateMessageIcon,
+  Add as CreateOrderIcon,
   ArrowBack as GoBackIcon,
   ArrowDownward as ArrowDownwardIcon,
   ArrowUpward as ArrowUpwardIcon,

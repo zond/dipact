@@ -132,6 +132,7 @@ export const getQueryMatchers = () => ({
   matchDeleteGameFulfilled:
     diplicityService.endpoints.deleteGame.matchFulfilled,
   matchDeleteGameRejected: diplicityService.endpoints.deleteGame.matchRejected,
+  matchCreateOrderFulfilled: diplicityService.endpoints.createOrder.matchFulfilled,
 });
 
 // const hrefURL = new URL(location.href);

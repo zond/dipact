@@ -1,4 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
+
 import { CreateGameFormValues, SettingsFormValues } from "./types";
 
 export enum PageName {
@@ -17,6 +18,9 @@ const submitCreateGameFormWithPreferences = createAction<{
   values: CreateGameFormValues;
   preferences: string[];
 }>(`${domain}/submitCreateGameFormWithPreferences`);
+const selectCreateOrderOption = createAction<string>(
+  `${domain}/selectCreateOrderOption`
+);
 const resetUserSettings = createAction(`${domain}/resetUserSettings`);
 const submitSettingsForm = createAction<SettingsFormValues>(
   `${domain}/submitSettingsForm`
@@ -28,6 +32,7 @@ export const actions = {
   clickProvince,
   pageLoad,
   resetUserSettings,
+  selectCreateOrderOption,
   submitCreateGameForm,
   submitCreateGameFormWithPreferences,
   submitSettingsForm,

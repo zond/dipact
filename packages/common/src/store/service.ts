@@ -237,14 +237,19 @@ export const diplicityService = createApi({
         return sortListChannels(channels);
       },
     }),
-    listOrders: builder.query<Corroboration, { gameId: string; phaseId: string }>({
-      query: ({ gameId, phaseId }) => `/Game/${gameId}/Phase/${phaseId}/Corroborate`,
+    listOrders: builder.query<
+      Corroboration,
+      { gameId: string; phaseId: string }
+    >({
+      query: ({ gameId, phaseId }) =>
+        `/Game/${gameId}/Phase/${phaseId}/Corroborate`,
       transformResponse: (response: CorroborationResponse) => {
         return response.Properties;
       },
     }),
-    listOptions: builder.query<Options, { gameId: string, phaseId: string }>({
-      query: ({ gameId, phaseId }) => `/Game/${gameId}/Phase/${phaseId}/Options`,
+    listOptions: builder.query<Options, { gameId: string; phaseId: string }>({
+      query: ({ gameId, phaseId }) =>
+        `/Game/${gameId}/Phase/${phaseId}/Options`,
       transformResponse: (response: ListOptionsResponse) => {
         return response.Properties;
       },
@@ -259,6 +264,16 @@ export const diplicityService = createApi({
     createGame: builder.mutation<CreateGameResponse, NewGame>({
       query: (data) => ({
         url: "/Game",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    createOrder: builder.mutation<
+      CorroborationResponse,
+      { Parts: string[]; gameId: string; phaseId: string }
+    >({
+      query: ({ gameId, phaseId, ...data }) => ({
+        url: `/Game/${gameId}/Phase/${phaseId}/CreateAndCorroborate`,
         method: "POST",
         body: data,
       }),

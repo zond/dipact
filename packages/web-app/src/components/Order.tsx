@@ -43,7 +43,7 @@ interface OrderProps {
 
 const Order = ({ order }: OrderProps) => {
   const { t } = useTranslation();
-  const { label, resolution, inconsistencies } = order;
+  const { label, resolution } = order;
   const classes = useStyles({ resolution });
 
   return (
@@ -56,13 +56,13 @@ const Order = ({ order }: OrderProps) => {
           </Typography>
         )}
       </div>
-      <ul className={classes.orderInconsistencies}>
+      {/* <ul className={classes.orderInconsistencies}>
         {inconsistencies.map((inconsistency) => (
           <li key={inconsistency}>
             <Typography variant="body2">{inconsistency}</Typography>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
   );
 };

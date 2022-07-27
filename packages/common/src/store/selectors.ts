@@ -1,4 +1,4 @@
-import { createSelector, Selector } from "@reduxjs/toolkit";
+import { createSelector } from "@reduxjs/toolkit";
 import {
   getNationAbbreviation,
   getNationColor,
@@ -10,11 +10,11 @@ import {
   Auth,
   Channel,
   ColorOverrides,
-  Game,
+  CreateOrderDisplay,
+  CreateOrderStep,
   Messaging,
   MutationStatus,
   OrderType,
-  ProvinceDisplay,
   Query,
   QueryMap,
   User,
@@ -267,8 +267,23 @@ export const selectOrdersView = (state: RootState, gameId: string) =>
     }
   )(state);
 
+export const selectGame = (state: RootState) => {
+  const { newestPhaseId, gameId } = state.game;
+  if (!newestPhaseId || !gameId) {
+    throw Error("Called selectGame before gameId and newestPhaseId were set!");
+  }
+  return { gameId, newestPhaseId };
+};
+
+const selectGameId = (state: RootState) => {
+  const { gameId } = state.game;
+  return gameId;
+};
+
 // TODO test
-export const selectGame = (state: RootState, gameId: string) => {
+export const selectGameObject = (state: RootState) => {
+  const gameId = selectGameId(state);
+  if (!gameId) return;
   const endpoint = diplicityService.endpoints.getGame;
   const selector = endpoint.select(gameId);
   const query = selector(state);
@@ -287,22 +302,30 @@ export const selectOptions = (
   return query.data;
 };
 
+const selectState = (state: RootState): RootState => state;
+const selectSecondParam = (_: RootState, second: string) => second;
+// const selectThirdParam = (_: RootState, _second: any, third: string) => third;
+// const selectFourthParam = (
+//   _: RootState,
+//   _second: any,
+//   _third: any,
+//   fourth: string
+// ) => fourth;
+
 // TODO test
-export const selectPhaseIdFromGameId = createSelector(selectGame, (game) => {
+export const selectPhaseIdFromGameId = (state: RootState) => {
+  const game = selectGameObject(state);
   if (game && game.NewestPhaseMeta && game.NewestPhaseMeta.length)
     return game.NewestPhaseMeta[0].PhaseOrdinal;
   return undefined;
-});
+};
 
-const selectState = (state: RootState): RootState => state;
-const selectSecondParam = (_: RootState, second: string) => second;
-const selectThirdParam = (_: RootState, _second: any, third: string) => third;
-const selectFourthParam = (
-  _: RootState,
-  _second: any,
-  _third: any,
-  fourth: string
-) => fourth;
+export const selectNewestPhaseId = (state: RootState) => {
+  const game = selectGameObject(state);
+  if (game && game.NewestPhaseMeta && game.NewestPhaseMeta.length)
+    return game.NewestPhaseMeta[0].PhaseOrdinal;
+  return undefined;
+};
 
 // TODO test
 const selectOptionsFromGameId = createSelector(
@@ -324,87 +347,233 @@ const selectOptionsFromGameId = createSelector(
 // // };
 
 // TODO test
-export const selectVariantFromGameId = createSelector(
-  selectState,
-  selectGame,
-  (state, game) => {
-    if (!game) return undefined;
-    return selectVariant(state, game.Variant);
-  }
-);
+export const selectVariantFromGameId = (state: RootState) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  return selectVariant(state, game.Variant);
+};
 
-type ProvinceEntries = { [key: string]: Partial<ProvinceDisplay> };
-
-// TODO test
-export const selectProvinceEntries = createSelector(
-  selectVariantFromGameId,
-  (variant) => {
-    if (!variant) return undefined;
-    return Object.entries(variant.ProvinceLongNames).reduce<ProvinceEntries>(
-      (previous, [id, name]) => {
-        previous[id] = { id, name };
-        return previous;
-      },
-      {}
-    );
-  }
-);
+type ProvinceEntries = {
+  [key: string]: {
+    name: string;
+    id: string;
+  };
+};
 
 // TODO test
-export const selectProvince = createSelector(
-  selectProvinceEntries,
-  selectThirdParam,
-  (provinceEntries, provinceId) => {
-    if (!provinceEntries) return undefined;
-    return provinceEntries[provinceId];
-  }
-);
+export const selectProvinceEntries = (
+  state: RootState,
+  variantName: string
+) => {
+  const variant = selectVariant(state, variantName);
+  if (!variant) return undefined;
+  return Object.entries(variant.ProvinceLongNames).reduce<
+    Partial<ProvinceEntries>
+  >((previous, [id, name]) => {
+    previous[id] = { id, name };
+    return previous;
+  }, {});
+};
 
 // TODO test
-export const selectSourceProvinces = createSelector(
-  selectProvinceEntries,
-  selectOptionsFromGameId,
-  (provinceEntries, options) => {
-    if (!options || !provinceEntries) return undefined;
-    return Object.keys(options).map((id) => provinceEntries[id]);
-  }
-);
+export const selectSourceProvinces = (state: RootState) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  const variant = selectVariant(state, game.Variant);
+  if (!variant) return undefined;
+  const provinceEntries = selectProvinceEntries(state, variant.Name);
+  const options = selectOptionsFromGameId(state, game.ID);
+  if (!options || !provinceEntries) return undefined;
+  return Object.keys(options).map((id) => provinceEntries[id]);
+};
 
-// TODO test
-export const selectOrderTypes = createSelector(
-  selectOptionsFromGameId,
-  selectThirdParam,
-  (options, provinceId) => {
-    if (!options) return undefined;
-    return Object.keys(options[provinceId].Next);
-  }
-);
+export const selectOrderTypes = (state: RootState, source: string) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  const options = selectOptionsFromGameId(state, game.ID);
+  if (!options) return undefined;
+  return Object.keys(options[source].Next);
+};
 
-// TODO test
-export const selectAuxProvinces = createSelector(
-  selectProvinceEntries,
-  selectOptionsFromGameId,
-  (_: RootState, orderType: OrderType.Convoy | OrderType.Support) => orderType,
-  selectThirdParam,
-  (provinceEntries, options, orderType, sourceId) => {
-    if (!options || !provinceEntries) return undefined;
-    return Object.keys(
-      options[sourceId].Next[orderType].Next[sourceId].Next
-    ).map((id) => provinceEntries[id]);
-  }
-);
+export const selectAuxProvinces = (
+  state: RootState,
+  source: string,
+  orderType: string
+) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  const variant = selectVariant(state, game.Variant);
+  if (!variant) return undefined;
+  const provinceEntries = selectProvinceEntries(state, variant.Name);
+  const options = selectOptionsFromGameId(state, game.ID);
+  if (!options || !provinceEntries) return undefined;
+  return Object.keys(options[source].Next[orderType].Next[source].Next).map(
+    (id) => provinceEntries[id]
+  );
+};
 
-// TODO test
-export const selectAuxTargetProvince = createSelector(
-  selectProvinceEntries,
-  selectOptionsFromGameId,
-  (_: RootState, orderType: OrderType.Convoy | OrderType.Support) => orderType,
-  selectThirdParam,
-  selectFourthParam,
-  (provinceEntries, options, orderType, sourceId, auxId) => {
-    if (!options || !provinceEntries) return undefined;
-    return Object.keys(
-      options[sourceId].Next[orderType].Next[sourceId].Next[auxId].Next
-    ).map((id) => provinceEntries[id]);
+export const selectTargetProvinces = (
+  state: RootState,
+  source: string,
+  orderType: string
+) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  const variant = selectVariant(state, game.Variant);
+  if (!variant) return undefined;
+  const provinceEntries = selectProvinceEntries(state, variant.Name);
+  const options = selectOptionsFromGameId(state, game.ID);
+  if (!options || !provinceEntries) return undefined;
+  return Object.keys(options[source].Next[orderType].Next[source].Next).map(
+    (id) => provinceEntries[id]
+  );
+};
+
+export const selectAuxTargetProvinces = (
+  state: RootState,
+  source: string,
+  orderType: string,
+  aux: string
+) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  const variant = selectVariant(state, game.Variant);
+  if (!variant) return undefined;
+  const provinceEntries = selectProvinceEntries(state, variant.Name);
+  const options = selectOptionsFromGameId(state, game.ID);
+  if (!options || !provinceEntries) return undefined;
+  return Object.keys(
+    options[source].Next[orderType].Next[source].Next[aux].Next
+  ).map((id) => provinceEntries[id]);
+};
+
+export const selectCreateOrder = (state: RootState) => {
+  return state.createOrder;
+};
+
+const mapProvinceDisplaysToOptions = (
+  provinces: ({ name: string; id: string } | undefined)[] | undefined
+): { value: string; label: string }[] => {
+  if (!provinces) return [];
+  return provinces
+    .filter((p) => p)
+    .map((province: { id: string; name: string }) => ({
+      value: province.id,
+      label: province.name,
+    }));
+};
+
+const mapOrderTypesToOptions = (
+  orderTypes: string[] | undefined
+): { value: string; label: string }[] => {
+  if (!orderTypes) return [];
+  return orderTypes.map((orderType) => ({
+    value: orderType,
+    label: orderType,
+  }));
+};
+
+export const selectCreateOrderOptions = (state: RootState) => {
+  const step = selectCreateOrderStep(state);
+  const createOrder = selectCreateOrder(state);
+  switch (step) {
+    case CreateOrderStep.SelectSource:
+      return mapProvinceDisplaysToOptions(selectSourceProvinces(state));
+    case CreateOrderStep.SelectType:
+      return mapOrderTypesToOptions(
+        selectOrderTypes(state, createOrder.source as string)
+      );
+    case CreateOrderStep.SelectAux:
+      return mapProvinceDisplaysToOptions(
+        selectAuxProvinces(
+          state,
+          createOrder.source as string,
+          createOrder.type as OrderType
+        )
+      );
+    case CreateOrderStep.SelectTarget:
+      return mapProvinceDisplaysToOptions(
+        selectTargetProvinces(
+          state,
+          createOrder.source as string,
+          createOrder.type as OrderType
+        )
+      );
+    case CreateOrderStep.SelectAuxTarget:
+      return mapProvinceDisplaysToOptions(
+        selectAuxTargetProvinces(
+          state,
+          createOrder.source as string,
+          createOrder.type as OrderType,
+          createOrder.aux as string
+        )
+      );
+    default:
+      return undefined;
   }
-);
+};
+
+export const selectCreateOrderStep = (state: RootState): CreateOrderStep => {
+  const { source, type, target, aux } = selectCreateOrder(state);
+  if (!source) return CreateOrderStep.SelectSource;
+  if (source && !type) return CreateOrderStep.SelectType;
+  if (source && type && !target && type === OrderType.Move)
+    return CreateOrderStep.SelectTarget;
+  if (
+    source &&
+    type &&
+    !aux &&
+    [OrderType.Convoy, OrderType.Support].includes(type)
+  )
+    return CreateOrderStep.SelectAux;
+  if (
+    source &&
+    type &&
+    aux &&
+    !target &&
+    [OrderType.Convoy, OrderType.Support].includes(type)
+  )
+    return CreateOrderStep.SelectAuxTarget;
+  return CreateOrderStep.Complete;
+};
+
+const selectProvinceName = (state: RootState, id: string) => {
+  const game = selectGameObject(state);
+  if (!game) return undefined;
+  const variant = selectVariant(state, game.Variant);
+  if (!variant) return undefined;
+  const provinceEntries = selectProvinceEntries(state, variant.Name);
+  if (!provinceEntries) return undefined;
+  return provinceEntries[id]?.name;
+};
+
+export const selectCreateOrderDisplay = (
+  state: RootState
+): CreateOrderDisplay => {
+  const { source, aux, target, type } = selectCreateOrder(state);
+  const sourceDisplay = source ? selectProvinceName(state, source) : undefined;
+  const auxDisplay = aux ? selectProvinceName(state, aux) : undefined;
+  const targetDisplay = target ? selectProvinceName(state, target) : undefined;
+  return {
+    source: sourceDisplay,
+    target: targetDisplay,
+    aux: auxDisplay,
+    type,
+  };
+};
+
+export const selectCreateOrderIsComplete = (state: RootState): boolean => {
+  const { type, target } = selectCreateOrder(state);
+  if (target || type === OrderType.Hold) return true;
+  return false;
+};
+
+export const selectCreateOrderParts = (state: RootState): string[] => {
+  const { source, type, target, aux } = selectCreateOrder(state);
+  const parts = [];
+  if (source) parts.push(source);
+  if (type) parts.push(type);
+  if (aux) parts.push(aux);
+  if (target) parts.push(target);
+  return parts;
+};

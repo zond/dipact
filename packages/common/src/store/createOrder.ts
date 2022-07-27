@@ -1,18 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CreateOrder, OrderType } from "./types";
 
-interface CreateOrder {
-  source: string | null;
-  type: string | null;
-  target: string | null;
-  aux: string | null;
-}
-
-const initialState: CreateOrder = {
-  source: null,
-  type: null,
-  target: null,
-  aux: null,
-};
+const initialState: CreateOrder = {};
 
 const createOrderSlice = createSlice({
   name: "createOrder",
@@ -24,14 +13,17 @@ const createOrderSlice = createSlice({
     setSource: (state, { payload }: PayloadAction<string>) => {
       return { ...state, source: payload };
     },
-    setType: (state, { payload }: PayloadAction<string>) => {
+    setType: (state, { payload }: PayloadAction<OrderType>) => {
       return { ...state, type: payload };
     },
     setTarget: (state, { payload }: PayloadAction<string>) => {
-      return { ...state, type: payload };
+      return { ...state, target: payload };
     },
     setAux: (state, { payload }: PayloadAction<string>) => {
-      return { ...state, type: payload };
+      return { ...state, aux: payload };
+    },
+    setAuxTarget: (state, { payload }: PayloadAction<string>) => {
+      return { ...state, target: payload };
     },
   },
 });

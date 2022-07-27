@@ -722,11 +722,30 @@ export enum OrderMenuOption {
   Hold,
   Move,
   MoveViaConvoy,
-  Convoy
+  Convoy,
   Support,
   Clear,
   Cancel,
 }
+
+export enum CreateOrderStep {
+  SelectSource,
+  SelectType,
+  SelectTarget,
+  SelectAux,
+  SelectAuxTarget,
+  Complete,
+}
+
+export interface CreateOrder {
+  source?: string;
+  type?: OrderType;
+  target?: string;
+  aux?: string;
+}
+
+export interface CreateOrderDisplay extends CreateOrder {}
+
 export interface UnitDisplay {
   type: UnitType;
   color: string;
