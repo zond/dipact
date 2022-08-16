@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from "../hooks/useTheme";
 interface PhaseSelectorProps {
   gameId: string;
+  rootStyles?: any;
 }
 
 const useStyles = () => {
@@ -23,6 +24,7 @@ const useStyles = () => {
       borderWidth: 1,
       borderRadius: 15,
       borderColor: theme.palette.border.main,
+      backgroundColor: theme.palette.background.main,
     },
     picker: {
       flexGrow: 1,
@@ -37,7 +39,7 @@ const useStyles = () => {
   });
 };
 
-const PhaseSelector = ({ gameId }: PhaseSelectorProps) => {
+const PhaseSelector = ({ gameId, rootStyles }: PhaseSelectorProps) => {
   const { t } = useTranslation();
   const styles = useStyles();
   const {
@@ -55,7 +57,7 @@ const PhaseSelector = ({ gameId }: PhaseSelectorProps) => {
   }
 
   return (
-    <View style={styles.root}>
+    <View style={{ ...styles.root, ...rootStyles }}>
       <View style={styles.container}>
         <Button
           accessibilityLabel={t(tk.phaseSelector.previousButton.title)}

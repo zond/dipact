@@ -1,10 +1,12 @@
 import { createSelector } from "@reduxjs/toolkit";
 import {
+  getNation,
   getNationAbbreviation,
   getNationColor,
   getNationFlagLink,
 } from "../utils/general";
-import { diplicityService } from "./service";
+import { updateMap } from "../utils/map";
+import { endpoints } from "./service";
 import { RootState } from "./store";
 import {
   Auth,
@@ -12,6 +14,7 @@ import {
   ColorOverrides,
   CreateOrderDisplay,
   CreateOrderStep,
+  MapState,
   Messaging,
   MutationStatus,
   OrderType,
@@ -26,13 +29,12 @@ import {
 // TODO use memoized selectors
 
 const selectListVariants = (state: RootState) =>
-  diplicityService.endpoints.listVariants.select(undefined)(state);
+  endpoints.listVariants.select(undefined)(state);
 
 const selectListPhases = (state: RootState, gameId: string) =>
-  diplicityService.endpoints.listPhases.select(gameId)(state);
+  endpoints.listPhases.select(gameId)(state);
 
-const getGetRootSelector = () =>
-  diplicityService.endpoints.getRoot.select(undefined);
+const getGetRootSelector = () => endpoints.getRoot.select(undefined);
 
 export const selectColorOverrides = (state: RootState): ColorOverrides =>
   state.colorOverrides;
@@ -40,8 +42,7 @@ export const selectColorOverrides = (state: RootState): ColorOverrides =>
 const selectUserStats = (state: RootState): UserStats | undefined => {
   const userId = selectUserId(state);
   if (!userId) return;
-  const userStats =
-    diplicityService.endpoints.getUserStats.select(userId)(state).data;
+  const userStats = endpoints.getUserStats.select(userId)(state).data;
   return userStats;
 };
 
@@ -69,8 +70,7 @@ export const selectChannel = (
   channelId: string
 ): Channel | null => {
   const names = channelId.split(",");
-  const channels =
-    diplicityService.endpoints.listChannels.select(gameId)(state).data;
+  const channels = endpoints.listChannels.select(gameId)(state).data;
   if (!channels) return null;
   const sortedNames = names.sort();
   const foundChannel =
@@ -129,7 +129,7 @@ export const selectUserPicture = (state: RootState): string | undefined => {
 export const selectUserConfig = (state: RootState): UserConfig | undefined => {
   const userId = selectUserId(state);
   if (!userId) return;
-  return diplicityService.endpoints.getUserConfig.select(userId)(state).data;
+  return endpoints.getUserConfig.select(userId)(state).data;
 };
 
 const sortMutationsByTimestamp = (x: any, y: any) => {
@@ -141,7 +141,7 @@ export const selectVariantUnitSvg = (
   variantName: string,
   unitType: string
 ): string | undefined => {
-  const endpoint = diplicityService.endpoints.getVariantUnitSVG;
+  const endpoint = endpoints.getVariantUnitSVG;
   const selector = endpoint.select({ variantName, unitType });
   const typedState = state as RootState & { [key: string]: any }; // Note, weird TS stuff going on here
   const query = selector(typedState);
@@ -165,6 +165,7 @@ export const selectVariantUnitSvgs = (
 };
 
 // TODO test
+// TODO rename
 export const selectPhase = (state: RootState): null | number => {
   return state.phase;
 };
@@ -284,7 +285,7 @@ const selectGameId = (state: RootState) => {
 export const selectGameObject = (state: RootState) => {
   const gameId = selectGameId(state);
   if (!gameId) return;
-  const endpoint = diplicityService.endpoints.getGame;
+  const endpoint = endpoints.getGame;
   const selector = endpoint.select(gameId);
   const query = selector(state);
   return query.data;
@@ -296,7 +297,7 @@ export const selectOptions = (
   gameId: string,
   phaseId: number
 ) => {
-  const endpoint = diplicityService.endpoints.listOptions;
+  const endpoint = endpoints.listOptions;
   const selector = endpoint.select({ gameId, phaseId: phaseId.toString() });
   const query = selector(state);
   return query.data;
@@ -567,7 +568,6 @@ export const selectCreateOrderIsComplete = (state: RootState): boolean => {
   if (target || type === OrderType.Hold) return true;
   return false;
 };
-
 export const selectCreateOrderParts = (state: RootState): string[] => {
   const { source, type, target, aux } = selectCreateOrder(state);
   const parts = [];
@@ -576,4 +576,95 @@ export const selectCreateOrderParts = (state: RootState): string[] => {
   if (aux) parts.push(aux);
   if (target) parts.push(target);
   return parts;
+};
+
+const selectPhaseObject = (state: RootState, phaseId: number) => {
+  const gameId = selectGameId(state);
+  if (!gameId) return undefined;
+  const phases = selectListPhases(state, gameId).data;
+  if (!phases) return undefined;
+  return phases.find((p) => p.PhaseOrdinal === phaseId);
+};
+
+const selectMapState = (state: RootState) => {
+  const phaseId = selectPhase(state);
+  if (!phaseId) return undefined;
+  const phase = selectPhaseObject(state, phaseId);
+  const variant = selectVariantFromGameId(state);
+  if (!phase || !variant) return undefined;
+
+  const provinces: MapState["provinces"] = phase.SCs.map(
+    ({ Province, Owner }) => ({
+      id: Province,
+      fill: getNation(Owner, variant).color,
+      highlight: false,
+    })
+  );
+  const units: MapState["units"] = phase.Units.map(({ Province, Unit }) => ({
+    province: Province,
+    fill: getNation(Unit.Nation, variant).color,
+    type: Unit.Type,
+  }));
+
+  const mapState: MapState = {
+    provinces,
+    units,
+    orders: [],
+  };
+  return mapState;
+};
+
+export const selectMapSvgQuery = (state: RootState) => {
+  const variant = selectVariantFromGameId(state);
+  const mapState = selectMapState(state);
+  if (!variant || !mapState)
+    return {
+      isLoading: true,
+      isError: false,
+      data: undefined,
+    };
+  const variantSvgQuery = endpoints.getVariantSVG.select(variant.Name)(state);
+  const armySvgQuery = endpoints.getVariantUnitSVG.select({
+    variantName: variant?.Name,
+    unitType: "Army",
+  })(state);
+  const fleetSvgQuery = endpoints.getVariantUnitSVG.select({
+    variantName: variant?.Name,
+    unitType: "Fleet",
+  })(state);
+
+  const isLoading =
+    variantSvgQuery.isLoading ||
+    armySvgQuery.isLoading ||
+    fleetSvgQuery.isLoading;
+  const isError =
+    variantSvgQuery.isError || armySvgQuery.isError || fleetSvgQuery.isError;
+
+  if (!variantSvgQuery.data || !armySvgQuery.data || !fleetSvgQuery.data)
+    return {
+      isLoading,
+      isError,
+      data: undefined,
+    };
+
+  const data = updateMap(
+    variantSvgQuery.data,
+    armySvgQuery.data,
+    fleetSvgQuery.data,
+    mapState
+  );
+  return {
+    isLoading,
+    isError,
+    data,
+  };
+};
+
+export const selectMapView = (state: RootState) => {
+  const { data, isLoading, isError } = selectMapSvgQuery(state);
+  return {
+    data,
+    isLoading,
+    isError,
+  };
 };

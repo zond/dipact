@@ -772,3 +772,25 @@ export interface Options {
 export interface ListOptionsResponse extends ApiResponse {
   Properties: Options;
 }
+
+// TODO select MapState TDD
+export interface MapState {
+  provinces: {
+    id: string;
+    fill: string;
+    highlight: boolean;
+  }[];
+  units: {
+    fill: string;
+    province: string;
+    type: string;
+  }[];
+  orders: {
+    type: string;
+    source: string;
+    target: string;
+    aux: string;
+    fill: string;
+    result: string;
+  }[];
+}

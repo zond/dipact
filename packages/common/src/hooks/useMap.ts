@@ -1,43 +1,22 @@
 import { useEffect } from "react";
-import { diplicityService, DiplicityError, ProvinceDisplay } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { selectors, viewActions } from "../store";
 
-const {
-  useGetGameQuery,
-  useListVariantsQuery,
-  useLazyListOptionsQuery,
-} = diplicityService;
-
-interface IUseMap {
-  isLoading: boolean;
-  isError: boolean;
-  error: null | DiplicityError;
-  provinces: ProvinceDisplay[];
-  handleClickProvince: (id: string) => void;
-}
+interface IUseMap extends ReturnType<typeof selectors.selectMapView> {}
 
 const useMap = (gameId: string): IUseMap => {
-
-  useListVariantsQuery(undefined);
-  const { data: game } = useGetGameQuery(gameId);
-  const [listOptionsTrigger] = useLazyListOptionsQuery();
-
-  const phaseId = game?.NewestPhaseMeta[0].PhaseOrdinal.toString();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (phaseId) {
-      listOptionsTrigger({ gameId, phaseId });
-    }
-  }, [gameId, listOptionsTrigger, phaseId])
+    dispatch(viewActions.initializeMapView(gameId));
+  }, [dispatch, gameId]);
 
-  const handleClickProvince = (id: string) => {
-    console.log(id);
-  };
+  const { data, isLoading, isError } = useSelector(selectors.selectMapView);
+
   return {
-    isLoading: false,
-    isError: false,
-    error: null,
-    provinces: [],
-    handleClickProvince,
+    isLoading,
+    isError,
+    data,
   };
 };
 

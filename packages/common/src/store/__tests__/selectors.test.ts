@@ -1,5 +1,7 @@
 import Globals from "../../Globals";
 import * as selectors from "../selectors";
+import * as mapUtils from "../../utils/map";
+import { diplicityService } from "../service";
 import { RootState } from "../store";
 import { initialState } from "../testData";
 import { Variant } from "../types";
@@ -104,7 +106,7 @@ describe("selectVariant", () => {
       state as unknown as RootState,
       "variant-name"
     );
-    expect(result).toBeNull();
+    expect(result).toBeUndefined();
   });
 });
 
@@ -284,5 +286,195 @@ describe("selectNationFlagLink", () => {
   });
 });
 
-describe("selectOrdersView", () => {
-})
+describe("selectOrdersView", () => {});
+
+interface TestQuery {
+  [key: string]: {
+    status: string;
+    endpointName: string;
+    requestId: string;
+    data: any;
+  };
+}
+
+export const createQuery = (
+  endpointName: string,
+  args: string | { [key: string]: string | number } | undefined,
+  status: string,
+  data?: any
+): TestQuery => {
+  const requestId = `${endpointName}-${args}`;
+  const key = JSON.stringify(args);
+  const query: TestQuery = {
+    [`${endpointName}(${key})`]: {
+      status: status,
+      endpointName,
+      requestId: requestId,
+      data: data || undefined,
+    },
+  };
+  return query;
+};
+
+const createDiplicityServiceState = (...queryArray: TestQuery[]) => {
+  const queries = queryArray.reduce((acc, query) => {
+    return { ...acc, ...query };
+  }, {});
+  return {
+    queries,
+    config: {
+      online: true,
+      focused: true,
+      middlewareRegistered: true,
+      refetchOnFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMountOrArgChange: false,
+      keepUnusedDataFor: 60,
+      reducerPath: "diplicityService",
+    },
+  };
+};
+
+const gameId = "game-id";
+
+describe("getGame selector", () => {
+  const sut = diplicityService.endpoints.getGame.select(gameId);
+  test("Gets game", () => {
+    const getGameQuery = createQuery("getGame", gameId, "fulfilled");
+    const state = {
+      diplicityService: createDiplicityServiceState(getGameQuery),
+    } as RootState;
+    const result = sut(state);
+    expect(result).toEqual({
+      data: undefined,
+      endpointName: "getGame",
+      isError: false,
+      isLoading: false,
+      isSuccess: true,
+      isUninitialized: false,
+      requestId: `getGame-${gameId}`,
+      status: "fulfilled",
+    });
+  });
+});
+
+const dummySvg = "<svg></svg>";
+
+const createGetGameQuery = (
+  gameId: string,
+  data?: any,
+  status = "fulfilled"
+) => {
+  return createQuery("getGame", gameId, status, data);
+};
+
+const createGetVariantSvgQuery = (
+  variantName: string,
+  data = dummySvg,
+  status = "fulfilled"
+) => {
+  return createQuery("getVariantSVG", variantName, status, data);
+};
+
+const createGetVariantArmySvgQuery = (
+  variantName: string,
+  data = dummySvg,
+  status = "fulfilled"
+) => {
+  return createQuery(
+    "getVariantUnitSVG",
+    { unitType: "Army", variantName },
+    status,
+    data
+  );
+};
+
+const createGetVariantFleetSvgQuery = (
+  variantName: string,
+  data = dummySvg,
+  status = "fulfilled"
+) => {
+  return createQuery(
+    "getVariantUnitSVG",
+    { unitType: "Fleet", variantName },
+    status,
+    data
+  );
+};
+
+const createListPhasesQuery = (
+  gameId: string,
+  data?: any,
+  status = "fulfilled"
+) => {
+  return createQuery("listPhases", gameId, status, data);
+};
+
+const createListVariantsQuery = (data?: any, status = "fulfilled") => {
+  return createQuery("listVariants", undefined, status, data);
+};
+
+const updateMapSpy = jest.spyOn(mapUtils, "updateMap");
+
+describe("selectMapView", () => {
+  const sut = selectors.selectMapView;
+  const variantName = "Classical";
+  const phaseId = 1;
+
+  const getGameQuery = createGetGameQuery(gameId, { Variant: variantName });
+  const getVariantSvgQuery = createGetVariantSvgQuery(variantName);
+  const getVariantArmySvgQuery = createGetVariantArmySvgQuery(variantName);
+  const getVariantFleetSvgQuery = createGetVariantFleetSvgQuery(variantName);
+  const listPhasesQuery = createListPhasesQuery(gameId, [
+    { PhaseOrdinal: phaseId, Units: [], SCs: [] },
+  ]);
+  const listVariantsQuery = createListVariantsQuery([{ Name: variantName }]);
+
+  const defaultDiplicityServiceState = createDiplicityServiceState(
+    listPhasesQuery,
+    listVariantsQuery,
+    getGameQuery,
+    getVariantArmySvgQuery,
+    getVariantFleetSvgQuery,
+    getVariantSvgQuery
+  );
+
+  const defaultState = {
+    diplicityService: defaultDiplicityServiceState,
+    game: {
+      gameId,
+    },
+    phase: phaseId,
+  } as RootState;
+
+  test("Returns data from updateMap if ready", () => {
+    updateMapSpy.mockReturnValue("updated-svg");
+    const state = { ...defaultState };
+    const result = sut(state);
+    expect(result).toEqual({
+      isLoading: false,
+      isError: false,
+      data: "updated-svg",
+    });
+  });
+
+  test("If game not in store data is undefined", () => {
+    const diplicityServiceState = { ...defaultDiplicityServiceState };
+    diplicityServiceState.queries["getGame(\"game-id\")"] = {
+      status: "pending",
+      endpointName: "getGame",
+      requestId: "getGame-game-id",
+      data: undefined,
+    };
+    const state = {
+      ...defaultState,
+      diplicityService: diplicityServiceState,
+    } as RootState;
+    const result = sut(state);
+    expect(result).toEqual({
+      isLoading: true,
+      isError: false,
+      data: undefined,
+    });
+  });
+});

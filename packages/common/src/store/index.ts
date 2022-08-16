@@ -31,6 +31,7 @@ export { actions as gameActions } from "./game";
 export { actions as feedbackActions } from "./feedback";
 export { actions as phaseActions } from "./phase";
 export { actions as uiActions, PageName } from "./ui";
+export { actions as viewActions } from "./views";
 export { ReduxWrapper } from "./testUtils";
 export {
   diplicityService,
