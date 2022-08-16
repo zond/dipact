@@ -1154,12 +1154,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@diplicity/common@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.29.tgz#704ae87188121be647c6875fc838115803c4b3cf"
-  integrity sha512-cZhH4uk8b/OloJxI3XC5tR3xa9+c2pgeJ2JtrOnB2xS4kf8TNUYclEQGDwYfXbW+lXaLrwS89vCXpUb/JW0NSQ==
+"@diplicity/common@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.30.tgz#3bc7609021361b10e535e88419c3bf2bbbe12b47"
+  integrity sha512-jFaqjcFkVn1YvxzqA52dmYnWMnhrA5lfS0eRCPS8n2dv/C/78MQAz83ABZIPs5MQhvaeEcGOyosZDZz8R6XjdQ==
   dependencies:
     formik "^2.2.9"
+    xmldom "^0.6.0"
     yup "^0.32.11"
 
 "@egjs/hammerjs@^2.0.17":
