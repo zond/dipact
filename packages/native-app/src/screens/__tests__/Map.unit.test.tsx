@@ -1,5 +1,5 @@
 import "react-native";
-import { Text, TouchableHighlight, View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
@@ -112,7 +112,6 @@ describe("Map", () => {
     fireEvent(screen.getByTestId("MAP_CONTAINER"), "layout", {
       nativeEvent: { layout: { height: 100, width: 100 } },
     });
-    screen.debug();
     expect(mockImageZoom).toBeCalledWith(
       expect.objectContaining({ cropHeight: 100, cropWidth: 100 }),
       {}

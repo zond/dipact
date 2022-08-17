@@ -155,7 +155,7 @@ export const diplicityService = createApi({
           ...variant.Properties,
           Links: variant.Links,
         })).map((variant) => addNationAbbreviationsToVariant(variant));
-        return transformedResponse.filter((v) => v.Name === "Classical");
+        return transformedResponse;
       },
     }),
     // TODO test

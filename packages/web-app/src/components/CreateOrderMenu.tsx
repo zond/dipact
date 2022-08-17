@@ -7,13 +7,12 @@ import {
   Select,
   MenuItem,
   makeStyles,
+  InputLabel,
+  Button,
+  DialogActions,
 } from "@material-ui/core";
-import { useParams } from "react-router-dom";
+import { t } from "i18next";
 import useSearchParams from "../hooks/useSearchParams";
-
-interface CreateOrderMenuUrlParams {
-  gameId: string;
-}
 
 export const searchKey = "create-order-menu";
 
@@ -33,7 +32,6 @@ const CreateOrderMenu = () => {
   const close = () => {
     removeParam(searchKey);
   };
-  const { gameId } = useParams<CreateOrderMenuUrlParams>();
   const { options, orderSummary, orderPrompt, handleSelectOption } =
     useCreateOrderMenu(close);
 
@@ -43,7 +41,8 @@ const CreateOrderMenu = () => {
       <DialogContent>
         <Typography>{orderSummary}</Typography>
         <Typography>{orderPrompt}</Typography>
-        <Select className={classes.select}>
+        <InputLabel id="select-option">Select option</InputLabel>
+        <Select labelId={"select-option"} className={classes.select}>
           {options &&
             options.map((option) => (
               <MenuItem
@@ -55,6 +54,9 @@ const CreateOrderMenu = () => {
             ))}
         </Select>
       </DialogContent>
+      <DialogActions>
+        <Button onClick={close}>Close</Button>
+      </DialogActions>
     </Dialog>
   );
 };

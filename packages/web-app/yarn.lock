@@ -1250,12 +1250,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@diplicity/common@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.25.tgz#11d889364a937606a8f852d65a6ffc9debf84562"
-  integrity sha512-Z5Wtr49jZkOS9gNLtgB7G6dAsZh81n4/+lkxqvWHEzb0KtfwnfPlB3Ve/IeRdgz1/esxNVJqm+rKFeNLi3YW4w==
+"@diplicity/common@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.30.tgz#3bc7609021361b10e535e88419c3bf2bbbe12b47"
+  integrity sha512-jFaqjcFkVn1YvxzqA52dmYnWMnhrA5lfS0eRCPS8n2dv/C/78MQAz83ABZIPs5MQhvaeEcGOyosZDZz8R6XjdQ==
   dependencies:
     formik "^2.2.9"
+    xmldom "^0.6.0"
     yup "^0.32.11"
 
 "@emotion/hash@^0.8.0":
@@ -13179,6 +13180,11 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
+
+xmldom@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.6.0.tgz#43a96ecb8beece991cef382c08397d82d4d0c46f"
+  integrity sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==
 
 xmlhttprequest@1.8.0:
   version "1.8.0"

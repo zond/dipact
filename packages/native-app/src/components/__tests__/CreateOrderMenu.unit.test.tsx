@@ -23,7 +23,7 @@ const useCreateOrderMenuMock = useCreateOrderMenu as jest.Mock;
 const mockClose = jest.fn();
 const mockHandleSelectOption = jest.fn();
 
-describe("Map", () => {
+describe("CreateOrderMenu", () => {
   let props: ComponentProps;
   let useCreateOrderMenuValues: UseCreateOrderMenuValues;
   const arrange = (options: ArrangeOptions) => {
