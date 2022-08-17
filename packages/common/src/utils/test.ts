@@ -60,6 +60,8 @@ export const createTestMatcher =
 export const mockGetQueryMatchers = {
   matchCreateGameFulfilled: createTestMatcher("createGame", "fulfilled"),
   matchCreateGameRejected: createTestMatcher("createGame", "rejected"),
+  matchCreateOrderFulfilled: createTestMatcher("createOrder", "fulfilled"),
+  matchCreateOrderRejected: createTestMatcher("createOrder", "rejected"),
   matchJoinGameFulfilled: createTestMatcher("joinGame", "fulfilled"),
   matchJoinGameRejected: createTestMatcher("joinGame", "rejected"),
   matchRescheduleGameFulfilled: createTestMatcher(

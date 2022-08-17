@@ -11,7 +11,6 @@ import {
   Button,
   DialogActions,
 } from "@material-ui/core";
-import { t } from "i18next";
 import useSearchParams from "../hooks/useSearchParams";
 
 export const searchKey = "create-order-menu";

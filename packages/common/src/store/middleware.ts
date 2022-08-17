@@ -114,7 +114,7 @@ export const uiSelectCreateOrderOptionMiddleware: Middleware<{}, any> =
           dispatch(createOrderActions.setTarget(action.payload));
           break;
         case CreateOrderStep.SelectAuxTarget:
-          dispatch(createOrderActions.setAuxTarget(action.payload));
+          dispatch(createOrderActions.setTarget(action.payload));
           break;
         default:
           break;
@@ -275,6 +275,8 @@ const getFeedbackForRequest = (action: Action<any>) => {
     return getFeedback(Severity.Error, tk.feedback.deleteGame.rejected);
   } else if (queryMatchers.matchCreateOrderFulfilled(action)) {
     return getFeedback(Severity.Success, tk.feedback.createOrder.fulfilled);
+  } else if (queryMatchers.matchCreateOrderRejected(action)) {
+    return getFeedback(Severity.Error, tk.feedback.createOrder.rejected);
   }
   return;
 };

@@ -22,9 +22,6 @@ const createOrderSlice = createSlice({
     setAux: (state, { payload }: PayloadAction<string>) => {
       return { ...state, aux: payload };
     },
-    setAuxTarget: (state, { payload }: PayloadAction<string>) => {
-      return { ...state, target: payload };
-    },
   },
 });
 
