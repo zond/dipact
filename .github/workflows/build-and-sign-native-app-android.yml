@@ -29,6 +29,9 @@ jobs:
           DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS }}
           DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD }}
           DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD }}
+        with:
+          name: app
+          path: app/build/outputs/apk/release/app.apk
       - uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
