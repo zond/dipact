@@ -8,6 +8,7 @@ import {
 	Toolbar,
 	IconButton,
 	Typography,
+	Link,
 } from "@material-ui/core";
 import Globals from "../Globals";
 import {
@@ -25,57 +26,52 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
-					header: "New variant: Sengoku",
-					subheader: "Become the new Shogun of Japan",
+					header: "Tournament announcement: Nexus CW5",
+					subheader: "Registration for CW5 opens June 4th and ends June 26th",
 					icon: false,
 					content: (
 						<React.Fragment>
 							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
-								New variant: Sengoku
+								Tournament announcement: Nexus CW5
 							</Typography>
 							<Typography
 								variant="body2"
-								style={{ margin: "0px 0px 16px 0px" }}
+								paragraph
 							>
-								As a Christmas gift, we released a new variant set in Ancient Japan - Sengoku.
-								<br />
-								<img
-									src="https://diplicity-engine.appspot.com/Variant/Sengoku/Map.svg"
-									style={{ maxWidth: "400px" }}
-								/>
-								<br />
-								This might be a nice opportunity to start a new game for the new year!
-							</Typography>
-						</React.Fragment>
-					),
-				},
-				{
-					header: "New feature: Coloured provinces",
-					subheader: "Really see you've conquered the map",
-					icon: false,
-					content: (
-						<React.Fragment>
-							<Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
-								Beta feature: Coloured provinces
+								Dear player, the largest online 1vs1 event is back: Nexus announces that their Fifth Cold War Tournament (CW5) will start soon!
 							</Typography>
 							<Typography
 								variant="body2"
-								style={{ margin: "0px 0px 16px 0px" }}
+								paragraph
 							>
-								Provinces without SC can now be coloured,
-								connecting the SCs you've conquered. <br />
-								It's aesthetics and doesn't
-								affect the gameplay.
-								<br />
-								While in Beta, this setting is device-specific.
-								<br /><br />
-								Below is the effect off (left) or on (right).
-								<img
-									src={colorModePath}
-									style={{ width: "100%", maxWidth: "400px" }}
-								/>
-								<br />
-								We always look for feedback in the <a href="https://discord.com/invite/bu3JxYc" target="_blank">Chat</a> or <a href="https://groups.google.com/g/diplicity-talk" target="_blank">Forum</a>.
+								The previous edition of this event involved 52 players to face each other for more than two months last year. Now, it is time to run Cold War games again and see who's the best tacticians around!
+							</Typography>
+							<Typography
+								variant="body2"
+								paragraph
+							>
+								The Tournament is a multi-platform event: Diplicity users are encouraged to join.
+							</Typography>
+							<Typography
+								variant="body2"
+								paragraph
+							>
+								Registration to CW5 will open on June 4th and end on June 26th. The Tournament will start on July 1st. 
+							</Typography>
+							<Typography
+								variant="body2"
+								paragraph
+							>
+								To get more info and register, check for more on Nexus.
+							</Typography>
+							<Typography variant="body2" style={{ margin: "0px 0px 12px 0px" }}>
+								<a
+									href="https://discord.gg/GTF4p8QQ4k"
+									target="_blank"
+									rel="noreferrer"
+								>
+									Nexus Discord
+								</a>
 							</Typography>
 						</React.Fragment>
 					),
