@@ -1,20 +1,41 @@
-import { isRejected, PayloadAction } from "@reduxjs/toolkit";
-import { Action, Middleware } from "redux";
+import {
+  isRejected,
+  PayloadAction,
+  ThunkAction,
+  ThunkDispatch,
+} from "@reduxjs/toolkit";
+import { Action, AnyAction, Middleware } from "redux";
 
-import { selectUserConfig } from "./selectors";
+import {
+  selectCreateOrderIsComplete,
+  selectCreateOrderParts,
+  selectCreateOrderStep,
+  selectGame,
+  selectNewestPhaseId,
+  selectPhase,
+  selectUserConfig,
+} from "./selectors";
 import { diplicityService } from "./service";
 import { actions as authActions } from "./auth";
+import { actions as createOrderActions } from "./createOrder";
 import { actions as feedbackActions } from "./feedback";
 import { actions as uiActions } from "./ui";
 import { actions as gaActions } from "./ga";
 import {
   CreateGameFormValues,
+  CreateOrderStep,
   NationAllocation,
   NewGame,
+  OrderType,
   Severity,
 } from "./types";
 import { getQueryMatchers } from "./utils";
 import { translateKeys as tk } from "../translations";
+import { actions as viewActions } from "./views";
+import { gameActions, phaseActions, selectors } from ".";
+import { RootState } from "./store";
+
+const { endpoints } = diplicityService;
 
 // TODO test
 // TODO move to transformers
@@ -64,10 +85,40 @@ export const uiSubmitCreateGameFormMiddleware: Middleware<{}, any> =
       const values = action.payload;
       const newGame = transformCreateGameValuesToNewGame(values);
       dispatch<any>(
-        diplicityService.endpoints.createGame.initiate(newGame, {
+        endpoints.createGame.initiate(newGame, {
           track: true,
         })
       );
+    }
+  };
+
+export const uiSelectCreateOrderOptionMiddleware: Middleware<{}, any> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: PayloadAction<string>) => {
+    next(action);
+    if (action.type === uiActions.selectCreateOrderOption.type) {
+      const state = getState();
+      const step = selectCreateOrderStep(state);
+      switch (step) {
+        case CreateOrderStep.SelectSource:
+          dispatch(createOrderActions.setSource(action.payload));
+          break;
+        case CreateOrderStep.SelectType:
+          dispatch(createOrderActions.setType(action.payload as OrderType));
+          break;
+        case CreateOrderStep.SelectAux:
+          dispatch(createOrderActions.setAux(action.payload));
+          break;
+        case CreateOrderStep.SelectTarget:
+          dispatch(createOrderActions.setTarget(action.payload));
+          break;
+        case CreateOrderStep.SelectAuxTarget:
+          dispatch(createOrderActions.setTarget(action.payload));
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -89,10 +140,55 @@ export const uiSubmitCreateGameFormWithPreferencesMiddleware: Middleware<
       const newGame = transformCreateGameValuesToNewGame(values);
       newGame.FirstMember = { NationPreferences: preferences.join(",") };
       dispatch<any>(
-        diplicityService.endpoints.createGame.initiate(newGame, {
+        endpoints.createGame.initiate(newGame, {
           track: true,
         })
       );
+    }
+  };
+
+export const submitOrderMiddleware: Middleware<{}, any> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: AnyAction) => {
+    next(action);
+    if (
+      [
+        createOrderActions.setTarget.type,
+        createOrderActions.setType.type,
+      ].includes(action.type)
+    ) {
+      const createOrderIsComplete = selectCreateOrderIsComplete(getState());
+      if (createOrderIsComplete) {
+        const state = getState();
+        const parts = selectCreateOrderParts(state);
+        const { gameId, newestPhaseId } = selectGame(state);
+        dispatch(createOrderActions.clear());
+        dispatch(
+          endpoints.createOrder.initiate({
+            Parts: parts,
+            gameId: gameId,
+            phaseId: newestPhaseId,
+          }) as unknown as AnyAction
+        );
+      }
+    }
+  };
+
+export const setNewestPhaseIdMiddleware: Middleware<{}, any> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: AnyAction) => {
+    next(action);
+    if (endpoints.getGame.matchFulfilled(action)) {
+      const phaseId = selectNewestPhaseId(getState());
+      const currentPhaseId = selectPhase(getState());
+      if (phaseId) {
+        dispatch(gameActions.setNewestPhaseId(phaseId.toString()));
+        if (!currentPhaseId) {
+          dispatch(phaseActions.set(phaseId));
+        }
+      }
     }
   };
 
@@ -106,7 +202,7 @@ export const uiSubmitSettingsFormMiddleware: Middleware<{}, any> =
       const userConfig = selectUserConfig(state);
       if (!userConfig) return;
       dispatch<any>(
-        diplicityService.endpoints.updateUserConfig.initiate(userConfig, {
+        endpoints.updateUserConfig.initiate(userConfig, {
           track: true,
         })
       );
@@ -177,6 +273,10 @@ const getFeedbackForRequest = (action: Action<any>) => {
     return getFeedback(Severity.Success, tk.feedback.deleteGame.fulfilled);
   } else if (queryMatchers.matchDeleteGameRejected(action)) {
     return getFeedback(Severity.Error, tk.feedback.deleteGame.rejected);
+  } else if (queryMatchers.matchCreateOrderFulfilled(action)) {
+    return getFeedback(Severity.Success, tk.feedback.createOrder.fulfilled);
+  } else if (queryMatchers.matchCreateOrderRejected(action)) {
+    return getFeedback(Severity.Error, tk.feedback.createOrder.rejected);
   }
   return;
 };
@@ -202,13 +302,76 @@ export const authLogoutMiddleware: Middleware<{}, any> =
     return next(action);
   };
 
+export const ordersViewMiddleware: Middleware<any, any> =
+  ({ dispatch }) =>
+  (next) =>
+  (action: PayloadAction<string>) => {
+    if (action.type === viewActions.initializeOrdersView.type) {
+      dispatch(
+        endpoints.listVariants.initiate(undefined) as unknown as AnyAction
+      );
+      dispatch(
+        endpoints.listPhases.initiate(action.payload) as unknown as AnyAction
+      );
+    }
+    return next(action);
+  };
+
+export type AppThunk<
+  ActionTypes extends Action,
+  ReturnType = void
+> = ThunkAction<ReturnType, RootState, unknown, ActionTypes>;
+
+export const initializeMapViewMiddleware: Middleware<
+  {},
+  RootState,
+  ThunkDispatch<RootState, unknown, AnyAction>
+> =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action: PayloadAction<string>) => {
+    next(action);
+    if (action.type === viewActions.initializeMapView.type) {
+      const gameId = action.payload;
+      dispatch(gameActions.setGameId(gameId));
+      const listVariantsResult = dispatch(
+        endpoints.listVariants.initiate(undefined)
+      );
+      const getGameResult = dispatch(endpoints.getGame.initiate(gameId));
+      dispatch(endpoints.listPhases.initiate(gameId));
+      Promise.all([listVariantsResult, getGameResult]).then(() => {
+        const variant = selectors.selectVariantFromGameId(getState())?.Name;
+        if (variant) {
+          dispatch(endpoints.getVariantSVG.initiate(variant));
+          dispatch(
+            endpoints.getVariantUnitSVG.initiate({
+              variantName: variant,
+              unitType: "Army",
+            })
+          );
+          dispatch(
+            endpoints.getVariantUnitSVG.initiate({
+              variantName: variant,
+              unitType: "Fleet",
+            })
+          );
+        }
+      });
+    }
+  };
+
 const middleware = [
   feedbackRequestMiddleware,
   gaRequestRegisterEventMiddleware,
   authLogoutMiddleware,
   uiPageLoadMiddleware,
+  uiSelectCreateOrderOptionMiddleware,
   uiSubmitCreateGameFormMiddleware,
   uiSubmitCreateGameFormWithPreferencesMiddleware,
   uiSubmitSettingsFormMiddleware,
+  submitOrderMiddleware,
+  setNewestPhaseIdMiddleware,
+  ordersViewMiddleware,
+  initializeMapViewMiddleware,
 ];
 export default middleware;

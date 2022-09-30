@@ -152,6 +152,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        // release {
+        //     storeFile = file(System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_FILE"))
+        //     storePassword System.getenv("DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD")
+        //     keyAlias System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS")
+        //     keyPassword System.getenv("DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD")
+        // }
     }
     buildTypes {
         debug {
@@ -160,9 +166,9 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -187,7 +193,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
@@ -220,4 +225,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.gms.google-services'

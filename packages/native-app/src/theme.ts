@@ -31,9 +31,16 @@ const palette = {
   text: {
     main: "#000",
     light: "#57606a",
+    contrastText: "#FFF",
   },
   highlight: {
     main: "#DDDDDD",
+  },
+  success: {
+    main: "#4caf50",
+  },
+  error: {
+    main: "#f44336",
   },
 };
 

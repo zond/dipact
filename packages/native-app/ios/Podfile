@@ -12,6 +12,8 @@ target 'diplicityNative' do
     :hermes_enabled => false
   )
 
+  pod 'RNCPicker', :path => '../node_modules/@react-native-picker/picker'
+
   target 'diplicityNativeTests' do
     inherit! :complete
     # Pods for testing

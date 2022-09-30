@@ -25,11 +25,3 @@ Once the app is running on your emulator you can check that the `@diplicity/comm
 ### Running the tests
 
 To run the automated tests: `yarn test`
-
-### Running storybook
-
-Storybook allows for components and pages to be developed and tested in isolation form the rest of the app. To get storybook to work on your emulator:
-
-* Open `native-app/App.tsx` and change the `LOAD_STORYBOOK` variable to `true`.
-
-* The storybook experience should now appear instead of the actual app.

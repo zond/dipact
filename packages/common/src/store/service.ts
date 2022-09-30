@@ -38,6 +38,10 @@ import {
   GameStateResponse,
   Ban,
   UserRatingHistogram,
+  Corroboration,
+  CorroborationResponse,
+  ListOptionsResponse,
+  Options,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
@@ -137,12 +141,10 @@ export const diplicityService = createApi({
       query: (id) => `/User/${id}/Stats`,
       transformResponse: (response: UserStatsResponse) => response.Properties,
     }),
-    getUserRatingHistogram: builder.query<
-      UserRatingHistogram,
-      undefined
-    >({
+    getUserRatingHistogram: builder.query<UserRatingHistogram, undefined>({
       query: () => "/Users/Ratings/Histogram",
-      transformResponse: (response: UserRatingHistogramResponse) => response.Properties,
+      transformResponse: (response: UserRatingHistogramResponse) =>
+        response.Properties,
     }),
     listVariants: builder.query<Variant[], undefined>({
       query: () => "/Variants",
@@ -235,7 +237,23 @@ export const diplicityService = createApi({
         return sortListChannels(channels);
       },
     }),
-    // TODO test
+    listOrders: builder.query<
+      Corroboration,
+      { gameId: string; phaseId: string }
+    >({
+      query: ({ gameId, phaseId }) =>
+        `/Game/${gameId}/Phase/${phaseId}/Corroborate`,
+      transformResponse: (response: CorroborationResponse) => {
+        return response.Properties;
+      },
+    }),
+    listOptions: builder.query<Options, { gameId: string; phaseId: string }>({
+      query: ({ gameId, phaseId }) =>
+        `/Game/${gameId}/Phase/${phaseId}/Options`,
+      transformResponse: (response: ListOptionsResponse) => {
+        return response.Properties;
+      },
+    }),
     getGame: builder.query<Game, string>({
       query: (id) => `/Game/${id}`,
       transformResponse: (response: GameResponse) => {
@@ -246,6 +264,16 @@ export const diplicityService = createApi({
     createGame: builder.mutation<CreateGameResponse, NewGame>({
       query: (data) => ({
         url: "/Game",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    createOrder: builder.mutation<
+      CorroborationResponse,
+      { Parts: string[]; gameId: string; phaseId: string }
+    >({
+      query: ({ gameId, phaseId, ...data }) => ({
+        url: `/Game/${gameId}/Phase/${phaseId}/CreateAndCorroborate`,
         method: "POST",
         body: data,
       }),
@@ -354,3 +382,5 @@ export const diplicityService = createApi({
     }),
   }),
 });
+
+export const endpoints = diplicityService.endpoints;

@@ -618,7 +618,7 @@ export type Order = {
 };
 
 export type Corroboration = {
-  Orders: Order[];
+  Orders: Order[] | null;
   Inconsistencies: string[];
 };
 
@@ -660,3 +660,137 @@ export type DiplicityError = {
   status: number;
   [key: string]: any;
 };
+
+export interface Query {
+  isError: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+}
+
+export type QueryMap = { [key: string]: Query };
+
+export type PhasesDisplay = [number, string][];
+
+export interface NationDisplay {
+  abbreviation: string;
+  color: string;
+  flagLink: string;
+  name: string;
+  isUser: boolean;
+}
+
+export type ResolutionDisplay = {
+  message: string;
+  province?: string;
+};
+
+export interface OrderDisplay {
+  label: string;
+  inconsistencies: string[];
+  resolution: ResolutionDisplay | null;
+}
+
+export interface NationStatusDisplay {
+  confirmedOrders: boolean;
+  noOrdersGiven: boolean;
+  numBuilds: number | null;
+  numDisbands: number | null;
+  numSupplyCenters: number;
+  numSupplyCentersToWin: number;
+  wantsDraw: boolean;
+  nation: NationDisplay;
+  orders: OrderDisplay[];
+  homelessInconsistencies: string[];
+}
+
+export enum UnitType {
+  Fleet,
+  Army,
+}
+
+export enum OrderType {
+  Buid = "Build",
+  Convoy = "Convoy",
+  Disband = "Disband",
+  Hold = "Hold",
+  Move = "Move",
+  MoveViaConvoy = "MoveViaConvoy",
+  Support = "Support",
+}
+
+export enum OrderMenuOption {
+  Hold,
+  Move,
+  MoveViaConvoy,
+  Convoy,
+  Support,
+  Clear,
+  Cancel,
+}
+
+export enum CreateOrderStep {
+  SelectSource,
+  SelectType,
+  SelectTarget,
+  SelectAux,
+  SelectAuxTarget,
+  Complete,
+}
+
+export interface CreateOrder {
+  source?: string;
+  type?: OrderType;
+  target?: string;
+  aux?: string;
+}
+
+export interface CreateOrderDisplay extends CreateOrder {}
+
+export interface UnitDisplay {
+  type: UnitType;
+  color: string;
+}
+
+export interface ProvinceDisplay {
+  name: string;
+  id: string;
+  color: string;
+  unit: UnitDisplay | null;
+  dislodgedUnit: UnitDisplay | null;
+  highlight: boolean;
+}
+
+export interface Option {
+  Next: { [key: string]: Option };
+  Type: string;
+}
+
+export interface Options {
+  [key: string]: Option;
+}
+
+export interface ListOptionsResponse extends ApiResponse {
+  Properties: Options;
+}
+
+// TODO select MapState TDD
+export interface MapState {
+  provinces: {
+    id: string;
+    fill: string;
+    highlight: boolean;
+  }[];
+  units: {
+    fill: string;
+    province: string;
+    type: string;
+  }[];
+  orders: {
+    type: string;
+    source: string;
+    target: string;
+    aux: string;
+    fill: string;
+    result: string;
+  }[];
+}

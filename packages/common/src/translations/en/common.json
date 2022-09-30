@@ -143,6 +143,21 @@
       "option-label": "{{ name }} ({{ numPlayers }} players)"
     }
   },
+  "create-order": {
+    "summary": {
+      "select-aux": "{{ source }} will {{ type }} from...",
+      "select-type": "{{ source }} will...",
+      "select-target": "{{ source }} will {{ type }} into...",
+      "select-aux-target": "{{ source }} will {{ type }} {{ aux }} into..."
+    },
+    "prompt": {
+      "select-aux": "Select aux",
+      "select-source": "Select a unit to order",
+      "select-type": "Select order type",
+      "select-target": "Select province to move into",
+      "select-aux-target": "Select province that {{ source }} will {{ type }} {{ aux }} into"
+    }
+  },
   "durations": {
     "day": {
       "plural": "Days",
@@ -161,6 +176,10 @@
     "create-game": {
       "fulfilled": "Game created!",
       "rejected": "Couldn't create game."
+    },
+    "create-order": {
+      "fulfilled": "Order created!",
+      "rejected": "Couldn't create order."
     },
     "join-game": {
       "fulfilled": "Joined game!",
@@ -310,7 +329,7 @@
       "singular": "{{ count }} build"
     },
     "confirm-orders-button": {
-      "label": "Accept draw",
+      "label": "Confirm orders",
       "no-orders": "You have no orders to give this turn",
       "prompt": "When you're ready for the next turn"
     },
@@ -327,7 +346,12 @@
     "toggle-dias-button": {
       "label": "Accept draw"
     },
-    "wants-draw-icon-tooltip": "Wants a draw"
+    "wants-draw-icon-tooltip": "Wants a draw",
+    "resolution": {
+      "success": "Success",
+      "bounced": "Bounced with {{ province }}",
+      "support-broken": "Support broken by {{ province }}"
+    }
   },
   "phase-selector": {
     "title": "Phase selector",

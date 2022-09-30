@@ -7,6 +7,8 @@ import {
   NationAllocation,
   Game,
   DiplicityError,
+  User,
+  Member,
 } from "../store/types";
 import { adjectives, conflictSynonyms, nouns } from "./terms";
 import contrastColors from "./contrastColors";
@@ -124,6 +126,18 @@ export const getNationFlagLink = (
     : undefined;
 };
 
+export const getMember = (game: Game, user: User): Member | undefined => {
+  return game.Members.find((m) => m.User.Email === user.Email);
+};
+
+export const getNation = (nation: string, variant: Variant) => {
+  const color = getNationColor(variant, nation);
+  const abbreviation = getNationAbbreviation(variant, nation);
+  const link = getNationFlagLink(variant, nation);
+  const name = nation;
+  return { name, color, abbreviation, link };
+};
+
 export const nationAllocationMap: { [key: number]: NationAllocation } = {
   0: NationAllocation.Random,
   1: NationAllocation.Preference,
@@ -144,53 +158,52 @@ function randomOf(ary: any[]) {
 
 // Copied from https://gist.github.com/andrei-m/982927
 function dziemba_levenshtein(a: string, b: string) {
-	var tmp;
-	if (a.length === 0) {
-		return b.length;
-	}
-	if (b.length === 0) {
-		return a.length;
-	}
-	if (a.length > b.length) {
-		tmp = a;
-		a = b;
-		b = tmp;
-	}
+  var tmp;
+  if (a.length === 0) {
+    return b.length;
+  }
+  if (b.length === 0) {
+    return a.length;
+  }
+  if (a.length > b.length) {
+    tmp = a;
+    a = b;
+    b = tmp;
+  }
 
-	var i,
-		j,
-		res,
-		alen = a.length,
-		blen = b.length,
-		row = Array(alen);
-	for (i = 0; i <= alen; i++) {
-		row[i] = i;
-	}
+  var i,
+    j,
+    res,
+    alen = a.length,
+    blen = b.length,
+    row = Array(alen);
+  for (i = 0; i <= alen; i++) {
+    row[i] = i;
+  }
 
-	for (i = 1; i <= blen; i++) {
-		res = i;
-		for (j = 1; j <= alen; j++) {
-			tmp = row[j - 1];
-			row[j - 1] = res;
-			res =
-				b[i - 1] === a[j - 1]
-					? tmp
-					: Math.min(tmp + 1, Math.min(res + 1, row[j] + 1));
-		}
-	}
-	return res;
+  for (i = 1; i <= blen; i++) {
+    res = i;
+    for (j = 1; j <= alen; j++) {
+      tmp = row[j - 1];
+      row[j - 1] = res;
+      res =
+        b[i - 1] === a[j - 1]
+          ? tmp
+          : Math.min(tmp + 1, Math.min(res + 1, row[j] + 1));
+    }
+  }
+  return res;
 }
 
 function funkyFactor(s1: string, s2: string) {
-	if (s1.length < 3 || s2.length < 3) {
-		return dziemba_levenshtein(s1, s2);
-	}
-	return (
-		dziemba_levenshtein(s1.slice(0, 3), s2.slice(0, 3)) +
-		dziemba_levenshtein(s1.slice(-3), s2.slice(-3))
-	);
+  if (s1.length < 3 || s2.length < 3) {
+    return dziemba_levenshtein(s1, s2);
+  }
+  return (
+    dziemba_levenshtein(s1.slice(0, 3), s2.slice(0, 3)) +
+    dziemba_levenshtein(s1.slice(-3), s2.slice(-3))
+  );
 }
-
 
 function randomOfFunky(basis: string, ary: any[]) {
   const options = [];
@@ -208,7 +221,7 @@ function randomOfFunky(basis: string, ary: any[]) {
 }
 
 function capitalize(s: string) {
-	return s.slice(0, 1).toUpperCase() + s.slice(1);
+  return s.slice(0, 1).toUpperCase() + s.slice(1);
 }
 
 // TODO test
@@ -257,4 +270,15 @@ export const mergeErrors = (
     },
     { status: 0, data: {} } as DiplicityError
   );
+};
+
+// TODO test
+export const brightnessByColor = (color: string): number => {
+  const m = color
+    .substr(1)
+    .match(color.length === 7 ? /(\S{2})/g : /(\S{1})/g) as RegExpMatchArray;
+  const r = parseInt(m[0], 16),
+    g = parseInt(m[1], 16),
+    b = parseInt(m[2], 16);
+  return (r * 299 + g * 587 + b * 114) / 1000;
 };

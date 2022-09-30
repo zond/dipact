@@ -1250,12 +1250,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@diplicity/common@^0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.23.tgz#78621ea4c24fb57d58b64862edffc3c1c05fb0ed"
-  integrity sha512-AFwvbQc5UKdWdUY2yVWx8JwpvYLEPJa8WAYLK4rkp7VRrZtXTRn8XHeeXRH8l7kpMi7N4KRs9j3YOt39GdfSxA==
+"@diplicity/common@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.30.tgz#3bc7609021361b10e535e88419c3bf2bbbe12b47"
+  integrity sha512-jFaqjcFkVn1YvxzqA52dmYnWMnhrA5lfS0eRCPS8n2dv/C/78MQAz83ABZIPs5MQhvaeEcGOyosZDZz8R6XjdQ==
   dependencies:
     formik "^2.2.9"
+    xmldom "^0.6.0"
     yup "^0.32.11"
 
 "@emotion/hash@^0.8.0":
@@ -5693,6 +5694,11 @@ execa@^4.0.0:
     onetime "^5.1.0"
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
+
+exenv@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha512-Z+ktTxTwv9ILfgKCk32OX3n/doe+OcLTRtqK9pcL+JsP3J1/VW8Uvl4ZjLlKqeW4rzK4oesDOGMEMRIZqtP4Iw==
 
 exit@^0.1.2:
   version "0.1.2"
@@ -10577,6 +10583,11 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
+react-from-dom@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/react-from-dom/-/react-from-dom-0.6.2.tgz#9da903a508c91c013b55afcd59348b8b0a39bdb4"
+  integrity sha512-qvWWTL/4xw4k/Dywd41RBpLQUSq97csuv15qrxN+izNeLYlD9wn5W8LspbfYe5CWbaSdkZ72BsaYBPQf2x4VbQ==
+
 react-ga@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-3.3.0.tgz#c91f407198adcb3b49e2bc5c12b3fe460039b3ca"
@@ -10590,6 +10601,14 @@ react-i18next@^11.15.4:
     "@babel/runtime" "^7.14.5"
     html-escaper "^2.0.2"
     html-parse-stringify "^3.0.1"
+
+react-inlinesvg@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-inlinesvg/-/react-inlinesvg-3.0.0.tgz#801c6bac1535334586708cd346f4b1125dcfa8f9"
+  integrity sha512-zUt0DW3cKBk+vYZJJCzJqA9STRb+ZFmKLQFWurTvM4UR6vyHT8kHZSzyZZseX9BUNbTFJAfirtwpt97BWDJoSg==
+  dependencies:
+    exenv "^1.2.2"
+    react-from-dom "^0.6.2"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
@@ -13161,6 +13180,11 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/xmlchars/-/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
+
+xmldom@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.6.0.tgz#43a96ecb8beece991cef382c08397d82d4d0c46f"
+  integrity sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==
 
 xmlhttprequest@1.8.0:
   version "1.8.0"

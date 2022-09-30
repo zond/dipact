@@ -211,6 +211,70 @@ describe("feedbackRequestMiddleware", () => {
     );
     expect(next).toBeCalledWith(action);
   });
+  test("Dispatches feedback/add for createGame/fulfilled", () => {
+    const {
+      invoke,
+      next,
+      store: { dispatch },
+    } = createMiddlewareAPI(middleware);
+    const action = createThunkAction("createGame", RequestStatus.Fulfilled);
+    invoke(action);
+    expect(dispatch).toBeCalledWith(
+      actions.add({
+        severity: Severity.Success,
+        message: tk.feedback.createGame.fulfilled,
+      })
+    );
+    expect(next).toBeCalledWith(action);
+  });
+  test("Dispatches feedback/add for createGame/rejected", () => {
+    const {
+      invoke,
+      next,
+      store: { dispatch },
+    } = createMiddlewareAPI(middleware);
+    const action = createThunkAction("createGame", RequestStatus.Rejected);
+    invoke(action);
+    expect(dispatch).toBeCalledWith(
+      actions.add({
+        severity: Severity.Error,
+        message: tk.feedback.createGame.rejected,
+      })
+    );
+    expect(next).toBeCalledWith(action);
+  });
+  test("Dispatches feedback/add for createOrder/fulfilled", () => {
+    const {
+      invoke,
+      next,
+      store: { dispatch },
+    } = createMiddlewareAPI(middleware);
+    const action = createThunkAction("createOrder", RequestStatus.Fulfilled);
+    invoke(action);
+    expect(dispatch).toBeCalledWith(
+      actions.add({
+        severity: Severity.Success,
+        message: tk.feedback.createOrder.fulfilled,
+      })
+    );
+    expect(next).toBeCalledWith(action);
+  });
+  test("Dispatches feedback/add for createOrder/rejected", () => {
+    const {
+      invoke,
+      next,
+      store: { dispatch },
+    } = createMiddlewareAPI(middleware);
+    const action = createThunkAction("createOrder", RequestStatus.Rejected);
+    invoke(action);
+    expect(dispatch).toBeCalledWith(
+      actions.add({
+        severity: Severity.Error,
+        message: tk.feedback.createOrder.rejected,
+      })
+    );
+    expect(next).toBeCalledWith(action);
+  });
   test("Ignores other action", () => {
     ignoresOtherAction(middleware);
   });

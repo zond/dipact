@@ -148,6 +148,23 @@ const translateKeys = {
       optionLabel: "create-game.variant-select.option-label",
     },
   },
+  createOrder: {
+    summary: {
+      selectType: "create-order.summary.select-type",
+      selectTarget: "create-order.summary.select-target",
+      selectTargetMove: "create-order.summary.select-target-move",
+      selectTargetConvoySupport: "create-order.summary.select-target-convoy-support",
+      selectAux: "create-order.summary.select-aux",
+      selectAuxTarget: "create-order.summary.select-aux-target",
+    },
+    prompt: {
+      selectSource: "create-order.prompt.select-source",
+      selectType: "create-order.prompt.select-type",
+      selectTarget: "create-order.prompt.select-target",
+      selectAux: "create-order.prompt.select-aux",
+      selectAuxTarget: "create-order.prompt.select-aux-target",
+    },
+  },
   durations: {
     day: {
       plural: "durations.day.plural",
@@ -166,6 +183,10 @@ const translateKeys = {
     createGame: {
       fulfilled: "feedback.create-game.fulfilled",
       rejected: "feedback.create-game.rejected",
+    },
+    createOrder: {
+      fulfilled: "feedback.create-order.fulfilled",
+      rejected: "feedback.create-order.rejected",
     },
     joinGame: {
       fulfilled: "feedback.join-game.fulfilled",
@@ -384,6 +405,11 @@ const translateKeys = {
       label: "orders.toggle-dias-button.label",
     },
     wantsDrawIconTooltip: "orders.wants-draw-icon-tooltip",
+    resolution: {
+      success: "orders.resolution.success",
+      bounced: "orders.resolution.bounced",
+      supportBroken: "orders.resolution.support-broken",
+    }
   },
   phaseSelector: {
     title: "phase-selector.title",
