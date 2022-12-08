@@ -2202,6 +2202,17 @@ export function provName(variant, prov) {
 	return prov;
 }
 
+export function getAllSCs(nodes) {
+	const allSCs = new Set();
+	for (let prov in nodes) {
+	  const node = nodes[prov];
+	  if (node.SC !== null) {
+		allSCs.add(node.Name);
+	  }
+	}
+	return allSCs;
+  }
+
 export function humanizeOrder(variant, parts, nextType = null) {
 	const types = parts.map((part) => {
 		switch (part) {
