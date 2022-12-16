@@ -1,0 +1,50 @@
+name: Build and sign Android app
+on:
+  push
+  # push:
+  #   branches:
+  #     - beta
+  #   tags:        
+  #     - v*
+defaults:
+ run:
+  working-directory: ./packages/native-app/android
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn install
+      - name: Copy keystore to file
+        id: copy_keystore_to_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'diplicity_native_keystore.jks'
+          encodedString: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_SIGNING_KEY }}
+      - name: Generate Release APK
+        run: ./gradlew assembleRelease
+        env:
+          DIPLICITY_NATIVE_UPLOAD_STORE_FILE: ${{ steps.copy_keystore_to_file.outputs.filePath }}
+          DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS }}
+          DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD }}
+          DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD }}
+        with:
+          name: app
+          path: app/build/outputs/apk/release/app.apk
+      - uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_SIGNING_KEY }}
+          alias: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.DIPLICITY_NATIVE_UPLOAD_KEY_PASSWORD }}
+      - uses: actions/upload-artifact@master
+        with:
+          name: release.apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      - uses: actions/upload-artifact@master
+        with:
+          name: mapping.txt
+          path: app/build/outputs/mapping/release/mapping.txt

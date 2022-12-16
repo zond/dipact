@@ -21,7 +21,7 @@ jobs:
             - name: Verify iBrave SSH access
               run: env LC_ALL=C ssh oort.se@ssh.gb.stackcp.com date
             - name: Build release
-              working-directory: web-app
+              working-directory: packages/web-app
               run: docker-compose run sample yarn build
             - name: Sync release to iBrave
               run: env LC_ALL=C rsync -a --delete web-app/build/ oort.se@ssh.gb.stackcp.com:public_html/${BRANCH_NAME}.diplicity.com/

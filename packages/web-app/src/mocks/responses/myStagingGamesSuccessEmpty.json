@@ -1,0 +1,36 @@
+{
+  "Name": "my-staging-games",
+  "Properties": [],
+  "Desc": [
+    [
+      "My staging games",
+      "Unstarted games you are a member of, sorted with those expected to start soonest first."
+    ],
+    [
+      "Cursor and limit",
+      "The list contains at most 128 games.",
+      "If there are additional matching games, a 'next' link will be available with a 'cursor' query parameter.",
+      "Use the 'next' link to list the next batch of matching games.",
+      "To list fewer than 128 games, add an explicit 'limit' query parameter."
+    ],
+    [
+      "Filters",
+      "To show only games matching certain criteria, add query parameter filters.",
+      "`variant=X` filters on variant X.",
+      "`min-reliability=X:Y` filters on min reliability between X and Y.",
+      "`min-quickness=X:Y` filters on min quickness between X and Y.",
+      "`max-hated=X:Y` filters on max hated between X and Y.",
+      "`max-hater=X:Y` filters on max hater between X and Y.",
+      "`min-rating=X:Y` filters on min rating between X and Y.",
+      "`max-rating=X:Y` filters on max rating between X and Y."
+    ]
+  ],
+  "Type": "List",
+  "Links": [
+    {
+      "Rel": "self",
+      "URL": "https://diplicity-engine.appspot.com/Games/My/Staging",
+      "Method": "GET"
+    }
+  ]
+}
