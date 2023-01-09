@@ -26,8 +26,8 @@ export default class NewsDialog extends React.Component {
 			activeItem: 0,
 			newsItems: [
 				{
-					header: "Tournament announcement: Nexus CW5",
-					subheader: "Registration for CW5 opens June 4th and ends June 26th",
+					header: "New variant released: Unconstitutional",
+					subheader: "Fight for America in this alternative-history variant",
 					icon: false,
 					content: (
 						<React.Fragment>
@@ -38,40 +38,19 @@ export default class NewsDialog extends React.Component {
 								variant="body2"
 								paragraph
 							>
-								Dear player, the largest online 1vs1 event is back: Nexus announces that their Fifth Cold War Tournament (CW5) will start soon!
+								Today, we released a new 5 player variant called Unconstitutional.
 							</Typography>
 							<Typography
 								variant="body2"
 								paragraph
 							>
-								The previous edition of this event involved 52 players to face each other for more than two months last year. Now, it is time to run Cold War games again and see who's the best tacticians around!
+								This is an alternative history variant where the US constitution was not ratified (which nearly happened). Operating under the weak Articles of Confederation, States keep their conflicting land claims and border disputes turn into armed conflict. Former slaves control Haiti, and inhabitants of New Orleans, Saint Louis and the Turks and Cacois oppose annexation by the US. Federal government ceases to function, many States have seceded and two groups of Native American tribes, the Western and Muskogee Confederacy, are warning the Americans.
 							</Typography>
 							<Typography
 								variant="body2"
 								paragraph
 							>
-								The Tournament is a multi-platform event: Diplicity users are encouraged to join.
-							</Typography>
-							<Typography
-								variant="body2"
-								paragraph
-							>
-								Registration to CW5 will open on June 4th and end on June 26th. The Tournament will start on July 1st. 
-							</Typography>
-							<Typography
-								variant="body2"
-								paragraph
-							>
-								To get more info and register, check for more on Nexus.
-							</Typography>
-							<Typography variant="body2" style={{ margin: "0px 0px 12px 0px" }}>
-								<a
-									href="https://discord.gg/GTF4p8QQ4k"
-									target="_blank"
-									rel="noreferrer"
-								>
-									Nexus Discord
-								</a>
+								We wish you happy games!
 							</Typography>
 						</React.Fragment>
 					),
