@@ -1,4 +1,4 @@
-export const RouteConfig = {
+export const RouteConfig: Record<string, string> = {
   CreateGame: "/create-game",
   Game: "/game/:gameId",
   Home: "/",
