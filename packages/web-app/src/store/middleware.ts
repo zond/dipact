@@ -10,13 +10,20 @@ import actions from "./actions";
 const GTAG_DEFAULT_CATEGORY = "(not set)";
 const PAGE_VIEW_ACTION = "page_view";
 
+const matchMutation = (
+  action: AnyAction,
+  status: "fulfilled" | "pending" | "rejected"
+) => action.type === `diplicityService/executeMutation/${status}`;
+
+const matchEndpointName = (action: AnyAction, endpointName: string) =>
+  action.meta.arg.endpointName === endpointName;
+
 const matchCreateGameFulfilled = (action: AnyAction) =>
-  action.type === "diplicityService/executeQuery/fulfilled" &&
-  action.meta.arg.endpointName === "createGame";
+  matchMutation(action, "fulfilled") && matchEndpointName(action, "createGame");
 
 export const loginFromLocalStorageMiddleware = createMiddleware<AnyAction>({
   match: (action: AnyAction) => action.type === actions.initialize.type,
-  afterAction: (action, { dispatch }) => {
+  afterAction: (_, { dispatch }) => {
     let token = localStorage.getItem("token");
     if (token === "null") {
       token = null;
