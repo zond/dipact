@@ -710,7 +710,7 @@ export default class DipMap extends React.Component {
 
 
 						const countNeutral = borderProvs.filter(
-							(prov) => prov === undefined
+							(prov) => prov === undefined || prov === "Neutral"
 						).length;
 
 						if (countNeutral === borderProvs.length || countNeutral > 0) {
