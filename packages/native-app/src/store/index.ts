@@ -30,7 +30,7 @@ export const store = configureStore({
     ...gdm({ serializableCheck: false })
       .concat(diplicityService.middleware)
       .concat(commonMiddleware)
-      .concat([debugMiddleware]),
+      // .concat([debugMiddleware]),
   ],
 });
 

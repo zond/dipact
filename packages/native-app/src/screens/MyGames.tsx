@@ -8,24 +8,6 @@ import { useAppSelector } from "../hooks/useAppSelector";
 const MyGames = ({}) => {
   const { t } = useTranslation();
 
-  // const token = useAppSelector(selectors.selectToken);
-
-  const getMoviesFromApi = () => {
-    return fetch("https://reactnative.dev/movies.json")
-      .then((response) => response.json())
-      .then((json) => {
-        return json.movies;
-      })
-      .catch((error) => {
-        console.error(error);
-        console.error(error.message);
-      });
-  };
-
-  useEffect(() => {
-    getMoviesFromApi();
-  }, []);
-
   return (
     <ScrollView>
       <GameList

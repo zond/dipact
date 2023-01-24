@@ -10,9 +10,6 @@ const useStyles = (): StyleProp<any> => {
       fontSize: 16,
       fontWeight: "bold",
     },
-    gameListItem: {
-      width: "100%",
-    },
   };
 };
 

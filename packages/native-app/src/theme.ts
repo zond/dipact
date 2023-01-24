@@ -42,6 +42,14 @@ const palette = {
   error: {
     main: "#f44336",
   },
+  confirmed: {
+    main: "#66BB6A",
+    contrastText: "#000000"
+  },
+  notConfirmed: {
+    main: "#FBD86C",
+    contrastText: "#000000"
+  }
 };
 
 export const theme = createTheme({
