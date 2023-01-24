@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Button, Icon } from "@rneui/base";
 import { usePhaseSelector, translateKeys as tk } from "@diplicity/common";
-import { Picker } from "@react-native-picker/picker";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../hooks/useTheme";
 interface PhaseSelectorProps {
@@ -15,36 +14,30 @@ const useStyles = () => {
   return StyleSheet.create({
     root: {
       padding: theme.spacing(1),
-    },
-    container: {
+      backgroundColor: theme.palette.primary.main,
       display: "flex",
       flexDirection: "row",
       width: "100%",
       alignItems: "center",
-      borderWidth: 1,
-      borderRadius: 15,
-      borderColor: theme.palette.border.main,
-      backgroundColor: theme.palette.background.main,
     },
     picker: {
       flexGrow: 1,
       borderWidth: 1,
     },
-    button: {
-      backgroundColor: "transparent",
-    },
-    disabledButton: {
-      display: "none",
+    text: {
+      color: theme.palette.secondary.main,
+      flexGrow: 1,
+      textAlign: "center",
     },
   });
 };
 
 const PhaseSelector = ({ gameId, rootStyles }: PhaseSelectorProps) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const styles = useStyles();
   const {
     phases,
-    setPhase,
     setNextPhase,
     setPreviousPhase,
     selectedPhase,
@@ -52,41 +45,46 @@ const PhaseSelector = ({ gameId, rootStyles }: PhaseSelectorProps) => {
     isError,
   } = usePhaseSelector(gameId);
 
-  if (isLoading || isError || !phases) {
+  const selectedPhaseObject = phases?.find(
+    ([value]) => value === selectedPhase
+  );
+
+  if (isLoading || isError || !phases || !selectedPhaseObject) {
     return null;
   }
 
+  const previousDisabled = selectedPhase === 1;
+  const nextDisabled = selectedPhase === phases.length;
+
   return (
     <View style={{ ...styles.root, ...rootStyles }}>
-      <View style={styles.container}>
-        <Button
-          accessibilityLabel={t(tk.phaseSelector.previousButton.title)}
-          icon={<Icon name={"arrow-back"} type="material-ui" />}
-          onPress={setPreviousPhase}
-          buttonStyle={styles.button}
-          disabledStyle={styles.disabledButton}
-          disabled={selectedPhase === 1}
-        />
-        <Picker
-          style={styles.picker}
-          testID={"phase-select"}
-          accessibilityLabel={"phase-select"}
-          selectedValue={selectedPhase}
-          onValueChange={setPhase}
-        >
-          {phases?.map(([value, label]) => (
-            <Picker.Item label={label} value={value} key={value} />
-          ))}
-        </Picker>
-        <Button
-          accessibilityLabel={t(tk.phaseSelector.nextButton.title)}
-          icon={<Icon name={"arrow-forward"} type="material-ui" />}
-          onPress={setNextPhase}
-          disabled={selectedPhase === phases.length}
-          disabledStyle={styles.disabledButton}
-          buttonStyle={styles.button}
-        />
-      </View>
+      <Button
+        accessibilityLabel={t(tk.phaseSelector.previousButton.title)}
+        icon={
+          <Icon
+            name={"arrow-back"}
+            type="material-ui"
+            color={previousDisabled ? "grey" : theme.palette.secondary.main}
+          />
+        }
+        onPress={setPreviousPhase}
+        disabled={previousDisabled}
+        type={"clear"}
+      />
+      <Text style={styles.text}>{selectedPhaseObject[1]}</Text>
+      <Button
+        accessibilityLabel={t(tk.phaseSelector.nextButton.title)}
+        icon={
+          <Icon
+            name={"arrow-forward"}
+            type="material-ui"
+            color={nextDisabled ? "grey" : theme.palette.secondary.main}
+          />
+        }
+        onPress={setNextPhase}
+        disabled={nextDisabled}
+        type={"clear"}
+      />
     </View>
   );
 };

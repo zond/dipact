@@ -8,6 +8,7 @@ import Loading from "../components/Loading";
 import ImageZoom from "react-native-image-pan-zoom";
 import PhaseSelector from "../components/PhaseSelector";
 import CreateOrderMenu from "../components/CreateOrderMenu";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface MapProps {
   gameId: string;
@@ -16,12 +17,11 @@ interface MapProps {
 const useStyles = () => {
   return StyleSheet.create({
     root: {
-      height: "100%",
+      flex: 1,
     },
-    phaseSelectorRoot: {
-      position: "absolute",
-      zIndex: 1,
-      width: "100%",
+    mapContainer: {
+      flex: 1,
+      flexGrow: 1,
     },
   });
 };
@@ -42,28 +42,38 @@ const Map = ({ gameId }: MapProps) => {
   };
 
   return (
-    <View style={styles.root} onLayout={mapViewOnLayout} testID="MAP_CONTAINER">
-      <PhaseSelector gameId={gameId} rootStyles={styles.phaseSelectorRoot} />
-      {isLoading && <Loading size={"large"} />}
-      {data && (
-        <ImageZoom
-          cropWidth={mapViewWidth}
-          cropHeight={mapViewHeight}
-          imageWidth={Dimensions.get("window").width} // TODO
-          imageHeight={Dimensions.get("window").width}
-        >
-          <SvgFromXml xml={data} />
-        </ImageZoom>
-      )}
-      <FAB
-        color={theme.palette.primary.main}
-        icon={{
-          name: "add",
-          color: theme.palette.secondary.main,
-        }}
-        placement={"right"}
-        onPress={() => setCreateOrderMenuOpen(true)}
-      />
+    <SafeAreaView
+      testID="MAP_CONTAINER"
+      style={styles.root}
+      edges={["top", "left", "right"]}
+    >
+      <PhaseSelector gameId={gameId} />
+      <View
+        style={styles.mapContainer}
+        onLayout={mapViewOnLayout}
+        testID={"MAP_CONTAINER"}
+      >
+        {isLoading && <Loading size={"large"} />}
+        {data && (
+          <ImageZoom
+            cropWidth={mapViewWidth}
+            cropHeight={mapViewHeight}
+            imageWidth={Dimensions.get("window").width} // TODO
+            imageHeight={Dimensions.get("window").width}
+          >
+            <SvgFromXml xml={data} />
+          </ImageZoom>
+        )}
+        <FAB
+          color={theme.palette.primary.main}
+          icon={{
+            name: "add",
+            color: theme.palette.secondary.main,
+          }}
+          placement={"right"}
+          onPress={() => setCreateOrderMenuOpen(true)}
+        />
+      </View>
       <Dialog
         theme={rneTheme}
         isVisible={createOrderMenuOpen}
@@ -73,7 +83,7 @@ const Map = ({ gameId }: MapProps) => {
         <Dialog.Title title="Create order" />
         <CreateOrderMenu close={closeCreateOrderMenu} />
       </Dialog>
-    </View>
+    </SafeAreaView>
   );
 };
 

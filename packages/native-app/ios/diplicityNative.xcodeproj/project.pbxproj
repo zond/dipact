@@ -11,23 +11,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		196C685A28B1133900DCA344 /* LibreBaskerville-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 196C685728B1133900DCA344 /* LibreBaskerville-Bold.ttf */; };
+		196C685B28B1133900DCA344 /* LibreBaskerville-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 196C685828B1133900DCA344 /* LibreBaskerville-Regular.ttf */; };
+		196C685C28B1133900DCA344 /* LibreBaskerville-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 196C685928B1133900DCA344 /* LibreBaskerville-Italic.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		2572019B22564A219CD51DB3 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 527678B6685645119BF7FC46 /* AntDesign.ttf */; };
-		F21262DF3DAD4D4BB280731C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD9295D448D84FA8B591C37D /* Entypo.ttf */; };
-		2F6B44EFAD884271B81B365B /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1C532AF9A4C4DAAA4864A1D /* EvilIcons.ttf */; };
-		0A7723471A3F4F33A810EA35 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56A1BF3DE0844BAD8C92D95C /* Feather.ttf */; };
-		05D43E8A0A4B4FCAA64DBD51 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F570A0104C0414F8CA3DBE4 /* FontAwesome.ttf */; };
-		75F41F499E44400B866B3B76 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6D9B0C633BA4EEA9C07E48A /* FontAwesome5_Brands.ttf */; };
-		4135EE54D8C343B7A000518C /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CA827C5188A4EED9872AA5A /* FontAwesome5_Regular.ttf */; };
-		D4A1524638C3423685B00363 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4AAD1040D5F4B439D64948D /* FontAwesome5_Solid.ttf */; };
-		0AAAF29B16A34F5DB9B24025 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B370A196B8B40A4BB701034 /* Fontisto.ttf */; };
-		EE909F3CD16749F99E55BE06 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40588AD3B02A4538A095C4E8 /* Foundation.ttf */; };
-		CDCB9BFDEF944F449BA75A61 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F977B437CB1B494AAAB43B1B /* Ionicons.ttf */; };
-		3C6750815D634DFCB60EDFFD /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 969FC44C3AD141F2B0EB3A33 /* MaterialCommunityIcons.ttf */; };
-		F3D4CB75B12842FB86E30CA3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE7DDCBAEF3F48F28E561C47 /* MaterialIcons.ttf */; };
-		D9DE59A3276743919D73458D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A971B437CD342E6AD83DC4A /* Octicons.ttf */; };
-		0245BA7B39784E8AB747801A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2D9CBE3EA8D45DBB83DBB76 /* SimpleLineIcons.ttf */; };
-		D221A017249F4C9587DC442E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA78753FCE2048E28F3FB715 /* Zocial.ttf */; };
+		B98279D01012324B3C8D7955 /* libPods-diplicityNative-diplicityNativeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADF41798B4A572D8456D677 /* libPods-diplicityNative-diplicityNativeTests.a */; };
+		DECA3AF93DD4983335AD2B55 /* libPods-diplicityNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84669420A0999278885344D4 /* libPods-diplicityNative.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,30 +33,43 @@
 		00E356EE1AD99517003FC87E /* diplicityNativeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = diplicityNativeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* diplicityNativeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = diplicityNativeTests.m; sourceTree = "<group>"; };
+		0BD06F6C3E9047215D1B201A /* Pods-diplicityNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diplicityNative.release.xcconfig"; path = "Target Support Files/Pods-diplicityNative/Pods-diplicityNative.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* diplicityNative.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diplicityNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = diplicityNative/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = diplicityNative/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = diplicityNative/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = diplicityNative/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = diplicityNative/main.m; sourceTree = "<group>"; };
+		196C685728B1133900DCA344 /* LibreBaskerville-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreBaskerville-Bold.ttf"; path = "../src/assets/fonts/LibreBaskerville-Bold.ttf"; sourceTree = "<group>"; };
+		196C685828B1133900DCA344 /* LibreBaskerville-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreBaskerville-Regular.ttf"; path = "../src/assets/fonts/LibreBaskerville-Regular.ttf"; sourceTree = "<group>"; };
+		196C685928B1133900DCA344 /* LibreBaskerville-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreBaskerville-Italic.ttf"; path = "../src/assets/fonts/LibreBaskerville-Italic.ttf"; sourceTree = "<group>"; };
+		19E71E2A28AFD490005C330B /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../src; sourceTree = "<group>"; };
+		19E71E2C28AFD4B5005C330B /* LibreBaskerville-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreBaskerville-Bold.ttf"; path = "../../src/assets/fonts/LibreBaskerville-Bold.ttf"; sourceTree = "<group>"; };
+		19E71E2D28AFD4B5005C330B /* LibreBaskerville-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreBaskerville-Regular.ttf"; path = "../../src/assets/fonts/LibreBaskerville-Regular.ttf"; sourceTree = "<group>"; };
+		19E71E2E28AFD4B5005C330B /* LibreBaskerville-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreBaskerville-Italic.ttf"; path = "../../src/assets/fonts/LibreBaskerville-Italic.ttf"; sourceTree = "<group>"; };
+		2F570A0104C0414F8CA3DBE4 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		3CA827C5188A4EED9872AA5A /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		40588AD3B02A4538A095C4E8 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		495F86D39346EC032A585316 /* Pods-diplicityNative-diplicityNativeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diplicityNative-diplicityNativeTests.debug.xcconfig"; path = "Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		527678B6685645119BF7FC46 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		56A1BF3DE0844BAD8C92D95C /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		5ADF41798B4A572D8456D677 /* libPods-diplicityNative-diplicityNativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-diplicityNative-diplicityNativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = diplicityNative/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84669420A0999278885344D4 /* libPods-diplicityNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-diplicityNative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		969FC44C3AD141F2B0EB3A33 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		9A971B437CD342E6AD83DC4A /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		9B370A196B8B40A4BB701034 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		BA78753FCE2048E28F3FB715 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		C7B395732351DD8E058787B7 /* Pods-diplicityNative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diplicityNative.debug.xcconfig"; path = "Target Support Files/Pods-diplicityNative/Pods-diplicityNative.debug.xcconfig"; sourceTree = "<group>"; };
+		CE7DDCBAEF3F48F28E561C47 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		D4AAD1040D5F4B439D64948D /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		D6D9B0C633BA4EEA9C07E48A /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		DCDA2D28BF48BE5571840D82 /* Pods-diplicityNative-diplicityNativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-diplicityNative-diplicityNativeTests.release.xcconfig"; path = "Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests.release.xcconfig"; sourceTree = "<group>"; };
+		E1C532AF9A4C4DAAA4864A1D /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		E2D9CBE3EA8D45DBB83DBB76 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		527678B6685645119BF7FC46 /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FD9295D448D84FA8B591C37D /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E1C532AF9A4C4DAAA4864A1D /* EvilIcons.ttf */ = {isa = PBXFileReference; name = "EvilIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		56A1BF3DE0844BAD8C92D95C /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2F570A0104C0414F8CA3DBE4 /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D6D9B0C633BA4EEA9C07E48A /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3CA827C5188A4EED9872AA5A /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D4AAD1040D5F4B439D64948D /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9B370A196B8B40A4BB701034 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		40588AD3B02A4538A095C4E8 /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F977B437CB1B494AAAB43B1B /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		969FC44C3AD141F2B0EB3A33 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CE7DDCBAEF3F48F28E561C47 /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9A971B437CD342E6AD83DC4A /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E2D9CBE3EA8D45DBB83DBB76 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BA78753FCE2048E28F3FB715 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F977B437CB1B494AAAB43B1B /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		FD9295D448D84FA8B591C37D /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B98279D01012324B3C8D7955 /* libPods-diplicityNative-diplicityNativeTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DECA3AF93DD4983335AD2B55 /* libPods-diplicityNative.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,10 +122,23 @@
 			name = diplicityNative;
 			sourceTree = "<group>";
 		};
+		19E71E3228AFD546005C330B /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				19E71E2E28AFD4B5005C330B /* LibreBaskerville-Italic.ttf */,
+				19E71E2A28AFD490005C330B /* src */,
+				19E71E2C28AFD4B5005C330B /* LibreBaskerville-Bold.ttf */,
+				19E71E2D28AFD4B5005C330B /* LibreBaskerville-Regular.ttf */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				84669420A0999278885344D4 /* libPods-diplicityNative.a */,
+				5ADF41798B4A572D8456D677 /* libPods-diplicityNative-diplicityNativeTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -142,6 +159,8 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				ABED7215ED1C4AC1A5FAB38F /* Resources */,
+				87FE41B8D8924D5A0E703855 /* Pods */,
+				19E71E3228AFD546005C330B /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -157,9 +176,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ABED7215ED1C4AC1A5FAB38F /* Resources */ = {
-			isa = "PBXGroup";
+		87FE41B8D8924D5A0E703855 /* Pods */ = {
+			isa = PBXGroup;
 			children = (
+				C7B395732351DD8E058787B7 /* Pods-diplicityNative.debug.xcconfig */,
+				0BD06F6C3E9047215D1B201A /* Pods-diplicityNative.release.xcconfig */,
+				495F86D39346EC032A585316 /* Pods-diplicityNative-diplicityNativeTests.debug.xcconfig */,
+				DCDA2D28BF48BE5571840D82 /* Pods-diplicityNative-diplicityNativeTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		ABED7215ED1C4AC1A5FAB38F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				196C685728B1133900DCA344 /* LibreBaskerville-Bold.ttf */,
+				196C685928B1133900DCA344 /* LibreBaskerville-Italic.ttf */,
+				196C685828B1133900DCA344 /* LibreBaskerville-Regular.ttf */,
 				527678B6685645119BF7FC46 /* AntDesign.ttf */,
 				FD9295D448D84FA8B591C37D /* Entypo.ttf */,
 				E1C532AF9A4C4DAAA4864A1D /* EvilIcons.ttf */,
@@ -179,7 +212,6 @@
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -188,9 +220,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "diplicityNativeTests" */;
 			buildPhases = (
+				CF6698008D48A56687654B3E /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				0C1286C65B29B0B0E7686752 /* [CP] Embed Pods Frameworks */,
+				A50D1F13CC3FA8A95CD96CA5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -206,11 +241,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "diplicityNative" */;
 			buildPhases = (
+				E394561BEDE95516FCEEF85B /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				4E5B4D47A395C129618FBBE7 /* [CP] Embed Pods Frameworks */,
+				EDF5223F63962A2A680BBCAE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -270,23 +308,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				196C685B28B1133900DCA344 /* LibreBaskerville-Regular.ttf in Resources */,
+				196C685C28B1133900DCA344 /* LibreBaskerville-Italic.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				2572019B22564A219CD51DB3 /* AntDesign.ttf in Resources */,
-				F21262DF3DAD4D4BB280731C /* Entypo.ttf in Resources */,
-				2F6B44EFAD884271B81B365B /* EvilIcons.ttf in Resources */,
-				0A7723471A3F4F33A810EA35 /* Feather.ttf in Resources */,
-				05D43E8A0A4B4FCAA64DBD51 /* FontAwesome.ttf in Resources */,
-				75F41F499E44400B866B3B76 /* FontAwesome5_Brands.ttf in Resources */,
-				4135EE54D8C343B7A000518C /* FontAwesome5_Regular.ttf in Resources */,
-				D4A1524638C3423685B00363 /* FontAwesome5_Solid.ttf in Resources */,
-				0AAAF29B16A34F5DB9B24025 /* Fontisto.ttf in Resources */,
-				EE909F3CD16749F99E55BE06 /* Foundation.ttf in Resources */,
-				CDCB9BFDEF944F449BA75A61 /* Ionicons.ttf in Resources */,
-				3C6750815D634DFCB60EDFFD /* MaterialCommunityIcons.ttf in Resources */,
-				F3D4CB75B12842FB86E30CA3 /* MaterialIcons.ttf in Resources */,
-				D9DE59A3276743919D73458D /* Octicons.ttf in Resources */,
-				0245BA7B39784E8AB747801A /* SimpleLineIcons.ttf in Resources */,
-				D221A017249F4C9587DC442E /* Zocial.ttf in Resources */,
+				196C685A28B1133900DCA344 /* LibreBaskerville-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +331,118 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		0C1286C65B29B0B0E7686752 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4E5B4D47A395C129618FBBE7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative/Pods-diplicityNative-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative/Pods-diplicityNative-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-diplicityNative/Pods-diplicityNative-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A50D1F13CC3FA8A95CD96CA5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-diplicityNative-diplicityNativeTests/Pods-diplicityNative-diplicityNativeTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF6698008D48A56687654B3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-diplicityNative-diplicityNativeTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E394561BEDE95516FCEEF85B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-diplicityNative-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDF5223F63962A2A680BBCAE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative/Pods-diplicityNative-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-diplicityNative/Pods-diplicityNative-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-diplicityNative/Pods-diplicityNative-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -359,6 +496,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 495F86D39346EC032A585316 /* Pods-diplicityNative-diplicityNativeTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -385,6 +523,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCDA2D28BF48BE5571840D82 /* Pods-diplicityNative-diplicityNativeTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -408,11 +547,67 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7B395732351DD8E058787B7 /* Pods-diplicityNative.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GTMAppAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
+					"\"${PODS_ROOT}/Headers/Public/RCT-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCPicker\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGoogleSignin\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSVG\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/libevent\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-config\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"$(PODS_ROOT)/boost-for-react-native\"",
+					"\"$(PODS_ROOT)/boost-for-react-native\"",
+					"\"$(PODS_ROOT)/glog\"",
+					"\"$(PODS_ROOT)/RCT-Folly\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"\"$(PODS_TARGET_SRCROOT)/include/\"",
+					"\"$(SRCROOT)/../node_modules/react-native/Libraries/Linking",
+				);
 				INFOPLIST_FILE = diplicityNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -433,6 +628,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0BD06F6C3E9047215D1B201A /* Pods-diplicityNative.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -487,6 +683,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -551,6 +748,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

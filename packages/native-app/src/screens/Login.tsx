@@ -1,17 +1,25 @@
 import React from "react";
-import { Linking, StyleProp, View } from "react-native";
+import { ImageBackground, Linking, StyleProp, View } from "react-native";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { getLoginUrl } from "../utils";
 
 const useStyles = (): StyleProp<any> => {
   return {
     root: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      height: "100%",
+      flex: 1,
+    },
+    image: {
+      flex: 1,
+      justifyContent: "center",
     },
     buttonContainer: {
+      flex: 1,
+      flexDirection: "row",
+      alignItems: "flex-end",
+      padding: 24,
+      paddingBottom: 48,
+    },
+    button: {
       display: "flex",
       alignItems: "center",
       width: "100%",
@@ -30,9 +38,17 @@ const Login = () => {
 
   return (
     <View style={styles.root}>
-      <View style={styles.buttonContainer}>
-        <GoogleSigninButton size={1} onPress={handlePress} />
-      </View>
+      <ImageBackground
+        source={require("../assets/images/login_background.jpg")}
+        resizeMode="cover"
+        style={styles.image}
+      >
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <GoogleSigninButton size={1} onPress={handlePress} />
+          </View>
+        </View>
+      </ImageBackground>
     </View>
   );
 };

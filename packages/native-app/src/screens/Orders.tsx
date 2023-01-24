@@ -9,6 +9,7 @@ import PhaseSelector from "../components/PhaseSelector";
 import Button from "../components/Button";
 import { useTheme } from "../hooks/useTheme";
 import { Dialog } from "@rneui/base";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface OrdersProps {
   gameId: string;
@@ -83,7 +84,7 @@ const Orders = ({ gameId }: OrdersProps) => {
   const [moreOptionsOpen, setMoreOptionsOpen] = useState(false);
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       {isLoading ? (
         <Loading size={"large"} />
       ) : isError && error ? (
@@ -170,7 +171,7 @@ const Orders = ({ gameId }: OrdersProps) => {
           )}
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
