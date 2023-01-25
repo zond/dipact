@@ -2,7 +2,8 @@ import { GameDisplay as GameDisplay, NationAllocation } from "@diplicity/common"
 import { Divider } from "@rneui/base";
 import React from "react";
 import { Text, View } from "react-native";
-import GameCard from "../components/GameCard";
+import { GameCardSkeleton } from "../components/GameCard";
+import GameCard from "../components/GameCard/GameCard";
 
 const players: { [key: string]: GameDisplay["players"][0] } = {
   johnpooch: {
@@ -45,6 +46,8 @@ const games: GameDisplay[] = [
 const BrowseGames = () => {
   return (
     <View>
+      <GameCardSkeleton />
+      <Divider />
       {games.map((game) => (
         <View key={game.id}>
           <GameCard game={game} />

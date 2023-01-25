@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import MyGames from "./MyGames";
@@ -25,7 +25,7 @@ export type RootStackParamList = {
   Game: { gameId: string };
 };
 
-const useHeaderStyleOptions = () => {
+const useDrawerNavigationOptions = () => {
   const theme = useTheme();
   return {
     headerTintColor: theme.palette.secondary.main,
@@ -56,23 +56,23 @@ const Tab = createBottomTabNavigator();
 
 const Home = () => {
   const { t } = useTranslation();
-  const screenOptions = useHeaderStyleOptions();
+  const drawerNavigationOptions = useDrawerNavigationOptions();
   return (
     <Drawer.Navigator>
       <Drawer.Screen
         name={t(tk.gameList.myGamesTab.label)}
         component={MyGames}
-        options={screenOptions}
+        options={drawerNavigationOptions}
       />
       <Drawer.Screen
         name={t(tk.gameList.allGamesTab.label)}
         component={BrowseGames}
-        options={screenOptions}
+        options={drawerNavigationOptions}
       />
       <Drawer.Screen
         name={t(tk.createGame.title)}
         component={CreateGame}
-        options={screenOptions}
+        options={drawerNavigationOptions}
       />
     </Drawer.Navigator>
   );
@@ -81,7 +81,7 @@ const Home = () => {
 const Game = () => {
   // TODO translations
   const { gameId } = useParams<"Game">();
-  const screenOptions = useHeaderStyleOptions();
+  const screenOptions = useDrawerNavigationOptions();
   const theme = useTheme();
   const options = {
     title: "",
@@ -136,7 +136,7 @@ const Game = () => {
 
 const Router = () => {
   const loggedIn = useAppSelector(selectors.selectIsLoggedIn);
-  const screenOptions = useHeaderStyleOptions();
+  const screenOptions = useDrawerNavigationOptions();
   const navigationTheme = useNavigationTheme();
 
   return (

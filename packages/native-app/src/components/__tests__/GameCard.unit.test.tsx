@@ -2,7 +2,7 @@ import "react-native";
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
-import GameCard from "../GameCard";
+import GameCard from "../GameCard/GameCard";
 import {
   GameDisplay,
   NationAllocation,

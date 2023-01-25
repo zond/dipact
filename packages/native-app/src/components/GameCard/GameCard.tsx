@@ -1,109 +1,17 @@
 import React from "react";
 import { StyleProp, Text, TextStyle, TouchableHighlight, View, ViewStyle } from "react-native";
-import { useTheme } from "../hooks/useTheme";
+import { Avatar, Chip, Icon } from "@rneui/base";
 import {
   GameDisplay,
   NationAllocation,
   translateKeys as tk,
 } from "@diplicity/common";
-import { Avatar, Chip, Icon } from "@rneui/base";
-import { useNavigation } from "../hooks/useNavigation";
+
+import { useTheme } from "../../hooks/useTheme";
+import { useNavigation } from "../../hooks/useNavigation";
 import { useTranslation } from "react-i18next";
-import Button from "./Button";
-
-type StyleProps = {
-  ordersStatus: OrdersStatus
-}
-
-const useStyles = ({ ordersStatus }: StyleProps): { [key: string]: StyleProp<ViewStyle> | StyleProp<TextStyle> } => {
-  const theme = useTheme();
-  console.log(theme.palette.confirmed);
-  return {
-    root: {
-      padding: theme.spacing(2),
-    },
-    nameRow: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-    name: {
-      fontWeight: "bold",
-      fontSize: 16,
-    },
-    chipButton: {
-      paddingHorizontal: theme.spacing(.25),
-      paddingVertical: theme.spacing(.2),
-      backgroundColor: ordersStatus === "Confirmed" ? theme.palette.confirmed.main : theme.palette.notConfirmed.main
-    },
-    chipTitle: {
-      color: ordersStatus === "Confirmed" ? theme.palette.confirmed.contrastText : theme.palette.notConfirmed.contrastText
-    },
-    columns: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    deadline: {
-      color: theme.palette.text.main,
-      fontWeight: "bold",
-      marginLeft: theme.spacing(1),
-    },
-    moreButton: {
-      backgroundColor: "transparent",
-      color: theme.palette.text.light,
-      padding: 0,
-    },
-    summaryRow: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    icons: {
-      display: "flex",
-      flexDirection: "row",
-    },
-    secondaryText: {
-      color: theme.palette.text.light,
-      fontSize: 14,
-    },
-    chatLanguageContainer: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    playersRulesRow: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-    },
-    playersRow: {
-      display: "flex",
-      flexDirection: "row",
-    },
-    playerAvatar: {
-      marginRight: -8
-    },
-    rulesRow: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-  };
-};
-
-// TODO move to GameDisplay
-type OrdersStatus = "Confirmed" | "NotConfirmed";
-
-const ordersStatusColorMap = new Map<OrdersStatus, [string, string]>([
-  ["Confirmed", ["green", "black"]],
-  ["NotConfirmed", ["amber", "black"]]
-]
-)
+import Button from "../Button";
+import { useStyles } from "./GameCard.styles";
 
 interface GameCardProps {
   game: GameDisplay;
@@ -143,7 +51,9 @@ const GameCard = ({ game }: GameCardProps) => {
     >
       <View style={styles.root}>
         <View style={styles.nameRow}>
-          <Text style={styles.name}>{name}</Text>
+          <View style={styles.nameContainer}>
+            <Text style={styles.name}>{name}</Text>
+          </View>
           <Button
             iconProps={{
               type: "material-ui",
@@ -160,7 +70,7 @@ const GameCard = ({ game }: GameCardProps) => {
         </View>
         <View style={styles.summaryRow}>
           <View>
-            <Text>{rulesSummary}</Text>
+            <Text style={styles.secondaryText}>{rulesSummary}</Text>
           </View>
           <View style={styles.columns}>
             {/* TODO translation */}
@@ -176,7 +86,8 @@ const GameCard = ({ game }: GameCardProps) => {
             ))}
           </View>
           <View style={styles.rulesRow}>
-            <View style={styles.icons}>
+            <Text style={styles.secondaryText}>{phaseSummary}</Text>
+            {/* <View style={styles.icons}>
               {Boolean(chatLanguage) && <Text>{chatLanguage}</Text>}
               {privateGame && (
                 <Icon
@@ -220,7 +131,7 @@ const GameCard = ({ game }: GameCardProps) => {
                   )}
                 />
               )}
-            </View>
+            </View> */}
           </View>
           {/* <View>
               <Button

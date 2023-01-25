@@ -6,7 +6,7 @@ import GameList from "../GameList";
 import { GameDisplay, GameStatus, useGameList } from "@diplicity/common";
 import { Text } from "react-native";
 import { act } from "react-test-renderer";
-import GameCard from "../GameCard";
+import GameCard from "../GameCard/GameCard";
 
 interface ArrangeOptions {
   props: Parameters<typeof GameList>[0];

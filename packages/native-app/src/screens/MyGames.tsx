@@ -5,7 +5,7 @@ import GameList from "../components/GameList";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../hooks/useAppSelector";
 
-const MyGames = ({}) => {
+const MyGames = ({ }) => {
   const { t } = useTranslation();
 
   return (

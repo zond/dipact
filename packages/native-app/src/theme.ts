@@ -17,13 +17,15 @@ const palette = {
   },
   paper: {
     main: "#FFF",
+
   },
   background: {
-    main: "#FFF",
+    main: "#F5F5F5",
     dark: "#AAA",
   },
   border: {
     main: "#000",
+    light: "#0000001f",
   },
   notification: {
     main: "#000",
