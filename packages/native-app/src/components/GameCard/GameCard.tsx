@@ -82,7 +82,7 @@ const GameCard = ({ game }: GameCardProps) => {
         <View style={styles.playersRulesRow}>
           <View style={styles.playersRow}>
             {players.map(({ username, image }) => (
-              <Avatar containerStyle={styles.playerAvatar} rounded title={username[0]} source={{ uri: image }} />
+              <Avatar key={username} containerStyle={styles.playerAvatar} rounded title={username[0]} source={{ uri: image }} />
             ))}
           </View>
           <View style={styles.rulesRow}>
