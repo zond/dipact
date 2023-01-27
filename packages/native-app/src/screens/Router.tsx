@@ -1,6 +1,9 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerNavigationOptions,
+} from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import MyGames from "./MyGames";
@@ -25,7 +28,7 @@ export type RootStackParamList = {
   Game: { gameId: string };
 };
 
-const useDrawerNavigationOptions = () => {
+export const useDrawerNavigationOptions = () => {
   const theme = useTheme();
   return {
     headerTintColor: theme.palette.secondary.main,
@@ -35,7 +38,7 @@ const useDrawerNavigationOptions = () => {
   };
 };
 
-const useNavigationTheme = () => {
+export const useNavigationTheme = () => {
   const theme = useTheme();
   return {
     dark: false,

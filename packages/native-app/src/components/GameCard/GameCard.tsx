@@ -1,48 +1,155 @@
 import React from "react";
-import { StyleProp, Text, TextStyle, TouchableHighlight, View, ViewStyle } from "react-native";
-import { Avatar, Chip, Icon } from "@rneui/base";
-import {
-  GameDisplay,
-  NationAllocation,
-  translateKeys as tk,
-} from "@diplicity/common";
+import { TouchableHighlight, View } from "react-native";
+import { Avatar, Chip, Divider, Icon } from "@rneui/base";
+import { NationAllocation, translateKeys as tk } from "@diplicity/common";
 
 import { useTheme } from "../../hooks/useTheme";
 import { useNavigation } from "../../hooks/useNavigation";
 import { useTranslation } from "react-i18next";
 import Button from "../Button";
 import { useStyles } from "./GameCard.styles";
+import { GameDisplay } from "./types";
+import { useBottomSheet } from "../BottomSheetWrapper";
+import { Stack, StackItem } from "../Stack";
+import { Text } from "../Text";
 
 interface GameCardProps {
   game: GameDisplay;
 }
 
+// TODO translations
+const confirmationStatusTextMap = {
+  Confirmed: "Orders confirmed",
+  NotConfirmed: "Orders not confirmed",
+  NMR: "NMR",
+} as const;
+
+const numAvatarsToDisplay = 7;
+
 const GameCard = ({ game }: GameCardProps) => {
-  const ordersStatus = "Confirmed"
-  const styles = useStyles({ ordersStatus });
-  const { t } = useTranslation();
-  const theme = useTheme();
   const {
     chatDisabled,
     chatLanguage,
-    deadlineDisplay,
     name,
     rulesSummary,
     phaseSummary,
     privateGame,
-    minQuickness,
-    minRating,
-    minReliability,
     nationAllocation,
+    confirmationStatus,
+    status,
     players,
     id,
+    variantNumNations,
   } = game;
+  const styles = useStyles({ confirmationStatus });
+  const { t } = useTranslation();
+  const theme = useTheme();
+  const [setBottomSheet, withCloseBottomSheet] = useBottomSheet();
+  const numAvatarsOverspill = players.length - numAvatarsToDisplay;
+  const confirmationStatusText = confirmationStatus
+    ? confirmationStatusTextMap[confirmationStatus]
+    : undefined;
   const navigation = useNavigation<"Home">();
   const onPressGame = () => {
     navigation.navigate("GameDetail", { gameId: id });
   };
-  const onPressView = () => {
-    navigation.navigate("Game", { gameId: id });
+  const onPressDetails = () => {
+    navigation.navigate("GameDetail", { gameId: id });
+  };
+  const onPressGameInfo = () => {
+    navigation.navigate("GameDetail", { gameId: id, tab: "game" });
+  };
+  const onPressPlayerInfo = () => {
+    navigation.navigate("GameDetail", { gameId: id, tab: "player" });
+  };
+  const onPressVariantInfo = () => {
+    navigation.navigate("GameDetail", { gameId: id, tab: "variant" });
+  };
+
+  // TODO translations
+  const allActionButtons = {
+    join: {
+      shortTitle: "Join",
+      title: "Join game",
+      onPress: () => {},
+      iconProps: { name: "account-plus", type: "material-community" },
+    },
+    playerInfo: {
+      shortTitle: "Player Info",
+      title: "Player Info",
+      onPress: onPressPlayerInfo,
+      iconProps: { name: "account-multiple", type: "material-community" },
+    },
+    variantInfo: {
+      shortTitle: "Variant Info",
+      title: "Variant Info",
+      onPress: onPressVariantInfo,
+      iconProps: { name: "map", type: "material-community" },
+    },
+    share: {
+      shortTitle: "Share",
+      title: "Share",
+      onPress: () => {},
+      iconProps: { name: "share", type: "material" },
+    },
+    gameInfo: {
+      shortTitle: "Game info",
+      title: "Game info",
+      onPress: onPressGameInfo,
+      iconProps: { name: "info-outline", type: "material-ui" },
+    },
+    details: {
+      shortTitle: "Details",
+      title: "Details",
+      onPress: onPressDetails,
+      iconProps: { name: "info-outline", type: "material-ui" },
+    },
+  } as const;
+
+  const moreButtons =
+    status === "Staging"
+      ? [
+          [
+            allActionButtons.gameInfo,
+            allActionButtons.playerInfo,
+            allActionButtons.variantInfo,
+          ],
+          [allActionButtons.share, allActionButtons.join],
+        ]
+      : [];
+  const actionButtons =
+    status === "Staging"
+      ? [
+          allActionButtons.details,
+          allActionButtons.share,
+          allActionButtons.join,
+        ]
+      : [];
+
+  const MoreMenu = () => (
+    <View>
+      {moreButtons.map((section) => (
+        <View>
+          {section.map(({ title, onPress, iconProps }) => (
+            <Button
+              title={title}
+              upperCase={false}
+              onPress={withCloseBottomSheet(onPress)}
+              containerStyle={styles.moreMenuContainer}
+              buttonStyle={styles.moreMenuButton}
+              iconProps={{
+                ...iconProps,
+                size: 20,
+              }}
+            />
+          ))}
+          <Divider />
+        </View>
+      ))}
+    </View>
+  );
+  const onPressMore = () => {
+    setBottomSheet(() => <MoreMenu />);
   };
   return (
     <TouchableHighlight
@@ -50,98 +157,121 @@ const GameCard = ({ game }: GameCardProps) => {
       underlayColor={theme.palette.highlight.main}
     >
       <View style={styles.root}>
-        <View style={styles.nameRow}>
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>{name}</Text>
-          </View>
-          <Button
-            iconProps={{
-              type: "material-ui",
-              name: "more-horiz",
-              color: theme.palette.text.light,
-              size: 20,
-            }}
-            raised={false}
-            containerStyle={styles.moreButtonContainer}
-            buttonStyle={styles.moreButton}
-            // TODO translation
-            accessibilityLabel={"more options"}
-          />
-        </View>
-        <View style={styles.summaryRow}>
-          <View>
-            <Text style={styles.secondaryText}>{rulesSummary}</Text>
-          </View>
-          <View style={styles.columns}>
-            {/* TODO translation */}
-            <Chip title={"Orders Confirmed"} buttonStyle={styles.chipButton} titleStyle={styles.chipTitle} />
-            <Text style={styles.deadline}>{"<2d"}</Text>
-            {/* <Text style={styles.secondaryText}>{phaseSummary}</Text> */}
-          </View>
-        </View>
-        <View style={styles.playersRulesRow}>
-          <View style={styles.playersRow}>
-            {players.map(({ username, image }) => (
-              <Avatar key={username} containerStyle={styles.playerAvatar} rounded title={username[0]} source={{ uri: image }} />
-            ))}
-          </View>
-          <View style={styles.rulesRow}>
-            <Text style={styles.secondaryText}>{phaseSummary}</Text>
-            {/* <View style={styles.icons}>
-              {Boolean(chatLanguage) && <Text>{chatLanguage}</Text>}
-              {privateGame && (
-                <Icon
-                  name="lock"
-                  accessibilityLabel={t(
-                    tk.gameList.gameCard.privateGameIcon.tooltip
-                  )}
-                />
+        <Stack padding={1} gap={1} orientation="vertical" align="flex-start">
+          <Stack justify="space-between" fillContainer>
+            <Stack style={styles.nameContainer}>
+              {Boolean(privateGame) && (
+                <Icon name="lock" type="material-community" />
               )}
-              {Boolean(minQuickness || minReliability) && (
-                <Icon
-                  name={"timer"}
-                  accessibilityLabel={t(
-                    tk.gameList.gameCard.minQuicknessOrReliabilityRequiredIcon
-                      .tooltip
-                  )}
-                />
+              <Text numberOfLines={1} variant="title">
+                {name}
+              </Text>
+            </Stack>
+            <Stack>
+              {Boolean(status === "Staging") && (
+                <Stack>
+                  <Icon name="account-multiple" type="material-community" />
+                  <Text>
+                    {players.length}/{variantNumNations}
+                  </Text>
+                </Stack>
               )}
-              {nationAllocation === NationAllocation.Preference && (
-                <Icon
-                  name={"playlist-add-check"}
-                  accessibilityLabel={t(
-                    tk.gameList.gameCard.preferenceBaseNationAllocationIcon
-                      .tooltip
-                  )}
-                />
-              )}
-              {Boolean(minRating) && (
-                <Icon
-                  name="star-border"
-                  accessibilityLabel={t(
-                    tk.gameList.gameCard.minRatingRequiredIcon.tooltip
-                  )}
-                />
-              )}
-              {chatDisabled && (
-                <Icon
-                  name="closed-caption-disabled"
-                  accessibilityLabel={t(
-                    tk.gameList.gameCard.chatDisabledIcon.tooltip
-                  )}
-                />
-              )}
-            </View> */}
-          </View>
-          {/* <View>
               <Button
-                onPress={onPressView}
-                accessibilityLabel={t(tk.gameList.gameCard.viewButton.label)}
-                title={t(tk.gameList.gameCard.viewButton.label)}
-                iconProps={{ name: "eye" }}
+                iconProps={{
+                  type: "material-ui",
+                  name: "more-horiz",
+                  color: theme.palette.text.light,
+                  size: 20,
+                }}
+                raised={false}
+                buttonStyle={styles.moreButton}
+                onPress={onPressMore}
+                // TODO translation
+                accessibilityLabel={"more options"}
               />
-            </View> */}
-        </View>
+            </Stack>
+          </Stack>
+          <Stack justify="space-between" fillContainer>
+            <Text variant="body2">{rulesSummary}</Text>
+            <Stack gap={1}>
+              {Boolean(confirmationStatusText) && (
+                <Chip
+                  title={confirmationStatusText}
+                  buttonStyle={styles.chipButton}
+                  titleStyle={styles.chipTitle}
+                />
+              )}
+              <Text bold>{"<2d"}</Text>
+            </Stack>
+          </Stack>
+          <Stack justify="space-between" fillContainer>
+            <Stack gap={2}>
+              <Stack gap={-1}>
+                {players
+                  .slice(0, numAvatarsToDisplay)
+                  .map(({ username, image }) => (
+                    <View>
+                      <Avatar
+                        rounded
+                        key={username}
+                        title={username[0]}
+                        source={{ uri: image }}
+                      />
+                    </View>
+                  ))}
+              </Stack>
+              {numAvatarsOverspill > 0 && (
+                <Text variant="body2">+{numAvatarsOverspill}</Text>
+              )}
+            </Stack>
+            <Stack justify="space-between">
+              {status === "Active" && (
+                <Text variant="body2">{phaseSummary}</Text>
+              )}
+              {status === "Staging" && (
+                <TouchableHighlight
+                  onPress={onPressGameInfo}
+                  underlayColor={theme.palette.highlight.main}
+                >
+                  <Stack gap={0.5}>
+                    {Boolean(chatLanguage) && <Text bold>{chatLanguage}</Text>}
+                    {nationAllocation === NationAllocation.Preference && (
+                      <Icon
+                        name={"playlist-add-check"}
+                        accessibilityLabel={t(
+                          tk.gameList.gameCard
+                            .preferenceBaseNationAllocationIcon.tooltip
+                        )}
+                      />
+                    )}
+                    {chatDisabled && (
+                      <Icon
+                        name="closed-caption-disabled"
+                        accessibilityLabel={t(
+                          tk.gameList.gameCard.chatDisabledIcon.tooltip
+                        )}
+                      />
+                    )}
+                  </Stack>
+                </TouchableHighlight>
+              )}
+            </Stack>
+          </Stack>
+        </Stack>
+        <Divider />
+        <Stack>
+          <>
+            {actionButtons.map(({ title, iconProps, onPress }) => (
+              <StackItem grow={1}>
+                <Button
+                  title={title}
+                  onPress={onPress}
+                  iconProps={{ ...iconProps, size: 20 }}
+                />
+              </StackItem>
+            ))}
+          </>
+        </Stack>
       </View>
     </TouchableHighlight>
   );

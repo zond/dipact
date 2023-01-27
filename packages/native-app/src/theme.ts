@@ -51,6 +51,10 @@ const palette = {
   notConfirmed: {
     main: "#FBD86C",
     contrastText: "#000000"
+  },
+  nmr: {
+    main: "#FB6C6C",
+    contrastText: "#000000"
   }
 };
 

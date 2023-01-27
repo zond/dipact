@@ -1,59 +1,69 @@
-import React, { useState } from "react";
-import { StyleProp, Text, View } from "react-native";
+import React, { useState, useCallback } from "react";
+import { RefreshControl, ScrollView, StyleProp, Text, View } from "react-native";
 import GameCard from "./GameCard/GameCard";
 import { ListGameFilters, useGameList } from "@diplicity/common";
 import { Divider, ListItem } from "@rneui/base";
+import { GameCardSkeleton } from "./GameCard";
+import { useTheme } from "../hooks/useTheme";
 
 const useStyles = (): StyleProp<any> => {
+  const theme = useTheme();
   return {
     title: {
       fontSize: 16,
       fontWeight: "bold",
     },
+    gameCardContainer: {
+      paddingVertical: theme.spacing(.5),
+    }
   };
 };
 
 interface GameListProps {
-  title: string;
   filters: ListGameFilters;
-  startClosed?: true;
+  title?: string;
+  numSkeletons?: number;
 }
 
-const GameList = ({ title, filters, startClosed }: GameListProps) => {
+const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
   const styles = useStyles();
   const { games, isLoading, isSuccess, isError } = useGameList(filters);
-  const [expanded, setExpanded] = useState(!startClosed);
-  if (isLoading || (isSuccess && !games.length)) {
+
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  if ((isSuccess && !games.length)) {
     return null;
   }
   return (
     <>
-      <ListItem.Accordion
-        content={
-          <ListItem.Content>
-            <ListItem.Title style={styles.title}>{title}</ListItem.Title>
-          </ListItem.Content>
-        }
-        isExpanded={expanded}
-        onPress={() => {
-          setExpanded(!expanded);
-        }}
-        bottomDivider
-      >
+      {isError ? (
+        <Text>Error!</Text>
+      ) : (
         <>
-          {isError ? (
-            <Text>Error!</Text>
+          {Boolean(title) && <Text style={styles.title}>{title}</Text>}
+          {isLoading ? (
+            Array.from(Array(numSkeletons)).map((_, index) => (
+              <View key={index} style={styles.gameCardContainer}>
+                <GameCardSkeleton />
+              </View>
+            ))
           ) : (
-            <View style={{ display: "flex" }}>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
               {games.map((game) => (
-                <View key={game.id} style={{ paddingTop: 4 }}>
+                <View key={game.id} style={styles.gameCardContainer}>
                   <GameCard game={game} />
                 </View>
               ))}
-            </View>
+            </ScrollView>
           )}
         </>
-      </ListItem.Accordion>
+      )}
     </>
   );
 };

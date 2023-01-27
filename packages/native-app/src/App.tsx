@@ -13,6 +13,7 @@ import { I18nextProvider } from "react-i18next";
 import { Text } from "react-native";
 import i18n from "./i18n";
 import FeedbackWrapper from "./components/FeedbackWrapper";
+import BottomSheetWrapper from "./components/BottomSheetWrapper";
 
 const App = () => {
   return (
@@ -22,9 +23,11 @@ const App = () => {
           <Provider store={store}>
             <ThemeProvider theme={theme}>
               <FeedbackWrapper>
-                <AuthWrapper>
-                  <Router />
-                </AuthWrapper>
+                <BottomSheetWrapper>
+                  <AuthWrapper>
+                    <Router />
+                  </AuthWrapper>
+                </BottomSheetWrapper>
               </FeedbackWrapper>
             </ThemeProvider>
           </Provider>
