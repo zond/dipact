@@ -133,6 +133,7 @@ const GameCard = ({ game }: GameCardProps) => {
           {section.map(({ title, onPress, iconProps }) => (
             <Button
               title={title}
+              key={title}
               upperCase={false}
               onPress={withCloseBottomSheet(onPress)}
               containerStyle={styles.moreMenuContainer}
@@ -210,7 +211,7 @@ const GameCard = ({ game }: GameCardProps) => {
                 {players
                   .slice(0, numAvatarsToDisplay)
                   .map(({ username, image }) => (
-                    <View>
+                    <View key={username}>
                       <Avatar
                         rounded
                         key={username}
@@ -262,7 +263,7 @@ const GameCard = ({ game }: GameCardProps) => {
         <Stack>
           <>
             {actionButtons.map(({ title, iconProps, onPress }) => (
-              <StackItem grow={1}>
+              <StackItem key={title} grow>
                 <Button
                   title={title}
                   onPress={onPress}

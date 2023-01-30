@@ -12,6 +12,8 @@ import Button from "../components/Button";
 import { useDrawerNavigationOptions } from "./Router";
 import { Stack, StackItem } from "../components/Stack";
 import { Text } from "../components/Text";
+import Table from "../components/Table";
+import Chip from "../components/Chip";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -45,10 +47,10 @@ const GameDetail = () => {
 
   const options = useTabBarOptions();
 
-  const gameSettings = [
+  const table = [
     {
       title: "Game settings",
-      settings: [
+      rows: [
         {
           iconProps: { name: "map", type: "material-community" },
           label: "Variant",
@@ -61,7 +63,7 @@ const GameDetail = () => {
         },
         {
           iconProps: { name: "av-timer", type: "material-community" },
-          label: "Build/Retreat deadline",
+          label: "Build deadline",
           value: "1 day",
         },
         {
@@ -81,7 +83,7 @@ const GameDetail = () => {
     },
     {
       title: "Management settings",
-      settings: [
+      rows: [
         {
           iconProps: { name: "gavel", type: "material-community" },
           label: "Game master",
@@ -101,28 +103,30 @@ const GameDetail = () => {
     },
     {
       title: "Player settings",
-      settings: [
+      rows: [
         {
           iconProps: {
             name: "clipboard-check-multiple",
             type: "material-community",
           },
           label: "Min. commitment",
-          value: "Commited+",
+          value: () => <Chip title={"Commited+"} variant="success" />,
         },
         {
           iconProps: {
             name: "medal",
             type: "material-community",
           },
+          label: "Rank",
+          value: undefined,
+        },
+        {
+          iconProps: undefined,
           label: "Min. rank",
           value: "Private First Class",
         },
         {
-          iconProps: {
-            name: "medal",
-            type: "material-community",
-          },
+          iconProps: undefined,
           label: "Max. rank",
           value: "General",
         },
@@ -146,7 +150,7 @@ const GameDetail = () => {
     },
     {
       title: "Game log",
-      settings: [
+      rows: [
         {
           iconProps: {
             name: "map",
@@ -173,7 +177,7 @@ const GameDetail = () => {
         },
       ],
     },
-  ] as const;
+  ];
 
   return (
     <Tab.Navigator>
@@ -186,35 +190,14 @@ const GameDetail = () => {
       >
         {() => (
           <ScrollView>
+            <Stack padding={1}>
+              <Text variant="title" bold>
+                {game?.name}
+              </Text>
+            </Stack>
             <Stack orientation="vertical" gap={1}>
-              {gameSettings.map(({ title, settings }) => (
-                <Stack
-                  orientation="vertical"
-                  grow
-                  align="flex-start"
-                  gap={1}
-                  padding={1}
-                  style={styles.section}
-                >
-                  <Text variant="sectionTitle" bold>
-                    {title}
-                  </Text>
-                  {settings.map(({ iconProps, label, value }) => (
-                    <Stack gap={2}>
-                      <StackItem grow>
-                        <Stack gap={1}>
-                          <Icon {...iconProps} />
-                          <Text>{label}</Text>
-                        </Stack>
-                      </StackItem>
-                      <StackItem grow>
-                        <Text variant="body2" size="medium">
-                          {value}
-                        </Text>
-                      </StackItem>
-                    </Stack>
-                  ))}
-                </Stack>
+              {table.map(({ title, rows }) => (
+                <Table title={title} rows={rows} tableStyle={styles.section} />
               ))}
             </Stack>
           </ScrollView>

@@ -158,8 +158,8 @@ const Router = () => {
               name="GameDetail"
               component={GameDetail}
               initialParams={{ gameId: undefined }}
-              options={({ route }) => ({
-                title: route.params.name,
+              options={() => ({
+                title: "Game details",
                 ...screenOptions,
               })}
             />

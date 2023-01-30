@@ -40,13 +40,19 @@ const palette = {
   },
   success: {
     main: "#4caf50",
+    contrastText: "#000000",
   },
   error: {
     main: "#f44336",
+    contrastText: "#000000",
+  },
+  warning: {
+    main: "#FBD86C",
+    contrastText: "#000000",
   },
   confirmed: {
     main: "#66BB6A",
-    contrastText: "#000000"
+    contrastText: "#000000",
   },
   notConfirmed: {
     main: "#FBD86C",
