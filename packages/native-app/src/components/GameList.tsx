@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from "react";
-import { RefreshControl, ScrollView, StyleProp, Text, View } from "react-native";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleProp,
+  Text,
+  View,
+} from "react-native";
 import GameCard from "./GameCard/GameCard";
 import { ListGameFilters, useGameList } from "@diplicity/common";
-import { Divider, ListItem } from "@rneui/base";
 import { GameCardSkeleton } from "./GameCard";
 import { useTheme } from "../hooks/useTheme";
 
@@ -14,8 +19,8 @@ const useStyles = (): StyleProp<any> => {
       fontWeight: "bold",
     },
     gameCardContainer: {
-      paddingVertical: theme.spacing(.5),
-    }
+      paddingVertical: theme.spacing(0.5),
+    },
   };
 };
 
@@ -37,7 +42,7 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
     }, 2000);
   }, []);
 
-  if ((isSuccess && !games.length)) {
+  if (isSuccess && !games.length) {
     return null;
   }
   return (
@@ -54,7 +59,11 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
               </View>
             ))
           ) : (
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+            <ScrollView
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
               {games.map((game) => (
                 <View key={game.id} style={styles.gameCardContainer}>
                   <GameCard game={game} />

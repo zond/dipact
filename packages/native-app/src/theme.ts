@@ -17,7 +17,6 @@ const palette = {
   },
   paper: {
     main: "#FFF",
-
   },
   background: {
     main: "#F5F5F5",
@@ -56,12 +55,24 @@ const palette = {
   },
   notConfirmed: {
     main: "#FBD86C",
-    contrastText: "#000000"
+    contrastText: "#000000",
   },
   nmr: {
-    main: "#FB6C6C",
-    contrastText: "#000000"
-  }
+    main: "#f44336",
+    contrastText: "#000000",
+  },
+  valueRatingPositive: {
+    main: "#66BB6A",
+    light: "#B6D8B8",
+  },
+  valueRatingNeutral: {
+    main: "#FBD86C",
+    light: "#FFE8A3",
+  },
+  valueRatingNegative: {
+    main: "#f44336",
+    light: "#FFACAC",
+  },
 };
 
 export const theme = createTheme({

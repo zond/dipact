@@ -6,7 +6,7 @@ import { NationAllocation, translateKeys as tk } from "@diplicity/common";
 import { useTheme } from "../../hooks/useTheme";
 import { useNavigation } from "../../hooks/useNavigation";
 import { useTranslation } from "react-i18next";
-import Button from "../Button";
+import Button, { MoreButton } from "../Button";
 import { useStyles } from "./GameCard.styles";
 import { GameDisplay } from "./types";
 import { useBottomSheet } from "../BottomSheetWrapper";
@@ -159,7 +159,7 @@ const GameCard = ({ game }: GameCardProps) => {
     >
       <View style={styles.root}>
         <Stack padding={1} gap={1} orientation="vertical" align="flex-start">
-          <Stack justify="space-between" fillContainer>
+          <Stack justify="space-between" fillWidth>
             <Stack style={styles.nameContainer}>
               {Boolean(privateGame) && (
                 <Icon name="lock" type="material-community" />
@@ -177,22 +177,10 @@ const GameCard = ({ game }: GameCardProps) => {
                   </Text>
                 </Stack>
               )}
-              <Button
-                iconProps={{
-                  type: "material-ui",
-                  name: "more-horiz",
-                  color: theme.palette.text.light,
-                  size: 20,
-                }}
-                raised={false}
-                buttonStyle={styles.moreButton}
-                onPress={onPressMore}
-                // TODO translation
-                accessibilityLabel={"more options"}
-              />
+              <MoreButton onPress={onPressMore} />
             </Stack>
           </Stack>
-          <Stack justify="space-between" fillContainer>
+          <Stack justify="space-between" fillWidth>
             <Text variant="body2">{rulesSummary}</Text>
             <Stack gap={1}>
               {Boolean(confirmationStatusText) && (
@@ -205,7 +193,7 @@ const GameCard = ({ game }: GameCardProps) => {
               <Text bold>{"<2d"}</Text>
             </Stack>
           </Stack>
-          <Stack justify="space-between" fillContainer>
+          <Stack justify="space-between" fillWidth>
             <Stack gap={2}>
               <Stack gap={-1}>
                 {players

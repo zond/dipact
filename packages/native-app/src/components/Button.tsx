@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleProp } from "react-native";
+import { StyleSheet, StyleProp } from "react-native";
+
 import { useTheme } from "../hooks/useTheme";
 import { Button as RneButton, IconProps } from "@rneui/base";
 
@@ -20,7 +21,11 @@ type ButtonProps = Parameters<typeof RneButton>[0] & {
   upperCase?: boolean;
 };
 
-const Button = ({ upperCase = true, iconProps = {}, ...props }: ButtonProps) => {
+const Button = ({
+  upperCase = true,
+  iconProps = {},
+  ...props
+}: ButtonProps) => {
   const styles = useStyles();
   return (
     <RneButton
@@ -34,6 +39,35 @@ const Button = ({ upperCase = true, iconProps = {}, ...props }: ButtonProps) => 
       containerStyle={[styles.buttonContainer, props.containerStyle]}
       buttonStyle={[styles.button, props.buttonStyle]}
       titleStyle={[styles.buttonTitle, props.titleStyle]}
+    />
+  );
+};
+
+export const MoreButton = ({
+  buttonStyle,
+  raised = false,
+  ...props
+}: ButtonProps) => {
+  const theme = useTheme();
+  const defaultIconProps = {
+    type: "material-ui",
+    name: "more-horiz",
+    color: theme.palette.text.light,
+    size: 20,
+  };
+  const styles = StyleSheet.create({
+    button: {
+      backgroundColor: "transparent",
+    },
+  });
+
+  return (
+    <Button
+      iconProps={{ ...defaultIconProps, ...props.iconProps }}
+      raised={raised}
+      buttonStyle={[styles.button, buttonStyle]} // TODO componentize
+      accessibilityLabel={"more options"}
+      {...props}
     />
   );
 };

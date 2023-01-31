@@ -16,7 +16,8 @@ export interface StackProps extends ViewProps {
   orientation?: "horizontal" | "vertical";
   align?: FlexAlignType;
   justify?: Justify;
-  fillContainer?: boolean;
+  fillWidth?: boolean;
+  fillHeight?: boolean;
   gap?: number;
   flex?: number;
   grow?: boolean;
@@ -34,7 +35,8 @@ export const Stack = ({
   justify,
   align = "center",
   orientation = "horizontal",
-  fillContainer = false,
+  fillHeight = false,
+  fillWidth = false,
   grow = false,
   wrap = false,
   ...props
@@ -47,8 +49,8 @@ export const Stack = ({
       flexDirection: horizontal ? "row" : "column",
       alignItems: align,
       justifyContent: justify,
-      width: fillContainer ? "100%" : undefined,
-      // height: fillContainer && vertical ? "100%" : undefined,
+      width: fillWidth ? "100%" : undefined,
+      height: fillHeight ? "100%" : undefined,
       padding: theme.spacing(props.padding || 0),
       flexGrow: grow ? 1 : 0,
       flex: props.flex,

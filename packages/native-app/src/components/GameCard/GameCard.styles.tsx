@@ -28,9 +28,6 @@ export const useStyles = ({
     nameContainer: {
       width: "70%",
     },
-    moreButton: {
-      backgroundColor: "transparent",
-    },
     moreMenuButton: {
       justifyContent: "flex-start",
       paddingVertical: theme.spacing(2),

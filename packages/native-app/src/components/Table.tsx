@@ -29,7 +29,7 @@ const Table = ({ rows, title, tableStyle }: TableProps) => {
       orientation="vertical"
       grow
       align="flex-start"
-      fillContainer
+      fillWidth
       gap={1}
       padding={1}
       style={[tableStyle]}
@@ -41,7 +41,7 @@ const Table = ({ rows, title, tableStyle }: TableProps) => {
       )}
       {rows.map(({ iconProps, label, orientation, value }) => (
         <Stack
-          fillContainer
+          fillWidth
           orientation={orientation || "horizontal"}
           justify="space-evenly"
           align="center"

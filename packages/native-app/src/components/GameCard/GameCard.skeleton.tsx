@@ -10,18 +10,18 @@ const GameCardSkeleton = () => {
   return (
     <View style={styles.root}>
       <Stack padding={1} gap={1} orientation="vertical" align="flex-start">
-        <Stack justify="space-between" fillContainer>
+        <Stack justify="space-between" fillWidth>
           <Skeleton height={24} width={180} />
           <Skeleton circle height={24} width={24} />
         </Stack>
-        <Stack justify="space-between" fillContainer>
+        <Stack justify="space-between" fillWidth>
           <Skeleton height={20} width={90} />
           <Stack gap={1}>
             <Skeleton circle height={24} width={120} />
             <Skeleton height={20} width={20} />
           </Stack>
         </Stack>
-        <Stack justify="space-between" fillContainer>
+        <Stack justify="space-between" fillWidth>
           <Skeleton height={24} width={180} />
           <Skeleton height={16} width={90} />
         </Stack>

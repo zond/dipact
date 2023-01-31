@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { GameCardSkeleton } from "../components/GameCard";
 import GameCard from "../components/GameCard/GameCard";
 import { GameDisplay } from "../components/GameCard/types";
+import PlayerCard from "../components/PlayerCard";
 
 const players: { [key: string]: GameDisplay["players"][0] } = {
   johnpooch: {
@@ -46,6 +47,18 @@ const commonProps = {
   status: "Active",
 };
 
+const playerProps = {
+  variant: "expanded",
+  username: "johnpooch",
+  src: "https://lh3.googleusercontent.com/a/AEdFTp5Uz8Syu_d064B_2CdLy7aYcjXPJZ2la_3ScPe-=s96-c",
+  reliabilityLabel: "commited",
+  reliabilityRating: 1,
+  numPlayedGames: 1,
+  numWonGames: 1,
+  numDrawnGames: 1,
+  numAbandonnedGames: 1,
+} as const;
+
 const games: GameDisplay[] = [
   // { ...commonProps, name: "Active Confirmed", confirmationStatus: "Confirmed" },
   // { ...commonProps, name: "Active Not Confirmed", confirmationStatus: "NotConfirmed" },
@@ -78,6 +91,7 @@ const games: GameDisplay[] = [
 const BrowseGames = () => {
   return (
     <View>
+      <PlayerCard {...playerProps} />
       {games.map((game) => (
         <View key={game.id}>
           <GameCard game={game} />
