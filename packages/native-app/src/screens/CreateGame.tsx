@@ -161,7 +161,8 @@ const CreateGame = () => {
                     setFieldValue("variant", selected)
                   }
                 >
-                  {variants.filter(variant => !variant.Name.includes('Beta')).map((variant) => (
+                  {values.privateGame ? (
+                    variants.filter(variant => !variant.Name.includes('Beta')).map((variant) => (
                     <Picker.Item
                       label={t(tk.createGame.variantSelect.optionLabel, {
                         name: variant.Name,
@@ -170,7 +171,17 @@ const CreateGame = () => {
                       value={variant.Name}
                       key={variant.Name}
                     />
-                  ))}
+                  ))) : (
+                    variants.map((variant) => (
+                    <Picker.Item
+                      label={t(tk.createGame.variantSelect.optionLabel, {
+                        name: variant.Name,
+                        numPlayers: variant.Nations.length,
+                      })}
+                      value={variant.Name}
+                      key={variant.Name}
+                    />
+                  )))}
                 </Picker>
                 {isFetchingVariantSVG ? (
                   <Loading />

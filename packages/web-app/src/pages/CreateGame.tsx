@@ -237,7 +237,7 @@ const CreateGame = (): React.ReactElement => {
                         }
                         native
                       >
-                        {variants.filter(variant => !variant.Name.includes('Beta')).map((variant) => (
+                        {values.privateGame ? ( variants.filter(variant => !variant.Name.includes('Class')).map((variant) => (
                           <option
                             aria-checked={selectedVariant === variant}
                             key={variant.Name}
@@ -249,7 +249,20 @@ const CreateGame = (): React.ReactElement => {
                               numPlayers: variant.Nations.length,
                             })}
                           </option>
-                        ))}
+                        ))) : (
+                        variants.map((variant) => (
+                          <option
+                            aria-checked={selectedVariant === variant}
+                            key={variant.Name}
+                            value={variant.Name}
+                            title={variant.Name}
+                          >
+                            {t(tk.createGame.variantSelect.optionLabel, {
+                              name: variant.Name,
+                              numPlayers: variant.Nations.length,
+                            })}
+                          </option>
+                        )))}
                       </Select>
                     </FormControl>
                     {isFetchingVariantSVG ? (
