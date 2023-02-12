@@ -237,7 +237,7 @@ const CreateGame = (): React.ReactElement => {
                         }
                         native
                       >
-                        {variants.map((variant) => (
+                        {variants.filter(variant => !variant.Name.includes('Beta')).map((variant) => (
                           <option
                             aria-checked={selectedVariant === variant}
                             key={variant.Name}

@@ -161,7 +161,7 @@ const CreateGame = () => {
                     setFieldValue("variant", selected)
                   }
                 >
-                  {variants.map((variant) => (
+                  {variants.filter(variant => !variant.Name.includes('Beta')).map((variant) => (
                     <Picker.Item
                       label={t(tk.createGame.variantSelect.optionLabel, {
                         name: variant.Name,
