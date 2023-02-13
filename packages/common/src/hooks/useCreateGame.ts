@@ -277,6 +277,10 @@ const useCreateGame = (): IUseCreateGame => {
     );
   };
 
+  // Exclude beta variants from CreateGame - they can be created at https://diplicity-engine.appspot.com
+  const variants =
+    listVariantsQuery.data?.filter((v) => !v.Name.includes("Beta")) || [];
+
   return {
     createGameWithPreferences,
     error,
@@ -296,7 +300,7 @@ const useCreateGame = (): IUseCreateGame => {
     userStats: getUserStatsQuery.data,
     validationErrors,
     values,
-    variants: listVariantsQuery.data || [],
+    variants,
   };
 };
 
