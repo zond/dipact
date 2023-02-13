@@ -19,7 +19,7 @@ const useStyles = (): StyleProp<any> => {
       fontWeight: "bold",
     },
     gameCardContainer: {
-      paddingVertical: theme.spacing(0.5),
+      padding: theme.spacing(0.5),
     },
   };
 };
@@ -32,7 +32,8 @@ interface GameListProps {
 
 const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
   const styles = useStyles();
-  const { games, isLoading, isSuccess, isError } = useGameList(filters);
+  const { games, isLoading, isFetching, isSuccess, isError } =
+    useGameList(filters);
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
@@ -52,12 +53,14 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
       ) : (
         <>
           {Boolean(title) && <Text style={styles.title}>{title}</Text>}
-          {isLoading ? (
-            Array.from(Array(numSkeletons)).map((_, index) => (
-              <View key={index} style={styles.gameCardContainer}>
-                <GameCardSkeleton />
-              </View>
-            ))
+          {isLoading || isFetching ? (
+            <ScrollView>
+              {Array.from(Array(numSkeletons)).map((_, index) => (
+                <View key={index} style={styles.gameCardContainer}>
+                  <GameCardSkeleton />
+                </View>
+              ))}
+            </ScrollView>
           ) : (
             <ScrollView
               refreshControl={

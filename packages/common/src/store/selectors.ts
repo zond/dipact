@@ -18,8 +18,10 @@ import {
   Messaging,
   MutationStatus,
   OrderType,
+  PlayerDisplay,
   Query,
   QueryMap,
+  ReliabilityLabel,
   User,
   UserConfig,
   UserStats,
@@ -666,5 +668,42 @@ export const selectMapView = (state: RootState) => {
     data,
     isLoading,
     isError,
+  };
+};
+
+const selectUserStatsQuery = (state: RootState, id: string) => {
+  return endpoints.getUserStats.select(id)(state);
+};
+
+const getReliabilityLabel = (reliability: number): ReliabilityLabel => {
+  if (reliability > 0.5) return "commited";
+  if (reliability < -0.5) return "disengaged";
+  return "uncommited";
+};
+
+const createPlayerDisplay = (stats: UserStats): PlayerDisplay => ({
+  id: stats.User.Id,
+  username: stats.User.Name,
+  src: stats.User.Picture,
+  stats: {
+    reliabilityRating: stats.Reliability,
+    reliabilityLabel: getReliabilityLabel(stats.Reliability),
+    numPlayedGames: stats.StartedGames,
+    numWonGames: stats.SoloGames,
+    numDrawnGames: stats.DIASGames,
+    numAbandonnedGames: stats.DroppedGames,
+  },
+});
+
+export const selectPlayerDisplay = (
+  state: RootState,
+  id: string
+): Query<PlayerDisplay> => {
+  const stats = selectUserStatsQuery(state, id);
+  return {
+    isLoading: stats.isLoading,
+    isError: stats.isError,
+    isSuccess: stats.isSuccess,
+    data: stats.data ? createPlayerDisplay(stats.data) : null,
   };
 };

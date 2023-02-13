@@ -92,10 +92,10 @@ export type User = {
   Gender?: string;
   GivenName?: string;
   Hd?: string;
-  Id?: string;
+  Id: string;
   Link?: string;
   Locale?: string;
-  Name?: string;
+  Name: string;
   Picture?: string;
   VerifiedEmail?: boolean;
   ValidUntil?: string;
@@ -133,18 +133,18 @@ export type PrivateStats = {
 };
 
 export type UserStats = {
-  UserId?: string;
-  JoinedGames?: number;
-  StartedGames?: number;
-  FinishedGames?: number;
-  SoloGames?: number;
-  DIASGames?: number;
-  EliminatedGames?: number;
-  DroppedGames?: number;
+  UserId: string;
+  JoinedGames: number;
+  StartedGames: number;
+  FinishedGames: number;
+  SoloGames: number;
+  DIASGames: number;
+  EliminatedGames: number;
+  DroppedGames: number;
   NMRPhases?: number;
   ActivePhases?: number;
   ReadyPhases?: number;
-  Reliability?: number;
+  Reliability: number;
   Quickness?: number;
   OwnedBans?: number;
   SharedBans?: number;
@@ -152,7 +152,7 @@ export type UserStats = {
   Hater?: number;
   PrivateStats?: PrivateStats;
   TrueSkill?: TrueSkill;
-  User?: User;
+  User: User;
 };
 
 type FCMTokenConfig = {
@@ -661,13 +661,15 @@ export type DiplicityError = {
   [key: string]: any;
 };
 
-export interface Query {
+export interface Query<T> {
   isError: boolean;
   isLoading: boolean;
+  isFetching?: boolean;
   isSuccess: boolean;
+  data: T | null;
 }
 
-export type QueryMap = { [key: string]: Query };
+export type QueryMap = { [key: string]: Query<any> };
 
 export type PhasesDisplay = [number, string][];
 
@@ -793,4 +795,20 @@ export interface MapState {
     fill: string;
     result: string;
   }[];
+}
+
+export type ReliabilityLabel = "commited" | "uncommited" | "disengaged";
+
+export interface PlayerDisplay {
+  id: string;
+  username: string;
+  src?: string;
+  stats: {
+    reliabilityLabel: ReliabilityLabel;
+    reliabilityRating: number;
+    numPlayedGames: number;
+    numWonGames: number;
+    numDrawnGames: number;
+    numAbandonnedGames: number;
+  };
 }

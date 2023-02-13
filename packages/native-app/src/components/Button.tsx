@@ -45,6 +45,7 @@ const Button = ({
 
 export const MoreButton = ({
   buttonStyle,
+  iconProps,
   raised = false,
   ...props
 }: ButtonProps) => {
@@ -63,9 +64,9 @@ export const MoreButton = ({
 
   return (
     <Button
-      iconProps={{ ...defaultIconProps, ...props.iconProps }}
+      iconProps={{ ...defaultIconProps, ...iconProps }}
       raised={raised}
-      buttonStyle={[styles.button, buttonStyle]} // TODO componentize
+      buttonStyle={[styles.button, buttonStyle]}
       accessibilityLabel={"more options"}
       {...props}
     />

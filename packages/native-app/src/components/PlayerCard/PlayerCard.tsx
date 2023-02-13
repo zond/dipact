@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewProps,
+  ViewStyle,
+} from "react-native";
 import { Avatar } from "@rneui/base";
 
 import { MoreButton } from "../Button";
@@ -9,7 +15,7 @@ import { useTheme } from "../../hooks/useTheme";
 import Chip from "../Chip";
 import GoodBadSlider from "../GoodBadSlider";
 
-interface PlayerCardProps {
+interface PlayerCardProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
   variant: "compact" | "expanded";
   src: string;
@@ -53,6 +59,7 @@ const PlayerCard = ({
   numWonGames,
   numDrawnGames,
   numAbandonnedGames,
+  ...rest
 }: PlayerCardProps) => {
   const styles = useStyles();
   const gameStatsTable = [
@@ -62,7 +69,7 @@ const PlayerCard = ({
     { label: "Abandonned", value: numAbandonnedGames },
   ] as const;
   return (
-    <Stack orientation="vertical" style={[style, styles.root]}>
+    <Stack orientation="vertical" style={[style, styles.root]} {...rest}>
       <Stack fillWidth padding={1} gap={1} align="flex-start">
         <Stack fillHeight>
           <View>
@@ -75,9 +82,7 @@ const PlayerCard = ({
           </View>
         </Stack>
         <Stack grow align="center" fillHeight gap={1}>
-          <Text variant="title" bold>
-            {username}
-          </Text>
+          <Text variant="title">{username}</Text>
           <Chip title="Committed" variant="success" />
         </Stack>
         <Stack orientation="vertical" align="flex-end">

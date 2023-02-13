@@ -20,7 +20,8 @@ import Chat from "./Chat";
 import Orders from "./Orders";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useParams } from "../hooks/useParams";
-import { Icon } from "@rneui/base";
+import { Button, Icon } from "@rneui/base";
+import { MoreButton } from "../components/Button";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -137,7 +138,12 @@ const Game = () => {
   );
 };
 
+const onPressMoreGameDetail = (gameId: string) => {
+  alert("More game detail: " + gameId);
+};
+
 const Router = () => {
+  const theme = useTheme();
   const loggedIn = useAppSelector(selectors.selectIsLoggedIn);
   const screenOptions = useDrawerNavigationOptions();
   const navigationTheme = useNavigationTheme();
@@ -158,9 +164,15 @@ const Router = () => {
               name="GameDetail"
               component={GameDetail}
               initialParams={{ gameId: undefined }}
-              options={() => ({
+              options={({ route }) => ({
                 title: "Game details",
                 ...screenOptions,
+                headerRight: () => (
+                  <MoreButton
+                    onPress={() => onPressMoreGameDetail(route.params.gameId)}
+                    iconProps={{ color: theme.palette.secondary.main }}
+                  />
+                ),
               })}
             />
             <Stack.Screen
