@@ -24,22 +24,6 @@ export const Text = ({
   ...props
 }: TextProps) => {
   const theme = useTheme();
-  const variantStyles: { [key in Variant]: TextStyle } = {
-    body1: {
-      fontSize: 16,
-    },
-    body2: {
-      color: theme.palette.text.light,
-      fontSize: 14,
-    },
-    title: {
-      fontSize: 18,
-    },
-    sectionTitle: {
-      fontSize: 14,
-      textTransform: "uppercase",
-    },
-  } as const;
   const sizeStyles: { [key in Size]: TextStyle } = {
     small: {
       fontSize: 14,
@@ -54,8 +38,15 @@ export const Text = ({
   const setStyle: TextStyle = {
     fontWeight: bold ? "bold" : "normal",
   };
-  const variantStyle = variantStyles[variant];
+  const themeProps = theme.components.Text;
+  const variantStyle = theme.typography[variant];
   const sizeStyle = size ? sizeStyles[size] : {};
-  const mergedStyles = [variantStyle, setStyle, sizeStyle, style];
-  return <RNText style={mergedStyles} {...props} />;
+  const mergedStyles = [
+    themeProps.style,
+    variantStyle,
+    setStyle,
+    sizeStyle,
+    style,
+  ];
+  return <RNText {...themeProps} style={mergedStyles} {...props} />;
 };

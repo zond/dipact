@@ -82,23 +82,29 @@ export type Variant = {
   ExtraDominanceRules: null | { [key: string]: DominanceRule };
 };
 
-export type VariantResponse = ApiResponse & {
-  Properties: Variant;
-};
+export interface ApiResponse<P> {
+  Properties: P;
+  Name: string;
+  Type: string;
+  Desc?: string[][];
+  Links: Link[] | null;
+}
+
+export type ListApiResponse<P> = ApiResponse<ApiResponse<P>[]>;
 
 export type User = {
-  Email?: string;
-  FamilyName?: string;
-  Gender?: string;
-  GivenName?: string;
-  Hd?: string;
+  Email: string;
+  FamilyName: string;
+  Gender: string;
+  GivenName: string;
+  Hd: string;
   Id: string;
-  Link?: string;
-  Locale?: string;
+  Link: string;
+  Locale: string;
   Name: string;
-  Picture?: string;
-  VerifiedEmail?: boolean;
-  ValidUntil?: string;
+  Picture: string;
+  VerifiedEmail: boolean;
+  ValidUntil: string;
 };
 
 type TrueSkill = {
@@ -173,14 +179,6 @@ export type Message = {
   Age: number;
 };
 
-export type MessageResponse = ApiResponse & {
-  Properties: Message;
-};
-
-export type ListMessagesResponse = ApiResponse & {
-  Properties: MessageResponse[];
-};
-
 export type FCMToken = {
   Value: string;
   Disabled: boolean;
@@ -239,53 +237,9 @@ export type ForumMail = {
   Subject?: string;
 };
 
-type ApiResponse = {
-  Name: string;
-  Type: string;
-  Desc?: string[][];
-  Links: Link[] | null;
-};
-
-export type Root = {
-  User: User | null;
-};
-
-export type RootResponse = ApiResponse & {
-  Properties: Root;
-};
-
-export type BanResponse = ApiResponse & {
-  Properties: Ban;
-};
-
-export type UserBanResponse = ApiResponse & {
-  Properties: BanResponse[];
-  userId?: string;
-};
-
-export type UserConfigResponse = ApiResponse & {
-  Properties: UserConfig;
-};
-
-export type UserStatsResponse = ApiResponse & {
-  Properties: UserStats;
-};
-
 export type UserRatingHistogram = {
   FirstBucketRating: number;
   Counts: number[];
-};
-
-export type UserRatingHistogramResponse = ApiResponse & {
-  Properties: UserRatingHistogram;
-};
-
-export type ListVariantsResponse = ApiResponse & {
-  Properties: VariantResponse[];
-};
-
-export type ForumMailResponse = ApiResponse & {
-  Properties: ForumMail;
 };
 
 export type Auth = {
@@ -384,7 +338,7 @@ export type Game = Omit<NewGame, "FirstMember"> & {
   NMembers: number;
   Members: Member[];
   StartETA: string;
-  NewestPhaseMeta: PhaseMeta[];
+  NewestPhaseMeta: PhaseMeta[] | null;
   ActiveBans: null;
   FailedRequirements: null | string[];
   FirstMember: Member;
@@ -405,6 +359,7 @@ export interface GameDisplay {
   chatDisabled: boolean;
   chatLanguage: string;
   chatLanguageDisplay: string;
+  confirmationStatus: "confirmed" | "notConfirmed" | "nmr" | undefined;
   createdAtDisplay: string;
   deadlineDisplay: string;
   failedRequirements: string[];
@@ -420,9 +375,9 @@ export interface GameDisplay {
   players: Player[];
   privateGame: boolean;
   rulesSummary: string;
-  started: boolean;
-  userIsMember: boolean;
+  status: "staging" | "started" | "finished";
   userIsGameMaster: boolean;
+  userIsMember: boolean;
   variantNumNations: number;
 }
 
@@ -430,14 +385,6 @@ export type GameState = {
   GameID: string;
   Nation: string;
   Muted: null | string[];
-};
-
-export type GameStateResponse = ApiResponse & {
-  Properties: GameState;
-};
-
-export type ListGameStatesResponse = ApiResponse & {
-  Properties: GameStateResponse[];
 };
 
 export type UnitState = {
@@ -505,35 +452,6 @@ export type Phase = {
   PreliminaryScores: PreliminaryScore[];
 };
 
-export type PhaseStateResponse = ApiResponse & {
-  Properties: PhaseState;
-};
-
-export type ListPhaseStatesResponse = ApiResponse & {
-  Properties: PhaseStateResponse[];
-};
-
-export type PhaseResponse = ApiResponse & {
-  Properties: Phase;
-};
-
-export type ListPhasesResponse = ApiResponse & {
-  Properties: PhaseResponse[];
-};
-
-export type GameResponse = ApiResponse & {
-  Properties: Game;
-};
-
-export type CreateGameResponse = ApiResponse & {
-  Properties: Game;
-  userId?: string;
-};
-
-export type UpdateUserConfigResponse = ApiResponse & {
-  Properties: UserConfig;
-};
-
 export type HasPermissionType = "unknown" | "true" | "false";
 export type TargetStateType = "undefined" | "enabled" | "disabled";
 
@@ -575,18 +493,6 @@ export type Channel = {
   };
 };
 
-export type ChannelResponse = ApiResponse & {
-  Properties: Channel;
-};
-
-export type ListChannelsResponse = ApiResponse & {
-  Properties: ChannelResponse[];
-};
-
-export type ListGamesResponse = ApiResponse & {
-  Properties: GameResponse[];
-};
-
 export enum Severity {
   Error = "error",
   Warning = "warning",
@@ -606,10 +512,6 @@ export interface MutationStatus {
   isSuccess: boolean;
 }
 
-export type CreateMessageResponse = ApiResponse & {
-  Properties: Message;
-};
-
 export type Order = {
   GameID: string;
   PhaseOrdinal: number;
@@ -620,10 +522,6 @@ export type Order = {
 export type Corroboration = {
   Orders: Order[] | null;
   Inconsistencies: string[];
-};
-
-export type CorroborationResponse = ApiResponse & {
-  Properties: Corroboration;
 };
 
 export interface CreateGameFormValues {
@@ -666,7 +564,7 @@ export interface Query<T> {
   isLoading: boolean;
   isFetching?: boolean;
   isSuccess: boolean;
-  data: T | null;
+  data?: T | null;
 }
 
 export type QueryMap = { [key: string]: Query<any> };
@@ -771,10 +669,6 @@ export interface Options {
   [key: string]: Option;
 }
 
-export interface ListOptionsResponse extends ApiResponse {
-  Properties: Options;
-}
-
 // TODO select MapState TDD
 export interface MapState {
   provinces: {
@@ -809,6 +703,6 @@ export interface PlayerDisplay {
     numPlayedGames: number;
     numWonGames: number;
     numDrawnGames: number;
-    numAbandonnedGames: number;
+    numAbandonedGames: number;
   };
 }

@@ -245,7 +245,9 @@ export const selectAuth = (state: RootState): Auth => state.auth;
 export const selectToken = (state: RootState) =>
   createSelector(selectAuth, (auth) => auth.token)(state);
 
-const combineQueries = (queryMap: QueryMap): [Query, QueryMap] => {
+const combineQueries = (
+  queryMap: QueryMap
+): [Omit<Query<any>, "data">, QueryMap] => {
   const queries = Object.values(queryMap);
   return [
     {
@@ -691,7 +693,7 @@ const createPlayerDisplay = (stats: UserStats): PlayerDisplay => ({
     numPlayedGames: stats.StartedGames,
     numWonGames: stats.SoloGames,
     numDrawnGames: stats.DIASGames,
-    numAbandonnedGames: stats.DroppedGames,
+    numAbandonedGames: stats.DroppedGames,
   },
 });
 

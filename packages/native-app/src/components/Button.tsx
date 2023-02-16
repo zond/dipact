@@ -5,20 +5,17 @@ import { useTheme } from "../hooks/useTheme";
 import { Button as RneButton, IconProps } from "@rneui/base";
 
 const useStyles = (): StyleProp<any> => {
-  const theme = useTheme();
   return {
     button: {
       backgroundColor: "transparent",
     },
-    buttonTitle: {
-      color: theme.palette.text.main,
-    },
   };
 };
 
-type ButtonProps = Parameters<typeof RneButton>[0] & {
+export type ButtonProps = Parameters<typeof RneButton>[0] & {
   iconProps?: Partial<IconProps>;
   upperCase?: boolean;
+  key?: string;
 };
 
 const Button = ({
@@ -26,6 +23,7 @@ const Button = ({
   iconProps = {},
   ...props
 }: ButtonProps) => {
+  const themeTitleStyle = useTheme().components.Button.titleStyle;
   const styles = useStyles();
   return (
     <RneButton
@@ -38,7 +36,7 @@ const Button = ({
       title={upperCase ? props.title?.toString().toUpperCase() : props.title}
       containerStyle={[styles.buttonContainer, props.containerStyle]}
       buttonStyle={[styles.button, props.buttonStyle]}
-      titleStyle={[styles.buttonTitle, props.titleStyle]}
+      titleStyle={[themeTitleStyle, props.titleStyle]}
     />
   );
 };

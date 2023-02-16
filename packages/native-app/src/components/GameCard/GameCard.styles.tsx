@@ -1,7 +1,7 @@
+import { GameDisplay } from "@diplicity/common";
 import { StyleProp, ViewStyle, TextStyle } from "react-native";
 
 import { useTheme } from "../../hooks/useTheme";
-import { GameDisplay } from "./types";
 
 type StyleProps = {
   confirmationStatus?: GameDisplay["confirmationStatus"];
@@ -14,9 +14,9 @@ export const useStyles = ({
 } => {
   const theme = useTheme();
   const confirmationStatusColorMap = {
-    Confirmed: theme.palette.confirmed,
-    NotConfirmed: theme.palette.notConfirmed,
-    NMR: theme.palette.nmr,
+    confirmed: theme.palette.confirmed,
+    notConfirmed: theme.palette.notConfirmed,
+    nmr: theme.palette.nmr,
   } as const;
   const confirmationStatusColor = confirmationStatus
     ? confirmationStatusColorMap[confirmationStatus]
@@ -27,14 +27,6 @@ export const useStyles = ({
     },
     nameContainer: {
       width: "70%",
-    },
-    moreMenuButton: {
-      justifyContent: "flex-start",
-      paddingVertical: theme.spacing(2),
-    },
-    moreMenuContainer: {
-      backgroundColor: theme.palette.paper.main,
-      flexGrow: 1,
     },
     chipButton: {
       paddingHorizontal: theme.spacing(0.25),

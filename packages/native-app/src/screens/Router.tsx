@@ -1,9 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerNavigationOptions,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import MyGames from "./MyGames";
@@ -36,6 +33,13 @@ export const useDrawerNavigationOptions = () => {
     headerStyle: {
       backgroundColor: theme.palette.primary.main,
     },
+    headerTitleStyle: {
+      ...theme.typography.title,
+      color: theme.palette.secondary.main,
+    },
+    drawerLabelStyle: {
+      ...theme.typography.body1,
+    },
   };
 };
 
@@ -66,7 +70,9 @@ const Home = () => {
       <Drawer.Screen
         name={t(tk.gameList.myGamesTab.label)}
         component={MyGames}
-        options={drawerNavigationOptions}
+        options={{
+          ...drawerNavigationOptions,
+        }}
       />
       <Drawer.Screen
         name={t(tk.gameList.allGamesTab.label)}

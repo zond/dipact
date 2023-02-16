@@ -299,7 +299,7 @@ const GameDetail = () => {
                     numPlayedGames={1}
                     numWonGames={1}
                     numDrawnGames={1}
-                    numAbandonnedGames={1}
+                    numAbandonedGames={1}
                     reliabilityLabel={"commited"}
                     reliabilityRating={0.5}
                     style={styles.section}

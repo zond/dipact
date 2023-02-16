@@ -1,1 +1,1 @@
-export { default } from "./PlayerCard";
+export { default } from "./PlayerCard.container";

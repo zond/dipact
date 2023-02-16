@@ -2,9 +2,8 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 import { useTheme } from "../hooks/useTheme";
-import { useBottomSheet } from "./BottomSheetWrapper";
+import { BottomSheetElement, useBottomSheet } from "./BottomSheetWrapper";
 import Button from "./Button";
-import { Stack } from "./Stack";
 
 interface BaseProps {
   nullable: boolean;
@@ -42,109 +41,38 @@ const useStyles = ({ active }: StyleProps) => {
   });
 };
 
-const SelectMenu = ({
-  options,
-  onChange,
-  nullable,
-}: Pick<SelectProps, "onChange" | "nullable"> & {
-  options: { value: string; label: string; selected: boolean }[];
-}) => {
-  const theme = useTheme();
-  const styles = StyleSheet.create({
-    root: {
-      backgroundColor: theme.palette.paper.main,
-    },
-    removeButtonContainer: {
-      borderBottomWidth: 1,
-      borderBottomColor: theme.palette.border.light,
-    },
-    removeButtonTitle: {
-      fontWeight: "bold",
-    },
-    buttonContainer: {
-      width: "100%",
-    },
-    button: {
-      display: "flex",
-      flexDirection: "row-reverse",
-      width: "100%",
-      justifyContent: "space-between",
-      padding: theme.spacing(2),
-    },
-  });
-  return (
-    <Stack orientation="vertical" style={styles.root}>
-      {Boolean(nullable) && (
-        <Button
-          title={"Remove filter"}
-          upperCase={false}
-          onPress={() => onChange(undefined)}
-          iconProps={{
-            type: "material-community",
-            name: "close-circle",
-            size: 20,
-          }}
-          iconRight
-          containerStyle={[
-            styles.buttonContainer,
-            styles.removeButtonContainer,
-          ]}
-          buttonStyle={styles.button}
-          titleStyle={styles.removeButtonTitle}
-        />
-      )}
-      {options.map(({ value, label, selected }) => {
-        const iconName = selected ? "radiobox-marked" : "radiobox-blank";
-        console.log(value);
-        return (
-          <Button
-            title={label}
-            key={value}
-            upperCase={false}
-            onPress={() => onChange(value)}
-            iconProps={{ type: "material-community", name: iconName, size: 20 }}
-            iconRight
-            containerStyle={styles.buttonContainer}
-            buttonStyle={styles.button}
-          />
-        );
-      })}
-    </Stack>
-  );
-};
-
-const withSelected = (
-  options: SelectProps["options"],
-  value: string | undefined
-) => {
-  return options.map((option) => ({
-    ...option,
-    selected: option.value === value,
-  }));
-};
-
 export const Filter = ({
   onChange,
   options,
   value,
   placeholder,
-  nullable,
 }: FilterProps) => {
   const active = Boolean(value);
   const styles = useStyles({ active });
   const selectedOption = options.find((option) => option.value === value);
   const title = selectedOption ? selectedOption.label : placeholder;
 
-  const [setBottomSheet, withCloseBottomSheet] = useBottomSheet();
+  const [setBottomSheet] = useBottomSheet();
+  const bottomSheetElements: BottomSheetElement[] = options.map((option) => {
+    const selected = option.value === value;
+    return {
+      elementType: "selectOption",
+      title: option.label,
+      value: option.value,
+      onChange,
+      selected,
+      key: option.value,
+    };
+  });
 
   const onPressFilter = () => {
-    setBottomSheet(() => (
-      <SelectMenu
-        options={withSelected(options, value)}
-        onChange={withCloseBottomSheet(onChange)}
-        nullable={nullable}
-      />
-    ));
+    setBottomSheet({
+      sections: [
+        {
+          elements: bottomSheetElements,
+        },
+      ],
+    });
   };
 
   return (

@@ -1,32 +1,75 @@
 import React from "react";
 import { TouchableHighlight, View } from "react-native";
 import { Avatar, Chip, Divider, Icon } from "@rneui/base";
-import { NationAllocation, translateKeys as tk } from "@diplicity/common";
+import {
+  GameDisplay,
+  NationAllocation,
+  translateKeys as tk,
+} from "@diplicity/common";
+import { useTranslation } from "react-i18next";
 
 import { useTheme } from "../../hooks/useTheme";
 import { useNavigation } from "../../hooks/useNavigation";
-import { useTranslation } from "react-i18next";
-import Button, { MoreButton } from "../Button";
+import Button, { ButtonProps, MoreButton } from "../Button";
 import { useStyles } from "./GameCard.styles";
-import { GameDisplay } from "./types";
-import { useBottomSheet } from "../BottomSheetWrapper";
+import { toBottomSheetElement, useBottomSheet } from "../BottomSheetWrapper";
 import { Stack, StackItem } from "../Stack";
 import { Text } from "../Text";
+import { useDispatch } from "react-redux";
 
 interface GameCardProps {
   game: GameDisplay;
+  showActions?: boolean;
 }
 
 // TODO translations
 const confirmationStatusTextMap = {
-  Confirmed: "Orders confirmed",
-  NotConfirmed: "Orders not confirmed",
-  NMR: "NMR",
+  confirmed: "Orders confirmed",
+  notConfirmed: "Orders not confirmed",
+  nmr: "NMR",
 } as const;
 
 const numAvatarsToDisplay = 7;
 
-const GameCard = ({ game }: GameCardProps) => {
+type ActionNames =
+  | "gameInfo"
+  | "join"
+  | "leave"
+  | "playerInfo"
+  | "share"
+  | "variantInfo";
+
+const getActions = (
+  userIsMember: boolean,
+  status: GameDisplay["status"]
+): ActionNames[] => {
+  if (userIsMember && status === "staging") {
+    return ["gameInfo", "playerInfo", "variantInfo", "share", "leave"];
+  }
+  if (!userIsMember && status === "staging") {
+    return ["gameInfo", "playerInfo", "variantInfo", "share", "join"];
+  }
+  return ["gameInfo", "playerInfo", "variantInfo", "share"];
+};
+
+type ActionNameButtonMap = {
+  [key in ActionNames]: Partial<ButtonProps>;
+};
+
+type ActionConfig = {
+  tray: ActionNames[];
+  bottomSheet: [ActionNames[], ActionNames[]];
+};
+
+const actionConfig: ActionConfig = {
+  tray: ["gameInfo", "share", "join", "leave"],
+  bottomSheet: [
+    ["gameInfo", "playerInfo", "variantInfo"],
+    ["share", "join", "leave"],
+  ],
+};
+
+const GameCard = ({ game, showActions = false }: GameCardProps) => {
   const {
     chatDisabled,
     chatLanguage,
@@ -39,22 +82,25 @@ const GameCard = ({ game }: GameCardProps) => {
     status,
     players,
     id,
+    userIsMember,
     variantNumNations,
   } = game;
   const styles = useStyles({ confirmationStatus });
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
-  const [setBottomSheet, withCloseBottomSheet] = useBottomSheet();
+  const [setBottomSheet] = useBottomSheet();
   const numAvatarsOverspill = players.length - numAvatarsToDisplay;
   const confirmationStatusText = confirmationStatus
     ? confirmationStatusTextMap[confirmationStatus]
-    : undefined;
+    : "";
   const navigation = useNavigation<"Home">();
   const onPressGame = () => {
-    navigation.navigate("GameDetail", { gameId: id });
-  };
-  const onPressDetails = () => {
-    navigation.navigate("GameDetail", { gameId: id });
+    if (status === "staging") {
+      navigation.navigate("GameDetail", { gameId: id });
+    } else {
+      navigation.navigate("Game", { gameId: id });
+    }
   };
   const onPressGameInfo = () => {
     navigation.navigate("GameDetail", { gameId: id, tab: "game" });
@@ -66,91 +112,65 @@ const GameCard = ({ game }: GameCardProps) => {
     navigation.navigate("GameDetail", { gameId: id, tab: "variant" });
   };
 
+  const actions = getActions(userIsMember, status);
+
   // TODO translations
-  const allActionButtons = {
+  const allActionButtons: ActionNameButtonMap = {
     join: {
-      shortTitle: "Join",
-      title: "Join game",
-      onPress: () => {},
+      title: "Join",
+      onPress: () => dispatch({ type: "JOIN_GAME", gameId: id }),
       iconProps: { name: "account-plus", type: "material-community" },
     },
+    leave: {
+      title: "Leave",
+      onPress: () => dispatch({ type: "LEAVE_GAME", gameId: id }),
+      iconProps: { name: "account-minus", type: "material-community" },
+    },
     playerInfo: {
-      shortTitle: "Player Info",
       title: "Player Info",
       onPress: onPressPlayerInfo,
       iconProps: { name: "account-multiple", type: "material-community" },
     },
     variantInfo: {
-      shortTitle: "Variant Info",
       title: "Variant Info",
       onPress: onPressVariantInfo,
       iconProps: { name: "map", type: "material-community" },
     },
     share: {
-      shortTitle: "Share",
       title: "Share",
-      onPress: () => {},
+      onPress: () => dispatch({ type: "SHARE", gameId: id }),
       iconProps: { name: "share", type: "material" },
     },
     gameInfo: {
-      shortTitle: "Game info",
       title: "Game info",
       onPress: onPressGameInfo,
       iconProps: { name: "info-outline", type: "material-ui" },
     },
-    details: {
-      shortTitle: "Details",
-      title: "Details",
-      onPress: onPressDetails,
-      iconProps: { name: "info-outline", type: "material-ui" },
-    },
   } as const;
 
-  const moreButtons =
-    status === "Staging"
-      ? [
-          [
-            allActionButtons.gameInfo,
-            allActionButtons.playerInfo,
-            allActionButtons.variantInfo,
-          ],
-          [allActionButtons.share, allActionButtons.join],
-        ]
-      : [];
-  const actionButtons =
-    status === "Staging"
-      ? [
-          allActionButtons.details,
-          allActionButtons.share,
-          allActionButtons.join,
-        ]
-      : [];
+  const trayButtons = Object.entries(allActionButtons)
+    .filter(
+      ([actionName]) =>
+        actions.includes(actionName as ActionNames) &&
+        actionConfig.tray.includes(actionName as ActionNames)
+    )
+    .map(([actionName, buttonProps]) => ({ ...buttonProps, key: actionName }));
 
-  const MoreMenu = () => (
-    <View>
-      {moreButtons.map((section) => (
-        <View>
-          {section.map(({ title, onPress, iconProps }) => (
-            <Button
-              title={title}
-              key={title}
-              upperCase={false}
-              onPress={withCloseBottomSheet(onPress)}
-              containerStyle={styles.moreMenuContainer}
-              buttonStyle={styles.moreMenuButton}
-              iconProps={{
-                ...iconProps,
-                size: 20,
-              }}
-            />
-          ))}
-          <Divider />
-        </View>
-      ))}
-    </View>
-  );
+  const bottomSheetSections = actionConfig.bottomSheet.map((section) => ({
+    elements: Object.entries(allActionButtons)
+      .filter(([actionName]) => {
+        return (
+          actions.includes(actionName as ActionNames) &&
+          section.includes(actionName as ActionNames)
+        );
+      })
+      .map(([actionName, buttonProps]) =>
+        toBottomSheetElement("button", { ...buttonProps, key: actionName })
+      ),
+  }));
+
   const onPressMore = () => {
-    setBottomSheet(() => <MoreMenu />);
+    setBottomSheet({ sections: bottomSheetSections });
   };
   return (
     <TouchableHighlight
@@ -162,14 +182,18 @@ const GameCard = ({ game }: GameCardProps) => {
           <Stack justify="space-between" fillWidth>
             <Stack style={styles.nameContainer}>
               {Boolean(privateGame) && (
-                <Icon name="lock" type="material-community" />
+                <Icon
+                  name="lock"
+                  type="material-community"
+                  testID="private-icon"
+                />
               )}
               <Text numberOfLines={1} variant="title">
                 {name}
               </Text>
             </Stack>
             <Stack>
-              {Boolean(status === "Staging") && (
+              {Boolean(status === "staging") && (
                 <Stack>
                   <Icon name="account-multiple" type="material-community" />
                   <Text>
@@ -177,13 +201,18 @@ const GameCard = ({ game }: GameCardProps) => {
                   </Text>
                 </Stack>
               )}
-              <MoreButton onPress={onPressMore} />
+              <MoreButton
+                onPress={onPressMore}
+                accessibilityLabel="More button"
+              />
             </Stack>
           </Stack>
           <Stack justify="space-between" fillWidth>
-            <Text variant="body2">{rulesSummary}</Text>
+            <Text variant="body2" accessibilityLabel="Rules summary">
+              {rulesSummary}
+            </Text>
             <Stack gap={1}>
-              {Boolean(confirmationStatusText) && (
+              {Boolean(status === "started") && (
                 <Chip
                   title={confirmationStatusText}
                   buttonStyle={styles.chipButton}
@@ -214,10 +243,12 @@ const GameCard = ({ game }: GameCardProps) => {
               )}
             </Stack>
             <Stack justify="space-between">
-              {status === "Active" && (
-                <Text variant="body2">{phaseSummary}</Text>
+              {status === "started" && (
+                <Text variant="body2" accessibilityLabel="Phase summary">
+                  {phaseSummary}
+                </Text>
               )}
-              {status === "Staging" && (
+              {status === "staging" && (
                 <TouchableHighlight
                   onPress={onPressGameInfo}
                   underlayColor={theme.palette.highlight.main}
@@ -248,10 +279,10 @@ const GameCard = ({ game }: GameCardProps) => {
           </Stack>
         </Stack>
         <Divider />
-        <Stack>
-          <>
-            {actionButtons.map(({ title, iconProps, onPress }) => (
-              <StackItem key={title} grow>
+        {Boolean(showActions) && (
+          <Stack>
+            {trayButtons.map(({ title, iconProps, onPress }, ind) => (
+              <StackItem key={ind} grow>
                 <Button
                   title={title}
                   onPress={onPress}
@@ -259,8 +290,8 @@ const GameCard = ({ game }: GameCardProps) => {
                 />
               </StackItem>
             ))}
-          </>
-        </Stack>
+          </Stack>
+        )}
       </View>
     </TouchableHighlight>
   );

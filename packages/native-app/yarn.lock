@@ -1154,10 +1154,8 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@diplicity/common@^0.0.31":
+"@diplicity/common@../common":
   version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@diplicity/common/-/common-0.0.31.tgz#70b6e51b566ebcdd872e5b120dcf265d3a5b3347"
-  integrity sha512-FgwW3WorMFe77n75AmsLlxNbXjVWySdBvaZWUqSuhvhktpnVMa754pa2rq14ld5VtGrTM7sLosd2iE/lO33qnQ==
   dependencies:
     formik "^2.2.9"
     xmldom "^0.6.0"

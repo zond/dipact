@@ -75,9 +75,51 @@ const palette = {
   },
 };
 
+const defaultTypography = {
+  color: palette.text.main,
+  fontFamily: "Cabin-Regular",
+};
+
+const typography = {
+  body1: {
+    ...defaultTypography,
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  body2: {
+    ...defaultTypography,
+    fontSize: 14,
+    lineHeight: 20,
+    color: palette.text.light,
+  },
+  title: {
+    ...defaultTypography,
+    fontSize: 18,
+  },
+  sectionTitle: {
+    ...defaultTypography,
+    fontSize: 14,
+    textTransform: "uppercase",
+  },
+} as const;
+
 export const theme = createTheme({
-  Button: {
-    raised: true,
+  components: {
+    Button: {
+      titleStyle: {
+        ...defaultTypography,
+      },
+    },
+    Chip: {
+      titleStyle: {
+        ...defaultTypography,
+      },
+    },
+    Text: {
+      style: {
+        ...defaultTypography,
+      },
+    },
   },
   lightColors: {
     primary: palette.primary.main,
@@ -85,4 +127,5 @@ export const theme = createTheme({
   },
   palette,
   spacing: (value: number) => value * gridSize,
+  typography,
 });

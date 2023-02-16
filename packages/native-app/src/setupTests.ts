@@ -7,6 +7,11 @@ jest.mock("@rneui/themed", () => ({
   ...jest.requireActual("@rneui/themed"),
   useTheme: jest.fn(() => ({
     theme: {
+      components: {
+        Button: {},
+        Text: {},
+        Chip: {},
+      },
       spacing: () => 1,
       palette: {
         border: {},
@@ -20,6 +25,7 @@ jest.mock("@rneui/themed", () => ({
         highlight: {},
         success: {},
       },
+      typography: {},
     },
   })),
 }));

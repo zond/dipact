@@ -1,8 +1,7 @@
 import {
-  CreateGameResponse,
+  ApiResponse,
   Game,
-  GameResponse,
-  ListVariantsResponse,
+  ListApiResponse,
   Member,
   Messaging,
   NewGame,
@@ -11,9 +10,7 @@ import {
   PrivateStats,
   User,
   UserConfig,
-  UserConfigResponse,
   Variant,
-  VariantResponse,
 } from "./types";
 import { TagType } from "./service";
 
@@ -58,14 +55,14 @@ export const variant: Variant = {
   },
 };
 
-export const variantResponse: VariantResponse = {
+export const variantResponse: ApiResponse<Variant> = {
   Name: variant.Name,
   Properties: variant,
   Type: "List",
   Links: [],
 };
 
-export const listVariantsResponse: ListVariantsResponse = {
+export const listVariantsResponse: ListApiResponse<Variant> = {
   Name: "Variants",
   Properties: [variantResponse],
   Type: "List",
@@ -167,7 +164,7 @@ export const userConfig: UserConfig = {
   UserId: "12345678",
 };
 
-export const userConfigResponse: UserConfigResponse = {
+export const userConfigResponse: ApiResponse<UserConfig> = {
   Name: "user-config",
   Properties: userConfig,
   Type: "UserConfig",
@@ -251,14 +248,14 @@ export const game: Game = {
   FinishedAgo: "",
 };
 
-export const createGameResponse: CreateGameResponse = {
+export const createGameResponse: ApiResponse<Game> = {
   Name: game.Desc,
   Properties: game,
   Type: "Game",
   Links: [],
 };
 
-export const getGameResponse: GameResponse = {
+export const getGameResponse: ApiResponse<Game> = {
   Name: game.Desc,
   Properties: game,
   Type: "Game",

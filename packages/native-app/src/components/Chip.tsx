@@ -27,7 +27,7 @@ const Chip = ({ variant, buttonStyle, titleStyle, ...rest }: ChipProps) => {
   return (
     <RneChip
       buttonStyle={[style.button, buttonStyle]}
-      titleStyle={[style.title, titleStyle]}
+      titleStyle={[theme.components.Chip.titleStyle, style.title, titleStyle]}
       {...rest}
     />
   );

@@ -65,7 +65,10 @@ export const phaseLengthDisplay = (game: Game) => {
 };
 
 export const getPhaseDisplay = (game: Game) => {
-  const newestPhaseMeta = game.NewestPhaseMeta[0];
+  const newestPhaseMeta =
+    game.NewestPhaseMeta && game.NewestPhaseMeta.length
+      ? game.NewestPhaseMeta[0]
+      : undefined;
   if (!newestPhaseMeta) {
     return "";
   }

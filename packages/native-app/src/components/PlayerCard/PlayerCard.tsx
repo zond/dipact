@@ -1,75 +1,47 @@
 import React from "react";
-import {
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewProps,
-  ViewStyle,
-} from "react-native";
+import { StyleProp, View, ViewProps, ViewStyle } from "react-native";
 import { Avatar } from "@rneui/base";
 
 import { MoreButton } from "../Button";
 import { Text } from "../Text";
 import { Stack } from "../Stack";
-import { useTheme } from "../../hooks/useTheme";
 import Chip from "../Chip";
 import GoodBadSlider from "../GoodBadSlider";
+import { PlayerDisplay } from "@diplicity/common";
+import { useStyles } from "./PlayerCard.styles";
 
 interface PlayerCardProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
   variant: "compact" | "expanded";
-  src: string;
-  username: string;
-  reliabilityLabel: "commited" | "uncommited" | "disengaged";
-  reliabilityRating: number;
-  numPlayedGames: number;
-  numWonGames: number;
-  numDrawnGames: number;
-  numAbandonnedGames: number;
+  player: PlayerDisplay;
 }
 
-const useStyles = () => {
-  const theme = useTheme();
-  return StyleSheet.create({
-    root: {
-      backgroundColor: theme.palette.paper.main,
-      elevation: 1,
-    },
-    moreButton: {
-      paddingRight: 0,
-    },
-    section: {
-      borderTopColor: theme.palette.border.light,
-      borderTopWidth: 1,
-    },
-    gameStatColumn: {
-      borderLeftColor: theme.palette.border.light,
-      borderLeftWidth: 1,
-    },
-  });
-};
-
-const PlayerCard = ({
-  src,
-  style,
-  username,
-  variant,
-  reliabilityRating,
-  numPlayedGames,
-  numWonGames,
-  numDrawnGames,
-  numAbandonnedGames,
-  ...rest
-}: PlayerCardProps) => {
+const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
+  const { src, username, stats } = player;
+  const {
+    reliabilityLabel,
+    reliabilityRating,
+    numAbandonedGames,
+    numDrawnGames,
+    numPlayedGames,
+    numWonGames,
+  } = stats;
   const styles = useStyles();
   const gameStatsTable = [
     { label: "Played", value: numPlayedGames },
     { label: "Won", value: numWonGames },
     { label: "Drawn", value: numDrawnGames },
-    { label: "Abandonned", value: numAbandonnedGames },
+    { label: "Abandoned", value: numAbandonedGames },
   ] as const;
+  const commitedMap = {
+    ["commited"]: ["Committed", "success"],
+    ["uncommited"]: ["Uncommitted", "warning"],
+    ["disengaged"]: ["Disengaged", "error"],
+  } as const;
+  const [commitedLabel, commitedVariant] = commitedMap[reliabilityLabel];
   return (
     <Stack orientation="vertical" style={[style, styles.root]} {...rest}>
+      const [commitedLabel, commitedVariant] =
       <Stack fillWidth padding={1} gap={1} align="flex-start">
         <Stack fillHeight>
           <View>
@@ -83,14 +55,13 @@ const PlayerCard = ({
         </Stack>
         <Stack grow align="center" fillHeight gap={1}>
           <Text variant="title">{username}</Text>
-          <Chip title="Committed" variant="success" />
+          <Chip title={commitedLabel} variant={commitedVariant} />
         </Stack>
         <Stack orientation="vertical" align="flex-end">
           <MoreButton buttonStyle={styles.moreButton} />
           {Boolean(variant === "compact") && (
             <Text>
-              {numPlayedGames}/{numWonGames}/{numDrawnGames}/
-              {numAbandonnedGames}
+              {numPlayedGames}/{numWonGames}/{numDrawnGames}/{numAbandonedGames}
             </Text>
           )}
         </Stack>

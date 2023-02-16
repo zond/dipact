@@ -13,6 +13,11 @@ export const transformGame = (game: StoreGame, user: User): GameDisplay => {
   const userIsMember = Boolean(
     game.Members.find((member) => member.User.Id === user.Id)
   );
+  const status = game.Finished
+    ? "finished"
+    : game.Started
+    ? "started"
+    : "staging";
 
   return {
     chatDisabled: game.DisablePrivateChat,
@@ -20,6 +25,7 @@ export const transformGame = (game: StoreGame, user: User): GameDisplay => {
     chatLanguageDisplay:
       isoCodes.find((code) => code.code === game.ChatLanguageISO639_1)?.name ||
       "",
+    confirmationStatus: "notConfirmed",
     createdAtDisplay: timeStrToDate(game.CreatedAt),
     deadlineDisplay: phaseLengthDisplay(game),
     failedRequirements: game.FailedRequirements || [],
@@ -38,7 +44,7 @@ export const transformGame = (game: StoreGame, user: User): GameDisplay => {
     })),
     privateGame: game.Private,
     rulesSummary: game.Variant + " " + phaseLengthDisplay(game),
-    started: game.Started,
+    status,
     userIsMember,
     userIsGameMaster,
     variantNumNations: 9,
