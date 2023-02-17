@@ -3,7 +3,7 @@ import "react-native";
 import React from "react";
 import { fireEvent, render, within } from "@testing-library/react-native";
 
-import GameCard from "../GameCard/GameCard";
+import GameCard from "../GameCard";
 import {
   GameDisplay,
   GameDisplayActionNames,
@@ -13,7 +13,7 @@ import {
 import { ReactTestInstance } from "react-test-renderer";
 
 const mockNavigate = jest.fn();
-jest.mock("../../hooks/useNavigation", () => ({
+jest.mock("../../../hooks/useNavigation", () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
 }));
 

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
 import { useTheme } from "../hooks/useTheme";
-import { BottomSheetElement, useBottomSheet } from "./BottomSheetWrapper";
+import BottomSheet, { BottomSheetSelectOption } from "./BottomSheet";
 import Button from "./Button";
 
 interface BaseProps {
@@ -52,37 +52,43 @@ export const Filter = ({
   const selectedOption = options.find((option) => option.value === value);
   const title = selectedOption ? selectedOption.label : placeholder;
 
-  const [setBottomSheet] = useBottomSheet();
-  const bottomSheetElements: BottomSheetElement[] = options.map((option) => {
-    const selected = option.value === value;
-    return {
-      elementType: "selectOption",
-      title: option.label,
-      value: option.value,
-      onChange,
-      selected,
-      key: option.value,
-    };
-  });
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const bottomSheetElements: Parameters<typeof BottomSheetSelectOption>[0][] =
+    options.map((option) => {
+      const selected = option.value === value;
+      return {
+        title: option.label,
+        value: option.value,
+        onChange,
+        selected,
+        key: option.value,
+      };
+    });
 
   const onPressFilter = () => {
-    setBottomSheet({
-      sections: [
-        {
-          elements: bottomSheetElements,
-        },
-      ],
-    });
+    setBottomSheetOpen(true);
   };
 
   return (
-    <Button
-      title={title}
-      buttonStyle={styles.button}
-      iconProps={{ type: "material-community", name: "menu-down" }}
-      iconRight
-      upperCase={false}
-      onPress={onPressFilter}
-    />
+    <>
+      <Button
+        title={title}
+        buttonStyle={styles.button}
+        iconProps={{ type: "material-community", name: "menu-down" }}
+        iconRight
+        upperCase={false}
+        onPress={onPressFilter}
+      />
+      <BottomSheet
+        modalProps={{}}
+        isVisible={bottomSheetOpen}
+        onBackdropPress={() => setBottomSheetOpen(false)}
+        testID="game-card-more-menu"
+      >
+        {bottomSheetElements.map((element) => (
+          <BottomSheetSelectOption {...element} />
+        ))}
+      </BottomSheet>
+    </>
   );
 };

@@ -69,7 +69,7 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
             >
               {games.map((game) => (
                 <View key={game.id} style={styles.gameCardContainer}>
-                  <GameCard game={game} showActions />
+                  <GameCard game={game} />
                 </View>
               ))}
             </ScrollView>

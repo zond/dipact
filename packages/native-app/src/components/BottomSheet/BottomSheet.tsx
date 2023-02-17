@@ -1,5 +1,3 @@
-// React Component which renders the bottom sheet with a View inside it which sets the background to white
-
 import React from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 import { BottomSheet, BottomSheetProps } from "@rneui/base";
