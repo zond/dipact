@@ -1,5 +1,3 @@
-// Unit tests for GameCardSkeleton component
-
 import React from "react";
 import { render } from "@testing-library/react-native";
 import GameCardSkeleton from "../GameCard.skeleton";
