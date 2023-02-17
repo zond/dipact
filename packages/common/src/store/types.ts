@@ -355,7 +355,16 @@ interface Player {
   image: string;
 }
 
+export type GameDisplayActionNames =
+  | "gameInfo"
+  | "join"
+  | "leave"
+  | "playerInfo"
+  | "share"
+  | "variantInfo";
+
 export interface GameDisplay {
+  actions: Set<GameDisplayActionNames>;
   chatDisabled: boolean;
   chatLanguage: string;
   chatLanguageDisplay: string;

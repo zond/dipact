@@ -36,5 +36,8 @@ export const useStyles = ({
     chipTitle: {
       color: confirmationStatusColor?.contrastText,
     },
+    actionButtonContainer: {
+      flexGrow: 1,
+    },
   };
 };

@@ -1,4 +1,9 @@
-import { Game as StoreGame, User, GameDisplay } from "../store/types";
+import {
+  Game as StoreGame,
+  User,
+  GameDisplay,
+  GameDisplayActionNames,
+} from "../store/types";
 import {
   getPhaseDisplay,
   nationAllocationMap,
@@ -19,7 +24,23 @@ export const transformGame = (game: StoreGame, user: User): GameDisplay => {
     ? "started"
     : "staging";
 
+  const getActions = (
+    userIsMember: boolean,
+    status: GameDisplay["status"]
+  ): GameDisplayActionNames[] => {
+    if (userIsMember && status === "staging") {
+      return ["gameInfo", "playerInfo", "variantInfo", "share", "leave"];
+    }
+    if (!userIsMember && status === "staging") {
+      return ["gameInfo", "playerInfo", "variantInfo", "share", "join"];
+    }
+    return ["gameInfo", "playerInfo", "variantInfo", "share"];
+  };
+
+  const actions = new Set(getActions(userIsMember, status));
+
   return {
+    actions,
     chatDisabled: game.DisablePrivateChat,
     chatLanguage: game.ChatLanguageISO639_1,
     chatLanguageDisplay:
