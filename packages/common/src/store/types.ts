@@ -1,3 +1,5 @@
+import { IconNames } from "../icons";
+
 type Edge = {
   Flags: {
     [key: string]: boolean;
@@ -76,10 +78,32 @@ export type Variant = {
   Rules: string;
   OrderTypes: string[];
   nationAbbreviations: { [key: string]: string };
-  Start?: Start;
+  Start: Start;
   Graph: Graph;
   Links: Link[] | null;
   ExtraDominanceRules: null | { [key: string]: DominanceRule };
+};
+
+export type TransformedVariant = {
+  createdBy: string;
+  description: string;
+  graph: Graph;
+  map: string;
+  name: string;
+  nationAbbreviations: { [key: string]: string };
+  nationColors: null | { [key: string]: string };
+  nations: string[];
+  orderTypes: string[];
+  phaseTypes: string[];
+  provinceLongNames: { [key: string]: string };
+  rules: string;
+  seasons: string[];
+  startSeason: string;
+  startSCs: { [key: string]: string };
+  startUnits: { [key: string]: Unit };
+  startType: string;
+  startYear: number;
+  unitTypes: string[];
 };
 
 export interface ApiResponse<P> {
@@ -105,6 +129,12 @@ export type User = {
   Picture: string;
   VerifiedEmail: boolean;
   ValidUntil: string;
+};
+
+export type TransformedUser = {
+  id: string;
+  src: string;
+  username: string;
 };
 
 type TrueSkill = {
@@ -327,30 +357,59 @@ export type GameMasterInvitation = {
 };
 
 export type Game = Omit<NewGame, "FirstMember"> & {
-  Closed: boolean;
-  Finished: boolean;
-  ID: string;
-  Mustered: boolean;
-  NoMerge: boolean;
-  Started: boolean;
-  GameMasterInvitations: null | GameMasterInvitation[];
-  GameMaster: User;
-  NMembers: number;
-  Members: Member[];
-  StartETA: string;
-  NewestPhaseMeta: PhaseMeta[] | null;
   ActiveBans: null;
-  FailedRequirements: null | string[];
-  FirstMember: Member;
+  Closed: boolean;
+  CreatedAgo: number;
   CreatedAt: string;
-  CreatedAgo: string;
-  StartedAt: string;
-  StartedAgo: string;
+  FailedRequirements: null | string[];
+  Finished: boolean;
+  FinishedAgo: number;
   FinishedAt: string;
-  FinishedAgo: string;
+  FirstMember: Member;
+  GameMaster: User;
+  GameMasterInvitations: null | GameMasterInvitation[];
+  ID: string;
+  Members: Member[];
+  Mustered: boolean;
+  NMembers: number;
+  NewestPhaseMeta: PhaseMeta[] | null;
+  NoMerge: boolean;
+  StartETA: string;
+  Started: boolean;
+  StartedAgo: number;
+  StartedAt: string;
 };
 
-interface Player {
+export type TransformedGame = {
+  anonymous: boolean;
+  chatLanguage: string;
+  closed: boolean;
+  conferenceChatEnabled: boolean;
+  createdAt: string;
+  endYear: number;
+  finished: boolean;
+  finishedAt: string;
+  gameMaster: TransformedUser;
+  groupChatEnabled: boolean;
+  id: string;
+  members: Member[];
+  name: string;
+  nationAllocation: NationAllocation;
+  newestPhaseMeta: PhaseMeta[] | null;
+  nonMovementPhaseLength: string;
+  numMembers: number;
+  phaseLength: string;
+  playerIdentity: "anonymous" | "public";
+  private: boolean;
+  privateChatEnabled: boolean;
+  started: boolean;
+  startedAt: string;
+  variant: string;
+  visibility: "private" | "public";
+};
+
+export interface Player {
+  id: string;
   username: string;
   image: string;
 }
@@ -373,6 +432,7 @@ export interface GameDisplay {
   deadlineDisplay: string;
   failedRequirements: string[];
   gameVariant: string;
+  gameMaster: Player;
   id: string;
   minQuickness: number | null;
   minRating: number | null;
@@ -715,3 +775,66 @@ export interface PlayerDisplay {
     numAbandonedGames: number;
   };
 }
+
+export type GameDetailViewActions = "join" | "leave";
+
+export type ChatMode = "all" | "disabled";
+
+export type TableRow<T> = {
+  label: string;
+  value: T;
+  icon: IconNames | undefined;
+};
+
+export interface GameDetailView {
+  showActions: GameDetailViewActions[];
+  name: string;
+  gameSettings: {
+    variant: TableRow<string>;
+    phaseDeadline: TableRow<string>;
+    nonMovementPhaseDeadline: TableRow<string>;
+    gameEndYear: TableRow<number> | undefined;
+  };
+  chatSettings: {
+    conferenceChatEnabled: TableRow<boolean>;
+    groupChatEnabled: TableRow<boolean>;
+    privateChatEnabled: TableRow<boolean>;
+    chatLanguage: TableRow<string> | undefined;
+  };
+  managementSettings: {
+    gameMaster: TableRow<TransformedUser> | undefined;
+    nationAllocation: TableRow<NationAllocation>;
+    visibility: TableRow<"public" | "private">;
+  };
+  playerSettings: {
+    minCommittement:
+      | TableRow<"commited" | "uncommited" | "disengaged">
+      | undefined;
+    minRank: TableRow<string> | undefined;
+    maxRank: TableRow<string> | undefined;
+    playerIdentity: TableRow<"anonymous" | "public">;
+  };
+  gameLog: {
+    created: TableRow<string>;
+    started: TableRow<string> | undefined;
+    finished: TableRow<string> | undefined;
+  };
+  variantDetails: {
+    name: TableRow<string>;
+    description: TableRow<string>;
+    rules: TableRow<string>;
+    numPlayers: TableRow<number>;
+    startYear: TableRow<number>;
+  };
+  playerDetails: {
+    players: TransformedUser[];
+  };
+}
+
+export type TimeUnit =
+  | "seconds"
+  | "minutes"
+  | "hours"
+  | "days"
+  | "weeks"
+  | "months";

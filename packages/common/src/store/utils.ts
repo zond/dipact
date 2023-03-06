@@ -44,7 +44,7 @@ export const parseUserConfigColor = (
   }
 };
 
-const createNationAbbreviation = (
+export const createNationAbbreviation = (
   nation: string,
   otherNations: string[]
 ): string => {

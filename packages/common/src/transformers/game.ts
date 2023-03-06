@@ -5,6 +5,7 @@ import {
   GameDisplayActionNames,
 } from "../store/types";
 import {
+  convertUserToPlayer,
   getPhaseDisplay,
   nationAllocationMap,
   phaseLengthDisplay,
@@ -50,6 +51,7 @@ export const transformGame = (game: StoreGame, user: User): GameDisplay => {
     createdAtDisplay: timeStrToDate(game.CreatedAt),
     deadlineDisplay: phaseLengthDisplay(game),
     failedRequirements: game.FailedRequirements || [],
+    gameMaster: convertUserToPlayer(game.GameMaster),
     gameVariant: game.Variant,
     id: game.ID,
     minQuickness: game.MinQuickness,
@@ -60,6 +62,7 @@ export const transformGame = (game: StoreGame, user: User): GameDisplay => {
     numUnreadMessages: 0,
     phaseSummary: getPhaseDisplay(game),
     players: game.Members.map((member) => ({
+      id: member.User.Id,
       username: member.User.Name as string,
       image: member.User.Picture as string,
     })),

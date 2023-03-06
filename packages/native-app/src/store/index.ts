@@ -15,22 +15,22 @@ import {
 
 const reducer = combineReducers({ ...commonReducers });
 
-const debugMiddleware: Middleware<{}, any> =
-  ({ getState }) =>
-  (next) =>
-  (action: AnyAction) => {
-    next(action);
-    console.log(getState());
-    console.log(action);
-  };
+// const debugMiddleware: Middleware<{}, any> =
+//   ({ getState }) =>
+//   (next) =>
+//   (action: AnyAction) => {
+//     next(action);
+//     console.log(getState());
+//     console.log(action);
+//   };
 
 export const store = configureStore({
   reducer,
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })
       .concat(diplicityService.middleware)
-      .concat(commonMiddleware)
-      // .concat([debugMiddleware]),
+      .concat(commonMiddleware),
+    // .concat([debugMiddleware]),
   ],
 });
 

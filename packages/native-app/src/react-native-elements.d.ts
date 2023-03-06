@@ -6,6 +6,7 @@ declare module "@rneui/themed" {
     [key: string]: {
       main: string;
       light?: string;
+      inactive?: string;
       dark?: string;
       contrastText?: string;
     };

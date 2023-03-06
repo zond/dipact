@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Dimensions, LayoutChangeEvent } from "react-native";
-import { useMap } from "@diplicity/common";
-import { Dialog, FAB, Theme } from "@rneui/base";
-import { useTheme } from "../hooks/useTheme";
+import { selectors } from "@diplicity/common";
 import { SvgFromXml } from "react-native-svg";
-import Loading from "../components/Loading";
 import ImageZoom from "react-native-image-pan-zoom";
-import PhaseSelector from "../components/PhaseSelector";
-import CreateOrderMenu from "../components/CreateOrderMenu";
+import BottomSheet from "../components/BottomSheet";
+import QueryContainer from "../components/QueryContainer";
+import { assertDefined } from "../utils/general";
+import useMapView from "../hooks/useMap";
+import { MapXmlAdapter } from "../adapters/adapters";
+import { findPhase, findVariantByGame } from "../utils/general";
+import { useSelector } from "react-redux";
 
 interface MapProps {
   gameId: string;
@@ -28,13 +30,14 @@ const useStyles = () => {
 
 const Map = ({ gameId }: MapProps) => {
   const styles = useStyles();
-  const theme = useTheme();
-  const rneTheme = { colors: { white: "#FFFFFF" } } as Theme;
+  const { query } = useMapView(gameId);
+  const phaseNumber = useSelector(selectors.selectPhase);
+  // const { options, orderSummary, orderPrompt, handleSelectOption } =
+  //   useCreateOrderMenu(() => setCreateOrderMenuOpen(false));
+  console.log("Phase number: ", phaseNumber);
   const [createOrderMenuOpen, setCreateOrderMenuOpen] = useState(false);
   const [mapViewHeight, setMapViewHeight] = useState(0);
   const [mapViewWidth, setMapViewWidth] = useState(0);
-  const closeCreateOrderMenu = () => setCreateOrderMenuOpen(false);
-  const { isLoading, data } = useMap(gameId);
 
   const mapViewOnLayout = (event: LayoutChangeEvent) => {
     setMapViewWidth(event.nativeEvent.layout.width);
@@ -42,38 +45,66 @@ const Map = ({ gameId }: MapProps) => {
   };
 
   return (
-    <View style={styles.root} onLayout={mapViewOnLayout} testID="MAP_CONTAINER">
-      <PhaseSelector gameId={gameId} rootStyles={styles.phaseSelectorRoot} />
-      {isLoading && <Loading size={"large"} />}
-      {data && (
-        <ImageZoom
-          cropWidth={mapViewWidth}
-          cropHeight={mapViewHeight}
-          imageWidth={Dimensions.get("window").width} // TODO
-          imageHeight={Dimensions.get("window").width}
-        >
-          <SvgFromXml xml={data} />
-        </ImageZoom>
-      )}
-      <FAB
-        color={theme.palette.primary.main}
-        icon={{
-          name: "add",
-          color: theme.palette.secondary.main,
-        }}
-        placement={"right"}
-        onPress={() => setCreateOrderMenuOpen(true)}
-      />
-      <Dialog
-        theme={rneTheme}
-        isVisible={createOrderMenuOpen}
-        onPressOut={closeCreateOrderMenu}
-        onRequestClose={closeCreateOrderMenu}
-      >
-        <Dialog.Title title="Create order" />
-        <CreateOrderMenu close={closeCreateOrderMenu} />
-      </Dialog>
-    </View>
+    <QueryContainer
+      query={query}
+      render={(d) => {
+        const data = assertDefined(d);
+        const variant = findVariantByGame(data.game, data.variants);
+        const phase = findPhase(data.phases, phaseNumber);
+        const xml = new MapXmlAdapter(
+          variant,
+          phase,
+          data.variantSvg,
+          data.variantArmySvg,
+          data.variantFleetSvg
+        );
+        return (
+          <View
+            style={styles.root}
+            onLayout={mapViewOnLayout}
+            testID="MAP_CONTAINER"
+          >
+            {/* <PhaseSelector
+              gameId={gameId}
+              rootStyles={styles.phaseSelectorRoot}
+            /> */}
+            {data && (
+              <ImageZoom
+                cropWidth={mapViewWidth}
+                cropHeight={mapViewHeight}
+                imageWidth={Dimensions.get("window").width} // TODO
+                imageHeight={Dimensions.get("window").width}
+              >
+                <SvgFromXml xml={xml.xml} />
+              </ImageZoom>
+            )}
+            {/* <FAB
+              color={theme.palette.primary.main}
+              icon={{
+                name: "add",
+                color: theme.palette.secondary.main,
+              }}
+              placement={"right"}
+              onPress={() => setCreateOrderMenuOpen(true)}
+            /> */}
+            <BottomSheet
+              isVisible={createOrderMenuOpen}
+              onBackdropPress={() => setCreateOrderMenuOpen(false)}
+            >
+              {/* Excluding orders for now */}
+              {/* <Text variant="title">{orderPrompt}</Text>
+              {options?.map((option) => (
+                <BottomSheetButton
+                  key={option.value}
+                  title={option.label}
+                  onPress={() => handleSelectOption(option.value)}
+                />
+              ))} */}
+            </BottomSheet>
+          </View>
+        );
+      }}
+    />
   );
 };
 

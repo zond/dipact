@@ -59,7 +59,10 @@ export const Filter = ({
       return {
         title: option.label,
         value: option.value,
-        onChange,
+        onChange: () => {
+          onChange(option.value);
+          setBottomSheetOpen(false);
+        },
         selected,
         key: option.value,
       };

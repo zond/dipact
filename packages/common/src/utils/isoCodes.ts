@@ -1,4 +1,4 @@
-const codes: { code: string; name: string }[] = [
+const codes = [
   {
     code: "ab",
     name: "Abkhaz",
@@ -735,6 +735,6 @@ const codes: { code: string; name: string }[] = [
     code: "zu",
     name: "Zulu",
   },
-];
+] as const;
 
 export default codes;

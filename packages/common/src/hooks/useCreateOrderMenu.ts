@@ -31,34 +31,41 @@ const summaryMap = {
 };
 
 const useCreateOrderMenu = (close: () => void): ICreateOrderMenu => {
+  console.log("useCreateOrderMenu called", JSON.stringify(close));
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const options = useSelector(selectors.selectCreateOrderOptions);
+  console.log("useCreateOrderMenu options", JSON.stringify(options));
   const step = useSelector(selectors.selectCreateOrderStep);
-  const { source, aux, target, type } = useSelector(
-    selectors.selectCreateOrderDisplay
-  );
+  console.log("useCreateOrderMenu step", JSON.stringify(step));
+  const createOrderDisplay = useSelector(selectors.selectCreateOrderDisplay);
+  console.log("useCreateOrderMenu display", JSON.stringify(createOrderDisplay));
   const [started, setStarted] = useState(false);
+  console.log("useCreateOrderMenu started", started);
   const summary = summaryMap[step];
+  console.log("useCreateOrderMenu summary", summary);
   const prompt = promptMap[step];
+  console.log("useCreateOrderMenu prompt", prompt);
 
   useEffect(() => {
-    if (source) {
+    if (createOrderDisplay.source) {
+      console.log("useCreateOrderMenu setStarted useEffect called");
       setStarted(true);
     }
-  }, [source]);
+  }, [createOrderDisplay.source]);
 
   useEffect(() => {
-    if (started && !source) {
+    if (started && !createOrderDisplay.source) {
+      console.log("useCreateOrderMenu close useEffect called");
       close();
       setStarted(false);
     }
-  }, [close, started, source]);
+  }, [close, started, createOrderDisplay.source]);
 
   return {
     options,
-    orderSummary: t(prompt, { source, aux, target, type }),
-    orderPrompt: t(summary, { source, aux, target, type }),
+    orderSummary: t(prompt, createOrderDisplay),
+    orderPrompt: t(summary, createOrderDisplay),
     handleSelectOption: (option: string) => {
       dispatch(uiActions.selectCreateOrderOption(option));
     },

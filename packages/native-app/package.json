@@ -28,6 +28,7 @@
     "@rneui/base": "^4.0.0-rc.1",
     "@rneui/themed": "^4.0.0-rc.1",
     "babel-plugin-module-resolver": "^4.1.0",
+    "common": "^0.2.5",
     "contrast-color": "^1.0.1",
     "formik": "^2.2.9",
     "i18next": "^21.6.11",

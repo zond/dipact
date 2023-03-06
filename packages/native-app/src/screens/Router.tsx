@@ -10,19 +10,27 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { selectors, translateKeys as tk } from "@diplicity/common";
 import CreateGame from "./CreateGame";
 import { useTranslation } from "react-i18next";
-import GameDetail from "./GameDetail";
+import { useParams } from "../hooks/useParams";
 import BrowseGames from "./BrowseGames";
 import Map from "./Map";
 import Chat from "./Chat";
 import Orders from "./Orders";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useParams } from "../hooks/useParams";
-import { Button, Icon } from "@rneui/base";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Icon } from "@rneui/base";
 import { MoreButton } from "../components/Button";
+import GameInfo from "./GameInfo";
+import PlayerInfo from "./PlayerInfo";
+import VariantInfo from "./VariantInfo";
+import FAB from "../components/Fab";
+import { useGameDetailView } from "../hooks/useGameDetailView";
 
 export type RootStackParamList = {
   Home: undefined;
   GameDetail: { gameId: string; name: string };
+  GameInfo: { gameId: string };
+  PlayerInfo: { gameId: string };
+  VariantInfo: { gameId: string };
   Game: { gameId: string };
 };
 
@@ -61,6 +69,7 @@ export const useNavigationTheme = () => {
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 const Home = () => {
   const { t } = useTranslation();
@@ -93,17 +102,16 @@ const Game = () => {
   const { gameId } = useParams<"Game">();
   const screenOptions = useDrawerNavigationOptions();
   const theme = useTheme();
-  const options = {
-    title: "",
-    ...screenOptions,
-    tabBarActiveBackgroundColor: theme.palette.primary.main,
-    tabBarActiveTintColor: theme.palette.secondary.main,
-  };
+  const options = { ...useTabBarOptions(), tabBarShowLabel: false };
+  // {
+  //   title: "",
+  //   ...screenOptions,
+  // };
   const getIconColor = (focused: boolean) =>
-    focused ? theme.palette.secondary.main : theme.palette.primary.main;
+    focused ? theme.palette.secondary.main : theme.palette.secondary.inactive;
   return (
-    <Tab.Navigator>
-      <Tab.Screen
+    <TopTab.Navigator>
+      <TopTab.Screen
         name="Map"
         options={{
           ...options,
@@ -111,41 +119,108 @@ const Game = () => {
             // TODO use outlined and non-outlined for active inactive
             <Icon name="map" color={getIconColor(focused)} />
           ),
-          title: "Map",
+          // title: "Map",
         }}
       >
         {() => <Map gameId={gameId} />}
-      </Tab.Screen>
-      <Tab.Screen
+      </TopTab.Screen>
+      <TopTab.Screen
         name="Chat"
         options={{
           ...options,
           tabBarIcon: ({ focused }) => (
             <Icon name="chat" color={getIconColor(focused)} />
           ),
-          title: "Chat",
+          // title: "Chat",
         }}
       >
         {() => <Chat gameId={gameId} />}
-      </Tab.Screen>
-      <Tab.Screen
+      </TopTab.Screen>
+      <TopTab.Screen
         name="Orders"
         options={{
           ...options,
           tabBarIcon: ({ focused }) => (
             <Icon name="article" color={getIconColor(focused)} />
           ),
-          title: "Orders",
+          // title: "Orders",
         }}
       >
         {() => <Orders gameId={gameId} />}
-      </Tab.Screen>
-    </Tab.Navigator>
+      </TopTab.Screen>
+    </TopTab.Navigator>
   );
 };
 
 const onPressMoreGameDetail = (gameId: string) => {
   alert("More game detail: " + gameId);
+};
+
+const useTabBarOptions = () => {
+  const theme = useTheme();
+  return {
+    tabBarStyle: { backgroundColor: theme.palette.primary.main },
+    tabBarLabelStyle: { fontSize: 16 },
+    tabBarActiveTintColor: theme.palette.nmr.main,
+    tabBarInactiveTintColor: theme.palette.secondary.main,
+    headerTintColor: theme.palette.secondary.main,
+    headerStyle: {
+      backgroundColor: theme.palette.primary.main,
+    },
+    headerTitleStyle: {
+      ...theme.typography.title,
+      color: theme.palette.secondary.main,
+    },
+  };
+};
+
+const GameDetail = () => {
+  const { gameId } = useParams<"GameDetail">();
+  const options = useTabBarOptions();
+  const { actions } = useGameDetailView(gameId);
+  const theme = useTheme();
+  return (
+    <>
+      <TopTab.Navigator>
+        <TopTab.Screen
+          name="GameInfo"
+          initialParams={{ gameId }}
+          options={{
+            ...options,
+            title: "Game",
+          }}
+        >
+          {() => <GameInfo />}
+        </TopTab.Screen>
+        <TopTab.Screen
+          name="PlayerInfo"
+          initialParams={{ gameId }}
+          options={{
+            ...options,
+            title: "Players",
+          }}
+        >
+          {() => <PlayerInfo />}
+        </TopTab.Screen>
+        <TopTab.Screen
+          name="VariantInfo"
+          initialParams={{ gameId }}
+          options={{
+            ...options,
+            title: "Variant",
+          }}
+        >
+          {() => <VariantInfo />}
+        </TopTab.Screen>
+      </TopTab.Navigator>
+      <FAB
+        icon={"joinGame"}
+        title={"Join"}
+        onPress={actions.joinGame.call}
+        disabled={actions.joinGame.mutation.isLoading}
+      />
+    </>
+  );
 };
 
 const Router = () => {
@@ -186,8 +261,7 @@ const Router = () => {
               component={Game}
               initialParams={{ gameId: undefined }}
               options={{
-                headerTransparent: true,
-                title: "",
+                title: "Name of the game",
                 ...screenOptions,
               }}
             />

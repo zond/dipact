@@ -8,3 +8,4 @@ export { default as useOrders } from "./useOrders";
 export { default as usePageLoad, useLazyPageLoad } from "./usePageLoad";
 export { default as usePhaseSelector } from "./usePhaseSelector";
 export { default as usePlayerDisplay } from "./usePlayerDisplay";
+export { default as useGameDetailView } from "./useGameDetailView";

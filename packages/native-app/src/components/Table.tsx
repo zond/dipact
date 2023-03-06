@@ -4,6 +4,8 @@ import { Text } from "./Text";
 import { Stack } from "./Stack";
 import { Icon } from "@rneui/base";
 import { View, StyleSheet, ViewProps } from "react-native";
+import { IconNames } from "@diplicity/common";
+import { iconMap } from "../icons/iconMap";
 
 const styles = StyleSheet.create({
   iconContainer: {
@@ -13,9 +15,9 @@ const styles = StyleSheet.create({
 });
 
 export interface ITableRow {
-  iconProps?: { name: string; type: string };
-  label: string;
-  value: string | (() => JSX.Element) | undefined;
+  icon?: IconNames | undefined;
+  label?: string;
+  value?: string | number | (() => JSX.Element) | undefined;
   orientation?: "horizontal" | "vertical";
 }
 
@@ -44,32 +46,48 @@ const Table = ({ rows, title, tableStyle, ...rest }: TableProps) => {
           {title}
         </Text>
       )}
-      {rows.map(({ iconProps, label, orientation, value }) => (
-        <Stack
-          key={label}
-          fillWidth
-          orientation={orientation || "horizontal"}
-          justify="space-evenly"
-          align="flex-start"
-          gap={2}
-        >
-          <Stack gap={1} grow flex={1} wrap align="flex-start">
-            <View style={styles.iconContainer}>
-              {Boolean(iconProps) && (
-                <Icon {...(iconProps as { name: string; type: string })} />
+      {rows
+        .filter(({ value }) => Boolean(value))
+        .map(({ icon, label, orientation, value }) => (
+          <Stack
+            key={label}
+            fillWidth
+            orientation={orientation || "horizontal"}
+            justify="space-evenly"
+            align="flex-start"
+            gap={2}
+          >
+            <Stack
+              gap={1}
+              grow
+              flex={1}
+              wrap
+              align="center"
+              justify="flex-start"
+            >
+              <View style={styles.iconContainer}>
+                {Boolean(icon) && (
+                  <>
+                    <Icon
+                      {...(iconMap[icon as IconNames] as {
+                        name: string;
+                        type: string;
+                      })}
+                    />
+                  </>
+                )}
+              </View>
+              <Text variant="body2" size="medium">
+                {label}
+              </Text>
+            </Stack>
+            <Stack grow flex={1} wrap>
+              {Boolean(value) && (
+                <Text>{typeof value === "function" ? value() : value}</Text>
               )}
-            </View>
-            <Text variant="body2" size="medium">
-              {label}
-            </Text>
+            </Stack>
           </Stack>
-          <Stack grow flex={1} wrap>
-            {Boolean(value) && (
-              <Text>{typeof value === "function" ? value() : value}</Text>
-            )}
-          </Stack>
-        </Stack>
-      ))}
+        ))}
     </Stack>
   );
 };

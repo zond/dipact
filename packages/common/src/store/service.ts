@@ -1,5 +1,11 @@
 /* eslint-disable no-restricted-globals */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  convertMinutesToLabel,
+  getLanguage,
+  getNationAllocation,
+  timeStrToDate,
+} from "../utils/general";
 
 import { selectToken } from "./selectors";
 import {
@@ -24,12 +30,16 @@ import {
   ApiResponse,
   ForumMail,
   ListApiResponse,
+  TransformedVariant,
+  TransformedUser,
+  TransformedGame,
 } from "./types";
 import {
   addNationAbbreviationsToVariant,
   sortVariantResponse,
   sortListChannels,
   sortMessages,
+  createNationAbbreviation,
 } from "./utils";
 
 export enum TagType {
@@ -323,7 +333,101 @@ export const diplicityService = createApi({
       }),
       invalidatesTags: [TagType.ListGames],
     }),
+    getGameV2: builder.query<TransformedGame, string>({
+      query: (id) => `/Game/${id}`,
+      transformResponse: (response: ApiResponse<Game>) => {
+        const extracted = extractProperties(response);
+        return transformGame(extracted);
+      },
+      providesTags: [TagType.Game],
+    }),
+    getRootV2: builder.query<TransformedUser, undefined>({
+      query: () => "/",
+      transformResponse: (response: ApiResponse<{ User: User }>) => {
+        const extracted = extractProperties(response);
+        return transformUser(extracted.User);
+      },
+    }),
+    listVariantsV2: builder.query<TransformedVariant[], undefined>({
+      query: () => "/Variants",
+      transformResponse: (response: ListApiResponse<Variant>) => {
+        // TODO move sorting somewhere else?
+        sortVariantResponse(response.Properties);
+        return extractPropertiesList(response).map(transformVariant);
+      },
+    }),
   }),
 });
+
+const transformVariant = (variant: Variant): TransformedVariant => {
+  const nationAbbreviations: { [key: string]: string } = {};
+  variant.Nations.forEach((nation) => {
+    nationAbbreviations[nation] = createNationAbbreviation(
+      nation,
+      variant.Nations
+    );
+  });
+  return {
+    createdBy: variant.CreatedBy,
+    description: variant.Description,
+    graph: variant.Graph,
+    map: variant.Start.Map,
+    name: variant.Name,
+    nations: variant.Nations,
+    nationAbbreviations: variant.nationAbbreviations,
+    nationColors: variant.NationColors,
+    orderTypes: variant.OrderTypes,
+    phaseTypes: variant.PhaseTypes,
+    provinceLongNames: variant.ProvinceLongNames,
+    rules: variant.Rules,
+    seasons: variant.Season,
+    startSCs: variant.Start.SCs,
+    startSeason: variant.Start.Season,
+    startUnits: variant.Start.Units,
+    startType: variant.Start.Type,
+    startYear: variant.Start.Year,
+    unitTypes: variant.UnitTypes,
+  };
+};
+
+const transformUser = (user: User): TransformedUser => {
+  return {
+    id: user.Id,
+    src: user.Picture,
+    username: user.Name,
+  };
+};
+
+const transformGame = (game: Game): TransformedGame => {
+  return {
+    anonymous: game.Anonymous,
+    chatLanguage: getLanguage(game.ChatLanguageISO639_1)?.name || "English",
+    closed: game.Closed,
+    conferenceChatEnabled: !game.DisableConferenceChat,
+    endYear: game.LastYear,
+    createdAt: "", // timeStrToDate(game.CreatedAt),
+    finished: game.Finished,
+    finishedAt: "", // timeStrToDate(game.FinishedAt),
+    groupChatEnabled: !game.DisableGroupChat,
+    gameMaster: transformUser(game.GameMaster),
+    id: game.ID,
+    members: game.Members,
+    name: game.Desc,
+    nationAllocation: getNationAllocation(game.NationAllocation),
+    newestPhaseMeta: game.NewestPhaseMeta,
+    numMembers: game.NMembers,
+    phaseLength: convertMinutesToLabel(game.PhaseLengthMinutes),
+    nonMovementPhaseLength: convertMinutesToLabel(
+      game.NonMovementPhaseLengthMinutes
+    ),
+    playerIdentity: game.Anonymous ? "anonymous" : "public",
+    private: game.Private,
+    privateChatEnabled: !game.DisablePrivateChat,
+    started: game.Started,
+    startedAt: timeStrToDate(game.StartedAt),
+    variant: game.Variant,
+    visibility: game.Private ? "private" : "public",
+  };
+};
 
 export const endpoints = diplicityService.endpoints;

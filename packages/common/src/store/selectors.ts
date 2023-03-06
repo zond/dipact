@@ -382,12 +382,17 @@ export const selectProvinceEntries = (
 
 // TODO test
 export const selectSourceProvinces = (state: RootState) => {
+  console.log("selectSourceProvinces called");
   const game = selectGameObject(state);
+  console.log("selectSourceProvinces game", game);
   if (!game) return undefined;
   const variant = selectVariant(state, game.Variant);
+  console.log("selectSourceProvinces variant", variant);
   if (!variant) return undefined;
   const provinceEntries = selectProvinceEntries(state, variant.Name);
+  console.log("selectSourceProvinces provinceEntries", provinceEntries);
   const options = selectOptionsFromGameId(state, game.ID);
+  console.log("selectSourceProvinces options", options);
   if (!options || !provinceEntries) return undefined;
   return Object.keys(options).map((id) => provinceEntries[id]);
 };
@@ -459,6 +464,8 @@ export const selectCreateOrder = (state: RootState) => {
 const mapProvinceDisplaysToOptions = (
   provinces: ({ name: string; id: string } | undefined)[] | undefined
 ): { value: string; label: string }[] => {
+  console.log("mapProvinceDisplaysToOptions called");
+  console.log("mapProvinceDisplaysToOptions provinces", provinces);
   if (!provinces) return [];
   return provinces
     .filter((p) => p)
@@ -479,16 +486,25 @@ const mapOrderTypesToOptions = (
 };
 
 export const selectCreateOrderOptions = (state: RootState) => {
+  console.log("selectCreateOrderOptions called");
   const step = selectCreateOrderStep(state);
+  console.log("selectCreateOrderOptions step", step);
   const createOrder = selectCreateOrder(state);
+  console.log(
+    "selectCreateOrderOptions createOrder",
+    JSON.stringify(createOrder)
+  );
   switch (step) {
     case CreateOrderStep.SelectSource:
+      console.log("selectCreateOrderOptions SelectSource");
       return mapProvinceDisplaysToOptions(selectSourceProvinces(state));
     case CreateOrderStep.SelectType:
+      console.log("selectCreateOrderOptions SelectType");
       return mapOrderTypesToOptions(
         selectOrderTypes(state, createOrder.source as string)
       );
     case CreateOrderStep.SelectAux:
+      console.log("selectCreateOrderOptions SelectAux");
       return mapProvinceDisplaysToOptions(
         selectAuxProvinces(
           state,
@@ -497,6 +513,7 @@ export const selectCreateOrderOptions = (state: RootState) => {
         )
       );
     case CreateOrderStep.SelectTarget:
+      console.log("selectCreateOrderOptions SelectTarget");
       return mapProvinceDisplaysToOptions(
         selectTargetProvinces(
           state,
@@ -505,6 +522,7 @@ export const selectCreateOrderOptions = (state: RootState) => {
         )
       );
     case CreateOrderStep.SelectAuxTarget:
+      console.log("selectCreateOrderOptions SelectAuxTarget");
       return mapProvinceDisplaysToOptions(
         selectAuxTargetProvinces(
           state,
@@ -514,12 +532,15 @@ export const selectCreateOrderOptions = (state: RootState) => {
         )
       );
     default:
+      console.log("selectCreateOrderOptions switch default");
       return undefined;
   }
 };
 
 export const selectCreateOrderStep = (state: RootState): CreateOrderStep => {
+  console.log("selectCreateOrderStep called");
   const { source, type, target, aux } = selectCreateOrder(state);
+  console.log("selectCreateOrderStep", source, type, target, aux);
   if (!source) return CreateOrderStep.SelectSource;
   if (source && !type) return CreateOrderStep.SelectType;
   if (source && type && !target && type === OrderType.Move)
@@ -618,6 +639,7 @@ const selectMapState = (state: RootState) => {
   return mapState;
 };
 
+// This could all be pushed up to transformer if we wanted
 export const selectMapSvgQuery = (state: RootState) => {
   const variant = selectVariantFromGameId(state);
   const mapState = selectMapState(state);

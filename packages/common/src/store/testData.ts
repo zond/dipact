@@ -53,6 +53,14 @@ export const variant: Variant = {
   Graph: {
     Nodes: {},
   },
+  Start: {
+    Year: 1901,
+    Season: "Spring",
+    Type: "",
+    SCs: {},
+    Units: {},
+    Map: "",
+  },
 };
 
 export const variantResponse: ApiResponse<Variant> = {
@@ -241,11 +249,11 @@ export const game: Game = {
   FailedRequirements: null,
   FirstMember: member,
   CreatedAt: "",
-  CreatedAgo: "",
+  CreatedAgo: 1,
   StartedAt: "",
-  StartedAgo: "",
+  StartedAgo: 1,
   FinishedAt: "",
-  FinishedAgo: "",
+  FinishedAgo: 1,
 };
 
 export const createGameResponse: ApiResponse<Game> = {
