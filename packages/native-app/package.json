@@ -9,7 +9,8 @@
     "test": "jest",
     "test-coverage": "jest --silent --detectOpenHandles --ci --coverage",
     "test-coverage-ci": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
-    "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0"
+    "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0",
+    "build-and-install-common": "cd ../common && yarn build && cd ../native-app && yarn add ../common"
   },
   "dependencies": {
     "@diplicity/common": "../common",

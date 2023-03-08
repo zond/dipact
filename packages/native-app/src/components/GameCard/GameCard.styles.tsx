@@ -1,10 +1,10 @@
-import { GameDisplay } from "@diplicity/common";
+import { TransformedGame } from "@diplicity/common";
 import { StyleProp, ViewStyle, TextStyle } from "react-native";
 
 import { useTheme } from "../../hooks/useTheme";
 
 type StyleProps = {
-  confirmationStatus?: GameDisplay["confirmationStatus"];
+  confirmationStatus?: TransformedGame["confirmationStatus"];
 };
 
 export const useStyles = ({

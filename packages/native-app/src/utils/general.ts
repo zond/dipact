@@ -1,4 +1,5 @@
 import { Phase, TransformedGame, Variant } from "@diplicity/common";
+import { ValueRating } from "../types";
 
 export const assertDefined = <T extends object>(
   obj: T
@@ -34,4 +35,15 @@ export const findPhase = (phases: Phase[], id: number | null) => {
     );
   }
   return findDefined(phases, (phase) => phase.PhaseOrdinal === id);
+};
+
+export const getValueRating = (value: number): ValueRating => {
+  if (value > 0.5) {
+    return "positive";
+  } else if (value < -0.5) {
+    return "negative";
+  } else if (value >= -0.5 && value <= 0.5) {
+    return "neutral";
+  }
+  throw new Error("Invalid value");
 };

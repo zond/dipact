@@ -4,7 +4,7 @@ import { render } from "@testing-library/react-native";
 
 import MyGames from "../MyGames";
 import { Text } from "react-native";
-import GameList from "../../components/GameList";
+import GameList from "../../components/GameList/GameList";
 import { GameStatus, translateKeys as tk } from "@diplicity/common";
 
 interface ArrangeOptions {

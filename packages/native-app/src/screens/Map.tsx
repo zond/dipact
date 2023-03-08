@@ -34,7 +34,6 @@ const Map = ({ gameId }: MapProps) => {
   const phaseNumber = useSelector(selectors.selectPhase);
   // const { options, orderSummary, orderPrompt, handleSelectOption } =
   //   useCreateOrderMenu(() => setCreateOrderMenuOpen(false));
-  console.log("Phase number: ", phaseNumber);
   const [createOrderMenuOpen, setCreateOrderMenuOpen] = useState(false);
   const [mapViewHeight, setMapViewHeight] = useState(0);
   const [mapViewWidth, setMapViewWidth] = useState(0);

@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 
 import { useStyles } from "./GameCard.styles";
-import Skeleton from "../Skeleton";
+import Skeleton from "../Skeleton/Skeleton";
 import { Stack } from "../Stack";
 
 const GameCardSkeleton = () => {

@@ -347,10 +347,10 @@ describe.each`
     beforeEach(() => {
       fireEvent.press(screen.getByText("GAME INFO"));
     });
-    test("GameDetail page is opened on the GameInfo tab", () => {
+    test("GameDetail page is opened on the GameInfo screen", () => {
       expect(mockNavigate).toHaveBeenCalledWith("GameDetail", {
         gameId: game.id,
-        tab: "GameInfo",
+        screen: "GameInfo",
       });
     });
   });
@@ -358,10 +358,10 @@ describe.each`
     beforeEach(() => {
       fireEvent.press(screen.getByText("VARIANT INFO"));
     });
-    test("GameDetail page is opened on the VariantInfo tab", () => {
+    test("GameDetail page is opened on the VariantInfo screen", () => {
       expect(mockNavigate).toHaveBeenCalledWith("GameDetail", {
         gameId: game.id,
-        tab: "VariantInfo",
+        screen: "VariantInfo",
       });
     });
   });
@@ -369,10 +369,10 @@ describe.each`
     beforeEach(() => {
       fireEvent.press(screen.getByText("PLAYER INFO"));
     });
-    test("GameDetail page is opened on the PlayerInfo tab", () => {
+    test("GameDetail page is opened on the PlayerInfo screen", () => {
       expect(mockNavigate).toHaveBeenCalledWith("GameDetail", {
         gameId: game.id,
-        tab: "PlayerInfo",
+        screen: "PlayerInfo",
       });
     });
   });
@@ -407,7 +407,7 @@ describe.each`
           });
           expect(mockNavigate).toHaveBeenCalledWith("GameDetail", {
             gameId: game.id,
-            tab: "",
+            screen: "",
           });
         } else {
           expect(mockNavigate).toHaveBeenCalledWith("Game", {
@@ -415,7 +415,7 @@ describe.each`
           });
           expect(mockNavigate).not.toHaveBeenCalledWith("GameDetail", {
             gameId: game.id,
-            tab: "",
+            screen: "",
           });
         }
       });

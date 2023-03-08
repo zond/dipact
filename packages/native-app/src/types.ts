@@ -37,3 +37,5 @@ export interface GameLogTable {
   started?: TableRow<string>;
   finished?: TableRow<string>;
 }
+
+export type ValueRating = "positive" | "neutral" | "negative";

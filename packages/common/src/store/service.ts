@@ -1,11 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {
-  convertMinutesToLabel,
-  getLanguage,
-  getNationAllocation,
-  timeStrToDate,
-} from "../utils/general";
+import { gameAdapter, variantAdapter } from "../adapters";
+import { userAdapter } from "../adapters/user";
 
 import { selectToken } from "./selectors";
 import {
@@ -39,7 +35,6 @@ import {
   sortVariantResponse,
   sortListChannels,
   sortMessages,
-  createNationAbbreviation,
 } from "./utils";
 
 export enum TagType {
@@ -337,7 +332,7 @@ export const diplicityService = createApi({
       query: (id) => `/Game/${id}`,
       transformResponse: (response: ApiResponse<Game>) => {
         const extracted = extractProperties(response);
-        return transformGame(extracted);
+        return gameAdapter(extracted);
       },
       providesTags: [TagType.Game],
     }),
@@ -345,7 +340,7 @@ export const diplicityService = createApi({
       query: () => "/",
       transformResponse: (response: ApiResponse<{ User: User }>) => {
         const extracted = extractProperties(response);
-        return transformUser(extracted.User);
+        return userAdapter(extracted.User);
       },
     }),
     listVariantsV2: builder.query<TransformedVariant[], undefined>({
@@ -353,81 +348,26 @@ export const diplicityService = createApi({
       transformResponse: (response: ListApiResponse<Variant>) => {
         // TODO move sorting somewhere else?
         sortVariantResponse(response.Properties);
-        return extractPropertiesList(response).map(transformVariant);
+        return extractPropertiesList(response).map(variantAdapter);
       },
+    }),
+    listGamesV2: builder.query<TransformedGame[], ListGameFilters>({
+      query: ({ my, status, mastered }) => {
+        const titleStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        if (my) {
+          if (mastered) {
+            return `/Games/Mastered/${titleStatus}`;
+          }
+          return `/Games/My/${titleStatus}`;
+        }
+        return `/Games/${titleStatus}`;
+      },
+      transformResponse: (response: ListApiResponse<Game>) => {
+        return extractPropertiesList(response).map(gameAdapter);
+      },
+      providesTags: [TagType.ListGames],
     }),
   }),
 });
-
-const transformVariant = (variant: Variant): TransformedVariant => {
-  const nationAbbreviations: { [key: string]: string } = {};
-  variant.Nations.forEach((nation) => {
-    nationAbbreviations[nation] = createNationAbbreviation(
-      nation,
-      variant.Nations
-    );
-  });
-  return {
-    createdBy: variant.CreatedBy,
-    description: variant.Description,
-    graph: variant.Graph,
-    map: variant.Start.Map,
-    name: variant.Name,
-    nations: variant.Nations,
-    nationAbbreviations: variant.nationAbbreviations,
-    nationColors: variant.NationColors,
-    orderTypes: variant.OrderTypes,
-    phaseTypes: variant.PhaseTypes,
-    provinceLongNames: variant.ProvinceLongNames,
-    rules: variant.Rules,
-    seasons: variant.Season,
-    startSCs: variant.Start.SCs,
-    startSeason: variant.Start.Season,
-    startUnits: variant.Start.Units,
-    startType: variant.Start.Type,
-    startYear: variant.Start.Year,
-    unitTypes: variant.UnitTypes,
-  };
-};
-
-const transformUser = (user: User): TransformedUser => {
-  return {
-    id: user.Id,
-    src: user.Picture,
-    username: user.Name,
-  };
-};
-
-const transformGame = (game: Game): TransformedGame => {
-  return {
-    anonymous: game.Anonymous,
-    chatLanguage: getLanguage(game.ChatLanguageISO639_1)?.name || "English",
-    closed: game.Closed,
-    conferenceChatEnabled: !game.DisableConferenceChat,
-    endYear: game.LastYear,
-    createdAt: "", // timeStrToDate(game.CreatedAt),
-    finished: game.Finished,
-    finishedAt: "", // timeStrToDate(game.FinishedAt),
-    groupChatEnabled: !game.DisableGroupChat,
-    gameMaster: transformUser(game.GameMaster),
-    id: game.ID,
-    members: game.Members,
-    name: game.Desc,
-    nationAllocation: getNationAllocation(game.NationAllocation),
-    newestPhaseMeta: game.NewestPhaseMeta,
-    numMembers: game.NMembers,
-    phaseLength: convertMinutesToLabel(game.PhaseLengthMinutes),
-    nonMovementPhaseLength: convertMinutesToLabel(
-      game.NonMovementPhaseLengthMinutes
-    ),
-    playerIdentity: game.Anonymous ? "anonymous" : "public",
-    private: game.Private,
-    privateChatEnabled: !game.DisablePrivateChat,
-    started: game.Started,
-    startedAt: timeStrToDate(game.StartedAt),
-    variant: game.Variant,
-    visibility: game.Private ? "private" : "public",
-  };
-};
 
 export const endpoints = diplicityService.endpoints;

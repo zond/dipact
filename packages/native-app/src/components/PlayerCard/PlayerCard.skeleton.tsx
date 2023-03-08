@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "../Stack";
-import Skeleton from "../Skeleton";
+import Skeleton from "../Skeleton/Skeleton";
 import { useStyles } from "./PlayerCard.styles";
 import PlayerCard from "./PlayerCard";
 

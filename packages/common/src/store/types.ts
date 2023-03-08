@@ -380,30 +380,46 @@ export type Game = Omit<NewGame, "FirstMember"> & {
   StartedAt: string;
 };
 
+export type TransformedGamePlayer = {
+  id: string;
+  username: string;
+  src: string;
+  nation?: string;
+};
+
 export type TransformedGame = {
   anonymous: boolean;
+  chatDisabled: boolean;
   chatLanguage: string;
+  chatLanguageDisplay: string;
   closed: boolean;
   conferenceChatEnabled: boolean;
+  confirmationStatus: "confirmed" | "notConfirmed" | "nmr" | undefined;
   createdAt: string;
+  deadline: string;
   endYear: number;
   finished: boolean;
   finishedAt: string;
-  gameMaster: TransformedUser;
+  gameMaster: TransformedGamePlayer | undefined;
   groupChatEnabled: boolean;
   id: string;
-  members: Member[];
   name: string;
   nationAllocation: NationAllocation;
   newestPhaseMeta: PhaseMeta[] | null;
   nonMovementPhaseLength: string;
-  numMembers: number;
+  numPlayers: number;
   phaseLength: string;
+  phaseSummary: string;
   playerIdentity: "anonymous" | "public";
-  private: boolean;
+  players: TransformedGamePlayer[];
   privateChatEnabled: boolean;
+  privateGame: boolean;
+  rulesSummary: string;
   started: boolean;
   startedAt: string;
+  status: "staging" | "started" | "finished";
+  userIsPlayer: (user: TransformedUser) => boolean;
+  userIsGameMaster: (user: TransformedUser) => boolean;
   variant: string;
   visibility: "private" | "public";
 };
@@ -412,42 +428,6 @@ export interface Player {
   id: string;
   username: string;
   image: string;
-}
-
-export type GameDisplayActionNames =
-  | "gameInfo"
-  | "join"
-  | "leave"
-  | "playerInfo"
-  | "share"
-  | "variantInfo";
-
-export interface GameDisplay {
-  actions: Set<GameDisplayActionNames>;
-  chatDisabled: boolean;
-  chatLanguage: string;
-  chatLanguageDisplay: string;
-  confirmationStatus: "confirmed" | "notConfirmed" | "nmr" | undefined;
-  createdAtDisplay: string;
-  deadlineDisplay: string;
-  failedRequirements: string[];
-  gameVariant: string;
-  gameMaster: Player;
-  id: string;
-  minQuickness: number | null;
-  minRating: number | null;
-  minReliability: number | null;
-  name: string;
-  nationAllocation: NationAllocation;
-  numUnreadMessages: number;
-  phaseSummary: string;
-  players: Player[];
-  privateGame: boolean;
-  rulesSummary: string;
-  status: "staging" | "started" | "finished";
-  userIsGameMaster: boolean;
-  userIsMember: boolean;
-  variantNumNations: number;
 }
 
 export type GameState = {

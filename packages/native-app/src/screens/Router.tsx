@@ -260,10 +260,16 @@ const Router = () => {
               name="Game"
               component={Game}
               initialParams={{ gameId: undefined }}
-              options={{
+              options={({ route }) => ({
                 title: "Name of the game",
                 ...screenOptions,
-              }}
+                headerRight: () => (
+                  <MoreButton
+                    onPress={() => onPressMoreGameDetail(route.params.gameId)}
+                    iconProps={{ color: theme.palette.secondary.main }}
+                  />
+                ),
+              })}
             />
           </Stack.Navigator>
         </NavigationContainer>

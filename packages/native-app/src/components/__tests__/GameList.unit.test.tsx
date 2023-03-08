@@ -2,7 +2,7 @@ import "react-native";
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
-import GameList from "../GameList";
+import GameList from "../GameList/GameList";
 import { GameDisplay, GameStatus, useGameList } from "@diplicity/common";
 import { Text } from "react-native";
 import { act } from "react-test-renderer";

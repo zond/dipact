@@ -1,41 +1,16 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import { LinearProgress } from "@rneui/base";
 
-import { Stack } from "./Stack";
-import { useTheme } from "../hooks/useTheme";
-
-type ValueRating = "positive" | "neutral" | "negative";
+import { Stack } from "../Stack";
+import { useTheme } from "../../hooks/useTheme";
+import { useStyles } from "./GoodBadSlider.styles";
+import { ValueRating } from "../../types";
+import { getValueRating } from "../../utils/general";
 
 interface GoodBadSliderProps {
   // Between -1 and 1
   value: number;
 }
-
-const useStyles = () => {
-  const theme = useTheme();
-  return StyleSheet.create({
-    leftContainer: {
-      height: 8,
-    },
-    rightContainer: {
-      height: 8,
-      borderLeftColor: theme.palette.border.main,
-      borderLeftWidth: 1,
-    },
-  });
-};
-
-const getValueRating = (value: number): ValueRating => {
-  if (value > 0.5) {
-    return "positive";
-  } else if (value < -0.5) {
-    return "negative";
-  } else if (value >= -0.5 && value <= 0.5) {
-    return "neutral";
-  }
-  throw new Error("Invalid value");
-};
 
 const GoodBadSlider = ({ value }: GoodBadSliderProps) => {
   const styles = useStyles();

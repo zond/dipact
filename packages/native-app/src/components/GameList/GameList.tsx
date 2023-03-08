@@ -1,39 +1,21 @@
 import React, { useState, useCallback } from "react";
-import {
-  RefreshControl,
-  ScrollView,
-  StyleProp,
-  Text,
-  View,
-} from "react-native";
-import GameCard from "./GameCard/GameCard";
-import { ListGameFilters, useGameList } from "@diplicity/common";
-import { GameCardSkeleton } from "./GameCard";
-import { useTheme } from "../hooks/useTheme";
-
-const useStyles = (): StyleProp<any> => {
-  const theme = useTheme();
-  return {
-    title: {
-      fontSize: 16,
-      fontWeight: "bold",
-    },
-    gameCardContainer: {
-      padding: theme.spacing(0.5),
-    },
-  };
-};
+import { RefreshControl, ScrollView, Text, View } from "react-native";
+import GameCard from "../GameCard/GameCard";
+import { GameCardSkeleton } from "../GameCard";
+import { useStyles } from "./GameList.styles";
+import useGameListView from "../../hooks/useGameListView";
+import QueryContainer from "../QueryContainer";
+import { assertDefined } from "../../utils/general";
 
 interface GameListProps {
-  filters: ListGameFilters;
+  filters: Parameters<typeof useGameListView>[0];
   title?: string;
   numSkeletons?: number;
 }
 
 const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
   const styles = useStyles();
-  const { games, isLoading, isFetching, isSuccess, isError } =
-    useGameList(filters);
+  const query = useGameListView(filters);
 
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
@@ -43,17 +25,10 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
     }, 2000);
   }, []);
 
-  if (isSuccess && !games.length) {
-    return null;
-  }
   return (
-    <>
-      {isError ? (
-        <Text>Error!</Text>
-      ) : (
-        <>
-          {Boolean(title) && <Text style={styles.title}>{title}</Text>}
-          {isLoading || isFetching ? (
+    <QueryContainer
+      query={query}
+      renderLoading={() => (
             <ScrollView>
               {Array.from(Array(numSkeletons)).map((_, index) => (
                 <View key={index} style={styles.gameCardContainer}>
@@ -61,7 +36,10 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
                 </View>
               ))}
             </ScrollView>
-          ) : (
+      )}
+      render={(data) => {
+        const { games, user } = assertDefined(data);
+        return (
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -73,11 +51,8 @@ const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
                 </View>
               ))}
             </ScrollView>
-          )}
-        </>
-      )}
-    </>
+      )}}
+    />
   );
-};
 
 export default GameList;

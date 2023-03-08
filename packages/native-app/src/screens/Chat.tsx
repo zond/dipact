@@ -5,11 +5,10 @@ interface ChatProps {
   gameId: string;
 }
 
-const Chat = ({ gameId }: ChatProps) => {
+const Chat = ({}: ChatProps) => {
   return (
     <View>
-      <Text>Chat</Text>
-      <Text>{gameId}</Text>
+      <Text>Coming soon!</Text>
     </View>
   );
 };

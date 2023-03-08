@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GameStatus, selectors } from "@diplicity/common";
 
-import GameList from "../components/GameList";
+import GameList from "../components/GameList/GameList";
 import PlayerCard from "../components/PlayerCard";
 import { Stack } from "../components/Stack";
 import { Filter } from "../components/Filter";

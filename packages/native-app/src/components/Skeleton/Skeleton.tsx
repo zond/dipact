@@ -1,14 +1,6 @@
 import React from "react";
-import { StyleProp, ViewStyle } from "react-native";
 import { Skeleton as RneSkeleton, SkeletonProps } from "@rneui/base";
-import { useTheme } from "../hooks/useTheme";
-
-const useStyles = (): StyleProp<ViewStyle> => {
-  const theme = useTheme();
-  return {
-    backgroundColor: theme.palette.border.light,
-  };
-};
+import { useStyles } from "./Skeleton.styles";
 
 const Skeleton = ({ style, ...props }: SkeletonProps) => {
   const styles = useStyles();

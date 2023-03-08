@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { TouchableHighlight, View } from "react-native";
 import { Avatar, Chip, Divider, Icon } from "@rneui/base";
 import {
-  GameDisplay,
-  GameDisplayActionNames,
   NationAllocation,
+  TransformedGame,
+  TransformedUser,
+  TransformedVariant,
   translateKeys as tk,
 } from "@diplicity/common";
 import { useTranslation } from "react-i18next";
@@ -19,7 +20,9 @@ import { useDispatch } from "react-redux";
 import BottomSheet, { BottomSheetButton } from "../BottomSheet";
 
 interface GameCardProps {
-  game: GameDisplay;
+  game: TransformedGame;
+  user: TransformedUser;
+  variant: TransformedVariant;
   showActions?: boolean;
   numAvatarsToDisplay?: number;
 }
@@ -33,30 +36,31 @@ const confirmationStatusTextMap = {
 
 const defaultNumAvatarsToDisplay = 7;
 
-type ActionNameButtonMap = {
-  [key in GameDisplayActionNames]: Partial<ButtonProps>;
-};
-
 const GameCard = ({
   game,
+  user,
+  variant,
   showActions = false,
   numAvatarsToDisplay = defaultNumAvatarsToDisplay,
 }: GameCardProps) => {
-  const {
-    actions,
-    chatDisabled,
-    chatLanguage,
-    name,
-    rulesSummary,
-    phaseSummary,
-    privateGame,
-    nationAllocation,
-    confirmationStatus,
-    status,
-    players,
-    id,
-    variantNumNations,
-  } = game;
+  // const {
+  //   actions,
+  //   chatDisabled,
+  //   chatLanguage,
+  //   name,
+  //   rulesSummary,
+  //   phaseSummary,
+  //   privateGame,
+  //   nationAllocation,
+  //   confirmationStatus,
+  //   status,
+  //   players,
+  //   id,
+  //   variantNumNations,
+  // } = game;
+  const confirmationStatus = undefined;
+  const { chatLanguage, id, name, players, privateGame, rulesSummary, status } =
+    game;
   const styles = useStyles({ confirmationStatus });
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -66,11 +70,11 @@ const GameCard = ({
   const confirmationStatusText = confirmationStatus
     ? confirmationStatusTextMap[confirmationStatus]
     : "";
-  const navigation = useNavigation<"Home">();
+  const navigation = useNavigation<"GameDetail">();
   const openGameDetailTab = (
-    tab: "GameInfo" | "PlayerInfo" | "VariantInfo" | ""
+    screen: "GameInfo" | "PlayerInfo" | "VariantInfo" | ""
   ) => {
-    navigation.navigate("GameDetail", { gameId: id, tab });
+    navigation.navigate("GameDetail", { gameId: id, screen });
   };
   const onPressGameInfo = () => openGameDetailTab("GameInfo");
   const onPressPlayerInfo = () => openGameDetailTab("PlayerInfo");
@@ -107,7 +111,7 @@ const GameCard = ({
     },
     share: {
       title: "Share",
-      onPress: () => dispatch({ type: "SHARE", gameId: id }),
+      onPress: () => alert("Coming soon"),
       iconProps: { name: "share", type: "material" },
     },
     gameInfo: {
@@ -152,7 +156,7 @@ const GameCard = ({
                   <Stack>
                     <Icon name="account-multiple" type="material-community" />
                     <Text>
-                      {players.length}/{variantNumNations}
+                      {players.length}/{variant.nations.length}
                     </Text>
                   </Stack>
                 )}
@@ -164,7 +168,7 @@ const GameCard = ({
             </Stack>
             <Stack justify="space-between" fillWidth>
               <Text variant="body2" accessibilityLabel="Rules summary">
-                {rulesSummary}
+                {game}
               </Text>
               <Stack gap={1}>
                 {Boolean(status === "started") && (

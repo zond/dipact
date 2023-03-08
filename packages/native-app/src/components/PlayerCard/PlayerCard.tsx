@@ -6,7 +6,7 @@ import { MoreButton } from "../Button";
 import { Text } from "../Text";
 import { Stack } from "../Stack";
 import Chip from "../Chip";
-import GoodBadSlider from "../GoodBadSlider";
+import GoodBadSlider from "../GoodBadSlider/GoodBadSlider";
 import { PlayerDisplay } from "@diplicity/common";
 import { useStyles } from "./PlayerCard.styles";
 
@@ -39,6 +39,9 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
     ["disengaged"]: ["Disengaged", "error"],
   } as const;
   const [commitedLabel, commitedVariant] = commitedMap[reliabilityLabel];
+  const onPressMore = () => {
+    alert("More button pressed");
+  };
   return (
     <Stack orientation="vertical" style={[style, styles.root]} {...rest}>
       const [commitedLabel, commitedVariant] =
@@ -58,7 +61,7 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
           <Chip title={commitedLabel} variant={commitedVariant} />
         </Stack>
         <Stack orientation="vertical" align="flex-end">
-          <MoreButton buttonStyle={styles.moreButton} />
+          <MoreButton buttonStyle={styles.moreButton} onPress={onPressMore} />
           {Boolean(variant === "compact") && (
             <Text>
               {numPlayedGames}/{numWonGames}/{numDrawnGames}/{numAbandonedGames}
@@ -66,7 +69,7 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
           )}
         </Stack>
       </Stack>
-      {Boolean(variant === "expanded") && (
+      {/* {Boolean(variant === "expanded") && (
         <Stack fillWidth padding={1} style={styles.section}>
           <Stack gap={1}>
             <Stack grow flex={1}>
@@ -77,7 +80,7 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
             </Stack>
           </Stack>
         </Stack>
-      )}
+      )} */}
       {Boolean(variant === "expanded") && (
         <Stack padding={1} style={styles.section} fillWidth>
           {gameStatsTable.map(({ label, value }, index) => (
