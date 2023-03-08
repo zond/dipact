@@ -3,7 +3,7 @@ import { render } from "@testing-library/react-native";
 
 import Router from "../Router";
 import { useSelector } from "react-redux";
-import { translateKeys as tk } from "@diplicity/common";
+import { translateKeys as tk } from "../../../common";
 
 jest.mock("../Login", () => () => <>Login</>);
 jest.mock("../MyGames", () => () => <>MyGames</>);

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { authActions, selectors } from "@diplicity/common";
+import { authActions, selectors } from "../../common/store";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { Linking } from "react-native";
 

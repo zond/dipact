@@ -4,11 +4,10 @@ import { LinearProgress } from "@rneui/base";
 import { Stack } from "../Stack";
 import { useTheme } from "../../hooks/useTheme";
 import { useStyles } from "./GoodBadSlider.styles";
-import { ValueRating } from "../../types";
+import { ValueRating } from "../../../common";
 import { getValueRating } from "../../utils/general";
 
 interface GoodBadSliderProps {
-  // Between -1 and 1
   value: number;
 }
 

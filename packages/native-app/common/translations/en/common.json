@@ -1,0 +1,450 @@
+{
+  "chat-menu": {
+    "create-channel-button": {
+      "title": "Create channel"
+    },
+    "no-channels-message": "No channels have been created",
+    "title": "Chat"
+  },
+  "create-game": {
+    "adjustment-phase-length-multiplier-input": {
+      "label": "Adjustment phase length"
+    },
+    "adjustment-phase-length-unit-select": {
+      "label": "Unit"
+    },
+    "allow-chats-switch": {
+      "label": "Allow chats"
+    },
+    "anonymous-chat-checkbox": {
+      "explanation": "Anonymous only allowed in private games (risk of abuse)",
+      "label": "Anonymous"
+    },
+    "chat-language-select": {
+      "default-option": "Player's choice",
+      "label": "Chat language"
+    },
+    "chat-section": {
+      "label": "Chat"
+    },
+    "conference-chat-checkbox": {
+      "label": "Conference (all players)"
+    },
+    "custom-adjustment-phase-length-checkbox": {
+      "label": "Shorter adjustment phases"
+    },
+    "end-after-years-checkbox": {
+      "label": "End in draw after number of years"
+    },
+    "end-after-years-input": {
+      "label": "End after year",
+      "error-message": {
+        "less-than-variant-start": "Must be a year after the variant start year"
+      }
+    },
+    "game-length-section": {
+      "label": "Game length"
+    },
+    "game-master-checkbox": {
+      "help-text": {
+        "default": "As game master, you can pause/resume games and control who joins (and as what nation). To play yourself, you need to join as a player after creating your game.",
+        "disabled": "Game master only allowed in private games (risk of abuse)"
+      },
+      "label": "Game master"
+    },
+    "group-chat-checkbox": {
+      "label": "Group"
+    },
+    "individual-chat-checkbox": {
+      "label": "Individual"
+    },
+    "max-rating-enabled-checkbox": {
+      "help-text": "Find players that aren't too challenging",
+      "label": "Maximum rating"
+    },
+    "max-rating-input": {
+      "error-message": {
+        "less-than-user-rating": "Can't be lower than your own rating ({{ rating }})"
+      },
+      "help-text": "Removes the most challenging {{ percentage }}% of players",
+      "label": "Maximum rating"
+    },
+    "min-quickness-input": {
+      "label": "Minimum quickness score",
+      "error-message": {
+        "more-than-user-quickness": "Can't be higher than your own quickness ({{ reliability }})"
+      }
+    },
+    "min-rating-enabled-checkbox": {
+      "help-text": "Find players that are challenging",
+      "label": "Minimum rating"
+    },
+    "min-rating-input": {
+      "error-message": {
+        "more-than-user-rating": "Can't be higher than your own rating ({{ rating }})"
+      },
+      "help-text": "Removes the least challenging {{ percentage }}% of players",
+      "label": "Minimum rating"
+    },
+    "min-reliability-input": {
+      "label": "Minimum reliability score",
+      "error-message": {
+        "more-than-user-reliability": "Can't be higher than your own reliability ({{ reliability }})"
+      }
+    },
+    "name-input": {
+      "label": "Name"
+    },
+    "nation-allocation-section": {
+      "label": "Nation selection"
+    },
+    "phase-length-multiplier-input": {
+      "label": "Phase length"
+    },
+    "phase-length-unit-select": {
+      "label": "Unit"
+    },
+    "private-checkbox": {
+      "label": "Private"
+    },
+    "quickness-enabled-checkbox": {
+      "help-text": "Find players that confirm their orders before the deadline",
+      "label": "Quickness"
+    },
+    "randomize-name-button": {
+      "title": "Randomize name"
+    },
+    "reliability-enabled-checkbox": {
+      "help-text": "Find players that keep playing",
+      "label": "Reliability (important)"
+    },
+    "require-game-master-invitation": {
+      "label": "Require game master invitation",
+      "help-text": "Game master must allow players to join"
+    },
+    "requirements-section": {
+      "label": "Player requirements"
+    },
+    "skip-get-ready-phase-checkbox": {
+      "help-text": "The Get Ready phase asks players to confirm they're ready. If players don't respond, they are removed and the game goes back to try to find replacements before the game can start. This prevents absent people ruining a game.",
+      "label": "Skip get ready phase"
+    },
+    "submit-button": {
+      "label": "Create game"
+    },
+    "title": "Create Game",
+    "variant-description": {
+      "author-label": "Original author",
+      "rules-label": "Rules",
+      "start-year-label": "Start year"
+    },
+    "variant-select": {
+      "label": "Variant",
+      "option-label": "{{ name }} ({{ numPlayers }} players)"
+    }
+  },
+  "create-order": {
+    "summary": {
+      "select-aux": "{{ source }} will {{ type }} from...",
+      "select-type": "{{ source }} will...",
+      "select-target": "{{ source }} will {{ type }} into...",
+      "select-aux-target": "{{ source }} will {{ type }} {{ aux }} into..."
+    },
+    "prompt": {
+      "select-aux": "Select aux",
+      "select-source": "Select a unit to order",
+      "select-type": "Select order type",
+      "select-target": "Select province to move into",
+      "select-aux-target": "Select province that {{ source }} will {{ type }} {{ aux }} into"
+    }
+  },
+  "durations": {
+    "day": {
+      "plural": "Days",
+      "singular": "Day"
+    },
+    "hour": {
+      "plural": "Hours",
+      "singular": "Hour"
+    },
+    "minute": {
+      "plural": "Minutes",
+      "singular": "Minute"
+    }
+  },
+  "feedback": {
+    "create-game": {
+      "fulfilled": "Game created!",
+      "rejected": "Couldn't create game."
+    },
+    "create-order": {
+      "fulfilled": "Order created!",
+      "rejected": "Couldn't create order."
+    },
+    "join-game": {
+      "fulfilled": "Joined game!",
+      "rejected": "Couldn't join game."
+    },
+    "reschedule-game": {
+      "fulfilled": "Rescheduled game!",
+      "rejected": "Couldn't reschedule game."
+    },
+    "renameGame": {
+      "fulfilled": "Renamed game!",
+      "rejected": "Couldn't rename game."
+    },
+    "deleteGame": {
+      "fulfilled": "Deleted game!",
+      "rejected": "Couldn't delete game."
+    },
+    "invite": {
+      "fulfilled": "Invited!",
+      "rejected": "Couldn't invite user."
+    },
+    "unInvite": {
+      "fulfilled": "Un-invited!",
+      "rejected": "Couldn't un-invite user."
+    }
+  },
+  "game-list": {
+    "all-games-tab": {
+      "label": "All games"
+    },
+    "create-game-button": {
+      "title": "Create Game"
+    },
+    "game-card": {
+      "failed-requirements": {
+        "label": "You can't join this game:",
+        "hated": "You've been reported too often (hated score too high).",
+        "hater": "You banned others too often (hater score too high).",
+        "max-rating": "You're too good (rating too high).",
+        "min-rating": "You You're not good enough yet (rating too low).",
+        "min-reliability": "You haven't given any orders on too many turns (reliability too low).",
+        "min-quickness": "You haven't committed your orders often enough (quickness too low).",
+        "invitation-needed": "The game Master hasn't invited you."
+      },
+      "view-button": {
+        "label": "View"
+      },
+      "invite-button": {
+        "label": "Invite"
+      },
+      "join-button": {
+        "label": "Join"
+      },
+      "reschedule-button": {
+        "label": "Reschedule"
+      },
+      "rename-button": {
+        "label": "Rename"
+      },
+      "delete-button": {
+        "label": "Delete"
+      },
+      "manage-invitations-button": {
+        "label": "Manage invitations"
+      },
+      "rules": {
+        "label": "Rules:"
+      },
+      "players": {
+        "label": "Players:"
+      },
+      "chat-language-icon": {
+        "tooltip": "Chat language: {{ language }}"
+      },
+      "private-game-icon": {
+        "tooltip": "Private game"
+      },
+      "min-quickness-or-reliability-required-icon": {
+        "tooltip": "Minimum quickness or reliability required"
+      },
+      "min-rating-required-icon": {
+        "tooltip": "Minimum rating required"
+      },
+      "chat-disabled-icon": {
+        "tooltip": "Chat disabled"
+      },
+      "preference-base-nation-allocation-icon": {
+        "tooltip": "Preference based nation allocation"
+      },
+      "chat-language-rule": {
+        "label": "Chat language: {{ language }}"
+      },
+      "game-variant-rule": {
+        "label": "Game variant: {{ variant }}"
+      },
+      "phase-deadline-rule": {
+        "label": "Phase deadline: {{ deadline }}"
+      },
+      "created-at-rule": {
+        "label": "Created at: {{ createdAt }}"
+      },
+      "nation-allocation-rule": {
+        "label": "Nation allocation: {{ nationAllocation }}"
+      }
+    },
+    "game-status-labels": {
+      "finished": "Finished games",
+      "staging": "Open to join",
+      "started": "Started games"
+    },
+    "mastered-games-checkbox": {
+      "label": "Managed by me"
+    },
+    "my-games-tab": {
+      "label": "My games"
+    }
+  },
+  "loading": {
+    "title": "Loading"
+  },
+  "login": {
+    "description": "A digital version of the classic game of Diplomacy. Sign in to play.",
+    "login-button": {
+      "label": "Sign in with Google"
+    },
+    "stay-logged-in-checkbox": {
+      "label": "Stay logged in"
+    }
+  },
+  "nation-allocation-options": {
+    "preference": "Preference",
+    "random": "Random"
+  },
+  "nation-preferences": {
+    "close-button": {
+      "label": "Close"
+    },
+    "join-button": {
+      "label": "Join"
+    },
+    "prompt": "Sort the possible nations in order of preference.",
+    "title": "Nation preferences"
+  },
+  "orders": {
+    "build-count": {
+      "plural": "{{ count }} builds",
+      "singular": "{{ count }} build"
+    },
+    "confirm-orders-button": {
+      "label": "Confirm orders",
+      "no-orders": "You have no orders to give this turn",
+      "prompt": "When you're ready for the next turn"
+    },
+    "confirmed-icon-tooltip": "Confirmed their orders",
+    "disband-count": {
+      "plural": "{{ count }} disbands",
+      "singular": "{{ count }} disband"
+    },
+    "no-orders-given-icon-tooltip": "Did not send orders",
+    "supply-center-count": {
+      "plural": "{{ count }} supply centers",
+      "singular": "{{ count }} supply center"
+    },
+    "toggle-dias-button": {
+      "label": "Accept draw"
+    },
+    "wants-draw-icon-tooltip": "Wants a draw",
+    "resolution": {
+      "success": "Success",
+      "bounced": "Bounced with {{ province }}",
+      "support-broken": "Support broken by {{ province }}"
+    }
+  },
+  "phase-selector": {
+    "title": "Phase selector",
+    "previous-button": {
+      "title": "Show previous phase"
+    },
+    "next-button": {
+      "title": "Show next phase"
+    }
+  },
+  "reschedule-game-dialog": {
+    "title": "Reschedule game",
+    "reschedule-input": {
+      "label": "New name"
+    },
+    "reschedule-button": {
+      "label": "Reschedule"
+    },
+    "cancel-button": {
+      "label": "Cancel"
+    }
+  },
+  "rename-game-dialog": {
+    "title": "Rename game",
+    "rename-input": {
+      "label": "New name"
+    },
+    "rename-button": {
+      "label": "Rename"
+    },
+    "cancel-button": {
+      "label": "Cancel"
+    }
+  },
+  "reset-settings-dialog": {
+    "title": "Reset settings",
+    "prompt": "Are you sure you want to reset settings? This will restore all settings to the default values.",
+    "reset-button": "Reset settings",
+    "cancel-button": "Cancel"
+  },
+  "settings": {
+    "color-non-scs-switch": {
+      "help-text": "Colour provinces without supply centers based on the ownership of the supply centers around it.",
+      "label": "Colour non-SC provinces"
+    },
+    "email-notifications-switch": {
+      "label": "Email notifications"
+    },
+    "error-notifications": {
+      "firebase-not-supported": "Notifications disabled [Error: Firebase Messaging not supported on your browser]",
+      "info-link": "Allow this sites notifications in your browser settings.",
+      "messaging-not-started": "Notifications disabled [Error: Notification system did not start]",
+      "no-permission": "No notification permission received.",
+      "no-permission-prompt": "Allow this sites notifications in your browser settings.",
+      "no-token": "Notifications disabled [Error: no token uploaded]"
+    },
+    "map-colors-section": {
+      "label": "Custom nation colours"
+    },
+    "notifications-section": {
+      "label": "Notifications"
+    },
+    "phase-deadline-reminder": {
+      "help-text": "In minutes. 0 = off",
+      "input-label": "Phase deadline reminder",
+      "notifications-prompt": "In minutes. 0 = off"
+    },
+    "push-notifications-switch": {
+      "label": "Push notifications"
+    },
+    "reset-settings-button": {
+      "label": "Reset settings"
+    },
+    "title": "Settings",
+    "variant-select": {
+      "label": "Variant"
+    }
+  },
+  "stats-dialog": {
+    "title": "{{ username }}",
+    "muted-checkbox": {
+      "label": "Muted"
+    },
+    "ranking": {
+      "label": "Ranking (position in server wide leaderboard)",
+      "value": "#{{ value }}"
+    },
+    "rating": {
+      "label": "Rating (calculation based on win/loss history)"
+    },
+    "rating-percentile": {
+      "label": "Rating percentile (percentage of active players as good or better)",
+      "value": "{{ value }}%"
+    }
+  }
+}

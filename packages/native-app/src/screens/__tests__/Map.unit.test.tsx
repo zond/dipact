@@ -3,8 +3,8 @@ import { Text, View } from "react-native";
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
-import Component from "../Map";
-import { translateKeys as tk, useMap } from "@diplicity/common";
+import Component from "../Map/Map";
+import { translateKeys as tk, useMap } from "../../../common";
 import CreateOrderMenu from "../../components/CreateOrderMenu";
 import PhaseSelector from "../../components/PhaseSelector";
 import ImageZoom from "react-native-image-pan-zoom";
@@ -18,8 +18,8 @@ interface ArrangeOptions {
   useMapValues: UseMapValues;
 }
 
-jest.mock("@diplicity/common", () => ({
-  ...jest.requireActual("@diplicity/common"),
+jest.mock("../../../common", () => ({
+  ...jest.requireActual("../../../common"),
   useMap: jest.fn(),
 }));
 jest.mock("../../components/PhaseSelector");

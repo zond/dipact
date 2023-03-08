@@ -6,8 +6,8 @@ import { MoreButton } from "../Button";
 import { Text } from "../Text";
 import { Stack } from "../Stack";
 import Chip from "../Chip";
-import GoodBadSlider from "../GoodBadSlider/GoodBadSlider";
-import { PlayerDisplay } from "@diplicity/common";
+// import GoodBadSlider from "../GoodBadSlider";
+import { PlayerDisplay } from "../../../common";
 import { useStyles } from "./PlayerCard.styles";
 
 interface PlayerCardProps extends ViewProps {
@@ -20,7 +20,7 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
   const { src, username, stats } = player;
   const {
     reliabilityLabel,
-    reliabilityRating,
+    // reliabilityRating,
     numAbandonedGames,
     numDrawnGames,
     numPlayedGames,

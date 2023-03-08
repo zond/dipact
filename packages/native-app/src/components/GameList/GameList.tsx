@@ -3,7 +3,7 @@ import { RefreshControl, ScrollView, Text, View } from "react-native";
 import GameCard from "../GameCard/GameCard";
 import { GameCardSkeleton } from "../GameCard";
 import { useStyles } from "./GameList.styles";
-import useGameListView from "../../hooks/useGameListView";
+import useGameListView from "../../../common/hooks/useGameListView";
 import QueryContainer from "../QueryContainer";
 import { assertDefined } from "../../utils/general";
 

@@ -1,4 +1,4 @@
-import { usePlayerDisplay } from "@diplicity/common";
+import { usePlayerDisplay } from "../../../common";
 import React from "react";
 import PlayerCard from "./PlayerCard";
 import PlayerCardSkeleton from "./PlayerCard.skeleton";

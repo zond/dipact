@@ -1,5 +1,5 @@
 import React from "react";
-import { translateKeys as tk, NationStatusDisplay } from "@diplicity/common";
+import { translateKeys as tk, NationStatusDisplay } from "../../common";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../hooks/useTheme";
 import { StyleSheet, Text, View } from "react-native";

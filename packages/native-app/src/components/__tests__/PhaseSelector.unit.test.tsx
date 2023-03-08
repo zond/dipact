@@ -3,7 +3,7 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import Component from "../PhaseSelector";
-import { translateKeys as tk, usePhaseSelector } from "@diplicity/common";
+import { translateKeys as tk, usePhaseSelector } from "../../../common";
 
 type UsePhaseSelectorValues = Partial<ReturnType<typeof usePhaseSelector>>;
 interface ArrangeOptions {
@@ -15,8 +15,8 @@ let props: Parameters<typeof Component>[0];
 let usePhaseSelectorValues: UsePhaseSelectorValues;
 const gameId = "123";
 
-jest.mock("@diplicity/common", () => ({
-  ...jest.requireActual("@diplicity/common"),
+jest.mock("../../../common", () => ({
+  ...jest.requireActual("../../../common"),
   usePhaseSelector: jest.fn(),
 }));
 

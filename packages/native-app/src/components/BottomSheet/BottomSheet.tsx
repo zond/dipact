@@ -1,16 +1,7 @@
 import React from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import { View, ViewProps } from "react-native";
 import { BottomSheet, BottomSheetProps } from "@rneui/base";
-import { useTheme } from "../../hooks/useTheme";
-
-const useStyles = () => {
-  const theme = useTheme();
-  return StyleSheet.create({
-    container: {
-      backgroundColor: theme.palette.paper.main,
-    },
-  });
-};
+import { useStyles } from "./BottomSheet.styles";
 
 type BottomSheetComponentProps = BottomSheetProps &
   ViewProps & {

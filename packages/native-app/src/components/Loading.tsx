@@ -1,7 +1,7 @@
 import { useTheme } from "../hooks/useTheme";
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { translateKeys as tk } from "@diplicity/common";
+import { translateKeys as tk } from "../../common";
 import { useTranslation } from "react-i18next";
 
 interface LoadingProps {

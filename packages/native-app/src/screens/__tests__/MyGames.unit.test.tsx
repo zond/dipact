@@ -2,10 +2,10 @@ import "react-native";
 import React from "react";
 import { render } from "@testing-library/react-native";
 
-import MyGames from "../MyGames";
+import MyGames from "../MyGames/MyGames";
 import { Text } from "react-native";
 import GameList from "../../components/GameList/GameList";
-import { GameStatus, translateKeys as tk } from "@diplicity/common";
+import { GameStatus, translateKeys as tk } from "../../../common";
 
 interface ArrangeOptions {
   props: Parameters<typeof MyGames>[0];

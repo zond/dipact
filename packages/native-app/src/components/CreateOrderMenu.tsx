@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useCreateOrderMenu } from "@diplicity/common";
+import { useCreateOrderMenu } from "../../common";
 import { Picker } from "@react-native-picker/picker";
 
 interface CreateOrderMenuProps {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Query } from "../types";
+import { Query } from "../../common";
 import Loading from "./Loading";
 import { Stack } from "./Stack";
 

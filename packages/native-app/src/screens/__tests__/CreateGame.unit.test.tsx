@@ -4,9 +4,9 @@ import {
   NationAllocation,
   translateKeys as tk,
   useCreateGame,
-} from "@diplicity/common";
+} from "../../../common";
 
-import CreateGame from "../CreateGame";
+import CreateGame from "../CreateGame/CreateGame";
 
 interface CreateUseGameMockOptions {
   error?: any;
@@ -22,8 +22,8 @@ interface CreateUseGameMockOptions {
 const mockHandleChange = jest.fn(() => jest.fn());
 const mockSetFieldValue = jest.fn(() => jest.fn());
 const mockSubmitForm = jest.fn(() => jest.fn());
-jest.mock("@diplicity/common", () => ({
-  ...jest.requireActual("@diplicity/common"),
+jest.mock("../../../common", () => ({
+  ...jest.requireActual("../../../common"),
   isoCodes: [{ name: "English", code: "en" }],
   useCreateGame: jest.fn(),
 }));

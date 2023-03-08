@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useFeedbackWrapper } from "@diplicity/common";
+import { useFeedbackWrapper } from "../../common";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
 

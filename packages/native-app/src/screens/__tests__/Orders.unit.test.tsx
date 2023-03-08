@@ -2,12 +2,12 @@ import "react-native";
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
-import Component from "../Orders";
+import Component from "../Orders/Orders";
 import {
   NationStatusDisplay,
   useOrders,
   translateKeys as tk,
-} from "@diplicity/common";
+} from "../../../common";
 import NationOrders from "../../components/NationOrders";
 import PhaseSelector from "../../components/PhaseSelector";
 import Loading from "../../components/Loading";
@@ -23,8 +23,8 @@ interface ArrangeOptions {
   useOrdersValues: UseOrdersValues;
 }
 
-jest.mock("@diplicity/common", () => ({
-  ...jest.requireActual("@diplicity/common"),
+jest.mock("../../../common", () => ({
+  ...jest.requireActual("../../../common"),
   useOrders: jest.fn(),
 }));
 
