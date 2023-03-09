@@ -370,33 +370,26 @@ export function dippyMap(container) {
 
 
 
-//		var boundF = 6;
-//		var headF1 = boundF * 3;
-//		var headF2 = boundF * 6;
-//		var spacer = 12;
-//		var part1 = new that.Vec(start, middle);
-//		var part2 = new that.Vec(middle, end);
-//
-//		var start0 = start
-//			.add(part1.dir().mul(spacer));
-//			.add(part1.orth().mul(boundF));
-//		var start1 = start
-//			.add(part1.dir().mul(spacer))
-//			.sub(part1.orth().mul(boundF));
-//		var sumOrth = part1.orth().add(part2.orth());
-//		var avgOrth = sumOrth.div(sumOrth.len());
-//		var control0 = middle.add(avgOrth.mul(boundF));
-//		var control1 = middle.sub(avgOrth.mul(boundF));
-//		var end0 = end
-//			.sub(part2.dir().mul(spacer)); //+ headF2))
-//			.add(part2.orth().mul(boundF));
-//		var end1 = end
-//			.sub(part2.dir().mul(spacer + headF2))
-//			.sub(part2.orth().mul(boundF));
-//		var end3 = end.sub(part2.dir().mul(spacer));
-//		var head0 = end0.add(part2.orth().mul(headF1));
-//		var head1 = end1.sub(part2.orth().mul(headF1));
 
+//TODO: 	Insert the appendChild
+console.log("marked");
+const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+marker.setAttributeNS(null, "id", "markerId");
+marker.setAttributeNS(null, "marker-width", 20);
+marker.setAttributeNS(null, "marker-height", 20);
+document.getElementById("defs14").appendChild(marker);
+
+const markerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+markerCircle.setAttributeNS(null, "id", "circle");
+markerCircle.setAttributeNS(null, "cx", 20);
+markerCircle.setAttributeNS(null, "cy", 20);
+markerCircle.setAttributeNS(null, "r", 20);
+markerCircle.setAttributeNS(null, "fill", "red");
+document.getElementById("markerId").appendChild(markerCircle);
+
+
+
+//Define the arrow definitions
 
 		var spacer = 12;
 		var startVec = new that.Vec(start, middle);
@@ -419,7 +412,7 @@ export function dippyMap(container) {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill: none;stroke:#000000;stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + ";"
+			"fill: none;stroke:#000000;stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + ";marker-end:url(#markerId);"
 		);
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
@@ -437,52 +430,6 @@ export function dippyMap(container) {
 		$(el)
 			.find("#orders")[0]
 			.appendChild(colorPath);
-
-
-
-
-/*		path.setAttribute(
-			"style",
-			"fill:" +
-				color +
-				";stroke:" +
-				(opts.stroke || "#000000") +
-				";stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.7;"
-		);
-		var d = "M " + start0.x + "," + start0.y;
-		d +=
-			" C " +
-			control0.x +
-			"," +
-			control0.y +
-			"," +
-			control0.x +
-			"," +
-			control0.y +
-			"," +
-			end0.x +
-			"," +
-			end0.y;
-		d += " L " + head0.x + "," + head0.y;
-		d += " L " + end3.x + "," + end3.y;
-		d += " L " + head1.x + "," + head1.y;
-		d += " L " + end1.x + "," + end1.y;
-		d +=
-			" C " +
-			control1.x +
-			"," +
-			control1.y +
-			"," +
-			control1.x +
-			"," +
-			control1.y +
-			"," +
-			start1.x +
-			"," +
-			start1.y;
-		d += " z";
-*/
-
 	};
 	that.addCross = function(province, color, opts = {}) {
 		var bound = 14;
@@ -595,8 +542,6 @@ export function dippyMap(container) {
 			that.addBox(order[0], 5, color, opts);
 			that.addArrow([order[2], order[0], order[3]], color, opts);
 		} else if (order[1] === "Support") {
-console.log("Supportorder");
-console.log(order);
 			if (order.length === 3) {
 				that.addBox(order[0], 3, color, opts);
 				that.addArrow([order[2], order[3]], color, opts);

@@ -57,6 +57,7 @@ export default class DipMap extends React.Component {
 			this.props.parentCB(this);
 		}
 	}
+
 	currentNation() {
 		if (this.state.laboratoryMode) {
 			return this.state.labPlayAs;
@@ -849,6 +850,20 @@ export default class DipMap extends React.Component {
 		this.acceptOrders();
 	}
 	renderOrders() {
+//TODO: Here we need to change how we render orders:
+
+//FIRST we draw all the support orders
+		// and check if successful or not (if not - arrowborder needs to be red)
+
+//THEN we draw all the convoy orders
+		//and check if successful or not (if not - arrowborder is red)
+
+//THEN we draw all move (& hold) orders
+		//and check if successful or not (if not - arrowborder is red)
+
+//OPTIONAL: we check the order and add a cross. If a move or support order, add in the middle (we can extract the middle the same way we add support/move/convoy)
+
+
 		this.debugCount("renderOrders/called");
 		const ordersHash = helpers.hash(
 			JSON.stringify([this.state.orders, this.state.phase.Properties.Orders])
@@ -1333,6 +1348,7 @@ export default class DipMap extends React.Component {
 	}
 	render() {
 		if (!this.state.game || !this.state.phase) {
+
 			return "";
 		}
 		return (
