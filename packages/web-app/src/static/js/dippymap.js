@@ -186,13 +186,14 @@ export function dippyMap(container) {
 		el = container.find("svg")[0];
 	};
 	that.colorSC = function(province, color) {
+//TODO: Replace or add the proSC version for newer maps.
 		$(el).find("#" + province + "Center")[0].style.stroke = color;
 	};
 	that.colorProvince = function(province, color) {
 		var path = $(el).find("#" + that.selEscape(province))[0];
 		path.removeAttribute("style");
 		path.setAttribute("fill", color);
-		path.setAttribute("fill-opacity", "0.8");
+		path.setAttribute("fill-opacity", "0.4");
 	};
 	that.hideProvince = function(province) {
 		var path = $(el).find("#" + that.selEscape(province))[0];
@@ -319,10 +320,11 @@ export function dippyMap(container) {
 		path.setAttribute(
 			"style",
 			"fill-rule:evenodd;fill:" +
-				color +
+			//TODO: decide on the prettiest version. b2 is transparency. need to move this UNDER the fleet
+				color + "b2" +
 				";stroke:" +
-				(opts.stroke || "#000000") +
-				";stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.9;"
+				(opts.stroke || "#000000b2") +
+				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.9;"
 		);
 		var d = "";
 		var subBox = function(boundF) {
@@ -348,6 +350,7 @@ export function dippyMap(container) {
 			.find("#orders")[0]
 			.appendChild(path);
 	};
+//TODO: add the arrow. 
 	that.addArrow = function(provs, color, opts = {}) {
 		var start = null;
 		var middle = null;
@@ -364,6 +367,9 @@ export function dippyMap(container) {
 			middle = that.centerOf(provs[1]);
 			end = that.centerOf(provs[2]);
 		}
+
+
+
 		var boundF = 3;
 		var headF1 = boundF * 3;
 		var headF2 = boundF * 6;
@@ -391,7 +397,7 @@ export function dippyMap(container) {
 		var head1 = end1.sub(part2.orth().mul(headF1));
 
 		var path = document.createElementNS(SVG, "path");
-		path.setAttribute(
+/*		path.setAttribute(
 			"style",
 			"fill:" +
 				color +
@@ -399,6 +405,16 @@ export function dippyMap(container) {
 				(opts.stroke || "#000000") +
 				";stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.7;"
 		);
+*/
+
+		path.setAttribute(
+			"style",
+			"fill: none;stroke:#000000;stroke-width:10;"
+		);
+
+
+		var d = "M" + start.x + " " + start.y + " Q " + middle.x + " " + middle.y + " " + end.x + " " + end.y;
+/*	
 		var d = "M " + start0.x + "," + start0.y;
 		d +=
 			" C " +
@@ -431,6 +447,7 @@ export function dippyMap(container) {
 			"," +
 			start1.y;
 		d += " z";
+*/
 		path.setAttribute("d", d);
 		$(el)
 			.find("#orders")[0]
@@ -547,6 +564,8 @@ export function dippyMap(container) {
 			that.addBox(order[0], 5, color, opts);
 			that.addArrow([order[2], order[0], order[3]], color, opts);
 		} else if (order[1] === "Support") {
+console.log("Supportorder");
+console.log(order);
 			if (order.length === 3) {
 				that.addBox(order[0], 3, color, opts);
 				that.addArrow([order[2], order[3]], color, opts);

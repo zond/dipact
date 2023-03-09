@@ -874,6 +874,10 @@ export default class DipMap extends React.Component {
 				}
 			}
 
+			console.log("orders");
+			console.log(this.state.orders);
+
+
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
 				this.map.addOrder(
@@ -883,10 +887,19 @@ export default class DipMap extends React.Component {
 				);
 				this.debugCount("renderOrders/renderedOrder");
 			});
+
+
+			console.log("resolutions");
+			console.log(this.state.phase.Properties.Resolutions);
+			console.log("resolutions Array");
+			console.log(this.state.phase.Properties.Resolutions instanceof Array);
+
+
 			if (this.state.phase.Properties.Resolutions instanceof Array) {
 				this.state.phase.Properties.Resolutions.forEach((res) => {
+//TODO: This is where they set the cross if the order is not okay
 					if (res.Resolution !== "OK") {
-						this.map.addCross(res.Province, "#ff0000");
+						this.map.addCross(res.Province, "#ffffff");
 					}
 				});
 				this.debugCount("renderOrders/renderedResolution");
