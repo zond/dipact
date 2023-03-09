@@ -370,33 +370,77 @@ export function dippyMap(container) {
 
 
 
-		var boundF = 3;
-		var headF1 = boundF * 3;
-		var headF2 = boundF * 6;
-		var spacer = boundF * 2;
-		var part1 = new that.Vec(start, middle);
-		var part2 = new that.Vec(middle, end);
-		var start0 = start
-			.add(part1.dir().mul(spacer))
-			.add(part1.orth().mul(boundF));
-		var start1 = start
-			.add(part1.dir().mul(spacer))
-			.sub(part1.orth().mul(boundF));
-		var sumOrth = part1.orth().add(part2.orth());
-		var avgOrth = sumOrth.div(sumOrth.len());
-		var control0 = middle.add(avgOrth.mul(boundF));
-		var control1 = middle.sub(avgOrth.mul(boundF));
-		var end0 = end
-			.sub(part2.dir().mul(spacer + headF2))
-			.add(part2.orth().mul(boundF));
-		var end1 = end
-			.sub(part2.dir().mul(spacer + headF2))
-			.sub(part2.orth().mul(boundF));
-		var end3 = end.sub(part2.dir().mul(spacer));
-		var head0 = end0.add(part2.orth().mul(headF1));
-		var head1 = end1.sub(part2.orth().mul(headF1));
+//		var boundF = 6;
+//		var headF1 = boundF * 3;
+//		var headF2 = boundF * 6;
+//		var spacer = 12;
+//		var part1 = new that.Vec(start, middle);
+//		var part2 = new that.Vec(middle, end);
+//
+//		var start0 = start
+//			.add(part1.dir().mul(spacer));
+//			.add(part1.orth().mul(boundF));
+//		var start1 = start
+//			.add(part1.dir().mul(spacer))
+//			.sub(part1.orth().mul(boundF));
+//		var sumOrth = part1.orth().add(part2.orth());
+//		var avgOrth = sumOrth.div(sumOrth.len());
+//		var control0 = middle.add(avgOrth.mul(boundF));
+//		var control1 = middle.sub(avgOrth.mul(boundF));
+//		var end0 = end
+//			.sub(part2.dir().mul(spacer)); //+ headF2))
+//			.add(part2.orth().mul(boundF));
+//		var end1 = end
+//			.sub(part2.dir().mul(spacer + headF2))
+//			.sub(part2.orth().mul(boundF));
+//		var end3 = end.sub(part2.dir().mul(spacer));
+//		var head0 = end0.add(part2.orth().mul(headF1));
+//		var head1 = end1.sub(part2.orth().mul(headF1));
 
+
+		var spacer = 12;
+		var startVec = new that.Vec(start, middle);
+		var endVec = new that.Vec(middle, end);
+
+		var arrowStart = start
+			.add(startVec.dir().mul(spacer));
+
+		var arrowEnd = end
+			.sub(endVec.dir().mul(spacer)); //WILL NEED EXTRA SPACE FOR ENDPOINT
+
+//Select whether the arrow is solid (move) or dashed (support)
+		if (provs.length === 3) {
+			var supportBorderStrokeDashArray = "3 2";
+		} else {
+			var supportBorderStrokeDashArray = "0 0";
+		}
+
+//Create the black path for background
 		var path = document.createElementNS(SVG, "path");
+		path.setAttribute(
+			"style",
+			"fill: none;stroke:#000000;stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + ";"
+		);
+		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
+		path.setAttribute("d", d);
+		$(el)
+			.find("#orders")[0]
+			.appendChild(path);
+
+		var colorPath = document.createElementNS(SVG, "path");
+		colorPath.setAttribute(
+			"style",
+			"fill: none;stroke:" + color + ";stroke-width:4;stroke-dasharray:" + supportBorderStrokeDashArray + ";"
+		);
+		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
+		colorPath.setAttribute("d", d);
+		$(el)
+			.find("#orders")[0]
+			.appendChild(colorPath);
+
+
+
+
 /*		path.setAttribute(
 			"style",
 			"fill:" +
@@ -405,16 +449,6 @@ export function dippyMap(container) {
 				(opts.stroke || "#000000") +
 				";stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.7;"
 		);
-*/
-
-		path.setAttribute(
-			"style",
-			"fill: none;stroke:#000000;stroke-width:10;"
-		);
-
-
-		var d = "M" + start.x + " " + start.y + " Q " + middle.x + " " + middle.y + " " + end.x + " " + end.y;
-/*	
 		var d = "M " + start0.x + "," + start0.y;
 		d +=
 			" C " +
@@ -448,10 +482,7 @@ export function dippyMap(container) {
 			start1.y;
 		d += " z";
 */
-		path.setAttribute("d", d);
-		$(el)
-			.find("#orders")[0]
-			.appendChild(path);
+
 	};
 	that.addCross = function(province, color, opts = {}) {
 		var bound = 14;
