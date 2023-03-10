@@ -351,7 +351,7 @@ export function dippyMap(container) {
 			.appendChild(path);
 	};
 //TODO: add the arrow. 
-	that.addArrow = function(provs, color, opts = {}) {
+	that.addArrow = function(provs, color, border, opts = {}) {
 		var start = null;
 		var middle = null;
 		var end = null;
@@ -371,7 +371,7 @@ export function dippyMap(container) {
 
 
 
-//TODO: 	Insert the appendChild
+/*TODO: 	Insert the appendChild
 console.log("marked");
 const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
 marker.setAttributeNS(null, "id", "markerId");
@@ -387,7 +387,7 @@ markerCircle.setAttributeNS(null, "r", 20);
 markerCircle.setAttributeNS(null, "fill", "red");
 document.getElementById("markerId").appendChild(markerCircle);
 
-
+*/
 
 //Define the arrow definitions
 
@@ -412,7 +412,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill: none;stroke:#000000;stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + ";marker-end:url(#markerId);"
+			"fill: none;stroke:" + border + ";stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + ";marker-end:url(#markerId);"
 		);
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
@@ -420,6 +420,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.find("#orders")[0]
 			.appendChild(path);
 
+//Create the coloured foreground
 		var colorPath = document.createElementNS(SVG, "path");
 		colorPath.setAttribute(
 			"style",
@@ -517,13 +518,18 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.find("#orders")
 			.empty();
 	};
-	that.addOrder = function(order, color, opts = {}) {
+	that.addOrder = function(order, color, opts = {}, failed) {
+		if (failed) {
+			var border = "black";
+		} else {
+			var border = "red";
+		}
 		if (order[1] === "Hold") {
 			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Move") {
-			that.addArrow([order[0], order[2]], color, opts);
+			that.addArrow([order[0], order[2]], color, border, opts);
 		} else if (order[1] === "MoveViaConvoy") {
-			that.addArrow([order[0], order[2]], color, opts);
+			that.addArrow([order[0], order[2]], color, border, opts);
 			that.addBox(order[0], 5, color, opts);
 		} else if (order[1] === "Build") {
 			that.addUnit(
@@ -540,14 +546,14 @@ document.getElementById("markerId").appendChild(markerCircle);
 			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
 			that.addBox(order[0], 5, color, opts);
-			that.addArrow([order[2], order[0], order[3]], color, opts);
+			that.addArrow([order[2], order[0], order[3]], color, border, opts);
 		} else if (order[1] === "Support") {
 			if (order.length === 3) {
 				that.addBox(order[0], 3, color, opts);
-				that.addArrow([order[2], order[3]], color, opts);
+				that.addArrow([order[2], order[3]], color, border, opts);
 			} else {
 				that.addBox(order[0], 3, color);
-				that.addArrow([order[0], order[2], order[3]], color, opts);
+				that.addArrow([order[0], order[2], order[3]], color, border, opts);
 			}
 		}
 	};

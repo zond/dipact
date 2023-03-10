@@ -311,6 +311,7 @@ export default class DipMap extends React.Component {
 	snapshotSVG() {
 		const snapshotEl = document.getElementById("mapSnapshot");
 		if (snapshotEl && this.mapDims[0] > 0 && this.mapDims[1] > 0) {
+
 			this.getSVGData().then((data) => {
 				if (data) {
 					snapshotEl.src = data;
@@ -876,9 +877,14 @@ export default class DipMap extends React.Component {
 			if (this.state.phase.Properties.Orders) {
 				for (let nat in this.state.phase.Properties.Orders) {
 					const orders = this.state.phase.Properties.Orders[nat];
+
+
+
+
 					for (let prov in orders) {
 						const superProv = prov.split("/")[0];
 						const order = orders[prov];
+//TODO what is this? Also needs to have resolution added
 						this.map.addOrder(
 							[prov] + order,
 							helpers.natCol(nat, this.state.variant),
@@ -889,16 +895,26 @@ export default class DipMap extends React.Component {
 				}
 			}
 
-			console.log("orders");
-			console.log(this.state.orders);
+
 
 
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
+
+					var failedOrder = false;
+//Check the resolution and add it to the addOrder
+					if (this.state.phase.Properties.Resolutions != null) {
+
+							if (this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
+								failedOrder = true;
+							}
+					}
+
 				this.map.addOrder(
 					orderData.Parts,
 					helpers.natCol(orderData.Nation, this.state.variant),
-					{ stroke: this.phaseSpecialStrokes[superProv] }
+					{ stroke: this.phaseSpecialStrokes[superProv] },
+					failedOrder
 				);
 				this.debugCount("renderOrders/renderedOrder");
 			});
