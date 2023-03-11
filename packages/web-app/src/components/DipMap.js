@@ -898,15 +898,13 @@ export default class DipMap extends React.Component {
 
 
 
-..then
-
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
 
 					var failedOrder = false;
-
-//Check the order resolution and add it to the addOrder command
+//Check the resolution and add it to the addOrder
 					if (this.state.phase.Properties.Resolutions != null) {
+
 							if (this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
 								failedOrder = true;
 							}
@@ -922,9 +920,6 @@ export default class DipMap extends React.Component {
 			});
 
 
-//TODO: This is where they set the cross if the order is not okay -
-			//TODO JOREN: need to add this to failed convoy orders, failed hold orders and failed other orders
-/*
 			console.log("resolutions");
 			console.log(this.state.phase.Properties.Resolutions);
 			console.log("resolutions Array");
@@ -933,19 +928,13 @@ export default class DipMap extends React.Component {
 
 			if (this.state.phase.Properties.Resolutions instanceof Array) {
 				this.state.phase.Properties.Resolutions.forEach((res) => {
-
-
-
+//TODO: This is where they set the cross if the order is not okay
 					if (res.Resolution !== "OK") {
 						this.map.addCross(res.Province, "#ffffff");
 					}
 				});
 				this.debugCount("renderOrders/renderedResolution");
 			}
-*/
-
-			//TODO JOREN: need to add this to failed convoy orders, failed hold orders and failed other orders
-
 			if (this.state.phase.Properties.ForceDisbands instanceof Array) {
 				this.state.phase.Properties.ForceDisbands.forEach((prov) => {
 					this.map.addCross(prov, "#ff6600");
