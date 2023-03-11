@@ -308,7 +308,7 @@ export function dippyMap(container) {
 	that.addBox = function(province, corners, color, opts = {}) {
 		var loc = that.centerOf(province);
 		loc.x -= 3;
-		loc.y -= 3;
+		//loc.y -= 3;
 		var all = Math.PI * 2;
 		var step = all / corners;
 		var startAngle = Math.PI * 1.5;
@@ -319,12 +319,7 @@ export function dippyMap(container) {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill-rule:evenodd;fill:" +
-			//TODO: decide on the prettiest version. b2 is transparency. need to move this UNDER the fleet
-				color + "b2" +
-				";stroke:" +
-				(opts.stroke || "#000000b2") +
-				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.9;"
+			"fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.6;"
 		);
 		var d = "";
 		var subBox = function(boundF) {
@@ -343,8 +338,7 @@ export function dippyMap(container) {
 			}
 			d += " z";
 		};
-		subBox(27);
-		subBox(20);
+		subBox(18);
 		path.setAttribute("d", d);
 		$(el)
 			.find("#orders")[0]
@@ -554,7 +548,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 
 //Create the order
 		if (order[1] === "Hold") {
-			that.addBox(order[0], 4, color, opts);
+			that.addBox(order[0], 8, color, opts);
 		} else if (order[1] === "Move") {
 			that.addArrow([order[0], order[2]], color, border, opts);
 		} else if (order[1] === "MoveViaConvoy") {
@@ -585,7 +579,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 				that.addArrow([order[0], order[2], order[3]], color, border, opts);
 			}
 		}
-		//Add the cross in the right location
+		//Add the cross in the right locationz 
 		if (!success) {
 			var border = "#FB6C6C";
 			if (order[1] === "Move") {
