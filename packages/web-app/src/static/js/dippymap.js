@@ -432,20 +432,29 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.find("#orders")[0]
 			.appendChild(colorPath);
 	};
-	that.addCross = function(province, color, opts = {}) {
-		var bound = 14;
-		var width = 4;
-		var loc = that.centerOf(province);
-		loc.x -= 3;
-		loc.y -= 3;
+	that.addCross = function(provs, color, opts = {}) {
+		
+		if (!Array.isArray(provs)) {
+			var loc = that.centerOf(provs);
+		} else { 
+			var start = that.centerOf(provs[0]);
+			var end = that.centerOf(provs[1]);
+			var loc = start.add(end.sub(start).div(2.0));
+		}
+
+		var bound = 6;
+		var width = 2;
+		loc.x -= 0;
+		loc.y -= 0;
+
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
 			"fill:" +
-				color +
+				"#FB6C6C" +
 				";stroke:" +
-				(opts.stroke || "#000000") +
-				";stroke-width:0.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:0.9;"
+				"#000000" +
+				";stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:1;"
 		);
 		var d =
 			"M " +
@@ -518,8 +527,8 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.find("#orders")
 			.empty();
 	};
-	that.addOrder = function(order, color, opts = {}, failed) {
-		if (failed) {
+	that.addOrder = function(order, color, opts = {}, success) {
+		if (success) {
 			var border = "black";
 		} else {
 			var border = "red";
@@ -556,7 +565,15 @@ document.getElementById("markerId").appendChild(markerCircle);
 				that.addArrow([order[0], order[2], order[3]], color, border, opts);
 			}
 		}
+		//Add the cross in the right location
+		if (!success) {
+			var border = "#FB6C6C";
+			if (order[1] === "Move") {
+			that.addCross([order[0], order[2]], "#FB6C6C")
+			}
+		}
 	};
+	
 	that.removeUnits = function(layer) {
 		if (typeof layer === "undefined") {
 			layer = "#units";
