@@ -884,6 +884,7 @@ export default class DipMap extends React.Component {
 					for (let prov in orders) {
 						const superProv = prov.split("/")[0];
 						const order = orders[prov];
+
 //TODO what is this? Also needs to have resolution added
 						this.map.addOrder(
 							[prov] + order,
@@ -896,34 +897,30 @@ export default class DipMap extends React.Component {
 			}
 
 
-
-
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
+					console.log("superprov;" + superProv);
+					console.log(this.state.phase.Properties.Resolutions);
+					var successOrder = false;
 
-					var failedOrder = false;
-//Check the resolution and add it to the addOrder
-					if (this.state.phase.Properties.Resolutions != null) {
-
-							if (this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
-								failedOrder = true;
-							}
+					//Check the resolution is true
+					if (this.state.phase.Properties.Resolutions != null && this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
+								successOrder = true;
 					}
+console.log("parts");
+console.log(orderData.Parts);
+
+
 
 				this.map.addOrder(
 					orderData.Parts,
 					helpers.natCol(orderData.Nation, this.state.variant),
 					{ stroke: this.phaseSpecialStrokes[superProv] },
-					failedOrder
+					successOrder
 				);
 				this.debugCount("renderOrders/renderedOrder");
 			});
 
-
-			console.log("resolutions");
-			console.log(this.state.phase.Properties.Resolutions);
-			console.log("resolutions Array");
-			console.log(this.state.phase.Properties.Resolutions instanceof Array);
 
 //TODO: This is where they set the cross if the order is not okay
 /*

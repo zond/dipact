@@ -433,14 +433,31 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.appendChild(colorPath);
 	};
 	that.addCross = function(provs, color, opts = {}) {
-		
+		var loc = null;
+		console.log("adding cross");
+		console.log(provs);
+
 		if (!Array.isArray(provs)) {
-			var loc = that.centerOf(provs);
-		} else { 
+			loc = that.centerOf(provs);
+		} else if (provs.length === 3 && provs[1] === provs[2]) {
+			provs.pop();
+		} 
+
+		if (Array.isArray(provs) && provs.length === 2) {
 			var start = that.centerOf(provs[0]);
 			var end = that.centerOf(provs[1]);
-			var loc = start.add(end.sub(start).div(2.0));
-		}
+			loc = start.add(end.sub(start).div(2.0));
+		} else if (Array.isArray(provs) && provs.length === 3) {
+//Create the point for the arrow if a curve
+			var start = that.centerOf(provs[0]);
+			var middle = that.centerOf(provs[1]);
+			var end = that.centerOf(provs[2]);
+
+			loc = start;
+  			loc.x = (4/9) * start.x + (4/9) * middle.x + (1/9) * end.x;
+  			loc.y = (4/9) * start.y + (4/9) * middle.y + (1/9) * end.y;
+		} 
+
 
 		var bound = 6;
 		var width = 2;
@@ -528,11 +545,14 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.empty();
 	};
 	that.addOrder = function(order, color, opts = {}, success) {
+//define the border based on order success
 		if (success) {
 			var border = "black";
 		} else {
 			var border = "red";
 		}
+
+//Create the order
 		if (order[1] === "Hold") {
 			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Move") {
@@ -570,6 +590,8 @@ document.getElementById("markerId").appendChild(markerCircle);
 			var border = "#FB6C6C";
 			if (order[1] === "Move") {
 			that.addCross([order[0], order[2]], "#FB6C6C")
+			} else if (order[1] === "Support") {
+			that.addCross([order[0], order[2], order[3]], "#FB6C6C")
 			}
 		}
 	};
