@@ -319,7 +319,7 @@ export function dippyMap(container) {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.6;"
+			"fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.4;"
 		);
 		var d = "";
 		var subBox = function(boundF) {
@@ -427,6 +427,39 @@ document.getElementById("markerId").appendChild(markerCircle);
 		$(el)
 			.find("#orders")[0]
 			.appendChild(colorPath);
+	};
+	that.addPlus = function(province, color, opts = {}) {
+		var loc = that.centerOf(province);
+		var size = 16;
+		var lineWidth = (size / 10);
+		loc.x -= 10;
+		loc.y -= 10;
+		var path = document.createElementNS(SVG, "path");
+		path.setAttribute(
+			"style",
+			"fill:" +
+				color +
+				";stroke:" +
+				"#000000" +
+				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:1;"
+		);
+		var d =	"M " + (loc.x + size) + "," + (loc.y + (size/2+lineWidth)) + 
+		" H " + (loc.x + (size/2+lineWidth)) +
+		" V " + (loc.y + size) +
+		" H " + (loc.x + (size/2-lineWidth)) +
+		" V " + (loc.y + (size/2+lineWidth)) +
+		" H " + (loc.x) +
+		" V " + (loc.y + (size/2-lineWidth)) +
+		" H " + (loc.x + (size/2-lineWidth)) +
+		" V " + (loc.y) +
+		" H " + (loc.x + (size/2+lineWidth)) +
+		" V " + (loc.y + (size/2-lineWidth)) +
+		" H " + (loc.x + size) +
+		" Z ";
+		path.setAttribute("d", d);
+		$(el)
+			.find("#orders")[0]
+			.appendChild(path);
 	};
 	that.addCross = function(provs, color, opts = {}) {
 		var loc = null;
@@ -566,6 +599,11 @@ document.getElementById("markerId").appendChild(markerCircle);
 				"#orders",
 				opts
 			);
+			that.addPlus(
+				order[0],
+				color,
+				opts
+				)
 		} else if (order[1] === "Disband") {
 			that.addCross(order[0], color, opts);
 			that.addBox(order[0], 4, color, opts);
@@ -574,10 +612,10 @@ document.getElementById("markerId").appendChild(markerCircle);
 			that.addArrow([order[2], order[0], order[3]], color, border, opts);
 		} else if (order[1] === "Support") {
 			if (order.length === 3) {
-				that.addBox(order[0], 3, color, opts);
+				that.addBox(order[0], 4, color, opts);
 				that.addArrow([order[2], order[3]], color, border, opts);
 			} else {
-				that.addBox(order[0], 3, color);
+				that.addBox(order[0], 4, color);
 				that.addArrow([order[0], order[2], order[3]], color, border, opts);
 			}
 		}
@@ -639,9 +677,18 @@ document.getElementById("markerId").appendChild(markerCircle);
 		shadow.attr("transform", "translate(" + loc.x + ", " + loc.y + ")");
 		unit.attr("transform", "translate(" + loc.x + ", " + loc.y + ")");
 		if (build) {
-			color = "#000000";
-		}
-		unit.attr(
+			unit.attr(
+			"style",
+			"fill:" +
+				"#000000" +
+				";fill-opacity:" +
+				opacity +
+				";stroke:" +
+				"#000000" +
+				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+			);
+		} else {
+			unit.attr(
 			"style",
 			"fill:" +
 				color +
@@ -650,7 +697,8 @@ document.getElementById("markerId").appendChild(markerCircle);
 				";stroke:" +
 				(opts.stroke || "#000000") +
 				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-		);
+			);
+		}
 		$(el)
 			.find(layer)[0]
 			.appendChild(shadow[0]);
