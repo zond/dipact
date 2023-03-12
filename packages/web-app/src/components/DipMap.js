@@ -897,18 +897,31 @@ export default class DipMap extends React.Component {
 			}
 
 
+//Here we resort the orders so Move is drawn last (on top)
+			const valueMap = {
+  				'Move': 5,
+  				'Hold': 4,
+  				'MoveViaConvoy': 3,
+  				'Support': 2,
+  				'Convoy': 1,
+			};
+
+			if (this.state.orders != null || this.state.orders != undefined) {
+			this.state.orders.sort((a, b) => valueMap[a.Parts[1]] - valueMap[b.Parts[1]]);
+			}
+
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
 					console.log("superprov;" + superProv);
-					console.log(this.state.phase.Properties.Resolutions);
 					var successOrder = false;
 
 					//Check the resolution is true
 					if (this.state.phase.Properties.Resolutions != null && this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
 								successOrder = true;
 					}
-console.log("parts");
-console.log(orderData.Parts);
+
+//console.log("parts");
+//console.log(orderData.Parts);
 
 
 

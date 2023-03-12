@@ -365,7 +365,9 @@ export function dippyMap(container) {
 
 
 
-/*TODO: 	Insert the appendChild
+/*TODO: This is a trial to insert the marker programatically that horribly failed.
+
+
 console.log("marked");
 const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
 marker.setAttributeNS(null, "id", "markerId");
@@ -428,8 +430,8 @@ document.getElementById("markerId").appendChild(markerCircle);
 	};
 	that.addCross = function(provs, color, opts = {}) {
 		var loc = null;
-		console.log("adding cross");
-		console.log(provs);
+//		console.log("adding cross");
+//		console.log(provs);
 
 		if (!Array.isArray(provs)) {
 			loc = that.centerOf(provs);
