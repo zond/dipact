@@ -937,7 +937,6 @@ export default class DipMap extends React.Component {
 			if (this.state.phase.Properties.ForceDisbands instanceof Array) {
 				this.state.phase.Properties.ForceDisbands.forEach((prov) => {
 					this.map.addCross(prov, "#ff6600");
-					this.map.addBox(prov, 4, "#ff6600");
 				});
 			}
 		}
