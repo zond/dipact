@@ -684,7 +684,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 				";fill-opacity:" +
 				opacity +
 				";stroke:" +
-				"#000000" +
+				color +
 				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
 			);
 		} else {
