@@ -6,6 +6,30 @@ export function dippyMap(container) {
 	var SVG = "http://www.w3.org/2000/svg";
 	if (container.find("svg").length > 0) {
 		el = container.find("svg")[0];
+		
+
+		  //<marker id="markerID" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    //<path d="M 0 0 L 10 5 L 0 10 z" fill="#ffffff" stroke="#000000"/>
+  //</marker>
+
+
+		console.log("marked");
+		const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+		marker.setAttributeNS(null, "id", "markerID");
+		marker.setAttributeNS(null, "viewBox", "0 0 10 10");
+		marker.setAttributeNS(null, "refX", "5");
+		marker.setAttributeNS(null, "refY", "5");
+		marker.setAttributeNS(null, "markerWidth", "6");
+		marker.setAttributeNS(null, "markerHeight", "6");
+		marker.setAttributeNS(null, "orient", "auto-start-reverse");
+		document.getElementById("defs14").appendChild(marker);
+
+
+		const markerCircle = document.createElementNS("http://www.w3.org/2000/svg", "path");
+		markerCircle.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 z");
+		markerCircle.setAttributeNS(null, "fill", "#ffffff");
+		markerCircle.setAttributeNS(null, "stroke", "#000000");
+		document.getElementById("markerID").appendChild(markerCircle);
 	}
 	that.addReadyAction = function(cb) {
 		cb();
@@ -408,7 +432,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill: none;stroke:" + border + ";stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + ";marker-end:url(#markerId);"
+			"fill: none;stroke:" + border + ";stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#markerID)" //";marker-end:url(#markerId);"
 		);
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
