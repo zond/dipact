@@ -430,7 +430,7 @@ export function dippyMap(container) {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill: none;stroke:" + border + ";stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
+			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
 		);
 		console.log("Using marker: " + color.substring(1) + "LargeMarker");
 
@@ -446,7 +446,7 @@ export function dippyMap(container) {
 		var colorPath = document.createElementNS(SVG, "path");
 		colorPath.setAttribute(
 			"style",
-			"fill: none;stroke:" + color + ";stroke-width:4;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallMarker)"
+			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallMarker)"
 		);
 		console.log("Using marker: " + color.substring(1) + "SmallMarker");
 
