@@ -371,7 +371,7 @@ export function dippyMap(container) {
 			marker.setAttributeNS(null, "markerHeight", "3");
 			}
 			marker.setAttributeNS(null, "orient", "auto-start-reverse");
-			document.getElementById("defs14").appendChild(marker); //TODO: this needs to be standardized for all defs
+			document.getElementsByTagName("defs")[0].appendChild(marker); //TODO: this needs to be standardized for all defs
 
 			console.log("adding Marker " + color.substring(1) + size + "Marker");
 
