@@ -6,30 +6,6 @@ export function dippyMap(container) {
 	var SVG = "http://www.w3.org/2000/svg";
 	if (container.find("svg").length > 0) {
 		el = container.find("svg")[0];
-		
-
-		  //<marker id="markerID" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-    //<path d="M 0 0 L 10 5 L 0 10 z" fill="#ffffff" stroke="#000000"/>
-  //</marker>
-
-
-		console.log("marked");
-		const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-		marker.setAttributeNS(null, "id", "markerID");
-		marker.setAttributeNS(null, "viewBox", "0 0 10 10");
-		marker.setAttributeNS(null, "refX", "5");
-		marker.setAttributeNS(null, "refY", "5");
-		marker.setAttributeNS(null, "markerWidth", "6");
-		marker.setAttributeNS(null, "markerHeight", "6");
-		marker.setAttributeNS(null, "orient", "auto-start-reverse");
-		document.getElementById("defs14").appendChild(marker);
-
-
-		const markerCircle = document.createElementNS("http://www.w3.org/2000/svg", "path");
-		markerCircle.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 z");
-		markerCircle.setAttributeNS(null, "fill", "#ffffff");
-		markerCircle.setAttributeNS(null, "stroke", "#000000");
-		document.getElementById("markerID").appendChild(markerCircle);
 	}
 	that.addReadyAction = function(cb) {
 		cb();
@@ -369,6 +345,46 @@ export function dippyMap(container) {
 			.appendChild(path);
 	};
 //TODO: add the arrow. 
+
+	that.invokeMarker = function(color, large) {
+		if (large) { 
+			var size = "Large";
+		} else {
+			var size = "Small";
+		}
+
+		//Check if a marker exists with that colour and size
+		console.log("Invoking marker: " + color.substring(1) + size + "Marker");
+		let element = document.getElementById(color.substring(1) + size + "Marker");
+
+		if (!element) {
+			const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+			marker.setAttributeNS(null, "id", color.substring(1) + size + "Marker");
+			marker.setAttributeNS(null, "viewBox", "0 0 15 10");
+			marker.setAttributeNS(null, "refX", "4");
+			marker.setAttributeNS(null, "refY", "5");
+			if (!large) { 
+			marker.setAttributeNS(null, "markerWidth", "4");
+			marker.setAttributeNS(null, "markerHeight", "4");
+			} else {	
+			marker.setAttributeNS(null, "markerWidth", "3");
+			marker.setAttributeNS(null, "markerHeight", "3");
+			}
+			marker.setAttributeNS(null, "orient", "auto-start-reverse");
+			document.getElementById("defs14").appendChild(marker); //TODO: this needs to be standardized for all defs
+
+			console.log("adding Marker " + color.substring(1) + size + "Marker");
+
+			const markerContent = document.createElementNS("http://www.w3.org/2000/svg", "path");
+			markerContent.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 L 2 5 z");
+			markerContent.setAttributeNS(null, "fill", color);
+			markerContent.setAttributeNS(null, "stroke", "none");
+			document.getElementById(color.substring(1) + size + "Marker").appendChild(markerContent);
+		}
+
+
+	}
+
 	that.addArrow = function(provs, color, border, opts = {}) {
 		var start = null;
 		var middle = null;
@@ -386,29 +402,6 @@ export function dippyMap(container) {
 			end = that.centerOf(provs[2]);
 		}
 
-
-
-
-/*TODO: This is a trial to insert the marker programatically that horribly failed.
-
-
-console.log("marked");
-const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-marker.setAttributeNS(null, "id", "markerId");
-marker.setAttributeNS(null, "marker-width", 20);
-marker.setAttributeNS(null, "marker-height", 20);
-document.getElementById("defs14").appendChild(marker);
-
-const markerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-markerCircle.setAttributeNS(null, "id", "circle");
-markerCircle.setAttributeNS(null, "cx", 20);
-markerCircle.setAttributeNS(null, "cy", 20);
-markerCircle.setAttributeNS(null, "r", 20);
-markerCircle.setAttributeNS(null, "fill", "red");
-document.getElementById("markerId").appendChild(markerCircle);
-
-*/
-
 //Define the arrow definitions
 
 		var spacer = 12;
@@ -419,7 +412,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 			.add(startVec.dir().mul(spacer));
 
 		var arrowEnd = end
-			.sub(endVec.dir().mul(spacer)); //WILL NEED EXTRA SPACE FOR ENDPOINT
+			.sub(endVec.dir().mul(spacer*1.5)); //WILL NEED EXTRA SPACE FOR ENDPOINT
 
 //Select whether the arrow is solid (move) or dashed (support)
 		if (provs.length === 3) {
@@ -428,24 +421,35 @@ document.getElementById("markerId").appendChild(markerCircle);
 			var supportBorderStrokeDashArray = "0 0";
 		}
 
-//Create the black path for background
+
+//TODO Joren: Check if a marker exists with the right background colour.
+
+
+//	Create the background arrow
+		that.invokeMarker(border, true);
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill: none;stroke:" + border + ";stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#markerID)" //";marker-end:url(#markerId);"
+			"fill: none;stroke:" + border + ";stroke-width:10;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
 		);
+		console.log("Using marker: " + color.substring(1) + "LargeMarker");
+
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
 		$(el)
 			.find("#orders")[0]
 			.appendChild(path);
 
+
 //Create the coloured foreground
+		that.invokeMarker(color, false);
 		var colorPath = document.createElementNS(SVG, "path");
 		colorPath.setAttribute(
 			"style",
-			"fill: none;stroke:" + color + ";stroke-width:4;stroke-dasharray:" + supportBorderStrokeDashArray + ";"
+			"fill: none;stroke:" + color + ";stroke-width:4;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallMarker)"
 		);
+		console.log("Using marker: " + color.substring(1) + "SmallMarker");
+
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		colorPath.setAttribute("d", d);
 		$(el)
@@ -602,7 +606,7 @@ document.getElementById("markerId").appendChild(markerCircle);
 		if (success) {
 			var border = "black";
 		} else {
-			var border = "red";
+			var border = "#FB6C6C";
 		}
 
 //Create the order
