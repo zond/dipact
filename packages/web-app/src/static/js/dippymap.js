@@ -422,7 +422,7 @@ export function dippyMap(container) {
 		}
 
 
-//TODO Joren: Check if a marker exists with the right background colour.
+//TODO Joren: Arrow widths used to be 10/4, might be 8/3. To check if 10/4 might work better with units ON TOP OF orders
 
 
 //	Create the background arrow
@@ -448,6 +448,7 @@ export function dippyMap(container) {
 			"style",
 			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallMarker)"
 		);
+
 		console.log("Using marker: " + color.substring(1) + "SmallMarker");
 
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
