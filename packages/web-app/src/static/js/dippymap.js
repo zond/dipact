@@ -354,7 +354,6 @@ export function dippyMap(container) {
 		}
 
 		//Check if a marker exists with that colour and size
-		console.log("Invoking marker: " + color.substring(1) + size + "Marker");
 		let element = document.getElementById(color.substring(1) + size + "Marker");
 
 		if (!element) {
@@ -364,16 +363,14 @@ export function dippyMap(container) {
 			marker.setAttributeNS(null, "refX", "4");
 			marker.setAttributeNS(null, "refY", "5");
 			if (!large) { 
-			marker.setAttributeNS(null, "markerWidth", "4");
-			marker.setAttributeNS(null, "markerHeight", "4");
+				marker.setAttributeNS(null, "markerWidth", "4");
+				marker.setAttributeNS(null, "markerHeight", "4");
 			} else {	
-			marker.setAttributeNS(null, "markerWidth", "3");
-			marker.setAttributeNS(null, "markerHeight", "3");
+				marker.setAttributeNS(null, "markerWidth", "3");
+				marker.setAttributeNS(null, "markerHeight", "3");
 			}
 			marker.setAttributeNS(null, "orient", "auto-start-reverse");
 			document.getElementsByTagName("defs")[0].appendChild(marker); //TODO: this needs to be standardized for all defs
-
-			console.log("adding Marker " + color.substring(1) + size + "Marker");
 
 			const markerContent = document.createElementNS("http://www.w3.org/2000/svg", "path");
 			markerContent.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 L 2 5 z");
@@ -385,7 +382,7 @@ export function dippyMap(container) {
 
 	}
 
-	that.addArrow = function(provs, color, border, opts = {}) {
+	that.addArrow = function(provs, color, border, opts = {}, collides) {
 		var start = null;
 		var middle = null;
 		var end = null;
@@ -408,11 +405,23 @@ export function dippyMap(container) {
 		var startVec = new that.Vec(start, middle);
 		var endVec = new that.Vec(middle, end);
 
+
 		var arrowStart = start
 			.add(startVec.dir().mul(spacer));
 
 		var arrowEnd = end
-			.sub(endVec.dir().mul(spacer*1.5)); //WILL NEED EXTRA SPACE FOR ENDPOINT
+			.sub(endVec.dir().mul(spacer*1.5)); //Adds some extra space because of the Marker
+
+
+//Adjust the arrowStart, middle and ArrowEnd in case of collision
+
+		if (collides && provs.length === 2) {
+			//adjust the STARTING point to move DISTANCE for colliding units
+		//	console.log("colliding move");
+		} else if (collides && provs.length === 3) {
+		//	console.log("colliding support");
+		}
+
 
 //Select whether the arrow is solid (move) or dashed (support)
 		if (provs.length === 3) {
@@ -432,7 +441,6 @@ export function dippyMap(container) {
 			"style",
 			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
 		);
-		console.log("Using marker: " + color.substring(1) + "LargeMarker");
 
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
@@ -448,8 +456,6 @@ export function dippyMap(container) {
 			"style",
 			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallMarker)"
 		);
-
-		console.log("Using marker: " + color.substring(1) + "SmallMarker");
 
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		colorPath.setAttribute("d", d);
@@ -602,7 +608,7 @@ export function dippyMap(container) {
 			.find("#orders")
 			.empty();
 	};
-	that.addOrder = function(order, color, opts = {}, success) {
+	that.addOrder = function(order, color, opts = {}, success, collides) {
 //define the border based on order success
 		if (success) {
 			var border = "black";
@@ -614,7 +620,7 @@ export function dippyMap(container) {
 		if (order[1] === "Hold") {
 			that.addBox(order[0], 8, color, opts);
 		} else if (order[1] === "Move") {
-			that.addArrow([order[0], order[2]], color, border, opts);
+			that.addArrow([order[0], order[2]], color, border, opts, collides);
 		} else if (order[1] === "MoveViaConvoy") {
 			that.addArrow([order[0], order[2]], color, border, opts);
 			that.addBox(order[0], 5, color, opts);
@@ -642,10 +648,10 @@ export function dippyMap(container) {
 		} else if (order[1] === "Support") {
 			if (order.length === 3) {
 				that.addBox(order[0], 4, color, opts);
-				that.addArrow([order[2], order[3]], color, border, opts);
+				that.addArrow([order[2], order[3]], color, border, opts, collides);
 			} else {
 				that.addBox(order[0], 4, color);
-				that.addArrow([order[0], order[2], order[3]], color, border, opts);
+				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides);
 			}
 		}
 		//Add the cross in the right locationz 
