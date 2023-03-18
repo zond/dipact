@@ -382,6 +382,45 @@ export function dippyMap(container) {
 
 	}
 
+	that.adjustCollideArrow = function(point, vector, distance, ending) {
+		let xComponent, yComponent;
+		
+		if (ending === true) {
+			xComponent = vector.p2.x - vector.p1.x;
+			yComponent = vector.p2.y - vector.p1.y;
+		} else if (ending === false) {
+			xComponent = vector.p1.x - vector.p2.x;
+			yComponent = vector.p1.y - vector.p2.y;
+		} else {
+			console.log("ending is not defined")
+		}
+
+		const magnitude = Math.sqrt(xComponent ** 2 + yComponent ** 2);
+
+		const unitVector = {
+  			x: xComponent / magnitude,
+  			y: yComponent / magnitude,
+		};
+
+		const perpendicularVector = {
+  			x: -unitVector.y,
+  			y: unitVector.x,
+		};
+		const displacementVector = {
+  			x: perpendicularVector.x * distance,
+  			y: perpendicularVector.y * distance,
+		};
+
+		if (ending === true) {
+			point.x = point.x + displacementVector.x;
+			point.y = point.y + displacementVector.y;
+		} else {
+	  		point.x = point.x - displacementVector.x;
+			point.y = point.y - displacementVector.y;
+		}
+
+		return point;
+	}
 	that.addArrow = function(provs, color, border, opts = {}, collides) {
 		var start = null;
 		var middle = null;
@@ -402,24 +441,36 @@ export function dippyMap(container) {
 //Define the arrow definitions
 
 		var spacer = 12;
+		var collideDistance = 5;
 		var startVec = new that.Vec(start, middle);
 		var endVec = new that.Vec(middle, end);
 
 
-		var arrowStart = start
-			.add(startVec.dir().mul(spacer));
-
-		var arrowEnd = end
-			.sub(endVec.dir().mul(spacer*1.5)); //Adds some extra space because of the Marker
-
 
 //Adjust the arrowStart, middle and ArrowEnd in case of collision
 
+		var arrowStart = start
+
+		arrowStart.x = start.x + (startVec.dir().mul(spacer).x);
+		arrowStart.y = start.y + (startVec.dir().mul(spacer).y);
+
+		var arrowEnd = end
+
+		arrowEnd.x = end.x - (endVec.dir().mul(spacer * 1.5).x);
+		arrowEnd.y = end.y - (endVec.dir().mul(spacer * 1.5).y);
+
+
 		if (collides && provs.length === 2) {
-			//adjust the STARTING point to move DISTANCE for colliding units
-		//	console.log("colliding move");
+			//Adjust for MOVE
+			arrowStart = that.adjustCollideArrow(arrowStart, startVec, collideDistance, true);
+			middle = that.adjustCollideArrow(middle, startVec, (collideDistance), true);
+			arrowEnd = that.adjustCollideArrow(arrowEnd, endVec, collideDistance, false);
+
 		} else if (collides && provs.length === 3) {
-		//	console.log("colliding support");
+			//Adjust for SUPPORT
+			arrowStart = that.adjustCollideArrow(arrowStart, startVec, collideDistance, true);
+			middle = that.adjustCollideArrow(middle, endVec, (collideDistance), false); //TODO: find the right middle point
+			arrowEnd = that.adjustCollideArrow(arrowEnd, endVec, collideDistance, false);
 		}
 
 
@@ -436,12 +487,21 @@ export function dippyMap(container) {
 
 //	Create the background arrow
 		that.invokeMarker(border, true);
+
+if (collides) {
+
+		var path = document.createElementNS(SVG, "path");
+		path.setAttribute(
+			"style",
+			"fill: none;stroke: blue;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
+		);
+} else {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
 			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
 		);
-
+}
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
 		$(el)
@@ -496,10 +556,8 @@ export function dippyMap(container) {
 			.find("#orders")[0]
 			.appendChild(path);
 	};
-	that.addCross = function(provs, color, opts = {}) {
+	that.addCross = function(provs, color, opts = {}, collides) {
 		var loc = null;
-//		console.log("adding cross");
-//		console.log(provs);
 
 		if (!Array.isArray(provs)) {
 			loc = that.centerOf(provs);
@@ -511,6 +569,17 @@ export function dippyMap(container) {
 			var start = that.centerOf(provs[0]);
 			var end = that.centerOf(provs[1]);
 			loc = start.add(end.sub(start).div(2.0));
+			var vector = new that.Vec(start, end);
+
+
+			if (collides) {
+				console.log("collidingcross");
+				console.log(loc);
+				loc = that.adjustCollideArrow(loc, vector, 5, true);
+				console.log(loc);
+			}
+
+
 		} else if (Array.isArray(provs) && provs.length === 3) {
 //Create the point for the arrow if a curve
 			var start = that.centerOf(provs[0]);
@@ -532,7 +601,7 @@ export function dippyMap(container) {
 		path.setAttribute(
 			"style",
 			"fill:" +
-				"#FB6C6C" +
+				color +
 				";stroke:" +
 				"#000000" +
 				";stroke-width:1.5;stroke-miterlimit:4;stroke-opacity:1.0;fill-opacity:1;"
@@ -609,12 +678,15 @@ export function dippyMap(container) {
 			.empty();
 	};
 	that.addOrder = function(order, color, opts = {}, success, collides) {
-//define the border based on order success
+
+
+//Define the border based on order success
 		if (success) {
-			var border = "black";
+			var border = "#000000";
 		} else {
 			var border = "#FB6C6C";
 		}
+
 
 //Create the order
 		if (order[1] === "Hold") {
@@ -654,13 +726,22 @@ export function dippyMap(container) {
 				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides);
 			}
 		}
-		//Add the cross in the right locationz 
+
+		//If order failed, add the cross in the right location.
+		//TODO: Hold fail, Convoy fail, MoveViaConvoy fail
 		if (!success) {
-			var border = "#FB6C6C";
+
+if (collides) {
+			var color = "blue";
+			console.log("collidingcross");
+} else {
+			var color = "#FB6C6C";
+}
+
 			if (order[1] === "Move") {
-			that.addCross([order[0], order[2]], "#FB6C6C")
+			that.addCross([order[0], order[2]], color, opts, collides)
 			} else if (order[1] === "Support") {
-			that.addCross([order[0], order[2], order[3]], "#FB6C6C")
+			that.addCross([order[0], order[2], order[3]], color, opts, collides)
 			}
 		}
 	};
