@@ -347,12 +347,10 @@ export function dippyMap(container) {
 //TODO: add the arrow. 
 
 	that.invokeMarker = function(color, large, markerType) {
+		var size = "Small"
 		if (large) { 
-			var size = "Large";
-		} else {
-			var size = "Small";
-		}
-
+			size = "Large";
+		} 
 		//Check if a marker exists with that colour and size
 		let element = document.getElementById(color.substring(1) + size + markerType + "Marker");
 		if (!element) {
@@ -381,7 +379,8 @@ export function dippyMap(container) {
 
 			markerContent.setAttributeNS(null, "fill", color);
 			markerContent.setAttributeNS(null, "stroke", "none");
-
+		console.log("adding"); 
+		console.log(color.substring(1) + size + markerType + "Marker"); 
 			document.getElementById(color.substring(1) + size + markerType + "Marker").appendChild(markerContent);
 		}
 
@@ -494,6 +493,7 @@ export function dippyMap(container) {
 //	Create the background arrow
 if (markerType === "Support") {
 		that.invokeMarker(border, true, "Support");	
+		console.log("invoked large support");
 	} else 
 	{
 		that.invokeMarker(border, true, "Arrow");	
@@ -503,7 +503,7 @@ if (markerType === "Support") {
 if (markerType === "Support") {		
 		path.setAttribute(
 			"style",
-			"fill: none;stroke: blue ;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeSupportMarker)"
+			"fill: none;stroke:" + border + " ;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeSupportMarker)"
 		);	
 } else {
 			path.setAttribute(
@@ -520,12 +520,24 @@ if (markerType === "Support") {
 
 
 //Create the coloured foreground
-		that.invokeMarker(color, false, "Arrow");
+if (markerType === "Support") {
+		that.invokeMarker(color, false, "Support");
+		console.log("invoked small support");
+	} else 	{
+		that.invokeMarker(color, false, "Arrow");	
+	}
 		var colorPath = document.createElementNS(SVG, "path");
+if (markerType === "Support") {
+		colorPath.setAttribute(
+			"style",
+			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallSupportMarker)"
+		);
+	} else {
 		colorPath.setAttribute(
 			"style",
 			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallArrowMarker)"
 		);
+	}
 
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		colorPath.setAttribute("d", d);
