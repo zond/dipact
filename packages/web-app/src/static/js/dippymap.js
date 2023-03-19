@@ -421,7 +421,7 @@ export function dippyMap(container) {
 
 		return point;
 	}
-	that.addArrow = function(provs, color, border, opts = {}, collides) {
+	that.addArrow = function(provs, color, border, opts = {}, collides, supportHold) {
 		var start = null;
 		var middle = null;
 		var end = null;
@@ -475,7 +475,7 @@ export function dippyMap(container) {
 
 
 //Select whether the arrow is solid (move) or dashed (support)
-		if (provs.length === 3) {
+		if (provs.length === 3 || supportHold) {
 			var supportBorderStrokeDashArray = "3 2";
 		} else {
 			var supportBorderStrokeDashArray = "0 0";
@@ -487,21 +487,19 @@ export function dippyMap(container) {
 
 //	Create the background arrow
 		that.invokeMarker(border, true);
-
-if (collides) {
-
 		var path = document.createElementNS(SVG, "path");
+if (supportHold) {		
 		path.setAttribute(
 			"style",
-			"fill: none;stroke: blue;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
-		);
-} else {
-		var path = document.createElementNS(SVG, "path");
-		path.setAttribute(
+			"fill: none;stroke: blue ;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
+		);	
+	} else {
+			path.setAttribute(
 			"style",
 			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
 		);
-}
+
+	}
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
 		$(el)
@@ -568,15 +566,12 @@ if (collides) {
 		if (Array.isArray(provs) && provs.length === 2) {
 			var start = that.centerOf(provs[0]);
 			var end = that.centerOf(provs[1]);
-			loc = start.add(end.sub(start).div(2.0));
+			loc = start.add(end.sub(start).div(1.9));
 			var vector = new that.Vec(start, end);
 
 
 			if (collides) {
-				console.log("collidingcross");
-				console.log(loc);
 				loc = that.adjustCollideArrow(loc, vector, 5, true);
-				console.log(loc);
 			}
 
 
@@ -686,7 +681,7 @@ if (collides) {
 		} else {
 			var border = "#FB6C6C";
 		}
-
+		var error = "#FB6C6C";
 
 //Create the order
 		if (order[1] === "Hold") {
@@ -712,18 +707,28 @@ if (collides) {
 				opts
 				)
 		} else if (order[1] === "Disband") {
-			that.addCross(order[0], color, opts);
-			that.addBox(order[0], 4, color, opts);
+			that.addCross(order[0], error, opts);
+//TODO: Need to make this unit black - but how?
+//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
 			that.addBox(order[0], 5, color, opts);
 			that.addArrow([order[2], order[0], order[3]], color, border, opts);
 		} else if (order[1] === "Support") {
+			console.log(order);
+
+			var supportHold = false;
+							if (order[2] === order[3]) {
+								console.log("Support hold");
+								supportHold = true;
+				
+							}
 			if (order.length === 3) {
+
 				that.addBox(order[0], 4, color, opts);
-				that.addArrow([order[2], order[3]], color, border, opts, collides);
+				that.addArrow([order[2], order[3]], color, border, opts, collides, supportHold);
 			} else {
 				that.addBox(order[0], 4, color);
-				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides);
+				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides, supportHold);
 			}
 		}
 
@@ -731,17 +736,10 @@ if (collides) {
 		//TODO: Hold fail, Convoy fail, MoveViaConvoy fail
 		if (!success) {
 
-if (collides) {
-			var color = "blue";
-			console.log("collidingcross");
-} else {
-			var color = "#FB6C6C";
-}
-
 			if (order[1] === "Move") {
-			that.addCross([order[0], order[2]], color, opts, collides)
+			that.addCross([order[0], order[2]], error, opts, collides)
 			} else if (order[1] === "Support") {
-			that.addCross([order[0], order[2], order[3]], color, opts, collides)
+			that.addCross([order[0], order[2], order[3]], error, opts, collides)
 			}
 		}
 	};
@@ -803,6 +801,9 @@ if (collides) {
 				color +
 				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
 			);
+			unit.attr(
+			"id", sourceId + province
+			);
 		} else {
 			unit.attr(
 			"style",
@@ -814,13 +815,20 @@ if (collides) {
 				(opts.stroke || "#000000") +
 				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
 			);
+			unit.attr(
+			"id", sourceId + province //TODO: need to give this an ID so we can target it when it gets dislodged
+			);
+			console.log("adding");
+
 		}
-		$(el)
-			.find(layer)[0]
-			.appendChild(shadow[0]);
-		$(el)
-			.find(layer)[0]
-			.appendChild(unit[0]);
+$(el)
+	.find(layer)
+	.eq(0)
+	.append($(shadow).eq(0));
+$(el)
+	.find(layer)
+	.eq(0)
+	.append($(unit).eq(0));
 	};
 	return that;
 }

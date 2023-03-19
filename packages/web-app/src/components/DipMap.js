@@ -867,10 +867,12 @@ export default class DipMap extends React.Component {
 
 
 
+
 					for (let prov in orders) {
 						const superProv = prov.split("/")[0];
 						const order = orders[prov];
 
+					
 //TODO what is this? Also needs to have resolution added
 						this.map.addOrder(
 							[prov] + order,
@@ -907,12 +909,14 @@ export default class DipMap extends React.Component {
 					}
 
 
+
 //TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
 //TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
 
 				//Check whether this order should be drawn with an indent (for colliding orders & their support) or not.
 				var collides = false;
 				//Check if a move order collides.
+
 
 
 				if (orderData.Parts[1] === "Move" && this.state.orders.find(obj => obj.Parts[2] === orderData.Parts[0]  && obj.Parts[1] === "Move" && obj.Parts[0] === orderData.Parts[2])?.Parts[0] === orderData.Parts[2]) {
