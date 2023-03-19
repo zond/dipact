@@ -346,7 +346,7 @@ export function dippyMap(container) {
 	};
 //TODO: add the arrow. 
 
-	that.invokeMarker = function(color, large) {
+	that.invokeMarker = function(color, large, markerType) {
 		if (large) { 
 			var size = "Large";
 		} else {
@@ -354,11 +354,10 @@ export function dippyMap(container) {
 		}
 
 		//Check if a marker exists with that colour and size
-		let element = document.getElementById(color.substring(1) + size + "Marker");
-
+		let element = document.getElementById(color.substring(1) + size + markerType + "Marker");
 		if (!element) {
 			const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-			marker.setAttributeNS(null, "id", color.substring(1) + size + "Marker");
+			marker.setAttributeNS(null, "id", color.substring(1) + size + markerType + "Marker");
 			marker.setAttributeNS(null, "viewBox", "0 0 15 10");
 			marker.setAttributeNS(null, "refX", "4");
 			marker.setAttributeNS(null, "refY", "5");
@@ -369,14 +368,21 @@ export function dippyMap(container) {
 				marker.setAttributeNS(null, "markerWidth", "3");
 				marker.setAttributeNS(null, "markerHeight", "3");
 			}
+
 			marker.setAttributeNS(null, "orient", "auto-start-reverse");
 			document.getElementsByTagName("defs")[0].appendChild(marker); //TODO: this needs to be standardized for all defs
 
 			const markerContent = document.createElementNS("http://www.w3.org/2000/svg", "path");
-			markerContent.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 L 2 5 z");
+				if (markerType === "Support") {
+					markerContent.setAttributeNS(null, "d", "M4.330127018922193 0L8.660254037844386 2.5L8.660254037844386 7.5L4.330127018922193 10L0 7.5L0 2.5");
+				} else {
+					markerContent.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 L 2 5 z");
+				}
+
 			markerContent.setAttributeNS(null, "fill", color);
 			markerContent.setAttributeNS(null, "stroke", "none");
-			document.getElementById(color.substring(1) + size + "Marker").appendChild(markerContent);
+
+			document.getElementById(color.substring(1) + size + markerType + "Marker").appendChild(markerContent);
 		}
 
 
@@ -421,7 +427,7 @@ export function dippyMap(container) {
 
 		return point;
 	}
-	that.addArrow = function(provs, color, border, opts = {}, collides, supportHold) {
+	that.addArrow = function(provs, color, border, opts = {}, collides, markerType) {
 		var start = null;
 		var middle = null;
 		var end = null;
@@ -475,7 +481,7 @@ export function dippyMap(container) {
 
 
 //Select whether the arrow is solid (move) or dashed (support)
-		if (provs.length === 3 || supportHold) {
+		if (provs.length === 3 || markerType === "Support") {
 			var supportBorderStrokeDashArray = "3 2";
 		} else {
 			var supportBorderStrokeDashArray = "0 0";
@@ -486,20 +492,26 @@ export function dippyMap(container) {
 
 
 //	Create the background arrow
-		that.invokeMarker(border, true);
+if (markerType === "Support") {
+		that.invokeMarker(border, true, "Support");	
+	} else 
+	{
+		that.invokeMarker(border, true, "Arrow");	
+	}
+
 		var path = document.createElementNS(SVG, "path");
-if (supportHold) {		
+if (markerType === "Support") {		
 		path.setAttribute(
 			"style",
-			"fill: none;stroke: blue ;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
+			"fill: none;stroke: blue ;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeSupportMarker)"
 		);	
-	} else {
+} else {
 			path.setAttribute(
 			"style",
-			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeMarker)"
+			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeArrowMarker)"
 		);
 
-	}
+}
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
 		path.setAttribute("d", d);
 		$(el)
@@ -508,11 +520,11 @@ if (supportHold) {
 
 
 //Create the coloured foreground
-		that.invokeMarker(color, false);
+		that.invokeMarker(color, false, "Arrow");
 		var colorPath = document.createElementNS(SVG, "path");
 		colorPath.setAttribute(
 			"style",
-			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallMarker)"
+			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallArrowMarker)"
 		);
 
 		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
@@ -716,19 +728,18 @@ if (supportHold) {
 		} else if (order[1] === "Support") {
 			console.log(order);
 
-			var supportHold = false;
-							if (order[2] === order[3]) {
-								console.log("Support hold");
-								supportHold = true;
-				
-							}
+			var markerType = "Arrow";
+			if (order[2] === order[3]) {
+				console.log("Support hold");
+				markerType = "Support";
+			}
 			if (order.length === 3) {
 
 				that.addBox(order[0], 4, color, opts);
-				that.addArrow([order[2], order[3]], color, border, opts, collides, supportHold);
+				that.addArrow([order[2], order[3]], color, border, opts, collides, markerType);
 			} else {
 				that.addBox(order[0], 4, color);
-				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides, supportHold);
+				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides, markerType);
 			}
 		}
 
@@ -818,7 +829,7 @@ if (supportHold) {
 			unit.attr(
 			"id", sourceId + province //TODO: need to give this an ID so we can target it when it gets dislodged
 			);
-			console.log("adding");
+			console.log("addingUnits");
 
 		}
 $(el)
