@@ -907,6 +907,8 @@ export default class DipMap extends React.Component {
 					if (this.state.phase.Properties.Resolutions != null && this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
 								successOrder = true;
 					}
+					console.log("resolutions");
+					console.log(this.state.phase.Properties.Resolutions);
 
 
 

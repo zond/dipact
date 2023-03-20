@@ -357,14 +357,22 @@ export function dippyMap(container) {
 			const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
 			marker.setAttributeNS(null, "id", color.substring(1) + size + markerType + "Marker");
 			marker.setAttributeNS(null, "viewBox", "0 0 15 10");
-			marker.setAttributeNS(null, "refX", "4");
+			
 			marker.setAttributeNS(null, "refY", "5");
 			if (!large) { 
+				if (markerType === "Support") {
+				marker.setAttributeNS(null, "markerWidth", "4.5");
+				marker.setAttributeNS(null, "markerHeight", "4.5");
+				marker.setAttributeNS(null, "refX", "3.25");
+				} else {
 				marker.setAttributeNS(null, "markerWidth", "4");
 				marker.setAttributeNS(null, "markerHeight", "4");
+				marker.setAttributeNS(null, "refX", "4");
+				}
 			} else {	
 				marker.setAttributeNS(null, "markerWidth", "3");
 				marker.setAttributeNS(null, "markerHeight", "3");
+				marker.setAttributeNS(null, "refX", "4");
 			}
 
 			marker.setAttributeNS(null, "orient", "auto-start-reverse");
@@ -372,15 +380,14 @@ export function dippyMap(container) {
 
 			const markerContent = document.createElementNS("http://www.w3.org/2000/svg", "path");
 				if (markerType === "Support") {
-					markerContent.setAttributeNS(null, "d", "M4.330127018922193 0L8.660254037844386 2.5L8.660254037844386 7.5L4.330127018922193 10L0 7.5L0 2.5");
+					markerContent.setAttributeNS(null, "d", "M 7.0754509,9.9980767 2.9341022,9.9999607 0.0044091,7.0729017 0.00254607,2.9315532 2.9296042,0.00186 7.070953,0 l 2.929693,2.9270583 0.0019,4.1413484 z");
 				} else {
 					markerContent.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 L 2 5 z");
 				}
 
 			markerContent.setAttributeNS(null, "fill", color);
 			markerContent.setAttributeNS(null, "stroke", "none");
-		console.log("adding"); 
-		console.log(color.substring(1) + size + markerType + "Marker"); 
+
 			document.getElementById(color.substring(1) + size + markerType + "Marker").appendChild(markerContent);
 		}
 
@@ -491,38 +498,45 @@ export function dippyMap(container) {
 
 
 //	Create the background arrow
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+const createPathElement = (markerType, border, strokeDashArray, markerSuffix) => {
+  const path = document.createElementNS(SVG_NS, "path");
+  path.setAttribute("style", `fill: none; stroke: ${border}; stroke-width: 8; stroke-dasharray: ${strokeDashArray}; marker-end: url(#${border.substring(1)}Large${markerType}${markerSuffix})`);
+  return path;
+};
+
+const createSupportPath = (border, strokeDashArray) => {
+  return createPathElement("Support", border, strokeDashArray, "Marker");
+};
+
+const createArrowPath = (border, strokeDashArray) => {
+  return createPathElement("Arrow", border, strokeDashArray, "Marker");
+};
+
+const addPathToOrders = (el, path) => {
+  el.querySelector("#orders").appendChild(path);
+};
+
+const drawArrowPath = (el, arrowStart, middle, arrowEnd, border, supportBorderStrokeDashArray, markerType) => {
+  const path = markerType === "Support" ? createSupportPath(border, supportBorderStrokeDashArray) : createArrowPath(border, supportBorderStrokeDashArray);
+  path.setAttribute("d", `M${arrowStart.x} ${arrowStart.y} Q ${middle.x} ${middle.y} ${arrowEnd.x} ${arrowEnd.y}`);
+  addPathToOrders(el, path);
+};
+
 if (markerType === "Support") {
-		that.invokeMarker(border, true, "Support");	
-		console.log("invoked large support");
-	} else 
-	{
-		that.invokeMarker(border, true, "Arrow");	
-	}
-
-		var path = document.createElementNS(SVG, "path");
-if (markerType === "Support") {		
-		path.setAttribute(
-			"style",
-			"fill: none;stroke:" + border + " ;stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeSupportMarker)"
-		);	
+  that.invokeMarker(border, true, "Support");  
 } else {
-			path.setAttribute(
-			"style",
-			"fill: none;stroke:" + border + ";stroke-width:8;stroke-dasharray:" + supportBorderStrokeDashArray + "; marker-end: url(#" + border.substring(1) + "LargeArrowMarker)"
-		);
-
+  that.invokeMarker(border, true, "Arrow");  
 }
-		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
-		path.setAttribute("d", d);
-		$(el)
-			.find("#orders")[0]
-			.appendChild(path);
+
+drawArrowPath(el, arrowStart, middle, arrowEnd, border, supportBorderStrokeDashArray, markerType);
+
 
 
 //Create the coloured foreground
 if (markerType === "Support") {
 		that.invokeMarker(color, false, "Support");
-		console.log("invoked small support");
 	} else 	{
 		that.invokeMarker(color, false, "Arrow");	
 	}
@@ -738,19 +752,17 @@ if (markerType === "Support") {
 			that.addBox(order[0], 5, color, opts);
 			that.addArrow([order[2], order[0], order[3]], color, border, opts);
 		} else if (order[1] === "Support") {
-			console.log(order);
 
 			var markerType = "Arrow";
 			if (order[2] === order[3]) {
-				console.log("Support hold");
 				markerType = "Support";
 			}
 			if (order.length === 3) {
 
-				that.addBox(order[0], 4, color, opts);
+				//that.addBox(order[0], 4, color, opts);
 				that.addArrow([order[2], order[3]], color, border, opts, collides, markerType);
 			} else {
-				that.addBox(order[0], 4, color);
+				//that.addBox(order[0], 4, color);
 				that.addArrow([order[0], order[2], order[3]], color, border, opts, collides, markerType);
 			}
 		}
@@ -763,6 +775,9 @@ if (markerType === "Support") {
 			that.addCross([order[0], order[2]], error, opts, collides)
 			} else if (order[1] === "Support") {
 			that.addCross([order[0], order[2], order[3]], error, opts, collides)
+			} else if (order[1] === "Hold") {
+			that.addCross(order[0], error, opts)
+			console.log("ORDER IS HELD HERE11111111111111111111111111111111111111111111"); //TODO after Martin fixes this stuff, we can put it in here.
 			}
 		}
 	};
@@ -841,7 +856,6 @@ if (markerType === "Support") {
 			unit.attr(
 			"id", sourceId + province //TODO: need to give this an ID so we can target it when it gets dislodged
 			);
-			console.log("addingUnits");
 
 		}
 $(el)
