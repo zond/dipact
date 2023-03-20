@@ -897,6 +897,10 @@ export default class DipMap extends React.Component {
 			if (this.state.orders != null || this.state.orders != undefined) {
 			this.state.orders.sort((a, b) => valueMap[a.Parts[1]] - valueMap[b.Parts[1]]);
 			}
+			
+			console.log(this.state.orders);
+
+
 
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
@@ -907,40 +911,67 @@ export default class DipMap extends React.Component {
 					if (this.state.phase.Properties.Resolutions != null && this.state.phase.Properties.Resolutions[this.state.phase.Properties.Resolutions.findIndex( item => item.Province.indexOf(superProv) != -1)].Resolution === "OK") {
 								successOrder = true;
 					}
-					console.log("resolutions");
-					console.log(this.state.phase.Properties.Resolutions);
+
+			if (orderData.Parts[1] === "MoveViaConvoy") {
+
+
+				console.log("############Moving Via Convoy######### : " + orderData.Parts[0] + "to" + orderData.Parts[2]);
+				console.log(this.state.orders);
+			//Create list of all participating convoys
+				const convoyParticipants = this.state.orders.filter(obj => obj.Parts[1] === "Convoy" && obj.Parts[2] === orderData.Parts[0] && obj.Parts[3] === orderData.Parts[2]).map(element => element.Parts[0]);
+
+				console.log("Participants");
+				console.log(convoyParticipants);
+
+			console.log(this.state.variant.Properties.Graph);
 
 
 
-//TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
-//TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
 
-				//Check whether this order should be drawn with an indent (for colliding orders & their support) or not.
+
+
+
+
+
+			}
+
+
+
+				//TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
+				//TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
+
+
+			//TODO: NEED TO ADD CONVOY ORDERS
+
+
+
+
+
+			//Check and add collisions (if two orders or supports are colliding)
+
 				var collides = false;
-				//Check if a move order collides.
-
-
 
 				if (orderData.Parts[1] === "Move" && this.state.orders.find(obj => obj.Parts[2] === orderData.Parts[0]  && obj.Parts[1] === "Move" && obj.Parts[0] === orderData.Parts[2])?.Parts[0] === orderData.Parts[2]) {
  					collides = true;
  					console.log("MOVE COLLIDES WITH: " + orderData.Parts[2]);
 				} 
-
-
-				//Check if a support order supports a move that is colliding (in that case, this move should indent: both moves will indent so both support should. The mirrored support will have the same result)
+			//Check if a support order supports a move that is colliding (in that case, this move should indent: both moves will indent so both support should. The mirrored support will have the same result)
 				if (orderData.Parts[1] === "Support" &&
 					this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[2]  && obj.Parts[1] === "Move" && obj.Parts[2] === orderData.Parts[3])?.Parts[2] === orderData.Parts[3] && 
 					this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[3]  && obj.Parts[1] === "Move" && obj.Parts[2] === orderData.Parts[2])?.Parts[2] === orderData.Parts[2] ) { 
- 
+
  						collides = true;
  						console.log("SUPPORTED MOVE COLLIDES: " + orderData.Parts[2] + " vs " + orderData.Parts[3]);
  
- 				} else if // If a support does NOT support a colliding move (meaning 1 or no orders);
+ 				} else if 
+ 			
+ 			// If a support does NOT support a colliding move (meaning 1 or no orders);
  				(orderData.Parts[1] === "Support" &&
- 					this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[3] && obj.Parts[1] === "Support" && obj.Parts[2] === orderData.Parts[2] && obj.Parts[3] === orderData.Parts[0])?.Parts[3] === orderData.Parts[0]) { //then check if the supports themselves collide. If they collide,
-						
-				
-					if (!(this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[2] && obj.Parts[1] === "Move" && obj.Parts[2] === orderData.Parts[3])?.Parts[2] === orderData.Parts[3])) { // then check if THIS support is NOT supporting a real move. If not,
+ 					this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[3] && obj.Parts[1] === "Support" && obj.Parts[2] === orderData.Parts[2] && obj.Parts[3] === orderData.Parts[0])?.Parts[3] === orderData.Parts[0]) { 
+ 			
+ 			//then check if the supports themselves collide. If they collide,
+								if (!(this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[2] && obj.Parts[1] === "Move" && obj.Parts[2] === orderData.Parts[3])?.Parts[2] === orderData.Parts[3])) { // then check if THIS support is NOT supporting a real move. If not,
+			
 						// indent: this means either the other is (and this one should indent) or both are (and both should indent)
 						console.log("Double Support, I'm indenting")
 						collides = true;
@@ -949,12 +980,10 @@ export default class DipMap extends React.Component {
 					else if (this.state.orders.find(obj => obj.Parts[0] === orderData.Parts[2] && obj.Parts[1] === "Move" && obj.Parts[2] === orderData.Parts[3])?.Parts[2] === orderData.Parts[3]) {
 						console.log("Double support, I'm NOT indenting")
 					}
-					
-
 				}
 
-				
-	
+
+
 
 
 
