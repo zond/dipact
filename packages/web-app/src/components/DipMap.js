@@ -918,7 +918,9 @@ export default class DipMap extends React.Component {
 				console.log("############Moving Via Convoy######### : " + orderData.Parts[0] + "to" + orderData.Parts[2]);
 				console.log(this.state.orders);
 			//Create list of all participating convoys
-				const convoyParticipants = this.state.orders.filter(obj => obj.Parts[1] === "Convoy" && obj.Parts[2] === orderData.Parts[0] && obj.Parts[3] === orderData.Parts[2]).map(element => element.Parts[0]);
+				var convoyParticipants = this.state.orders.filter(obj => obj.Parts[1] === "Convoy" && obj.Parts[2] === orderData.Parts[0] && obj.Parts[3] === orderData.Parts[2]).map(element => element.Parts[0]);
+				convoyParticipants.push(orderData.Parts[0]);
+				convoyParticipants.push(orderData.Parts[2]);
 
 
 
@@ -926,14 +928,11 @@ export default class DipMap extends React.Component {
 				console.log("Participants");
 				console.log(convoyParticipants);
 
-				let edges = this.state.variant.Properties.Graph.Nodes["afg"].Subs[""].Edges;
-				const edgesArray = Object.keys(edges);
-
+				//let edges = this.state.variant.Properties.Graph.Nodes["nyk"].Subs[""].Edges;
+				//const neighbors = Object.keys(edges);
 
 //				let neighbors = this.state.variant.Properties.Graph.Nodes.find(p => p.Name === "afg");
 
-				console.log("Edges of 'afg'");
-				console.log(edgesArray);
 
 /*
 
@@ -944,7 +943,128 @@ We just need to remove the "connectedProvinces" from the function (and when call
         let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
 to the right way in this.state.variant.Properties.Graph.Nodes to define the neighborrs, and it might actually work!
 
+///////////////////// This is Dijsktra's path
 
+*/
+
+const edgesMap = this.state.variant.Properties.Graph.Nodes;
+
+function findPath(startProvince, endProvince, participatingProvinces) {
+
+class PriorityQueue {
+  constructor() {
+    this.items = [];
+  }
+
+  enqueue(element, priority) {
+    const item = { element, priority };
+    let added = false;
+    for (let i = 0; i < this.items.length; i++) {
+      if (item.priority < this.items[i].priority) {
+        this.items.splice(i, 0, item);
+        added = true;
+        break;
+      }
+    }
+    if (!added) {
+      this.items.push(item);
+    }
+  }
+
+  dequeue() {
+    return this.items.shift().element;
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+
+    // Create a priority queue to store the nodes to be explored
+    let queue = new PriorityQueue();
+
+    // Create a map to store the distance from the start node to each node
+    let distances = new Map();
+
+    // Create a map to store the previous node in the optimal path from the start node to each node
+    let previous = new Map();
+
+    // Initialize the distance map and queue with the start node
+    distances.set(startProvince, 0);
+    queue.enqueue(startProvince, 0);
+
+    // Loop until we have found the end node or the queue is empty
+    while (!queue.isEmpty()) {
+        // Get the node with the smallest distance from the start node
+        let currentProvince = queue.dequeue();
+
+        // If we have found the end node, construct and return the optimal path
+        if (currentProvince === endProvince) {
+            let path = [];
+            while (previous.has(currentProvince)) {
+                path.unshift(currentProvince);
+                currentProvince = previous.get(currentProvince);
+            }
+            path.unshift(startProvince);
+            return path;
+        }
+
+
+        // Get the neighboring nodes of the current node
+        //let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
+
+        let edges = edgesMap[currentProvince].Subs[""].Edges;
+		const neighbors = Object.keys(edges);
+		console.log("current province: " + currentProvince + " and neighbors:");
+		console.log(neighbors);
+		
+        // Loop through the neighboring nodes
+        for (let neighbor of neighbors) {
+            // Check if the neighbor is a participating province
+            if (!participatingProvinces.includes(neighbor)) {
+                continue;
+            }
+
+            // Compute the distance from the start node to the neighbor
+            let distance = distances.get(currentProvince) + 1;
+
+            // Update the distance and previous maps if we have found a shorter path to the neighbor
+            if (!distances.has(neighbor) || distance < distances.get(neighbor)) {
+                distances.set(neighbor, distance);
+                previous.set(neighbor, currentProvince);
+                let priority = distance + heuristic(neighbor, endProvince); // Using heuristic function that estimates the remaining distance
+                queue.enqueue(neighbor, priority);
+            }
+        }
+    }
+
+    // If we have explored all nodes and have not found a path, return null
+    return null;
+}
+
+// Define a simple heuristic function that estimates the remaining distance
+function heuristic(node, endNode) {
+    return 1; // Assuming all edges have equal distance
+}
+
+
+				let participatingProvinces = convoyParticipants;
+				let connectedProvinces = this.state.variant.Properties.Graph.Nodes;
+				let startProvince = "nyk";
+				let endProvince = "ura";
+
+				let pathExists = findPath(startProvince, endProvince, participatingProvinces, connectedProvinces);
+				console.log("Fastest convoy path from " + startProvince + " to " + endProvince + " is:");
+				console.log(pathExists); // true or false
+
+
+
+
+
+
+
+/*
+///////////////////// This is the original path
 
 	function findPath(startProvince, endProvince, participatingProvinces, connectedProvinces) {
     // Create a queue to store the nodes to be explored
@@ -1023,6 +1143,23 @@ to the right way in this.state.variant.Properties.Graph.Nodes to define the neig
 				console.log(pathExists); // true or false
 */
 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
