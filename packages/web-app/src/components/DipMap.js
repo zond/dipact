@@ -881,8 +881,8 @@ export default class DipMap extends React.Component {
       const valueMap = {
         Move: 5,
         Hold: 4,
-        MoveViaConvoy: 3,
-        Support: 2,
+        Support: 3,
+        MoveViaConvoy: 2,
         Convoy: 1,
       };
 
@@ -892,8 +892,6 @@ export default class DipMap extends React.Component {
         );
       }
 
-      console.log(this.state.orders);
-
       (this.state.orders || []).forEach((orderData) => {
         const superProv = orderData.Parts[0].split("/")[0];
         console.log("Processing province: " + superProv);
@@ -901,7 +899,7 @@ export default class DipMap extends React.Component {
 
         //Check the resolution is true
         if (
-          this.state.phase.Properties.Resolutions != null &&
+          this.state.phase.Properties.Resolutions !== null &&
           this.state.phase.Properties.Resolutions[
             this.state.phase.Properties.Resolutions.findIndex(
               (item) => item.Province.indexOf(superProv) != -1
@@ -966,108 +964,108 @@ export default class DipMap extends React.Component {
           const edgesMap = this.state.variant.Properties.Graph.Nodes;
           var fastestPath;
 
-          function findPath(
-            startProvince,
-            endProvince,
-            participatingProvinces
-          ) {
-            class PriorityQueue {
-              constructor() {
-                this.items = [];
-              }
+	          function findPath(
+	            startProvince,
+	            endProvince,
+	            participatingProvinces
+	          ) {
+	            class PriorityQueue {
+	              constructor() {
+	                this.items = [];
+	              }
 
-              enqueue(element, priority) {
-                const item = { element, priority };
-                let added = false;
-                for (let i = 0; i < this.items.length; i++) {
-                  if (item.priority < this.items[i].priority) {
-                    this.items.splice(i, 0, item);
-                    added = true;
-                    break;
-                  }
-                }
-                if (!added) {
-                  this.items.push(item);
-                }
-              }
+	              enqueue(element, priority) {
+	                const item = { element, priority };
+	                let added = false;
+	                for (let i = 0; i < this.items.length; i++) {
+	                  if (item.priority < this.items[i].priority) {
+	                    this.items.splice(i, 0, item);
+	                    added = true;
+	                    break;
+	                  }
+	                }
+	                if (!added) {
+	                  this.items.push(item);
+	                }
+	              }
 
-              dequeue() {
-                return this.items.shift().element;
-              }
+	              dequeue() {
+	                return this.items.shift().element;
+	              }
 
-              isEmpty() {
-                return this.items.length === 0;
-              }
-            }
+	              isEmpty() {
+	                return this.items.length === 0;
+	              }
+	            }
 
-            // Create a priority queue to store the nodes to be explored
-            let queue = new PriorityQueue();
+	            // Create a priority queue to store the nodes to be explored
+	            let queue = new PriorityQueue();
 
-            // Create a map to store the distance from the start node to each node
-            let distances = new Map();
+	            // Create a map to store the distance from the start node to each node
+	            let distances = new Map();
 
-            // Create a map to store the previous node in the optimal path from the start node to each node
-            let previous = new Map();
+	            // Create a map to store the previous node in the optimal path from the start node to each node
+	            let previous = new Map();
 
-            // Initialize the distance map and queue with the start node
-            distances.set(startProvince, 0);
-            queue.enqueue(startProvince, 0);
+	            // Initialize the distance map and queue with the start node
+	            distances.set(startProvince, 0);
+	            queue.enqueue(startProvince, 0);
 
-            // Loop until we have found the end node or the queue is empty
-            while (!queue.isEmpty()) {
-              // Get the node with the smallest distance from the start node
-              let currentProvince = queue.dequeue();
+	            // Loop until we have found the end node or the queue is empty
+	            while (!queue.isEmpty()) {
+	              // Get the node with the smallest distance from the start node
+	              let currentProvince = queue.dequeue();
 
-              // If we have found the end node, construct and return the optimal path
-              if (currentProvince === endProvince) {
-                let path = [];
-                while (previous.has(currentProvince)) {
-                  path.unshift(currentProvince);
-                  currentProvince = previous.get(currentProvince);
-                }
-                path.unshift(startProvince);
-                return path;
-              }
+	              // If we have found the end node, construct and return the optimal path
+	              if (currentProvince === endProvince) {
+	                let path = [];
+	                while (previous.has(currentProvince)) {
+	                  path.unshift(currentProvince);
+	                  currentProvince = previous.get(currentProvince);
+	                }
+	                path.unshift(startProvince);
+	                return path;
+	              }
 
-              // Get the neighboring nodes of the current node
-              //let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
+	              // Get the neighboring nodes of the current node
+	              //let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
 
-              let edges = edgesMap[currentProvince].Subs[""].Edges;
-              const neighbors = Object.keys(edges);
-              // console.log("current province: " + currentProvince + " and neighbors:");
-              // console.log(neighbors);
+	              let edges = edgesMap[currentProvince].Subs[""].Edges;
+	              const neighbors = Object.keys(edges);
+	              // console.log("current province: " + currentProvince + " and neighbors:");
+	              // console.log(neighbors);
 
-              // Loop through the neighboring nodes
-              for (let neighbor of neighbors) {
-                // Check if the neighbor is a participating province
-                if (!participatingProvinces.includes(neighbor)) {
-                  continue;
-                }
+	              // Loop through the neighboring nodes
+	              for (let neighbor of neighbors) {
+	                // Check if the neighbor is a participating province
+	                if (!participatingProvinces.includes(neighbor)) {
+	                  continue;
+	                }
 
-                // Compute the distance from the start node to the neighbor
-                let distance = distances.get(currentProvince) + 1;
+	                // Compute the distance from the start node to the neighbor
+	                let distance = distances.get(currentProvince) + 1;
 
-                // Update the distance and previous maps if we have found a shorter path to the neighbor
-                if (
-                  !distances.has(neighbor) ||
-                  distance < distances.get(neighbor)
-                ) {
-                  distances.set(neighbor, distance);
-                  previous.set(neighbor, currentProvince);
-                  let priority = distance + heuristic(neighbor, endProvince); // Using heuristic function that estimates the remaining distance
-                  queue.enqueue(neighbor, priority);
-                }
-              }
-            }
+	                // Update the distance and previous maps if we have found a shorter path to the neighbor
+	                if (
+	                  !distances.has(neighbor) ||
+	                  distance < distances.get(neighbor)
+	                ) {
+	                  distances.set(neighbor, distance);
+	                  previous.set(neighbor, currentProvince);
+	                  let priority = distance + heuristic(neighbor, endProvince); // Using heuristic function that estimates the remaining distance
+	                  queue.enqueue(neighbor, priority);
+	                }
+	              }
+	            }
 
-            // If we have explored all nodes and have not found a path, return null
-            return null;
-          }
+	            // If we have explored all nodes and have not found a path, return null
+	            return null;
+	          }
 
-          // Define a simple heuristic function that estimates the remaining distance
-          function heuristic(node, endNode) {
-            return 1; // Assuming all edges have equal distance
-          }
+	          // Define a simple heuristic function that estimates the remaining distance
+	          function heuristic(node, endNode) {
+	            return 1; // Assuming all edges have equal distance
+	          }
 
           // Invoke Dijkstra to find the fastest path
           let participatingProvinces = convoyParticipants;
@@ -1077,7 +1075,7 @@ export default class DipMap extends React.Component {
           if (orderData.Parts[1] === "MoveViaConvoy") {
             startProvince = orderData.Parts[0];
             endProvince = orderData.Parts[2];
-          } else {
+          } else if (orderData.Parts[1] === "Convoy") {
             startProvince = orderData.Parts[2];
             endProvince = orderData.Parts[3];
           }
@@ -1088,15 +1086,27 @@ export default class DipMap extends React.Component {
             participatingProvinces,
             connectedProvinces
           );
-          console.log(
-            "Fastest convoy path from " +
-              startProvince +
-              " to " +
-              endProvince +
-              " is: " +
-              JSON.stringify(fastestPath)
-          );
+
+          //console.log("Fastest path from " + startProvince + " to " + endProvince + " is: " + JSON.stringify(fastestPath));
+
+
         }
+
+
+
+		var convoyOrder = [];
+		if (orderData.Parts[1] === "MoveViaConvoy") {
+			convoyOrder.push(orderData.Parts[0]);
+			convoyOrder.push(orderData.Parts[1]);
+		  fastestPath.slice(1).forEach(element => convoyOrder.push(element));
+
+		} 
+
+		if (orderData.Parts[1] === "Convoy") {
+			convoyOrder.push(orderData.Parts[0]);
+			convoyOrder.push(orderData.Parts[1]);
+		  fastestPath.forEach(element => convoyOrder.push(element));
+		} 
 
         //TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
         //TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
@@ -1181,15 +1191,25 @@ export default class DipMap extends React.Component {
 
         //TODO: NEED TO ADD CONVOY ORDERS
 
+ 
+        if (orderData.Parts[1] === "MoveViaConvoy" || orderData.Parts[1] === "Convoy") {
+        this.map.addOrder(
+          convoyOrder,
+          helpers.natCol(orderData.Nation, this.state.variant),
+          { stroke: this.phaseSpecialStrokes[superProv] },
+          successOrder,
+          collides
+        );
 
-
+    } else {
         this.map.addOrder(
           orderData.Parts,
           helpers.natCol(orderData.Nation, this.state.variant),
           { stroke: this.phaseSpecialStrokes[superProv] },
           successOrder,
           collides
-        );
+        );    	
+    }
         this.debugCount("renderOrders/renderedOrder");
       });
 

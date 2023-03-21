@@ -433,6 +433,117 @@ export function dippyMap(container) {
 
 		return point;
 	}
+
+	that.addConvoyArrow = function(provs, color, border, opts = {}, collides, markerType) {
+		// Remove the MoveViaConvoy to keep the provinces only
+		provs.splice(1, 1); 
+		console.log(provs);
+		const centers = provs.map((prov) => that.centerOf(prov));
+
+//Define the arrow definitions
+
+		var spacer = 12;
+		var collideDistance = 5;
+		var startVec = new that.Vec(centers[0], centers[1]);
+		var endVec = new that.Vec(centers[centers.length - 2], centers[centers.length - 1]);
+
+
+
+//Adjust the arrowStart, middle and ArrowEnd in case of collision
+
+		var arrowStart = centers[0];
+
+		arrowStart.x = centers[0].x + (startVec.dir().mul(spacer).x);
+		arrowStart.y = centers[0].y + (startVec.dir().mul(spacer).y);
+
+		var arrowEnd = centers[centers.length -1];
+
+		arrowEnd.x = centers[centers.length -1].x - (endVec.dir().mul(spacer * 1.5).x);
+		arrowEnd.y = centers[centers.length -1].y - (endVec.dir().mul(spacer * 1.5).y);
+
+/*
+		if (collides && provs.length === 2) {
+			//Adjust for MOVE
+			arrowStart = that.adjustCollideArrow(arrowStart, startVec, collideDistance, true);
+			middle = that.adjustCollideArrow(middle, startVec, (collideDistance), true);
+			arrowEnd = that.adjustCollideArrow(arrowEnd, endVec, collideDistance, false);
+
+		} else if (collides && provs.length === 3) {
+			//Adjust for SUPPORT
+			arrowStart = that.adjustCollideArrow(arrowStart, startVec, collideDistance, true);
+			middle = that.adjustCollideArrow(middle, endVec, (collideDistance), false); //TODO: find the right middle point
+			arrowEnd = that.adjustCollideArrow(arrowEnd, endVec, collideDistance, false);
+		}
+*/
+
+//	Create the background arrow
+
+
+var path = document.createElementNS(SVG, "path");
+path.setAttribute(
+			"style",
+			"fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" + color.substring(1) + "LargeArrowMarker)"
+		);
+
+			const curveCommands = [];
+			for (let i = 1; i < centers.length - 1; i++) {
+			  const prevCenter = centers[i - 1];
+			  const currentCenter = centers[i];
+			  const nextCenter = centers[i + 1];
+			  const middle1 = { x: (prevCenter.x + currentCenter.x) / 2, y: (prevCenter.y + currentCenter.y) / 2 };
+			  const middle2 = { x: (currentCenter.x + nextCenter.x) / 2, y: (currentCenter.y + nextCenter.y) / 2 };
+			  var command;
+			  if (i === centers.length - 2) {
+				command = "Q " + currentCenter.x + " " + currentCenter.y + " " + nextCenter.x + " " + nextCenter.y;
+			  } else {
+			  command = "Q " + currentCenter.x + " " + currentCenter.y + " " + middle2.x + " " + middle2.y;
+				}
+			  curveCommands.push(command);
+			}
+
+
+			const d = "M " + centers[0].x + " " + centers[0].y + " " + curveCommands.join(" ");
+			console.log(d);
+//    			var curve = "M" + movingarmyx + " " + movingarmyy + " Q " + fleet1x + " " + fleet1y + " " + mid1x + " " + mid1y + " Q " + fleet2x + " " + fleet2y + " " + targetx + " " + targety;
+
+
+		path.setAttribute("d", d);
+		$(el)
+			.find("#orders")[0]
+			.appendChild(path);
+	};
+
+
+/*
+//Create the coloured foreground
+if (markerType === "Support") {
+		that.invokeMarker(color, false, "Support");
+	} else 	{
+		that.invokeMarker(color, false, "Arrow");	
+	}
+		var colorPath = document.createElementNS(SVG, "path");
+if (markerType === "Support") {
+		colorPath.setAttribute(
+			"style",
+			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallSupportMarker)"
+		);
+	} else {
+		colorPath.setAttribute(
+			"style",
+			"fill: none;stroke:" + color + ";stroke-width:3;stroke-dasharray:" + supportBorderStrokeDashArray + ";" + "; marker-end: url(#" + color.substring(1) + "SmallArrowMarker)"
+		);
+	}
+
+		var d = "M" + arrowStart.x + " " + arrowStart.y + " Q " + middle.x + " " + middle.y + " " + arrowEnd.x + " " + arrowEnd.y;
+		colorPath.setAttribute("d", d);
+		$(el)
+			.find("#orders")[0]
+			.appendChild(colorPath);
+
+	};
+*/
+
+
 	that.addArrow = function(provs, color, border, opts = {}, collides, markerType) {
 		var start = null;
 		var middle = null;
@@ -727,7 +838,7 @@ if (markerType === "Support") {
 		} else if (order[1] === "Move") {
 			that.addArrow([order[0], order[2]], color, border, opts, collides);
 		} else if (order[1] === "MoveViaConvoy") {
-			that.addArrow([order[0], order[2]], color, border, opts);
+			that.addConvoyArrow(order, color, border, opts);
 			that.addBox(order[0], 5, color, opts);
 		} else if (order[1] === "Build") {
 			that.addUnit(
