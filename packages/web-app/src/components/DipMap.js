@@ -920,19 +920,108 @@ export default class DipMap extends React.Component {
 			//Create list of all participating convoys
 				const convoyParticipants = this.state.orders.filter(obj => obj.Parts[1] === "Convoy" && obj.Parts[2] === orderData.Parts[0] && obj.Parts[3] === orderData.Parts[2]).map(element => element.Parts[0]);
 
+
+
+//We have the right elements here - we will put them in the algorithm below.
 				console.log("Participants");
 				console.log(convoyParticipants);
 
-			console.log(this.state.variant.Properties.Graph);
+				let edges = this.state.variant.Properties.Graph.Nodes["afg"].Subs[""].Edges;
+				const edgesArray = Object.keys(edges);
+
+
+//				let neighbors = this.state.variant.Properties.Graph.Nodes.find(p => p.Name === "afg");
+
+				console.log("Edges of 'afg'");
+				console.log(edgesArray);
+
+/*
+
+//BUSY: 
+//We will add this function to find the best route. Example game can be Spring 62 http://localhost:3001/Game/ahJzfmRpcGxpY2l0eS1lbmdpbmVyEQsSBEdhbWUYgIDA5ojcogoM 
+
+We just need to remove the "connectedProvinces" from the function (and when calling it) and connect:
+        let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
+to the right way in this.state.variant.Properties.Graph.Nodes to define the neighborrs, and it might actually work!
 
 
 
+	function findPath(startProvince, endProvince, participatingProvinces, connectedProvinces) {
+    // Create a queue to store the nodes to be explored
+    let queue = [];
+
+    // Create a set to store the visited nodes
+    let visited = new Set();
+
+    // Create a set to store the dead-end nodes
+    let deadEnds = new Set();
+
+    // Add the start province to the queue
+    queue.push(startProvince);
+
+    // Loop through the queue until it is empty
+    while (queue.length > 0) {
+        // Get the next node to explore
+        let currentProvince = queue.shift();
+
+        // If the current node is the end node, we have found a path
+        if (currentProvince === endProvince) {
+            return true;
+        }
+
+        // Add the current node to the visited set
+        visited.add(currentProvince);
+
+        // Get the neighboring nodes of the current node
+        let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
+
+        // Check if the current node is a dead-end node
+        if (!neighbors || neighbors.length === 0) {
+            deadEnds.add(currentProvince);
+        }
+
+        // Loop through the neighboring nodes
+        for (let neighbor of neighbors) {
+            // If the neighbor is a participating province and has not been visited yet, add it to the queue
+            if (participatingProvinces.includes(neighbor) && !visited.has(neighbor) && !deadEnds.has(neighbor)) {
+                queue.push(neighbor);
+            }
+        }
+
+        // If the queue is empty and we haven't found the end province yet, retry the dead-end nodes
+        if (queue.length === 0) {
+            for (let deadEnd of deadEnds) {
+                // Get the neighboring nodes of the dead-end node
+                let deadEndNeighbors = connectedProvinces.find(p => p.province === deadEnd).Connect;
+
+                // Loop through the neighboring nodes of the dead-end node
+                for (let neighbor of deadEndNeighbors) {
+                    // If the neighbor is a participating province and has not been visited yet, add it to the queue
+                    if (participatingProvinces.includes(neighbor) && !visited.has(neighbor) && !deadEnds.has(neighbor)) {
+                        queue.push(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
+    // If we have explored all nodes and have not found a path, return false
+    return false;
+}
 
 
+*/
 
+/*
+				let participatingProvinces = convoyParticipants;
+				let connectedProvinces = this.state.variant.Properties.Graph.Nodes;
+				let startProvince = "nyk";
+				let endProvince = "ura";
 
+				let pathExists = findPath(startProvince, endProvince, participatingProvinces, connectedProvinces);
 
-
+				console.log(pathExists); // true or false
+*/
 			}
 
 
