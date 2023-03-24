@@ -31,7 +31,7 @@ const Router = (): React.ReactElement => {
           <Route exact path={RouteConfig.Map}>
             <Map />
           </Route>
-          <Route exact path={RouteConfig.Game}>
+          <Route path={RouteConfig.Game}>
             <LegacyApp />
           </Route>
           <Redirect to={RouteConfig.Home} />
