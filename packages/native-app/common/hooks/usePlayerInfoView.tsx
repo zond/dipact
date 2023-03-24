@@ -1,7 +1,7 @@
-import { diplicityService as service } from "..";
+import { service as service } from "..";
 
 const usePlayerInfoView = (gameId: string) => {
-  const getGameQuery = service.useGetGameV2Query(gameId);
+  const getGameQuery = service.useGetGameQuery(gameId);
   return {
     query: getGameQuery,
   };

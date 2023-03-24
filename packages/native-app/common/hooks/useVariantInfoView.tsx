@@ -1,10 +1,10 @@
-import { diplicityService as service } from "..";
+import { service as service } from "..";
 
 import { combineQueries } from "../utils/query";
 
 const useVariantInfoView = (gameId: string) => {
-  const getGameQuery = service.useGetGameV2Query(gameId);
-  const listVariantsQuery = service.useListVariantsV2Query(undefined);
+  const getGameQuery = service.useGetGameQuery(gameId);
+  const listVariantsQuery = service.useListVariantsQuery(undefined);
   return {
     query: combineQueries({
       game: getGameQuery,

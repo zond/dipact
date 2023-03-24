@@ -11,10 +11,6 @@ jest.mock("react-native/Libraries/Linking/Linking", () => ({
   openURL: mockOpenUrl,
 }));
 
-jest.mock("@react-native-google-signin/google-signin", () => ({
-  GoogleSigninButton: jest.fn(() => <div />),
-}));
-
 describe("Login", () => {
   const arrange = () => {
     (GoogleSigninButton as unknown as jest.Mock).mockImplementation(

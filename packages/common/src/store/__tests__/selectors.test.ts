@@ -22,14 +22,6 @@ const createGetRootSlice = (data: any) => ({
   },
 });
 
-describe("selectColorOverrides", () => {
-  test("gets color overrides", () => {
-    const state = { ...initialState };
-    const result = selectors.selectColorOverrides(state);
-    expect(result).toStrictEqual(state.colorOverrides);
-  });
-});
-
 describe("selectUser", () => {
   test("gets user", () => {
     const user = {
@@ -460,7 +452,7 @@ describe("selectMapView", () => {
 
   test("If game not in store data is undefined", () => {
     const diplicityServiceState = { ...defaultDiplicityServiceState };
-    diplicityServiceState.queries["getGame(\"game-id\")"] = {
+    diplicityServiceState.queries['getGame("game-id")'] = {
       status: "pending",
       endpointName: "getGame",
       requestId: "getGame-game-id",

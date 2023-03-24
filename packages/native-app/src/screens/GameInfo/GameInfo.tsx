@@ -1,13 +1,13 @@
 import React from "react";
-
-import { Stack } from "../../components/Stack";
-import { useGameInfoView } from "../../../common/hooks";
-import { useParams } from "../../hooks/useParams";
-import Table from "../../components/Table/Table";
 import { ScrollView } from "react-native";
+
 import QueryContainer from "../../components/QueryContainer";
-import { useCommonStyles } from "../../hooks/useCommonStyles";
+import Table from "../../components/Table/Table";
+import { Stack } from "../../components/Stack";
 import { TableRow } from "../../components/Table";
+import { useCommonStyles } from "../../hooks/useCommonStyles";
+import { useGameInfoView } from "../../../common";
+import { useParams } from "../../hooks/useParams";
 
 const GameInfo = () => {
   const commonStyles = useCommonStyles();

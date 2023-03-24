@@ -13,7 +13,6 @@
     "build-and-install-common": "cd ../common && yarn build && cd ../native-app && yarn add ../common"
   },
   "dependencies": {
-    "@diplicity/common": "../common",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^5.0.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -52,7 +51,8 @@
     "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.1.0",
     "react-redux": "^7.2.6",
-    "xmldom": "^0.6.0"
+    "xmldom": "^0.6.0",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -85,7 +85,7 @@
       "<rootDir>/src/setup.ts"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.ts"
+      "<rootDir>/src/setupTests.tsx"
     ],
     "preset": "react-native",
     "moduleFileExtensions": [

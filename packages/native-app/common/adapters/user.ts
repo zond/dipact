@@ -1,16 +1,14 @@
 import { TransformedUser, User } from "../store";
-import { Adapter } from "./types";
+import { Adapter } from "./adapter";
 
-class UserAdapter extends Adapter<User> implements TransformedUser {
-  get id() {
-    return this.adaptee.Id;
-  }
-  get src() {
-    return this.adaptee.Picture;
-  }
-  get username() {
-    return this.adaptee.Name;
+class UserAdapter extends Adapter<User, TransformedUser> {
+  adapt() {
+    return {
+      id: this.adaptee.Id,
+      src: this.adaptee.Picture,
+      username: this.adaptee.Name,
+    };
   }
 }
 
-export const userAdapter = (user: User) => new UserAdapter(user);
+export const userAdapter = (user: User) => new UserAdapter(user).adapt();

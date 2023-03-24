@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { DiplicityError, Phase } from "../store/types";
 import { getPhaseName } from "../utils/general";
-import { diplicityService, phaseActions, selectors } from "../store";
+import { service, phaseActions, selectors } from "../store";
 
-const { useListPhasesQuery } = diplicityService;
+const { useListPhasesQuery } = service;
 
 type PhasesDisplay = [number, string][];
 
@@ -25,7 +25,7 @@ const getMaxPhaseOrdinal = (phases: Phase[] | undefined) =>
   ).PhaseOrdinal;
 
 const usePhaseSelector = (gameId: string): IUsePhaseSelector => {
-  const { data, isLoading, isError, error} = useListPhasesQuery(gameId);
+  const { data, isLoading, isError, error } = useListPhasesQuery(gameId);
 
   const dispatch = useDispatch();
 

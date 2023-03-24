@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 
-import { GameStatus, selectors } from "../../../common";
-import GameList from "../../components/GameList";
+import { GameStatus } from "../../../common";
 import PlayerCard from "../../components/PlayerCard";
 import { Stack } from "../../components/Stack";
-import { Filter } from "../../components/Filter";
+import Filter from "../../components/Filter";
 
 const MyGames = ({}) => {
-  const id = useSelector(selectors.selectUserId) as string;
   const [status, setStatus] = useState<GameStatus>(GameStatus.Started);
 
   return (
     <Stack orientation="vertical">
-      <PlayerCard variant="expanded" id={id} />
+      <PlayerCard variant="expanded" id={undefined} />
       <Stack align="flex-start" fillWidth padding={1}>
         <Filter
           placeholder="State"
@@ -28,7 +25,7 @@ const MyGames = ({}) => {
           variant="select"
         />
       </Stack>
-      <GameList filters={{ my: true, status: status, mastered: false }} />
+      {/* <GameList filters={{ my: true, status: status, mastered: false }} /> */}
     </Stack>
   );
 };

@@ -1,10 +1,10 @@
-import { SCState } from "@diplicity/common";
 import {
   TransformedPhase,
   Phase,
   Unit,
   TransformedUnit,
   Dislodged,
+  SCState,
   TransformedDislodgedUnit,
   TransformedSupplyCenterState,
   UnitState,
@@ -12,118 +12,92 @@ import {
   Dislodger,
   TransformedDislodgingProvinces,
 } from "../store";
-import { Adapter } from "./types";
+import { Adapter } from "./adapter";
 
-class DislodgedAdapter
-  extends Adapter<Dislodged>
-  implements TransformedDislodgedUnit
-{
-  get province() {
-    return this.adaptee.Province;
-  }
-  get unit() {
-    return unitAdapter(this.adaptee.Dislodged);
+class DislodgedAdapter extends Adapter<Dislodged, TransformedDislodgedUnit> {
+  adapt() {
+    return {
+      province: this.adaptee.Province,
+      unit: unitAdapter(this.adaptee.Dislodged),
+    };
   }
 }
 
 const dislodgedAdapter = (dislodged: Dislodged) =>
-  new DislodgedAdapter(dislodged);
+  new DislodgedAdapter(dislodged).adapt();
 
-class DislodgingProvinceAdapter
-  extends Adapter<Dislodger>
-  implements TransformedDislodgingProvinces
-{
-  get province() {
-    return this.adaptee.Province;
-  }
-  get dislodgingProvince() {
-    return this.adaptee.Dislodger;
+class DislodgingProvinceAdapter extends Adapter<
+  Dislodger,
+  TransformedDislodgingProvinces
+> {
+  adapt() {
+    return {
+      province: this.adaptee.Province,
+      dislodgingProvince: this.adaptee.Dislodger,
+    };
   }
 }
 
 const dislodgingProvinceAdapter = (dislodger: Dislodger) => {
-  return new DislodgingProvinceAdapter(dislodger);
+  return new DislodgingProvinceAdapter(dislodger).adapt();
 };
 
-// class which adapts Unit to TransformedUnit
-class UnitAdapter extends Adapter<Unit> implements TransformedUnit {
-  get type() {
-    return this.adaptee.Type;
-  }
-  get nation() {
-    return this.adaptee.Nation;
+class UnitAdapter extends Adapter<Unit, TransformedUnit> {
+  adapt() {
+    return {
+      type: this.adaptee.Type,
+      nation: this.adaptee.Nation,
+    };
   }
 }
 
-class UnitStateAdapter
-  extends Adapter<UnitState>
-  implements TransformedUnitState
-{
-  get province() {
-    return this.adaptee.Province;
-  }
-  get unit() {
-    return unitAdapter(this.adaptee.Unit);
+const unitAdapter = (unit: Unit) => new UnitAdapter(unit).adapt();
+
+class UnitStateAdapter extends Adapter<UnitState, TransformedUnitState> {
+  adapt() {
+    return {
+      province: this.adaptee.Province,
+      unit: unitAdapter(this.adaptee.Unit),
+    };
   }
 }
 
 const unitStateAdapter = (unitState: UnitState) =>
-  new UnitStateAdapter(unitState);
+  new UnitStateAdapter(unitState).adapt();
 
-class SupplyCenterStateAdapter
-  extends Adapter<SCState>
-  implements TransformedSupplyCenterState
-{
-  get province() {
-    return this.adaptee.Province;
-  }
-  get owner() {
-    return this.adaptee.Owner;
+class SupplyCenterStateAdapter extends Adapter<
+  SCState,
+  TransformedSupplyCenterState
+> {
+  adapt() {
+    return {
+      province: this.adaptee.Province,
+      owner: this.adaptee.Owner,
+    };
   }
 }
 
 const supplyCenterStateAdapter = (supplyCenterState: SCState) => {
-  return new SupplyCenterStateAdapter(supplyCenterState);
+  return new SupplyCenterStateAdapter(supplyCenterState).adapt();
 };
 
-const unitAdapter = (unit: Unit) => new UnitAdapter(unit);
-
-class PhaseAdapter extends Adapter<Phase> implements TransformedPhase {
-  get id() {
-    return this.adaptee.PhaseOrdinal;
-  }
-  get season() {
-    return this.adaptee.Season;
-  }
-  get year() {
-    return this.adaptee.Year;
-  }
-  get type() {
-    return this.adaptee.Type;
-  }
-  get resolved() {
-    return this.adaptee.Resolved;
-  }
-  get createdAt() {
-    return this.adaptee.CreatedAt;
-  }
-  get resolvedAt() {
-    return this.adaptee.ResolvedAt;
-  }
-  get deadlineAt() {
-    return this.adaptee.DeadlineAt;
-  }
-  get units() {
-    return this.adaptee.Units.map(unitStateAdapter);
-  }
-  get supplyCenters() {
-    return this.adaptee.SCs.map(supplyCenterStateAdapter);
-  }
-  get dislodgedUnits() {
-    return this.adaptee.Dislodgeds?.map(dislodgedAdapter) || [];
-  }
-  get dislodgingProvinces() {
-    return this.adaptee.Dislodgers?.map(dislodgingProvinceAdapter) || [];
+class PhaseAdapter extends Adapter<Phase, TransformedPhase> {
+  adapt(): TransformedPhase {
+    return {
+      id: this.adaptee.PhaseOrdinal,
+      season: this.adaptee.Season,
+      year: this.adaptee.Year,
+      type: this.adaptee.Type,
+      resolved: this.adaptee.Resolved,
+      createdAt: this.adaptee.CreatedAt,
+      resolvedAt: this.adaptee.ResolvedAt,
+      deadlineAt: this.adaptee.DeadlineAt,
+      units: this.adaptee.Units.map(unitStateAdapter),
+      supplyCenters: this.adaptee.SCs.map(supplyCenterStateAdapter),
+      dislodgedUnits: this.adaptee.Dislodgeds?.map(dislodgedAdapter) || [],
+      dislodgingProvinces:
+        this.adaptee.Dislodgers?.map(dislodgingProvinceAdapter) || [],
+    };
   }
 }
 

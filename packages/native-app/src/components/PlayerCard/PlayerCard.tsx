@@ -3,33 +3,38 @@ import { StyleProp, View, ViewProps, ViewStyle } from "react-native";
 import { Avatar } from "@rneui/base";
 
 import { MoreButton } from "../Button";
-import { Text } from "../Text";
+import Text from "../Text";
 import { Stack } from "../Stack";
 import Chip from "../Chip";
 // import GoodBadSlider from "../GoodBadSlider";
-import { PlayerDisplay } from "../../../common";
+import { TransformedUserStats } from "../../../common";
 import { useStyles } from "./PlayerCard.styles";
 
 interface PlayerCardProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
   variant: "compact" | "expanded";
-  player: PlayerDisplay;
+  userStats: TransformedUserStats;
 }
 
-const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
-  const { src, username, stats } = player;
+const PlayerCard = ({
+  style,
+  variant,
+  userStats,
+  ...rest
+}: PlayerCardProps) => {
+  const { src, username, ...stats } = userStats;
   const {
     reliabilityLabel,
     // reliabilityRating,
     numAbandonedGames,
     numDrawnGames,
-    numPlayedGames,
-    numWonGames,
+    numJoinedGames,
+    numSoloWinGames,
   } = stats;
   const styles = useStyles();
   const gameStatsTable = [
-    { label: "Played", value: numPlayedGames },
-    { label: "Won", value: numWonGames },
+    { label: "Played", value: numJoinedGames },
+    { label: "Won", value: numSoloWinGames },
     { label: "Drawn", value: numDrawnGames },
     { label: "Abandoned", value: numAbandonedGames },
   ] as const;
@@ -38,6 +43,8 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
     ["uncommited"]: ["Uncommitted", "warning"],
     ["disengaged"]: ["Disengaged", "error"],
   } as const;
+  console.log("Reliability: ", stats.reliability);
+  console.log("Reliability label: ", reliabilityLabel);
   const [commitedLabel, commitedVariant] = commitedMap[reliabilityLabel];
   const onPressMore = () => {
     alert("More button pressed");
@@ -64,7 +71,8 @@ const PlayerCard = ({ style, variant, player, ...rest }: PlayerCardProps) => {
           <MoreButton buttonStyle={styles.moreButton} onPress={onPressMore} />
           {Boolean(variant === "compact") && (
             <Text>
-              {numPlayedGames}/{numWonGames}/{numDrawnGames}/{numAbandonedGames}
+              {numJoinedGames}/{numSoloWinGames}/{numDrawnGames}/
+              {numAbandonedGames}
             </Text>
           )}
         </Stack>

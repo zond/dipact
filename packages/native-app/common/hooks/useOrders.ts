@@ -12,11 +12,10 @@ import {
   Corroboration,
 } from "../store/types";
 
-import { diplicityService, selectors } from "../store";
+import { service, selectors } from "../store";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { getMember, getNation, mergeErrors } from "../utils/general";
-import { getOrderDisplay } from "../transformers/order";
 
 export type PhasesDisplay = [number, string][];
 
@@ -43,7 +42,7 @@ const {
   useListVariantsQuery,
   useUpdatePhaseStateMutation,
   useLazyListOrdersQuery,
-} = diplicityService;
+} = service;
 
 const getNumBuilds = (phaseState: PhaseState, member: Member | undefined) => {
   const isMember = phaseState.Nation === member?.Nation;
@@ -79,44 +78,44 @@ const getPhaseState = (
   return;
 };
 
-const getNationStatus = (
-  nationName: string,
-  phaseState: PhaseState | undefined,
-  phase: Phase,
-  corroboration: Corroboration,
-  variant: Variant,
-  member: Member | undefined
-): NationStatusDisplay => {
-  const numBuilds = phaseState ? getNumBuilds(phaseState, member) : null;
-  const numDisbands = phaseState ? getNumDisbands(phaseState, member) : null;
+// const getNationStatus = (
+//   nationName: string,
+//   phaseState: PhaseState | undefined,
+//   phase: Phase,
+//   corroboration: Corroboration,
+//   variant: Variant,
+//   member: Member | undefined
+// ): NationStatusDisplay => {
+//   const numBuilds = phaseState ? getNumBuilds(phaseState, member) : null;
+//   const numDisbands = phaseState ? getNumDisbands(phaseState, member) : null;
 
-  const numSupplyCentersToWin = phase.SoloSCCount || 0;
-  const numSupplyCenters =
-    phase.SCs?.filter((sc) => sc.Owner === nationName).length || 0;
-  const nation: any = getNation(nationName, variant);
-  nation.isUser = nation.name === member?.Nation;
-  nation.flagLink = nation.link;
-  nation.label = nation.isUser ? nation.name + " (You)" : nation.name;
+//   const numSupplyCentersToWin = phase.SoloSCCount || 0;
+//   const numSupplyCenters =
+//     phase.SCs?.filter((sc) => sc.Owner === nationName).length || 0;
+//   const nation: any = getNation(nationName, variant);
+//   nation.isUser = nation.name === member?.Nation;
+//   nation.flagLink = nation.link;
+//   nation.label = nation.isUser ? nation.name + " (You)" : nation.name;
 
-  const orders = (corroboration.Orders || [])
-    .filter((order) => order.Nation === nationName)
-    .map((order) =>
-      getOrderDisplay(order, variant, corroboration.Inconsistencies, phase)
-    );
+//   const orders = (corroboration.Orders || [])
+//     .filter((order) => order.Nation === nationName)
+//     .map((order) =>
+//       getOrderDisplay(order, variant, corroboration.Inconsistencies, phase)
+//     );
 
-  return {
-    confirmedOrders: phaseState?.ReadyToResolve || false,
-    noOrdersGiven: phaseState?.NoOrders || false,
-    wantsDraw: phaseState?.WantsDIAS || false,
-    numBuilds,
-    numDisbands,
-    numSupplyCenters,
-    numSupplyCentersToWin,
-    nation,
-    orders,
-    homelessInconsistencies: [],
-  };
-};
+//   return {
+//     confirmedOrders: phaseState?.ReadyToResolve || false,
+//     noOrdersGiven: phaseState?.NoOrders || false,
+//     wantsDraw: phaseState?.WantsDIAS || false,
+//     numBuilds,
+//     numDisbands,
+//     numSupplyCenters,
+//     numSupplyCentersToWin,
+//     nation,
+//     orders,
+//     homelessInconsistencies: [],
+//   };
+// };
 
 const useOrders = (gameId: string): IUseOrders => {
   const [listPhaseStatesTrigger, listPhaseStatesQuery] =
@@ -130,7 +129,7 @@ const useOrders = (gameId: string): IUseOrders => {
     phaseStates: listPhaseStatesQuery,
     orders: listOrdersQuery,
   };
-  const { game, phaseStates, phases, user, orders } = {
+  const { game, phaseStates, phases, user } = {
     game: combinedQuery.game.data,
     phaseStates: combinedQuery.phaseStates.data,
     phases: combinedQuery.phases.data,
@@ -169,9 +168,7 @@ const useOrders = (gameId: string): IUseOrders => {
   // TODO use selector
   const selectedPhase = useSelector(selectors.selectPhase) || phases?.length;
 
-  const [nationStatuses, setNationStatuses] = useState<NationStatusDisplay[]>(
-    []
-  );
+  const [nationStatuses] = useState<NationStatusDisplay[]>([]);
   const variant = useSelector((state: RootState) =>
     selectors.selectVariant(state, game?.Variant || "")
   );
@@ -190,40 +187,40 @@ const useOrders = (gameId: string): IUseOrders => {
     selectedPhase,
   ]);
 
-  useEffect(() => {
-    if (
-      phases &&
-      game &&
-      variant &&
-      user &&
-      phaseStates &&
-      orders &&
-      selectedPhase
-    ) {
-      const member = getMember(game, user);
-      const phase = phases.find(
-        (phase) => phase.PhaseOrdinal === selectedPhase
-      ) as Phase;
+  // useEffect(() => {
+  //   if (
+  //     phases &&
+  //     game &&
+  //     variant &&
+  //     user &&
+  //     phaseStates &&
+  //     orders &&
+  //     selectedPhase
+  //   ) {
+  //     const member = getMember(game, user);
+  //     const phase = phases.find(
+  //       (phase) => phase.PhaseOrdinal === selectedPhase
+  //     ) as Phase;
 
-      const nationStatuses = variant.Nations.map((nation) => {
-        const phaseState = phaseStates.find(
-          (phaseState) => phaseState.Nation === nation
-        );
-        return getNationStatus(
-          nation,
-          phaseState,
-          phase,
-          orders,
-          variant,
-          member
-        );
-      });
-      const sortedNationStatuses = nationStatuses.sort((a) =>
-        a.nation.isUser ? -1 : 0
-      );
-      setNationStatuses(sortedNationStatuses);
-    }
-  }, [phases, game, variant, user, phaseStates, orders, selectedPhase]);
+  //     // const nationStatuses = variant.Nations.map((nation) => {
+  //     //   const phaseState = phaseStates.find(
+  //     //     (phaseState) => phaseState.Nation === nation
+  //     //   );
+  //     //   return getNationStatus(
+  //     //     nation,
+  //     //     phaseState,
+  //     //     phase,
+  //     //     orders,
+  //     //     variant,
+  //     //     member
+  //     //   );
+  //     // });
+  //     const sortedNationStatuses = nationStatuses.sort((a) =>
+  //       a.nation.isUser ? -1 : 0
+  //     );
+  //     setNationStatuses(sortedNationStatuses);
+  //   }
+  // }, [phases, game, variant, user, phaseStates, orders, selectedPhase]);
 
   const currentPhase = phases?.find((phase) => phase.Resolved === false);
 

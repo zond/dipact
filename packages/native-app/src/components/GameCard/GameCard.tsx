@@ -15,7 +15,7 @@ import { useNavigation } from "../../hooks/useNavigation";
 import Button, { ButtonProps, MoreButton } from "../Button";
 import { useStyles } from "./GameCard.styles";
 import { Stack } from "../Stack";
-import { Text } from "../Text";
+import Text from "../Text";
 import { useDispatch } from "react-redux";
 import BottomSheet, { BottomSheetButton } from "../BottomSheet";
 

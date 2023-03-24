@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CreateOrder, OrderType } from "./types";
 
 const initialState: CreateOrder = {};
 
-const createOrderSlice = createSlice({
+export const createOrderSlice = createSlice({
   name: "createOrder",
   initialState,
   reducers: {
@@ -25,6 +25,11 @@ const createOrderSlice = createSlice({
   },
 });
 
-export const actions = createOrderSlice.actions;
-
-export default createOrderSlice.reducer;
+export const createOrderActions = createOrderSlice.actions;
+export const createOrderReducer = createOrderSlice.reducer;
+export const createOrderSelectors = {
+  selectcreateOrder: createSelector(
+    (state: { createOrder: CreateOrder }) => state.createOrder,
+    (createOrder) => createOrder
+  ),
+};

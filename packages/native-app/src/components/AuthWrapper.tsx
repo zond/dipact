@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { authActions, selectors } from "../../common/store";
-import { useAppSelector } from "../hooks/useAppSelector";
+import { authActions, authSelectors } from "../../common";
 import { Linking } from "react-native";
 
 interface AuthWrapperProps {
@@ -19,7 +18,7 @@ const getTokenFromUrl = (url: string): string | null => {
 
 const AuthWrapper = ({ children }: AuthWrapperProps): React.ReactElement => {
   const dispatch = useDispatch();
-  const token = useAppSelector(selectors.selectToken);
+  const token = useSelector(authSelectors.selectToken);
 
   const callback = useCallback(
     ({ url }: { url: string }) => {

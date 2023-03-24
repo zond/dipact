@@ -1,14 +1,17 @@
 import React from "react";
 import { ScrollView } from "react-native";
+import {
+  assertDefined,
+  findVariantByGame,
+  useVariantInfoView,
+} from "../../../common";
 
 import QueryContainer from "../../components/QueryContainer";
 import { Stack } from "../../components/Stack";
 import Table from "../../components/Table/Table";
 import { useParams } from "../../hooks/useParams";
-import { useVariantInfoView } from "../../../common/hooks";
 import { useCommonStyles } from "../../hooks/useCommonStyles";
 import { TableRow } from "../../components/Table";
-import { assertDefined, findVariantByGame } from "../../../common";
 
 const VariantInfo = () => {
   const commonStyles = useCommonStyles();

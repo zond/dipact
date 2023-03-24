@@ -33,7 +33,7 @@ const initialFormValues = {
   reliabilityEnabled: true,
   requireGameMasterInvitation: false,
   skipGetReadyPhase: true,
-  variant: "",
+  variant: "Classical",
 };
 
 const getInitialFormValues = (): CreateGameFormValues => initialFormValues;

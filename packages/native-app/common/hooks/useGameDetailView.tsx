@@ -1,4 +1,4 @@
-import { diplicityService as service } from "..";
+import { service as service } from "..";
 
 const useGameDetailView = (gameId: string) => {
   const [joinGame, joinGameMutation] = service.useJoinGameMutation();

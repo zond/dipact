@@ -91,13 +91,6 @@ export const initialState: any = {
   auth: {
     isLoggedIn: false,
   },
-  colorOverrides: {
-    nationCodes: {},
-    variantCodes: {},
-    positions: [],
-    variants: {},
-    nations: {},
-  },
   diplicityService: {
     queries: {},
     mutations: {},

@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   gameAdapter,
@@ -8,11 +7,10 @@ import {
 } from "../adapters";
 import { createGameAdapter } from "../adapters/createGame";
 import { userAdapter } from "../adapters/user";
+import { authSelectors } from "./auth";
 
-import { selectToken } from "./selectors";
 import {
   Headers,
-  NewGame,
   Variant,
   UserConfig,
   Message,
@@ -39,12 +37,7 @@ import {
   TransformedUserStats,
   CreateGameFormValues,
 } from "./types";
-import {
-  addNationAbbreviationsToVariant,
-  sortVariantResponse,
-  sortListChannels,
-  sortMessages,
-} from "./utils";
+import { sortVariantResponse, sortListChannels, sortMessages } from "./utils";
 
 export enum TagType {
   UserConfig = "UserConfig",
@@ -68,7 +61,7 @@ const extractPropertiesList = <T>(response: ListApiResponse<T>) => {
   return response.Properties.map((response) => response.Properties);
 };
 
-export const diplicityService = createApi({
+export const service = createApi({
   tagTypes: [
     TagType.UserConfig,
     TagType.Messages,
@@ -76,12 +69,11 @@ export const diplicityService = createApi({
     TagType.ListGames,
     TagType.PhaseState,
   ],
-  reducerPath: "diplicityService",
+  reducerPath: "service",
   baseQuery: fetchBaseQuery({
     baseUrl: serviceURL,
     prepareHeaders: (headers, { getState }) => {
-      const token = selectToken(getState() as any);
-      // If we have a token set in state, let's assume that we should be passing it.
+      const token = authSelectors.selectToken(getState() as any);
       if (token) {
         headers.set(Headers.Authorization, `Bearer ${token}`);
       }
@@ -109,12 +101,6 @@ export const diplicityService = createApi({
         responseHandler: (response) => response.text(),
       }),
     }),
-    getRoot: builder.query<User | null, undefined>({
-      query: () => "/",
-      transformResponse: (response: ApiResponse<{ User: User }>) => {
-        return extractProperties(response).User;
-      },
-    }),
     getForumMail: builder.query<ApiResponse<ForumMail>, undefined>({
       query: () => "/ForumMail",
     }),
@@ -127,23 +113,9 @@ export const diplicityService = createApi({
       transformResponse: extractProperties,
       providesTags: [TagType.UserConfig],
     }),
-    getUserStats: builder.query<UserStats, string>({
-      query: (id) => `/User/${id}/Stats`,
-      transformResponse: extractProperties,
-    }),
     getUserRatingHistogram: builder.query<UserRatingHistogram, undefined>({
       query: () => "/Users/Ratings/Histogram",
       transformResponse: extractProperties,
-    }),
-    listVariants: builder.query<Variant[], undefined>({
-      query: () => "/Variants",
-      transformResponse: (response: ListApiResponse<Variant>) => {
-        // Sort variants and enhance each variant with nationAbbreviations
-        sortVariantResponse(response.Properties);
-        return extractPropertiesList(response).map((variant) =>
-          addNationAbbreviationsToVariant(variant)
-        );
-      },
     }),
     // TODO test
     listMessages: builder.query<
@@ -158,10 +130,6 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.Messages],
     }),
-    listPhases: builder.query<Phase[], string>({
-      query: (gameId) => `/Game/${gameId}/Phases`,
-      transformResponse: extractPropertiesList,
-    }),
     listPhaseStates: builder.query<
       PhaseState[],
       { gameId: string; phaseId: string }
@@ -170,20 +138,6 @@ export const diplicityService = createApi({
         `/Game/${gameId}/Phase/${phaseId}/PhaseStates`,
       transformResponse: extractPropertiesList,
       providesTags: [TagType.PhaseState],
-    }),
-    listGames: builder.query<Game[], ListGameFilters>({
-      query: ({ my, status, mastered }) => {
-        const titleStatus = status.charAt(0).toUpperCase() + status.slice(1);
-        if (my) {
-          if (mastered) {
-            return `/Games/Mastered/${titleStatus}`;
-          }
-          return `/Games/My/${titleStatus}`;
-        }
-        return `/Games/${titleStatus}`;
-      },
-      transformResponse: extractPropertiesList,
-      providesTags: [TagType.ListGames],
     }),
     getGameState: builder.query<GameState, { gameId: string; userId: string }>({
       query: ({ gameId, userId }) => `/Game/${gameId}/GameStates/${userId}`,
@@ -214,21 +168,6 @@ export const diplicityService = createApi({
       query: ({ gameId, phaseId }) =>
         `/Game/${gameId}/Phase/${phaseId}/Options`,
       transformResponse: extractProperties,
-    }),
-    getGame: builder.query<Game, string>({
-      query: (id) => `/Game/${id}`,
-      transformResponse: extractProperties,
-      providesTags: [TagType.Game],
-    }),
-    createGame: builder.mutation<ApiResponse<Game>, NewGame>({
-      query: (data) => {
-        // const transformData()
-        return {
-          url: "/Game",
-          method: "POST",
-          body: data,
-        };
-      },
     }),
     createOrder: builder.mutation<
       ApiResponse<Corroboration>,
@@ -340,7 +279,7 @@ export const diplicityService = createApi({
       }),
       invalidatesTags: [TagType.ListGames],
     }),
-    getGameV2: builder.query<TransformedGame, string>({
+    getGame: builder.query<TransformedGame, string>({
       query: (id) => `/Game/${id}`,
       transformResponse: (response: ApiResponse<Game>) => {
         const extracted = extractProperties(response);
@@ -348,14 +287,14 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.Game],
     }),
-    getRootV2: builder.query<TransformedUser, undefined>({
+    getRoot: builder.query<TransformedUser, undefined>({
       query: () => "/",
       transformResponse: (response: ApiResponse<{ User: User }>) => {
         const extracted = extractProperties(response);
         return userAdapter(extracted.User);
       },
     }),
-    listVariantsV2: builder.query<TransformedVariant[], undefined>({
+    listVariants: builder.query<TransformedVariant[], undefined>({
       query: () => "/Variants",
       transformResponse: (response: ListApiResponse<Variant>) => {
         // TODO move sorting somewhere else?
@@ -363,13 +302,13 @@ export const diplicityService = createApi({
         return extractPropertiesList(response).map(variantAdapter);
       },
     }),
-    listPhasesV2: builder.query<TransformedPhase[], string>({
+    listPhases: builder.query<TransformedPhase[], string>({
       query: (gameId) => `/Game/${gameId}/Phases`,
       transformResponse: (response: ListApiResponse<Phase>) => {
         return extractPropertiesList(response).map(phaseAdapter);
       },
     }),
-    listGamesV2: builder.query<TransformedGame[], ListGameFilters>({
+    listGames: builder.query<TransformedGame[], ListGameFilters>({
       query: ({ my, status, mastered }) => {
         const titleStatus = status.charAt(0).toUpperCase() + status.slice(1);
         if (my) {
@@ -385,13 +324,13 @@ export const diplicityService = createApi({
       },
       providesTags: [TagType.ListGames],
     }),
-    getUserStatsV2: builder.query<TransformedUserStats, string>({
+    getUserStats: builder.query<TransformedUserStats, string>({
       query: (id) => `/User/${id}/Stats`,
       transformResponse: (response: ApiResponse<UserStats>) => {
         return userStatsAdapter(extractProperties(response));
       },
     }),
-    createGameV2: builder.mutation<TransformedGame, CreateGameFormValues>({
+    createGame: builder.mutation<TransformedGame, CreateGameFormValues>({
       query: (data) => {
         return {
           url: "/Game",
@@ -406,4 +345,4 @@ export const diplicityService = createApi({
   }),
 });
 
-export const endpoints = diplicityService.endpoints;
+export const endpoints = service.endpoints;

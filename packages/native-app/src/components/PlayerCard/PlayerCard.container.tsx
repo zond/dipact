@@ -1,25 +1,24 @@
-import { usePlayerDisplay } from "../../../common";
+import { usePlayerCardView } from "../../../common";
 import React from "react";
 import PlayerCard from "./PlayerCard";
 import PlayerCardSkeleton from "./PlayerCard.skeleton";
+import QueryContainer from "../QueryContainer";
 
 interface PlayerCardContainerProps
-  extends Omit<Parameters<typeof PlayerCard>[0], "player"> {
-  id: string;
+  extends Omit<Parameters<typeof PlayerCard>[0], "userStats"> {
+  id: string | undefined;
 }
 
 const PlayerCardContainer = ({ id, ...rest }: PlayerCardContainerProps) => {
-  const playerDisplayQuery = usePlayerDisplay(id);
+  const { query } = usePlayerCardView(id);
 
-  if (playerDisplayQuery.isError) {
-    return <></>;
-  }
-
-  if (playerDisplayQuery.isLoading || !playerDisplayQuery.data) {
-    return <PlayerCardSkeleton {...rest} />;
-  }
-
-  return <PlayerCard player={playerDisplayQuery.data} {...rest} />;
+  return (
+    <QueryContainer
+      query={query}
+      renderLoading={() => <PlayerCardSkeleton {...rest} />}
+      render={(data) => <PlayerCard userStats={data} {...rest} />}
+    />
+  );
 };
 
 export default PlayerCardContainer;

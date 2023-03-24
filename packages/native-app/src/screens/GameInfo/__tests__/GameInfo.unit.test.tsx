@@ -9,15 +9,7 @@ jest.mock("../../../hooks/useParams", () => ({
   }),
 }));
 
-jest.mock("../../../components/QueryContainer", () => ({
-  __esModule: true,
-  default: jest.fn().mockImplementation(({ query, render }) => {
-    return render(query.data);
-  }),
-}));
-
-// mock useGameInfoView
-jest.mock("../../../hooks/useGameInfoView", () => ({
+jest.mock("../../../../common", () => ({
   useGameInfoView: () => ({
     query: {
       data: {},

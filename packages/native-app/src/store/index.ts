@@ -1,17 +1,11 @@
 import { combineReducers } from "redux";
-import {
-  configureStore,
-  ThunkAction,
-  Action,
-  Middleware,
-  AnyAction,
-} from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import {
+  service,
   reducers as commonReducers,
   middleware as commonMiddleware,
-  diplicityService,
-} from "@diplicity/common";
+} from "../../common";
 
 const reducer = combineReducers({ ...commonReducers });
 
@@ -28,7 +22,7 @@ export const store = configureStore({
   reducer,
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })
-      .concat(diplicityService.middleware)
+      .concat(service.middleware)
       .concat(commonMiddleware),
     // .concat([debugMiddleware]),
   ],

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Text } from "../Text";
+import Text from "../Text";
 import { Stack } from "../Stack";
 import { ViewProps } from "react-native";
 

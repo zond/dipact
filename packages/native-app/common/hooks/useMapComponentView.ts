@@ -1,5 +1,5 @@
-import { diplicityService as service } from "../store";
-import { skipToken, combineQueries } from "../utils";
+import { service as service } from "../store";
+import { combineQueries, skipToken } from "../utils";
 
 const getVariantUnitOption = (
   variant: string | undefined,
@@ -11,10 +11,10 @@ const getVariantUnitOption = (
 };
 
 const useMapComponentView = (gameId: string) => {
-  const getGameQuery = service.useGetGameV2Query(gameId);
-  const listPhasesQuery = service.useListPhasesV2Query(gameId);
+  const getGameQuery = service.useGetGameQuery(gameId);
+  const listPhasesQuery = service.useListPhasesQuery(gameId);
   const variantName = getGameQuery.data?.variant;
-  const listVariantsQuery = service.useListVariantsV2Query(undefined);
+  const listVariantsQuery = service.useListVariantsQuery(undefined);
   const variantArmy = getVariantUnitOption(variantName, "Army");
   const variantFleet = getVariantUnitOption(variantName, "Fleet");
   const getVariantSvgQuery = service.useGetVariantSVGQuery(

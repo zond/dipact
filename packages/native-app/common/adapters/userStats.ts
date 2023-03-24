@@ -1,53 +1,39 @@
-import { Adapter } from "./types";
+import { Adapter } from "./adapter";
 import { UserStats, TransformedUserStats } from "../store";
 
-class UserStatsAdapter
-  extends Adapter<UserStats>
-  implements TransformedUserStats
-{
-  get id() {
-    return this.adaptee.UserId;
+class UserStatsAdapter extends Adapter<UserStats, TransformedUserStats> {
+  private getReliabilityLabel(): TransformedUserStats["reliabilityLabel"] {
+    if (this.adaptee.Reliability > 0.5) {
+      return "commited";
+    }
+    if (this.adaptee.Reliability < -0.5) {
+      return "disengaged";
+    }
+    return "uncommited";
   }
-  get mu() {
-    return this.adaptee.TrueSkill?.Mu;
-  }
-  get numAbandoned() {
-    return this.adaptee.DroppedGames;
-  }
-  get numDraws() {
-    return 0;
-  }
-  get numEliminated() {
-    return this.adaptee.EliminatedGames;
-  }
-  get numFinishedGames() {
-    return this.adaptee.FinishedGames;
-  }
-  get numJoinedGames() {
-    return this.adaptee.JoinedGames;
-  }
-  get numNmrPhases() {
-    return this.adaptee.NMRPhases;
-  }
-  get numSoloWins() {
-    return this.adaptee.SoloGames;
-  }
-  get numStartedGames() {
-    return this.adaptee.StartedGames;
-  }
-  get quickness() {
-    return this.adaptee.Quickness;
-  }
-  get rating() {
-    return this.adaptee.TrueSkill?.Rating;
-  }
-  get reliability() {
-    return this.adaptee.Reliability;
-  }
-  get sigma() {
-    return this.adaptee.TrueSkill?.Sigma;
+
+  adapt() {
+    return {
+      id: this.adaptee.UserId,
+      username: this.adaptee.User.Name,
+      src: this.adaptee.User.Picture,
+      mu: this.adaptee.TrueSkill?.Mu,
+      numAbandonedGames: this.adaptee.DroppedGames,
+      numDrawnGames: this.adaptee.DIASGames,
+      numEliminatedGames: this.adaptee.EliminatedGames,
+      numFinishedGames: this.adaptee.FinishedGames,
+      numJoinedGames: this.adaptee.JoinedGames,
+      numNmrPhases: this.adaptee.NMRPhases,
+      numSoloWinGames: this.adaptee.SoloGames,
+      numStartedGames: this.adaptee.StartedGames,
+      quickness: this.adaptee.Quickness,
+      rating: this.adaptee.TrueSkill?.Rating,
+      reliability: this.adaptee.Reliability,
+      reliabilityLabel: this.getReliabilityLabel(),
+      sigma: this.adaptee.TrueSkill?.Sigma,
+    };
   }
 }
 
 export const userStatsAdapter = (userStats: UserStats) =>
-  new UserStatsAdapter(userStats);
+  new UserStatsAdapter(userStats).adapt();

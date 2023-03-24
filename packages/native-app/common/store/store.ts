@@ -1,34 +1,32 @@
 import {
   configureStore,
-  ThunkAction,
-  Action,
   combineReducers,
   CombinedState,
 } from "@reduxjs/toolkit";
 
-import { reducers } from ".";
-import { diplicityService } from "./service";
+import { service } from "./service";
 import middleware from "./middleware";
+import { authReducer } from "./auth";
+import { createOrderReducer } from "./createOrder";
+import { feedbackReducer } from "./feedback";
+import { phaseReducer } from "./phase";
 
-const reducer = combineReducers(reducers);
+const reducer = combineReducers({
+  auth: authReducer,
+  createOrder: createOrderReducer,
+  feedback: feedbackReducer,
+  phase: phaseReducer,
+  service: service.reducer,
+});
 
 export const store = configureStore({
   reducer: reducer,
   middleware: (gdm) => [
     ...gdm({ serializableCheck: false })
-      .concat(diplicityService.middleware)
+      .concat(service.middleware)
       .concat(middleware),
   ],
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = CombinedState<ReturnType<typeof reducer>>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch;
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+export type RootState = CombinedState<ReturnType<typeof reducer>>;

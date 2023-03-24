@@ -193,18 +193,21 @@ export type UserStats = {
 
 export type TransformedUserStats = {
   id: string;
+  username: string;
+  src: string;
   mu: number | undefined; // see https://trueskill.org/
-  numAbandoned: number;
-  numDraws: number;
-  numEliminated: number;
+  numAbandonedGames: number;
+  numDrawnGames: number;
+  numEliminatedGames: number;
   numFinishedGames: number;
   numJoinedGames: number;
   numNmrPhases: number | undefined;
-  numSoloWins: number;
+  numSoloWinGames: number;
   numStartedGames: number;
   quickness: number | undefined;
   rating: number | undefined;
   reliability: number;
+  reliabilityLabel: "commited" | "uncommited" | "disengaged";
   sigma: number | undefined; // see https://trueskill.org/
 };
 

@@ -11,7 +11,6 @@ import { RootState } from "./store";
 import {
   Auth,
   Channel,
-  ColorOverrides,
   CreateOrderDisplay,
   CreateOrderStep,
   MapState,
@@ -37,9 +36,6 @@ const selectListPhases = (state: RootState, gameId: string) =>
   endpoints.listPhases.select(gameId)(state);
 
 const getGetRootSelector = () => endpoints.getRoot.select(undefined);
-
-export const selectColorOverrides = (state: RootState): ColorOverrides =>
-  state.colorOverrides;
 
 const selectUserStats = (state: RootState): UserStats | undefined => {
   const userId = selectUserId(state);

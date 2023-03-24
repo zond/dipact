@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, Dimensions, LayoutChangeEvent } from "react-native";
-import { selectors } from "../../../common";
 import ImageZoom from "react-native-image-pan-zoom";
 import { useSelector } from "react-redux";
-import MapComponent from "../../components/MapComponent";
+import { View, Dimensions, LayoutChangeEvent } from "react-native";
+
 import { useStyles } from "./Map.styles";
+import MapComponent from "../../components/MapComponent";
+import { phaseSelectors } from "../../../common";
 
 interface MapProps {
   gameId: string;
@@ -12,7 +13,7 @@ interface MapProps {
 
 const Map = ({ gameId }: MapProps) => {
   const styles = useStyles();
-  const phaseNumber = useSelector(selectors.selectPhase);
+  const phaseNumber = useSelector(phaseSelectors.selectphase);
   const [mapViewHeight, setMapViewHeight] = useState(0);
   const [mapViewWidth, setMapViewWidth] = useState(0);
 
@@ -23,14 +24,10 @@ const Map = ({ gameId }: MapProps) => {
 
   return (
     <View style={styles.root} onLayout={mapViewOnLayout} testID="MAP_CONTAINER">
-      {/* <PhaseSelector
-              gameId={gameId}
-              rootStyles={styles.phaseSelectorRoot}
-            /> */}
       <ImageZoom
         cropWidth={mapViewWidth}
         cropHeight={mapViewHeight}
-        imageWidth={Dimensions.get("window").width} // TODO
+        imageWidth={Dimensions.get("window").width}
         imageHeight={Dimensions.get("window").width}
       >
         <MapComponent gameId={gameId} phaseId={phaseNumber || undefined} />

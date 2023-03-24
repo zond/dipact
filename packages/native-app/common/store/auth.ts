@@ -1,9 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 import { Auth } from "./types";
 
 const initialState: Auth = { isLoggedIn: false };
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -19,6 +20,18 @@ export const authSlice = createSlice({
   },
 });
 
-export const actions = authSlice.actions;
+const selectAuth = createSelector(
+  (state: RootState) => state.auth,
+  (auth) => auth
+);
 
-export default authSlice.reducer;
+const selectToken = createSelector(selectAuth, (auth) => auth.token);
+const selectIsLoggedIn = createSelector(selectAuth, (auth) => auth.isLoggedIn);
+
+export const authActions = authSlice.actions;
+export const authReducer = authSlice.reducer;
+export const authSelectors = {
+  selectAuth,
+  selectToken,
+  selectIsLoggedIn,
+};

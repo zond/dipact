@@ -1,63 +1,32 @@
 import { TransformedVariant, Variant } from "../store";
+import { Adapter } from "./adapter";
 
-class VariantAdapter extends Adapter<Variant> implements TransformedVariant {
-  get createdBy() {
-    return this.adaptee.CreatedBy;
-  }
-  get description() {
-    return this.adaptee.Description;
-  }
-  get graph() {
-    return this.adaptee.Graph;
-  }
-  get map() {
-    return this.adaptee.Start.Map;
-  }
-  get name() {
-    return this.adaptee.Name;
-  }
-  get nations() {
-    return this.adaptee.Nations;
-  }
-  get nationAbbreviations() {
-    return this.adaptee.nationAbbreviations;
-  }
-  get nationColors() {
-    return this.adaptee.NationColors;
-  }
-  get orderTypes() {
-    return this.adaptee.OrderTypes;
-  }
-  get phaseTypes() {
-    return this.adaptee.PhaseTypes;
-  }
-  get provinceLongNames() {
-    return this.adaptee.ProvinceLongNames;
-  }
-  get rules() {
-    return this.adaptee.Rules;
-  }
-  get seasons() {
-    return this.adaptee.Season;
-  }
-  get startSCs() {
-    return this.adaptee.Start.SCs;
-  }
-  get startSeason() {
-    return this.adaptee.Start.Season;
-  }
-  get startUnits() {
-    return this.adaptee.Start.Units;
-  }
-  get startType() {
-    return this.adaptee.Start.Type;
-  }
-  get startYear() {
-    return this.adaptee.Start.Year;
-  }
-  get unitTypes() {
-    return this.adaptee.UnitTypes;
+class VariantAdapter extends Adapter<Variant, TransformedVariant> {
+  adapt() {
+    return {
+      id: this.adaptee.Name,
+      createdBy: this.adaptee.CreatedBy,
+      description: this.adaptee.Description,
+      graph: this.adaptee.Graph,
+      map: this.adaptee.Start.Map,
+      name: this.adaptee.Name,
+      nations: this.adaptee.Nations,
+      nationAbbreviations: this.adaptee.nationAbbreviations,
+      nationColors: this.adaptee.NationColors,
+      orderTypes: this.adaptee.OrderTypes,
+      phaseTypes: this.adaptee.PhaseTypes,
+      provinceLongNames: this.adaptee.ProvinceLongNames,
+      rules: this.adaptee.Rules,
+      seasons: this.adaptee.Season,
+      startSCs: this.adaptee.Start.SCs,
+      startSeason: this.adaptee.Start.Season,
+      startUnits: this.adaptee.Start.Units,
+      startType: this.adaptee.Start.Type,
+      startYear: this.adaptee.Start.Year,
+      unitTypes: this.adaptee.UnitTypes,
+    };
   }
 }
 
-export const variantAdapter = (variant: Variant) => new VariantAdapter(variant);
+export const variantAdapter = (variant: Variant) =>
+  new VariantAdapter(variant).adapt();

@@ -1,146 +1,95 @@
-import {
-  Game,
-  TransformedGame,
-  TransformedGamePlayer,
-  TransformedUser,
-} from "../store";
+import { Game, TransformedGame, TransformedGamePlayer } from "../store";
 import {
   convertMinutesToLabel,
   getLanguage,
   getNationAllocation,
   getPhaseDisplay,
   phaseLengthDisplay,
-  timeStrToDate,
 } from "../utils/general";
-import { Adapter } from "./types";
+import { Adapter } from "./adapter";
 
-class PlayerAdapter
-  extends Adapter<Game["Members"][0]>
-  implements TransformedGamePlayer
-{
-  get id() {
-    return this.adaptee.User.Id;
-  }
-  get username() {
-    return this.adaptee.User.Name;
-  }
-  get src() {
-    return this.adaptee.User.Picture;
-  }
-  get nation() {
-    return this.adaptee.Nation;
+class PlayerAdapter extends Adapter<Game["Members"][0], TransformedGamePlayer> {
+  adapt(): TransformedGamePlayer {
+    return {
+      id: this.adaptee.User.Id,
+      username: this.adaptee.User.Name,
+      src: this.adaptee.User.Picture,
+      nation: this.adaptee.Nation,
+    };
   }
 }
 
-class GameAdapter extends Adapter<Game> implements TransformedGame {
-  get anonymous() {
-    return this.adaptee.Anonymous;
-  }
-  get chatDisabled() {
+class GameAdapter extends Adapter<Game, TransformedGame> {
+  private getChatDisabled() {
     return (
       this.adaptee.DisableConferenceChat &&
       this.adaptee.DisableGroupChat &&
       this.adaptee.DisablePrivateChat
     );
   }
-  get chatLanguage() {
-    return this.adaptee.ChatLanguageISO639_1;
+
+  private getChatLanguageDisplay() {
+    return getLanguage(this.adaptee.ChatLanguageISO639_1)?.name || "English";
   }
-  get chatLanguageDisplay() {
-    return getLanguage(this.chatLanguage)?.name || "English";
-  }
-  get closed() {
-    return this.adaptee.Closed;
-  }
-  get conferenceChatEnabled() {
-    return !this.adaptee.DisableConferenceChat;
-  }
-  get confirmationStatus() {
-    return "notConfirmed" as TransformedGame["confirmationStatus"];
-  }
-  get createdAt() {
-    return timeStrToDate(this.adaptee.CreatedAt);
-  }
-  get deadline() {
-    return phaseLengthDisplay(this.adaptee);
-  }
-  get endYear() {
-    return this.adaptee.LastYear;
-  }
-  get finished() {
-    return this.adaptee.Finished;
-  }
-  get finishedAt() {
-    return timeStrToDate(this.adaptee.FinishedAt);
-  }
-  get gameMaster() {
-    return this.players.find(
+
+  private getGameMaster() {
+    return this.getPlayers().find(
       (player) => player.id === this.adaptee.GameMaster.Id
     );
   }
-  get groupChatEnabled() {
-    return !this.adaptee.DisableGroupChat;
+
+  private getPlayers() {
+    return this.adaptee.Members.map((member) =>
+      new PlayerAdapter(member).adapt()
+    );
   }
-  get id() {
-    return this.adaptee.ID;
-  }
-  get name() {
-    return this.adaptee.Desc;
-  }
-  get nationAllocation() {
-    return getNationAllocation(this.adaptee.NationAllocation);
-  }
-  get newestPhaseMeta() {
-    return this.adaptee.NewestPhaseMeta;
-  }
-  get nonMovementPhaseLength() {
-    return convertMinutesToLabel(this.adaptee.NonMovementPhaseLengthMinutes);
-  }
-  get numPlayers() {
-    return this.adaptee.NMembers;
-  }
-  get phaseLength() {
-    return convertMinutesToLabel(this.adaptee.PhaseLengthMinutes);
-  }
-  get phaseSummary() {
-    return getPhaseDisplay(this.adaptee);
-  }
-  get playerIdentity() {
-    return this.adaptee.Anonymous ? "anonymous" : "public";
-  }
-  get players() {
-    return this.adaptee.Members.map((member) => new PlayerAdapter(member));
-  }
-  get privateChatEnabled() {
-    return !this.adaptee.DisablePrivateChat;
-  }
-  get privateGame() {
-    return this.adaptee.Private;
-  }
-  get rulesSummary() {
-    return this.adaptee.Variant + " " + phaseLengthDisplay(this.adaptee);
-  }
-  get started() {
-    return this.adaptee.Started;
-  }
-  get startedAt() {
-    return timeStrToDate(this.adaptee.StartedAt);
-  }
-  get status() {
-    return this.finished ? "finished" : this.started ? "started" : "staging";
-  }
-  userIsPlayer(user: TransformedUser) {
-    return Boolean(this.players.find((player) => player.id === user.id));
-  }
-  userIsGameMaster(user: TransformedUser) {
-    return this.gameMaster?.id === user.id;
-  }
-  get variant() {
-    return this.adaptee.Variant;
-  }
-  get visibility() {
-    return this.privateGame ? "private" : "public";
+
+  adapt(): TransformedGame {
+    return {
+      anonymous: this.adaptee.Anonymous,
+      chatDisabled: this.getChatDisabled(),
+      chatLanguage: this.adaptee.ChatLanguageISO639_1,
+      chatLanguageDisplay: this.getChatLanguageDisplay(),
+      closed: this.adaptee.Closed,
+      confirmationStatus: "notConfirmed",
+      conferenceChatEnabled: !this.adaptee.DisableConferenceChat,
+      createdAt: this.asDate(this.adaptee.CreatedAt),
+      deadline: phaseLengthDisplay(this.adaptee),
+      endYear: this.adaptee.LastYear,
+      finished: this.adaptee.Finished,
+      finishedAt: this.asDate(this.adaptee.FinishedAt),
+      gameMaster: this.getGameMaster(),
+      groupChatEnabled: !this.adaptee.DisableGroupChat,
+      id: this.adaptee.ID,
+      name: this.adaptee.Desc,
+      nationAllocation: getNationAllocation(this.adaptee.NationAllocation),
+      newestPhaseMeta: this.adaptee.NewestPhaseMeta,
+      nonMovementPhaseLength: convertMinutesToLabel(
+        this.adaptee.NonMovementPhaseLengthMinutes
+      ),
+      numPlayers: this.adaptee.NMembers,
+      phaseLength: convertMinutesToLabel(this.adaptee.PhaseLengthMinutes),
+      phaseSummary: getPhaseDisplay(this.adaptee),
+      players: this.getPlayers(),
+      playerIdentity: this.adaptee.Anonymous ? "anonymous" : "public",
+      privateChatEnabled: !this.adaptee.DisablePrivateChat,
+      privateGame: this.adaptee.Private,
+      rulesSummary:
+        this.adaptee.Variant + " " + phaseLengthDisplay(this.adaptee),
+      started: this.adaptee.Started,
+      startedAt: this.asDate(this.adaptee.StartedAt),
+      status: this.adaptee.Finished
+        ? "finished"
+        : this.adaptee.Started
+        ? "started"
+        : "staging",
+      userIsPlayer: (user) =>
+        Boolean(this.getPlayers().find((player) => player.id === user.id)),
+      userIsGameMaster: (user) => this.getGameMaster()?.id === user.id,
+      variant: this.adaptee.Variant,
+      visibility: this.adaptee.Private ? "private" : "public",
+    };
   }
 }
 
-export const gameAdapter = (game: Game) => new GameAdapter(game);
+export const gameAdapter = (game: Game) => new GameAdapter(game).adapt();
