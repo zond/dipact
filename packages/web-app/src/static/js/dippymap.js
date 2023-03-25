@@ -308,10 +308,10 @@ export function dippyMap(container) {
     var all = Math.PI * 2;
     var step = all / corners;
     if (corners === 3) {
-		var startAngle = Math.PI * 0.5;
+      var startAngle = Math.PI * 0.5;
     } else {
-    var startAngle = Math.PI * 1.5;
-	}
+      var startAngle = Math.PI * 1.5;
+    }
     if (corners % 2 === 0) {
       startAngle += step / 2;
     }
@@ -457,7 +457,7 @@ export function dippyMap(container) {
     markerType
   ) {
     // Remove the MoveViaConvoy to keep the provinces only
-	provs.splice(1, 1);
+    provs.splice(1, 1);
 
     const centers = provs.map((prov) => that.centerOf(prov));
 
@@ -573,7 +573,7 @@ export function dippyMap(container) {
     $(el).find("#orders")[0].appendChild(colorPath);
   };
 
- that.addConvoySupport = function (
+  that.addConvoySupport = function (
     provs,
     color,
     border,
@@ -582,100 +582,172 @@ export function dippyMap(container) {
     markerType
   ) {
     // Remove the MoveViaConvoy to keep the provinces only
-	provs.splice(1, 1);
+    provs.splice(1, 1);
 
-	let currentProv = provs.shift();
+    let currentProv = provs.shift();
 
-	let isConvoyPart = false;
-	let destinationProv = "";
-	for (let i = 0; i < provs.length; i++) {
-  	if (provs[i] === currentProv) {
-    	isConvoyPart = true;
-    	destinationProv = provs[i];
-	    break;
-  		}
-	}
-	if (!isConvoyPart) {
-		console.log("not part of convoy");
-	} else {
-		console.log("PART OF CONVOY111111111111111111111111111111111");
+    console.log("length:" + provs.length);
+    console.log("currentProv:" + currentProv);
+    console.log(provs);
 
-		let origin = that.centerOf(currentProv);
-		let destination = that.centerOf(destinationProv)
+    let isConvoyPart = false;
+    let destinationProv = "";
+    let loc = "";
+    for (let i = 0; i < provs.length; i++) {
+      if (provs[i] === currentProv) {
+        isConvoyPart = true;
 
-    //Define the arrow definitions
+        console.log(
+          "i " +
+            i +
+            "currentProv " +
+            currentProv +
+            "provs " +
+            JSON.stringify(provs)
+        );
+        if (i === 1 && provs.length === 3) {
+          // only province
+          console.log("one province draw");
+          const curveStart = that.centerOf(provs[i - 1]);
+          const curveMiddle = that.centerOf(currentProv);
+          const curveEnd = that.centerOf(provs[i + 1]);
 
+          loc = curveStart;
+          loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
+          loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+        } else if (i === provs.length - 2) {
+          // Last province
+          console.log("last province draw");
+          const curveStart = {
+            x:
+              (that.centerOf(provs[provs.length - 3]).x +
+                that.centerOf(provs[provs.length - 2]).x) /
+              2,
+            y:
+              (that.centerOf(provs[provs.length - 3]).y +
+                that.centerOf(provs[provs.length - 2]).y) /
+              2,
+          };
 
-    var spacer = 12;
-    var vec = new that.Vec(origin, destination);
-    
-    //Adjust the arrowStart, middle and ArrowEnd in case of collision
+          const curveMiddle = that.centerOf(provs[provs.length - 2]);
+          const curveEnd = that.centerOf(provs[provs.length - 1]);
 
+          loc = curveStart;
+          loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
+          loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+        } else if (i === 1) {
+          // First province
+          console.log("first province draw");
+          const curveStart = that.centerOf(provs[i - 1]);
+          const curveMiddle = that.centerOf(currentProv);
+          const curveEnd = {
+            x: (that.centerOf(provs[i]).x + that.centerOf(provs[i + 1]).x) / 2,
+            y: (that.centerOf(provs[i]).y + that.centerOf(provs[i + 1]).y) / 2,
+          };
 
+          loc = curveStart;
+          loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
+          loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+        } else {
+          // Middle province
+          console.log("we're province number " + i);
 
-    let arrowStart = origin;
-    let arrowEnd = destination;
+          const curveStart = {
+            x:
+              (that.centerOf(provs[provs.length - 3]).x +
+                that.centerOf(provs[provs.length - 2]).x) /
+              2,
+            y:
+              (that.centerOf(provs[provs.length - 3]).y +
+                that.centerOf(provs[provs.length - 2]).y) /
+              2,
+          };
 
+          const curveMiddle = that.centerOf(provs[i]);
+          const curveEnd = {
+            x: (that.centerOf(provs[i]).x + that.centerOf(provs[i + 1]).x) / 2,
+            y: (that.centerOf(provs[i]).y + that.centerOf(provs[i + 1]).y) / 2,
+          };
 
-    console.log("arrowStart");
-    console.log(arrowStart);
+          loc = curveStart;
+          loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
+          loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+        }
 
-//  arrowStart.x = arrowStart.x + vec.dir().mul(spacer).x;
-//  arrowStart.y = arrowStart.y + vec.dir().mul(spacer).y;
+        break;
+      }
+    }
 
+    if (!isConvoyPart) {
+      console.log("not part of convoy");
+    } else {
+      console.log("PART OF CONVOY111111111111111111111111111111111");
 
-    console.log("arrowStart");
-    console.log(arrowStart);
+      let origin = that.centerOf(currentProv);
+      let destination = loc; // TODO wrong
 
+      //Define the arrow definitions
 
+      var spacer = 12;
+      var vec = new that.Vec(origin, destination);
 
-//  arrowEnd.x =
-//    destination.x - vec.dir().mul(spacer * 1.5).x;
-//  arrowEnd.y =
-//    destination.y - vec.dir().mul(spacer * 1.5).y;
+      //Adjust the arrowStart, middle and ArrowEnd in case of collision
 
+      let arrowStart = origin;
+      let arrowEnd = destination;
 
-    //	Create the background arrow
+      //  arrowStart.x = arrowStart.x + vec.dir().mul(spacer).x;
+      //  arrowStart.y = arrowStart.y + vec.dir().mul(spacer).y;
 
+      //  arrowEnd.x =
+      //    destination.x - vec.dir().mul(spacer * 1.5).x;
+      //  arrowEnd.y =
+      //    destination.y - vec.dir().mul(spacer * 1.5).y;
 
-//BUSY WHY DOES IT NO APPEND?
-    that.invokeMarker(border, true, "Arrow");
-    var path = document.createElementNS(SVG, "path");
-    path.setAttribute(
-      "style",
-      "fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
-        border.substring(1) +
-        "LargeArrowMarker)"
-    );
+      //	Create the background arrow
 
+      that.invokeMarker(border, true, "Arrow");
+      var path = document.createElementNS(SVG, "path");
+      path.setAttribute(
+        "style",
+        "fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
+          border.substring(1) +
+          "LargeArrowMarker)"
+      );
 
-    var d =
-      "M " + arrowStart.x + " " + arrowStart.y + " L " + arrowEnd.x + " " + arrowEnd.y;
+      var d =
+        "M " +
+        arrowStart.x +
+        " " +
+        arrowStart.y +
+        " L " +
+        arrowEnd.x +
+        " " +
+        arrowEnd.y;
 
-    path.setAttribute("d", d);
-    
-    $(el).find("#orders")[0].appendChild(path);
-    console.log("appended");
-    console.log(path);
+      path.setAttribute("d", d);
 
-    //Create the coloured foreground
-    that.invokeMarker(color, false, "Arrow");
-    var colorPath = document.createElementNS(SVG, "path");
+      $(el).find("#orders")[0].appendChild(path);
+      console.log("appended");
+      console.log(path);
 
-    colorPath.setAttribute(
-      "style",
-      "fill: none;stroke:" +
-        color +
-        ";stroke-width:3;stroke-dasharray: 0 0;" +
-        "; marker-end: url(#" +
-        color.substring(1) +
-        "SmallArrowMarker)"
-    );
+      //Create the coloured foreground
+      that.invokeMarker(color, false, "Arrow");
+      var colorPath = document.createElementNS(SVG, "path");
 
-    colorPath.setAttribute("d", d);
-    $(el).find("#orders")[0].appendChild(colorPath);
+      colorPath.setAttribute(
+        "style",
+        "fill: none;stroke:" +
+          color +
+          ";stroke-width:3;stroke-dasharray: 0 0;" +
+          "; marker-end: url(#" +
+          color.substring(1) +
+          "SmallArrowMarker)"
+      );
 
-		}
+      colorPath.setAttribute("d", d);
+      $(el).find("#orders")[0].appendChild(colorPath);
+    }
   };
 
   that.addArrow = function (
@@ -1050,7 +1122,7 @@ export function dippyMap(container) {
       that.addArrow([order[0], order[2]], color, border, opts, collides);
     } else if (order[1] === "MoveViaConvoy") {
       that.addConvoyArrow(order, color, border, opts);
-      that.addBox(order[0], 3, color, opts); 
+      that.addBox(order[0], 3, color, opts);
     } else if (order[1] === "Build") {
       that.addUnit(
         "unit" + order[2],

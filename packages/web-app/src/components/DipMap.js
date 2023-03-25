@@ -881,9 +881,9 @@ export default class DipMap extends React.Component {
       const valueMap = {
         Move: 5,
         Hold: 4,
-        Support: 3,
+        Support: 1,
         MoveViaConvoy: 2,
-        Convoy: 1,
+        Convoy: 3,
       };
 
       if (this.state.orders != null || this.state.orders != undefined) {
@@ -894,7 +894,7 @@ export default class DipMap extends React.Component {
 
       (this.state.orders || []).forEach((orderData) => {
         const superProv = orderData.Parts[0].split("/")[0];
-        console.log("Processing province: " + superProv);
+//        console.log("Processing province: " + superProv);
         var successOrder = false;
 
         //Check the resolution is true
