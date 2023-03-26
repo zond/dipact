@@ -371,12 +371,20 @@ export function dippyMap(container) {
           marker.setAttributeNS(null, "markerWidth", "4.5");
           marker.setAttributeNS(null, "markerHeight", "4.5");
           marker.setAttributeNS(null, "refX", "3.25");
+        } else if (markerType === "Convoy") {
+          marker.setAttributeNS(null, "markerWidth", "4");
+          marker.setAttributeNS(null, "markerHeight", "4");
+          marker.setAttributeNS(null, "refX", "7");
         } else {
           marker.setAttributeNS(null, "markerWidth", "4");
           marker.setAttributeNS(null, "markerHeight", "4");
           marker.setAttributeNS(null, "refX", "4");
         }
-      } else {
+      } else if (markerType === "Convoy") {
+          marker.setAttributeNS(null, "markerWidth", "3");
+          marker.setAttributeNS(null, "markerHeight", "3");
+          marker.setAttributeNS(null, "refX", "6");
+        } else {
         marker.setAttributeNS(null, "markerWidth", "3");
         marker.setAttributeNS(null, "markerHeight", "3");
         marker.setAttributeNS(null, "refX", "4");
@@ -385,21 +393,38 @@ export function dippyMap(container) {
       marker.setAttributeNS(null, "orient", "auto-start-reverse");
       document.getElementsByTagName("defs")[0].appendChild(marker); //TODO: this needs to be standardized for all defs
 
-      const markerContent = document.createElementNS(
+      var markerContent;
+      markerContent = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "path"
       );
+
+      if (markerType === "Convoy") {
+        markerContent = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+      }
+
       if (markerType === "Support") {
         markerContent.setAttributeNS(
           null,
           "d",
           "M 7.0754509,9.9980767 2.9341022,9.9999607 0.0044091,7.0729017 0.00254607,2.9315532 2.9296042,0.00186 7.070953,0 l 2.929693,2.9270583 0.0019,4.1413484 z"
         );
+      } else if (markerType === "Convoy") {
+        markerContent.setAttributeNS(null, "cx", "5");
+        markerContent.setAttributeNS(null, "cy", "5");
+        markerContent.setAttributeNS(null, "r", "4");
       } else {
         markerContent.setAttributeNS(null, "d", "M 0 0 L 10 5 L 0 10 L 2 5 z");
       }
 
+      if (markerType === "Convoy" && size === "Small") {
+     markerContent.setAttributeNS(null, "fill", "#FFFFFF");
+      } else {
       markerContent.setAttributeNS(null, "fill", color);
+	  }
       markerContent.setAttributeNS(null, "stroke", "none");
 
       document
@@ -417,9 +442,7 @@ export function dippyMap(container) {
     } else if (ending === false) {
       xComponent = vector.p1.x - vector.p2.x;
       yComponent = vector.p1.y - vector.p2.y;
-    } else {
-      console.log("ending is not defined");
-    }
+    } 
 
     const magnitude = Math.sqrt(xComponent ** 2 + yComponent ** 2);
 
@@ -464,7 +487,6 @@ export function dippyMap(container) {
     //Define the arrow definitions
 
     var spacer = 12;
-    var collideDistance = 5;
     var startVec = new that.Vec(centers[0], centers[1]);
     var endVec = new that.Vec(
       centers[centers.length - 2],
@@ -506,7 +528,7 @@ export function dippyMap(container) {
     var path = document.createElementNS(SVG, "path");
     path.setAttribute(
       "style",
-      "fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 10 1; marker-end: url(#" +
+      "fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
         border.substring(1) +
         "LargeArrowMarker)"
     );
@@ -516,11 +538,7 @@ export function dippyMap(container) {
       const prevCenter = centers[i - 1];
       const currentCenter = centers[i];
       const nextCenter = centers[i + 1];
-      const middle1 = {
-        x: (prevCenter.x + currentCenter.x) / 2,
-        y: (prevCenter.y + currentCenter.y) / 2,
-      };
-      const middle2 = {
+      const middle = {
         x: (currentCenter.x + nextCenter.x) / 2,
         y: (currentCenter.y + nextCenter.y) / 2,
       };
@@ -542,9 +560,9 @@ export function dippyMap(container) {
           " " +
           currentCenter.y +
           " " +
-          middle2.x +
+          middle.x +
           " " +
-          middle2.y;
+          middle.y;
       }
       curveCommands.push(command);
     }
@@ -563,7 +581,7 @@ export function dippyMap(container) {
       "style",
       "fill: none;stroke:" +
         color +
-        ";stroke-width:3;stroke-dasharray: 10 1;" +
+        ";stroke-width:3;stroke-dasharray: 0 0;" +
         "; marker-end: url(#" +
         color.substring(1) +
         "SmallArrowMarker)"
@@ -586,10 +604,6 @@ export function dippyMap(container) {
 
     let currentProv = provs.shift();
 
-    console.log("length:" + provs.length);
-    console.log("currentProv:" + currentProv);
-    console.log(provs);
-
     let isConvoyPart = false;
     let destinationProv = "";
     let loc = "";
@@ -597,17 +611,8 @@ export function dippyMap(container) {
       if (provs[i] === currentProv) {
         isConvoyPart = true;
 
-        console.log(
-          "i " +
-            i +
-            "currentProv " +
-            currentProv +
-            "provs " +
-            JSON.stringify(provs)
-        );
         if (i === 1 && provs.length === 3) {
           // only province
-          console.log("one province draw");
           const curveStart = that.centerOf(provs[i - 1]);
           const curveMiddle = that.centerOf(currentProv);
           const curveEnd = that.centerOf(provs[i + 1]);
@@ -617,7 +622,6 @@ export function dippyMap(container) {
           loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
         } else if (i === provs.length - 2) {
           // Last province
-          console.log("last province draw");
           const curveStart = {
             x:
               (that.centerOf(provs[provs.length - 3]).x +
@@ -637,7 +641,6 @@ export function dippyMap(container) {
           loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
         } else if (i === 1) {
           // First province
-          console.log("first province draw");
           const curveStart = that.centerOf(provs[i - 1]);
           const curveMiddle = that.centerOf(currentProv);
           const curveEnd = {
@@ -650,7 +653,6 @@ export function dippyMap(container) {
           loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
         } else {
           // Middle province
-          console.log("we're province number " + i);
 
           const curveStart = {
             x:
@@ -678,11 +680,7 @@ export function dippyMap(container) {
       }
     }
 
-    if (!isConvoyPart) {
-      console.log("not part of convoy");
-    } else {
-      console.log("PART OF CONVOY111111111111111111111111111111111");
-
+    if (isConvoyPart) {
       let origin = that.centerOf(currentProv);
       let destination = loc; // TODO wrong
 
@@ -706,14 +704,15 @@ export function dippyMap(container) {
 
       //	Create the background arrow
 
-      that.invokeMarker(border, true, "Arrow");
+      that.invokeMarker(border, true, "Convoy");
       var path = document.createElementNS(SVG, "path");
       path.setAttribute(
         "style",
-        "fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
+        "fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 3 3 1 3; marker-end: url(#" +
           border.substring(1) +
-          "LargeArrowMarker)"
+          "LargeConvoyMarker)"
       );
+
 
       var d =
         "M " +
@@ -728,21 +727,19 @@ export function dippyMap(container) {
       path.setAttribute("d", d);
 
       $(el).find("#orders")[0].appendChild(path);
-      console.log("appended");
-      console.log(path);
 
       //Create the coloured foreground
-      that.invokeMarker(color, false, "Arrow");
+      that.invokeMarker(color, false, "Convoy");
       var colorPath = document.createElementNS(SVG, "path");
 
       colorPath.setAttribute(
         "style",
         "fill: none;stroke:" +
           color +
-          ";stroke-width:3;stroke-dasharray: 0 0;" +
+          ";stroke-width:3;stroke-dasharray: 3 3 1 3;" +
           "; marker-end: url(#" +
           color.substring(1) +
-          "SmallArrowMarker)"
+          "SmallConvoyMarker)"
       );
 
       colorPath.setAttribute("d", d);
@@ -1181,7 +1178,7 @@ export function dippyMap(container) {
         that.addCross(order[0], error, opts);
         console.log(
           "ORDER IS HELD HERE11111111111111111111111111111111111111111111"
-        ); //TODO after Martin fixes this stuff, we can put it in here.
+        ); //TODO after Martin fixes this stuff to have the adjucator show failed holds, we can put it in here.
       }
     }
   };
