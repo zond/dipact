@@ -890,8 +890,6 @@ export function dippyMap(container) {
 			var supportBorderStrokeDashArray = "0 0";
 		}
 
-		//TODO Joren: Arrow widths used to be 10/4, might be 8/3. To check if 10/4 might work better with units ON TOP OF orders
-
 		//	Create the background arrow
 		const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -1180,17 +1178,18 @@ export function dippyMap(container) {
 		console.log(oldUnit);
 		var newUnit = oldUnit.clone();
 		newUnit.attr("id", sourceId + "black"); // Assign a new unique ID to the new unit
+		console.log("adding black unit: " + sourceId);
 		newUnit.attr(
 			"style",
 			"fill:#000000;fill-opacity:1;stroke:" +
 				color +
 				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
 		); // Change the style of the new unit to black
-		newUnit.insertAfter(oldUnit); // Insert the new unit after the old unit in the SVG
+		var ordersLayer = $("svg #orders"); // Find the 'orders' layer
+		newUnit.appendTo(ordersLayer); // Add the new unit to the 'orders' layer
 	};
+
 	that.addOrder = function (order, color, opts = {}, failure, collides) {
-		console.log("iorder");
-		console.log(order);
 		//Define the border based on order success
 		if (!failure) {
 			var border = "#000000";
@@ -1347,7 +1346,6 @@ export function dippyMap(container) {
 				"id",
 				"unit" + province //TODO: need to give this an ID so we can target it when it gets dislodged
 			);
-			console.log("created id: " + province);
 		}
 		$(el).find(layer).eq(0).append($(shadow).eq(0));
 		$(el).find(layer).eq(0).append($(unit).eq(0));
