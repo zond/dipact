@@ -943,8 +943,6 @@ export default class DipMap extends React.Component {
 		this.acceptOrders();
 	}
 	renderOrders() {
-		console.log("this");
-		console.log(this);
 		this.debugCount("renderOrders/called");
 		const ordersHash = helpers.hash(
 			JSON.stringify([
@@ -998,14 +996,20 @@ export default class DipMap extends React.Component {
 
 				//Check the resolution is true
 				if (
-					this.state.phase.Properties.Resolutions !== null &&
-					this.state.phase.Properties.Resolutions[
+					Array.isArray(this.state.phase.Properties.Resolutions) &&
+					this.state.phase.Properties.Resolutions !== null
+				) {
+					const resolutionIndex =
 						this.state.phase.Properties.Resolutions.findIndex(
 							(item) => item.Province.indexOf(superProv) != -1
-						)
-					].Resolution !== "OK"
-				) {
-					failOrder = true;
+						);
+					if (
+						resolutionIndex !== -1 &&
+						this.state.phase.Properties.Resolutions[resolutionIndex]
+							.Resolution !== "OK"
+					) {
+						failOrder = true;
+					}
 				}
 
 				// IF THIS UNIT IS A CONVOY, DEFINE THE FASTEST ROUTE
