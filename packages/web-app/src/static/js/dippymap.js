@@ -300,7 +300,7 @@ export function dippyMap(container) {
 			}
 		}
 	};
-	that.addBox = function (province, corners, color, opts = {}) {
+	that.addBox = function (province, corners, color, border, opts = {}) {
 		var loc = that.centerOf(province);
 		loc.x -= 3;
 		//loc.y -= 3;
@@ -316,9 +316,12 @@ export function dippyMap(container) {
 		}
 		var angle = startAngle;
 		var path = document.createElementNS(SVG, "path");
+
 		path.setAttribute(
 			"style",
-			"fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.5;"
+			"fill:none;stroke:" +
+				border +
+				";stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.5;"
 		);
 		var d = "";
 		var subBox = function (boundF) {
@@ -1213,12 +1216,12 @@ export function dippyMap(container) {
 
 		//Create the order
 		if (order[1] === "Hold") {
-			that.addBox(order[0], 8, color, opts);
+			that.addBox(order[0], 8, color, border, opts);
 		} else if (order[1] === "Move") {
 			that.addArrow([order[0], order[2]], color, border, opts, collides);
 		} else if (order[1] === "MoveViaConvoy") {
 			that.addConvoyArrow(order, color, border, opts);
-			that.addBox(order[0], 3, color, opts);
+			that.addBox(order[0], 3, color, border, opts);
 		} else if (order[1] === "Build") {
 			that.addUnit(
 				"unit" + order[2],
@@ -1236,7 +1239,7 @@ export function dippyMap(container) {
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
-			that.addBox(order[0], 3, color, opts);
+			that.addBox(order[0], 3, color, border, opts);
 			that.addConvoySupport(order, color, border, opts);
 			//that.addArrow([order[2], order[0], order[3]], color, border, opts);
 		} else if (order[1] === "Support") {
