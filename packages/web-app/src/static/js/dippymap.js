@@ -1174,7 +1174,23 @@ export function dippyMap(container) {
 	that.removeOrders = function () {
 		$(el).find("#orders").empty();
 	};
+	that.changeUnitToBlack = function (sourceId, color) {
+		console.log("oldUnit:" + sourceId);
+		var oldUnit = $("#" + sourceId);
+		console.log(oldUnit);
+		var newUnit = oldUnit.clone();
+		newUnit.attr("id", sourceId + "black"); // Assign a new unique ID to the new unit
+		newUnit.attr(
+			"style",
+			"fill:#000000;fill-opacity:1;stroke:" +
+				color +
+				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		); // Change the style of the new unit to black
+		newUnit.insertAfter(oldUnit); // Insert the new unit after the old unit in the SVG
+	};
 	that.addOrder = function (order, color, opts = {}, failure, collides) {
+		console.log("iorder");
+		console.log(order);
 		//Define the border based on order success
 		if (!failure) {
 			var border = "#000000";
@@ -1203,6 +1219,7 @@ export function dippyMap(container) {
 			);
 			that.addPlus(order[0], color, opts);
 		} else if (order[1] === "Disband") {
+			that.changeUnitToBlack("unit" + order[0], color);
 			that.addCross(order[0], error, opts);
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
@@ -1328,8 +1345,9 @@ export function dippyMap(container) {
 			);
 			unit.attr(
 				"id",
-				sourceId + province //TODO: need to give this an ID so we can target it when it gets dislodged
+				"unit" + province //TODO: need to give this an ID so we can target it when it gets dislodged
 			);
+			console.log("created id: " + province);
 		}
 		$(el).find(layer).eq(0).append($(shadow).eq(0));
 		$(el).find(layer).eq(0).append($(unit).eq(0));
