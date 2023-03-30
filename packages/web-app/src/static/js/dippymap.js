@@ -1174,9 +1174,9 @@ export function dippyMap(container) {
 	that.removeOrders = function () {
 		$(el).find("#orders").empty();
 	};
-	that.addOrder = function (order, color, opts = {}, success, collides) {
+	that.addOrder = function (order, color, opts = {}, failure, collides) {
 		//Define the border based on order success
-		if (success) {
+		if (!failure) {
 			var border = "#000000";
 		} else {
 			var border = "#FB6C6C";
@@ -1240,7 +1240,7 @@ export function dippyMap(container) {
 
 		//If order failed, add the cross in the right location.
 		//TODO: Hold fail, Convoy fail, MoveViaConvoy fail
-		if (!success) {
+		if (failure) {
 			if (order[1] === "Move") {
 				that.addCross([order[0], order[2]], error, opts, collides);
 			} else if (order[1] === "Support") {

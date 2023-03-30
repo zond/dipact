@@ -994,7 +994,7 @@ export default class DipMap extends React.Component {
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
 				//        console.log("Processing province: " + superProv);
-				var successOrder = false;
+				var failOrder = true;
 
 				//Check the resolution is true
 				if (
@@ -1003,9 +1003,9 @@ export default class DipMap extends React.Component {
 						this.state.phase.Properties.Resolutions.findIndex(
 							(item) => item.Province.indexOf(superProv) != -1
 						)
-					].Resolution === "OK"
+					].Resolution !== "OK"
 				) {
-					successOrder = true;
+					failOrder = false;
 				}
 
 				// IF THIS UNIT IS A CONVOY, DEFINE THE FASTEST ROUTE
@@ -1305,7 +1305,7 @@ export default class DipMap extends React.Component {
 						convoyOrder,
 						helpers.natCol(orderData.Nation, this.state.variant),
 						{ stroke: this.phaseSpecialStrokes[superProv] },
-						successOrder,
+						failOrder,
 						collides
 					);
 				} else {
@@ -1313,7 +1313,7 @@ export default class DipMap extends React.Component {
 						orderData.Parts,
 						helpers.natCol(orderData.Nation, this.state.variant),
 						{ stroke: this.phaseSpecialStrokes[superProv] },
-						successOrder,
+						failOrder,
 						collides
 					);
 				}
