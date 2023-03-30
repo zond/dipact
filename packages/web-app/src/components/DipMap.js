@@ -1012,11 +1012,13 @@ export default class DipMap extends React.Component {
 					}
 				}
 
-				// IF THIS UNIT IS A CONVOY, DEFINE THE FASTEST ROUTE
-
+				// IF THIS UNIT IS A CONVOY AND WE'RE POST-RESOLUTION, DEFINE THE FASTEST ROUTE
+				console.log(this);
 				if (
-					orderData.Parts[1] === "MoveViaConvoy" ||
-					orderData.Parts[1] === "Convoy"
+					(orderData.Parts[1] === "MoveViaConvoy" &&
+						this.state.phase.Properties.Resolved === true) ||
+					(orderData.Parts[1] === "Convoy" &&
+						this.state.phase.Properties.Resolved === true)
 				) {
 					if (orderData.Parts[1] === "MoveViaConvoy") {
 						console.log(
@@ -1204,7 +1206,10 @@ export default class DipMap extends React.Component {
 				}
 
 				var convoyOrder = [];
-				if (orderData.Parts[1] === "MoveViaConvoy") {
+				if (
+					orderData.Parts[1] === "MoveViaConvoy" &&
+					this.state.phase.Properties.Resolved === true
+				) {
 					convoyOrder.push(orderData.Parts[0]);
 					convoyOrder.push(orderData.Parts[1]);
 					fastestPath
@@ -1302,8 +1307,10 @@ export default class DipMap extends React.Component {
 				//TODO: NEED TO ADD CONVOY ORDERS
 
 				if (
-					orderData.Parts[1] === "MoveViaConvoy" ||
-					orderData.Parts[1] === "Convoy"
+					(orderData.Parts[1] === "MoveViaConvoy" &&
+						this.state.phase.Properties.Resolved === true) ||
+					(orderData.Parts[1] === "Convoy" &&
+						this.state.phase.Properties.Resolved === true)
 				) {
 					this.map.addOrder(
 						convoyOrder,
