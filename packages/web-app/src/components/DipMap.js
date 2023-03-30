@@ -994,7 +994,7 @@ export default class DipMap extends React.Component {
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
 				//        console.log("Processing province: " + superProv);
-				var failOrder = true;
+				var failOrder = false;
 
 				//Check the resolution is true
 				if (
@@ -1005,7 +1005,7 @@ export default class DipMap extends React.Component {
 						)
 					].Resolution !== "OK"
 				) {
-					failOrder = false;
+					failOrder = true;
 				}
 
 				// IF THIS UNIT IS A CONVOY, DEFINE THE FASTEST ROUTE
