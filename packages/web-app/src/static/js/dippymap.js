@@ -318,7 +318,7 @@ export function dippyMap(container) {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.4;"
+			"fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.5;"
 		);
 		var d = "";
 		var subBox = function (boundF) {
@@ -486,7 +486,6 @@ export function dippyMap(container) {
 	) {
 		// Remove the MoveViaConvoy to keep the provinces only
 		provs.splice(1, 1);
-
 		const centers = provs.map((prov) => that.centerOf(prov));
 
 		//Define the arrow definitions
@@ -533,7 +532,9 @@ export function dippyMap(container) {
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
-			"fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
+			"fill: none;stroke:" +
+				border +
+				";stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
 				border.substring(1) +
 				"LargeArrowMarker)"
 		);
@@ -621,52 +622,44 @@ export function dippyMap(container) {
 				isConvoyPart = true;
 
 				if (i === 1 && provs.length === 3) {
-					console.log(
-						"only province" +
-							provs[i - 1] +
-							currentProv +
-							provs[i + 1]
-					);
-
+					//Only province
 					var spacer = 12;
-					var vec = new that.Vec(
+					var startVec = new that.Vec(
 						that.centerOf(provs[i - 1]),
+						that.centerOf(provs[i])
+					);
+					var endVec = new that.Vec(
+						that.centerOf(provs[i]),
 						that.centerOf(provs[i + 1])
 					);
-					console.log("vec");
-					console.log(vec);
 
-					const startVecDir = vec.dir().mul(spacer);
-					const endVecDir = vec.dir().mul(spacer);
-					console.log("startVecDir");
-					console.log(startVecDir);
-
-					console.log("endVecDir");
-					console.log(endVecDir);
+					const startVecDir = startVec.dir().mul(spacer);
+					const endVecDir = endVec.dir().mul(spacer);
 
 					const curveStart = {
 						x:
 							that.centerOf(provs[i - 1]).x +
-							vec.dir().mul(spacer).x,
+							startVec.dir().mul(spacer).x,
 						y:
 							that.centerOf(provs[i - 1]).y +
-							vec.dir().mul(spacer).y,
+							startVec.dir().mul(spacer).y,
 					};
 					const curveMiddle = that.centerOf(currentProv);
 					const curveEnd = {
 						x:
-							that.centerOf(provs[i + 1]).x +
-							vec.dir().mul(spacer * 1.5).x,
+							that.centerOf(provs[i + 1]).x -
+							endVec.dir().mul(spacer * 1.5).x,
 						y:
-							that.centerOf(provs[i + 1]).y +
-							vec.dir().mul(spacer * 1.5).y,
+							that.centerOf(provs[i + 1]).y -
+							endVec.dir().mul(spacer * 1.5).y,
 					};
 
-					loc = curveStart;
-					loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
-					loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+					loc = {
+						x: (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4,
+						y: (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4,
+					};
 				} else if (i === provs.length - 2) {
-					// Last province
+					// Last province TO CHECK: should this also have the endvec similar as the 'only' one?
 					const curveStart = {
 						x:
 							(that.centerOf(provs[provs.length - 3]).x +
@@ -699,23 +692,22 @@ export function dippyMap(container) {
 							2,
 					};
 
-					loc = curveStart;
-					loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
-					loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+					loc = {
+						x: (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4,
+						y: (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4,
+					};
 				} else {
 					// Middle province
-
 					const curveStart = {
 						x:
-							(that.centerOf(provs[provs.length - 3]).x +
-								that.centerOf(provs[provs.length - 2]).x) /
+							(that.centerOf(provs[i - 1]).x +
+								that.centerOf(provs[i]).x) /
 							2,
 						y:
-							(that.centerOf(provs[provs.length - 3]).y +
-								that.centerOf(provs[provs.length - 2]).y) /
+							(that.centerOf(provs[i - 1]).y +
+								that.centerOf(provs[i]).y) /
 							2,
 					};
-
 					const curveMiddle = that.centerOf(provs[i]);
 					const curveEnd = {
 						x:
@@ -728,9 +720,10 @@ export function dippyMap(container) {
 							2,
 					};
 
-					loc = curveStart;
-					loc.x = (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4;
-					loc.y = (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4;
+					loc = {
+						x: (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4,
+						y: (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4,
+					};
 				}
 
 				break;
@@ -765,7 +758,9 @@ export function dippyMap(container) {
 			var path = document.createElementNS(SVG, "path");
 			path.setAttribute(
 				"style",
-				"fill: none;stroke: #000000;stroke-width:8 ;stroke-dasharray: 3 3 1 3; marker-end: url(#" +
+				"fill: none;stroke: " +
+					border +
+					";stroke-width:8 ;stroke-dasharray: 3 2 8; marker-end: url(#" +
 					border.substring(1) +
 					"LargeConvoyMarker)"
 			);
@@ -776,9 +771,9 @@ export function dippyMap(container) {
 				" " +
 				arrowStart.y +
 				" L " +
-				arrowEnd.x +
+				loc.x +
 				" " +
-				arrowEnd.y;
+				loc.y;
 
 			path.setAttribute("d", d);
 
@@ -792,7 +787,7 @@ export function dippyMap(container) {
 				"style",
 				"fill: none;stroke:" +
 					color +
-					";stroke-width:3;stroke-dasharray: 3 3 1 3;" +
+					";stroke-width:3;stroke-dasharray: 3 2 8;" +
 					"; marker-end: url(#" +
 					color.substring(1) +
 					"SmallConvoyMarker)"
