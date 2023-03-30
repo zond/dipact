@@ -534,7 +534,7 @@ export function dippyMap(container) {
 			"style",
 			"fill: none;stroke:" +
 				border +
-				";stroke-width:8 ;stroke-dasharray: 0 0; marker-end: url(#" +
+				";stroke-width:7 ;stroke-dasharray: 0 0; marker-end: url(#" +
 				border.substring(1) +
 				"LargeArrowMarker)"
 		);
@@ -583,6 +583,19 @@ export function dippyMap(container) {
 
 		path.setAttribute("d", d);
 		$(el).find("#orders")[0].appendChild(path);
+
+		//Add an exta stroke around the convoy move order
+		var strokePath = document.createElementNS(SVG, "path");
+		strokePath.setAttribute(
+			"style",
+			"fill: none;stroke:" +
+				border +
+				";stroke-width:9 ;stroke-dasharray: 10 10; marker-end: url(#" +
+				border.substring(1) +
+				"LargeArrowMarker)"
+		);
+		strokePath.setAttribute("d", d);
+		$(el).find("#orders")[0].appendChild(strokePath);
 
 		//Create the coloured foreground
 		that.invokeMarker(color, false, "Arrow");
