@@ -773,7 +773,7 @@ export function dippyMap(container) {
 				"style",
 				"fill: none;stroke: " +
 					border +
-					";stroke-width:8 ;stroke-dasharray: 3 2 8; marker-end: url(#" +
+					";stroke-width:8 ;stroke-dasharray: 10 4; marker-end: url(#" +
 					border.substring(1) +
 					"LargeConvoyMarker)"
 			);
@@ -800,7 +800,7 @@ export function dippyMap(container) {
 				"style",
 				"fill: none;stroke:" +
 					color +
-					";stroke-width:3;stroke-dasharray: 3 2 8;" +
+					";stroke-width:3;stroke-dasharray: 10 4;" +
 					"; marker-end: url(#" +
 					color.substring(1) +
 					"SmallConvoyMarker)"
