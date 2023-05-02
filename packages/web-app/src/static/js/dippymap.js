@@ -532,6 +532,7 @@ export function dippyMap(container) {
 		//	Create the background arrow
 
 		that.invokeMarker(border, true, "Arrow");
+
 		var path = document.createElementNS(SVG, "path");
 		path.setAttribute(
 			"style",
@@ -542,48 +543,60 @@ export function dippyMap(container) {
 				"LargeArrowMarker)"
 		);
 
-		const curveCommands = [];
-		for (let i = 1; i < centers.length - 1; i++) {
-			const prevCenter = centers[i - 1];
-			const currentCenter = centers[i];
-			const nextCenter = centers[i + 1];
-			const middle = {
-				x: (currentCenter.x + nextCenter.x) / 2,
-				y: (currentCenter.y + nextCenter.y) / 2,
-			};
-			var command;
-			if (i === centers.length - 2) {
-				command =
-					"Q " +
-					currentCenter.x +
+		var d = "";
+		if (centers.length === 2) {
+			d =
+				"M " +
+				centers[0].x +
+				" " +
+				centers[0].y +
+				" L " +
+				centers[1].x +
+				" " +
+				centers[1].y;
+		} else {
+			const curveCommands = [];
+			for (let i = 1; i < centers.length - 1; i++) {
+				const prevCenter = centers[i - 1];
+				const currentCenter = centers[i];
+				const nextCenter = centers[i + 1];
+				const middle = {
+					x: (currentCenter.x + nextCenter.x) / 2,
+					y: (currentCenter.y + nextCenter.y) / 2,
+				};
+				var command;
+				if (i === centers.length - 2) {
+					command =
+						"Q " +
+						currentCenter.x +
+						" " +
+						currentCenter.y +
+						" " +
+						nextCenter.x +
+						" " +
+						nextCenter.y;
+				} else {
+					command =
+						"Q " +
+						currentCenter.x +
+						" " +
+						currentCenter.y +
+						" " +
+						middle.x +
+						" " +
+						middle.y;
+				}
+				curveCommands.push(command);
+
+				d =
+					"M " +
+					centers[0].x +
 					" " +
-					currentCenter.y +
+					centers[0].y +
 					" " +
-					nextCenter.x +
-					" " +
-					nextCenter.y;
-			} else {
-				command =
-					"Q " +
-					currentCenter.x +
-					" " +
-					currentCenter.y +
-					" " +
-					middle.x +
-					" " +
-					middle.y;
+					curveCommands.join(" ");
 			}
-			curveCommands.push(command);
 		}
-
-		var d =
-			"M " +
-			centers[0].x +
-			" " +
-			centers[0].y +
-			" " +
-			curveCommands.join(" ");
-
 		path.setAttribute("d", d);
 		$(el).find("#orders")[0].appendChild(path);
 
@@ -626,7 +639,8 @@ export function dippyMap(container) {
 		collides,
 		markerType
 	) {
-		// Remove the MoveViaConvoy to keep the provinces only
+		// Remove the Convoy to keep the provinces only
+		// TODO: Keep provs and don't touch it.
 		provs.splice(1, 1);
 
 		let currentProv = provs.shift();
@@ -647,6 +661,43 @@ export function dippyMap(container) {
 					var endVec = new that.Vec(
 						that.centerOf(provs[i]),
 						that.centerOf(provs[i + 1])
+					);
+
+					const startVecDir = startVec.dir().mul(spacer);
+					const endVecDir = endVec.dir().mul(spacer);
+
+					const curveStart = {
+						x:
+							that.centerOf(provs[i - 1]).x +
+							startVec.dir().mul(spacer).x,
+						y:
+							that.centerOf(provs[i - 1]).y +
+							startVec.dir().mul(spacer).y,
+					};
+					const curveMiddle = that.centerOf(currentProv);
+					const curveEnd = {
+						x:
+							that.centerOf(provs[i + 1]).x -
+							endVec.dir().mul(spacer * 1.5).x,
+						y:
+							that.centerOf(provs[i + 1]).y -
+							endVec.dir().mul(spacer * 1.5).y,
+					};
+
+					loc = {
+						x: (curveStart.x + 2 * curveMiddle.x + curveEnd.x) / 4,
+						y: (curveStart.y + 2 * curveMiddle.y + curveEnd.y) / 4,
+					};
+				} else if (provs.length === 2) {
+					//the move is current/not yet adjucated - because it's length is 2 so no path has been created
+					var spacer = 12;
+					var startVec = new that.Vec(
+						that.centerOf(provs[0]),
+						that.centerOf(provs[1])
+					);
+					var endVec = new that.Vec(
+						that.centerOf(provs[0]),
+						that.centerOf(provs[1])
 					);
 
 					const startVecDir = startVec.dir().mul(spacer);
@@ -1205,6 +1256,56 @@ export function dippyMap(container) {
 		newUnit.appendTo(ordersLayer); // Add the new unit to the 'orders' layer
 	};
 
+	that.getConnectingPointOnLine = function (X1, X2, X3) {
+		// Calculate the midpoint of the line between X1 and X2
+		const midpoint = {
+			x: (X1.x + X2.x) / 2,
+			y: (X1.y + X2.y) / 2,
+		};
+
+		// Calculate the angle between the line from X3 to the midpoint
+		// and the line from X1 to X2
+		const angle =
+			Math.atan2(midpoint.y - X3.y, midpoint.x - X3.x) -
+			Math.atan2(X2.y - X1.y, X2.x - X1.x);
+
+		// If the angle is 0 or 180 degrees, return either X1 or X2 (whichever is closer)
+		if (Math.abs(angle) === Math.PI) {
+			return that.distance(X1, X3) < that.distance(X2, X3) ? X1 : X2;
+		}
+
+		// If the angle is 90 degrees, return the midpoint
+		if (Math.abs(angle) === Math.PI / 2) {
+			return midpoint;
+		}
+
+		// For any other angle, calculate the distance from X3 to the line between X1 and X2
+		const distanceToLine = Math.sin(angle) * that.distance(X3, midpoint);
+
+		// Calculate the distance from the midpoint to the connecting point
+		const distanceToConnectingPoint =
+			Math.cos(angle) * that.distance(X3, midpoint);
+
+		// Calculate the coordinates of the connecting point
+		const connectingPoint = {
+			x:
+				midpoint.x +
+				(distanceToConnectingPoint * (X2.x - X1.x)) /
+					that.distance(X1, X2),
+			y:
+				midpoint.y +
+				(distanceToConnectingPoint * (X2.y - X1.y)) /
+					that.distance(X1, X2),
+		};
+
+		return connectingPoint;
+	};
+
+	// Calculate the distance between two points
+	that.distance = function (p1, p2) {
+		return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+	};
+
 	that.addOrder = function (order, color, opts = {}, failure, collides) {
 		//Define the border based on order success
 		if (!failure) {
@@ -1220,6 +1321,7 @@ export function dippyMap(container) {
 		} else if (order[1] === "Move") {
 			that.addArrow([order[0], order[2]], color, border, opts, collides);
 		} else if (order[1] === "MoveViaConvoy") {
+			//if orderlength = 3, it's a pre-resoluted order; otherwise, the path will be added
 			that.addConvoyArrow(order, color, border, opts);
 			that.addBox(order[0], 3, color, border, opts);
 		} else if (order[1] === "Build") {
@@ -1239,16 +1341,46 @@ export function dippyMap(container) {
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
+			console.log("orderbefore");
+			console.log(order);
+
+			console.log(order[0]);
+			console.log(order[2]);
+			console.log(order[3]);
+
+			let centerPoint = that.getConnectingPointOnLine(
+				that.centerOf(order[0]),
+				that.centerOf(order[2]),
+				that.centerOf(order[3])
+			);
+
+			console.log("point ");
+			console.log(centerPoint);
+
+			let convoyArrowColor = color + "4d";
+			let convoyArrowBorder = border + "4d";
+
+			that.addArrow(
+				[order[2], order[3]],
+				convoyArrowColor,
+				convoyArrowBorder,
+				opts,
+				false,
+				"Arrow"
+			);
+
 			that.addBox(order[0], 3, color, border, opts);
 			that.addConvoySupport(order, color, border, opts);
-			//that.addArrow([order[2], order[0], order[3]], color, border, opts);
+			console.log("orderafter");
+			//TODO: - use the centerPoint to draw the correct line
+			//TODO: order is being destroyed here somewhere, which removes both new orders and fucks up the order display in the order list. Need to fix
+			console.log(order);
 		} else if (order[1] === "Support") {
 			var markerType = "Arrow";
 			if (order[2] === order[3]) {
 				markerType = "Support";
 			}
 			if (order.length === 3) {
-				//that.addBox(order[0], 4, color, opts);
 				that.addArrow(
 					[order[2], order[3]],
 					color,
@@ -1258,7 +1390,6 @@ export function dippyMap(container) {
 					markerType
 				);
 			} else {
-				//that.addBox(order[0], 4, color);
 				that.addArrow(
 					[order[0], order[2], order[3]],
 					color,

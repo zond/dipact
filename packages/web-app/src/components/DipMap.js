@@ -1217,7 +1217,10 @@ export default class DipMap extends React.Component {
 						.forEach((element) => convoyOrder.push(element));
 				}
 
-				if (orderData.Parts[1] === "Convoy") {
+				if (
+					orderData.Parts[1] === "Convoy" &&
+					this.state.phase.Properties.Resolved === true
+				) {
 					convoyOrder.push(orderData.Parts[0]);
 					convoyOrder.push(orderData.Parts[1]);
 					fastestPath.forEach((element) => convoyOrder.push(element));
@@ -1329,6 +1332,7 @@ export default class DipMap extends React.Component {
 					);
 				}
 				this.debugCount("renderOrders/renderedOrder");
+				console.log(orderData);
 			});
 
 			//TODO: This is where they set the cross if the order is not okay. I've moved this away, but this is saved in case it's needed to double check
