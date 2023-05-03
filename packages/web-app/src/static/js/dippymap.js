@@ -1344,10 +1344,6 @@ export function dippyMap(container) {
 			console.log("orderbefore");
 			console.log(order);
 
-			console.log(order[0]);
-			console.log(order[2]);
-			console.log(order[3]);
-
 			let centerPoint = that.getConnectingPointOnLine(
 				that.centerOf(order[0]),
 				that.centerOf(order[2]),
@@ -1357,23 +1353,23 @@ export function dippyMap(container) {
 			console.log("point ");
 			console.log(centerPoint);
 
-			let convoyArrowColor = color + "4d";
-			let convoyArrowBorder = border + "4d";
+			//TODO: add an arrow to the centerpoint.
+			let convoyFakeArrowColor = color + "00";
+			let convoyFakeArrowBorder = border + "4d";
 
 			that.addArrow(
 				[order[2], order[3]],
-				convoyArrowColor,
-				convoyArrowBorder,
+				convoyFakeArrowColor,
+				convoyFakeArrowBorder,
 				opts,
 				false,
 				"Arrow"
 			);
 
 			that.addBox(order[0], 3, color, border, opts);
-			that.addConvoySupport(order, color, border, opts);
-			console.log("orderafter");
-			//TODO: - use the centerPoint to draw the correct line
-			//TODO: order is being destroyed here somewhere, which removes both new orders and fucks up the order display in the order list. Need to fix
+
+			const convoyOrder = Array.from(order);
+			that.addConvoySupport(convoyOrder, color, border, opts);
 			console.log(order);
 		} else if (order[1] === "Support") {
 			var markerType = "Arrow";
