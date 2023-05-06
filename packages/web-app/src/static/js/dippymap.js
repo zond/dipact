@@ -876,12 +876,31 @@ export function dippyMap(container) {
 		var start = null;
 		var middle = null;
 		var end = null;
+
+		let isProvinceCheck = /^[a-zA-Z]{3}$/;
+
+		//		return new that.Poi(x, y);
+		//TODO NOW: Change the x into a Poi.
 		if (provs.length === 3 && provs[1] === provs[2]) {
 			provs.pop();
 		}
 		if (provs.length === 2) {
-			start = that.centerOf(provs[0]);
-			end = that.centerOf(provs[1]);
+			if (!isProvinceCheck.test(provs[0])) {
+				console.log("noprov");
+				start = new that.Poi(provs[0].x, provs[0].y);
+			} else {
+				start = that.centerOf(provs[0]);
+				console.log("isprov");
+			}
+
+			if (!isProvinceCheck.test(provs[1])) {
+				console.log("noprov");
+				end = new that.Poi(provs[1].x, provs[1].y);
+			} else {
+				end = that.centerOf(provs[1]);
+				console.log("isprov");
+			}
+
 			middle = start.add(end.sub(start).div(2.0));
 		} else {
 			start = that.centerOf(provs[0]);
@@ -890,8 +909,13 @@ export function dippyMap(container) {
 		}
 
 		//Define the arrow definitions
-
 		var spacer = 12;
+		if (
+			!isProvinceCheck.test(provs[0]) ||
+			!isProvinceCheck.test(provs[1])
+		) {
+			var spacer = 0;
+		}
 		var collideDistance = 5;
 		var startVec = new that.Vec(start, middle);
 		var endVec = new that.Vec(middle, end);
@@ -985,6 +1009,15 @@ export function dippyMap(container) {
 			);
 		};
 
+		const createConvoyPath = (border, strokeDashArray) => {
+			return createPathElement(
+				"Convoy",
+				border,
+				strokeDashArray,
+				"Marker"
+			);
+		};
+
 		const createArrowPath = (border, strokeDashArray) => {
 			return createPathElement(
 				"Arrow",
@@ -1010,6 +1043,8 @@ export function dippyMap(container) {
 			const path =
 				markerType === "Support"
 					? createSupportPath(border, supportBorderStrokeDashArray)
+					: markerType === "Convoy"
+					? createConvoyPath(border, supportBorderStrokeDashArray)
 					: createArrowPath(border, supportBorderStrokeDashArray);
 			path.setAttribute(
 				"d",
@@ -1020,6 +1055,8 @@ export function dippyMap(container) {
 
 		if (markerType === "Support") {
 			that.invokeMarker(border, true, "Support");
+		} else if (markerType === "Convoy") {
+			that.invokeMarker(border, true, "Convoy");
 		} else {
 			that.invokeMarker(border, true, "Arrow");
 		}
@@ -1037,6 +1074,8 @@ export function dippyMap(container) {
 		//Create the coloured foreground
 		if (markerType === "Support") {
 			that.invokeMarker(color, false, "Support");
+		} else if (markerType === "Convoy") {
+			that.invokeMarker(color, false, "Convoy");
 		} else {
 			that.invokeMarker(color, false, "Arrow");
 		}
@@ -1052,6 +1091,18 @@ export function dippyMap(container) {
 					"; marker-end: url(#" +
 					color.substring(1) +
 					"SmallSupportMarker)"
+			);
+		} else if (markerType === "Convoy") {
+			colorPath.setAttribute(
+				"style",
+				"fill: none;stroke:" +
+					color +
+					";stroke-width:3;stroke-dasharray:" +
+					supportBorderStrokeDashArray +
+					";" +
+					"; marker-end: url(#" +
+					color.substring(1) +
+					"SmallConvoyMarker)"
 			);
 		} else {
 			colorPath.setAttribute(
@@ -1258,47 +1309,18 @@ export function dippyMap(container) {
 
 	that.getConnectingPointOnLine = function (X1, X2, X3) {
 		// Calculate the midpoint of the line between X1 and X2
-		const midpoint = {
-			x: (X1.x + X2.x) / 2,
-			y: (X1.y + X2.y) / 2,
-		};
-
-		// Calculate the angle between the line from X3 to the midpoint
-		// and the line from X1 to X2
-		const angle =
-			Math.atan2(midpoint.y - X3.y, midpoint.x - X3.x) -
-			Math.atan2(X2.y - X1.y, X2.x - X1.x);
-
-		// If the angle is 0 or 180 degrees, return either X1 or X2 (whichever is closer)
-		if (Math.abs(angle) === Math.PI) {
-			return that.distance(X1, X3) < that.distance(X2, X3) ? X1 : X2;
-		}
-
-		// If the angle is 90 degrees, return the midpoint
-		if (Math.abs(angle) === Math.PI / 2) {
-			return midpoint;
-		}
-
-		// For any other angle, calculate the distance from X3 to the line between X1 and X2
-		const distanceToLine = Math.sin(angle) * that.distance(X3, midpoint);
-
-		// Calculate the distance from the midpoint to the connecting point
-		const distanceToConnectingPoint =
-			Math.cos(angle) * that.distance(X3, midpoint);
-
-		// Calculate the coordinates of the connecting point
-		const connectingPoint = {
-			x:
-				midpoint.x +
-				(distanceToConnectingPoint * (X2.x - X1.x)) /
-					that.distance(X1, X2),
-			y:
-				midpoint.y +
-				(distanceToConnectingPoint * (X2.y - X1.y)) /
-					that.distance(X1, X2),
-		};
-
-		return connectingPoint;
+		console.log("midpoint");
+		console.log(X1); //origin
+		console.log(X2); //start
+		console.log(X3); //end
+		var Xm = (X3.x + X2.x) / 2;
+		var Ym = (X3.y + X2.y) / 2;
+		console.log(Xm);
+		console.log(Ym);
+		var angle = Math.atan2(X1.y - Ym, X1.x - Xm);
+		console.log("angle");
+		console.log(angle);
+		return { x: Xm, y: Ym };
 	};
 
 	// Calculate the distance between two points
@@ -1352,6 +1374,15 @@ export function dippyMap(container) {
 
 			console.log("point ");
 			console.log(centerPoint);
+
+			that.addArrow(
+				[order[0], centerPoint],
+				color,
+				border,
+				opts,
+				false,
+				"Convoy"
+			);
 
 			//TODO: add an arrow to the centerpoint.
 			let convoyFakeArrowColor = color + "00";
