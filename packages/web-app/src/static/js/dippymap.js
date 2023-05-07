@@ -1350,7 +1350,14 @@ export function dippyMap(container) {
 		return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 	};
 
-	that.addOrder = function (order, color, opts = {}, failure, collides) {
+	that.addOrder = function (
+		order,
+		color,
+		opts = {},
+		failure,
+		collides,
+		resolved
+	) {
 		//Define the border based on order success
 		if (!failure) {
 			var border = "#000000";
@@ -1386,35 +1393,41 @@ export function dippyMap(container) {
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
-			//calculate the supporting order to the order line
-			let centerPoint = that.getConnectingPointOnLine(
-				that.centerOf(order[0]),
-				that.centerOf(order[2]),
-				that.centerOf(order[3])
-			);
+			console.log("adding convoy arrow for" + order[0] + "to" + order[2]);
+			console.log(order);
+			console.log(resolved);
 
-			that.addArrow(
-				[order[0], centerPoint],
-				color,
-				border,
-				opts,
-				false,
-				"Convoy"
-			);
-
-			//Add the 'real order' - only if the order is not resolved (because order length = 4).
-			if (order.length === 4) {
-				let convoyFakeArrowColor = color + "00";
-				let convoyFakeArrowBorder = border + "4d";
+			if (!resolved) {
+				//calculate the supporting order to the order line
+				let centerPoint = that.getConnectingPointOnLine(
+					that.centerOf(order[0]),
+					that.centerOf(order[2]),
+					that.centerOf(order[3])
+				);
 
 				that.addArrow(
-					[order[2], order[3]],
-					convoyFakeArrowColor,
-					convoyFakeArrowBorder,
+					[order[0], centerPoint],
+					color,
+					border,
 					opts,
 					false,
-					"Arrow"
+					"Convoy"
 				);
+
+				//Add the 'real order' - only if the order is not resolved (because order length = 4).
+				if (order.length === 4) {
+					let convoyFakeArrowColor = color + "00";
+					let convoyFakeArrowBorder = border + "4d";
+
+					that.addArrow(
+						[order[2], order[3]],
+						convoyFakeArrowColor,
+						convoyFakeArrowBorder,
+						opts,
+						false,
+						"Arrow"
+					);
+				}
 			}
 
 			that.addBox(order[0], 3, color, border, opts);

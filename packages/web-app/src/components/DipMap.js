@@ -1012,7 +1012,7 @@ export default class DipMap extends React.Component {
 						failOrder = true;
 					}
 				}
-				console.log(orderData.Parts);
+
 				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
 				if (orderData.Parts[1] === "Move" && !failOrder) {
 					var graphNodes =
@@ -1030,7 +1030,6 @@ export default class DipMap extends React.Component {
 						fakedConvoyMove = true;
 					}
 				}
-				console.log(orderData.Parts);
 
 				// IF THIS UNIT IS A CONVOY AND WE'RE POST-RESOLUTION, DEFINE THE FASTEST ROUTE
 				if (
@@ -1039,7 +1038,6 @@ export default class DipMap extends React.Component {
 					(orderData.Parts[1] === "Convoy" &&
 						this.state.phase.Properties.Resolved === true)
 				) {
-					console.log("executing fastestpath");
 					if (orderData.Parts[1] === "MoveViaConvoy") {
 						//Create list of all participating convoys
 						var convoyParticipants = this.state.orders
@@ -1143,9 +1141,6 @@ export default class DipMap extends React.Component {
 
 							// Get the neighboring nodes of the current node
 							//let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
-							console.log("edges error");
-							console.log(edgesMap);
-							console.log(currentProvince);
 
 							let provinceParts = currentProvince.split("/");
 							var beforeSlash = currentProvince;
@@ -1154,8 +1149,7 @@ export default class DipMap extends React.Component {
 								beforeSlash = provinceParts[0];
 								afterSlash = provinceParts[1];
 							}
-							console.log("Before Slash:", beforeSlash); // Output: "wec"
-							console.log("After Slash:", afterSlash); // Output: "se"
+
 							let edges =
 								edgesMap[beforeSlash].Subs[afterSlash].Edges;
 							const neighbors = Object.keys(edges);
@@ -1210,11 +1204,6 @@ export default class DipMap extends React.Component {
 						startProvince = orderData.Parts[2];
 						endProvince = orderData.Parts[3];
 					}
-					console.log("now really executing");
-					console.log(startProvince);
-					console.log(endProvince);
-					console.log(participatingProvinces);
-					console.log(connectedProvinces);
 					fastestPath = findPath(
 						startProvince,
 						endProvince,
@@ -1329,7 +1318,8 @@ export default class DipMap extends React.Component {
 						helpers.natCol(orderData.Nation, this.state.variant),
 						{ stroke: this.phaseSpecialStrokes[superProv] },
 						failOrder,
-						collides
+						collides,
+						this.state.phase.Properties.Resolved
 					);
 				} else {
 					this.map.addOrder(
@@ -1337,7 +1327,8 @@ export default class DipMap extends React.Component {
 						helpers.natCol(orderData.Nation, this.state.variant),
 						{ stroke: this.phaseSpecialStrokes[superProv] },
 						failOrder,
-						collides
+						collides,
+						this.state.phase.Properties.Resolved
 					);
 				}
 				this.debugCount("renderOrders/renderedOrder");
