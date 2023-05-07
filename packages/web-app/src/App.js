@@ -9,6 +9,7 @@ import FeedbackWrapper from "./components/FeedbackWrapper";
 import actions from "./store/actions";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 export class LegacyApp extends ActivityContainer {
   constructor(props) {
@@ -251,9 +252,11 @@ const App = () => {
   const isInitialized = useInitialized();
   if (!isInitialized) return null;
   return (
-    <FeedbackWrapper>
-      <Router />
-    </FeedbackWrapper>
+    <ErrorBoundary>
+      <FeedbackWrapper>
+        <Router />
+      </FeedbackWrapper>
+    </ErrorBoundary>
   );
 };
 
