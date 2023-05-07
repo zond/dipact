@@ -503,17 +503,19 @@ export function dippyMap(container) {
 		//Adjust the arrowStart, middle and ArrowEnd in case of collision
 
 		var arrowStart = centers[0];
-
-		arrowStart.x = centers[0].x + startVec.dir().mul(spacer).x;
-		arrowStart.y = centers[0].y + startVec.dir().mul(spacer).y;
-
+		if (spacer !== 0) {
+			arrowStart.x = centers[0].x + startVec.dir().mul(spacer).x;
+			arrowStart.y = centers[0].y + startVec.dir().mul(spacer).y;
+		}
 		var arrowEnd = centers[centers.length - 1];
-
-		arrowEnd.x =
-			centers[centers.length - 1].x - endVec.dir().mul(spacer * 1.5).x;
-		arrowEnd.y =
-			centers[centers.length - 1].y - endVec.dir().mul(spacer * 1.5).y;
-
+		if (spacer !== 0) {
+			arrowEnd.x =
+				centers[centers.length - 1].x -
+				endVec.dir().mul(spacer * 1.5).x;
+			arrowEnd.y =
+				centers[centers.length - 1].y -
+				endVec.dir().mul(spacer * 1.5).y;
+		}
 		/*
 		if (collides && provs.length === 2) {
 			//Adjust for MOVE
@@ -873,6 +875,8 @@ export function dippyMap(container) {
 		collides,
 		markerType
 	) {
+		console.log("provs");
+		console.log(provs);
 		var start = null;
 		var middle = null;
 		var end = null;
@@ -918,16 +922,21 @@ export function dippyMap(container) {
 
 		//Adjust the arrowStart, middle and ArrowEnd in case of collision
 
-		var arrowStart = start;
+		var arrowStart = JSON.parse(JSON.stringify(start));
 
-		arrowStart.x = start.x + startVec.dir().mul(spacer).x;
-		arrowStart.y = start.y + startVec.dir().mul(spacer).y;
+		if (spacer !== 0) {
+			arrowStart.x = start.x + startVec.dir().mul(spacer).x;
+			arrowStart.y = start.y + startVec.dir().mul(spacer).y;
+		}
 
-		var arrowEnd = end;
+		var arrowEnd = JSON.parse(JSON.stringify(end));
 
-		arrowEnd.x = end.x - endVec.dir().mul(spacer * 1.5).x;
-		arrowEnd.y = end.y - endVec.dir().mul(spacer * 1.5).y;
-
+		if (spacer !== 0) {
+			arrowEnd.x = end.x - endVec.dir().mul(spacer * 1.5).x;
+			arrowEnd.y = end.y - endVec.dir().mul(spacer * 1.5).y;
+		}
+		console.log(arrowStart);
+		console.log(arrowEnd);
 		if (collides && provs.length === 2) {
 			//Adjust for MOVE
 			arrowStart = that.adjustCollideArrow(
@@ -973,6 +982,8 @@ export function dippyMap(container) {
 		//Select whether the arrow is solid (move) or dashed (support)
 		if (provs.length === 3 || markerType === "Support") {
 			var supportBorderStrokeDashArray = "3 2";
+		} else if (markerType === "Convoy") {
+			var supportBorderStrokeDashArray = "10 4";
 		} else {
 			var supportBorderStrokeDashArray = "0 0";
 		}
@@ -1287,12 +1298,9 @@ export function dippyMap(container) {
 		$(el).find("#orders").empty();
 	};
 	that.changeUnitToBlack = function (sourceId, color) {
-		console.log("oldUnit:" + sourceId);
 		var oldUnit = $("#" + sourceId);
-		console.log(oldUnit);
 		var newUnit = oldUnit.clone();
 		newUnit.attr("id", sourceId + "black"); // Assign a new unique ID to the new unit
-		console.log("adding black unit: " + sourceId);
 		newUnit.attr(
 			"style",
 			"fill:#000000;fill-opacity:1;stroke:" +
@@ -1331,8 +1339,6 @@ export function dippyMap(container) {
 			angleDifference += 2 * Math.PI;
 		}
 		var angleDegrees = angleDifference * (180 / Math.PI);
-		console.log("angle");
-		console.log(Math.abs(angleDegrees));
 
 		var pointX =
 			endPoint.x +
@@ -1357,7 +1363,7 @@ export function dippyMap(container) {
 			var border = "#FB6C6C";
 		}
 		var error = "#FB6C6C";
-
+		console.log(order);
 		//Create the order
 		if (order[1] === "Hold") {
 			that.addBox(order[0], 8, color, border, opts);
@@ -1384,8 +1390,6 @@ export function dippyMap(container) {
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
-			console.log("order");
-			console.log(order);
 			//calculate the supporting order to the order line
 			let centerPoint = that.getConnectingPointOnLine(
 				that.centerOf(order[0]),
@@ -1403,7 +1407,6 @@ export function dippyMap(container) {
 			);
 
 			//Add the 'real order' - only if the order is not resolved (because order length = 4).
-			console.log("length");
 			if (order.length === 4) {
 				let convoyFakeArrowColor = color + "00";
 				let convoyFakeArrowBorder = border + "4d";
@@ -1422,7 +1425,6 @@ export function dippyMap(container) {
 
 			const convoyOrder = Array.from(order);
 			that.addConvoySupport(convoyOrder, color, border, opts);
-			console.log(order);
 		} else if (order[1] === "Support") {
 			var markerType = "Arrow";
 			if (order[2] === order[3]) {
@@ -1463,9 +1465,8 @@ export function dippyMap(container) {
 				);
 			} else if (order[1] === "Hold") {
 				that.addCross(order[0], error, opts);
-				console.log(
-					"ORDER IS HELD HERE11111111111111111111111111111111111111111111"
-				); //TODO after Martin fixes this stuff to have the adjucator show failed holds, we can put it in here.
+				//console.log("ORDER IS HELD HERE11111111111111111111111111111111111111111111");
+				//TODO after Martin fixes this stuff to have the adjucator show failed holds, we can put it in here.
 			}
 		}
 	};

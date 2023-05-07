@@ -978,9 +978,9 @@ export default class DipMap extends React.Component {
 			const valueMap = {
 				Move: 5,
 				Hold: 4,
-				Support: 1,
-				MoveViaConvoy: 2,
 				Convoy: 3,
+				MoveViaConvoy: 2,
+				Support: 1,
 			};
 
 			if (this.state.orders != null || this.state.orders != undefined) {
@@ -1013,7 +1013,6 @@ export default class DipMap extends React.Component {
 				}
 
 				// IF THIS UNIT IS A CONVOY AND WE'RE POST-RESOLUTION, DEFINE THE FASTEST ROUTE
-				console.log(this);
 				if (
 					(orderData.Parts[1] === "MoveViaConvoy" &&
 						this.state.phase.Properties.Resolved === true) ||
@@ -1021,13 +1020,6 @@ export default class DipMap extends React.Component {
 						this.state.phase.Properties.Resolved === true)
 				) {
 					if (orderData.Parts[1] === "MoveViaConvoy") {
-						console.log(
-							"############Moving Via Convoy######### : " +
-								orderData.Parts[0] +
-								" to " +
-								orderData.Parts[2]
-						);
-
 						//Create list of all participating convoys
 						var convoyParticipants = this.state.orders
 							.filter(
@@ -1042,13 +1034,6 @@ export default class DipMap extends React.Component {
 						convoyParticipants.push(orderData.Parts[0]);
 						convoyParticipants.push(orderData.Parts[2]);
 					} else if (orderData.Parts[1] === "Convoy") {
-						console.log(
-							"############Convoying######### : " +
-								orderData.Parts[2] +
-								" to " +
-								orderData.Parts[3]
-						);
-
 						//Create list of all participating convoys
 						var convoyParticipants = this.state.orders
 							.filter(
@@ -1141,8 +1126,6 @@ export default class DipMap extends React.Component {
 							let edges =
 								edgesMap[currentProvince].Subs[""].Edges;
 							const neighbors = Object.keys(edges);
-							// console.log("current province: " + currentProvince + " and neighbors:");
-							// console.log(neighbors);
 
 							// Loop through the neighboring nodes
 							for (let neighbor of neighbors) {
@@ -1201,8 +1184,6 @@ export default class DipMap extends React.Component {
 						participatingProvinces,
 						connectedProvinces
 					);
-
-					//console.log("Fastest path from " + startProvince + " to " + endProvince + " is: " + JSON.stringify(fastestPath));
 				}
 
 				var convoyOrder = [];
@@ -1243,7 +1224,6 @@ export default class DipMap extends React.Component {
 					)?.Parts[0] === orderData.Parts[2]
 				) {
 					collides = true;
-					console.log("MOVE COLLIDES WITH: " + orderData.Parts[2]);
 				}
 				//Check if a support order supports a move that is colliding (in that case, this move should indent: both moves will indent so both support should. The mirrored support will have the same result)
 				if (
@@ -1262,12 +1242,6 @@ export default class DipMap extends React.Component {
 					)?.Parts[2] === orderData.Parts[2]
 				) {
 					collides = true;
-					console.log(
-						"SUPPORTED MOVE COLLIDES: " +
-							orderData.Parts[2] +
-							" vs " +
-							orderData.Parts[3]
-					);
 				} else if (
 					// If a support does NOT support a colliding move (meaning 1 or no orders);
 					orderData.Parts[1] === "Support" &&
@@ -1293,7 +1267,7 @@ export default class DipMap extends React.Component {
 						// then check if THIS support is NOT supporting a real move. If not,
 
 						// indent: this means either the other is (and this one should indent) or both are (and both should indent)
-						console.log("Double Support, I'm indenting");
+						//console.log("Double Support, I'm indenting");
 						collides = true;
 					} else if (
 						this.state.orders.find(
@@ -1303,11 +1277,37 @@ export default class DipMap extends React.Component {
 								obj.Parts[2] === orderData.Parts[3]
 						)?.Parts[2] === orderData.Parts[3]
 					) {
-						console.log("Double support, I'm NOT indenting");
+						//console.log("Double support, I'm NOT indenting");
 					}
 				}
 
-				//TODO: NEED TO ADD CONVOY ORDERS
+				/*
+
+				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
+				if (orderData.Parts[1] === "Move") {
+					var graphNodes =
+						this.state.variant.Properties.Graph.Nodes[
+							orderData.Parts[0]
+						];
+					console.log("graphnodes and orderdata");
+					console.log(graphNodes);
+					console.log(orderData.Parts[0]);
+					console.log(orderData.Parts[2]);
+					if (
+						!graphNodes?.Subs?.[""]?.Edges?.hasOwnProperty(
+							orderData.Parts[2]
+						)
+					) {
+						// Handle the case when the property doesn't exist
+						// Add your code here
+						console.log("not adjacent");
+						orderData.Parts[1] = "MoveViaConvoy";
+					} else {
+						console.log("adjacent");
+					}
+				}
+
+*/
 
 				if (
 					(orderData.Parts[1] === "MoveViaConvoy" &&
@@ -1332,7 +1332,6 @@ export default class DipMap extends React.Component {
 					);
 				}
 				this.debugCount("renderOrders/renderedOrder");
-				console.log(orderData);
 			});
 
 			//TODO: This is where they set the cross if the order is not okay. I've moved this away, but this is saved in case it's needed to double check
