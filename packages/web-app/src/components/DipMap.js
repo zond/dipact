@@ -993,6 +993,7 @@ export default class DipMap extends React.Component {
 				const superProv = orderData.Parts[0].split("/")[0];
 				//        console.log("Processing province: " + superProv);
 				var failOrder = false;
+				var fakedConvoyMove = false;
 
 				//Check the resolution is true
 				if (
@@ -1026,6 +1027,7 @@ export default class DipMap extends React.Component {
 					) {
 						//Not adjacent, so change to MoveViaConvoy
 						orderData.Parts[1] = "MoveViaConvoy";
+						fakedConvoyMove = true;
 					}
 				}
 				console.log(orderData.Parts);
@@ -1141,9 +1143,21 @@ export default class DipMap extends React.Component {
 
 							// Get the neighboring nodes of the current node
 							//let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
+							console.log("edges error");
+							console.log(edgesMap);
+							console.log(currentProvince);
 
+							let provinceParts = currentProvince.split("/");
+							var beforeSlash = currentProvince;
+							var afterSlash = "";
+							if (currentProvince.split("/").length === 2) {
+								beforeSlash = provinceParts[0];
+								afterSlash = provinceParts[1];
+							}
+							console.log("Before Slash:", beforeSlash); // Output: "wec"
+							console.log("After Slash:", afterSlash); // Output: "se"
 							let edges =
-								edgesMap[currentProvince].Subs[""].Edges;
+								edgesMap[beforeSlash].Subs[afterSlash].Edges;
 							const neighbors = Object.keys(edges);
 
 							// Loop through the neighboring nodes
