@@ -1384,11 +1384,15 @@ export function dippyMap(container) {
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
+			console.log("order");
+			console.log(order);
+			//calculate the supporting order to the order line
 			let centerPoint = that.getConnectingPointOnLine(
 				that.centerOf(order[0]),
 				that.centerOf(order[2]),
 				that.centerOf(order[3])
 			);
+
 			that.addArrow(
 				[order[0], centerPoint],
 				color,
@@ -1398,18 +1402,21 @@ export function dippyMap(container) {
 				"Convoy"
 			);
 
-			//TODO: add an arrow to the centerpoint.
-			let convoyFakeArrowColor = color + "00";
-			let convoyFakeArrowBorder = border + "4d";
+			//Add the 'real order' - only if the order is not resolved (because order length = 4).
+			console.log("length");
+			if (order.length === 4) {
+				let convoyFakeArrowColor = color + "00";
+				let convoyFakeArrowBorder = border + "4d";
 
-			that.addArrow(
-				[order[2], order[3]],
-				convoyFakeArrowColor,
-				convoyFakeArrowBorder,
-				opts,
-				false,
-				"Arrow"
-			);
+				that.addArrow(
+					[order[2], order[3]],
+					convoyFakeArrowColor,
+					convoyFakeArrowBorder,
+					opts,
+					false,
+					"Arrow"
+				);
+			}
 
 			that.addBox(order[0], 3, color, border, opts);
 
