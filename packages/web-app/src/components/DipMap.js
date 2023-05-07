@@ -1210,6 +1210,31 @@ export default class DipMap extends React.Component {
 				//TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
 				//TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
 
+				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
+				if (orderData.Parts[1] === "Move") {
+					console.log("adjusting Move to MoveViaConvoy");
+					var graphNodes =
+						this.state.variant.Properties.Graph.Nodes[
+							orderData.Parts[0]
+						];
+					console.log("graphnodes and orderdata");
+					console.log(graphNodes);
+					console.log("orderData");
+					console.log(orderData.Parts);
+					if (
+						!graphNodes?.Subs?.[""]?.Edges?.hasOwnProperty(
+							orderData.Parts[2]
+						)
+					) {
+						// Handle the case when the property doesn't exist
+						// Add your code here
+						console.log("not adjacent");
+						orderData.Parts[1] = "MoveViaConvoy";
+					} else {
+						console.log("adjacent");
+					}
+				}
+
 				//Check and add collisions (if two orders or supports are colliding)
 
 				var collides = false;
@@ -1281,34 +1306,6 @@ export default class DipMap extends React.Component {
 					}
 				}
 
-				/*
-
-				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
-				if (orderData.Parts[1] === "Move") {
-					var graphNodes =
-						this.state.variant.Properties.Graph.Nodes[
-							orderData.Parts[0]
-						];
-					console.log("graphnodes and orderdata");
-					console.log(graphNodes);
-					console.log(orderData.Parts[0]);
-					console.log(orderData.Parts[2]);
-					if (
-						!graphNodes?.Subs?.[""]?.Edges?.hasOwnProperty(
-							orderData.Parts[2]
-						)
-					) {
-						// Handle the case when the property doesn't exist
-						// Add your code here
-						console.log("not adjacent");
-						orderData.Parts[1] = "MoveViaConvoy";
-					} else {
-						console.log("adjacent");
-					}
-				}
-
-*/
-
 				if (
 					(orderData.Parts[1] === "MoveViaConvoy" &&
 						this.state.phase.Properties.Resolved === true) ||
@@ -1322,6 +1319,8 @@ export default class DipMap extends React.Component {
 						failOrder,
 						collides
 					);
+					console.log("adding Convoy order");
+					console.log(convoyOrder);
 				} else {
 					this.map.addOrder(
 						orderData.Parts,
@@ -1330,6 +1329,8 @@ export default class DipMap extends React.Component {
 						failOrder,
 						collides
 					);
+					console.log("adding normal order");
+					console.log(orderData.Parts);
 				}
 				this.debugCount("renderOrders/renderedOrder");
 			});

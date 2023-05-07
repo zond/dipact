@@ -1365,6 +1365,8 @@ export function dippyMap(container) {
 			that.addArrow([order[0], order[2]], color, border, opts, collides);
 		} else if (order[1] === "MoveViaConvoy") {
 			//if orderlength = 3, it's a pre-resoluted order; otherwise, the path will be added
+			console.log("building");
+			console.log(order);
 			that.addConvoyArrow(order, color, border, opts);
 			that.addBox(order[0], 3, color, border, opts);
 		} else if (order[1] === "Build") {
