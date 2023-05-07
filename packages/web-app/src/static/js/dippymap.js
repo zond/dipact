@@ -886,19 +886,15 @@ export function dippyMap(container) {
 		}
 		if (provs.length === 2) {
 			if (!isProvinceCheck.test(provs[0])) {
-				console.log("noprov");
 				start = new that.Poi(provs[0].x, provs[0].y);
 			} else {
 				start = that.centerOf(provs[0]);
-				console.log("isprov");
 			}
 
 			if (!isProvinceCheck.test(provs[1])) {
-				console.log("noprov");
 				end = new that.Poi(provs[1].x, provs[1].y);
 			} else {
 				end = that.centerOf(provs[1]);
-				console.log("isprov");
 			}
 
 			middle = start.add(end.sub(start).div(2.0));
@@ -1307,20 +1303,45 @@ export function dippyMap(container) {
 		newUnit.appendTo(ordersLayer); // Add the new unit to the 'orders' layer
 	};
 
-	that.getConnectingPointOnLine = function (X1, X2, X3) {
+	that.getConnectingPointOnLine = function (
+		convoyPoint,
+		startPoint,
+		endPoint
+	) {
 		// Calculate the midpoint of the line between X1 and X2
-		console.log("midpoint");
-		console.log(X1); //origin
-		console.log(X2); //start
-		console.log(X3); //end
-		var Xm = (X3.x + X2.x) / 2;
-		var Ym = (X3.y + X2.y) / 2;
-		console.log(Xm);
-		console.log(Ym);
-		var angle = Math.atan2(X1.y - Ym, X1.x - Xm);
+
+		var angle1 = Math.atan2(
+			endPoint.y - startPoint.y,
+			endPoint.x - startPoint.x
+		);
+
+		var middleX = (endPoint.x + startPoint.x) / 2;
+		var middleY = (endPoint.y + startPoint.y) / 2;
+
+		var angle2 = Math.atan2(
+			convoyPoint.y - middleY,
+			convoyPoint.x - middleX
+		);
+
+		var angleDifference = angle2 - angle1;
+
+		if (angleDifference > Math.PI) {
+			angleDifference -= 2 * Math.PI;
+		} else if (angleDifference <= -Math.PI) {
+			angleDifference += 2 * Math.PI;
+		}
+		var angleDegrees = angleDifference * (180 / Math.PI);
 		console.log("angle");
-		console.log(angle);
-		return { x: Xm, y: Ym };
+		console.log(Math.abs(angleDegrees));
+
+		var pointX =
+			endPoint.x +
+			(startPoint.x - endPoint.x) * (Math.abs(angleDegrees) / 180);
+		var pointY =
+			endPoint.y +
+			(startPoint.y - endPoint.y) * (Math.abs(angleDegrees) / 180);
+
+		return { x: pointX, y: pointY };
 	};
 
 	// Calculate the distance between two points
@@ -1363,18 +1384,11 @@ export function dippyMap(container) {
 			//TODO: Need to make this unit black - but how?
 			//			that.addBox(order[0], 4, color, opts);
 		} else if (order[1] === "Convoy") {
-			console.log("orderbefore");
-			console.log(order);
-
 			let centerPoint = that.getConnectingPointOnLine(
 				that.centerOf(order[0]),
 				that.centerOf(order[2]),
 				that.centerOf(order[3])
 			);
-
-			console.log("point ");
-			console.log(centerPoint);
-
 			that.addArrow(
 				[order[0], centerPoint],
 				color,
