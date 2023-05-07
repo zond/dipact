@@ -875,13 +875,11 @@ export function dippyMap(container) {
 		collides,
 		markerType
 	) {
-		console.log("provs");
-		console.log(provs);
 		var start = null;
 		var middle = null;
 		var end = null;
 
-		let isProvinceCheck = /^[a-zA-Z]{3}$/;
+		let isProvinceCheck = /^[a-zA-Z]{3}(\/[a-zA-Z]+)?$/;
 
 		//		return new that.Poi(x, y);
 		//TODO NOW: Change the x into a Poi.
@@ -923,7 +921,6 @@ export function dippyMap(container) {
 		//Adjust the arrowStart, middle and ArrowEnd in case of collision
 
 		var arrowStart = JSON.parse(JSON.stringify(start));
-
 		if (spacer !== 0) {
 			arrowStart.x = start.x + startVec.dir().mul(spacer).x;
 			arrowStart.y = start.y + startVec.dir().mul(spacer).y;
@@ -935,8 +932,6 @@ export function dippyMap(container) {
 			arrowEnd.x = end.x - endVec.dir().mul(spacer * 1.5).x;
 			arrowEnd.y = end.y - endVec.dir().mul(spacer * 1.5).y;
 		}
-		console.log(arrowStart);
-		console.log(arrowEnd);
 		if (collides && provs.length === 2) {
 			//Adjust for MOVE
 			arrowStart = that.adjustCollideArrow(
@@ -1363,7 +1358,6 @@ export function dippyMap(container) {
 			var border = "#FB6C6C";
 		}
 		var error = "#FB6C6C";
-		console.log(order);
 		//Create the order
 		if (order[1] === "Hold") {
 			that.addBox(order[0], 8, color, border, opts);
