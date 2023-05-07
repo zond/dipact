@@ -1011,6 +1011,24 @@ export default class DipMap extends React.Component {
 						failOrder = true;
 					}
 				}
+				console.log(orderData.Parts);
+				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
+				if (orderData.Parts[1] === "Move" && !failOrder) {
+					var graphNodes =
+						this.state.variant.Properties.Graph.Nodes[
+							orderData.Parts[0]
+						];
+
+					if (
+						!graphNodes?.Subs?.[""]?.Edges?.hasOwnProperty(
+							orderData.Parts[2]
+						)
+					) {
+						//Not adjacent, so change to MoveViaConvoy
+						orderData.Parts[1] = "MoveViaConvoy";
+					}
+				}
+				console.log(orderData.Parts);
 
 				// IF THIS UNIT IS A CONVOY AND WE'RE POST-RESOLUTION, DEFINE THE FASTEST ROUTE
 				if (
@@ -1019,6 +1037,7 @@ export default class DipMap extends React.Component {
 					(orderData.Parts[1] === "Convoy" &&
 						this.state.phase.Properties.Resolved === true)
 				) {
+					console.log("executing fastestpath");
 					if (orderData.Parts[1] === "MoveViaConvoy") {
 						//Create list of all participating convoys
 						var convoyParticipants = this.state.orders
@@ -1177,7 +1196,11 @@ export default class DipMap extends React.Component {
 						startProvince = orderData.Parts[2];
 						endProvince = orderData.Parts[3];
 					}
-
+					console.log("now really executing");
+					console.log(startProvince);
+					console.log(endProvince);
+					console.log(participatingProvinces);
+					console.log(connectedProvinces);
 					fastestPath = findPath(
 						startProvince,
 						endProvince,
@@ -1209,31 +1232,6 @@ export default class DipMap extends React.Component {
 
 				//TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
 				//TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
-
-				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
-				if (orderData.Parts[1] === "Move") {
-					console.log("adjusting Move to MoveViaConvoy");
-					var graphNodes =
-						this.state.variant.Properties.Graph.Nodes[
-							orderData.Parts[0]
-						];
-					console.log("graphnodes and orderdata");
-					console.log(graphNodes);
-					console.log("orderData");
-					console.log(orderData.Parts);
-					if (
-						!graphNodes?.Subs?.[""]?.Edges?.hasOwnProperty(
-							orderData.Parts[2]
-						)
-					) {
-						// Handle the case when the property doesn't exist
-						// Add your code here
-						console.log("not adjacent");
-						orderData.Parts[1] = "MoveViaConvoy";
-					} else {
-						console.log("adjacent");
-					}
-				}
 
 				//Check and add collisions (if two orders or supports are colliding)
 
@@ -1319,8 +1317,6 @@ export default class DipMap extends React.Component {
 						failOrder,
 						collides
 					);
-					console.log("adding Convoy order");
-					console.log(convoyOrder);
 				} else {
 					this.map.addOrder(
 						orderData.Parts,
@@ -1329,8 +1325,6 @@ export default class DipMap extends React.Component {
 						failOrder,
 						collides
 					);
-					console.log("adding normal order");
-					console.log(orderData.Parts);
 				}
 				this.debugCount("renderOrders/renderedOrder");
 			});
