@@ -1078,6 +1078,10 @@ export default class DipMap extends React.Component {
 						endProvince,
 						participatingProvinces
 					) {
+						console.log("we're finding a path");
+						console.log(startProvince);
+						console.log(endProvince);
+						console.log(participatingProvinces);
 						class PriorityQueue {
 							constructor() {
 								this.items = [];
@@ -1126,7 +1130,8 @@ export default class DipMap extends React.Component {
 						while (!queue.isEmpty()) {
 							// Get the node with the smallest distance from the start node
 							let currentProvince = queue.dequeue();
-
+							console.log("currentProvince");
+							console.log(currentProvince);
 							// If we have found the end node, construct and return the optimal path
 							if (currentProvince === endProvince) {
 								let path = [];
@@ -1145,17 +1150,69 @@ export default class DipMap extends React.Component {
 							let provinceParts = currentProvince.split("/");
 							var beforeSlash = currentProvince;
 							var afterSlash = "";
+
 							if (currentProvince.split("/").length === 2) {
 								beforeSlash = provinceParts[0];
 								afterSlash = provinceParts[1];
 							}
 
-							let edges =
-								edgesMap[beforeSlash].Subs[afterSlash].Edges;
-							const neighbors = Object.keys(edges);
+							//DEBUG; we need to get the edges if it's a coastal province and we're not on any of them.
+							var edges = [];
 
+							if (currentProvince.split("/").length === 2) {
+								edges =
+									edgesMap[beforeSlash].Subs[afterSlash]
+										.Edges;
+							} else {
+								let afterSlashValues = Object.keys(
+									edgesMap[beforeSlash].Subs
+								);
+
+								for (
+									let i = 0;
+									i < afterSlashValues.length;
+									i++
+								) {
+									let afterSlashValue = afterSlashValues[i];
+									edges.push(
+										edgesMap[beforeSlash].Subs[
+											afterSlashValue
+										].Edges
+									);
+								}
+								edges = edges.reduce((acc, obj) => {
+									Object.keys(obj).forEach((key) => {
+										if (!acc.includes(key)) {
+											acc.push(key);
+										}
+									});
+									return acc;
+								}, []);
+							}
+
+							console.log(edges);
+							console.log("edgaesabove" + afterSlash);
+							var neighbors = "";
+							if (
+								typeof edges[0] === "number" &&
+								!isNaN(edges[0])
+							) {
+								neighbors = Object.keys(edges);
+							} else {
+								neighbors = edges;
+							}
+							console.log("edgesMap");
+							console.log(edgesMap);
+							console.log("neighbors");
+							console.log(neighbors);
+							console.log("edges");
+							console.log(edges);
 							// Loop through the neighboring nodes
 							for (let neighbor of neighbors) {
+								console.log("neighboer");
+								console.log(neighbor);
+								console.log("neighbors");
+								console.log(neighbors);
 								// Check if the neighbor is a participating province
 								if (
 									!participatingProvinces.includes(neighbor)
@@ -1204,12 +1261,19 @@ export default class DipMap extends React.Component {
 						startProvince = orderData.Parts[2];
 						endProvince = orderData.Parts[3];
 					}
+					console.log("we're executing fastestpath");
+					console.log(startProvince);
+					console.log(endProvince);
+					console.log(participatingProvinces);
+					console.log(connectedProvinces);
 					fastestPath = findPath(
 						startProvince,
 						endProvince,
 						participatingProvinces,
 						connectedProvinces
 					);
+					console.log("we're done fastestpath");
+					console.log(fastestPath);
 				}
 
 				var convoyOrder = [];
@@ -1228,6 +1292,8 @@ export default class DipMap extends React.Component {
 					orderData.Parts[1] === "Convoy" &&
 					this.state.phase.Properties.Resolved === true
 				) {
+					console.log("fastestPath");
+					console.log(fastestPath);
 					convoyOrder.push(orderData.Parts[0]);
 					convoyOrder.push(orderData.Parts[1]);
 					fastestPath.forEach((element) => convoyOrder.push(element));
