@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 import { Input as RneInput } from "@rneui/base";
 
 import Text from "../Text";

@@ -11,13 +11,15 @@ import { createOrderReducer } from "./createOrder";
 import { feedbackReducer } from "./feedback";
 import { phaseReducer } from "./phase";
 
-const reducer = combineReducers({
+export const reducers = {
   auth: authReducer,
   createOrder: createOrderReducer,
   feedback: feedbackReducer,
   phase: phaseReducer,
   service: service.reducer,
-});
+};
+
+const reducer = combineReducers(reducers);
 
 export const store = configureStore({
   reducer: reducer,

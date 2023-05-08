@@ -1,6 +1,6 @@
 export * from "./auth";
 export * from "./feedback";
-export * from "./middleware";
+export { default as middleware } from "./middleware";
 export * from "./phase";
 export * from "./service";
 export * from "./store";

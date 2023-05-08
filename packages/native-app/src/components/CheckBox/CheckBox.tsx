@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 import { CheckBox as RneCheckBox } from "@rneui/base";
 
 type CheckBoxProps = {
