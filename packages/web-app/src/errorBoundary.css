@@ -1,0 +1,47 @@
+.error-container {
+  background-color: rgb(255, 244, 229);
+  width: calc(100% - 100px);
+  height: 100%;
+  padding: 50px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.error-title {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  color: #ff0000;
+}
+
+.error-introduction {
+  font-family: Arial, sans-serif;
+}
+
+.material-button {
+  font-family: Arial, sans-serif;
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #281a1a;
+  color: rgb(255, 244, 229);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.material-button:hover {
+  background-color: #1976d2;
+}
+
+.material-button:active {
+  background-color: #1565c0;
+}
+.error-message {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
