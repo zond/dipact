@@ -6,13 +6,11 @@ import {
 
 import { service } from "./service";
 import middleware from "./middleware";
-import { authReducer } from "./auth";
 import { createOrderReducer } from "./createOrder";
 import { feedbackReducer } from "./feedback";
 import { phaseReducer } from "./phase";
 
 export const reducers = {
-  auth: authReducer,
   createOrder: createOrderReducer,
   feedback: feedbackReducer,
   phase: phaseReducer,

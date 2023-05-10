@@ -1,16 +1,11 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Icon } from "@rneui/base";
-import {
-  authSelectors,
-  translateKeys as tk,
-  useGameDetailView,
-} from "../../../common";
+import { translateKeys as tk, useGameDetailView } from "../../../common";
 
 import BrowseGames from "../BrowseGames";
 import Chat from "../Chat";
@@ -219,7 +214,8 @@ const GameDetail = () => {
 
 const Router = () => {
   const theme = useTheme();
-  const loggedIn = useSelector(authSelectors.selectIsLoggedIn);
+  // const loggedIn = useSelector(authSelectors.selectIsLoggedIn);
+  const loggedIn = false;
   const screenOptions = useDrawerNavigationOptions();
   const navigationTheme = useNavigationTheme();
 

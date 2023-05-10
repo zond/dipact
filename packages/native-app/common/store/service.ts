@@ -7,7 +7,6 @@ import {
 } from "../adapters";
 import { createGameAdapter } from "../adapters/createGame";
 import { userAdapter } from "../adapters/user";
-import { authSelectors } from "./auth";
 
 import {
   Headers,
@@ -73,7 +72,8 @@ export const service = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: serviceURL,
     prepareHeaders: (headers, { getState }) => {
-      const token = authSelectors.selectToken(getState() as any);
+      // const token = authSelectors.selectToken(getState() as any);
+      const token = "";
       if (token) {
         headers.set(Headers.Authorization, `Bearer ${token}`);
       }
