@@ -1,7 +1,9 @@
-import { service as service } from "..";
+import { useContext } from "react";
+import { DiplicityApiContext } from "../store";
 
 const useGameDetailView = (gameId: string) => {
-  const [joinGame, joinGameMutation] = service.useJoinGameMutation();
+  const api = useContext(DiplicityApiContext);
+  const [joinGame, joinGameMutation] = api.useJoinGameMutation();
   const actions = {
     joinGame: {
       call: () => joinGame({ gameId, NationPreferences: "", GameAlias: "" }),

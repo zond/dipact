@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import {
   Game,
   Member,
-  Phase,
   PhaseState,
   User,
-  Variant,
   NationStatusDisplay,
   DiplicityError,
-  Corroboration,
 } from "../store/types";
 
-import { service, selectors } from "../store";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { getMember, getNation, mergeErrors } from "../utils/general";
+import { getMember, mergeErrors } from "../utils/general";
+import { DiplicityApiContext, selectPhase } from "../store";
 
 export type PhasesDisplay = [number, string][];
 
@@ -33,16 +29,6 @@ interface IUseOrders {
   userIsMember: boolean;
   phaseStateIsLoading: boolean;
 }
-
-const {
-  useGetGameQuery,
-  useGetRootQuery,
-  useLazyListPhaseStatesQuery,
-  useListPhasesQuery,
-  useListVariantsQuery,
-  useUpdatePhaseStateMutation,
-  useLazyListOrdersQuery,
-} = service;
 
 const getNumBuilds = (phaseState: PhaseState, member: Member | undefined) => {
   const isMember = phaseState.Nation === member?.Nation;
@@ -118,14 +104,15 @@ const getPhaseState = (
 // };
 
 const useOrders = (gameId: string): IUseOrders => {
+  const api = useContext(DiplicityApiContext);
   const [listPhaseStatesTrigger, listPhaseStatesQuery] =
-    useLazyListPhaseStatesQuery();
-  const [listOrdersTrigger, listOrdersQuery] = useLazyListOrdersQuery();
+    api.useLazyListPhaseStatesQuery();
+  const [listOrdersTrigger, listOrdersQuery] = api.useLazyListOrdersQuery();
   const combinedQuery = {
-    variants: useListVariantsQuery(undefined),
-    phases: useListPhasesQuery(gameId),
-    user: useGetRootQuery(undefined),
-    game: useGetGameQuery(gameId),
+    variants: api.useListVariantsQuery(undefined),
+    phases: api.useListPhasesQuery(gameId),
+    user: api.useGetRootQuery(undefined),
+    game: api.useGetGameQuery(gameId),
     phaseStates: listPhaseStatesQuery,
     orders: listOrdersQuery,
   };
@@ -164,18 +151,18 @@ const useOrders = (gameId: string): IUseOrders => {
       )
     : null;
   const [updatePhaseState, { isLoading: phaseStateIsLoading }] =
-    useUpdatePhaseStateMutation();
+    api.useUpdatePhaseStateMutation();
   // TODO use selector
-  const selectedPhase = useSelector(selectors.selectPhase) || phases?.length;
+  const selectedPhase = useSelector(selectPhase) || phases?.length;
 
   const [nationStatuses] = useState<NationStatusDisplay[]>([]);
-  const variant = useSelector((state: RootState) =>
-    selectors.selectVariant(state, game?.Variant || "")
-  );
+  const variant = api
+    .useListVariantsQuery(undefined)
+    .data?.find((variant) => variant.name === game?.variant);
 
   useEffect(() => {
     if (phases?.length && selectedPhase) {
-      const phaseId = phases[selectedPhase - 1].PhaseOrdinal.toString();
+      const phaseId = phases[selectedPhase - 1].id.toString();
       listPhaseStatesTrigger({ gameId, phaseId });
       listOrdersTrigger({ gameId, phaseId });
     }
@@ -261,8 +248,7 @@ const useOrders = (gameId: string): IUseOrders => {
   const phaseState = getPhaseState(game, user, phaseStates || []);
   const ordersConfirmed = phaseState?.ReadyToResolve || false;
   const noOrders = phaseState?.NoOrders || false;
-  const isCurrentPhase =
-    phaseState?.PhaseOrdinal === currentPhase?.PhaseOrdinal;
+  const isCurrentPhase = phaseState?.PhaseOrdinal === currentPhase?.id;
 
   return {
     isLoading,

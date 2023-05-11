@@ -38,7 +38,6 @@ const defaultNumAvatarsToDisplay = 7;
 
 const GameCard = ({
   game,
-  user,
   variant,
   showActions = false,
   numAvatarsToDisplay = defaultNumAvatarsToDisplay,

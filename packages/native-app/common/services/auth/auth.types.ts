@@ -1,11 +1,14 @@
 import { ITelemetryService } from "../telemetry";
 
-interface IAuthServiceOptions {
+export interface IAuthServiceOptions {
   telemetryService: ITelemetryService;
 }
 
-interface IAuthService {
-  getIdToken: () => Promise<string>;
+export interface IAuthService {
+  getTokenFromStorage: () => Promise<string | null>;
+  getServerAuthCode: () => Promise<string>;
+  getCallbackUrl: (serverAuthCode: string) => Promise<string>;
+  getTokenFromRedirectUrl: (redirectUrl: string) => string;
+  removeTokenFromStorage: () => Promise<void>;
+  setTokenInStorage: (token: string) => Promise<void>;
 }
-
-export type { IAuthService, IAuthServiceOptions };

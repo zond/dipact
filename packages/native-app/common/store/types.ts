@@ -207,7 +207,7 @@ export type TransformedUserStats = {
   quickness: number | undefined;
   rating: number | undefined;
   reliability: number;
-  reliabilityLabel: "commited" | "uncommited" | "disengaged";
+  reliabilityLabel: ReliabilityLabel;
   sigma: number | undefined; // see https://trueskill.org/
 };
 
@@ -290,11 +290,6 @@ export type ForumMail = {
 export type UserRatingHistogram = {
   FirstBucketRating: number;
   Counts: number[];
-};
-
-export type Auth = {
-  token?: string;
-  isLoggedIn: boolean;
 };
 
 export enum Headers {
@@ -598,19 +593,6 @@ export type Channel = {
     NMessages: number;
   };
 };
-
-export enum Severity {
-  Error = "error",
-  Warning = "warning",
-  Info = "info",
-  Success = "success",
-}
-
-export interface Feedback {
-  id: number;
-  severity: Severity;
-  message: string;
-}
 
 export interface MutationStatus {
   isLoading: boolean;

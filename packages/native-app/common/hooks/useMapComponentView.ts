@@ -1,5 +1,6 @@
-import { service as service } from "../store";
+import { useContext } from "react";
 import { combineQueries, skipToken } from "../utils";
+import { DiplicityApiContext } from "../store/diplicity/diplicity.provider";
 
 const getVariantUnitOption = (
   variant: string | undefined,
@@ -11,19 +12,20 @@ const getVariantUnitOption = (
 };
 
 const useMapComponentView = (gameId: string) => {
-  const getGameQuery = service.useGetGameQuery(gameId);
-  const listPhasesQuery = service.useListPhasesQuery(gameId);
+  const api = useContext(DiplicityApiContext);
+  const getGameQuery = api.useGetGameQuery(gameId);
+  const listPhasesQuery = api.useListPhasesQuery(gameId);
   const variantName = getGameQuery.data?.variant;
-  const listVariantsQuery = service.useListVariantsQuery(undefined);
+  const listVariantsQuery = api.useListVariantsQuery(undefined);
   const variantArmy = getVariantUnitOption(variantName, "Army");
   const variantFleet = getVariantUnitOption(variantName, "Fleet");
-  const getVariantSvgQuery = service.useGetVariantSVGQuery(
+  const getVariantSvgQuery = api.useGetVariantSVGQuery(
     variantName ?? skipToken
   );
-  const getVariantArmySvgQuery = service.useGetVariantUnitSVGQuery(
+  const getVariantArmySvgQuery = api.useGetVariantUnitSVGQuery(
     variantArmy || skipToken
   );
-  const getVariantFleetSvgQuery = service.useGetVariantUnitSVGQuery(
+  const getVariantFleetSvgQuery = api.useGetVariantUnitSVGQuery(
     variantFleet || skipToken
   );
   return {

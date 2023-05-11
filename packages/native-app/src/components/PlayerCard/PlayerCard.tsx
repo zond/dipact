@@ -1,36 +1,33 @@
 import React from "react";
-import { StyleProp, View, ViewProps, ViewStyle } from "react-native";
+import { View } from "react-native";
 import { Avatar } from "@rneui/base";
 
 import { MoreButton } from "../Button";
 import Text from "../Text";
 import { Stack } from "../Stack";
 import Chip from "../Chip";
-// import GoodBadSlider from "../GoodBadSlider";
-import { TransformedUserStats } from "../../../common";
 import { useStyles } from "./PlayerCard.styles";
+import { PlayerCardProps } from "./PlayerCard.types";
 
-interface PlayerCardProps extends ViewProps {
-  style?: StyleProp<ViewStyle>;
-  variant: "compact" | "expanded";
-  userStats: TransformedUserStats;
-}
+const commitedMap = {
+  ["commited"]: ["Committed", "success"],
+  ["uncommited"]: ["Uncommitted", "warning"],
+  ["disengaged"]: ["Disengaged", "error"],
+} as const;
 
 const PlayerCard = ({
+  src,
+  numAbandonedGames,
+  numDrawnGames,
+  numJoinedGames,
+  numSoloWinGames,
+  onPressMore,
+  reliabilityLabel,
   style,
+  username,
   variant,
-  userStats,
   ...rest
 }: PlayerCardProps) => {
-  const { src, username, ...stats } = userStats;
-  const {
-    reliabilityLabel,
-    // reliabilityRating,
-    numAbandonedGames,
-    numDrawnGames,
-    numJoinedGames,
-    numSoloWinGames,
-  } = stats;
   const styles = useStyles();
   const gameStatsTable = [
     { label: "Played", value: numJoinedGames },
@@ -38,20 +35,9 @@ const PlayerCard = ({
     { label: "Drawn", value: numDrawnGames },
     { label: "Abandoned", value: numAbandonedGames },
   ] as const;
-  const commitedMap = {
-    ["commited"]: ["Committed", "success"],
-    ["uncommited"]: ["Uncommitted", "warning"],
-    ["disengaged"]: ["Disengaged", "error"],
-  } as const;
-  console.log("Reliability: ", stats.reliability);
-  console.log("Reliability label: ", reliabilityLabel);
   const [commitedLabel, commitedVariant] = commitedMap[reliabilityLabel];
-  const onPressMore = () => {
-    alert("More button pressed");
-  };
   return (
     <Stack orientation="vertical" style={[style, styles.root]} {...rest}>
-      const [commitedLabel, commitedVariant] =
       <Stack fillWidth padding={1} gap={1} align="flex-start">
         <Stack fillHeight>
           <View>
@@ -77,18 +63,6 @@ const PlayerCard = ({
           )}
         </Stack>
       </Stack>
-      {/* {Boolean(variant === "expanded") && (
-        <Stack fillWidth padding={1} style={styles.section}>
-          <Stack gap={1}>
-            <Stack grow flex={1}>
-              <Text>Reliability</Text>
-            </Stack>
-            <Stack grow flex={4}>
-              <GoodBadSlider value={reliabilityRating} />
-            </Stack>
-          </Stack>
-        </Stack>
-      )} */}
       {Boolean(variant === "expanded") && (
         <Stack padding={1} style={styles.section} fillWidth>
           {gameStatsTable.map(({ label, value }, index) => (

@@ -1,22 +1,18 @@
-import { usePlayerCardView } from "../../../common";
-import React from "react";
+import React, { useContext } from "react";
 import PlayerCard from "./PlayerCard";
 import PlayerCardSkeleton from "./PlayerCard.skeleton";
 import QueryContainer from "../QueryContainer";
-
-interface PlayerCardContainerProps
-  extends Omit<Parameters<typeof PlayerCard>[0], "userStats"> {
-  id: string | undefined;
-}
+import { DiplicityApiContext } from "../../../common";
+import { PlayerCardContainerProps } from "./PlayerCard.types";
 
 const PlayerCardContainer = ({ id, ...rest }: PlayerCardContainerProps) => {
-  const { query } = usePlayerCardView(id);
+  const query = useContext(DiplicityApiContext).useGetUserStatsQuery(id);
 
   return (
     <QueryContainer
       query={query}
       renderLoading={() => <PlayerCardSkeleton {...rest} />}
-      render={(data) => <PlayerCard userStats={data} {...rest} />}
+      render={(data) => <PlayerCard {...data} {...rest} />}
     />
   );
 };

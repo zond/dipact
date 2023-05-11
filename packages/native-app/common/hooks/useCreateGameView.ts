@@ -1,13 +1,15 @@
-import { service as service } from "../store";
+import { useContext } from "react";
 import { combineQueries, skipToken } from "../utils";
+import { DiplicityApiContext } from "../store";
 
 const useCreateGameView = () => {
-  const getUserQuery = service.useGetRootQuery(undefined);
-  const listVariantsQuery = service.useListVariantsQuery(undefined);
-  const getUserStatsQuery = service.useGetUserStatsQuery(
+  const api = useContext(DiplicityApiContext);
+  const getUserQuery = api.useGetRootQuery(undefined);
+  const listVariantsQuery = api.useListVariantsQuery(undefined);
+  const getUserStatsQuery = api.useGetUserStatsQuery(
     getUserQuery.data?.id ?? skipToken
   );
-  const createGameMutation = service.useCreateGameMutation();
+  const createGameMutation = api.useCreateGameMutation();
 
   return {
     query: combineQueries({

@@ -5,7 +5,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Icon } from "@rneui/base";
-import { translateKeys as tk, useGameDetailView } from "../../../common";
+import {
+  selectAuth,
+  translateKeys as tk,
+  useGameDetailView,
+  useTelemetry,
+} from "../../../common";
 
 import BrowseGames from "../BrowseGames";
 import Chat from "../Chat";
@@ -21,6 +26,7 @@ import { useParams } from "../../hooks/useParams";
 import { useTheme } from "../../hooks/useTheme";
 import { MoreButton } from "../../components/Button";
 import FAB from "../../components/Fab";
+import { useSelector } from "react-redux";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -214,10 +220,12 @@ const GameDetail = () => {
 
 const Router = () => {
   const theme = useTheme();
-  // const loggedIn = useSelector(authSelectors.selectIsLoggedIn);
-  const loggedIn = false;
+  const telemetryService = useTelemetry();
+  const { loggedIn } = useSelector(selectAuth);
   const screenOptions = useDrawerNavigationOptions();
   const navigationTheme = useNavigationTheme();
+
+  telemetryService.logInfo(`Rendering Router with loggedIn=${loggedIn}`);
 
   return (
     <>

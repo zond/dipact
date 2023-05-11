@@ -1,9 +1,11 @@
-import { service as service, ListGameFilters } from "..";
+import { useContext } from "react";
+import { DiplicityApiContext, ListGameFilters } from "..";
 import { combineQueries } from "../utils/query";
 
 const useGameListView = (filters: ListGameFilters) => {
-  const listGamesQuery = service.useListGamesQuery(filters);
-  const getRootQuery = service.useGetRootQuery(undefined);
+  const api = useContext(DiplicityApiContext);
+  const listGamesQuery = api.useListGamesQuery(filters);
+  const getRootQuery = api.useGetRootQuery(undefined);
   return combineQueries({
     games: listGamesQuery,
     user: getRootQuery,

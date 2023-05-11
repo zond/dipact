@@ -1,9 +1,9 @@
 import {
   AnyAction,
-  isRejected,
   isFulfilled,
   isPending,
   Middleware,
+  isRejectedWithValue,
 } from "@reduxjs/toolkit";
 import { ITelemetryService } from "../../services";
 
@@ -16,18 +16,22 @@ const tryGetEndpointName = (action: AnyAction) => {
 
 const createTelemetryMiddleware = (telemetryService: ITelemetryService) => {
   return (() => (next) => (action: AnyAction) => {
-    if (isRejected(action)) {
+    if (isRejectedWithValue(action)) {
       telemetryService.logInfo(
         `Action ${tryGetEndpointName(
           action
-        )} rejected with error ${JSON.stringify(action.error)}`
+        )} rejected with payload: ${JSON.stringify(
+          action.payload
+        )}; error: ${JSON.stringify(action.error)}`
       );
     } else if (isFulfilled(action)) {
       telemetryService.logInfo(
         `Action ${tryGetEndpointName(action)} fulfilled`
       );
     } else if (isPending(action)) {
-      telemetryService.logInfo(`Action ${tryGetEndpointName(action)} pending`);
+      telemetryService.logInfo(
+        `Action ${tryGetEndpointName(action) || action.type} pending`
+      );
     } else {
       telemetryService.logInfo(`Action ${action.type}`);
     }

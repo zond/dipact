@@ -8,6 +8,5 @@ export { default as useMapComponentView } from "./useMapComponentView";
 export { default as useOrders } from "./useOrders";
 export { default as usePageLoad, useLazyPageLoad } from "./usePageLoad";
 export { default as usePhaseSelector } from "./usePhaseSelector";
-export { default as usePlayerCardView } from "./usePlayerCardView";
 export { default as usePlayerInfoView } from "./usePlayerInfoView";
 export { default as useVariantInfoView } from "./useVariantInfoView";

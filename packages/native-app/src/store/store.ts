@@ -1,55 +1,57 @@
-import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
 import {
-  createAuthApi,
-  createOrderReducer,
+  CreateStoreOptions,
+  createAuthMiddleware,
+  createAuthSlice,
+  createDiplicityApi,
+  createFeedbackSlice,
+  createLoginThunk,
+  createLogoutThunk,
+  createReducer,
   createTelemetryMiddleware,
-  feedbackReducer,
-  phaseReducer,
-  service,
 } from "../../common";
-import { CreateStoreInnerOptions, CreateStoreOptions } from "./store.types";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
-export const createStoreInner = ({
-  authApi,
-  telemetryMiddleware,
-}: CreateStoreInnerOptions) =>
-  configureStore({
-    reducer: combineReducers({
-      createOrder: createOrderReducer,
-      feedback: feedbackReducer,
-      phase: phaseReducer,
-      service: service.reducer,
-      [authApi.reducerPath]: authApi.reducer,
-    }),
-    middleware: (gdm) => [
-      ...gdm({ serializableCheck: false })
-        .concat(service.middleware)
-        .concat([telemetryMiddleware]),
-    ],
-  });
-
-export const createStore = ({
+export const createStore = async ({
   authService,
   telemetryService,
 }: CreateStoreOptions) => {
-  const authApi = createAuthApi(authService);
+  const loginThunk = createLoginThunk({ authService });
+  const logoutThunk = createLogoutThunk({ authService });
+  const diplicityApi = createDiplicityApi({ authService, telemetryService });
+  const authSlice = await createAuthSlice({
+    diplicityApi,
+    telemetryService,
+    authService,
+    loginThunk,
+    logoutThunk,
+  });
+  const feedbackSlice = createFeedbackSlice({ diplicityApi });
   const store = configureStore({
-    reducer: combineReducers({
-      createOrder: createOrderReducer,
-      feedback: feedbackReducer,
-      phase: phaseReducer,
-      service: service.reducer,
-      [authApi.reducerPath]: authApi.reducer,
+    reducer: createReducer({
+      diplicityApi,
+      authSlice,
+      feedbackSlice,
     }),
     middleware: (gdm) => [
       ...gdm({ serializableCheck: false })
-        .concat(service.middleware)
-        .concat(authApi.middleware)
-        .concat([createTelemetryMiddleware(telemetryService)]),
+        .concat(diplicityApi.middleware)
+        .concat([
+          createTelemetryMiddleware(telemetryService),
+          createAuthMiddleware({
+            authService,
+            authSlice,
+            diplicityApi,
+            telemetryService,
+            loginThunk,
+            logoutThunk,
+          }),
+        ]),
     ],
   });
   setupListeners(store.dispatch);
-  return [store, { authApi }] as [typeof store, { authApi: typeof authApi }];
+  return [store, { diplicityApi, authSlice }] as [
+    typeof store,
+    { diplicityApi: typeof diplicityApi; authSlice: typeof authSlice }
+  ];
 };

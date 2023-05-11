@@ -1,7 +1,10 @@
-import { service as service } from "..";
+import { useContext } from "react";
+
+import { DiplicityApiContext } from "../store";
 
 const usePlayerInfoView = (gameId: string) => {
-  const getGameQuery = service.useGetGameQuery(gameId);
+  const api = useContext(DiplicityApiContext);
+  const getGameQuery = api.useGetGameQuery(gameId);
   return {
     query: getGameQuery,
   };

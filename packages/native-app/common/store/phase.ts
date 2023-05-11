@@ -1,4 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 type Phase = null | number;
 
@@ -19,9 +20,4 @@ const phaseSlice = createSlice({
 
 export const phaseActions = phaseSlice.actions;
 export const phaseReducer = phaseSlice.reducer;
-export const phaseSelectors = {
-  selectphase: createSelector(
-    (state: { phase: Phase }) => state.phase,
-    (phase) => phase
-  ),
-};
+export const selectPhase = (state: RootState) => state.phase;

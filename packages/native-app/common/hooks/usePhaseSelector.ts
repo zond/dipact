@@ -1,10 +1,9 @@
+import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { DiplicityError, Phase } from "../store/types";
 import { getPhaseName } from "../utils/general";
-import { service, phaseActions, selectors } from "../store";
-
-const { useListPhasesQuery } = service;
+import { DiplicityApiContext, phaseActions, selectPhase } from "../store";
 
 type PhasesDisplay = [number, string][];
 
@@ -25,13 +24,13 @@ const getMaxPhaseOrdinal = (phases: Phase[] | undefined) =>
   ).PhaseOrdinal;
 
 const usePhaseSelector = (gameId: string): IUsePhaseSelector => {
-  const { data, isLoading, isError, error } = useListPhasesQuery(gameId);
+  const api = useContext(DiplicityApiContext);
+  const { data, isLoading, isError, error } = api.useListPhasesQuery(gameId);
 
   const dispatch = useDispatch();
 
   // TODO this should be pushed up into selectors
-  const selectedPhase =
-    useSelector(selectors.selectPhase) || getMaxPhaseOrdinal(data);
+  const selectedPhase = useSelector(selectPhase) || getMaxPhaseOrdinal(data);
 
   const phases: PhasesDisplay | undefined = data?.map((phase) => [
     phase.PhaseOrdinal,

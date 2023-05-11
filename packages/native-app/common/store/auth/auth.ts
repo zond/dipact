@@ -1,37 +1,90 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  AsyncThunkAction,
+  Middleware,
+  ThunkDispatch,
+  createAsyncThunk,
+  createSlice,
+  isRejected,
+} from "@reduxjs/toolkit";
+import {
+  Auth,
+  CreateAuthMiddlewareOptions,
+  CreateAuthSliceOptions,
+  CreateLoginThunkOptions,
+  CreateLogoutThunkOptions,
+} from "./auth.types";
+import { RootState } from "../store";
+import { IAuthService } from "../../services";
 
-import { IAuthService } from "../../services/auth";
-import { Headers } from "../types";
+const getInitialSate = async (authService: IAuthService): Promise<Auth> => {
+  const token = await authService.getTokenFromStorage();
+  return {
+    token,
+    loggedIn: !!token,
+  };
+};
 
-export const serviceUrl = "https://diplicity-engine.appspot.com/";
-
-const baseQuery = fetchBaseQuery({
-  baseUrl: serviceUrl,
-  prepareHeaders: (headers) => {
-    headers.set(Headers.XDiplicityAPILevel, "8");
-    headers.set(Headers.XDiplicityClientName, "dipact@"); // TODO
-    headers.set(Headers.Accept, "application/json");
-    headers.set(Headers.ContentType, "application/json");
-    return headers;
-  },
-  mode: "cors",
-});
-
-const createAuthApi = (authService: IAuthService) =>
-  createApi({
-    reducerPath: "auth",
-    baseQuery,
-    endpoints: (builder) => ({
-      login: builder.query({
-        queryFn: async (_, __, ___, originalBaseQuery) => {
-          const idToken = await authService.getIdToken();
-          const encodedIdToken = encodeURIComponent(idToken);
-          const encodedState = encodeURIComponent("https://android-diplicity");
-          const url = `${serviceUrl}Auth/OAuth2Callback?code=${encodedIdToken}&approve-redirect=true&state=${encodedState}`;
-          return await originalBaseQuery(url);
-        },
-      }),
-    }),
+export const createLoginThunk = ({ authService }: CreateLoginThunkOptions) =>
+  createAsyncThunk("auth/login", async (token: string) => {
+    await authService.setTokenInStorage(token);
+    return token;
   });
 
-export { createAuthApi };
+export const createLogoutThunk = ({ authService }: CreateLogoutThunkOptions) =>
+  createAsyncThunk("auth/logout", async () => {
+    await authService.removeTokenFromStorage();
+  });
+
+export const createAuthSlice = async ({
+  authService,
+  diplicityApi,
+  telemetryService,
+  loginThunk,
+  logoutThunk,
+}: CreateAuthSliceOptions) =>
+  createSlice({
+    name: "auth",
+    initialState: (await getInitialSate(authService)) as Auth,
+    reducers: {},
+    extraReducers: (builder) => {
+      builder.addMatcher(loginThunk.fulfilled.match, (state, { payload }) => {
+        return { ...state, token: payload, loggedIn: true };
+      });
+      builder.addMatcher(logoutThunk.fulfilled.match, (state) => {
+        return { ...state, token: null, loggedIn: false };
+      });
+    },
+  });
+
+export const createAuthMiddleware = ({
+  authService,
+  authSlice,
+  diplicityApi,
+  telemetryService,
+  loginThunk,
+  logoutThunk,
+}: CreateAuthMiddlewareOptions): Middleware<
+  AsyncThunkAction<any, any, any>,
+  RootState,
+  ThunkDispatch<RootState, any, any>
+> => {
+  return ({ dispatch, getState }) =>
+    (next) =>
+    (action) => {
+      if (isRejected(action)) {
+        const { loggedIn } = selectAuth(getState());
+        if (action.payload.status === 401 && loggedIn) {
+          telemetryService.logInfo(
+            "Unauthorized while logged in - logging out"
+          );
+          dispatch(logoutThunk());
+        }
+      }
+      if (diplicityApi.endpoints.getToken.matchFulfilled(action)) {
+        dispatch(loginThunk(action.payload));
+      }
+      next(action);
+    };
+};
+
+export const selectAuth = (state: RootState) => state.auth;
