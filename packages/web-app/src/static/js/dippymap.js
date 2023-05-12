@@ -1293,6 +1293,7 @@ export function dippyMap(container) {
 		$(el).find("#orders").empty();
 	};
 	that.changeUnitToBlack = function (sourceId, color) {
+		sourceId = sourceId.replace(/\/.*$/, "");
 		var oldUnit = $("#" + sourceId);
 		var newUnit = oldUnit.clone();
 		newUnit.attr("id", sourceId + "black"); // Assign a new unique ID to the new unit
