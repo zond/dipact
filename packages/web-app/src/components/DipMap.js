@@ -57,7 +57,6 @@ export default class DipMap extends React.Component {
 			this.props.parentCB(this);
 		}
 	}
-
 	currentNation() {
 		if (this.state.laboratoryMode) {
 			return this.state.labPlayAs;
@@ -750,6 +749,7 @@ export default class DipMap extends React.Component {
 			}
 
 			//Don't do any map colouring if feature is turned off.
+			console.log(JSON.stringify(localStorage.getItem("colourNonSCs")));
 
 			if (
 				JSON.parse(localStorage.getItem("colourNonSCs")) === true ||
@@ -958,12 +958,9 @@ export default class DipMap extends React.Component {
 			if (this.state.phase.Properties.Orders) {
 				for (let nat in this.state.phase.Properties.Orders) {
 					const orders = this.state.phase.Properties.Orders[nat];
-
 					for (let prov in orders) {
 						const superProv = prov.split("/")[0];
 						const order = orders[prov];
-
-						//TODO what is this? Also needs to have resolution added
 						this.map.addOrder(
 							[prov] + order,
 							helpers.natCol(nat, this.state.variant),
@@ -974,409 +971,27 @@ export default class DipMap extends React.Component {
 				}
 			}
 
-			//Here we resort the orders so Move is drawn last (on top)
-			const valueMap = {
-				Move: 5,
-				Hold: 4,
-				Convoy: 3,
-				MoveViaConvoy: 2,
-				Support: 1,
-			};
-
-			if (this.state.orders != null || this.state.orders != undefined) {
-				this.state.orders.sort(
-					(a, b) => valueMap[a.Parts[1]] - valueMap[b.Parts[1]]
-				);
-			}
-
 			(this.state.orders || []).forEach((orderData) => {
 				const superProv = orderData.Parts[0].split("/")[0];
-				//        console.log("Processing province: " + superProv);
-				var failOrder = false;
-				var fakedConvoyMove = false;
-
-				//Check the resolution is true
-				if (
-					Array.isArray(this.state.phase.Properties.Resolutions) &&
-					this.state.phase.Properties.Resolutions !== null
-				) {
-					const resolutionIndex =
-						this.state.phase.Properties.Resolutions.findIndex(
-							(item) => item.Province.indexOf(superProv) != -1
-						);
-					if (
-						resolutionIndex !== -1 &&
-						this.state.phase.Properties.Resolutions[resolutionIndex]
-							.Resolution !== "OK"
-					) {
-						failOrder = true;
-					}
-				}
-
-				//When the order is a move order but the province is not adjacent, replace by moveviaconvoy
-				if (orderData.Parts[1] === "Move" && !failOrder) {
-					var graphNodes =
-						this.state.variant.Properties.Graph.Nodes[
-							orderData.Parts[0]
-						];
-
-					if (
-						!graphNodes?.Subs?.[""]?.Edges?.hasOwnProperty(
-							orderData.Parts[2]
-						)
-					) {
-						//Not adjacent, so change to MoveViaConvoy
-						orderData.Parts[1] = "MoveViaConvoy";
-						fakedConvoyMove = true;
-					}
-				}
-
-				// IF THIS UNIT IS A CONVOY AND WE'RE POST-RESOLUTION, DEFINE THE FASTEST ROUTE
-				if (
-					(orderData.Parts[1] === "MoveViaConvoy" &&
-						this.state.phase.Properties.Resolved === true) ||
-					(orderData.Parts[1] === "Convoy" &&
-						this.state.phase.Properties.Resolved === true)
-				) {
-					if (orderData.Parts[1] === "MoveViaConvoy") {
-						//Create list of all participating convoys
-						var convoyParticipants = this.state.orders
-							.filter(
-								(obj) =>
-									obj.Parts[1] === "Convoy" &&
-									obj.Parts[2] === orderData.Parts[0] &&
-									obj.Parts[3] === orderData.Parts[2]
-							)
-							.map((element) => element.Parts[0]);
-
-						//Add the start and end Participants in preparation of Dijkstra
-						convoyParticipants.push(orderData.Parts[0]);
-						convoyParticipants.push(orderData.Parts[2]);
-					} else if (orderData.Parts[1] === "Convoy") {
-						//Create list of all participating convoys
-						var convoyParticipants = this.state.orders
-							.filter(
-								(obj) =>
-									obj.Parts[1] === "Convoy" &&
-									obj.Parts[2] === orderData.Parts[2] &&
-									obj.Parts[3] === orderData.Parts[3]
-							)
-							.map((element) => element.Parts[0]);
-						//Add the start and end Participants in preparation of Dijkstra
-						convoyParticipants.push(orderData.Parts[2]);
-						convoyParticipants.push(orderData.Parts[3]);
-					}
-
-					/////////////////////// Use Dijsktra's algorithm to calculate the fastest path
-
-					//Copy the Nodes to make them accessible in the function
-					const edgesMap = this.state.variant.Properties.Graph.Nodes;
-					var fastestPath;
-
-					function findPath(
-						startProvince,
-						endProvince,
-						participatingProvinces
-					) {
-						class PriorityQueue {
-							constructor() {
-								this.items = [];
-							}
-
-							enqueue(element, priority) {
-								const item = { element, priority };
-								let added = false;
-								for (let i = 0; i < this.items.length; i++) {
-									if (
-										item.priority < this.items[i].priority
-									) {
-										this.items.splice(i, 0, item);
-										added = true;
-										break;
-									}
-								}
-								if (!added) {
-									this.items.push(item);
-								}
-							}
-
-							dequeue() {
-								return this.items.shift().element;
-							}
-
-							isEmpty() {
-								return this.items.length === 0;
-							}
-						}
-
-						// Create a priority queue to store the nodes to be explored
-						let queue = new PriorityQueue();
-
-						// Create a map to store the distance from the start node to each node
-						let distances = new Map();
-
-						// Create a map to store the previous node in the optimal path from the start node to each node
-						let previous = new Map();
-
-						// Initialize the distance map and queue with the start node
-						distances.set(startProvince, 0);
-						queue.enqueue(startProvince, 0);
-
-						// Loop until we have found the end node or the queue is empty
-						while (!queue.isEmpty()) {
-							// Get the node with the smallest distance from the start node
-							let currentProvince = queue.dequeue();
-
-							// If we have found the end node, construct and return the optimal path
-							if (currentProvince === endProvince) {
-								let path = [];
-								while (previous.has(currentProvince)) {
-									path.unshift(currentProvince);
-									currentProvince =
-										previous.get(currentProvince);
-								}
-								path.unshift(startProvince);
-								return path;
-							}
-
-							// Get the neighboring nodes of the current node
-							//let neighbors = connectedProvinces.find(p => p.province === currentProvince).Connect;
-
-							let provinceParts = currentProvince.split("/");
-							var beforeSlash = currentProvince;
-							var afterSlash = "";
-
-							if (currentProvince.split("/").length === 2) {
-								beforeSlash = provinceParts[0];
-								afterSlash = provinceParts[1];
-							}
-
-							var edges = [];
-
-							let afterSlashValues = Object.keys(
-								edgesMap[beforeSlash].Subs
-							);
-
-							for (let i = 0; i < afterSlashValues.length; i++) {
-								let afterSlashValue = afterSlashValues[i];
-								edges.push(
-									edgesMap[beforeSlash].Subs[afterSlashValue]
-										.Edges
-								);
-							}
-							edges = edges.reduce((acc, obj) => {
-								Object.keys(obj).forEach((key) => {
-									if (!acc.includes(key)) {
-										acc.push(key);
-									}
-								});
-								return acc;
-							}, []);
-
-							var neighbors = "";
-							if (
-								typeof edges[0] === "number" &&
-								!isNaN(edges[0])
-							) {
-								neighbors = Object.keys(edges);
-							} else {
-								neighbors = edges;
-							}
-							// Loop through the neighboring nodes
-							for (let neighbor of neighbors) {
-								// Check if the neighbor is a participating province
-								if (
-									!participatingProvinces.includes(neighbor)
-								) {
-									continue;
-								}
-
-								// Compute the distance from the start node to the neighbor
-								let distance =
-									distances.get(currentProvince) + 1;
-
-								// Update the distance and previous maps if we have found a shorter path to the neighbor
-								if (
-									!distances.has(neighbor) ||
-									distance < distances.get(neighbor)
-								) {
-									distances.set(neighbor, distance);
-									previous.set(neighbor, currentProvince);
-									let priority =
-										distance +
-										heuristic(neighbor, endProvince); // Using heuristic function that estimates the remaining distance
-									queue.enqueue(neighbor, priority);
-								}
-							}
-						}
-
-						// If we have explored all nodes and have not found a path, return null
-						return null;
-					}
-
-					// Define a simple heuristic function that estimates the remaining distance
-					function heuristic(node, endNode) {
-						return 1; // Assuming all edges have equal distance
-					}
-
-					// Invoke Dijkstra to find the fastest path
-					let participatingProvinces = convoyParticipants;
-					let connectedProvinces =
-						this.state.variant.Properties.Graph.Nodes;
-					var startProvince;
-					var endProvince;
-					if (orderData.Parts[1] === "MoveViaConvoy") {
-						startProvince = orderData.Parts[0];
-						endProvince = orderData.Parts[2];
-					} else if (orderData.Parts[1] === "Convoy") {
-						startProvince = orderData.Parts[2];
-						endProvince = orderData.Parts[3];
-					}
-					fastestPath = findPath(
-						startProvince,
-						endProvince,
-						participatingProvinces,
-						connectedProvinces
-					);
-				}
-
-				var convoyOrder = [];
-				if (
-					orderData.Parts[1] === "MoveViaConvoy" &&
-					this.state.phase.Properties.Resolved === true
-				) {
-					convoyOrder.push(orderData.Parts[0]);
-					convoyOrder.push(orderData.Parts[1]);
-					fastestPath
-						.slice(1)
-						.forEach((element) => convoyOrder.push(element));
-				}
-
-				if (
-					orderData.Parts[1] === "Convoy" &&
-					this.state.phase.Properties.Resolved === true
-				) {
-					convoyOrder.push(orderData.Parts[0]);
-					convoyOrder.push(orderData.Parts[1]);
-					fastestPath.forEach((element) => convoyOrder.push(element));
-				}
-
-				//TODO: NEED TO DOUBLE CHECK PROVINCES AND "SC" AND "EC"S
-				//TODO: NEED TO ADD 'SUPPORT HOLD' SUPPORT
-
-				//Check and add collisions (if two orders or supports are colliding)
-
-				var collides = false;
-
-				if (
-					orderData.Parts[1] === "Move" &&
-					this.state.orders.find(
-						(obj) =>
-							obj.Parts[2] === orderData.Parts[0] &&
-							obj.Parts[1] === "Move" &&
-							obj.Parts[0] === orderData.Parts[2]
-					)?.Parts[0] === orderData.Parts[2]
-				) {
-					collides = true;
-				}
-				//Check if a support order supports a move that is colliding (in that case, this move should indent: both moves will indent so both support should. The mirrored support will have the same result)
-				if (
-					orderData.Parts[1] === "Support" &&
-					this.state.orders.find(
-						(obj) =>
-							obj.Parts[0] === orderData.Parts[2] &&
-							obj.Parts[1] === "Move" &&
-							obj.Parts[2] === orderData.Parts[3]
-					)?.Parts[2] === orderData.Parts[3] &&
-					this.state.orders.find(
-						(obj) =>
-							obj.Parts[0] === orderData.Parts[3] &&
-							obj.Parts[1] === "Move" &&
-							obj.Parts[2] === orderData.Parts[2]
-					)?.Parts[2] === orderData.Parts[2]
-				) {
-					collides = true;
-				} else if (
-					// If a support does NOT support a colliding move (meaning 1 or no orders);
-					orderData.Parts[1] === "Support" &&
-					this.state.orders.find(
-						(obj) =>
-							obj.Parts[0] === orderData.Parts[3] &&
-							obj.Parts[1] === "Support" &&
-							obj.Parts[2] === orderData.Parts[2] &&
-							obj.Parts[3] === orderData.Parts[0]
-					)?.Parts[3] === orderData.Parts[0]
-				) {
-					//then check if the supports themselves collide. If they collide,
-					if (
-						!(
-							this.state.orders.find(
-								(obj) =>
-									obj.Parts[0] === orderData.Parts[2] &&
-									obj.Parts[1] === "Move" &&
-									obj.Parts[2] === orderData.Parts[3]
-							)?.Parts[2] === orderData.Parts[3]
-						)
-					) {
-						// then check if THIS support is NOT supporting a real move. If not,
-
-						// indent: this means either the other is (and this one should indent) or both are (and both should indent)
-						//console.log("Double Support, I'm indenting");
-						collides = true;
-					} else if (
-						this.state.orders.find(
-							(obj) =>
-								obj.Parts[0] === orderData.Parts[2] &&
-								obj.Parts[1] === "Move" &&
-								obj.Parts[2] === orderData.Parts[3]
-						)?.Parts[2] === orderData.Parts[3]
-					) {
-						//console.log("Double support, I'm NOT indenting");
-					}
-				}
-
-				if (
-					(orderData.Parts[1] === "MoveViaConvoy" &&
-						this.state.phase.Properties.Resolved === true) ||
-					(orderData.Parts[1] === "Convoy" &&
-						this.state.phase.Properties.Resolved === true)
-				) {
-					this.map.addOrder(
-						convoyOrder,
-						helpers.natCol(orderData.Nation, this.state.variant),
-						{ stroke: this.phaseSpecialStrokes[superProv] },
-						failOrder,
-						collides,
-						this.state.phase.Properties.Resolved
-					);
-				} else {
-					this.map.addOrder(
-						orderData.Parts,
-						helpers.natCol(orderData.Nation, this.state.variant),
-						{ stroke: this.phaseSpecialStrokes[superProv] },
-						failOrder,
-						collides,
-						this.state.phase.Properties.Resolved
-					);
-				}
+				this.map.addOrder(
+					orderData.Parts,
+					helpers.natCol(orderData.Nation, this.state.variant),
+					{ stroke: this.phaseSpecialStrokes[superProv] }
+				);
 				this.debugCount("renderOrders/renderedOrder");
 			});
-
-			//TODO: This is where they set the cross if the order is not okay. I've moved this away, but this is saved in case it's needed to double check
-			/*
 			if (this.state.phase.Properties.Resolutions instanceof Array) {
 				this.state.phase.Properties.Resolutions.forEach((res) => {
 					if (res.Resolution !== "OK") {
-						this.map.addCross(res.Province, "#ffffff");
+						this.map.addCross(res.Province, "#ff0000");
 					}
 				});
 				this.debugCount("renderOrders/renderedResolution");
 			}
-*/
-
 			if (this.state.phase.Properties.ForceDisbands instanceof Array) {
 				this.state.phase.Properties.ForceDisbands.forEach((prov) => {
 					this.map.addCross(prov, "#ff6600");
+					this.map.addBox(prov, 4, "#ff6600");
 				});
 			}
 		}

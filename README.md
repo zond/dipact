@@ -20,9 +20,9 @@ and via chat at the #development channel on our [Discord server](https://discord
 
 This is evolving, and not fully followed, but some guidelines:
 
-* Use [Pretty](https://prettier.io/) to format the code. I use [vim-prettier](https://github.com/prettier/vim-prettier) which changes some settings, I think. Let's discuss how to solve that if someone wants to use Pretty with different settings - I'm totally open to changing this.
-* Use CamelCase (or camelCase), not snake_case. I know JavaScript often uses snake_case, but it seems React uses CamelCase, so let's go with that.
-* Use inline styles for small local changes, if possible. Save global CSS for themes or global changes.
+- Use [Pretty](https://prettier.io/) to format the code. I use [vim-prettier](https://github.com/prettier/vim-prettier) which changes some settings, I think. Let's discuss how to solve that if someone wants to use Pretty with different settings - I'm totally open to changing this.
+- Use CamelCase (or camelCase), not snake_case. I know JavaScript often uses snake_case, but it seems React uses CamelCase, so let's go with that.
+- Use inline styles for small local changes, if possible. Save global CSS for themes or global changes.
 
 ### Technology
 
@@ -48,7 +48,7 @@ a new [http.FileSystem](https://golang.org/pkg/net/http/#FileSystem) using
 ### Deploying
 
 The [deploy script](https://github.com/zond/dipact/blob/master/.github/workflows/deploy.yml) causes
-the latest version to be pushed to https://dipact.appspot.com/ on each new push.
+the latest version to be pushed to https://diplicity.com/ on each new push.
 
 Pushing branches with sensible names to https://github.com/zond/dipact causes them to be pushed to
-https://[branch-name]-dot-dipact.appspot.com/ on each new push.
+https://[branch-name].diplicity.com/ on each new push.
