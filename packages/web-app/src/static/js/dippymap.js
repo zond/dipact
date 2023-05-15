@@ -513,9 +513,63 @@ export function dippyMap(container) {
 			(loc.y + bound + width) +
 			" z";
 		path.setAttribute("d", d);
-		$(el)
-			.find("#orders")[0]
-			.appendChild(path);
+		$(el).find("#orders")[0].appendChild(path);
+	};
+	that.removeOrders = function () {
+		$(el).find("#orders").empty();
+	};
+	that.changeUnitToBlack = function (sourceId, color) {
+		sourceId = sourceId.replace(/\/.*$/, "");
+		var oldUnit = $("#" + sourceId);
+		var newUnit = oldUnit.clone();
+		newUnit.attr("id", sourceId + "black"); // Assign a new unique ID to the new unit
+		newUnit.attr(
+			"style",
+			"fill:#000000;fill-opacity:1;stroke:" +
+				color +
+				";stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+		); // Change the style of the new unit to black
+		var ordersLayer = $("svg #orders"); // Find the 'orders' layer
+		newUnit.appendTo(ordersLayer); // Add the new unit to the 'orders' layer
+	};
+
+	that.getConnectingPointOnLine = function (
+		convoyPoint,
+		startPoint,
+		endPoint
+	) {
+		// Calculate the midpoint of the line between X1 and X2
+
+		var angle1 = Math.atan2(
+			endPoint.y - startPoint.y,
+			endPoint.x - startPoint.x
+		);
+
+		var middleX = (endPoint.x + startPoint.x) / 2;
+		var middleY = (endPoint.y + startPoint.y) / 2;
+
+		var angle2 = Math.atan2(
+			convoyPoint.y - middleY,
+			convoyPoint.x - middleX
+		);
+
+		var angleDifference = angle2 - angle1;
+
+		if (angleDifference > Math.PI) {
+			angleDifference -= 2 * Math.PI;
+		} else if (angleDifference <= -Math.PI) {
+			angleDifference += 2 * Math.PI;
+		}
+		var angleDegrees = angleDifference * (180 / Math.PI);
+
+		var pointX =
+			endPoint.x +
+			(startPoint.x - endPoint.x) * (Math.abs(angleDegrees) / 180);
+		var pointY =
+			endPoint.y +
+			(startPoint.y - endPoint.y) * (Math.abs(angleDegrees) / 180);
+
+		return { x: pointX, y: pointY };
 	};
 	that.removeOrders = function() {
 		$(el)
