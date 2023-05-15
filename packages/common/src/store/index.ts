@@ -1,4 +1,5 @@
 import auth from "./auth";
+import colorOverrides from "./colorOverrides";
 import createOrder from "./createOrder";
 import feedback from "./feedback";
 import game from "./game";
@@ -10,6 +11,7 @@ import * as mainSelectors from "./selectors";
 
 export const reducers = {
   auth,
+  colorOverrides,
   createOrder,
   [diplicityService.reducerPath]: diplicityService.reducer,
   feedback,

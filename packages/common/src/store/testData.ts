@@ -1,7 +1,8 @@
 import {
-  ApiResponse,
+  CreateGameResponse,
   Game,
-  ListApiResponse,
+  GameResponse,
+  ListVariantsResponse,
   Member,
   Messaging,
   NewGame,
@@ -10,7 +11,9 @@ import {
   PrivateStats,
   User,
   UserConfig,
+  UserConfigResponse,
   Variant,
+  VariantResponse,
 } from "./types";
 import { TagType } from "./service";
 
@@ -53,24 +56,16 @@ export const variant: Variant = {
   Graph: {
     Nodes: {},
   },
-  Start: {
-    Year: 1901,
-    Season: "Spring",
-    Type: "",
-    SCs: {},
-    Units: {},
-    Map: "",
-  },
 };
 
-export const variantResponse: ApiResponse<Variant> = {
+export const variantResponse: VariantResponse = {
   Name: variant.Name,
   Properties: variant,
   Type: "List",
   Links: [],
 };
 
-export const listVariantsResponse: ListApiResponse<Variant> = {
+export const listVariantsResponse: ListVariantsResponse = {
   Name: "Variants",
   Properties: [variantResponse],
   Type: "List",
@@ -90,6 +85,13 @@ export const messaging: Messaging = {
 export const initialState: any = {
   auth: {
     isLoggedIn: false,
+  },
+  colorOverrides: {
+    nationCodes: {},
+    variantCodes: {},
+    positions: [],
+    variants: {},
+    nations: {},
   },
   diplicityService: {
     queries: {},
@@ -165,7 +167,7 @@ export const userConfig: UserConfig = {
   UserId: "12345678",
 };
 
-export const userConfigResponse: ApiResponse<UserConfig> = {
+export const userConfigResponse: UserConfigResponse = {
   Name: "user-config",
   Properties: userConfig,
   Type: "UserConfig",
@@ -242,21 +244,21 @@ export const game: Game = {
   FailedRequirements: null,
   FirstMember: member,
   CreatedAt: "",
-  CreatedAgo: 1,
+  CreatedAgo: "",
   StartedAt: "",
-  StartedAgo: 1,
+  StartedAgo: "",
   FinishedAt: "",
-  FinishedAgo: 1,
+  FinishedAgo: "",
 };
 
-export const createGameResponse: ApiResponse<Game> = {
+export const createGameResponse: CreateGameResponse = {
   Name: game.Desc,
   Properties: game,
   Type: "Game",
   Links: [],
 };
 
-export const getGameResponse: ApiResponse<Game> = {
+export const getGameResponse: GameResponse = {
   Name: game.Desc,
   Properties: game,
   Type: "Game",

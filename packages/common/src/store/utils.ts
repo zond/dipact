@@ -1,12 +1,12 @@
 /* eslint-disable no-restricted-globals */
 import { diplicityService } from "./service";
 import {
-  ApiResponse,
   Channel,
   Message,
   // FCMToken,
   // Messaging,
   Variant,
+  VariantResponse,
 } from "./types";
 
 export const overrideReg = /[^\w]/g;
@@ -44,7 +44,7 @@ export const parseUserConfigColor = (
   }
 };
 
-export const createNationAbbreviation = (
+const createNationAbbreviation = (
   nation: string,
   otherNations: string[]
 ): string => {
@@ -66,8 +66,8 @@ export const createNationAbbreviation = (
 
 // Order the variants so that Classical is first and the rest are alphabetical.
 export const sortVariantResponse = (
-  variants: ApiResponse<Variant>[]
-): ApiResponse<Variant>[] => {
+  variants: VariantResponse[]
+): VariantResponse[] => {
   const variantsForSort = [...variants];
   return variantsForSort.sort((variantA, variantB) => {
     if (variantA.Name === "Classical") return -1;
@@ -132,10 +132,8 @@ export const getQueryMatchers = () => ({
   matchDeleteGameFulfilled:
     diplicityService.endpoints.deleteGame.matchFulfilled,
   matchDeleteGameRejected: diplicityService.endpoints.deleteGame.matchRejected,
-  matchCreateOrderFulfilled:
-    diplicityService.endpoints.createOrder.matchFulfilled,
-  matchCreateOrderRejected:
-    diplicityService.endpoints.createOrder.matchRejected,
+  matchCreateOrderFulfilled: diplicityService.endpoints.createOrder.matchFulfilled,
+  matchCreateOrderRejected: diplicityService.endpoints.createOrder.matchRejected,
 });
 
 // const hrefURL = new URL(location.href);

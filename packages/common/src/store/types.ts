@@ -1,5 +1,3 @@
-import { IconNames } from "../icons";
-
 type Edge = {
   Flags: {
     [key: string]: boolean;
@@ -78,63 +76,29 @@ export type Variant = {
   Rules: string;
   OrderTypes: string[];
   nationAbbreviations: { [key: string]: string };
-  Start: Start;
+  Start?: Start;
   Graph: Graph;
   Links: Link[] | null;
   ExtraDominanceRules: null | { [key: string]: DominanceRule };
 };
 
-export type TransformedVariant = {
-  createdBy: string;
-  description: string;
-  graph: Graph;
-  map: string;
-  name: string;
-  nationAbbreviations: { [key: string]: string };
-  nationColors: null | { [key: string]: string };
-  nations: string[];
-  orderTypes: string[];
-  phaseTypes: string[];
-  provinceLongNames: { [key: string]: string };
-  rules: string;
-  seasons: string[];
-  startSeason: string;
-  startSCs: { [key: string]: string };
-  startUnits: { [key: string]: Unit };
-  startType: string;
-  startYear: number;
-  unitTypes: string[];
+export type VariantResponse = ApiResponse & {
+  Properties: Variant;
 };
-
-export interface ApiResponse<P> {
-  Properties: P;
-  Name: string;
-  Type: string;
-  Desc?: string[][];
-  Links: Link[] | null;
-}
-
-export type ListApiResponse<P> = ApiResponse<ApiResponse<P>[]>;
 
 export type User = {
-  Email: string;
-  FamilyName: string;
-  Gender: string;
-  GivenName: string;
-  Hd: string;
-  Id: string;
-  Link: string;
-  Locale: string;
-  Name: string;
-  Picture: string;
-  VerifiedEmail: boolean;
-  ValidUntil: string;
-};
-
-export type TransformedUser = {
-  id: string;
-  src: string;
-  username: string;
+  Email?: string;
+  FamilyName?: string;
+  Gender?: string;
+  GivenName?: string;
+  Hd?: string;
+  Id?: string;
+  Link?: string;
+  Locale?: string;
+  Name?: string;
+  Picture?: string;
+  VerifiedEmail?: boolean;
+  ValidUntil?: string;
 };
 
 type TrueSkill = {
@@ -169,18 +133,18 @@ export type PrivateStats = {
 };
 
 export type UserStats = {
-  UserId: string;
-  JoinedGames: number;
-  StartedGames: number;
-  FinishedGames: number;
-  SoloGames: number;
-  DIASGames: number;
-  EliminatedGames: number;
-  DroppedGames: number;
+  UserId?: string;
+  JoinedGames?: number;
+  StartedGames?: number;
+  FinishedGames?: number;
+  SoloGames?: number;
+  DIASGames?: number;
+  EliminatedGames?: number;
+  DroppedGames?: number;
   NMRPhases?: number;
   ActivePhases?: number;
   ReadyPhases?: number;
-  Reliability: number;
+  Reliability?: number;
   Quickness?: number;
   OwnedBans?: number;
   SharedBans?: number;
@@ -188,7 +152,7 @@ export type UserStats = {
   Hater?: number;
   PrivateStats?: PrivateStats;
   TrueSkill?: TrueSkill;
-  User: User;
+  User?: User;
 };
 
 type FCMTokenConfig = {
@@ -207,6 +171,14 @@ export type Message = {
   Body: string;
   CreatedAt: string;
   Age: number;
+};
+
+export type MessageResponse = ApiResponse & {
+  Properties: Message;
+};
+
+export type ListMessagesResponse = ApiResponse & {
+  Properties: MessageResponse[];
 };
 
 export type FCMToken = {
@@ -267,9 +239,53 @@ export type ForumMail = {
   Subject?: string;
 };
 
+type ApiResponse = {
+  Name: string;
+  Type: string;
+  Desc?: string[][];
+  Links: Link[] | null;
+};
+
+export type Root = {
+  User: User | null;
+};
+
+export type RootResponse = ApiResponse & {
+  Properties: Root;
+};
+
+export type BanResponse = ApiResponse & {
+  Properties: Ban;
+};
+
+export type UserBanResponse = ApiResponse & {
+  Properties: BanResponse[];
+  userId?: string;
+};
+
+export type UserConfigResponse = ApiResponse & {
+  Properties: UserConfig;
+};
+
+export type UserStatsResponse = ApiResponse & {
+  Properties: UserStats;
+};
+
 export type UserRatingHistogram = {
   FirstBucketRating: number;
   Counts: number[];
+};
+
+export type UserRatingHistogramResponse = ApiResponse & {
+  Properties: UserRatingHistogram;
+};
+
+export type ListVariantsResponse = ApiResponse & {
+  Properties: VariantResponse[];
+};
+
+export type ForumMailResponse = ApiResponse & {
+  Properties: ForumMail;
 };
 
 export type Auth = {
@@ -357,83 +373,71 @@ export type GameMasterInvitation = {
 };
 
 export type Game = Omit<NewGame, "FirstMember"> & {
-  ActiveBans: null;
   Closed: boolean;
-  CreatedAgo: number;
-  CreatedAt: string;
-  FailedRequirements: null | string[];
   Finished: boolean;
-  FinishedAgo: number;
-  FinishedAt: string;
-  FirstMember: Member;
-  GameMaster: User;
-  GameMasterInvitations: null | GameMasterInvitation[];
   ID: string;
-  Members: Member[];
   Mustered: boolean;
-  NMembers: number;
-  NewestPhaseMeta: PhaseMeta[] | null;
   NoMerge: boolean;
-  StartETA: string;
   Started: boolean;
-  StartedAgo: number;
+  GameMasterInvitations: null | GameMasterInvitation[];
+  GameMaster: User;
+  NMembers: number;
+  Members: Member[];
+  StartETA: string;
+  NewestPhaseMeta: PhaseMeta[];
+  ActiveBans: null;
+  FailedRequirements: null | string[];
+  FirstMember: Member;
+  CreatedAt: string;
+  CreatedAgo: string;
   StartedAt: string;
+  StartedAgo: string;
+  FinishedAt: string;
+  FinishedAgo: string;
 };
 
-export type TransformedGamePlayer = {
-  id: string;
+interface Player {
   username: string;
-  src: string;
-  nation?: string;
-};
+  image: string;
+}
 
-export type TransformedGame = {
-  anonymous: boolean;
+export interface GameDisplay {
   chatDisabled: boolean;
   chatLanguage: string;
   chatLanguageDisplay: string;
-  closed: boolean;
-  conferenceChatEnabled: boolean;
-  confirmationStatus: "confirmed" | "notConfirmed" | "nmr" | undefined;
-  createdAt: string;
-  deadline: string;
-  endYear: number;
-  finished: boolean;
-  finishedAt: string;
-  gameMaster: TransformedGamePlayer | undefined;
-  groupChatEnabled: boolean;
+  createdAtDisplay: string;
+  deadlineDisplay: string;
+  failedRequirements: string[];
+  gameVariant: string;
   id: string;
+  minQuickness: number | null;
+  minRating: number | null;
+  minReliability: number | null;
   name: string;
   nationAllocation: NationAllocation;
-  newestPhaseMeta: PhaseMeta[] | null;
-  nonMovementPhaseLength: string;
-  numPlayers: number;
-  phaseLength: string;
+  numUnreadMessages: number;
   phaseSummary: string;
-  playerIdentity: "anonymous" | "public";
-  players: TransformedGamePlayer[];
-  privateChatEnabled: boolean;
+  players: Player[];
   privateGame: boolean;
   rulesSummary: string;
   started: boolean;
-  startedAt: string;
-  status: "staging" | "started" | "finished";
-  userIsPlayer: (user: TransformedUser) => boolean;
-  userIsGameMaster: (user: TransformedUser) => boolean;
-  variant: string;
-  visibility: "private" | "public";
-};
-
-export interface Player {
-  id: string;
-  username: string;
-  image: string;
+  userIsMember: boolean;
+  userIsGameMaster: boolean;
+  variantNumNations: number;
 }
 
 export type GameState = {
   GameID: string;
   Nation: string;
   Muted: null | string[];
+};
+
+export type GameStateResponse = ApiResponse & {
+  Properties: GameState;
+};
+
+export type ListGameStatesResponse = ApiResponse & {
+  Properties: GameStateResponse[];
 };
 
 export type UnitState = {
@@ -501,6 +505,35 @@ export type Phase = {
   PreliminaryScores: PreliminaryScore[];
 };
 
+export type PhaseStateResponse = ApiResponse & {
+  Properties: PhaseState;
+};
+
+export type ListPhaseStatesResponse = ApiResponse & {
+  Properties: PhaseStateResponse[];
+};
+
+export type PhaseResponse = ApiResponse & {
+  Properties: Phase;
+};
+
+export type ListPhasesResponse = ApiResponse & {
+  Properties: PhaseResponse[];
+};
+
+export type GameResponse = ApiResponse & {
+  Properties: Game;
+};
+
+export type CreateGameResponse = ApiResponse & {
+  Properties: Game;
+  userId?: string;
+};
+
+export type UpdateUserConfigResponse = ApiResponse & {
+  Properties: UserConfig;
+};
+
 export type HasPermissionType = "unknown" | "true" | "false";
 export type TargetStateType = "undefined" | "enabled" | "disabled";
 
@@ -542,6 +575,18 @@ export type Channel = {
   };
 };
 
+export type ChannelResponse = ApiResponse & {
+  Properties: Channel;
+};
+
+export type ListChannelsResponse = ApiResponse & {
+  Properties: ChannelResponse[];
+};
+
+export type ListGamesResponse = ApiResponse & {
+  Properties: GameResponse[];
+};
+
 export enum Severity {
   Error = "error",
   Warning = "warning",
@@ -561,6 +606,10 @@ export interface MutationStatus {
   isSuccess: boolean;
 }
 
+export type CreateMessageResponse = ApiResponse & {
+  Properties: Message;
+};
+
 export type Order = {
   GameID: string;
   PhaseOrdinal: number;
@@ -571,6 +620,10 @@ export type Order = {
 export type Corroboration = {
   Orders: Order[] | null;
   Inconsistencies: string[];
+};
+
+export type CorroborationResponse = ApiResponse & {
+  Properties: Corroboration;
 };
 
 export interface CreateGameFormValues {
@@ -608,15 +661,13 @@ export type DiplicityError = {
   [key: string]: any;
 };
 
-export interface Query<T> {
+export interface Query {
   isError: boolean;
   isLoading: boolean;
-  isFetching?: boolean;
   isSuccess: boolean;
-  data?: T | null;
 }
 
-export type QueryMap = { [key: string]: Query<any> };
+export type QueryMap = { [key: string]: Query };
 
 export type PhasesDisplay = [number, string][];
 
@@ -718,6 +769,10 @@ export interface Options {
   [key: string]: Option;
 }
 
+export interface ListOptionsResponse extends ApiResponse {
+  Properties: Options;
+}
+
 // TODO select MapState TDD
 export interface MapState {
   provinces: {
@@ -739,82 +794,3 @@ export interface MapState {
     result: string;
   }[];
 }
-
-export type ReliabilityLabel = "commited" | "uncommited" | "disengaged";
-
-export interface PlayerDisplay {
-  id: string;
-  username: string;
-  src?: string;
-  stats: {
-    reliabilityLabel: ReliabilityLabel;
-    reliabilityRating: number;
-    numPlayedGames: number;
-    numWonGames: number;
-    numDrawnGames: number;
-    numAbandonedGames: number;
-  };
-}
-
-export type GameDetailViewActions = "join" | "leave";
-
-export type ChatMode = "all" | "disabled";
-
-export type TableRow<T> = {
-  label: string;
-  value: T;
-  icon: IconNames | undefined;
-};
-
-export interface GameDetailView {
-  showActions: GameDetailViewActions[];
-  name: string;
-  gameSettings: {
-    variant: TableRow<string>;
-    phaseDeadline: TableRow<string>;
-    nonMovementPhaseDeadline: TableRow<string>;
-    gameEndYear: TableRow<number> | undefined;
-  };
-  chatSettings: {
-    conferenceChatEnabled: TableRow<boolean>;
-    groupChatEnabled: TableRow<boolean>;
-    privateChatEnabled: TableRow<boolean>;
-    chatLanguage: TableRow<string> | undefined;
-  };
-  managementSettings: {
-    gameMaster: TableRow<TransformedUser> | undefined;
-    nationAllocation: TableRow<NationAllocation>;
-    visibility: TableRow<"public" | "private">;
-  };
-  playerSettings: {
-    minCommittement:
-      | TableRow<"commited" | "uncommited" | "disengaged">
-      | undefined;
-    minRank: TableRow<string> | undefined;
-    maxRank: TableRow<string> | undefined;
-    playerIdentity: TableRow<"anonymous" | "public">;
-  };
-  gameLog: {
-    created: TableRow<string>;
-    started: TableRow<string> | undefined;
-    finished: TableRow<string> | undefined;
-  };
-  variantDetails: {
-    name: TableRow<string>;
-    description: TableRow<string>;
-    rules: TableRow<string>;
-    numPlayers: TableRow<number>;
-    startYear: TableRow<number>;
-  };
-  playerDetails: {
-    players: TransformedUser[];
-  };
-}
-
-export type TimeUnit =
-  | "seconds"
-  | "minutes"
-  | "hours"
-  | "days"
-  | "weeks"
-  | "months";

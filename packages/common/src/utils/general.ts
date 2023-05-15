@@ -9,12 +9,9 @@ import {
   DiplicityError,
   User,
   Member,
-  TimeUnit,
-  Player,
 } from "../store/types";
 import { adjectives, conflictSynonyms, nouns } from "./terms";
 import contrastColors from "./contrastColors";
-import codes from "./isoCodes";
 
 const DiplicitySender = "Diplicity";
 export const OttoURL = "https://diplicity-engine.appspot.com/img/otto.png";
@@ -68,10 +65,7 @@ export const phaseLengthDisplay = (game: Game) => {
 };
 
 export const getPhaseDisplay = (game: Game) => {
-  const newestPhaseMeta =
-    game.NewestPhaseMeta && game.NewestPhaseMeta.length
-      ? game.NewestPhaseMeta[0]
-      : undefined;
+  const newestPhaseMeta = game.NewestPhaseMeta[0];
   if (!newestPhaseMeta) {
     return "";
   }
@@ -287,44 +281,4 @@ export const brightnessByColor = (color: string): number => {
     g = parseInt(m[1], 16),
     b = parseInt(m[2], 16);
   return (r * 299 + g * 587 + b * 114) / 1000;
-};
-
-export const convertMinutesToDaysOrHoursLabel = (
-  minutes: number
-): [number, TimeUnit] => {
-  if (minutes % 1440 === 0) {
-    return [minutes / 1440, "days"];
-  } else if (minutes % 60 === 0) {
-    return [minutes / 60, "hours"];
-  }
-  return [minutes, "minutes"];
-};
-
-// TODO translations
-export const convertToTimeUnitLabel = (
-  value: number,
-  timeUnit: TimeUnit
-): string => {
-  return `${value} ${timeUnit}${value === 1 ? "" : "s"}`;
-};
-
-export const convertMinutesToLabel = (minutes: number): string => {
-  const [value, timeUnit] = convertMinutesToDaysOrHoursLabel(minutes);
-  return convertToTimeUnitLabel(value, timeUnit);
-};
-
-export const getLanguage = (languageCode: string) => {
-  return codes.find((code) => code.code === languageCode);
-};
-
-export const convertUserToPlayer = (user: User): Player => {
-  return {
-    id: user.Id,
-    username: user.Name,
-    image: user.Picture,
-  };
-};
-
-export const getNationAllocation = (nationAllocation: number) => {
-  return nationAllocationMap[nationAllocation];
 };
