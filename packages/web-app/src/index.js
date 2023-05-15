@@ -80,14 +80,9 @@ if (window.Wrapper) {
   gtag("set", { client: "browser" });
 }
 
-if (
-  window.location.href.indexOf("https://dipact.appspot.com") === 0 ||
-  window.location.href.indexOf("https://diplicity.com") === 0
-) {
+if (window.location.href.indexOf("https://diplicity.com") === 0) {
   gtag("set", { api: "prod" });
-} else if (
-  window.location.href.indexOf("https://beta-dot-dipact.appspot.com") === 0
-) {
+} else if (window.location.href.indexOf("https://beta.diplicity.com") === 0) {
   gtag("set", { api: "beta" });
 } else {
   gtag("set", { api: "unknown" });
