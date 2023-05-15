@@ -42,24 +42,19 @@ const GameCard = ({
   showActions = false,
   numAvatarsToDisplay = defaultNumAvatarsToDisplay,
 }: GameCardProps) => {
-  // const {
-  //   actions,
-  //   chatDisabled,
-  //   chatLanguage,
-  //   name,
-  //   rulesSummary,
-  //   phaseSummary,
-  //   privateGame,
-  //   nationAllocation,
-  //   confirmationStatus,
-  //   status,
-  //   players,
-  //   id,
-  //   variantNumNations,
-  // } = game;
   const confirmationStatus = undefined;
-  const { chatLanguage, id, name, players, privateGame, rulesSummary, status } =
-    game;
+  const {
+    chatDisabled,
+    chatLanguage,
+    id,
+    name,
+    nationAllocation,
+    phaseSummary,
+    players,
+    privateGame,
+    rulesSummary,
+    status,
+  } = game;
   const styles = useStyles({ confirmationStatus });
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -87,7 +82,7 @@ const GameCard = ({
   };
 
   // TODO translations
-  const actionButtonProps: ActionNameButtonMap = {
+  const actionButtonProps = {
     join: {
       title: "Join",
       onPress: () => dispatch({ type: "JOIN_GAME", gameId: id }),
@@ -167,7 +162,7 @@ const GameCard = ({
             </Stack>
             <Stack justify="space-between" fillWidth>
               <Text variant="body2" accessibilityLabel="Rules summary">
-                {game}
+                {rulesSummary}
               </Text>
               <Stack gap={1}>
                 {Boolean(status === "started") && (
@@ -185,13 +180,13 @@ const GameCard = ({
                 <Stack gap={-1}>
                   {players
                     .slice(0, numAvatarsToDisplay)
-                    .map(({ username, image }) => (
+                    .map(({ username, src }) => (
                       <View key={username}>
                         <Avatar
                           rounded
                           key={username}
                           title={username[0]}
-                          source={{ uri: image }}
+                          source={{ uri: src }}
                         />
                       </View>
                     ))}
@@ -245,18 +240,14 @@ const GameCard = ({
           {Boolean(showActions) && (
             <View testID="game-card-actions">
               <Stack>
-                {actions.has("gameInfo") && (
-                  <ActionButton {...actionButtonProps.gameInfo} />
-                )}
-                {actions.has("share") && (
-                  <ActionButton {...actionButtonProps.share} />
-                )}
-                {actions.has("join") && (
-                  <ActionButton {...actionButtonProps.join} />
-                )}
-                {actions.has("leave") && (
-                  <ActionButton {...actionButtonProps.leave} />
-                )}
+                {/* {actions.has("gameInfo") && ( */}
+                {true && <ActionButton {...actionButtonProps.gameInfo} />}
+                {/* {actions.has("share") && ( */}
+                {true && <ActionButton {...actionButtonProps.share} />}
+                {/* {actions.has("join") && ( */}
+                {true && <ActionButton {...actionButtonProps.join} />}
+                {/* {actions.has("leave") && ( */}
+                {true && <ActionButton {...actionButtonProps.leave} />}
               </Stack>
             </View>
           )}
@@ -269,24 +260,18 @@ const GameCard = ({
         testID="game-card-more-menu"
       >
         <Stack orientation="vertical">
-          {actions.has("gameInfo") && (
-            <BottomSheetButton {...actionButtonProps.gameInfo} />
-          )}
-          {actions.has("variantInfo") && (
-            <BottomSheetButton {...actionButtonProps.variantInfo} />
-          )}
-          {actions.has("playerInfo") && (
-            <BottomSheetButton {...actionButtonProps.playerInfo} />
-          )}
-          {actions.has("share") && (
-            <BottomSheetButton {...actionButtonProps.share} />
-          )}
-          {actions.has("join") && (
-            <BottomSheetButton {...actionButtonProps.join} />
-          )}
-          {actions.has("leave") && (
-            <BottomSheetButton {...actionButtonProps.leave} />
-          )}
+          {/* {actions.has("gameInfo") && ( */}
+          {true && <BottomSheetButton {...actionButtonProps.gameInfo} />}
+          {/* {actions.has("variantInfo") && ( */}
+          {true && <BottomSheetButton {...actionButtonProps.variantInfo} />}
+          {/* {actions.has("playerInfo") && ( */}
+          {true && <BottomSheetButton {...actionButtonProps.playerInfo} />}
+          {/* {actions.has("share") && ( */}
+          {true && <BottomSheetButton {...actionButtonProps.share} />}
+          {/* {actions.has("join") && ( */}
+          {true && <BottomSheetButton {...actionButtonProps.join} />}
+          {/* {actions.has("leave") && ( */}
+          {true && <BottomSheetButton {...actionButtonProps.leave} />}
         </Stack>
       </BottomSheet>
     </>

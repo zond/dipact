@@ -1,15 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
-import { DiplicityApiContext, GameStatus } from "../../../common";
+import { DiplicityApiContext, GameStatus, useTelemetry } from "../../../common";
 import PlayerCard from "../../components/PlayerCard";
 import { Stack } from "../../components/Stack";
 import Filter from "../../components/Filter";
 import QueryContainer from "../../components/QueryContainer";
+import GameList from "../../components/GameList";
 
 const MyGames = ({}) => {
+  const telemetryService = useTelemetry();
   const [status, setStatus] = useState<GameStatus>(GameStatus.Started);
   const getRootQuery =
     useContext(DiplicityApiContext).useGetRootQuery(undefined);
+
+  telemetryService.logInfo("Rendering MyGames screen");
+
+  useEffect(() => {
+    telemetryService.logInfo("MyGames screen mounted");
+  }, [telemetryService]);
 
   const onPressMore = () => {
     alert("More");
@@ -39,7 +47,7 @@ const MyGames = ({}) => {
               variant="select"
             />
           </Stack>
-          {/* <GameList filters={{ my: true, status: status, mastered: false }} /> */}
+          <GameList filters={{ my: true, status: status, mastered: false }} />
         </Stack>
       )}
     />

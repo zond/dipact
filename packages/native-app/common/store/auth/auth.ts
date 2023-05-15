@@ -73,7 +73,7 @@ export const createAuthMiddleware = ({
     (action) => {
       if (isRejected(action)) {
         const { loggedIn } = selectAuth(getState());
-        if (action.payload.status === 401 && loggedIn) {
+        if (action.payload && action.payload.status === 401 && loggedIn) {
           telemetryService.logInfo(
             "Unauthorized while logged in - logging out"
           );
