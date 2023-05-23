@@ -44,11 +44,6 @@ module.exports = (env, args) => {
     },
     devServer: {
       hot: true,
-      // static: path.join(__dirname, "public"),
-      // port: 3000,
-      // host: "localhost",
-      // historyApiFallback: true,
-      // open: true,
     },
   };
 };

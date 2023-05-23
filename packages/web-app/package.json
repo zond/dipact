@@ -37,12 +37,15 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "webpack serve --open --mode development",
+    "start": "webpack serve --open --mode development --port 3000",
+    "start-browser-test-server": "webpack serve --open --mode development --port 3002",
     "build": "webpack --mode production",
-    "test": "yarn test",
+    "test": "yarn test-unit && yarn test-browser",
     "test-unit": "yarn test -t unit.test --watchAll=false --maxWorkers=50% --isolatedModules=true",
+    "test-browser": "npx playwright test -c ./playwright.config.ts",
     "test-coverage": "yarn test --watchAll=false --maxWorkers=50% --isolatedModules=true --ci --coverage",
     "test-coverage-ci": "yarn test --watchAll=false --maxWorkers=50% --isolatedModules=true --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
+    "test-ci": "yarn test-coverage-ci && yarn test-browser",
     "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0"
   },
   "eslintConfig": {
@@ -64,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.34.1",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/jest": "^27.4.1",
     "@types/react-router-dom": "^5.3.3",
