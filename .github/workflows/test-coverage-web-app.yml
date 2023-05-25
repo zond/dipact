@@ -11,7 +11,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: packages/web-app
-          test-script: yarn run test-ci
+          test-script: yarn run test-coverage-ci
           package-manager: yarn
           threshold: 10
           annotations: none

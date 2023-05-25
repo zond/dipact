@@ -1,4 +1,4 @@
-name: Test broswer web app
+name: Test browser web app
 on: push
 jobs:
   coverage:
