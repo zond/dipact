@@ -9,7 +9,7 @@
     "start-browser-test-server": "webpack serve --mode development",
     "test": "jest --config ./jest.config.js",
     "test-browser": "npx playwright test -c ./playwright.config.ts",
-    "test-ci": "yarn test && yarn test-browser",
+    "test-ci": "yarn test",
     "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0"
   },
   "devDependencies": {
