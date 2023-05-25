@@ -3,10 +3,6 @@ const config = {
   testMatch: "**/*.browser.test.ts",
   timeout: 60 * 1000,
   expect: {
-    /**
-     * Maximum time expect() should wait for the condition to be met.
-     * For example in `await expect(locator).toHaveText();`
-     */
     timeout: 5000,
   },
   reporter: [["line"]],
@@ -32,7 +28,7 @@ const config = {
   outputDir: "src/__tests__/screenshots/",
 
   webServer: {
-    command: "yarn start-browser-test-server",
+    command: "yarn start-browser-test-server --port 3002",
     timeout: 120 * 1000,
     port: 3002,
     reuseExistingServer: !process.env.CI,

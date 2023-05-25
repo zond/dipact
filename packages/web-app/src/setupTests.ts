@@ -6,7 +6,7 @@ ReactGA.initialize("foo", { testMode: true });
 // Mock react-i18next for all tests
 jest.mock("react-i18next", () => ({
   ...jest.requireActual("react-i18next"),
-  useTranslation: () => ({ t: (key) => key }),
+  useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 // TODO remove when chart.js is gone
