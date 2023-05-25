@@ -11,7 +11,6 @@ import PhaseSelector from "../../components/PhaseSelector";
 import NationSummary from "../../components/NationSummary";
 import Order from "../../components/Order";
 import { useParams } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 
 type UseOrdersValues = Partial<ReturnType<typeof useOrders>>;
 

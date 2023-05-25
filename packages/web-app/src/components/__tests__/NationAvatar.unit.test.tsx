@@ -17,8 +17,6 @@ const nationAbbreviation = "En";
 
 const mockOnClick = jest.fn();
 
-const EVERYONE = "Everyone";
-
 describe("NationAvatar", () => {
   const arrange = (options: ArrangeOptions) => {
     return render(<NationAvatar {...options.props} />);

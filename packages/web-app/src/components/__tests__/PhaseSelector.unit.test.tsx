@@ -4,8 +4,6 @@ import "@testing-library/jest-dom/extend-expect";
 import PhaseSelector from "../PhaseSelector";
 import { translateKeys as tk, usePhaseSelector } from "@diplicity/common";
 import { useParams } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
-import { clickSelectOption } from "../../utils/test";
 
 type UsePhaseSelectorValues = ReturnType<typeof usePhaseSelector>;
 
