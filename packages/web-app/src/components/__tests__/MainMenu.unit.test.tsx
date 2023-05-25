@@ -6,7 +6,6 @@ import MainMenu from "../MainMenu.new";
 import { useMainMenu } from "../../hooks/useMainMenu";
 import useSearchParams from "../../hooks/useSearchParams";
 import { links, translateKeys as tk } from "@diplicity/common";
-import { act } from "react-dom/test-utils";
 import { RouteConfig } from "../../pages/RouteConfig";
 
 interface ArrangeOptions {
@@ -44,22 +43,17 @@ describe("MainMenu", () => {
     (useMainMenu as jest.Mock).mockImplementation(() => ({
       ...options.useMainMenuValues,
     }));
-    const api = render(
+    render(
       <MainMenu {...options.props}>
         <div>{childText}</div>
       </MainMenu>
     );
     if (options.userMenuOpen) {
-      act(() => {
-        fireEvent.click(screen.getByTitle(tk.mainMenu.userMenu.button.title));
-      });
+      fireEvent.click(screen.getByTitle(tk.mainMenu.userMenu.button.title));
     }
     if (options.drawerOpen) {
-      act(() => {
-        fireEvent.click(screen.getByTitle(tk.mainMenu.drawer.button.title));
-      });
+      fireEvent.click(screen.getByTitle(tk.mainMenu.drawer.button.title));
     }
-    return api;
   };
   beforeEach(() => {
     (useSearchParams as jest.Mock).mockImplementation(() => ({
@@ -135,6 +129,7 @@ describe("MainMenu", () => {
     useMainMenuValues.user = user;
     arrange({ props, useMainMenuValues, userMenuOpen: true });
     const backdrop = screen.getByRole("presentation");
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(backdrop.firstChild as HTMLElement);
     await waitFor(() => {
       expect(
@@ -197,6 +192,7 @@ describe("MainMenu", () => {
   test("Click backdrop closes drawer", async () => {
     arrange({ props, useMainMenuValues, drawerOpen: true });
     const backdrop = screen.getByRole("presentation");
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(backdrop.firstChild as HTMLElement);
     await waitFor(() => {
       expect(

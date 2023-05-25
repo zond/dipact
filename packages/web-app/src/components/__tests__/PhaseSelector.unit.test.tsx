@@ -58,7 +58,7 @@ describe("PhaseSelector", () => {
   });
   test("Renders without error", () => {
     arrange({ usePhaseSelectorValues });
-    expect(screen.queryByTitle(tk.phaseSelector.title)).toBeInTheDocument();
+    expect(screen.getByTitle(tk.phaseSelector.title)).toBeInTheDocument();
   });
   test("Does not render if loading", async () => {
     usePhaseSelectorValues.isLoading = true;
