@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-globals */
+import React from "react";
 import * as helpers from "./helpers";
 import Login from "./components/Login";
 import MainMenu from "./components//MainMenu";

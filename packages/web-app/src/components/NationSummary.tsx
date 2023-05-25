@@ -1,5 +1,5 @@
-import { Typography, Tooltip, makeStyles } from "@material-ui/core";
 import React from "react";
+import { Typography, Tooltip, makeStyles } from "@material-ui/core";
 import {
   NoOrdersGivenIcon,
   OrdersConfirmedIcon,

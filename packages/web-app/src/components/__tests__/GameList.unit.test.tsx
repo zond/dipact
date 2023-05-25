@@ -3,7 +3,7 @@ import React from "react";
 import GameList from "../GameList.new";
 import { GameDisplay, GameStatus, useGameList } from "@diplicity/common";
 import GameCard from "../GameCard";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 interface ArrangeOptions {
   props: Parameters<typeof GameList>[0];
@@ -51,16 +51,16 @@ describe("GameList", () => {
   });
   test("Renders nothing if isLoading", () => {
     useGameListValues.isLoading = true;
-    const { queryByText } = arrange({ props, useGameListValues });
-    expect(queryByText("GameCard")).toBeNull();
+    arrange({ props, useGameListValues });
+    expect(screen.queryByText("GameCard")).toBeNull();
   });
   test("Renders games", () => {
-    const { getByText } = arrange({ props, useGameListValues });
-    expect(getByText("GameCard")).not.toBeNull();
+    arrange({ props, useGameListValues });
+    expect(screen.getByText("GameCard")).not.toBeNull();
   });
   test("Passes summary only", () => {
     props.summaryOnly = true;
-    const { getByText } = arrange({ props, useGameListValues });
+    arrange({ props, useGameListValues });
     expect(gameCardMock).toBeCalledWith(
       {
         game: expect.anything(),
@@ -69,6 +69,6 @@ describe("GameList", () => {
       },
       {}
     );
-    expect(getByText("GameCard")).not.toBeNull();
+    expect(screen.getByText("GameCard")).not.toBeNull();
   });
 });

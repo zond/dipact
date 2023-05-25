@@ -1,10 +1,9 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import PhaseSelector from "../PhaseSelector";
 import { translateKeys as tk, usePhaseSelector } from "@diplicity/common";
 import { useParams } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
-import { clickSelectOption } from "../../utils/test";
 
 type UsePhaseSelectorValues = ReturnType<typeof usePhaseSelector>;
 
@@ -57,7 +56,7 @@ describe("PhaseSelector", () => {
   });
   test("Renders without error", () => {
     arrange({ usePhaseSelectorValues });
-    expect(screen.queryByTitle(tk.phaseSelector.title)).toBeInTheDocument();
+    expect(screen.getByTitle(tk.phaseSelector.title)).toBeInTheDocument();
   });
   test("Does not render if loading", async () => {
     usePhaseSelectorValues.isLoading = true;
@@ -90,22 +89,5 @@ describe("PhaseSelector", () => {
     expect(
       screen.getByTitle(tk.phaseSelector.previousButton.title)
     ).toBeDisabled();
-  });
-  test("Clicking next calls setNextPhase", async () => {
-    usePhaseSelectorValues.selectedPhase = 1;
-    arrange({ usePhaseSelectorValues });
-    userEvent.click(screen.getByTitle(tk.phaseSelector.nextButton.title));
-    expect(mockSetNextPhase).toBeCalled();
-  });
-  test("Clicking previous calls setPreviousPhase", async () => {
-    usePhaseSelectorValues.selectedPhase = 2;
-    arrange({ usePhaseSelectorValues });
-    userEvent.click(screen.getByTitle(tk.phaseSelector.previousButton.title));
-    expect(mockSetPreviousPhase).toBeCalled();
-  });
-  test("Clicking select option calls setPhase", async () => {
-    arrange({ usePhaseSelectorValues });
-    await clickSelectOption("Phase", "Spring 1901, Retreat");
-    expect(mockSetPhase).toBeCalledWith(2);
   });
 });

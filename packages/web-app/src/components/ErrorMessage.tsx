@@ -1,6 +1,6 @@
+import React from "react";
 import { DiplicityError } from "@diplicity/common";
 import { makeStyles, Typography } from "@material-ui/core";
-import React from "react";
 import { WarningIcon } from "../icons";
 
 const useStyles = makeStyles((theme) => ({
