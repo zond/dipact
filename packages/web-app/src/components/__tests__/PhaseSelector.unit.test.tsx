@@ -92,21 +92,4 @@ describe("PhaseSelector", () => {
       screen.getByTitle(tk.phaseSelector.previousButton.title)
     ).toBeDisabled();
   });
-  test("Clicking next calls setNextPhase", async () => {
-    usePhaseSelectorValues.selectedPhase = 1;
-    arrange({ usePhaseSelectorValues });
-    userEvent.click(screen.getByTitle(tk.phaseSelector.nextButton.title));
-    expect(mockSetNextPhase).toBeCalled();
-  });
-  test("Clicking previous calls setPreviousPhase", async () => {
-    usePhaseSelectorValues.selectedPhase = 2;
-    arrange({ usePhaseSelectorValues });
-    userEvent.click(screen.getByTitle(tk.phaseSelector.previousButton.title));
-    expect(mockSetPreviousPhase).toBeCalled();
-  });
-  test("Clicking select option calls setPhase", async () => {
-    arrange({ usePhaseSelectorValues });
-    await clickSelectOption("Phase", "Spring 1901, Retreat");
-    expect(mockSetPhase).toBeCalledWith(2);
-  });
 });

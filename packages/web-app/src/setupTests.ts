@@ -1,5 +1,12 @@
 import "@testing-library/jest-dom";
+import { Request, Response, Headers } from "node-fetch";
 import ReactGA from "react-ga";
+
+// reassign objects that are otherwise undefined in jest
+global.fetch = jest.fn();
+global.Request = Request as unknown as typeof global.Request;
+global.Response = Response as unknown as typeof global.Response;
+global.Headers = Headers as unknown as typeof global.Headers;
 
 ReactGA.initialize("foo", { testMode: true });
 

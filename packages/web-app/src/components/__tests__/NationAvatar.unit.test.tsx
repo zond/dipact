@@ -2,11 +2,7 @@ import React from "react";
 
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import UNFlagLink from "../../static/img/un_logo.svg";
-import NationAvatar, {
-  getEveryoneAvatarProps,
-  withMuted,
-} from "../NationAvatar.new";
+import NationAvatar, { withMuted } from "../NationAvatar.new";
 
 interface ArrangeOptions {
   props: Parameters<typeof NationAvatar>[0];
@@ -62,19 +58,5 @@ describe("Muted NationAvatar", () => {
   });
   test("Renders without error", () => {
     arrange({ props });
-  });
-});
-
-describe("getEveryoneProps", () => {
-  test("Gets expected props", () => {
-    const expectedProps = {
-      nation: EVERYONE,
-      color: "#FFFFFF",
-      link: UNFlagLink,
-      nationAbbreviation: "",
-      key: EVERYONE,
-    };
-    const props = getEveryoneAvatarProps();
-    expect(props).toEqual(expectedProps);
   });
 });

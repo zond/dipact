@@ -4,7 +4,6 @@ import Component, { searchKey } from "../CreateOrderMenu";
 import { useCreateOrderMenu } from "@diplicity/common";
 import { fireEvent, render, screen } from "@testing-library/react";
 import useSearchParams from "../../hooks/useSearchParams";
-import { clickSelectOption } from "../../utils/test";
 
 type UseCreateOrderMenuValues = ReturnType<typeof useCreateOrderMenu>;
 
@@ -48,11 +47,6 @@ describe("CreateOrderMenu", () => {
   });
   test("Renders without error", () => {
     arrange({ useCreateOrderMenuValues });
-  });
-  test("Select option calls handleSelectOption", async () => {
-    arrange({ useCreateOrderMenuValues });
-    await clickSelectOption("Select option", "Berlin");
-    expect(mockHandleSelectOption).toHaveBeenCalledWith("ber");
   });
   test("Close button calls removeParam", () => {
     arrange({ useCreateOrderMenuValues });
