@@ -108,10 +108,10 @@ export type TransformedVariant = {
 
 export interface ApiResponse<P> {
   Properties: P;
-  Name: string;
-  Type: string;
+  Name?: string;
+  Type?: string;
   Desc?: string[][];
-  Links: Link[] | null;
+  Links?: Link[] | null;
 }
 
 export type ListApiResponse<P> = ApiResponse<ApiResponse<P>[]>;
