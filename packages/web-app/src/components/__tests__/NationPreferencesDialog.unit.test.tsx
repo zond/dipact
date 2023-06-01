@@ -1,13 +1,20 @@
+import React from "react";
+
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import NationPreferencesDialog, { searchKey } from "../NationPreferencesDialog.new";
+import NationPreferencesDialog, {
+  searchKey,
+} from "../NationPreferencesDialog.new";
 import useSearchParams from "../../hooks/useSearchParams";
 import useNationPreferencesDialog from "../../hooks/useNationPreferencesDialog";
-import { translateKeys as tk } from "@diplicity/common"
+import { translateKeys as tk } from "@diplicity/common";
 
 interface ArrangeOptions {
   props: Parameters<typeof NationPreferencesDialog>[0];
-  useNationPreferencesDialogValues: Omit<ReturnType<typeof useNationPreferencesDialog>, "updateOrder">;
+  useNationPreferencesDialogValues: Omit<
+    ReturnType<typeof useNationPreferencesDialog>,
+    "updateOrder"
+  >;
 }
 
 const mockHandleSubmit = jest.fn();
@@ -51,7 +58,9 @@ describe("NationPreferencesDialog", () => {
   });
   test("Down button calls updateOrder", () => {
     const props = { handleSubmit: mockHandleSubmit };
-    const useNationPreferencesDialogValues = { preferences: ["France", "England"] };
+    const useNationPreferencesDialogValues = {
+      preferences: ["France", "England"],
+    };
     arrange({ props, useNationPreferencesDialogValues });
     const downButton = screen.getAllByTitle("Move down")[0];
     fireEvent.click(downButton);
@@ -66,7 +75,9 @@ describe("NationPreferencesDialog", () => {
   });
   test("Up button calls updateOrder", () => {
     const props = { handleSubmit: mockHandleSubmit };
-    const useNationPreferencesDialogValues = { preferences: ["France", "England"] };
+    const useNationPreferencesDialogValues = {
+      preferences: ["France", "England"],
+    };
     arrange({ props, useNationPreferencesDialogValues });
     const upButton = screen.getAllByTitle("Move up")[1];
     fireEvent.click(upButton);
@@ -76,7 +87,9 @@ describe("NationPreferencesDialog", () => {
     const props = { handleSubmit: mockHandleSubmit };
     const useNationPreferencesDialogValues = { preferences: ["France"] };
     arrange({ props, useNationPreferencesDialogValues });
-    const submitButton = screen.getByText(tk.nationPreferences.joinButton.label);
+    const submitButton = screen.getByText(
+      tk.nationPreferences.joinButton.label
+    );
     fireEvent.click(submitButton);
     expect(mockHandleSubmit).toBeCalledWith(["France"]);
     expect(mockRemoveParam).toBeCalledWith(searchKey);
@@ -85,7 +98,9 @@ describe("NationPreferencesDialog", () => {
     const props = { handleSubmit: mockHandleSubmit };
     const useNationPreferencesDialogValues = { preferences: ["France"] };
     arrange({ props, useNationPreferencesDialogValues });
-    const submitButton = screen.getByText(tk.nationPreferences.closeButton.label);
+    const submitButton = screen.getByText(
+      tk.nationPreferences.closeButton.label
+    );
     fireEvent.click(submitButton);
     expect(mockRemoveParam).toBeCalledWith(searchKey);
   });

@@ -1,0 +1,15 @@
+name: Test browser web app
+on: push
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: Install dependencies
+        run: yarn --cwd ./packages/web-app install -g --dev
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run tests
+        run: npx playwright test -c ./playwright.config.ts
+        working-directory: packages/web-app

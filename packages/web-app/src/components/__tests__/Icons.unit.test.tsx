@@ -1,6 +1,14 @@
+import React from "react";
+
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { ChatDisabledIcon, NoOrdersGivenIcon, OrdersConfirmedIcon, OrdersOpenIcon, WantsDrawIcon } from "../../icons";
+import {
+  ChatDisabledIcon,
+  NoOrdersGivenIcon,
+  OrdersConfirmedIcon,
+  OrdersOpenIcon,
+  WantsDrawIcon,
+} from "../../icons";
 
 describe("Icons", () => {
   test("OrdersOpenIcon", () => {
@@ -19,4 +27,3 @@ describe("Icons", () => {
     render(<ChatDisabledIcon />);
   });
 });
-

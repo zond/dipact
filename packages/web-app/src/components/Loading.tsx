@@ -1,5 +1,5 @@
-import { CircularProgress, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
+import { CircularProgress, makeStyles, Theme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { translateKeys as tk } from "@diplicity/common";
 

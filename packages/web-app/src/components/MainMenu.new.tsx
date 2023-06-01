@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   AppBar,
   Avatar,
@@ -13,7 +14,6 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useMainMenu } from "../hooks/useMainMenu";
@@ -120,7 +120,7 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
                   vertical: "top",
                   horizontal: "right",
                 }}
-                /* istanbul ignore next */ 
+                /* istanbul ignore next */
                 onClose={() => setMenuAnchorEl(null)}
                 open={!!menuAnchorEl}
               >
@@ -142,27 +142,38 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <div className={classes.drawer} title={t(tk.mainMenu.drawer.title)}>
           <List component="nav">
-
             <ListItem className={classes.menuItemSectionHeader}>
-              <ListItemText primary={t(tk.mainMenu.drawer.myDiplicitySection.title)} disableTypography />
+              <ListItemText
+                primary={t(tk.mainMenu.drawer.myDiplicitySection.title)}
+                disableTypography
+              />
             </ListItem>
 
             <ListItem button onClick={onClickCreateGame}>
-              <ListItemText primary={t(tk.mainMenu.drawer.createGameMenuItem.title)} />
+              <ListItemText
+                primary={t(tk.mainMenu.drawer.createGameMenuItem.title)}
+              />
             </ListItem>
 
             <Divider />
 
             <ListItem className={classes.menuItemSectionHeader}>
-              <ListItemText primary={t(tk.mainMenu.drawer.communitySection.title)} disableTypography />
+              <ListItemText
+                primary={t(tk.mainMenu.drawer.communitySection.title)}
+                disableTypography
+              />
             </ListItem>
 
             <ListItem button onClick={onClickChat}>
-              <ListItemText primary={t(tk.mainMenu.drawer.chatMenuItem.title)} />
+              <ListItemText
+                primary={t(tk.mainMenu.drawer.chatMenuItem.title)}
+              />
             </ListItem>
 
             <ListItem button onClick={onClickForum}>
-              <ListItemText primary={t(tk.mainMenu.drawer.forumMenuItem.title)} />
+              <ListItemText
+                primary={t(tk.mainMenu.drawer.forumMenuItem.title)}
+              />
             </ListItem>
 
             <Divider />
@@ -172,7 +183,9 @@ const MainMenu = ({ children, title }: MainMenuProps) => {
             </ListItem>
 
             <ListItem button onClick={onClickAbout}>
-              <ListItemText primary={t(tk.mainMenu.drawer.aboutMenuItem.title)} />
+              <ListItemText
+                primary={t(tk.mainMenu.drawer.aboutMenuItem.title)}
+              />
             </ListItem>
           </List>
           <div className={classes.icons}>
