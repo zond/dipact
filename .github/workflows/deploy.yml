@@ -24,6 +24,6 @@ jobs:
         run: yarn --cwd ./packages/web-app install -g --dev
         working-directory: packages/web-app
       - name: Build release
-        run: yarn --cwd ./packages/web-app run build
+        run: yarn --cwd ./packages/web-app build
       - name: Sync release to iBrave
         run: env LC_ALL=C rsync -a --delete packages/web-app/build/ oort.se@ssh.gb.stackcp.com:public_html/${BRANCH_NAME}.diplicity.com/
