@@ -7,7 +7,7 @@ import {
   translateKeys as tk,
   useGameCard,
 } from "@diplicity/common";
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import useSearchParams from "../../hooks/useSearchParams";
 import PlayerCount from "../PlayerCount";
 
@@ -50,13 +50,10 @@ describe("GameCard", () => {
       setParam: mockSetParam,
     }));
     mockUseGameCard.mockImplementation(() => options.useGameCardValues);
-    const api = render(<GameCard {...options.props} />);
+    render(<GameCard {...options.props} />);
     if (options.accordionOpen) {
-      act(() => {
-        fireEvent.click(screen.getByTitle("Expand"));
-      });
+      fireEvent.click(screen.getByTitle("Expand"));
     }
-    return api;
   };
   beforeEach(() => {
     game = {
@@ -238,13 +235,11 @@ describe("GameCard", () => {
       useGameCardValues,
       accordionOpen: true,
     });
-    act(() => {
-      fireEvent.click(
-        screen.getByRole("button", {
-          name: tk.gameList.gameCard.joinButton.label,
-        })
-      );
-    });
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: tk.gameList.gameCard.joinButton.label,
+      })
+    );
     expect(mockJoinGame).toBeCalledWith({
       NationPreferences: "",
       GameAlias: "",

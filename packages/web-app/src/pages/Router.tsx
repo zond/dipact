@@ -9,7 +9,6 @@ import { history } from "../store";
 import { RouteConfig } from "./RouteConfig";
 import MyGames from "./MyGames";
 import Orders from "./Orders";
-import Map from "./Map";
 
 const Router = (): React.ReactElement => {
   return (
@@ -27,9 +26,6 @@ const Router = (): React.ReactElement => {
           </Route>
           <Route exact path={RouteConfig.Orders}>
             <Orders />
-          </Route>
-          <Route exact path={RouteConfig.Map}>
-            <Map />
           </Route>
           <Route path={RouteConfig.Game}>
             <LegacyApp />

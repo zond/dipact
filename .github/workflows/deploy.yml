@@ -1,27 +1,29 @@
 name: Deploy
 
 on:
-    push:
-        branches: ["master", "beta"]
+  push:
+    branches: ["master", "beta"]
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-            - name: Extract branch name
-              run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> ${GITHUB_ENV}
-            - name: Create .ssh directory
-              run: mkdir ${HOME}/.ssh && chmod 700 ${HOME}/.ssh
-            - name: Copy SSH key for iBrave
-              run: ( echo "${{ secrets.IBRAVE_SSH_KEY }}" > ${HOME}/.ssh/id_rsa ) && chmod 600 ${HOME}/.ssh/id_rsa
-            - name: Copy SSH host key for iBrave
-              run: ( echo "${{ secrets.IBRAVE_SSH_HOST_KEY }}" >> ${HOME}/.ssh/known_hosts ) && chmod 600 ${HOME}/.ssh/known_hosts
-            - name: Verify iBrave SSH access
-              run: env LC_ALL=C ssh oort.se@ssh.gb.stackcp.com date
-            - name: Build release
-              working-directory: packages/web-app
-              run: docker-compose run sample yarn build
-            - name: Sync release to iBrave
-              run: env LC_ALL=C rsync -a --delete packages/web-app/build/ oort.se@ssh.gb.stackcp.com:public_html/${BRANCH_NAME}.diplicity.com/
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Extract branch name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF##*/})" >> ${GITHUB_ENV}
+      - name: Create .ssh directory
+        run: mkdir ${HOME}/.ssh && chmod 700 ${HOME}/.ssh
+      - name: Copy SSH key for iBrave
+        run: ( echo "${{ secrets.IBRAVE_SSH_KEY }}" > ${HOME}/.ssh/id_rsa ) && chmod 600 ${HOME}/.ssh/id_rsa
+      - name: Copy SSH host key for iBrave
+        run: ( echo "${{ secrets.IBRAVE_SSH_HOST_KEY }}" >> ${HOME}/.ssh/known_hosts ) && chmod 600 ${HOME}/.ssh/known_hosts
+      - name: Verify iBrave SSH access
+        run: env LC_ALL=C ssh oort.se@ssh.gb.stackcp.com date
+      - name: Install modules
+        run: yarn --cwd ./packages/web-app install -g --dev
+        working-directory: packages/web-app
+      - name: Build release
+        run: yarn --cwd ./packages/web-app build
+      - name: Sync release to iBrave
+        run: env LC_ALL=C rsync -a --delete packages/web-app/build/ oort.se@ssh.gb.stackcp.com:public_html/${BRANCH_NAME}.diplicity.com/

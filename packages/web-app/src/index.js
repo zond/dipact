@@ -4,7 +4,6 @@ import gtag from "ga-gtag";
 import "./index.css";
 import ReactDOM from "react-dom";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import ProgressDialog from "./components/ProgressDialog";
 import Snackbar from "./components/Snackbar";
 import { ThemeProvider } from "@material-ui/core";
@@ -35,11 +34,6 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
 
 addEventListener("error", (ev) => {
   const oldErrorsJSON = localStorage.getItem("errors");
@@ -80,14 +74,9 @@ if (window.Wrapper) {
   gtag("set", { client: "browser" });
 }
 
-if (
-  window.location.href.indexOf("https://dipact.appspot.com") === 0 ||
-  window.location.href.indexOf("https://diplicity.com") === 0
-) {
+if (window.location.href.indexOf("https://diplicity.com") === 0) {
   gtag("set", { api: "prod" });
-} else if (
-  window.location.href.indexOf("https://beta-dot-dipact.appspot.com") === 0
-) {
+} else if (window.location.href.indexOf("https://beta.diplicity.com") === 0) {
   gtag("set", { api: "beta" });
 } else {
   gtag("set", { api: "unknown" });

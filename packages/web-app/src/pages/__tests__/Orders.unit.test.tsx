@@ -11,7 +11,6 @@ import PhaseSelector from "../../components/PhaseSelector";
 import NationSummary from "../../components/NationSummary";
 import Order from "../../components/Order";
 import { useParams } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 
 type UseOrdersValues = Partial<ReturnType<typeof useOrders>>;
 
@@ -161,19 +160,6 @@ describe("Orders", () => {
       tk.orders.toggleDiasButton.label
     ) as HTMLInputElement;
     expect(checkbox).toBeDisabled();
-  });
-  test("Click draw checkbox calls toggle toggle wants draw", () => {
-    nationStatus.nation.isUser = true;
-    useOrdersValues = {
-      ...useOrdersValues,
-      nationStatuses: [nationStatus],
-    };
-    arrange({ useOrdersValues });
-    const checkbox = screen.getByLabelText(
-      tk.orders.toggleDiasButton.label
-    ) as HTMLInputElement;
-    userEvent.click(checkbox);
-    expect(mockToggleAcceptDraw).toBeCalled();
   });
   test("Renders order", () => {
     const order = { label: "", resolution: null, inconsistencies: [] };

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import NationSummary from "../NationSummary";
@@ -86,12 +88,16 @@ describe("NationSummary", () => {
   test("Shows correct label when numSupplyCenters singular", () => {
     props = { nationStatus: { ...props.nationStatus, numSupplyCenters: 1 } };
     arrange({ props });
-    expect(screen.getByText(tk.orders.supplyCenterCount.singular)).toBeInTheDocument();
+    expect(
+      screen.getByText(tk.orders.supplyCenterCount.singular)
+    ).toBeInTheDocument();
   });
   test("Shows correct label when numSupplyCenters plural", () => {
     props = { nationStatus: { ...props.nationStatus, numSupplyCenters: 2 } };
     arrange({ props });
-    expect(screen.getByText(tk.orders.supplyCenterCount.plural)).toBeInTheDocument();
+    expect(
+      screen.getByText(tk.orders.supplyCenterCount.plural)
+    ).toBeInTheDocument();
   });
   test("Shows correct label when numBuild singular", () => {
     props = { nationStatus: { ...props.nationStatus, numBuilds: 1 } };
@@ -106,7 +112,9 @@ describe("NationSummary", () => {
   test("Shows correct label when numDisband singular", () => {
     props = { nationStatus: { ...props.nationStatus, numDisbands: 1 } };
     arrange({ props });
-    expect(screen.getByText(tk.orders.disbandCount.singular)).toBeInTheDocument();
+    expect(
+      screen.getByText(tk.orders.disbandCount.singular)
+    ).toBeInTheDocument();
   });
   test("Shows correct label when numDisband plural", () => {
     props = { nationStatus: { ...props.nationStatus, numDisbands: 2 } };
@@ -116,31 +124,43 @@ describe("NationSummary", () => {
   test("Hides icon if not confirmedOrders", () => {
     props = { nationStatus: { ...props.nationStatus, confirmedOrders: false } };
     arrange({ props });
-    expect(screen.queryByTitle(tk.orders.confirmedIconTooltip)).not.toBeInTheDocument();
+    expect(
+      screen.queryByTitle(tk.orders.confirmedIconTooltip)
+    ).not.toBeInTheDocument();
   });
   test("Shows icon if confirmedOrders", () => {
     props = { nationStatus: { ...props.nationStatus, confirmedOrders: true } };
     arrange({ props });
-    expect(screen.getByTitle(tk.orders.confirmedIconTooltip)).toBeInTheDocument();
+    expect(
+      screen.getByTitle(tk.orders.confirmedIconTooltip)
+    ).toBeInTheDocument();
   });
   test("Hides icon if not wantsDraw", () => {
     props = { nationStatus: { ...props.nationStatus, wantsDraw: false } };
     arrange({ props });
-    expect(screen.queryByTitle(tk.orders.wantsDrawIconTooltip)).not.toBeInTheDocument();
+    expect(
+      screen.queryByTitle(tk.orders.wantsDrawIconTooltip)
+    ).not.toBeInTheDocument();
   });
   test("Shows icon if wantsDraw", () => {
     props = { nationStatus: { ...props.nationStatus, wantsDraw: true } };
     arrange({ props });
-    expect(screen.getByTitle(tk.orders.wantsDrawIconTooltip)).toBeInTheDocument();
+    expect(
+      screen.getByTitle(tk.orders.wantsDrawIconTooltip)
+    ).toBeInTheDocument();
   });
   test("Hides icon if not noOrdersGiven", () => {
     props = { nationStatus: { ...props.nationStatus, noOrdersGiven: false } };
     arrange({ props });
-    expect(screen.queryByTitle(tk.orders.noOrdersGivenIconTooltip)).not.toBeInTheDocument();
+    expect(
+      screen.queryByTitle(tk.orders.noOrdersGivenIconTooltip)
+    ).not.toBeInTheDocument();
   });
   test("Shows icon if noOrdersGiven", () => {
     props = { nationStatus: { ...props.nationStatus, noOrdersGiven: true } };
     arrange({ props });
-    expect(screen.getByTitle(tk.orders.noOrdersGivenIconTooltip)).toBeInTheDocument();
+    expect(
+      screen.getByTitle(tk.orders.noOrdersGivenIconTooltip)
+    ).toBeInTheDocument();
   });
 });

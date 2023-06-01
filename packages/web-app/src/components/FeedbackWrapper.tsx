@@ -1,6 +1,6 @@
+import React from "react";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useFeedbackWrapper } from "@diplicity/common";
 
