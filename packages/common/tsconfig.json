@@ -14,10 +14,11 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["jest", "node"],
+    "types": ["jest", "node", "@types/jest"],
     "typeRoots": ["./types", "./node_modules/@types"]
   },
   "include": ["src"],

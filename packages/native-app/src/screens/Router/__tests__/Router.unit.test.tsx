@@ -3,7 +3,7 @@ import { render } from "@testing-library/react-native";
 
 import Router from "../Router";
 import { useSelector } from "react-redux";
-import { translateKeys as tk } from "../../../../common";
+import { translateKeys as tk } from "diplicity-common-internal";
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
@@ -19,8 +19,8 @@ jest.mock("../../Map", () => () => <>Map</>);
 jest.mock("../../MyGames", () => () => <>MyGames</>);
 jest.mock("../../Orders", () => () => <>Orders</>);
 
-jest.mock("../../../../common", () => ({
-  ...jest.requireActual("../../../../common"),
+jest.mock("diplicity-common-internal", () => ({
+  ...jest.requireActual("diplicity-common-internal"),
   useGameDetailView: jest.fn(),
 }));
 

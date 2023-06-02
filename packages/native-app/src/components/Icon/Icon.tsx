@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Icon as RneIcon } from "@rneui/base";
 
-import { IconNames } from "../../../common";
+import { IconNames } from "diplicity-common-internal";
 import { iconMap } from "../../icons/iconMap";
 import { useStyles } from "./Icon.styles";
 import { IconProps } from "./Icon.types";

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import PlayerCard from "./PlayerCard";
 import PlayerCardSkeleton from "./PlayerCard.skeleton";
 import QueryContainer from "../QueryContainer";
-import { DiplicityApiContext } from "../../../common";
+import { DiplicityApiContext } from "diplicity-common-internal";
 import { PlayerCardContainerProps } from "./PlayerCard.types";
 
 const PlayerCardContainer = ({ id, ...rest }: PlayerCardContainerProps) => {

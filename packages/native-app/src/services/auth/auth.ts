@@ -1,7 +1,7 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import { ITelemetryService, IAuthService } from "../../../common";
+import { ITelemetryService, IAuthService } from "diplicity-common-internal";
 
 const serviceUrl = "https://diplicity-engine.appspot.com/";
 

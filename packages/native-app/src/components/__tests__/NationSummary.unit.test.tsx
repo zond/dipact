@@ -3,7 +3,10 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 
 import NationSummary from "../NationSummary";
-import { translateKeys as tk, NationStatusDisplay } from "../../../common";
+import {
+  translateKeys as tk,
+  NationStatusDisplay,
+} from "diplicity-common-internal";
 import NationAvatar from "../NationAvatar";
 import { Text } from "react-native";
 

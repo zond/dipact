@@ -10,7 +10,7 @@ jest.mock("react-redux", () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock("../../../../common", () => ({
+jest.mock("diplicity-common-internal", () => ({
   phaseSelectors: {
     selectPhase: jest.fn(),
   },

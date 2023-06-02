@@ -1,4 +1,4 @@
-import { NationStatusDisplay } from "../../common";
+import { NationStatusDisplay } from "diplicity-common-internal";
 import { ListItem } from "@rneui/base";
 import React, { useState } from "react";
 import NationSummary from "../components/NationSummary";

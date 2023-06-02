@@ -9,7 +9,7 @@ import {
   createLogoutThunk,
   createReducer,
   createTelemetryMiddleware,
-} from "../../common";
+} from "diplicity-common-internal";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const createStore = async ({
@@ -52,6 +52,10 @@ export const createStore = async ({
   setupListeners(store.dispatch);
   return [store, { diplicityApi, authSlice }] as [
     typeof store,
-    { diplicityApi: typeof diplicityApi; authSlice: typeof authSlice }
+    {
+      diplicityApi: typeof diplicityApi;
+      authSlice: typeof authSlice;
+      feedbackSlice: typeof feedbackSlice;
+    }
   ];
 };

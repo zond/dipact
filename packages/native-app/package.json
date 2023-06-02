@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "clean": "rimraf node_modules",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
@@ -13,6 +14,7 @@
     "build-and-install-common": "cd ../common && yarn build && cd ../native-app && yarn add ../common"
   },
   "dependencies": {
+    "diplicity-common-internal": "*",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^5.0.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -29,7 +31,6 @@
     "@rneui/themed": "^4.0.0-rc.1",
     "axios": "^1.4.0",
     "babel-plugin-module-resolver": "^4.1.0",
-    "common": "^0.2.5",
     "contrast-color": "^1.0.1",
     "formik": "^2.2.9",
     "i18next": "^21.6.11",
@@ -62,7 +63,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^9.1.0",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "29.5.2",
     "@types/node-fetch": "^2.6.2",
     "@types/react-native": "^0.64.5",
     "@types/react-native-dotenv": "^0.2.0",

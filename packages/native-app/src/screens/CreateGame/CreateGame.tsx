@@ -5,7 +5,7 @@ import {
   findDefined,
   translateKeys as tk,
   useCreateGameForm,
-} from "../../../common";
+} from "diplicity-common-internal";
 
 import QueryContainer from "../../components/QueryContainer";
 import { Stack } from "../../components/Stack";

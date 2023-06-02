@@ -1,4 +1,4 @@
-import { DiplicityError } from "../../common";
+import { DiplicityError } from "diplicity-common-internal";
 import { Icon } from "@rneui/base";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";

@@ -1,12 +1,12 @@
 import React from "react";
 import FeedbackWrapper from "../FeedbackWrapper";
-import { useFeedbackWrapper } from "../../../common";
+import { useFeedbackWrapper } from "diplicity-common-internal";
 import { render } from "@testing-library/react-native";
 import { Text } from "react-native";
 import { act } from "react-test-renderer";
 
-jest.mock("../../../common", () => ({
-  ...jest.requireActual("../../../common"),
+jest.mock("diplicity-common-internal", () => ({
+  ...jest.requireActual("diplicity-common-internal"),
   useFeedbackWrapper: jest.fn(),
 }));
 

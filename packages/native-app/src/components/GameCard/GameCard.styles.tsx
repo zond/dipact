@@ -1,4 +1,4 @@
-import { TransformedGame } from "../../../common";
+import { TransformedGame } from "diplicity-common-internal";
 import { StyleProp, ViewStyle, TextStyle } from "react-native";
 
 import { useTheme } from "../../hooks/useTheme";

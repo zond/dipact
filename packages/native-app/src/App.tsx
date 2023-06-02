@@ -11,12 +11,12 @@ import { theme } from "./theme";
 import i18n from "./i18n";
 import FeedbackWrapper from "./components/FeedbackWrapper";
 import {
+  DiplicityApiProvider,
   TelemetryProvider,
   createTelemetryService,
-} from "../common/services/telemetry";
+} from "diplicity-common-internal";
 import { createAuthService } from "./services/auth";
 import { createStore } from "./store";
-import { DiplicityApiProvider } from "../common/store/diplicity/diplicity.provider";
 
 const telemetryService = createTelemetryService();
 telemetryService.logInfo("Telemetry service created");

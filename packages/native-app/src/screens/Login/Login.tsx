@@ -2,8 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { View } from "react-native";
 import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { useStyles } from "./Login.styles";
-import { useTelemetry } from "../../../common";
-import { DiplicityApiContext } from "../../../common/store/diplicity/diplicity.provider";
+import { useTelemetry, DiplicityApiContext } from "diplicity-common-internal";
 
 const Login = () => {
   const telemetry = useTelemetry();

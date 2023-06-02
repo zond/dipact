@@ -20,6 +20,10 @@ buildscript {
 }
 
 allprojects {
+    ext {
+        // NOTE because we are using a monorepo, we need to look for node_modules at the workspace root
+        workspaceRoot = file("$rootDir../../../../")
+    }
     repositories {
         exclusiveContent {
             // We get React Native's Android binaries exclusively through npm,
@@ -31,25 +35,25 @@ allprojects {
             }
             forRepository {
                 maven {
-                    url "$rootDir/../node_modules/react-native/android"
+                    url "$workspaceRoot/node_modules/react-native/android"
                 }
             }      
         }
         mavenLocal()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("$rootDir/../node_modules/react-native/android")
+            url("$workspaceRoot/node_modules/react-native/android")
         }
         maven {
             // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
+            url("$workspaceRoot/node_modules/jsc-android/dist")
         }
 
         google()
         jcenter()
         maven {
             url 'https://www.jitpack.io'
-            url "$rootDir/../node_modules/react-native/android"
+            url "$workspaceRoot/node_modules/react-native/android"
         }
     }
 }

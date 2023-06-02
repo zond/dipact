@@ -1,5 +1,5 @@
 import React from "react";
-import { Query } from "../../common";
+import { Query } from "diplicity-common-internal";
 import Loading from "./Loading";
 import { Stack } from "./Stack";
 

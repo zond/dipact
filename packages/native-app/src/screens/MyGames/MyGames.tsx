@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { DiplicityApiContext, GameStatus, useTelemetry } from "../../../common";
+import {
+  DiplicityApiContext,
+  GameStatus,
+  useTelemetry,
+} from "diplicity-common-internal";
 import PlayerCard from "../../components/PlayerCard";
 import { Stack } from "../../components/Stack";
 import Filter from "../../components/Filter";

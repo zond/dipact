@@ -1,7 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Icon } from "@rneui/base";
-import { usePhaseSelector, translateKeys as tk } from "../../common";
+import {
+  usePhaseSelector,
+  translateKeys as tk,
+} from "diplicity-common-internal";
 import { Picker } from "@react-native-picker/picker";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../hooks/useTheme";

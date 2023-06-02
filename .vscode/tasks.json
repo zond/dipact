@@ -1,0 +1,83 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "web-app",
+      "type": "shell",
+      "linux": {
+        "command": "${env:SHELL}"
+      },
+      "windows": {
+        "command": "pwsh"
+      },
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/web-app"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "close": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "native-app",
+      "type": "shell",
+      "linux": {
+        "command": "${env:SHELL}"
+      },
+      "windows": {
+        "command": "pwsh"
+      },
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/native-app"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "close": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "common",
+      "type": "shell",
+      "linux": {
+        "command": "${env:SHELL}"
+      },
+      "windows": {
+        "command": "pwsh"
+      },
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/packages/common"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "close": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

@@ -9,7 +9,7 @@ import {
   assertDefined,
   combineQueries,
   findDefined,
-} from "../../../common";
+} from "diplicity-common-internal";
 import QueryContainer from "../QueryContainer";
 
 interface GameListProps {

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
 
-import { useFeedbackWrapper } from "../../common";
+import { useFeedbackWrapper } from "diplicity-common-internal";
 
 interface FeedbackWrapperProps {
   children: React.ReactNode;

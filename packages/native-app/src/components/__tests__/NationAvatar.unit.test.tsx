@@ -4,7 +4,7 @@ import { render } from "@testing-library/react-native";
 
 import NationAvatar from "../NationAvatar";
 import { View } from "react-native";
-import { brightnessByColor } from "../../../common";
+import { brightnessByColor } from "diplicity-common-internal";
 
 interface ArrangeOptions {
   props: Parameters<typeof NationAvatar>[0];
@@ -12,8 +12,8 @@ interface ArrangeOptions {
 
 let props: Parameters<typeof NationAvatar>[0];
 
-jest.mock("../../../common", () => ({
-  ...jest.requireActual("../../../common"),
+jest.mock("diplicity-common-internal", () => ({
+  ...jest.requireActual("diplicity-common-internal"),
   brightnessByColor: jest.fn(() => 0),
 }));
 

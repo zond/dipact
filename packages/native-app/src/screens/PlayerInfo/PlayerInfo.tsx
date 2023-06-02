@@ -4,7 +4,7 @@ import { ScrollView } from "react-native";
 import QueryContainer from "../../components/QueryContainer";
 import { Stack } from "../../components/Stack";
 import { useParams } from "../../hooks/useParams";
-import { usePlayerInfoView } from "../../../common";
+import { usePlayerInfoView } from "diplicity-common-internal";
 import PlayerCard from "../../components/PlayerCard";
 import { useCommonStyles } from "../../hooks/useCommonStyles";
 

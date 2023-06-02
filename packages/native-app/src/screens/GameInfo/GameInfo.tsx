@@ -6,7 +6,7 @@ import Table from "../../components/Table/Table";
 import { Stack } from "../../components/Stack";
 import { TableRow } from "../../components/Table";
 import { useCommonStyles } from "../../hooks/useCommonStyles";
-import { useGameInfoView } from "../../../common";
+import { useGameInfoView } from "diplicity-common-internal";
 import { useParams } from "../../hooks/useParams";
 
 const GameInfo = () => {

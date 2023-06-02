@@ -1,5 +1,5 @@
 import { StyleProp, ViewProps, ViewStyle } from "react-native";
-import { ReliabilityLabel } from "../../../common";
+import { ReliabilityLabel } from "diplicity-common-internal";
 
 export interface PlayerCardProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
