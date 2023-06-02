@@ -1,7 +1,7 @@
 import { Avatar } from "@rneui/base";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { brightnessByColor } from "diplicity-common-internal";
+import { brightnessByColor } from "@diplicity/common";
 import { useTheme } from "../hooks/useTheme";
 
 interface NationAvatarProps {

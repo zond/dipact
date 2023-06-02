@@ -14,7 +14,7 @@ import {
   DiplicityApiProvider,
   TelemetryProvider,
   createTelemetryService,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import { createAuthService } from "./services/auth";
 import { createStore } from "./store";
 

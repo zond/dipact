@@ -7,7 +7,7 @@ import {
   TransformedUser,
   TransformedVariant,
   translateKeys as tk,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 
 import { useTheme } from "../../hooks/useTheme";

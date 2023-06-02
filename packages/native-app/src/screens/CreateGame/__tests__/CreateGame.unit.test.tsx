@@ -7,10 +7,7 @@ import {
 } from "@testing-library/react-native";
 
 import Sut from "../CreateGame";
-import {
-  translateKeys as tk,
-  useCreateGameForm,
-} from "diplicity-common-internal";
+import { translateKeys as tk, useCreateGameForm } from "@diplicity/common";
 import { ReactTestInstance } from "react-test-renderer";
 import { Accessor, TargetFactory, TestDriver, Wrapper } from "../../../test";
 
@@ -99,8 +96,8 @@ const createUseCreateGameMock = (options?: UseCreateGameMockOptions) => ({
   },
 });
 
-jest.mock("diplicity-common-internal", () => ({
-  ...jest.requireActual("diplicity-common-internal"),
+jest.mock("@diplicity/common", () => ({
+  ...jest.requireActual("@diplicity/common"),
   useCreateGameForm: jest.fn(),
 }));
 

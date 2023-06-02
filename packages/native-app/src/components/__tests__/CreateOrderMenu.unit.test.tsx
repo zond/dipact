@@ -3,7 +3,7 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import Component from "../CreateOrderMenu";
-import { useCreateOrderMenu } from "diplicity-common-internal";
+import { useCreateOrderMenu } from "@diplicity/common";
 
 type UseCreateOrderMenuValues = ReturnType<typeof useCreateOrderMenu>;
 type ComponentProps = Parameters<typeof Component>[0];
@@ -13,8 +13,8 @@ interface ArrangeOptions {
   useCreateOrderMenuValues: UseCreateOrderMenuValues;
 }
 
-jest.mock("diplicity-common-internal", () => ({
-  ...jest.requireActual("diplicity-common-internal"),
+jest.mock("@diplicity/common", () => ({
+  ...jest.requireActual("@diplicity/common"),
   useCreateOrderMenu: jest.fn(),
 }));
 

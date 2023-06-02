@@ -5,14 +5,14 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
 import PlayerCardContainer from "../PlayerCard.container";
-import { usePlayerDisplay } from "diplicity-common-internal";
+import { usePlayerDisplay } from "@diplicity/common";
 import PlayerCard from "../PlayerCard";
 import PlayerCardSkeleton from "../PlayerCard.skeleton";
 import { View } from "react-native";
 
 jest.mock("../PlayerCard", () => jest.fn());
 jest.mock("../PlayerCard.skeleton", () => jest.fn());
-jest.mock("diplicity-common-internal", () => ({
+jest.mock("@diplicity/common", () => ({
   usePlayerDisplay: jest.fn(),
 }));
 

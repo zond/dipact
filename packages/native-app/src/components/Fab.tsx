@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { FABProps as RNFABProps, FAB as RNFAB } from "@rneui/base";
 import { useTheme } from "../hooks/useTheme";
-import { IconNames } from "diplicity-common-internal";
+import { IconNames } from "@diplicity/common";
 import { iconMap } from "../icons/iconMap";
 import { FullTheme } from "@rneui/themed";
 

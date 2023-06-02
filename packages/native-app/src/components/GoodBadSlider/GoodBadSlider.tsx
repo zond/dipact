@@ -4,7 +4,7 @@ import { LinearProgress } from "@rneui/base";
 import { Stack } from "../Stack";
 import { useTheme } from "../../hooks/useTheme";
 import { useStyles } from "./GoodBadSlider.styles";
-import { ValueRating } from "diplicity-common-internal";
+import { ValueRating } from "@diplicity/common";
 import { getValueRating } from "../../utils/general";
 
 interface GoodBadSliderProps {

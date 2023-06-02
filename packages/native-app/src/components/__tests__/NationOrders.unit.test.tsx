@@ -3,7 +3,7 @@ import React from "react";
 import { act, fireEvent, render } from "@testing-library/react-native";
 
 import NationOrders from "../NationOrders";
-import { OrderDisplay, NationStatusDisplay } from "diplicity-common-internal";
+import { OrderDisplay, NationStatusDisplay } from "@diplicity/common";
 import Order from "../Order";
 import NationSummary from "../NationSummary";
 import { Text } from "react-native";

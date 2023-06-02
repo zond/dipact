@@ -9,7 +9,7 @@ import {
   GameDisplayActionNames,
   NationAllocation,
   translateKeys as tk,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import { ReactTestInstance } from "react-test-renderer";
 
 const mockNavigate = jest.fn();

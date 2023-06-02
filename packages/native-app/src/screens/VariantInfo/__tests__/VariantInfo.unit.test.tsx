@@ -11,7 +11,7 @@ jest.mock("../../../hooks/useParams", () => ({
 
 const variant = { name: "Classical", nations: [] };
 
-jest.mock("diplicity-common-internal", () => ({
+jest.mock("@diplicity/common", () => ({
   assertDefined: jest.fn().mockImplementation((arg) => arg),
   findVariantByGame: jest.fn().mockImplementation(() => variant),
   useVariantInfoView: () => ({

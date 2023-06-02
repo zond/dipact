@@ -4,7 +4,7 @@ import {
   DiplicityApiContext,
   GameStatus,
   useTelemetry,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import PlayerCard from "../../components/PlayerCard";
 import { Stack } from "../../components/Stack";
 import Filter from "../../components/Filter";

@@ -9,7 +9,7 @@ jest.mock("../../../hooks/useParams", () => ({
   }),
 }));
 
-jest.mock("diplicity-common-internal", () => ({
+jest.mock("@diplicity/common", () => ({
   usePlayerInfoView: () => ({
     query: {
       data: {

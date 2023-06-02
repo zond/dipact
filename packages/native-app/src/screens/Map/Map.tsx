@@ -5,7 +5,7 @@ import { View, Dimensions, LayoutChangeEvent } from "react-native";
 
 import { useStyles } from "./Map.styles";
 import MapComponent from "../../components/MapComponent";
-import { phaseSelectors } from "diplicity-common-internal";
+import { phaseSelectors } from "@diplicity/common";
 
 interface MapProps {
   gameId: string;

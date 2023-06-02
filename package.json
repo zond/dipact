@@ -2,14 +2,19 @@
   "private": true,
   "scripts": {
     "clean": "rimraf node_modules",
-    "clean:full": "yarn clean && cd packages/common && yarn clean && cd ../web-app && yarn clean && cd ../native-app && yarn clean"
+    "clean:full": "yarn clean && cd packages/common && yarn clean && cd ../web-app && yarn clean && cd ../native-app && yarn clean",
+    "clean:full:install": "yarn clean:full && yarn install"
   },
   "workspaces": {
     "packages": [
       "packages/common",
-      "packages/diplicity-common-internal",
       "packages/web-app",
       "packages/native-app"
+    ],
+    "nohoist": [
+      "**/react-native**",
+      "**/jsc-android",
+      "**/css-tree"
     ]
   }
 }

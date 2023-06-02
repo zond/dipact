@@ -5,7 +5,7 @@ import {
   findPhase,
   findVariantByGame,
   useMapComponentView,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import { SvgFromXml } from "react-native-svg";
 import QueryContainer from "../QueryContainer";
 

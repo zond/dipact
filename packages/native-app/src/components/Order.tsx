@@ -4,7 +4,7 @@ import {
   OrderDisplay,
   ResolutionDisplay,
   translateKeys as tk,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../hooks/useTheme";

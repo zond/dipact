@@ -10,7 +10,7 @@ import {
   translateKeys as tk,
   useGameDetailView,
   useTelemetry,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 
 import BrowseGames from "../BrowseGames";
 import Chat from "../Chat";

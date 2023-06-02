@@ -3,7 +3,7 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 
 import Component from "../Order";
-import { OrderDisplay, translateKeys as tk } from "diplicity-common-internal";
+import { OrderDisplay, translateKeys as tk } from "@diplicity/common";
 
 interface ArrangeOptions {
   props: Parameters<typeof Component>[0];

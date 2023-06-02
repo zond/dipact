@@ -4,7 +4,7 @@ import { render } from "@testing-library/react-native";
 import AuthWrapper from "../AuthWrapper";
 import { useSelector } from "react-redux";
 import { Linking } from "react-native";
-import { authActions } from "diplicity-common-internal";
+import { authActions } from "@diplicity/common";
 
 const childText = "childText";
 

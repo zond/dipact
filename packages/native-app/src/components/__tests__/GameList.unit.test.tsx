@@ -3,11 +3,7 @@ import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 
 import GameList from "../GameList/GameList";
-import {
-  GameDisplay,
-  GameStatus,
-  useGameList,
-} from "diplicity-common-internal";
+import { GameDisplay, GameStatus, useGameList } from "@diplicity/common";
 import { Text } from "react-native";
 import { act } from "react-test-renderer";
 import GameCard from "../GameCard/GameCard";
@@ -19,8 +15,8 @@ interface ArrangeOptions {
 
 const accordionIconTestID = "RNE__ListItem__Accordion__Icon";
 
-jest.mock("diplicity-common-internal", () => ({
-  ...jest.requireActual("diplicity-common-internal"),
+jest.mock("@diplicity/common", () => ({
+  ...jest.requireActual("@diplicity/common"),
   useGameList: jest.fn(),
 }));
 

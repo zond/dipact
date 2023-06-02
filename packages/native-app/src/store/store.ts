@@ -9,7 +9,7 @@ import {
   createLogoutThunk,
   createReducer,
   createTelemetryMiddleware,
-} from "diplicity-common-internal";
+} from "@diplicity/common";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const createStore = async ({

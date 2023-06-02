@@ -7,7 +7,7 @@ import Filter from "../../../components/Filter";
 import PlayerCard from "../../../components/PlayerCard";
 import { act } from "react-test-renderer";
 
-jest.mock("diplicity-common-internal", () => ({
+jest.mock("@diplicity/common", () => ({
   GameStatus: {},
 }));
 jest.mock("../../../components/Filter", () => ({
