@@ -211,7 +211,7 @@ function funkyFactor(s1: string, s2: string) {
 }
 
 function randomOfFunky(basis: string, ary: any[]) {
-  const options = [];
+  const options: { option: string; score: number }[] = [];
   for (let i = 0; i < Math.floor(ary.length / 10); i++) {
     const option = randomOf(ary);
     options.push({

@@ -14,7 +14,7 @@
     "build-and-install-common": "cd ../common && yarn build && cd ../native-app && yarn add ../common"
   },
   "dependencies": {
-    "@diplicity/common": "*",
+    "@diplicity/common": "file:../common",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^5.0.1",
     "@react-native-community/masked-view": "^0.1.11",

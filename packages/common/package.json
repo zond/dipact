@@ -64,7 +64,7 @@
     ]
   },
   "peerDependencies": {
-    "@reduxjs/toolkit": "^1.8.3",
+    "@reduxjs/toolkit": "^1.8.0",
     "formik": "^2.2.9",
     "i18next": "^21.6.11",
     "jquery": "^3.6.0",
