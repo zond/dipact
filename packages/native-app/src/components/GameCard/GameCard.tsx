@@ -105,7 +105,9 @@ const GameCard = ({
     },
     share: {
       title: "Share",
-      onPress: () => alert("Coming soon"),
+      onPress: () => {
+        return;
+      },
       iconProps: { name: "share", type: "material" },
     },
     gameInfo: {

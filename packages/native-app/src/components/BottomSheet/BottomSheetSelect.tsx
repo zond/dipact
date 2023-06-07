@@ -34,6 +34,7 @@ const BottomSheetSelect = ({
     <BottomSheet
       isVisible={isOpen}
       onBackdropPress={() => setIsOpen(false)}
+      // eslint-disable-next-line react-native/no-inline-styles
       cardStyle={{ maxHeight: 300 }}
     >
       <ScrollView>{childrenWithProps}</ScrollView>

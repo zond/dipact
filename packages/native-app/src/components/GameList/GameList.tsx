@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useContext } from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import GameCard from "../GameCard/GameCard";
 import { GameCardSkeleton } from "../GameCard";
 import { useStyles } from "./GameList.styles";
@@ -18,7 +18,7 @@ interface GameListProps {
   numSkeletons?: number;
 }
 
-const GameList = ({ filters, title, numSkeletons = 6 }: GameListProps) => {
+const GameList = ({ filters, numSkeletons = 6 }: GameListProps) => {
   const styles = useStyles();
   const api = useContext(DiplicityApiContext);
   const listGamesQuery = api.useListGamesQuery(filters);

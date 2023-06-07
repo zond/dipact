@@ -24,7 +24,7 @@ const MyGames = ({}) => {
   }, [telemetryService]);
 
   const onPressMore = () => {
-    alert("More");
+    telemetryService.logInfo("MyGames screen: More button pressed");
   };
 
   return (

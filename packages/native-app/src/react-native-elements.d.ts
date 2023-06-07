@@ -1,4 +1,4 @@
-import { AvatarProps, ButtonProps, ChipProps, TextProps } from "@rneui/base";
+import { ButtonProps, ChipProps, TextProps } from "@rneui/base";
 import { StyleProp, TextStyle } from "react-native";
 
 declare module "@rneui/themed" {

@@ -11,10 +11,10 @@
     "test-coverage": "jest --silent --detectOpenHandles --ci --coverage",
     "test-coverage-ci": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
     "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0",
-    "build-and-install-common": "cd ../common && yarn build && cd ../native-app && yarn add ../common"
+    "validate-ci": "yarn lint && yarn test"
   },
   "dependencies": {
-    "@diplicity/common": "file:../common",
+    "@diplicity/common": "*",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cli-platform-android": "^5.0.1",
     "@react-native-community/masked-view": "^0.1.11",

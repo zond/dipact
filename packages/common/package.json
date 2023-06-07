@@ -12,10 +12,13 @@
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc -p tsconfig.build.json",
     "build:cjs": "tsc -p tsconfig.build.json --module commonjs --outDir lib/cjs",
+    "build:native": "yarn build:cjs",
+    "build:native:watch": "yarn build:native --watch",
     "clean": "rimraf node_modules",
     "lint": "eslint src/**/*.{ts,tsx} --max-warnings 0",
     "test": "jest --detectOpenHandles",
-    "test-coverage": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\""
+    "test-coverage": "jest --silent --detectOpenHandles --ci --coverage --coverageReporters=\"text\" --coverageReporters=\"text-summary\"",
+    "validate-ci": "yarn build && yarn lint && yarn test"
   },
   "bugs": {},
   "devDependencies": {
@@ -34,14 +37,21 @@
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
+    "formik": "^2.2.9",
     "i18next": "^21.6.11",
     "jest": "^27.5.1",
     "jest-fetch-mock": "^3.0.3",
     "jquery": "^3.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
+    "react-i18next": "^11.15.4",
+    "react-redux": "^7.2.6",
     "redux": "^4.2.1",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.5.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "yup": "^0.32.11"
   },
   "resolutions": {
     "babel-loader": "8.1.0",
@@ -77,27 +87,6 @@
     "ts-jest": "^27.1.3",
     "typescript": "^4.3.5",
     "yup": "^0.32.11"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*test).tsx?$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.js"
-    ],
-    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",

@@ -7,7 +7,7 @@
 
 const path = require("path");
 const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, "../..");
+const packagePath = path.resolve(projectRoot, "../common");
 
 module.exports = {
   transformer: {
@@ -18,11 +18,8 @@ module.exports = {
       },
     }),
   },
-  watchFolders: [workspaceRoot],
   resolver: {
-    nodeModulesPaths: [
-      path.resolve(workspaceRoot, "node_modules"),
-      path.resolve(projectRoot, "node_modules"),
-    ],
+    nodeModulesPaths: [path.resolve(projectRoot, "node_modules"), packagePath],
   },
+  watchFolders: [packagePath],
 };
