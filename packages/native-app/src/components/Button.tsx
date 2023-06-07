@@ -1,47 +1,72 @@
 import React from "react";
-import { StyleProp } from "react-native";
+import { StyleSheet, StyleProp } from "react-native";
+
 import { useTheme } from "../hooks/useTheme";
 import { Button as RneButton, IconProps } from "@rneui/base";
 
 const useStyles = (): StyleProp<any> => {
-  const theme = useTheme();
   return {
     button: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.main,
-    },
-    buttonContainer: {
-      marginLeft: theme.spacing(1),
-    },
-    buttonTitle: {
-      color: theme.palette.secondary.main,
+      backgroundColor: "transparent",
     },
   };
 };
 
-type ButtonProps = Parameters<typeof RneButton>[0] & {
+export type ButtonProps = Parameters<typeof RneButton>[0] & {
   iconProps?: Partial<IconProps>;
+  upperCase?: boolean;
+  key?: string;
 };
 
-const Button = (props: ButtonProps) => {
+const Button = ({
+  upperCase = true,
+  iconProps = {},
+  ...props
+}: ButtonProps) => {
+  const themeTitleStyle = useTheme().components.Button.titleStyle;
   const styles = useStyles();
-  const theme = useTheme();
-  const iconProps = props.iconProps || {};
-  const upperCaseTitle = props.title?.toString().toUpperCase();
   return (
     <RneButton
-      raised
       icon={{
         size: 15,
-        color: theme.palette.secondary.main,
         type: "font-awesome",
         ...iconProps,
       }}
       {...props}
-      title={upperCaseTitle}
+      title={upperCase ? props.title?.toString().toUpperCase() : props.title}
       containerStyle={[styles.buttonContainer, props.containerStyle]}
       buttonStyle={[styles.button, props.buttonStyle]}
-      titleStyle={[styles.buttonTitle, props.titleStyle]}
+      titleStyle={[themeTitleStyle, props.titleStyle]}
+    />
+  );
+};
+
+export const MoreButton = ({
+  buttonStyle,
+  iconProps,
+  raised = false,
+  ...props
+}: ButtonProps) => {
+  const theme = useTheme();
+  const defaultIconProps = {
+    type: "material-ui",
+    name: "more-horiz",
+    color: theme.palette.text.light,
+    size: 20,
+  };
+  const styles = StyleSheet.create({
+    button: {
+      backgroundColor: "transparent",
+    },
+  });
+
+  return (
+    <Button
+      iconProps={{ ...defaultIconProps, ...iconProps }}
+      raised={raised}
+      buttonStyle={[styles.button, buttonStyle]}
+      accessibilityLabel={"more options"}
+      {...props}
     />
   );
 };

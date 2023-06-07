@@ -1,5 +1,6 @@
 import { DOMParser, XMLSerializer } from "xmldom";
-import { MapState } from "../store";
+import { MapState, TransformedPhase, TransformedVariant } from "../store";
+import { getNationColor } from "./general";
 
 interface Style {
   [key: string]: string;
@@ -290,9 +291,38 @@ export const updateMap = (
   mapXml: string,
   armyXml: string,
   fleetXml: string,
-  mapState: MapState,
+  mapState: MapState
 ): string => {
   const mapEditor = mapEditorFactory(mapXml, armyXml, fleetXml);
   mapEditor.setState(mapState);
   return mapEditor.serializeToString();
-}
+};
+
+const createMapState = (
+  variant: TransformedVariant,
+  phase: TransformedPhase
+): MapState => ({
+  provinces: phase.supplyCenters.map(({ province, owner }) => ({
+    id: province,
+    fill: getNationColor(variant, owner),
+    highlight: false,
+  })),
+  units: phase.units.map(({ province, unit }) => ({
+    province: province,
+    fill: getNationColor(variant, unit.nation),
+    type: unit.type,
+  })),
+  orders: [],
+});
+
+export const createMap = (
+  mapXml: string,
+  armyXml: string,
+  fleetXml: string,
+  variant: TransformedVariant,
+  phase: TransformedPhase
+): string => {
+  const mapEditor = mapEditorFactory(mapXml, armyXml, fleetXml);
+  mapEditor.setState(createMapState(variant, phase));
+  return mapEditor.serializeToString();
+};

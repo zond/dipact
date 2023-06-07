@@ -1,19 +1,23 @@
-import Globals from "../Globals";
 import tk from "../translations/translateKeys";
 import {
   Phase,
-  Variant,
-  ColorOverrides,
   NationAllocation,
   Game,
   DiplicityError,
   User,
   Member,
+  TimeUnit,
+  Player,
+  TransformedVariant,
+  TransformedGame,
+  ValueRating,
+  TransformedPhase,
 } from "../store/types";
 import { adjectives, conflictSynonyms, nouns } from "./terms";
 import contrastColors from "./contrastColors";
+import codes from "./isoCodes";
 
-const DiplicitySender = "Diplicity";
+// const DiplicitySender = "Diplicity";
 export const OttoURL = "https://diplicity-engine.appspot.com/img/otto.png";
 
 // TODO think about translation
@@ -65,7 +69,10 @@ export const phaseLengthDisplay = (game: Game) => {
 };
 
 export const getPhaseDisplay = (game: Game) => {
-  const newestPhaseMeta = game.NewestPhaseMeta[0];
+  const newestPhaseMeta =
+    game.NewestPhaseMeta && game.NewestPhaseMeta.length
+      ? game.NewestPhaseMeta[0]
+      : undefined;
   if (!newestPhaseMeta) {
     return "";
   }
@@ -76,17 +83,14 @@ export const getPhaseDisplay = (game: Game) => {
 export const getPhaseName = ({ Season, Year, Type }: Phase): string =>
   `${Season} ${Year}, ${Type}`;
 
-export const getNationColor = (variant: Variant, nation: string): string => {
-  const colorOverrides = Globals.colorOverrides as ColorOverrides;
-  const variantColorOverrides = colorOverrides.variants[variant.Name];
-  if (variantColorOverrides) {
-    const nationColorOverride = variantColorOverrides[nation];
-    if (nationColorOverride) return nationColorOverride;
-  }
-  const nationColors = variant.NationColors;
+export const getNationColor = (
+  variant: TransformedVariant,
+  nation: string
+): string => {
+  const nationColors = variant.nationColors;
   const nationColor = nationColors ? nationColors[nation] : null;
   if (nationColor) return nationColor;
-  const nationNotInVariant = !variant.Nations.includes(nation);
+  const nationNotInVariant = !variant.nations.includes(nation);
   if (nationNotInVariant) {
     if (nation === "Neutral") {
       return "#d0d0d0";
@@ -95,15 +99,15 @@ export const getNationColor = (variant: Variant, nation: string): string => {
       return "#000000";
     }
     throw Error(
-      `Cannot find nation color for ${nation} in variant ${variant.Name}`
+      `Cannot find nation color for ${nation} in variant ${variant.nations}`
     );
   }
-  const index = variant.Nations.indexOf(nation);
+  const index = variant.nations.indexOf(nation);
   return contrastColors[index];
 };
 
 export const getNationAbbreviation = (
-  variant: Variant,
+  variant: TransformedVariant,
   nation: string
 ): string => {
   const nationAbbreviations = variant.nationAbbreviations;
@@ -112,25 +116,26 @@ export const getNationAbbreviation = (
 };
 
 export const getNationFlagLink = (
-  variant: Variant,
-  nation: string
+  _variant: TransformedVariant,
+  _nation: string
 ): string | undefined => {
-  const links = variant.Links;
-  const linkObject = links
-    ? links.find((link) => link.Rel === `flag-${nation}`)
-    : null;
-  return nation === DiplicitySender
-    ? OttoURL
-    : linkObject
-    ? linkObject.URL
-    : undefined;
+  // const links = variant.Links;
+  // const linkObject = links
+  //   ? links.find((link) => link.Rel === `flag-${nation}`)
+  //   : null;
+  // return nation === DiplicitySender
+  //   ? OttoURL
+  //   : linkObject
+  //   ? linkObject.URL
+  //   : undefined;
+  return "";
 };
 
 export const getMember = (game: Game, user: User): Member | undefined => {
   return game.Members.find((m) => m.User.Email === user.Email);
 };
 
-export const getNation = (nation: string, variant: Variant) => {
+export const getNation = (nation: string, variant: TransformedVariant) => {
   const color = getNationColor(variant, nation);
   const abbreviation = getNationAbbreviation(variant, nation);
   const link = getNationFlagLink(variant, nation);
@@ -206,7 +211,7 @@ function funkyFactor(s1: string, s2: string) {
 }
 
 function randomOfFunky(basis: string, ary: any[]) {
-  const options = [];
+  const options: { option: string; score: number }[] = [];
   for (let i = 0; i < Math.floor(ary.length / 10); i++) {
     const option = randomOf(ary);
     options.push({
@@ -281,4 +286,94 @@ export const brightnessByColor = (color: string): number => {
     g = parseInt(m[1], 16),
     b = parseInt(m[2], 16);
   return (r * 299 + g * 587 + b * 114) / 1000;
+};
+
+export const convertMinutesToDaysOrHoursLabel = (
+  minutes: number
+): [number, TimeUnit] => {
+  if (minutes % 1440 === 0) {
+    return [minutes / 1440, "days"];
+  } else if (minutes % 60 === 0) {
+    return [minutes / 60, "hours"];
+  }
+  return [minutes, "minutes"];
+};
+
+// TODO translations
+export const convertToTimeUnitLabel = (
+  value: number,
+  timeUnit: TimeUnit
+): string => {
+  return `${value} ${timeUnit}${value === 1 ? "" : "s"}`;
+};
+
+export const convertMinutesToLabel = (minutes: number): string => {
+  const [value, timeUnit] = convertMinutesToDaysOrHoursLabel(minutes);
+  return convertToTimeUnitLabel(value, timeUnit);
+};
+
+export const getLanguage = (languageCode: string) => {
+  return codes.find((code) => code.code === languageCode);
+};
+
+export const convertUserToPlayer = (user: User): Player => {
+  return {
+    id: user.Id,
+    username: user.Name,
+    image: user.Picture,
+  };
+};
+
+export const getNationAllocation = (nationAllocation: number) => {
+  return nationAllocationMap[nationAllocation];
+};
+
+export const assertDefined = <T extends object>(
+  obj: T
+): { [P in keyof T]: NonNullable<T[P]> } => {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key, value ?? (null as any)])
+  ) as any;
+};
+
+export const findDefined = <T>(
+  array: T[],
+  callback: (value: T, index: number, array: T[]) => boolean
+): T => {
+  const result = array.find(callback);
+
+  if (result === undefined) {
+    throw new Error("No matching element was found in the array");
+  }
+  return result;
+};
+
+export const findVariantByGame = (
+  game: TransformedGame,
+  variants: TransformedVariant[]
+) => {
+  return findDefined(variants, (variant) => variant.name === game.variant);
+};
+
+export const findPhase = (
+  phases: TransformedPhase[],
+  id: number | undefined
+) => {
+  if (id === null) {
+    return phases.reduce((prev, current) =>
+      prev.id > current.id ? prev : current
+    );
+  }
+  return findDefined(phases, (phase) => phase.id === id);
+};
+
+export const getValueRating = (value: number): ValueRating => {
+  if (value > 0.5) {
+    return "positive";
+  } else if (value < -0.5) {
+    return "negative";
+  } else if (value >= -0.5 && value <= 0.5) {
+    return "neutral";
+  }
+  throw new Error("Invalid value");
 };

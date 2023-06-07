@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
-type PhaseState = null | number;
+type Phase = null | number;
 
 const initialState = null;
 
 const phaseSlice = createSlice({
   name: "phase",
-  initialState: initialState as PhaseState,
+  initialState: initialState as Phase,
   reducers: {
     set: (_, action: PayloadAction<number>) => {
       return action.payload;
@@ -17,6 +18,6 @@ const phaseSlice = createSlice({
   },
 });
 
-export const actions = phaseSlice.actions;
-
-export default phaseSlice.reducer;
+export const phaseActions = phaseSlice.actions;
+export const phaseReducer = phaseSlice.reducer;
+export const selectPhase = (state: RootState) => state.phase;

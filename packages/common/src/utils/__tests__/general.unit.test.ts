@@ -1,12 +1,10 @@
-import { Game, Phase, Variant } from "../../store";
+import { Game, Phase, TransformedVariant } from "../../store";
 import {
   getNationAbbreviation,
   getNationColor,
-  getNationFlagLink,
   getPhaseDisplay,
   getPhaseName,
   minutesToDuration,
-  OttoURL,
   phaseLengthDisplay,
   timeStrToDate,
 } from "../general";
@@ -88,29 +86,15 @@ describe("getPhaseName", () => {
   });
 });
 
-// jest.mock("../../Globals", () => () => ({
-//   colorOverrides: { variants: { Classical: { france: "#54321" } } },
-// }));
-jest.mock("../../Globals", () => ({
-  __esModule: true,
-  default: {
-    colorOverrides: { variants: { Classical: { france: "#54321" } } },
-  },
-}));
-
 describe("getNationColor", () => {
   const england = "england";
   const englandColor = "#12345";
   const variant = {
-    Name: "Classical",
-    Nations: [england, "Italy"],
-    NationColors: { england: englandColor },
-  } as unknown as Variant;
+    name: "Classical",
+    nations: [england, "Italy"],
+    nationColors: { england: englandColor },
+  } as Partial<TransformedVariant> as TransformedVariant;
 
-  test("Gets color override", () => {
-    const result = getNationColor(variant, "france");
-    expect(result).toBe("#54321");
-  });
   test("Gets variant nation color", () => {
     const result = getNationColor(variant, "england");
     expect(result).toBe("#12345");
@@ -136,7 +120,7 @@ describe("getNationAbbreviation", () => {
   const englandAbbreviation = "Eng";
   const variant = {
     nationAbbreviations: { england: englandAbbreviation },
-  } as unknown as Variant;
+  } as Partial<TransformedVariant> as TransformedVariant;
 
   test("Gets abbreviation", () => {
     const result = getNationAbbreviation(variant, england);
@@ -147,33 +131,8 @@ describe("getNationAbbreviation", () => {
     expect(result).toBe("");
   });
   test("Returns empty when no abbreviations", () => {
-    const result = getNationAbbreviation({} as Variant, england);
+    const result = getNationAbbreviation({} as TransformedVariant, england);
     expect(result).toBe("");
-  });
-});
-
-describe("getNationFlagLink", () => {
-  const england = "england";
-  const variant = {
-    Links: [{ Rel: "flag-england", URL: "url" }],
-  } as unknown as Variant;
-
-  test("Gets link", () => {
-    const result = getNationFlagLink(variant, england);
-    expect(result).toBe("url");
-  });
-  test("Returns undefined no links", () => {
-    const noLinksVariant = { Links: null } as unknown as Variant;
-    const result = getNationFlagLink(noLinksVariant, england);
-    expect(result).toBeUndefined();
-  });
-  test("Returns undefined diplicity", () => {
-    const result = getNationFlagLink(variant, "Diplicity");
-    expect(result).toBe(OttoURL);
-  });
-  test("Returns undefined no link for nation", () => {
-    const result = getNationFlagLink(variant, "France");
-    expect(result).toBeUndefined();
   });
 });
 

@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Feedback, selectors, feedbackActions } from "../store";
+
+import { Feedback, FeedbackSliceContext, feedbackSelectors } from "../store";
 
 interface IUseFeedbackWrapper {
   feedback: Feedback[];
@@ -7,9 +9,10 @@ interface IUseFeedbackWrapper {
 }
 
 const useFeedbackWrapper = (): IUseFeedbackWrapper => {
-  const feedback = useSelector(selectors.feedback.selectAll);
+  const { actions } = useContext(FeedbackSliceContext);
+  const feedback = useSelector(feedbackSelectors.selectAll);
   const dispatch = useDispatch();
-  const handleClose = (id: number) => dispatch(feedbackActions.clear(id));
+  const handleClose = (id: number) => dispatch(actions.clear(id));
   return { feedback, handleClose };
 };
 

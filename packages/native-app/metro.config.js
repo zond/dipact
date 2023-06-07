@@ -5,6 +5,10 @@
  * @format
  */
 
+const path = require("path");
+const projectRoot = __dirname;
+const packagePath = path.resolve(projectRoot, "../common");
+
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -14,4 +18,8 @@ module.exports = {
       },
     }),
   },
+  resolver: {
+    nodeModulesPaths: [path.resolve(projectRoot, "node_modules"), packagePath],
+  },
+  watchFolders: [packagePath],
 };

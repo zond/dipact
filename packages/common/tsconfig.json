@@ -1,25 +1,21 @@
 {
   "compilerOptions": {
-    "outDir": "lib/esm",
-    "module": "esnext",
-    "target": "es5",
-    "lib": ["es6", "dom", "es2018"],
-    "jsx": "react",
+    "allowJs": true,
+    "baseUrl": "./src",
     "declaration": true,
-    "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "resolveJsonModule": true,
-    "noUnusedParameters": true,
     "esModuleInterop": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
+    "jsx": "react",
+    "lib": ["es6", "dom", "es2018"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "lib/esm",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["jest", "node"],
-    "typeRoots": ["./types", "./node_modules/@types"]
+    "target": "es6",
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "types": ["jest", "node", "@types/jest"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "lib"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**/*", "lib/**/*"]
 }

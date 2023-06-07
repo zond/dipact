@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { PageName, uiActions } from "../../store";
+import { uiActions } from "../../store";
 import usePageLoad, { useLazyPageLoad } from "../usePageLoad";
 
 const mockUseDispatch = jest.fn();
@@ -13,11 +13,11 @@ describe("usePageLoad", () => {
     mockUseDispatch.mockClear();
   });
   test("Dispatches page load action", () => {
-    renderHook(() => usePageLoad(PageName.CreateGame));
-    expect(mockUseDispatch).toBeCalledWith(uiActions.pageLoad(PageName.CreateGame));
+    renderHook(() => usePageLoad("CreateGame"));
+    expect(mockUseDispatch).toBeCalledWith(uiActions.pageLoad("CreateGame"));
   });
   test("Doesn't dispatch on re-render", () => {
-    const result = renderHook(() => usePageLoad(PageName.CreateGame));
+    const result = renderHook(() => usePageLoad("CreateGame"));
     result.rerender();
     expect(mockUseDispatch).toBeCalledTimes(1);
   });
@@ -28,12 +28,12 @@ describe("useLazyPageLoad", () => {
     mockUseDispatch.mockClear();
   });
   test("Doesn't dispatch when not called", () => {
-    renderHook(() => useLazyPageLoad(PageName.CreateGame));
+    renderHook(() => useLazyPageLoad("CreateGame"));
     expect(mockUseDispatch).not.toBeCalled();
   });
   test("Dispatches page load action when called", () => {
-    const { result } = renderHook(() => useLazyPageLoad(PageName.CreateGame));
+    const { result } = renderHook(() => useLazyPageLoad("CreateGame"));
     result.current();
-    expect(mockUseDispatch).toBeCalledWith(uiActions.pageLoad(PageName.CreateGame));
+    expect(mockUseDispatch).toBeCalledWith(uiActions.pageLoad("CreateGame"));
   });
 });

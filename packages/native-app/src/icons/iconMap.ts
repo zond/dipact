@@ -1,0 +1,27 @@
+import { IconMap } from "./types";
+
+export const iconMap: IconMap = {
+  nonMovementPhaseDeadline: { name: "av-timer", type: "material-community" },
+  chatLanguage: { name: "translate", type: "material" },
+  chatMode: { name: "forum", type: "material-community" },
+  commitment: { name: "clipboard-check-multiple", type: "material-community" },
+  date: { name: "av-timer", type: "material-community" },
+  description: { name: "book-open-variant", type: "material-community" },
+  gameEndYear: { name: "timer-sand-complete", type: "material-community" },
+  gameMaster: { name: "gavel", type: "material-community" },
+  info: { name: "info-outline", type: "material-ui" },
+  joinGame: { name: "account-plus", type: "material-community" },
+  leaveGame: { name: "account-minus", type: "material-community" },
+  menuDown: { name: "menu-down", type: "material-community" },
+  nationAllocation: { name: "playlist-check", type: "material-community" },
+  optionSelected: { name: "radio-box-marked", type: "material-community" },
+  optionUnselected: { name: "radio-box-blank", type: "material-community" },
+  phaseDeadline: { name: "av-timer", type: "material-community" },
+  playerIdentity: { name: "incognito", type: "material-community" },
+  players: { name: "account-multiple", type: "material-community" },
+  rank: { name: "medal", type: "material-community" },
+  rules: { name: "trophy", type: "material-community" },
+  share: { name: "share", type: "material" },
+  variant: { name: "map", type: "material-community" },
+  visibility: { name: "lock", type: "material-community" },
+};

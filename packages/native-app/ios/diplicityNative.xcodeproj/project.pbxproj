@@ -28,6 +28,32 @@
 		D9DE59A3276743919D73458D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A971B437CD342E6AD83DC4A /* Octicons.ttf */; };
 		0245BA7B39784E8AB747801A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2D9CBE3EA8D45DBB83DBB76 /* SimpleLineIcons.ttf */; };
 		D221A017249F4C9587DC442E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA78753FCE2048E28F3FB715 /* Zocial.ttf */; };
+		295140679E874908AB5A59D3 /* Cabin-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C914723FE7344CB88EBBE2F /* Cabin-Bold.ttf */; };
+		D6FF7259225A4789AAE78E95 /* Cabin-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68B2CCB1A1854D15A20C2C0A /* Cabin-BoldItalic.ttf */; };
+		F3D5F06D5E93400DA57053FB /* Cabin-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F2F8A7C4D4F8B8065143A /* Cabin-Italic.ttf */; };
+		BA707A7AC96846F0955E675D /* Cabin-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5156CC97C4D84029A4DA5730 /* Cabin-Medium.ttf */; };
+		8D53542CEF3B44688FCDC677 /* Cabin-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C73C596D126747FAB2A76E19 /* Cabin-MediumItalic.ttf */; };
+		B9818E3731AF4CCBA0CB37C6 /* Cabin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50E0B86FBC044AB8904DD3C8 /* Cabin-Regular.ttf */; };
+		B81826842AFA4898B5328D91 /* Cabin-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6B0987C337E467FABCF0ECD /* Cabin-SemiBold.ttf */; };
+		A46E934BC3FD46E59ACFE19B /* Cabin-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66E01629E03647A796056E60 /* Cabin-SemiBoldItalic.ttf */; };
+		E0E04D852BB74726AF14DD28 /* Cabin-Italic-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F547FF3B7DB4FB59BF6E1F8 /* Cabin-Italic-VariableFont_wdth,wght.ttf */; };
+		DD90FB191B1B42F086EA9E7F /* Cabin-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 133A6E2CD24841028833C063 /* Cabin-VariableFont_wdth,wght.ttf */; };
+		1EB422D945E64F9598342CB4 /* Cabin_Condensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE6A5D4D51C4450DB4A82B14 /* Cabin_Condensed-Bold.ttf */; };
+		D7FEA93CC700451B83FD3D1A /* Cabin_Condensed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C8649335298406283345359 /* Cabin_Condensed-BoldItalic.ttf */; };
+		7B282F01E29249568E8418D0 /* Cabin_Condensed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B18C0424B434D809AF75F40 /* Cabin_Condensed-Italic.ttf */; };
+		C2D7680294AC41D2B738C04C /* Cabin_Condensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59CB44BE83184A39AEC7D2A7 /* Cabin_Condensed-Medium.ttf */; };
+		58A47076F52B49DCB5FB7323 /* Cabin_Condensed-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 856FC1C69F4145CEBB5A6BFE /* Cabin_Condensed-MediumItalic.ttf */; };
+		AE45C0AD2EDA49E08FD6A473 /* Cabin_Condensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D159C093A4A4A51A7A61FF3 /* Cabin_Condensed-Regular.ttf */; };
+		6F053979D00244ECA10516C8 /* Cabin_Condensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60533911768444D69945C1B6 /* Cabin_Condensed-SemiBold.ttf */; };
+		EABA5FBFB530494681416587 /* Cabin_Condensed-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89BAF07F9E684BCEAEA4D6E1 /* Cabin_Condensed-SemiBoldItalic.ttf */; };
+		EE69C4A599FE43F4B9626A30 /* Cabin_SemiCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAA81EA75E4E4CA6A33A6B40 /* Cabin_SemiCondensed-Bold.ttf */; };
+		A95B38D154CC4FC69D0835CD /* Cabin_SemiCondensed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 286F9346B37249C28203E1E1 /* Cabin_SemiCondensed-BoldItalic.ttf */; };
+		B9BDE6250C364CE9AA8130C6 /* Cabin_SemiCondensed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E64E532BBE54188822C79E3 /* Cabin_SemiCondensed-Italic.ttf */; };
+		9F560E290EE34B6AB136D3C5 /* Cabin_SemiCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E3D2496D8E14B30A7424090 /* Cabin_SemiCondensed-Medium.ttf */; };
+		946CA7611F8D4971899364AE /* Cabin_SemiCondensed-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F368A65CB5FB4705A0F42CE6 /* Cabin_SemiCondensed-MediumItalic.ttf */; };
+		9F1E0AFC262D4A73A4C22BB5 /* Cabin_SemiCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2FA987DD53640A8A54EF395 /* Cabin_SemiCondensed-Regular.ttf */; };
+		4CA56D06787E4137A67C09E7 /* Cabin_SemiCondensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97A4881B6BC4491C921F07C7 /* Cabin_SemiCondensed-SemiBold.ttf */; };
+		1D321F022F5C46F18B5791C5 /* Cabin_SemiCondensed-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DD493A670D940CCAA9C726F /* Cabin_SemiCondensed-SemiBoldItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +94,32 @@
 		9A971B437CD342E6AD83DC4A /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E2D9CBE3EA8D45DBB83DBB76 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		BA78753FCE2048E28F3FB715 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0C914723FE7344CB88EBBE2F /* Cabin-Bold.ttf */ = {isa = PBXFileReference; name = "Cabin-Bold.ttf"; path = "../assets/fonts/Cabin-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		68B2CCB1A1854D15A20C2C0A /* Cabin-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Cabin-BoldItalic.ttf"; path = "../assets/fonts/Cabin-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5F7F2F8A7C4D4F8B8065143A /* Cabin-Italic.ttf */ = {isa = PBXFileReference; name = "Cabin-Italic.ttf"; path = "../assets/fonts/Cabin-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5156CC97C4D84029A4DA5730 /* Cabin-Medium.ttf */ = {isa = PBXFileReference; name = "Cabin-Medium.ttf"; path = "../assets/fonts/Cabin-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C73C596D126747FAB2A76E19 /* Cabin-MediumItalic.ttf */ = {isa = PBXFileReference; name = "Cabin-MediumItalic.ttf"; path = "../assets/fonts/Cabin-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		50E0B86FBC044AB8904DD3C8 /* Cabin-Regular.ttf */ = {isa = PBXFileReference; name = "Cabin-Regular.ttf"; path = "../assets/fonts/Cabin-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A6B0987C337E467FABCF0ECD /* Cabin-SemiBold.ttf */ = {isa = PBXFileReference; name = "Cabin-SemiBold.ttf"; path = "../assets/fonts/Cabin-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		66E01629E03647A796056E60 /* Cabin-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Cabin-SemiBoldItalic.ttf"; path = "../assets/fonts/Cabin-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F547FF3B7DB4FB59BF6E1F8 /* Cabin-Italic-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; name = "Cabin-Italic-VariableFont_wdth,wght.ttf"; path = "../assets/fonts/Cabin/Cabin-Italic-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		133A6E2CD24841028833C063 /* Cabin-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; name = "Cabin-VariableFont_wdth,wght.ttf"; path = "../assets/fonts/Cabin/Cabin-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DE6A5D4D51C4450DB4A82B14 /* Cabin_Condensed-Bold.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-Bold.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7C8649335298406283345359 /* Cabin_Condensed-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-BoldItalic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6B18C0424B434D809AF75F40 /* Cabin_Condensed-Italic.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-Italic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		59CB44BE83184A39AEC7D2A7 /* Cabin_Condensed-Medium.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-Medium.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		856FC1C69F4145CEBB5A6BFE /* Cabin_Condensed-MediumItalic.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-MediumItalic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2D159C093A4A4A51A7A61FF3 /* Cabin_Condensed-Regular.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-Regular.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60533911768444D69945C1B6 /* Cabin_Condensed-SemiBold.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-SemiBold.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		89BAF07F9E684BCEAEA4D6E1 /* Cabin_Condensed-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Cabin_Condensed-SemiBoldItalic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_Condensed/Cabin_Condensed-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FAA81EA75E4E4CA6A33A6B40 /* Cabin_SemiCondensed-Bold.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-Bold.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		286F9346B37249C28203E1E1 /* Cabin_SemiCondensed-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-BoldItalic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5E64E532BBE54188822C79E3 /* Cabin_SemiCondensed-Italic.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-Italic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4E3D2496D8E14B30A7424090 /* Cabin_SemiCondensed-Medium.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-Medium.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F368A65CB5FB4705A0F42CE6 /* Cabin_SemiCondensed-MediumItalic.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-MediumItalic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A2FA987DD53640A8A54EF395 /* Cabin_SemiCondensed-Regular.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-Regular.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		97A4881B6BC4491C921F07C7 /* Cabin_SemiCondensed-SemiBold.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-SemiBold.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9DD493A670D940CCAA9C726F /* Cabin_SemiCondensed-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Cabin_SemiCondensed-SemiBoldItalic.ttf"; path = "../assets/fonts/Cabin/static/Cabin_SemiCondensed/Cabin_SemiCondensed-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +228,32 @@
 				9A971B437CD342E6AD83DC4A /* Octicons.ttf */,
 				E2D9CBE3EA8D45DBB83DBB76 /* SimpleLineIcons.ttf */,
 				BA78753FCE2048E28F3FB715 /* Zocial.ttf */,
+				0C914723FE7344CB88EBBE2F /* Cabin-Bold.ttf */,
+				68B2CCB1A1854D15A20C2C0A /* Cabin-BoldItalic.ttf */,
+				5F7F2F8A7C4D4F8B8065143A /* Cabin-Italic.ttf */,
+				5156CC97C4D84029A4DA5730 /* Cabin-Medium.ttf */,
+				C73C596D126747FAB2A76E19 /* Cabin-MediumItalic.ttf */,
+				50E0B86FBC044AB8904DD3C8 /* Cabin-Regular.ttf */,
+				A6B0987C337E467FABCF0ECD /* Cabin-SemiBold.ttf */,
+				66E01629E03647A796056E60 /* Cabin-SemiBoldItalic.ttf */,
+				1F547FF3B7DB4FB59BF6E1F8 /* Cabin-Italic-VariableFont_wdth,wght.ttf */,
+				133A6E2CD24841028833C063 /* Cabin-VariableFont_wdth,wght.ttf */,
+				DE6A5D4D51C4450DB4A82B14 /* Cabin_Condensed-Bold.ttf */,
+				7C8649335298406283345359 /* Cabin_Condensed-BoldItalic.ttf */,
+				6B18C0424B434D809AF75F40 /* Cabin_Condensed-Italic.ttf */,
+				59CB44BE83184A39AEC7D2A7 /* Cabin_Condensed-Medium.ttf */,
+				856FC1C69F4145CEBB5A6BFE /* Cabin_Condensed-MediumItalic.ttf */,
+				2D159C093A4A4A51A7A61FF3 /* Cabin_Condensed-Regular.ttf */,
+				60533911768444D69945C1B6 /* Cabin_Condensed-SemiBold.ttf */,
+				89BAF07F9E684BCEAEA4D6E1 /* Cabin_Condensed-SemiBoldItalic.ttf */,
+				FAA81EA75E4E4CA6A33A6B40 /* Cabin_SemiCondensed-Bold.ttf */,
+				286F9346B37249C28203E1E1 /* Cabin_SemiCondensed-BoldItalic.ttf */,
+				5E64E532BBE54188822C79E3 /* Cabin_SemiCondensed-Italic.ttf */,
+				4E3D2496D8E14B30A7424090 /* Cabin_SemiCondensed-Medium.ttf */,
+				F368A65CB5FB4705A0F42CE6 /* Cabin_SemiCondensed-MediumItalic.ttf */,
+				A2FA987DD53640A8A54EF395 /* Cabin_SemiCondensed-Regular.ttf */,
+				97A4881B6BC4491C921F07C7 /* Cabin_SemiCondensed-SemiBold.ttf */,
+				9DD493A670D940CCAA9C726F /* Cabin_SemiCondensed-SemiBoldItalic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -287,6 +365,32 @@
 				D9DE59A3276743919D73458D /* Octicons.ttf in Resources */,
 				0245BA7B39784E8AB747801A /* SimpleLineIcons.ttf in Resources */,
 				D221A017249F4C9587DC442E /* Zocial.ttf in Resources */,
+				295140679E874908AB5A59D3 /* Cabin-Bold.ttf in Resources */,
+				D6FF7259225A4789AAE78E95 /* Cabin-BoldItalic.ttf in Resources */,
+				F3D5F06D5E93400DA57053FB /* Cabin-Italic.ttf in Resources */,
+				BA707A7AC96846F0955E675D /* Cabin-Medium.ttf in Resources */,
+				8D53542CEF3B44688FCDC677 /* Cabin-MediumItalic.ttf in Resources */,
+				B9818E3731AF4CCBA0CB37C6 /* Cabin-Regular.ttf in Resources */,
+				B81826842AFA4898B5328D91 /* Cabin-SemiBold.ttf in Resources */,
+				A46E934BC3FD46E59ACFE19B /* Cabin-SemiBoldItalic.ttf in Resources */,
+				E0E04D852BB74726AF14DD28 /* Cabin-Italic-VariableFont_wdth,wght.ttf in Resources */,
+				DD90FB191B1B42F086EA9E7F /* Cabin-VariableFont_wdth,wght.ttf in Resources */,
+				1EB422D945E64F9598342CB4 /* Cabin_Condensed-Bold.ttf in Resources */,
+				D7FEA93CC700451B83FD3D1A /* Cabin_Condensed-BoldItalic.ttf in Resources */,
+				7B282F01E29249568E8418D0 /* Cabin_Condensed-Italic.ttf in Resources */,
+				C2D7680294AC41D2B738C04C /* Cabin_Condensed-Medium.ttf in Resources */,
+				58A47076F52B49DCB5FB7323 /* Cabin_Condensed-MediumItalic.ttf in Resources */,
+				AE45C0AD2EDA49E08FD6A473 /* Cabin_Condensed-Regular.ttf in Resources */,
+				6F053979D00244ECA10516C8 /* Cabin_Condensed-SemiBold.ttf in Resources */,
+				EABA5FBFB530494681416587 /* Cabin_Condensed-SemiBoldItalic.ttf in Resources */,
+				EE69C4A599FE43F4B9626A30 /* Cabin_SemiCondensed-Bold.ttf in Resources */,
+				A95B38D154CC4FC69D0835CD /* Cabin_SemiCondensed-BoldItalic.ttf in Resources */,
+				B9BDE6250C364CE9AA8130C6 /* Cabin_SemiCondensed-Italic.ttf in Resources */,
+				9F560E290EE34B6AB136D3C5 /* Cabin_SemiCondensed-Medium.ttf in Resources */,
+				946CA7611F8D4971899364AE /* Cabin_SemiCondensed-MediumItalic.ttf in Resources */,
+				9F1E0AFC262D4A73A4C22BB5 /* Cabin_SemiCondensed-Regular.ttf in Resources */,
+				4CA56D06787E4137A67C09E7 /* Cabin_SemiCondensed-SemiBold.ttf in Resources */,
+				1D321F022F5C46F18B5791C5 /* Cabin_SemiCondensed-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
