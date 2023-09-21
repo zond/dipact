@@ -50,6 +50,7 @@ export default class DipMap extends React.Component {
 		this.svgSerializer = new XMLSerializer();
 		this.lastSnapshottedSVGHash = 0;
 		this.mapDims = [null, null];
+		this.allSCs = null;
 		this.map = null;
 		this.orderDialog = null;
 		this.firstLoadFinished = false;
@@ -144,6 +145,11 @@ export default class DipMap extends React.Component {
 	infoClicked(prov) {
 		prov = prov.split("/")[0];
 		let info = helpers.provName(this.props.variant, prov);
+		if (this.allSCs instanceof Set) {
+			if (this.allSCs.has(prov)) {
+				info += "*"
+			}
+		}
 		if (this.state.phase.Properties.SupplyCenters) {
 			const owner = this.state.phase.Properties.SupplyCenters[prov];
 			if (owner) {
@@ -718,6 +724,9 @@ export default class DipMap extends React.Component {
 		this.debugCount("updateMap/hasSVGs");
 		const phaseHash = helpers.hash(JSON.stringify(this.state.phase));
 		const nodes = this.state.variant.Properties.Graph.Nodes;
+		if (this.allSCs === null) {
+			this.allSCs = helpers.getAllSCs(nodes);
+		}
 
 		if (phaseHash !== this.lastRenderedPhaseHash) {
 			this.lastRenderedPhaseHash = phaseHash;
