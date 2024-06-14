@@ -8,10 +8,8 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Link,
   Icon,
 } from "@material-ui/core";
-import Globals from "../Globals";
 import { CloseIcon, WarningIcon } from "../icons";
 //import ColdWarPath from "../static/img/coldwar.png";
 import colorModePath from "../static/img/colourmode.png";
@@ -24,26 +22,30 @@ export default class NewsDialog extends React.Component {
       activeItem: 0,
       newsItems: [
         {
-          header: "Please read: Diplicity is shutting down",
-          subheader: "Diplicity will be shutting down on August 31, 2024",
+          header: "Please read: Diplicity is ending support for Android",
+          subheader:
+            "Diplicity will be removed from the Google Play Store on August 31, 2024",
           icon: true,
           content: (
             <React.Fragment>
               <Typography variant="h6" style={{ margin: "0px 0px 8px 0px" }}>
-                Please read: Diplicity is shutting down
+                Please read: Diplicity is ending support for Android
               </Typography>
               <Typography variant="body2" paragraph>
-                Diplicity will be shutting down on August 31, 2024
+                Diplicity will be removed from the Google Play Store on August
+                31, 2024. The app will continue to work for existing users, but
+                no further updates will be released. The web version of
+                Diplicity will continue to be available.
               </Typography>
               <Typography variant="body2" paragraph>
                 Diplicity has been a pet project maintained for free by a small
-                group of people for a few years. The team are no longer able to
-                maintain the site and have decided to shut it down. There are
-                many other sites that offer a similar experience, and we
-                encourage you to look for one that suits you.
+                group of people for a few years. The performance of the Android
+                version has degraded over time, and we feel that the app is not
+                a good representation of the effort we have put in to date.
               </Typography>
               <Typography variant="body2" paragraph>
-                All the best, and thank you for playing.
+                Please continue to enjoy Diplicity on the web, and thank you for
+                your support.
               </Typography>
             </React.Fragment>
           ),
